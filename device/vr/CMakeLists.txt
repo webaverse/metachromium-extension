@@ -1,0 +1,36 @@
+# Set the Windows kit if using MSVC
+# CMake will look for the newest kit that isn't newer than this
+# Required to find modern D3D12 header
+
+cmake_minimum_required(VERSION 3.12)
+project(OpenVrHook)
+
+INCLUDE_DIRECTORIES(
+  ../..
+  ../../third_party/skia
+  sample
+)
+LINK_DIRECTORIES(
+  sample/bin/win64
+  sample/lib/win64
+)
+
+SET(src
+  openvr/test/fake_openvr_impl_api.cc
+  openvr/test/test_helper.cc
+  openvr/test/test_helper.h
+  test/test_hook.h
+  sample/hellovr_opengl_main.cpp
+  sample/shared/Matrices.cpp
+)
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
+ADD_LIBRARY(vrclient_x64 SHARED ${src})
+target_link_libraries(vrclient_x64 openvr_api.dll)
+
+set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
+set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
+add_definitions(-D_USE_MATH_DEFINES)
+add_definitions(-DNOMINMAX)
