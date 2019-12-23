@@ -720,7 +720,7 @@ EVRCompositorError TestVRCompositor::WaitGetPoses(TrackedDevicePose_t* poses1,
   if (!err) {
     mainApplication.PreRender();
   }
-  getOut() << "WaitGetPoses 2 " << (int)err << std::endl;
+  // getOut() << "WaitGetPoses 2 " << (int)err << std::endl;
   return err;
 }
 
