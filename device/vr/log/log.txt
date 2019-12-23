@@ -1,9 +1,14 @@
 --------------------------------------------------------------------------------
-core 140724991904352
-BIsHmdPresent 0
+core 140725044542032
+BIsHmdPresent 0 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+BIsHmdPresent 1 1
+BIsHmdPresent 2
 --------------------------------------------------------------------------------
-core 140724991904352
-init 1
+core 140725044542032
+init 1 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+application binit
+create overlay
+init 2
 IsInterfaceVersionValid
 GetGenericInterface 0 IVRSystem_015
 GetGenericInterface 1 IVRSystem_015
@@ -13,15 +18,18 @@ GetProjectionRaw
 GetProjectionRaw
 GetEyeToHeadTransform
 GetEyeToHeadTransform
-GetRecommendedRenderTargetSize
+GetRecommendedRenderTargetSize 1 140723070358472
+GetRecommendedRenderTargetSize 2 2200 2432
 GetSeatedZeroPoseToStandingAbsoluteTrackingPose
 GetGenericInterface 0 IVRChaperone_003
-GetGenericInterface 4.1 IVRChaperone_003
-GetGenericInterface 4.2 0
-Cleanup
+GetGenericInterface 5 IVRChaperone_003
+Cleanup C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
 --------------------------------------------------------------------------------
-core 140724991904352
-init 1
+core 140725044542032
+init 1 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+application binit
+create overlay
+init 2
 IsInterfaceVersionValid
 GetGenericInterface 0 IVRSystem_015
 GetGenericInterface 1 IVRSystem_015
@@ -29,1457 +37,873 @@ GetGenericInterface 0 IVRCompositor_020
 GetGenericInterface 2 IVRCompositor_020
 SuspendRendering 1
 SetTrackingSpace
-GetDXGIOutputInfo 194752018308
-GetRecommendedRenderTargetSize
+GetDXGIOutputInfo 1 927345931588
+GetDXGIOutputInfo 2 0
+GetRecommendedRenderTargetSize 1 140723070358472
+GetRecommendedRenderTargetSize 2 2200 2432
 SuspendRendering 0
 GetStringTrackedDeviceProperty
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
-WaitGetPoses
-GetFrameTiming
-Submit
-Submit 0 0 0.5 1 2277766931296
-Submit
-Submit 0.5 0 1 1 2277766931296
+Submit 0 0 0.5 1 2154471591328
+Submit 0.5 0 1 1 2154471591328
 WaitGetPoses
 GetFrameTiming
 SuspendRendering 1
-Cleanup
+Cleanup C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\

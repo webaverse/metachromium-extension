@@ -264,7 +264,7 @@ bool CMainApplication::BInit()
 
 	// Loading the SteamVR Runtime
 	vr::EVRInitError eError = vr::VRInitError_None;
-	m_pHMD = vr::VR_Init( &eError, vr::VRApplication_Scene );
+	m_pHMD = vr::VR_Init( &eError, vr::VRApplication_Overlay );
 
 	if ( eError != vr::VRInitError_None )
 	{
@@ -393,6 +393,7 @@ bool CMainApplication::init2() {
 		bSuccess = bSuccess && overlayError == vr::VROverlayError_None;
     // overlayError = vr::VROverlay()->CreateOverlay( "sample.xr.right", "Sample XR Right", &m_ulOverlayHandle2 );
 		// bSuccess = bSuccess && overlayError == vr::VROverlayError_None;
+    getOut() << "create overlay" << std::endl;
 	}
 
 	if( bSuccess )
@@ -419,6 +420,17 @@ bool CMainApplication::init2() {
         // vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle2, eyeWidth);
         // vr::Texture_t rightEyeTexture = {(void*)(uintptr_t)rightEyeDesc.m_nResolveTextureId, vr::TextureType_OpenGL, vr::ColorSpace_Gamma };
         // vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle2, &rightEyeTexture);
+        
+        {
+          Matrix4 matMVP(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, zOffset, 1);
+          vr::HmdMatrix34_t matrix;
+          for (unsigned int v = 0; v < 4; v++) {
+            for (unsigned int u = 0; u < 3; u++) {
+              matrix.m[u][v] = matMVP.get()[v * 4 + u];
+            }
+          }
+          vr::VROverlay()->SetOverlayTransformTrackedDeviceRelative(m_ulOverlayHandle, vr::k_unTrackedDeviceIndex_Hmd, &matrix);
+        }
 
         vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SideBySide_Parallel, true);
         // vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SideBySide_Crossed, true);
