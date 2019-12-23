@@ -415,7 +415,6 @@ bool CMainApplication::init2() {
 
 	if( bSuccess )
 	{
-        vr::VROverlay()->ShowOverlay(m_ulOverlayHandle);
         // vr::VROverlay()->ShowOverlay(m_ulOverlayHandle2);
         /* float hmdFloat32[16] = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -0.11, 1};
         vr::HmdMatrix34_t matrix;
@@ -441,6 +440,8 @@ bool CMainApplication::init2() {
 
         vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SideBySide_Parallel, true);
         // vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SideBySide_Crossed, true);
+
+        vr::VROverlay()->ShowOverlay(m_ulOverlayHandle);
   }
 
   return bSuccess;
@@ -511,7 +512,9 @@ bool CMainApplication::BInitCompositor()
 {
 	vr::EVRInitError peError = vr::VRInitError_None;
 
-	if ( !vr::VRCompositor() )
+	m_pCompositor = vr::VRCompositor();
+
+	if ( !m_pCompositor )
 	{
 		printf( "Compositor initialization failed. See log file for details\n" );
 		return false;
