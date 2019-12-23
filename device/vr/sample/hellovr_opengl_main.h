@@ -1,5 +1,8 @@
 //========= Copyright Valve Corporation ============//
 
+#ifndef DEVICE_VR_OPENVR_TEST_TEST_HELLOVR_H
+#define DEVICE_VR_OPENVR_TEST_TEST_HELLOVR_H
+
 /*  #include <SDL.h>
 #include <GL/glew.h>
 #include <SDL_opengl.h>
@@ -15,7 +18,7 @@
 #include <stdio.h>
 #include <string>
 #include <cstdlib>
-#include <cstdarg>
+// #include <cstdarg>
 
 // #include <openvr.h>
 #include "third_party/openvr/src/headers/openvr.h"
@@ -49,6 +52,9 @@ public:
 	// bool HandleInput();
 	void ProcessVREvent( const vr::VREvent_t & event );
 	// void RenderFrame();
+  
+  void PreRender();
+  void PostRender(uintptr_t texId);
 
 	// bool SetupTexturemaps();
 
@@ -217,3 +223,5 @@ private: // OpenGL bookkeeping
   // int texWidth;
   // int texHeight;
 };
+
+#endif

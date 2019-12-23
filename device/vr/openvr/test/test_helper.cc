@@ -19,8 +19,6 @@
 #include <DXGI1_4.h>
 #include <wrl.h>
 
-std::ofstream out;
-
 namespace vr {
 
 void TestHelper::TestFailure() {

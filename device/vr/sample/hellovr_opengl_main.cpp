@@ -15,15 +15,15 @@
 #include <stdio.h>
 #include <string>
 #include <cstdlib>
-#include <cstdarg>
+// #include <cstdarg>
 
 // #include <openvr.h>
 #include "third_party/openvr/src/headers/openvr.h"
-#include "third_party/openvr/src/src/ivrclientcore.h"
+//   #include "third_party/openvr/src/src/ivrclientcore.h"
 
-#include "shared/lodepng.h"
+// #include "shared/lodepng.h"
 #include "shared/Matrices.h"
-#include "shared/pathtools.h"
+//  #include "shared/pathtools.h"
 
 #if defined(POSIX)
 #include "unistd.h"
@@ -36,8 +36,8 @@
 #define _countof(x) (sizeof(x)/sizeof((x)[0]))
 #endif
 
-const float zOffset = -0.11;
-const float eyeWidth = 0.1;
+constexpr float zOffset = 0.11;
+constexpr float eyeWidth = 0.1;
 
 Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, float n, float f) {
   float te[16];
@@ -86,7 +86,7 @@ private:
 	std::string m_sModelName;
 }; */
 
-static bool g_bPrintf = true;
+// static bool g_bPrintf = true;
 
 //---------------------------------------------------------------------------------------------------------------------
 // Purpose: Returns true if the action is active and had a rising edge
@@ -155,26 +155,6 @@ bool GetDigitalActionState(vr::VRActionHandle_t action, vr::VRInputValueHandle_t
 	}
 	return actionData.bActive && actionData.bState;
 } */
-
-//-----------------------------------------------------------------------------
-// Purpose: Outputs a set of optional arguments to debugging output, using
-//          the printf format setting specified in fmt*.
-//-----------------------------------------------------------------------------
-void dprintf( const char *fmt, ... )
-{
-	va_list args;
-	char buffer[ 2048 ];
-
-	va_start( args, fmt );
-	vsprintf_s( buffer, fmt, args );
-	va_end( args );
-
-	if ( g_bPrintf )
-		printf( "%s", buffer );
-
-  out << buffer << std::endl;
-	// OutputDebugStringA( buffer );
-}
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
@@ -248,7 +228,7 @@ CMainApplication::CMainApplication(/* int argc, char *argv[] */)
 CMainApplication::~CMainApplication()
 {
 	// work is done in Shutdown
-	dprintf( "Shutdown" );
+	// out << "Shutdown" << std::endl;
 }
 
 
@@ -275,6 +255,7 @@ std::string GetTrackedDeviceString( vr::TrackedDeviceIndex_t unDevice, vr::Track
 //-----------------------------------------------------------------------------
 bool CMainApplication::BInit()
 {
+  getOut() << "application binit" << std::endl;
 	/* if ( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 )
 	{
 		printf("%s - SDL could not initialize! SDL Error: %s\n", __FUNCTION__, SDL_GetError());
@@ -290,7 +271,7 @@ bool CMainApplication::BInit()
 		m_pHMD = NULL;
 		char buf[1024];
 		sprintf_s( buf, sizeof( buf ), "Unable to init VR runtime: %s", vr::VR_GetVRInitErrorAsEnglishDescription( eError ) );
-    out << buf << std::endl;
+    // out << buf << std::endl;
 		//SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "VR_Init Failed", buf, NULL );
 		return false;
 	}
@@ -736,17 +717,30 @@ void CMainApplication::ProcessVREvent( const vr::VREvent_t & event )
 	{
 	case vr::VREvent_TrackedDeviceDeactivated:
 		{
-			dprintf( "Device %u detached.\n", event.trackedDeviceIndex );
+      // out << "Device detached: " << event.trackedDeviceIndex << std::endl;
 		}
 		break;
 	case vr::VREvent_TrackedDeviceUpdated:
 		{
-			dprintf( "Device %u updated.\n", event.trackedDeviceIndex );
+      // out << "Device updated: " << event.trackedDeviceIndex << std::endl;
 		}
 		break;
 	}
 }
 
+
+void CMainApplication::PreRender() {
+  SetupCameras();
+}
+void CMainApplication::PostRender(uintptr_t texId) {
+  vr::VREvent_t vrEvent;
+  while( vr::VROverlay()->PollNextOverlayEvent( m_ulOverlayHandle, &vrEvent, sizeof( vrEvent )  ) ) {
+    // nothing
+  }
+  
+  vr::Texture_t leftEyeTexture = {(void*)texId, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
+  vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle, &leftEyeTexture);
+}
 
 //-----------------------------------------------------------------------------
 // Purpose:

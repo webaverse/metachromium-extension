@@ -19,7 +19,9 @@ class ID3D11Texture2D;
 #define baseAutoLock std::lock_guard<std::mutex>
 #define NOTIMPLEMENTED() std::cout << "not implemented" << std::endl;
 #define NOTREACHED() std::cout << "not reached" << std::endl;
+
 extern std::ofstream out;
+std::ofstream &getOut();
 
 namespace vr {
 
