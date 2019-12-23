@@ -19,6 +19,7 @@
 
 // #include <openvr.h>
 #include "third_party/openvr/src/headers/openvr.h"
+#include "third_party/openvr/src/src/ivrclientcore.h"
 
 #include "shared/lodepng.h"
 #include "shared/Matrices.h"
@@ -1852,7 +1853,6 @@ void CGLRenderModel::Draw()
 
 	glBindVertexArray( 0 );
 } */
-
 
 //-----------------------------------------------------------------------------
 // Purpose:

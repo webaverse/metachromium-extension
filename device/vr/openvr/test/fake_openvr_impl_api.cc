@@ -37,7 +37,7 @@ class TestVRSystem : public IVRSystem {
       float u,
       float v,
       DistortionCoordinates_t* distortion_coordinates) override {
-    return mainApplication.m_pHMD->ComputeDistortion(eye, u, v);
+    return mainApplication.m_pHMD->ComputeDistortion(eye, u, v, distortion_coordinates);
   }
   HmdMatrix34_t GetEyeToHeadTransform(EVREye eye) override;
   bool GetTimeSinceLastVsync(float* seconds_since_last_vsync,
@@ -87,7 +87,7 @@ class TestVRSystem : public IVRSystem {
   }
   TrackedDeviceIndex_t GetTrackedDeviceIndexForControllerRole(
       ETrackedControllerRole device_type) override {
-    return mainApplication.m_pHMD->ApplyTransform(device_type);
+    return mainApplication.m_pHMD->GetTrackedDeviceIndexForControllerRole(device_type);
   }
   ETrackedControllerRole GetControllerRoleForTrackedDeviceIndex(
       TrackedDeviceIndex_t device_index) override;
@@ -135,7 +135,7 @@ class TestVRSystem : public IVRSystem {
       VREvent_t* event,
       uint32_t vr_event,
       TrackedDevicePose_t* tracked_device_pose) override {
-    return mainApplication.m_pHMD->GetPropErrorNameFromEnum(origin, event, vr_event, tracked_device_pose);
+    return mainApplication.m_pHMD->PollNextEventWithPose(origin, event, vr_event, tracked_device_pose);
   }
   const char* GetEventTypeNameFromEnum(EVREventType type) override {
     return mainApplication.m_pHMD->GetEventTypeNameFromEnum(type);
@@ -247,7 +247,7 @@ class TestVRCompositor : public IVRCompositor {
                    float blue,
                    float alpha,
                    bool background = false) override {
-    mainApplication.m_pCompositor->FadeToColor(stats, seconds, red, green, blue, alpha);
+    mainApplication.m_pCompositor->FadeToColor(seconds, seconds, red, green, blue, alpha);
   }
   HmdColor_t GetCurrentFadeColor(bool background = false) override {
     return mainApplication.m_pCompositor->GetCurrentFadeColor(background);
@@ -339,7 +339,7 @@ class TestVRCompositor : public IVRCompositor {
   }
   uint32_t GetVulkanInstanceExtensionsRequired(VR_OUT_STRING() char* value,
                                                uint32_t buffer_size) override {
-    return mainApplication.m_pCompositor->UnlockGLSharedTextureForAccess(value, buffer_size);
+    return mainApplication.m_pCompositor->GetVulkanInstanceExtensionsRequired(value, buffer_size);
   }
   uint32_t GetVulkanDeviceExtensionsRequired(
       VkPhysicalDevice_T* physical_device,
@@ -351,6 +351,8 @@ class TestVRCompositor : public IVRCompositor {
 
 class TestVRClientCore : public IVRClientCore {
  public:
+  std::string err;
+
   EVRInitError Init(EVRApplicationType application_type) override;
   void Cleanup() override;
   EVRInitError IsInterfaceVersionValid(const char* interface_version) override;
@@ -358,10 +360,16 @@ class TestVRClientCore : public IVRClientCore {
                             EVRInitError* error) override;
   bool BIsHmdPresent() override;
   const char* GetEnglishStringForHmdError(EVRInitError error) override {
-    return mainApplication.m_pCompositor->GetEnglishStringForHmdError(error);
+    std::stringstream ss;
+    ss << "error: " << (int)error << std::endl;
+    err = ss.str();
+    return err.c_str();
   }
   const char* GetIDForVRInitError(EVRInitError error) override {
-    return mainApplication.m_pCompositor->GetIDForVRInitError(error);
+    std::stringstream ss;
+    ss << "error: " << (int)error << std::endl;
+    err = ss.str();
+    return err.c_str();
   }
 };
 
@@ -375,7 +383,7 @@ EVRInitError TestVRClientCore::Init(EVRApplicationType application_type) {
     return VRInitError_None;
   } else {
     mainApplication.Shutdown();
-    return 1;
+    return VRInitError_Unknown;
   }
 }
 
@@ -437,7 +445,7 @@ void TestVRSystem::GetDeviceToAbsoluteTrackingPose(
 }
 
 bool TestVRSystem::PollNextEvent(VREvent_t *pEvent, unsigned int uncbVREvent) {
-  return mainApplication.m_pHMD->GetDeviceToAbsoluteTrackingPose(pEvent, uncbVREvent);
+  return mainApplication.m_pHMD->PollNextEvent(pEvent, uncbVREvent);
 }
 
 bool TestVRSystem::GetControllerState(
@@ -453,7 +461,7 @@ bool TestVRSystem::GetControllerStateWithPose(
     VRControllerState_t* controller_state,
     uint32_t controller_state_size,
     TrackedDevicePose_t* tracked_device_pose) {
-  return mainApplication.m_pHMD->GetControllerState(origin, controller_device_index, controller_state, controller_state_size, tracked_device_pose);
+  return mainApplication.m_pHMD->GetControllerStateWithPose(origin, controller_device_index, controller_state, controller_state_size, tracked_device_pose);
 }
 
 uint32_t TestVRSystem::GetStringTrackedDeviceProperty(
@@ -462,7 +470,7 @@ uint32_t TestVRSystem::GetStringTrackedDeviceProperty(
     VR_OUT_STRING() char* value,
     uint32_t buffer_size,
     ETrackedPropertyError* error) {
-  return mainApplication.m_pHMD->GetControllerState(device_index, prop, value, buffer_size, error);
+  return mainApplication.m_pHMD->GetStringTrackedDeviceProperty(device_index, prop, value, buffer_size, error);
 }
 
 float TestVRSystem::GetFloatTrackedDeviceProperty(

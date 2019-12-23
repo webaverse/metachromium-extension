@@ -78,6 +78,9 @@ public:
 
 	// CGLRenderModel *FindOrLoadRenderModel( const char *pchRenderModelName );
 
+  vr::IVRSystem *m_pHMD;
+	vr::IVRCompositor *m_pCompositor;
+
 private: 
 	bool m_bDebugOpenGL;
 	bool m_bVerbose;
@@ -85,8 +88,6 @@ private:
 	bool m_bVblank;
 	bool m_bGlFinishHack;
 
-	vr::IVRSystem *m_pHMD;
-	vr::IVRCompositor *m_pCompositor;
 	std::string m_strDriver;
 	std::string m_strDisplay;
 	vr::TrackedDevicePose_t m_rTrackedDevicePose[ vr::k_unMaxTrackedDeviceCount ];
