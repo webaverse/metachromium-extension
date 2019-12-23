@@ -36,7 +36,7 @@
 #define _countof(x) (sizeof(x)/sizeof((x)[0]))
 #endif
 
-constexpr float zOffset = 0.11;
+constexpr float zOffset = -0.11;
 constexpr float eyeWidth = 0.1;
 
 Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, float n, float f) {
@@ -186,6 +186,7 @@ CMainApplication::CMainApplication(/* int argc, char *argv[] */)
 	, m_iValidPoseCount_Last( -1 )
 	, m_iSceneVolumeInit( 20 )
 	, m_strPoseClasses("")
+  , m_ulOverlayHandle(0)
 	// , m_bShowCubes( true )
 {
 
@@ -255,7 +256,7 @@ std::string GetTrackedDeviceString( vr::TrackedDeviceIndex_t unDevice, vr::Track
 //-----------------------------------------------------------------------------
 bool CMainApplication::BInit()
 {
-  getOut() << "application binit" << std::endl;
+  // getOut() << "binit 1" << std::endl;
 	/* if ( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_TIMER ) < 0 )
 	{
 		printf("%s - SDL could not initialize! SDL Error: %s\n", __FUNCTION__, SDL_GetError());
@@ -265,13 +266,15 @@ bool CMainApplication::BInit()
 	// Loading the SteamVR Runtime
 	vr::EVRInitError eError = vr::VRInitError_None;
 	m_pHMD = vr::VR_Init( &eError, vr::VRApplication_Overlay );
+  
+  // getOut() << "binit 2" << std::endl;
 
 	if ( eError != vr::VRInitError_None )
 	{
 		m_pHMD = NULL;
 		char buf[1024];
 		sprintf_s( buf, sizeof( buf ), "Unable to init VR runtime: %s", vr::VR_GetVRInitErrorAsEnglishDescription( eError ) );
-    // out << buf << std::endl;
+    getOut() << buf << std::endl;
 		//SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "VR_Init Failed", buf, NULL );
 		return false;
 	}
@@ -376,6 +379,8 @@ bool CMainApplication::BInit()
 	vr::VRInput()->GetInputSourceHandle( "/user/hand/right", &m_rHand[Right].m_source );
 	vr::VRInput()->GetActionHandle( "/actions/demo/in/Hand_Right", &m_rHand[Right].m_actionPose ); */
 
+  // getOut() << "application binit 2" << std::endl;
+
   init2();
 
 	return true;
@@ -385,19 +390,28 @@ bool CMainApplication::init2() {
   bool bSuccess = true;
 
   //  bSuccess = ConnectToVRRuntime();
+  // getOut() << "application init compositor 1" << std::endl;
   bSuccess = bSuccess && vr::VRCompositor() != NULL;
+  
+  // getOut() << "application init compositor 2" << std::endl;
   
   if( vr::VROverlay() )
 	{
+    // getOut() << "application init compositor 3" << std::endl;
+    // vr::VROverlayHandle_t m_ulOverlayHandle2;
+    // vr::VROverlayError overlayError = vr::VROverlay()->CreateDashboardOverlay( "sample.xr.left", "Sample XR Left", &m_ulOverlayHandle, &m_ulOverlayHandle2 );
     vr::VROverlayError overlayError = vr::VROverlay()->CreateOverlay( "sample.xr.left", "Sample XR Left", &m_ulOverlayHandle );
 		bSuccess = bSuccess && overlayError == vr::VROverlayError_None;
     // overlayError = vr::VROverlay()->CreateOverlay( "sample.xr.right", "Sample XR Right", &m_ulOverlayHandle2 );
 		// bSuccess = bSuccess && overlayError == vr::VROverlayError_None;
-    getOut() << "create overlay" << std::endl;
-	}
+    // getOut() << "create overlay result " << bSuccess << std::endl;
+	} else {
+    // getOut() << "application init compositor 4" << std::endl;
+  }
 
 	if( bSuccess )
 	{
+        // getOut() << "set overlay settings" << std::endl;
         // vr::VROverlay()->ShowOverlay(m_ulOverlayHandle2);
         /* float hmdFloat32[16] = {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, -0.11, 1};
         vr::HmdMatrix34_t matrix;
@@ -406,12 +420,15 @@ bool CMainApplication::init2() {
             matrix.m[u][v] = hmdFloat32[v * 4 + u];
           }
         } */
+        
+        vr::VROverlay()->SetHighQualityOverlay(m_ulOverlayHandle);
+        
+        vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle, eyeWidth*2);
     
         // left
         // vr::VROverlay()->SetHighQualityOverlay(m_ulOverlayHandle);
         // vr::VROverlay()->SetOverlayInputMethod( m_ulOverlayHandle, vr::VROverlayInputMethod_Mouse );
         // vr::VROverlay()->SetOverlayTransformTrackedDeviceRelative(m_ulOverlayHandle, vr::k_unTrackedDeviceIndex_Hmd, &matrix);
-        vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle, eyeWidth*2);
         // vr::Texture_t leftEyeTexture = {(void*)(uintptr_t)leftEyeDesc.m_nResolveTextureId, vr::TextureType_OpenGL, vr::ColorSpace_Gamma };
         // vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle, &leftEyeTexture);
 
@@ -434,6 +451,11 @@ bool CMainApplication::init2() {
 
         vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SideBySide_Parallel, true);
         // vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SideBySide_Crossed, true);
+        // vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SortWithNonSceneOverlays, true);
+        vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_VisibleInDashboard, true);
+        
+        vr::VROverlay()->SetOverlayColor(m_ulOverlayHandle, 1.0, 1.0, 1.0);
+        vr::VROverlay()->SetOverlayAlpha(m_ulOverlayHandle, 1.0);
 
         vr::VROverlay()->ShowOverlay(m_ulOverlayHandle);
   }
@@ -523,6 +545,13 @@ bool CMainApplication::BInitCompositor()
 //-----------------------------------------------------------------------------
 void CMainApplication::Shutdown()
 {
+  if (m_ulOverlayHandle) {
+    // getOut() << "destroy overlay 1" << std::endl;
+    vr::VROverlay()->DestroyOverlay(m_ulOverlayHandle);
+    m_ulOverlayHandle = 0;
+    // getOut() << "destroy overlay 2" << std::endl;
+  }
+  
 	if( m_pHMD )
 	{
 		vr::VR_Shutdown();
