@@ -73,6 +73,7 @@ public:
 	// void RenderScene( vr::Hmd_Eye nEye );
 
 	Matrix4 GetHMDMatrixProjectionEye( vr::Hmd_Eye nEye );
+	Matrix4 GetProjectionRaw( vr::Hmd_Eye nEye, float* l, float* r, float* t, float* b );
 	Matrix4 GetHMDMatrixPoseEye( vr::Hmd_Eye nEye );
 	Matrix4 GetCurrentViewProjectionMatrix( vr::Hmd_Eye nEye );
 	void UpdateHMDMatrixPose();

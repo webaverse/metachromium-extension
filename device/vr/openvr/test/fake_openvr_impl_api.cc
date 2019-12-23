@@ -504,7 +504,7 @@ void TestVRSystem::GetProjectionRaw(EVREye eye,
   *top = proj.projection[2];
   *bottom = proj.projection[3];
   return; */
-  return mainApplication.m_pHMD->GetProjectionRaw(eye, left, right, top, bottom);
+  return mainApplication.GetProjectionRaw(eye, left, right, top, bottom);
 }
 
 HmdMatrix34_t TestVRSystem::GetEyeToHeadTransform(EVREye eye) {

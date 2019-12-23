@@ -772,6 +772,7 @@ void CMainApplication::ProcessVREvent( const vr::VREvent_t & event )
 
 void CMainApplication::PreRender() {
   SetupCameras();
+  SetupStereoRenderTargets();
 }
 void CMainApplication::PostRender(uintptr_t texId) {
   vr::VREvent_t vrEvent;
@@ -1587,6 +1588,55 @@ Matrix4 CMainApplication::GetHMDMatrixPoseEye( vr::Hmd_Eye nEye )
 		);
 
 	return matrixObj.invert();
+}
+
+Matrix4 CMainApplication::GetProjectionRaw( vr::Hmd_Eye nEye, float* l, float* r, float* t, float* b ) {
+  float &left = *l;
+  float &right = *r;
+  float &top = *t;
+  float &bottom = *b;
+
+  if (nEye == vr::Eye_Left) {
+    float portalHalfWidth = eyeWidth;
+    float portalHalfHeight = eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
+    float eyeOffset = -m_mat4eyePosLeft.get()[12];
+    float portalOffset = 0;//-portalHalfWidth;
+    Vector3 portalPosition(portalOffset - eyeOffset, 0, zOffset);
+   
+    left = portalPosition.x - portalHalfWidth;
+    right = portalPosition.x + portalHalfWidth;
+    top = portalPosition.y + portalHalfHeight;
+    bottom = portalPosition.y - portalHalfHeight;
+
+    float n = m_fNearClip;
+    float f = m_fFarClip;
+    float distance = std::abs(portalPosition.z);
+    float scale = n / distance;
+    left   *= scale;
+    right  *= scale;
+    top    *= scale;
+    bottom *= scale;
+	} else {
+    float portalHalfWidth = eyeWidth;
+    float portalHalfHeight = eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
+    float eyeOffset = -m_mat4eyePosRight.get()[12];
+    float portalOffset = 0;//portalHalfWidth;
+    Vector3 portalPosition(portalOffset - eyeOffset, 0, zOffset);
+   
+    left = portalPosition.x - portalHalfWidth;
+    right = portalPosition.x + portalHalfWidth;
+    top = portalPosition.y + portalHalfHeight;
+    bottom = portalPosition.y - portalHalfHeight;
+    
+    float n = m_fNearClip;
+    float f = m_fFarClip;
+    float distance = std::abs(portalPosition.z);
+    float scale = n / distance;
+    left   *= scale;
+    right  *= scale;
+    top    *= scale;
+    bottom *= scale;
+	}
 }
 
 
