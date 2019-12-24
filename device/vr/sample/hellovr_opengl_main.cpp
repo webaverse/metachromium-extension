@@ -37,7 +37,7 @@
 #define _countof(x) (sizeof(x)/sizeof((x)[0]))
 #endif
 
-constexpr float zOffset = -0.11;
+constexpr float zOffset = -0.100001;
 
 Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, float n, float f) {
   float te[16];
@@ -55,18 +55,6 @@ Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, 
   te[ 3 ] = 0;	te[ 7 ] = 0;	te[ 11 ] = - 1;	te[ 15 ] = 0;
 
   return Matrix4(te);
-}
-Vector3 operator*(const Matrix4 &m, const Vector3 &v) {
-  const float x = v.x, y = v.y, z = v.z;
-	const float *e = m.get();
-
-	const float w = 1 / ( e[ 3 ] * x + e[ 7 ] * y + e[ 11 ] * z + e[ 15 ] );
-
-  return Vector3(
-	  ( e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z + e[ 12 ] ) * w,
-	  ( e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] ) * w,
-	  ( e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] ) * w
-	 );
 }
 
 /* void ThreadSleep( unsigned long nMilliseconds )
@@ -436,7 +424,8 @@ bool CMainApplication::init2() {
         } */
         
         vr::VROverlay()->SetHighQualityOverlay(m_ulOverlayHandle);
-        
+
+        getOut() << "eye width " << m_eyeWidth << std::endl;
         vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle, m_eyeWidth*2);
     
         // left
@@ -1387,13 +1376,18 @@ bool CMainApplication::SetupStereoRenderTargets()
 
 	m_pHMD->GetRecommendedRenderTargetSize( &m_nRenderWidth, &m_nRenderHeight );
 
-	Matrix4 leftProjectionMatrixInverse = GetHMDMatrixProjectionEye(Eye_Left, m_fNearClip, m_fFarClip).invertProjective();
-	Matrix4 rightProjectionMatrixInverse = GetHMDMatrixProjectionEye(Eye_Right, m_fNearClip, m_fFarClip).invertProjective();
+	Matrix4 leftProjectionMatrixInverse = GetHMDMatrixProjectionEye(vr::Eye_Left).invertProjective();
+	Matrix4 rightProjectionMatrixInverse = GetHMDMatrixProjectionEye(vr::Eye_Right).invertProjective();
 
 	Vector3 leftPoint = leftProjectionMatrixInverse * Vector3(-1, 0, -1);
-	Vector3 rightPoint = rightProjectionMatrixInverse * Vector3(1, 0, -1);
+	Vector3 rightPoint = leftProjectionMatrixInverse * Vector3(1, 0, -1);
 
-	m_eyeWidth = rightPoint.x - leftPoint.x;
+	m_eyeWidth = (rightPoint.x - leftPoint.x) * m_fNearClip;
+  // m_eyeWidth *= -zOffset/m_fNearClip;
+  m_eyeWidth /= 2.0;
+  m_eyeWidth += m_mat4eyePosLeft.get()[12] - m_mat4eyePosRight.get()[12];
+  
+  getOut() << "recompute eye width " << m_eyeWidth << " " << m_mat4eyePosLeft.get()[12] << " " << m_mat4eyePosRight.get()[12] << std::endl;
 
 	// CreateFrameBuffer( m_nRenderWidth, m_nRenderHeight, leftEyeDesc );
 	//  CreateFrameBuffer( m_nRenderWidth, m_nRenderHeight, rightEyeDesc );

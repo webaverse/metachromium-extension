@@ -33,7 +33,6 @@
 #endif */
 
 Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, float n, float f);
-Vector3 operator*(const Matrix4 &m, const Vector3 &v);
 
 //-----------------------------------------------------------------------------
 // Purpose:
