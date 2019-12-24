@@ -730,7 +730,7 @@ EVRCompositorError TestVRCompositor::Submit(EVREye eye,
                                             Texture_t const* texture,
                                             VRTextureBounds_t const* bounds,
                                             EVRSubmitFlags) {
-  if (eye == EVREye::Right_Eye) {
+  if (eye == EVREye::Eye_Right) {
     // g_test_helper.OnPresentedFrame(reinterpret_cast<ID3D11Texture2D*>(texture->handle), bounds, eye);
     // getOut() << "Submit " << bounds->uMin << " " << bounds->vMin << " " << bounds->uMax << " " << bounds->vMax << " " << (uintptr_t)dxTexture << std::endl;
     mainApplication.PostRender((uintptr_t)(texture->handle));

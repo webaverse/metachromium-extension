@@ -32,6 +32,10 @@
 #include "unistd.h"
 #endif */
 
+#include <D3D11_1.h>
+#include <DXGI1_4.h>
+#include <wrl.h>
+
 Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, float n, float f);
 
 //-----------------------------------------------------------------------------
@@ -223,12 +227,13 @@ private: // OpenGL bookkeeping
 	vr::VRActionSetHandle_t m_actionsetDemo = vr::k_ulInvalidActionSetHandle; */
   
   vr::VROverlayHandle_t m_ulOverlayHandle;
-  ID3D11Resource *m_overlayTexture;
+  bool m_overlayTexture;
   uint32_t m_overlayTextureWidth;
   uint32_t m_overlayTextureHeight;
-  ETextureType m_overlayTextureAPIType;
-  EColorSpace m_overlayTextureColorSpace;
-  VRTextureBounds_t m_overlayTextureBounds;
+  uint32_t m_overlayTextureNativeFormat;
+  vr::ETextureType m_overlayTextureAPIType;
+  vr::EColorSpace m_overlayTextureColorSpace;
+  vr::VRTextureBounds_t m_overlayTextureBounds;
   vr::HmdError m_eLastHmdError;
   
   // custom
