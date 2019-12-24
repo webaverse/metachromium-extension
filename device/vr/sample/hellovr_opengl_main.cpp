@@ -425,7 +425,7 @@ bool CMainApplication::init2() {
         
         vr::VROverlay()->SetHighQualityOverlay(m_ulOverlayHandle);
 
-        getOut() << "eye width " << m_eyeWidth << std::endl;
+        // getOut() << "eye width " << m_eyeWidth << std::endl;
         vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle, m_eyeWidth*2);
     
         // left
@@ -1380,14 +1380,14 @@ bool CMainApplication::SetupStereoRenderTargets()
 	Matrix4 rightProjectionMatrixInverse = GetHMDMatrixProjectionEye(vr::Eye_Right).invertProjective();
 
 	Vector3 leftPoint = leftProjectionMatrixInverse * Vector3(-1, 0, -1);
-	Vector3 rightPoint = leftProjectionMatrixInverse * Vector3(1, 0, -1);
+	Vector3 rightPoint = rightProjectionMatrixInverse * Vector3(1, 0, -1);
 
 	m_eyeWidth = (rightPoint.x - leftPoint.x) * m_fNearClip;
   // m_eyeWidth *= -zOffset/m_fNearClip;
   m_eyeWidth /= 2.0;
   m_eyeWidth += m_mat4eyePosLeft.get()[12] - m_mat4eyePosRight.get()[12];
   
-  getOut() << "recompute eye width " << m_eyeWidth << " " << m_mat4eyePosLeft.get()[12] << " " << m_mat4eyePosRight.get()[12] << std::endl;
+  // getOut() << "recompute eye width " << m_eyeWidth << " " << m_mat4eyePosLeft.get()[12] << " " << m_mat4eyePosRight.get()[12] << std::endl;
 
 	// CreateFrameBuffer( m_nRenderWidth, m_nRenderHeight, leftEyeDesc );
 	//  CreateFrameBuffer( m_nRenderWidth, m_nRenderHeight, rightEyeDesc );
