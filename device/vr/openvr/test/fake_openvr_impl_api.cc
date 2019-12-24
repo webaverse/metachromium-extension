@@ -46,6 +46,7 @@ class TestVRSystem : public IVRSystem {
   HmdMatrix44_t GetProjectionMatrix(EVREye eye,
                                     float near_z,
                                     float far_z) override {
+    // getOut() << "get projection  matrix" <<  std::endl;
     return mainApplication.m_pHMD->GetProjectionMatrix(eye, near_z, far_z);
   }
   void GetProjectionRaw(EVREye eye,
@@ -685,6 +686,7 @@ EVRCompositorError TestVRCompositor::WaitGetPoses(TrackedDevicePose_t* poses1,
   float fPredictedSecondsFromNow = fFrameDuration - fSecondsSinceLastVsync + fVsyncToPhotons;
   
   mainApplication.m_pHMD->GetDeviceToAbsoluteTrackingPose(TrackingUniverseStanding, fPredictedSecondsFromNow, poses1, count1);
+  mainApplication.PreRender();
   return VRCompositorError_None;
   
   /* TrackedDevicePose_t pose;

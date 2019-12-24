@@ -274,7 +274,7 @@ bool CMainApplication::BInit()
 		m_pHMD = NULL;
 		char buf[1024];
 		sprintf_s( buf, sizeof( buf ), "Unable to init VR runtime: %s", vr::VR_GetVRInitErrorAsEnglishDescription( eError ) );
-    getOut() << buf << std::endl;
+    // getOut() << buf << std::endl;
 		//SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "VR_Init Failed", buf, NULL );
 		return false;
 	}
@@ -454,8 +454,8 @@ bool CMainApplication::init2() {
         // vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SortWithNonSceneOverlays, true);
         vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_VisibleInDashboard, true);
         
-        vr::VROverlay()->SetOverlayColor(m_ulOverlayHandle, 1.0, 1.0, 1.0);
-        vr::VROverlay()->SetOverlayAlpha(m_ulOverlayHandle, 1.0);
+        /* vr::VROverlay()->SetOverlayColor(m_ulOverlayHandle, 1.0, 1.0, 1.0);
+        vr::VROverlay()->SetOverlayAlpha(m_ulOverlayHandle, 1.0); */
 
         vr::VROverlay()->ShowOverlay(m_ulOverlayHandle);
   }
@@ -771,6 +771,7 @@ void CMainApplication::ProcessVREvent( const vr::VREvent_t & event )
 
 
 void CMainApplication::PreRender() {
+  // getOut() << "pre render" << std::endl;
   SetupCameras();
   SetupStereoRenderTargets();
 }
@@ -1311,6 +1312,7 @@ void CMainApplication::RenderControllerAxes()
 //-----------------------------------------------------------------------------
 void CMainApplication::SetupCameras()
 {
+  // getOut() << "setup cameras" << std::endl;
 	m_mat4ProjectionLeft = GetHMDMatrixProjectionEye( vr::Eye_Left );
 	m_mat4ProjectionRight = GetHMDMatrixProjectionEye( vr::Eye_Right );
 
@@ -1590,16 +1592,26 @@ Matrix4 CMainApplication::GetHMDMatrixPoseEye( vr::Hmd_Eye nEye )
 	return matrixObj.invert();
 }
 
-Matrix4 CMainApplication::GetProjectionRaw( vr::Hmd_Eye nEye, float* l, float* r, float* t, float* b ) {
+void CMainApplication::GetProjectionRaw( vr::Hmd_Eye nEye, float* l, float* r, float* t, float* b ) {
   float &left = *l;
   float &right = *r;
   float &top = *t;
   float &bottom = *b;
+  
+  m_pHMD->GetProjectionRaw(nEye, l, r, t, b);
+  
+  /* getOut() << "got tan 1" <<
+    (int)nEye << " " <<
+    left << " " <<
+    right << " " <<
+    top << " " <<
+    bottom << std::endl; */
 
+  float eyeOffset;
   if (nEye == vr::Eye_Left) {
     float portalHalfWidth = eyeWidth;
     float portalHalfHeight = eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
-    float eyeOffset = -m_mat4eyePosLeft.get()[12];
+    eyeOffset = -m_mat4eyePosLeft.get()[12];
     float portalOffset = 0;//-portalHalfWidth;
     Vector3 portalPosition(portalOffset - eyeOffset, 0, zOffset);
    
@@ -1616,10 +1628,11 @@ Matrix4 CMainApplication::GetProjectionRaw( vr::Hmd_Eye nEye, float* l, float* r
     right  *= scale;
     top    *= scale;
     bottom *= scale;
+    // getOut() << "get scale left" << scale << std::endl;
 	} else {
     float portalHalfWidth = eyeWidth;
     float portalHalfHeight = eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
-    float eyeOffset = -m_mat4eyePosRight.get()[12];
+    eyeOffset = -m_mat4eyePosRight.get()[12];
     float portalOffset = 0;//portalHalfWidth;
     Vector3 portalPosition(portalOffset - eyeOffset, 0, zOffset);
    
@@ -1636,7 +1649,23 @@ Matrix4 CMainApplication::GetProjectionRaw( vr::Hmd_Eye nEye, float* l, float* r
     right  *= scale;
     top    *= scale;
     bottom *= scale;
+    // getOut() << "get scale right" << scale << std::endl;
 	}
+  float oldTop = top;
+  top = bottom;
+  bottom = oldTop;
+
+  left   /= m_fNearClip;
+  right  /= m_fNearClip;
+  top    /= m_fNearClip;
+  bottom /= m_fNearClip;
+  
+  /* getOut() << "got tan 2" <<
+    (int)nEye << " " <<
+    left << " " <<
+    right << " " <<
+    top << " " <<
+    bottom << " " << eyeOffset << std::endl; */
 }
 
 
