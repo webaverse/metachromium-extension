@@ -23,6 +23,7 @@
 
 // #include "shared/lodepng.h"
 #include "shared/Matrices.h"
+#include "shared/Vectors.h"
 //  #include "shared/pathtools.h"
 
 #if defined(POSIX)
@@ -37,7 +38,6 @@
 #endif
 
 constexpr float zOffset = -0.11;
-constexpr float eyeWidth = 0.1;
 
 Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, float n, float f) {
   float te[16];
@@ -55,6 +55,18 @@ Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, 
   te[ 3 ] = 0;	te[ 7 ] = 0;	te[ 11 ] = - 1;	te[ 15 ] = 0;
 
   return Matrix4(te);
+}
+Vector3 operator*(const Matrix4 &m, const Vector3 &v) {
+  const float x = v.x, y = v.y, z = v.z;
+	const float *e = m.get();
+
+	const float w = 1 / ( e[ 3 ] * x + e[ 7 ] * y + e[ 11 ] * z + e[ 15 ] );
+
+  return Vector3(
+	  ( e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z + e[ 12 ] ) * w,
+	  ( e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] ) * w,
+	  ( e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] ) * w
+	 );
 }
 
 /* void ThreadSleep( unsigned long nMilliseconds )
@@ -343,6 +355,8 @@ bool CMainApplication::BInit()
  
  	m_fNearClip = 0.1f;
  	m_fFarClip = 30.0f;
+
+ 	m_eyeWidth = 0.1;
  
  	// m_iTexture = 0;
  	// m_uiVertcount = 0;
@@ -423,7 +437,7 @@ bool CMainApplication::init2() {
         
         vr::VROverlay()->SetHighQualityOverlay(m_ulOverlayHandle);
         
-        vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle, eyeWidth*2);
+        vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle, m_eyeWidth*2);
     
         // left
         // vr::VROverlay()->SetHighQualityOverlay(m_ulOverlayHandle);
@@ -1373,6 +1387,14 @@ bool CMainApplication::SetupStereoRenderTargets()
 
 	m_pHMD->GetRecommendedRenderTargetSize( &m_nRenderWidth, &m_nRenderHeight );
 
+	Matrix4 leftProjectionMatrixInverse = GetHMDMatrixProjectionEye(Eye_Left, m_fNearClip, m_fFarClip).invertProjective();
+	Matrix4 rightProjectionMatrixInverse = GetHMDMatrixProjectionEye(Eye_Right, m_fNearClip, m_fFarClip).invertProjective();
+
+	Vector3 leftPoint = leftProjectionMatrixInverse * Vector3(-1, 0, -1);
+	Vector3 rightPoint = rightProjectionMatrixInverse * Vector3(1, 0, -1);
+
+	m_eyeWidth = rightPoint.x - leftPoint.x;
+
 	// CreateFrameBuffer( m_nRenderWidth, m_nRenderHeight, leftEyeDesc );
 	//  CreateFrameBuffer( m_nRenderWidth, m_nRenderHeight, rightEyeDesc );
   
@@ -1609,8 +1631,8 @@ void CMainApplication::GetProjectionRaw( vr::Hmd_Eye nEye, float* l, float* r, f
 
   float eyeOffset;
   if (nEye == vr::Eye_Left) {
-    float portalHalfWidth = eyeWidth;
-    float portalHalfHeight = eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
+    float portalHalfWidth = m_eyeWidth;
+    float portalHalfHeight = m_eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
     eyeOffset = -m_mat4eyePosLeft.get()[12];
     float portalOffset = 0;//-portalHalfWidth;
     Vector3 portalPosition(portalOffset - eyeOffset, 0, zOffset);
@@ -1630,8 +1652,8 @@ void CMainApplication::GetProjectionRaw( vr::Hmd_Eye nEye, float* l, float* r, f
     bottom *= scale;
     // getOut() << "get scale left" << scale << std::endl;
 	} else {
-    float portalHalfWidth = eyeWidth;
-    float portalHalfHeight = eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
+    float portalHalfWidth = m_eyeWidth;
+    float portalHalfHeight = m_eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
     eyeOffset = -m_mat4eyePosRight.get()[12];
     float portalOffset = 0;//portalHalfWidth;
     Vector3 portalPosition(portalOffset - eyeOffset, 0, zOffset);
@@ -1679,8 +1701,8 @@ Matrix4 CMainApplication::GetCurrentViewProjectionMatrix( vr::Hmd_Eye nEye )
   //  Matrix4 translationMatrix(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, zOffset, 1);
 	if( nEye == vr::Eye_Left )
 	{
-    float portalHalfWidth = eyeWidth;
-    float portalHalfHeight = eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
+    float portalHalfWidth = m_eyeWidth;
+    float portalHalfHeight = m_eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
     float eyeOffset = -m_mat4eyePosLeft.get()[12];
     float portalOffset = 0;//-portalHalfWidth;
     Vector3 portalPosition(portalOffset - eyeOffset, 0, zOffset);
@@ -1705,8 +1727,8 @@ Matrix4 CMainApplication::GetCurrentViewProjectionMatrix( vr::Hmd_Eye nEye )
 	}
 	else if( nEye == vr::Eye_Right )
 	{
-    float portalHalfWidth = eyeWidth;
-    float portalHalfHeight = eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
+    float portalHalfWidth = m_eyeWidth;
+    float portalHalfHeight = m_eyeWidth / (float)m_nRenderWidth * (float)m_nRenderHeight;
     float eyeOffset = -m_mat4eyePosRight.get()[12];
     float portalOffset = 0;//portalHalfWidth;
     Vector3 portalPosition(portalOffset - eyeOffset, 0, zOffset);

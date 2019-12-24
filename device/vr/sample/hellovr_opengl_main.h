@@ -25,11 +25,15 @@
 
 // #include "shared/lodepng.h"
 #include "shared/Matrices.h"
+#include "shared/Vectors.h"
 // #include "shared/pathtools.h"
 
 /* #if defined(POSIX)
 #include "unistd.h"
 #endif */
+
+Matrix4 makePerspectiveMatrix(float left, float right, float top, float bottom, float n, float f);
+Vector3 operator*(const Matrix4 &m, const Vector3 &v);
 
 //-----------------------------------------------------------------------------
 // Purpose:
@@ -146,6 +150,8 @@ private: // OpenGL bookkeeping
 	
 	float m_fNearClip;
 	float m_fFarClip;
+
+	float m_eyeWidth;
 
 	/* GLuint m_iTexture;
 
