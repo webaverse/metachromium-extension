@@ -730,12 +730,13 @@ EVRCompositorError TestVRCompositor::Submit(EVREye eye,
                                             Texture_t const* texture,
                                             VRTextureBounds_t const* bounds,
                                             EVRSubmitFlags) {
-  ID3D11Texture2D *dxTexture = reinterpret_cast<ID3D11Texture2D*>(texture->handle);
-  // g_test_helper.OnPresentedFrame(reinterpret_cast<ID3D11Texture2D*>(texture->handle), bounds, eye);
-  // getOut() << "Submit " << bounds->uMin << " " << bounds->vMin << " " << bounds->uMax << " " << bounds->vMax << " " << (uintptr_t)dxTexture << std::endl;
-  mainApplication.PostRender((uintptr_t)dxTexture);
-  // vr::Texture_t rightEyeTexture = {(void*)(uintptr_t)dxTexture, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
-  // vr::VROverlay()->SetOverlayTexture(mainApplication.m_ulOverlayHandle, &rightEyeTexture);
+  if (eye == EVREye::Right_Eye) {
+    // g_test_helper.OnPresentedFrame(reinterpret_cast<ID3D11Texture2D*>(texture->handle), bounds, eye);
+    // getOut() << "Submit " << bounds->uMin << " " << bounds->vMin << " " << bounds->uMax << " " << bounds->vMax << " " << (uintptr_t)dxTexture << std::endl;
+    mainApplication.PostRender((uintptr_t)(texture->handle));
+    // vr::Texture_t rightEyeTexture = {(void*)(uintptr_t)dxTexture, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
+    // vr::VROverlay()->SetOverlayTexture(mainApplication.m_ulOverlayHandle, &rightEyeTexture);
+  }
   return VRCompositorError_None;
 }
 

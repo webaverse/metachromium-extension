@@ -187,6 +187,7 @@ CMainApplication::CMainApplication(/* int argc, char *argv[] */)
 	, m_iSceneVolumeInit( 20 )
 	, m_strPoseClasses("")
   , m_ulOverlayHandle(0)
+  , m_overlayTexture(nullptr)
 	// , m_bShowCubes( true )
 {
 
@@ -783,9 +784,22 @@ void CMainApplication::PostRender(uintptr_t texId) {
   while( vr::VROverlay()->PollNextOverlayEvent( m_ulOverlayHandle, &vrEvent, sizeof( vrEvent )  ) ) {
     // nothing
   }
-  
-  vr::Texture_t leftEyeTexture = {(void*)texId, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
-  vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle, &leftEyeTexture);
+
+  if (!m_overlayTexture) {
+  	vr::Texture_t leftEyeTexture = {(void *)texId, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
+  	vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle, &leftEyeTexture);
+    vr::VROverlay()->GetOverlayTexture(m_ulOverlayHandle, &m_overlayTexture, (void *)texId, &m_overlayTextureWidth, &m_overlayTextureHeight, &m_overlayTextureNativeFormat, &m_overlayTextureAPIType, &m_overlayTextureColorSpace, &m_overlayTextureBounds);
+  } else {
+    Microsoft::WRL::ComPtr<ID3D11Device> device;
+	  m_overlayTexture->GetDevice(&device);
+
+	  Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+	  device->GetImmediateContext(&context);
+
+    ID3D11Texture2D *dxTexture = reinterpret_cast<ID3D11Texture2D*>(texId);
+  	context->CopyResource(m_overlayTexture, dxTexture);
+  	context->Flush();
+  }
 }
 
 //-----------------------------------------------------------------------------

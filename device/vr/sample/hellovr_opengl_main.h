@@ -223,6 +223,12 @@ private: // OpenGL bookkeeping
 	vr::VRActionSetHandle_t m_actionsetDemo = vr::k_ulInvalidActionSetHandle; */
   
   vr::VROverlayHandle_t m_ulOverlayHandle;
+  ID3D11Resource *m_overlayTexture;
+  uint32_t m_overlayTextureWidth;
+  uint32_t m_overlayTextureHeight;
+  ETextureType m_overlayTextureAPIType;
+  EColorSpace m_overlayTextureColorSpace;
+  VRTextureBounds_t m_overlayTextureBounds;
   vr::HmdError m_eLastHmdError;
   
   // custom
