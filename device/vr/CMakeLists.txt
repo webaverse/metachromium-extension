@@ -9,6 +9,8 @@ INCLUDE_DIRECTORIES(
   ../..
   ../../third_party/skia
   sample
+  OpenOVR
+  SplitOpenVRHeaders
 )
 LINK_DIRECTORIES(
   sample/bin/win64
@@ -22,6 +24,7 @@ SET(src
   test/test_hook.h
   sample/hellovr_opengl_main.cpp
   sample/shared/Matrices.cpp
+  OpenOVR/Reimpl/stubs.gen.cpp
 )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)

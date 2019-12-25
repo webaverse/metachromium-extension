@@ -63,7 +63,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -73,7 +73,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -83,7 +83,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -93,7 +93,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>

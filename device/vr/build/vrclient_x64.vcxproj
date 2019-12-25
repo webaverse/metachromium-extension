@@ -83,7 +83,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -102,10 +102,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;NOMINMAX;CMAKE_INTDIR=\"Debug\";vrclient_x64_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -128,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -147,10 +147,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USE_MATH_DEFINES;NOMINMAX;CMAKE_INTDIR=\"Release\";vrclient_x64_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -173,7 +173,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -192,10 +192,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USE_MATH_DEFINES;NOMINMAX;CMAKE_INTDIR=\"MinSizeRel\";vrclient_x64_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -218,7 +218,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -236,10 +236,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USE_MATH_DEFINES;NOMINMAX;CMAKE_INTDIR=\"RelWithDebInfo\";vrclient_x64_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -323,6 +323,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\test\test_hook.h" />
     <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample\hellovr_opengl_main.cpp" />
     <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample\shared\Matrices.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\stubs.gen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\ZERO_CHECK.vcxproj">
