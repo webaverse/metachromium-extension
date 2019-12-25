@@ -187,6 +187,7 @@ CMainApplication::CMainApplication(/* int argc, char *argv[] */)
 	, m_iSceneVolumeInit( 20 )
 	, m_strPoseClasses("")
   , m_ulOverlayHandle(0)
+  , m_ulOverlayHandle2(0)
   , m_overlayTexture(false)
 	// , m_bShowCubes( true )
 {
@@ -390,6 +391,7 @@ bool CMainApplication::BInit()
 }
 
 bool CMainApplication::init2() {
+  getOut() << "init2" << std::endl;
   bool bSuccess = true;
 
   //  bSuccess = ConnectToVRRuntime();
@@ -404,6 +406,7 @@ bool CMainApplication::init2() {
     // vr::VROverlayHandle_t m_ulOverlayHandle2;
     // vr::VROverlayError overlayError = vr::VROverlay()->CreateDashboardOverlay( "sample.xr.left", "Sample XR Left", &m_ulOverlayHandle, &m_ulOverlayHandle2 );
     vr::VROverlayError overlayError = vr::VROverlay()->CreateOverlay( "sample.xr.left", "Sample XR Left", &m_ulOverlayHandle );
+    overlayError = vr::VROverlay()->CreateOverlay( "sample.xr.left2", "Sample XR 2Left", &m_ulOverlayHandle2 );
 		bSuccess = bSuccess && overlayError == vr::VROverlayError_None;
     // overlayError = vr::VROverlay()->CreateOverlay( "sample.xr.right", "Sample XR Right", &m_ulOverlayHandle2 );
 		// bSuccess = bSuccess && overlayError == vr::VROverlayError_None;
@@ -424,7 +427,7 @@ bool CMainApplication::init2() {
           }
         } */
         
-        vr::VROverlay()->SetHighQualityOverlay(m_ulOverlayHandle);
+        // vr::VROverlay()->SetHighQualityOverlay(m_ulOverlayHandle);
 
         // getOut() << "eye width " << m_eyeWidth << std::endl;
         vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle, m_eyeWidth*2);
@@ -441,27 +444,21 @@ bool CMainApplication::init2() {
         // vr::VROverlay()->SetOverlayWidthInMeters(m_ulOverlayHandle2, eyeWidth);
         // vr::Texture_t rightEyeTexture = {(void*)(uintptr_t)rightEyeDesc.m_nResolveTextureId, vr::TextureType_OpenGL, vr::ColorSpace_Gamma };
         // vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle2, &rightEyeTexture);
-        
-        {
-          Matrix4 matMVP(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, zOffset, 1);
-          vr::HmdMatrix34_t matrix;
-          for (unsigned int v = 0; v < 4; v++) {
-            for (unsigned int u = 0; u < 3; u++) {
-              matrix.m[u][v] = matMVP.get()[v * 4 + u];
-            }
-          }
-          vr::VROverlay()->SetOverlayTransformTrackedDeviceRelative(m_ulOverlayHandle, vr::k_unTrackedDeviceIndex_Hmd, &matrix);
-        }
 
         vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SideBySide_Parallel, true);
         // vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SideBySide_Crossed, true);
         // vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SortWithNonSceneOverlays, true);
-        vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_VisibleInDashboard, true);
+        vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_Curved, true);
+        vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_RGSS4X, true);
+        vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_SortWithNonSceneOverlays, true);
+        // vr::VROverlay()->SetOverlayFlag(m_ulOverlayHandle, vr::VROverlayFlags::VROverlayFlags_VisibleInDashboard, true);
         
         /* vr::VROverlay()->SetOverlayColor(m_ulOverlayHandle, 1.0, 1.0, 1.0);
         vr::VROverlay()->SetOverlayAlpha(m_ulOverlayHandle, 1.0); */
 
-        vr::VROverlay()->ShowOverlay(m_ulOverlayHandle);
+        // vr::VROverlay()->ShowOverlay(m_ulOverlayHandle);
+        
+        // vr::VRCompositor()->ForceInterleavedReprojectionOn(true);
   }
 
   return bSuccess;
@@ -519,6 +516,7 @@ bool CMainApplication::BInitGL()
 	SetupCameras();
 	SetupStereoRenderTargets();
 	// SetupCompanionWindow();
+  UpdateHMDMatrixPose();
 
 	return true;
 }
@@ -558,6 +556,12 @@ void CMainApplication::Shutdown()
     // getOut() << "destroy overlay 1" << std::endl;
     vr::VROverlay()->DestroyOverlay(m_ulOverlayHandle);
     m_ulOverlayHandle = 0;
+    // getOut() << "destroy overlay 2" << std::endl;
+  }
+  if (m_ulOverlayHandle2) {
+    // getOut() << "destroy overlay 1" << std::endl;
+    vr::VROverlay()->DestroyOverlay(m_ulOverlayHandle2);
+    m_ulOverlayHandle2 = 0;
     // getOut() << "destroy overlay 2" << std::endl;
   }
   
@@ -783,21 +787,51 @@ void CMainApplication::PreRender() {
   // getOut() << "pre render" << std::endl;
   SetupCameras();
   SetupStereoRenderTargets();
+  UpdateHMDMatrixPose();
 }
+int index = 0;
 void CMainApplication::PostRender(uintptr_t texId) {
   vr::VREvent_t vrEvent;
   while( vr::VROverlay()->PollNextOverlayEvent( m_ulOverlayHandle, &vrEvent, sizeof( vrEvent )  ) ) {
     // nothing
   }
-  
-  ID3D11Texture2D *dxTexture = reinterpret_cast<ID3D11Texture2D*>(texId);
+  /* while( vr::VROverlay()->PollNextOverlayEvent( m_ulOverlayHandle2, &vrEvent, sizeof( vrEvent )  ) ) {
+    // nothing
+  } */
 
-  // if (!m_overlayTexture) {
-    // getOut() << "copy 0" << std::endl;
-  	vr::Texture_t leftEyeTexture = {(void *)texId, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
-  	vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle, &leftEyeTexture);
+  // if ((++index) % 2 == 0) {
+    ID3D11Texture2D *dxTexture = reinterpret_cast<ID3D11Texture2D*>(texId);
+
+    // if (!m_overlayTexture) {
+      // getOut() << "copy 0" << std::endl;
+      vr::Texture_t leftEyeTexture = {(void *)texId, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
+      vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle, &leftEyeTexture);
+      {
+        Matrix4 matMVP = m_mat4HMDPose;
+        vr::HmdMatrix34_t matrix;
+        for (unsigned int v = 0; v < 4; v++) {
+          for (unsigned int u = 0; u < 3; u++) {
+            matrix.m[u][v] = matMVP.get()[v * 4 + u];
+          }
+        }
+        vr::VROverlay()->SetOverlayTransformAbsolute(m_ulOverlayHandle, vr::TrackingUniverseStanding, &matrix);
+      }
+      vr::VROverlay()->ShowOverlay(m_ulOverlayHandle);
+      // vr::VROverlay()->HideOverlay(m_ulOverlayHandle);
     // m_overlayTexture = true;
   // }
+  /* } else {
+    ID3D11Texture2D *dxTexture = reinterpret_cast<ID3D11Texture2D*>(texId);
+
+    // if (!m_overlayTexture) {
+      // getOut() << "copy 0" << std::endl;
+      vr::Texture_t leftEyeTexture = {(void *)texId, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
+      vr::VROverlay()->SetOverlayTexture(m_ulOverlayHandle2, &leftEyeTexture);
+      vr::VROverlay()->ShowOverlay(m_ulOverlayHandle);
+      vr::VROverlay()->HideOverlay(m_ulOverlayHandle2);
+    // m_overlayTexture = true;
+  // }
+  }  */
 
   /* ID3D11ShaderResourceView *overlayTextureView;
   vr::VROverlay()->GetOverlayTexture(m_ulOverlayHandle, &((void *)overlayTextureView), (void *)dxTexture, &m_overlayTextureWidth, &m_overlayTextureHeight, &m_overlayTextureNativeFormat, &m_overlayTextureAPIType, &m_overlayTextureColorSpace, &m_overlayTextureBounds);
@@ -817,13 +851,15 @@ void CMainApplication::PostRender(uintptr_t texId) {
   ID3D11Resource *overlayTexture;
   overlayTextureView->GetResource(&overlayTexture);
   context->CopyResource(overlayTexture, dxTexture);
-  getOut() << "copy 5" << std::endl;  */
+  getOut() << "copy 5" << std::endl; */
   
   // context->Flush();
   
   // vr::VROverlay()->ReleaseNativeOverlayHandle(m_ulOverlayHandle, overlayTextureView);
   // m_overlayTexture = nullptr;
   // context->Flush();
+  
+  // vr::VRCompositor()->PostPresentHandoff();
 }
 
 //-----------------------------------------------------------------------------
@@ -1412,7 +1448,10 @@ bool CMainApplication::SetupStereoRenderTargets()
 	if ( !m_pHMD )
 		return false;
 
-	m_pHMD->GetRecommendedRenderTargetSize( &m_nRenderWidth, &m_nRenderHeight );
+	// m_pHMD->GetRecommendedRenderTargetSize( &m_nRenderWidth, &m_nRenderHeight );
+  
+  m_nRenderWidth = 1024;
+  m_nRenderHeight = 768;
 
 	Matrix4 leftProjectionMatrixInverse = GetHMDMatrixProjectionEye(vr::Eye_Left).invertProjective();
 	Matrix4 rightProjectionMatrixInverse = GetHMDMatrixProjectionEye(vr::Eye_Right).invertProjective();
@@ -1796,7 +1835,7 @@ void CMainApplication::UpdateHMDMatrixPose()
 	if ( !m_pHMD )
 		return;
 
-	vr::VRCompositor()->WaitGetPoses(m_rTrackedDevicePose, vr::k_unMaxTrackedDeviceCount, NULL, 0 );
+	vr::VRCompositor()->GetLastPoses(m_rTrackedDevicePose, vr::k_unMaxTrackedDeviceCount, NULL, 0 );
 
 	m_iValidPoseCount = 0;
 	m_strPoseClasses = "";
@@ -1825,7 +1864,8 @@ void CMainApplication::UpdateHMDMatrixPose()
 	if ( m_rTrackedDevicePose[vr::k_unTrackedDeviceIndex_Hmd].bPoseIsValid )
 	{
 		m_mat4HMDPose = m_rmat4DevicePose[vr::k_unTrackedDeviceIndex_Hmd];
-		m_mat4HMDPose.invert();
+		// m_mat4HMDPose.invert();
+    m_mat4HMDPose = ConvertSteamVRMatrixToMatrix4(m_pHMD->GetSeatedZeroPoseToStandingAbsoluteTrackingPose()) * m_mat4HMDPose * Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, zOffset, 1);
 	}
 }
 

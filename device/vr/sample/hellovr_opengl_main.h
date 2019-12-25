@@ -227,6 +227,7 @@ private: // OpenGL bookkeeping
 	vr::VRActionSetHandle_t m_actionsetDemo = vr::k_ulInvalidActionSetHandle; */
   
   vr::VROverlayHandle_t m_ulOverlayHandle;
+  vr::VROverlayHandle_t m_ulOverlayHandle2;
   bool m_overlayTexture;
   uint32_t m_overlayTextureWidth;
   uint32_t m_overlayTextureHeight;

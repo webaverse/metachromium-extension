@@ -1,19 +1,19 @@
 {
    "DesktopUI" : {
       "pairing" : "1536,544,800,600,0",
-      "settings_desktop" : "992,544,800,600,0"
+      "settings_desktop" : "1216,544,800,600,0"
    },
    "GpuSpeed" : {
-      "gpuSpeed0" : 296,
-      "gpuSpeed1" : 256,
-      "gpuSpeed2" : 259,
-      "gpuSpeed3" : 262,
-      "gpuSpeed4" : 261,
-      "gpuSpeed5" : 259,
-      "gpuSpeed6" : 285,
-      "gpuSpeed7" : 249,
-      "gpuSpeed8" : 291,
-      "gpuSpeed9" : 290,
+      "gpuSpeed0" : 277,
+      "gpuSpeed1" : 245,
+      "gpuSpeed2" : 283,
+      "gpuSpeed3" : 256,
+      "gpuSpeed4" : 250,
+      "gpuSpeed5" : 289,
+      "gpuSpeed6" : 274,
+      "gpuSpeed7" : 273,
+      "gpuSpeed8" : 288,
+      "gpuSpeed9" : 256,
       "gpuSpeedCount" : 10,
       "gpuSpeedDriver" : "26.21.14.3160",
       "gpuSpeedHorsepower" : 269,
@@ -25,12 +25,21 @@
       "HMDManufacturer" : "Oculus",
       "HMDModel" : "Oculus Rift S"
    },
+   "audio" : {
+      "enablePlaybackDeviceOverride_Oculus_Oculus Rift S" : true,
+      "enableRecordingDeviceOverride_Oculus_Oculus Rift S" : true,
+      "playbackDeviceOverrideName_Oculus_Oculus Rift S" : "System (Realtek High Definition Audio)",
+      "playbackDeviceOverride_Oculus_Oculus Rift S" : "{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}",
+      "recordingDeviceOverrideName_Oculus_Oculus Rift S" : "Microphone (Realtek High Definition Audio)",
+      "recordingDeviceOverride_Oculus_Oculus Rift S" : "{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}"
+   },
    "steamvr" : {
       "enableHomeApp" : false,
       "haveStartedTutorialForNativeChaperoneDriver" : true,
       "installID" : "14674603162812657491",
       "lastVersionNotice" : "1.9.15",
       "lastVersionNoticeDate" : "1576868391",
-      "showAdvancedSettings" : true
+      "showAdvancedSettings" : true,
+      "showMirrorView" : false
    }
 }
