@@ -28,7 +28,9 @@ class staticvector {
 public:
   T *d;
   size_t s;
+  // staticvector<T>() : d(nullptr), s(0) {}
   staticvector<T>(T *d, size_t s) : d(d), s(s) {}
+  // staticvector<T>(const staticvector<T> &other) : d(other.data()), s(other.size()) {}
   T *data() {
     return d;
   }
