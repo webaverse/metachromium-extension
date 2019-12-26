@@ -34,10 +34,13 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/sample/hellovr_opengl_main.h"
 #include "device/vr/OpenOVR/Reimpl/static_bases.gen.h"
+
+std::string dllDir;
 std::ofstream out;
 std::ofstream &getOut() {
   if (!out.is_open()) {
-    out.open("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\log\\log.txt", std::ofstream::out|std::ofstream::app|std::ofstream::binary);
+    std::string logPath = dllDir + "log.txt";
+    out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
     out << "--------------------------------------------------------------------------------" << std::endl;
   }
   return out;
@@ -90,7 +93,8 @@ extern "C" {
       getOut() << "core 2 " << interface_name << std::endl;
 
       // only look in the override
-      void *pMod = SharedLib_Load("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\third_party\\openvr\\src\\bin\\win64\\openvr_api.dll");
+      std::string openvrApiDllPath = dllDir + "openvr_api.dll";
+      void *pMod = SharedLib_Load(openvrApiDllPath.c_str());
       // dumpbin /exports "C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrclient_x64.dll"
       // nothing more to do if we can't load the DLL
       getOut() << "core 3 " << pMod << std::endl;
@@ -166,10 +170,40 @@ BOOL WINAPI DllMain(
   _In_ DWORD     fdwReason,
   _In_ LPVOID    lpvReserved
 ) {
+  {
+    // getOut() << "loading paths" << std::endl;
+    char dllPath[MAX_PATH];
+    HMODULE hm = NULL;
+    if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | 
+            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+            (LPCSTR) &VRClientCoreFactory, &hm) == 0)
+    {
+        int ret = GetLastError();
+        // getOut() << "GetModuleHandle failed, error = " << ret << std::endl;
+        // Return or however you want to handle an error.
+        abort();
+    }
+    if (GetModuleFileName(hm, dllPath, sizeof(dllPath)) == 0)
+    {
+        int ret = GetLastError();
+        // getOut() << "GetModuleFileName failed, error = " << ret << std::endl;
+        abort();
+    }
+    
+    char drive[MAX_PATH];
+    char dir[MAX_PATH];
+    // char fname[MAX_PATH];
+    // char ext[MAX_PATH];
+    _splitpath(dllPath, drive, dir, nullptr, nullptr);
+    dllDir = drive;
+    dllDir += dir;
+  }
+  
   getOut() << "init dll 0" << std::endl;
   std::vector<char> buf(4096);
   GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
   getOut() << "init dll 1 " << buf.data() << std::endl;
   getOut() << "init dll 2 " << buf.data() << std::endl;
+  
   return true;
 }
