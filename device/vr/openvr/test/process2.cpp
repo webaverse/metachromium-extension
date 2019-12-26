@@ -22,8 +22,11 @@ std::ostream &getOut() {
 }
 
 int main() {
+  int *p = (int *)allocateShared("Local\\OpenVrProxyLol", 4096);
+  getOut() << "init dll 2.0 " << (void *)p << std::endl;
+  getOut() << "init dll 2.1 " << p[0] << std::endl;
+  
   FnProxy fnp2;
-  getOut() << "init dll 2.1" << std::endl;
 
   /* STARTUPINFO si;
   PROCESS_INFORMATION pi;

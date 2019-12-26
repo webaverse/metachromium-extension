@@ -129,8 +129,8 @@ public:
     mut("Local\\OpenVrProxyMutex"),
     inSem("Local\\OpenVrProxySemaphoreIn"),
     outSem("Local\\OpenVrProxySemaphoreOut"),
-    dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", 4096), 0),
-    dataResult((unsigned char *)allocateShared("Local\\OpenVrProxyResult", 4096), 0),
+    dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", 4096)),
+    dataResult((unsigned char *)allocateShared("Local\\OpenVrProxyResult", 4096)),
     readArg(dataArg),
     writeArg(dataArg),
     readResult(dataResult),
@@ -178,9 +178,9 @@ public:
     std::string name;
     {
       std::lock_guard<Mutex> lock(mut);
-      getOut() << "read arg 1" << std::endl;
+      // getOut() << "read arg 1" << std::endl;
       readArg(name);
-      getOut() << "read arg 2 " << name << std::endl;
+      // getOut() << "read arg 2 " << name << std::endl;
     }
     std::function<void()> &f = fns.find(name)->second;
     f();

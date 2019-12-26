@@ -27,9 +27,9 @@ template<typename T>
 class staticvector {
 public:
   T *d;
-  size_t s;
+  size_t &s;
   // staticvector<T>() : d(nullptr), s(0) {}
-  staticvector<T>(T *d, size_t s) : d(d), s(s) {}
+  staticvector<T>(T *d) : d((T *)((unsigned char *)d + sizeof(size_t))), s(*((size_t *)d)) {}
   // staticvector<T>(const staticvector<T> &other) : d(other.data()), s(other.size()) {}
   T *data() {
     return d;

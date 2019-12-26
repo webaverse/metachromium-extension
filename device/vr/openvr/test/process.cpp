@@ -22,6 +22,8 @@ std::ostream &getOut() {
 }
 
 int main() {
+  int *p = (int *)allocateShared("Local\\OpenVrProxyLol", 4096);
+  p[0] = 7;
   getOut() << "init thread 1" << std::endl;
   FnProxy fnp;
   getOut() << "init thread 2" << std::endl;
