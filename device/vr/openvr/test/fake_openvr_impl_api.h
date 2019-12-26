@@ -6,7 +6,7 @@
 #include <fstream>
 #include <functional>
 
-std::ofstream &getOut();
+std::ostream &getOut();
 void externalOpenVr(std::function<void()> &&fn);
 
 namespace vr {

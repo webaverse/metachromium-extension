@@ -1003,6 +1003,7 @@ public:
         } catch (...) {
             // Fit the vector.
             fit_vector();
+            getOut() << "fail 1" << std::endl;
             throw;
         }
     }
@@ -1078,6 +1079,7 @@ protected:
     {
         // Verify that the vector is large enough to contain the item.
         if (m_size < (sizeof(item) + m_offset)) {
+            getOut() << "fail 2" << std::endl;
             throw out_of_range("Input vector was not large enough to "
                                "contain the requested item");
         }
@@ -1099,6 +1101,7 @@ protected:
     {
         // Verify that the vector is large enough to contain the data.
         if (m_size < (size + m_offset)) {
+            getOut() << "fail 3" << std::endl;
             throw out_of_range("Input vector was not large enough to "
                                "contain the requested item");
         }
@@ -1166,6 +1169,7 @@ public:
 
             // Reset to offset zero.
             reset();
+            getOut() << "fail 4" << std::endl;
             throw;
         }
 
@@ -1266,6 +1270,7 @@ public:
             m_serialization_id_to_method.find(id);
         if (m_serialization_id_to_method.end() ==
             serialization_id_to_method_pair) {
+            getOut() << "fail 5" << std::endl;
             throw undeclared_polymorphic_type_error(
                 "Undeclared polymorphic serialization type error.");
         }
@@ -1298,6 +1303,7 @@ public:
                 typeid(object).name());
         if (m_type_information_to_serialization_id.end() ==
             type_information_to_serialization_id_pair) {
+            getOut() << "fail 6" << std::endl;
             throw undeclared_polymorphic_type_error(
                 "Undeclared polymorphic serialization type error.");
         }
@@ -1310,6 +1316,7 @@ public:
             m_serialization_id_to_method.find(id);
         if (m_serialization_id_to_method.end() ==
             serialization_id_to_method_pair) {
+            getOut() << "fail 7" << std::endl;
             throw undeclared_polymorphic_type_error(
                 "Undeclared polymorphic serialization type error.");
         }
@@ -1815,6 +1822,7 @@ void serialize(Archive & archive, std::variant<Types...> & variant)
 
     // Check that loaded index is inside bounds.
     if (index >= sizeof...(Types)) {
+        getOut() << "fail 8" << std::endl;
         throw variant_index_out_of_range("Variant index out of range");
     }
 
@@ -1874,6 +1882,7 @@ void serialize(Archive & archive, const std::variant<Types...> & variant)
 
     // Disallow serializations of valueless variant.
     if (std::variant_npos == variant_index) {
+        getOut() << "fail 9" << std::endl;
         throw attempt_to_serialize_valueless_variant(
             "Cannot serialize a valueless variant.");
     }
@@ -1924,6 +1933,7 @@ void serialize(Archive & archive, const std::unique_ptr<Type> & object)
 {
     // Prevent serialization of null pointers.
     if (nullptr == object) {
+        getOut() << "fail 10" << std::endl;
         throw attempt_to_serialize_null_pointer_error(
             "Attempt to serialize null pointer.");
     }
@@ -1960,6 +1970,7 @@ void serialize(Archive & archive, std::unique_ptr<Type> & object)
         // Release the object.
         loaded_type.release();
     } catch (const std::bad_cast &) {
+        getOut() << "fail 11" << std::endl;
         // The loaded type was not convertible to Type.
         throw polymorphic_type_mismatch_error(
             "Polymorphic serialization type mismatch.");
@@ -1981,6 +1992,7 @@ void serialize(Archive & archive, const std::unique_ptr<Type> & object)
 {
     // Prevent serialization of null pointers.
     if (nullptr == object) {
+        getOut() << "fail 12" << std::endl;
         throw attempt_to_serialize_null_pointer_error(
             "Attempt to serialize null pointer.");
     }
@@ -2028,6 +2040,7 @@ void serialize(Archive & archive, const std::shared_ptr<Type> & object)
 {
     // Prevent serialization of null pointers.
     if (nullptr == object) {
+        getOut() << "fail 13" << std::endl;
         throw attempt_to_serialize_null_pointer_error(
             "Attempt to serialize null pointer.");
     }
@@ -2065,6 +2078,7 @@ void serialize(Archive & archive, std::shared_ptr<Type> & object)
         loaded_type.release();
     } catch (const std::bad_cast &) {
         // The loaded type was not convertible to Type.
+        getOut() << "fail 14" << std::endl;
         throw polymorphic_type_mismatch_error(
             "Polymorphic serialization type mismatch.");
     }
@@ -2085,6 +2099,7 @@ void serialize(Archive & archive, const std::shared_ptr<Type> & object)
 {
     // Prevent serialization of null pointers.
     if (nullptr == object) {
+        getOut() << "fail 15" << std::endl;
         throw attempt_to_serialize_null_pointer_error(
             "Attempt to serialize null pointer.");
     }

@@ -1,54 +1,77 @@
 #include <map>
-#include <mutex>
+// #include <mutex>
 // #include <semaphore>
 #include <functional>
+
+#include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/serializer.h"
 
-// #define BUF_SIZE 256
-/* TCHAR szName[]=TEXT("Global\\MyFileMappingObject");
-TCHAR szMsg[]=TEXT("Message from first process.");
+class Mutex {
+public:
+  HANDLE h;
+  Mutex(const char *name) {
+    h = CreateMutex(
+      NULL,
+      false,
+      name
+    );
+    if (!h) {
+      getOut() << "mutex error " << GetLastError() << std::endl;
+      // abort();
+    }
+  }
+  void lock() {
+    getOut() << "mutex lock 1" << std::endl;
+    auto r = WaitForSingleObject(
+      h,
+      INFINITE
+    );
+    getOut() << "mutex lock 2 " << r << " " << GetLastError() << std::endl;
+  }
+  void unlock() {
+    ReleaseMutex(
+      h
+    );
+  }
+};
 
-int _tmain()
-{
-   HANDLE hMapFile;
-   LPCTSTR pBuf;
-
-   hMapFile = CreateFileMapping(
-                 INVALID_HANDLE_VALUE,    // use paging file
-                 NULL,                    // default security
-                 PAGE_READWRITE,          // read/write access
-                 0,                       // maximum object size (high-order DWORD)
-                 BUF_SIZE,                // maximum object size (low-order DWORD)
-                 szName);                 // name of mapping object
-
-   if (hMapFile == NULL)
-   {
-      _tprintf(TEXT("Could not create file mapping object (%d).\n"),
-             GetLastError());
-      return 1;
-   }
-   pBuf = (LPTSTR) MapViewOfFile(hMapFile,   // handle to map object
-                        FILE_MAP_ALL_ACCESS, // read/write permission
-                        0,
-                        0,
-                        BUF_SIZE);
-
-   if (pBuf == NULL)
-   {
-      _tprintf(TEXT("Could not map view of file (%d).\n"),
-             GetLastError());
-
-       CloseHandle(hMapFile);
-
-      return 1;
-   }
-} */
+class Semaphore {
+public:
+  HANDLE h;
+  Semaphore(const char *name) {
+    h = CreateSemaphore(
+      NULL,
+      0,
+      1024,
+      name
+    );
+    if (!h) {
+      getOut() << "semaphore error " << GetLastError() << std::endl;
+      // abort();
+    }
+  }
+  void lock() {
+    getOut() << "sempaphore lock 1" << std::endl;
+    auto r = WaitForSingleObject(
+      h,
+      INFINITE
+    );
+    getOut() << "sempaphore lock 2 " << r << " " << GetLastError() << std::endl;
+  }
+  void unlock() {
+    ReleaseSemaphore(
+      h,
+      1,
+      NULL
+    );
+  }
+};
 
 void *allocateShared(const char *szName, size_t s) {
   HANDLE hMapFile;
   void *pBuf;
 
-  // getOut() << "allocate shared 0 " << szName << " " << s << std::endl;
+  getOut() << "allocate shared 0 " << szName << " " << s << std::endl;
 
   hMapFile = CreateFileMapping(
                INVALID_HANDLE_VALUE,    // use paging file
@@ -58,7 +81,7 @@ void *allocateShared(const char *szName, size_t s) {
                s,                       // maximum object size (low-order DWORD)
                szName);                 // name of mapping object
 
-  // getOut() << "allocate shared 1 " << szName << " " << s << " " << hMapFile << " " << GetLastError() << std::endl;
+  getOut() << "allocate shared 1 " << szName << " " << s << " " << hMapFile << " " << GetLastError() << std::endl;
 
   if (hMapFile == NULL)
   {
@@ -71,7 +94,7 @@ void *allocateShared(const char *szName, size_t s) {
                       0,
                       0,
                       s);
-  // getOut() << "allocate shared 2 " << pBuf << std::endl;
+  getOut() << "allocate shared 2 " << pBuf << std::endl;
 
   if (pBuf == NULL)
   {
@@ -83,54 +106,85 @@ void *allocateShared(const char *szName, size_t s) {
     // return 1;
   }
   
-  // getOut() << "allocate shared 3 " << pBuf << std::endl;
+  getOut() << "allocate shared 3 " << pBuf << std::endl;
   
   return pBuf;
 }
 
 class FnProxy {
 public:
-  // std::mutex mut;
-  // std::semaphore sem;
+  Mutex mut;
+  Semaphore inSem;
+  Semaphore outSem;
   // std::vector<unsigned char> data;
-  staticvector<unsigned char> data2;
+  staticvector<unsigned char> dataArg;
+  staticvector<unsigned char> dataResult;
   std::map<std::string, std::function<void()>> fns;
-  zpp::serializer::memory_input_archive in;
-  zpp::serializer::memory_output_archive out;
+  zpp::serializer::memory_input_archive readArg;
+  zpp::serializer::memory_output_archive writeArg;
+  zpp::serializer::memory_input_archive readResult;
+  zpp::serializer::memory_output_archive writeResult;
   
-  FnProxy() : data2((unsigned char *)allocateShared("Local\\OpenVrProxy", 4096), 0), in(data2), out(data2) {}
+  FnProxy() :
+    mut("Local\\OpenVrProxyMutex"),
+    inSem("Local\\OpenVrProxySemaphoreIn"),
+    outSem("Local\\OpenVrProxySemaphoreOut"),
+    dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", 4096), 0),
+    dataResult((unsigned char *)allocateShared("Local\\OpenVrProxyResult", 4096), 0),
+    readArg(dataArg),
+    writeArg(dataArg),
+    readResult(dataResult),
+    writeResult(dataResult)
+    {}
 
   template<const char *name, typename R, typename A>
   R call(A a) {
-    std::function<void()> &f = fns.find(std::string(name))->second;
-    out(a);
-    f();
-    R r;
-    in(r);
-    return r;
-  }
-  template<const char *name, typename A>
-  void callV(A a) {
-    std::function<void()> &f = fns.find(std::string(name))->second;
-    out(a);
-    f();
+    {
+      std::lock_guard<Mutex> lock(mut);
+      writeArg(std::string(name));
+      writeArg(a);
+    }
+    /* std::function<void()> &f = fns.find(std::string(name))->second;
+    f(); */
+    inSem.unlock();
+    outSem.lock();
+    {
+      std::lock_guard<Mutex> lock(mut);
+      R r;
+      readResult(r);
+      return r;
+    }
   }
   
-  template<const char *name, typename R, typename A, R (*f)(A)>
-  void reg() {
-    fns[std::string(name)] = [this]() -> void {
+  template<const char *name, typename R, typename A>
+  void reg(std::function<R(A)> f) {
+    fns[std::string(name)] = [this, f]() -> void {
       A a;
-      in(a);
+      {
+        std::lock_guard<Mutex> lock(mut);
+        readArg(a);
+      }
       R r = f(a);
-      out(r);
+      {
+        std::lock_guard<Mutex> lock(mut);
+        writeResult(r);
+      }
     };
   }
-  template<const char *name, typename A, void (*f)(A)>
-  void regV() {
-    fns[std::string(name)] = [this]() -> void {
-      A a;
-      in(a);
-      f(a);
-    };
+  
+  void handle() {
+    inSem.lock();
+    
+    std::string name;
+    {
+      std::lock_guard<Mutex> lock(mut);
+      getOut() << "read arg 1" << std::endl;
+      readArg(name);
+      getOut() << "read arg 2 " << name << std::endl;
+    }
+    std::function<void()> &f = fns.find(name)->second;
+    f();
+    
+    outSem.unlock();
   }
 };

@@ -61,8 +61,16 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
 ADD_LIBRARY(vrclient_x64 SHARED ${src})
 # target_link_libraries(vrclient_x64 openvr_api.dll)
-
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
+
+ADD_EXECUTABLE(process openvr/test/process.cpp)
+set_property(TARGET process PROPERTY CXX_STANDARD 17)
+set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
+
+ADD_EXECUTABLE(process2 openvr/test/process2.cpp)
+set_property(TARGET process2 PROPERTY CXX_STANDARD 17)
+set_property(TARGET process2 PROPERTY CXX_STANDARD_REQUIRED ON)
+
 add_definitions(-D_USE_MATH_DEFINES)
 add_definitions(-DNOMINMAX)

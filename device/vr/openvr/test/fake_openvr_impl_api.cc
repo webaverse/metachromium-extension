@@ -24,8 +24,8 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include <DXGI1_4.h>
 #include <memory>
 
-#include "device/vr/openvr/test/test_helper.h"
-#include "device/vr/test/test_hook.h"
+// #include "device/vr/openvr/test/test_helper.h"
+// #include "device/vr/test/test_hook.h"
 #include "device/vr/windows/d3d11_device_helpers.h"
 #include "third_party/openvr/src/headers/openvr.h"
 #include "third_party/openvr/src/src/ivrclientcore.h"
@@ -39,7 +39,7 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 
 std::string dllDir;
 std::ofstream out;
-std::ofstream &getOut() {
+std::ostream &getOut() {
   if (!out.is_open()) {
     std::string logPath = dllDir + "log.txt";
     out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
@@ -102,7 +102,7 @@ extern "C" {
       getOut() << "core 3 " << pMod << std::endl;
       if( !pMod )
       {
-        abort();
+        getOut() << "core abort" << std::endl; abort();
         // return vr::VRInitError_Init_VRClientDLLNotFound;
       }
       
@@ -122,7 +122,7 @@ extern "C" {
       if( !__imp_VR_GetGenericInterface )
       {
         SharedLib_Unload( pMod );
-        abort();
+        getOut() << "unload abort" << std::endl; abort();
         // return vr::VRInitError_Init_FactoryNotFound;
       }
       
@@ -167,6 +167,7 @@ extern "C" {
   }
 }
 
+TCHAR processExe[4096] = TEXT("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe");
 char lol[] = "lol";
 char lol2[] = "lol2";
 BOOL WINAPI DllMain(
@@ -185,13 +186,13 @@ BOOL WINAPI DllMain(
         int ret = GetLastError();
         // getOut() << "GetModuleHandle failed, error = " << ret << std::endl;
         // Return or however you want to handle an error.
-        abort();
+        getOut() << "dll abort 1" << std::endl; abort();
     }
     if (GetModuleFileName(hm, dllPath, sizeof(dllPath)) == 0)
     {
         int ret = GetLastError();
         // getOut() << "GetModuleFileName failed, error = " << ret << std::endl;
-        abort();
+        getOut() << "dll abort 2" << std::endl; abort();
     }
     
     char drive[MAX_PATH];
@@ -208,30 +209,6 @@ BOOL WINAPI DllMain(
   GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
   getOut() << "init dll 1 " << buf.data() << std::endl;
   getOut() << "init dll 2 " << buf.data() << std::endl;
-
-  {
-    FnProxy fnp;
-    getOut() << "init dll 3" << std::endl;
-    fnp.regV<lol, std::string, [](std::string s) -> void {
-      getOut() << "call lol " << s << std::endl;
-    }>();
-    fnp.reg<lol2, std::string, std::string, [](std::string s) -> std::string {
-      return s + " second";
-    }>();
-    getOut() << "init dll 4" << std::endl;
-    fnp.callV<lol, std::string>(std::string("woot 1"));
-    fnp.callV<lol, std::string>(std::string("woot 2"));
-    std::string woot3 = fnp.call<lol2, std::string, std::string>(std::string("woot 3"));
-    getOut() << "init dll 5" << woot3 << std::endl;
-    /* std::string woot("lol");
-    int i = 7;
-    std::string woot2;
-    int i2;
-    out(woot, i);
-    in(woot2, i2);
-    
-    getOut() << "got data " << woot2 << " " << i2 << std::endl; */
-  }
   
   return true;
 }
