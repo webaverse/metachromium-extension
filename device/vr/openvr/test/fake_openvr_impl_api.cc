@@ -72,6 +72,82 @@ vr::IVRExtendedDisplay *vr::g_vrextendeddisplay = nullptr;
 vr::IVRApplications *vr::g_vrapplications = nullptr;
 vr::IVRInput *g_vrinput = nullptr;
 
+char kSetTrackingSpace[] = "SetTrackingSpace";
+char kGetTrackingSpace[] = "GetTrackingSpace";
+char kWaitGetPoses[] = "WaitGetPoses";
+class PVRCompositor /*: IVRCompositor*/ {
+public:
+  FnProxy &fnp;
+  PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) : fnp(fnp) {
+    fnp.reg<kSetTrackingSpace, int, ETrackingUniverseOrigin>([=](ETrackingUniverseOrigin eOrigin) -> int {
+      vrcompositor->SetTrackingSpace(eOrigin);
+      return 0;
+    });
+    fnp.reg<kGetTrackingSpace, ETrackingUniverseOrigin>([=]() -> ETrackingUniverseOrigin {
+      return vrcompositor->GetTrackingSpace();
+    });
+  }
+	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
+    fnp.call<kSetTrackingSpace, int, ETrackingUniverseOrigin>(eOrigin);
+  }
+	virtual ETrackingUniverseOrigin GetTrackingSpace() {
+    return fnp.call<kSetTrackingSpace, ETrackingUniverseOrigin>();
+  }
+	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
+		  VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
+    std::tuple<EVRCompositorError, zpp::serializer::binary<TrackedDevicePose_t>, zpp::serializer::binary<TrackedDevicePose_t>> result =
+      fnp.call<kWaitGetPoses, std::tuple<EVRCompositorError, zpp::serializer::binary<TrackedDevicePose_t>, zpp::serializer::binary<TrackedDevicePose_t>>, uint32_t, uint32_t>(unRenderPoseArrayCount, unGamePoseArrayCount);
+    memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size_in_bytes());
+    memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size_in_bytes());
+    return std::get<0>(result);
+  }
+
+	/* virtual EVRCompositorError GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
+		VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) = 0;
+	virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose ) = 0;
+	virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default ) = 0;
+	virtual void ClearLastSubmittedFrame() = 0;
+	virtual void PostPresentHandoff() = 0;
+	virtual bool GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo = 0 ) = 0;
+	virtual uint32_t GetFrameTimings( VR_ARRAY_COUNT( nFrames ) Compositor_FrameTiming *pTiming, uint32_t nFrames ) = 0;
+	virtual float GetFrameTimeRemaining() = 0;
+	virtual void GetCumulativeStats( Compositor_CumulativeStats *pStats, uint32_t nStatsSizeInBytes ) = 0;
+	virtual void FadeToColor( float fSeconds, float fRed, float fGreen, float fBlue, float fAlpha, bool bBackground = false ) = 0;
+	virtual HmdColor_t GetCurrentFadeColor( bool bBackground = false ) = 0;
+	virtual void FadeGrid( float fSeconds, bool bFadeIn ) = 0;
+	virtual float GetCurrentGridAlpha() = 0;
+	virtual EVRCompositorError SetSkyboxOverride( VR_ARRAY_COUNT( unTextureCount ) const Texture_t *pTextures, uint32_t unTextureCount ) = 0;
+	virtual void ClearSkyboxOverride() = 0;
+	virtual void CompositorBringToFront() = 0;
+	virtual void CompositorGoToBack() = 0;
+	virtual void CompositorQuit() = 0;
+	virtual bool IsFullscreen() = 0;
+	virtual uint32_t GetCurrentSceneFocusProcess() = 0;
+	virtual uint32_t GetLastFrameRenderer() = 0;
+	virtual bool CanRenderScene() = 0;
+	virtual void ShowMirrorWindow() = 0;
+	virtual void HideMirrorWindow() = 0;
+	virtual bool IsMirrorWindowVisible() = 0;
+	virtual void CompositorDumpImages() = 0;
+	virtual bool ShouldAppRenderWithLowResources() = 0;
+	virtual void ForceInterleavedReprojectionOn( bool bOverride ) = 0;
+	virtual void ForceReconnectProcess() = 0;
+	virtual void SuspendRendering( bool bSuspend ) = 0;
+	virtual vr::EVRCompositorError GetMirrorTextureD3D11( vr::EVREye eEye, void *pD3D11DeviceOrResource, void **ppD3D11ShaderResourceView ) = 0;
+	virtual void ReleaseMirrorTextureD3D11( void *pD3D11ShaderResourceView ) = 0;
+	virtual vr::EVRCompositorError GetMirrorTextureGL( vr::EVREye eEye, vr::glUInt_t *pglTextureId, vr::glSharedTextureHandle_t *pglSharedTextureHandle ) = 0;
+	virtual bool ReleaseSharedGLTexture( vr::glUInt_t glTextureId, vr::glSharedTextureHandle_t glSharedTextureHandle ) = 0;
+	virtual void LockGLSharedTextureForAccess( vr::glSharedTextureHandle_t glSharedTextureHandle ) = 0;
+	virtual void UnlockGLSharedTextureForAccess( vr::glSharedTextureHandle_t glSharedTextureHandle ) = 0;
+	virtual uint32_t GetVulkanInstanceExtensionsRequired( VR_OUT_STRING() char *pchValue, uint32_t unBufferSize ) = 0;
+	virtual uint32_t GetVulkanDeviceExtensionsRequired( VkPhysicalDevice_T *pPhysicalDevice, VR_OUT_STRING() char *pchValue, uint32_t unBufferSize ) = 0;
+	virtual void SetExplicitTimingMode( EVRCompositorTimingMode eTimingMode ) = 0;
+	virtual EVRCompositorError SubmitExplicitTimingData() = 0;
+	virtual bool IsMotionSmoothingEnabled() = 0;
+	virtual bool IsMotionSmoothingSupported() = 0;
+	virtual bool IsCurrentSceneFocusAppLoading() = 0; */
+};
+
 }  // namespace vr
 
 extern "C" {
@@ -167,9 +243,9 @@ extern "C" {
   }
 }
 
-TCHAR processExe[4096] = TEXT("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe");
+/* TCHAR processExe[4096] = TEXT("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe");
 char lol[] = "lol";
-char lol2[] = "lol2";
+char lol2[] = "lol2"; */
 BOOL WINAPI DllMain(
   _In_ HINSTANCE hinstDLL,
   _In_ DWORD     fdwReason,

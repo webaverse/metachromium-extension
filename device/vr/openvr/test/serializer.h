@@ -562,6 +562,10 @@ public:
     binary(Item * items, size_type count) : m_items(items), m_count(count)
     {
     }
+    
+    binary() : m_items(nullptr), m_count(0)
+    {
+    }
 
     /**
      * Returns a pointer to the first item.
@@ -757,7 +761,7 @@ private:
     void serialize_items(Item && first, Items &&... items)
     {
         // Invoke serialize_item the first item.
-        serialize_item(std::forward<Item>(first));
+        serialize_item(std::move(std::forward<Item>(first)));
 
         // Serialize the rest of the items.
         serialize_items(std::forward<Items>(items)...);

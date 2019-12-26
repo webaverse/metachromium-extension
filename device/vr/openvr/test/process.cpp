@@ -27,6 +27,7 @@ int main() {
   getOut() << "init thread 1" << std::endl;
   FnProxy fnp;
   getOut() << "init thread 2" << std::endl;
+
   fnp.reg<lol, std::string, std::string>([](std::string s) -> std::string {
     getOut() << "fn 1" << std::endl;
     return s + " concat 1";
