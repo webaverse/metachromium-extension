@@ -101,6 +101,7 @@ ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t
 }
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
+  // getOut() << "submit " << texture->eType << " " << texture->eColorSpace << std::endl;
 	return g_vrcompositor->Submit(eye, texture, bounds, submitFlags);
 }
 

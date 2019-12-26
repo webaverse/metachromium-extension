@@ -1,201 +1,1341 @@
-Thu Dec 26 2019 01:43:50.242 - //==============================================================================================
-Thu Dec 26 2019 01:43:50.242 - ================================================================================================
-Thu Dec 26 2019 01:43:50.242 - ================================================================================================
-Thu Dec 26 2019 01:43:50.242 - vrcompositor.exe 1.9.16 startup with PID=25288, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Thu Dec 26 2019 01:43:50.242 - VR compositor 1.9.16 (v1576990468) starting up
-Thu Dec 26 2019 01:43:50.340 - CSharedResourceNamespaceClient::Init(): received namespace data 17592
-Thu Dec 26 2019 01:43:50.355 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Thu Dec 26 2019 01:43:50.356 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Thu Dec 26 2019 01:43:50.356 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Thu Dec 26 2019 01:43:50.357 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Thu Dec 26 2019 01:43:50.358 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Thu Dec 26 2019 01:43:50.361 - Events created
-Thu Dec 26 2019 01:43:50.363 - Found bad mirror window settings: 
-Thu Dec 26 2019 01:43:50.394 - CGraphicsDevice Init...
-Thu Dec 26 2019 01:43:50.394 - Headset is using driver direct mode
-Thu Dec 26 2019 01:43:50.485 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
-Thu Dec 26 2019 01:43:50.485 - ****************************************** Begin GPU speed ******************************************
-Thu Dec 26 2019 01:43:50.688 - MeasureGpuMegaPixelsPerSecond(): Returning 288 MP/sec. Total CPU time 0.20 seconds.
-Thu Dec 26 2019 01:43:50.700 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
-Thu Dec 26 2019 01:43:50.701 - GPU speed from average of 6 median samples: 285
-Thu Dec 26 2019 01:43:50.702 - ******************************************* End GPU speed *******************************************
-Thu Dec 26 2019 01:43:50.702 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
-Thu Dec 26 2019 01:43:50.702 - GPU speed being set at first generation HMD resolution 382 MP/sec
-Thu Dec 26 2019 01:43:50.702 - Raw ideal render target scale = 0.73
-Thu Dec 26 2019 01:43:50.703 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
-Thu Dec 26 2019 01:43:50.703 - Loading fonts/debug.spritefont
-Thu Dec 26 2019 01:43:50.704 - Creating samplers
-Thu Dec 26 2019 01:43:50.704 - Creating util resources
-Thu Dec 26 2019 01:43:50.705 - Creating/Updating distortion surfaces
-Thu Dec 26 2019 01:43:50.896 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Thu Dec 26 2019 01:43:51.100 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Thu Dec 26 2019 01:43:51.102 - Creating constant buffers
-Thu Dec 26 2019 01:43:51.102 - Creating layer texture (w=1552,h=1720)
-Thu Dec 26 2019 01:43:51.123 - Loading MC resources
-Thu Dec 26 2019 01:43:51.123 - Initializing timing resources
-Thu Dec 26 2019 01:43:51.123 - Initializing camera
-Thu Dec 26 2019 01:43:51.123 - Done initializing CGraphicsDevice resources
-Thu Dec 26 2019 01:43:51.125 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
-Thu Dec 26 2019 01:43:51.132 - Distort initialized
-Thu Dec 26 2019 01:43:51.143 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Thu Dec 26 2019 01:43:51.143 - Set thread 000000000000065C priority to: 15
-Thu Dec 26 2019 01:43:51.144 - Compositor render thread started
-Thu Dec 26 2019 01:43:51.144 - Set thread 0000000000000634 priority to: 15
-Thu Dec 26 2019 01:43:51.144 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe 20636
-Thu Dec 26 2019 01:43:51.144 - Startup Complete (0.803429 seconds)
-Thu Dec 26 2019 01:43:51.155 - Found 103 quads for Collision Bounds
-Thu Dec 26 2019 01:43:51.155 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Thu Dec 26 2019 01:43:51.155 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Thu Dec 26 2019 01:43:51.156 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Thu Dec 26 2019 01:43:51.157 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Thu Dec 26 2019 01:43:51.164 - Creating solid play area quad for compositor construct: 1.27 x 2.38
-Thu Dec 26 2019 01:43:51.315 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 12936
-Thu Dec 26 2019 01:43:51.792 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 9952
-Thu Dec 26 2019 01:43:52.192 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4880
-Thu Dec 26 2019 01:43:52.202 - Closing pipe vrstartup (20636) because it was broken from the other end
-Thu Dec 26 2019 01:43:52.202 - Process vrstartup (20636) disconnected (Thread(0x000001D5529591E0/0x000)
-Thu Dec 26 2019 01:43:52.202 - Lost pipe connection from vrstartup (20636)
-Thu Dec 26 2019 01:43:53.534 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 24172
-Thu Dec 26 2019 01:43:53.551 - Closing pipe SpacePirateVR (24172) because it was broken from the other end
-Thu Dec 26 2019 01:43:53.551 - Process SpacePirateVR (24172) disconnected (Thread(0x000001D552CA6B00/0x000)
-Thu Dec 26 2019 01:43:53.551 - Lost pipe connection from SpacePirateVR (24172)
-Thu Dec 26 2019 01:43:53.927 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 27568
-Thu Dec 26 2019 01:43:53.949 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 2404
-Thu Dec 26 2019 01:43:53.961 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10528
-Thu Dec 26 2019 01:43:53.975 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 1252
-Thu Dec 26 2019 01:43:54.039 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 12668
-Thu Dec 26 2019 01:43:54.050 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 29472
-Thu Dec 26 2019 01:43:54.233 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10132
-Thu Dec 26 2019 01:43:54.245 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 19916
-Thu Dec 26 2019 01:43:54.289 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 25008
-Thu Dec 26 2019 01:43:54.300 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 12056
-Thu Dec 26 2019 01:43:54.900 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 24172
-Thu Dec 26 2019 01:44:00.049 - Screenshot: HookScreenshot, 1 types
-Thu Dec 26 2019 01:44:20.215 - Closing pipe SpacePirateVR (24172) because it was broken from the other end
-Thu Dec 26 2019 01:44:20.215 - Process SpacePirateVR (24172) disconnected (Thread(0x000001D552958B20/0x000)
-Thu Dec 26 2019 01:44:20.215 - Lost pipe connection from SpacePirateVR (24172)
-Thu Dec 26 2019 01:44:20.215 - ######################################################################
-Thu Dec 26 2019 01:44:20.215 - Cumulative stats for pid: 24172
-Thu Dec 26 2019 01:44:20.215 - Total..................  2336 presents.    0 dropped.    0 reprojected
-Thu Dec 26 2019 01:44:20.215 - Startup................    95 presents.    0 dropped.    0 reprojected
-Thu Dec 26 2019 01:44:20.215 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Thu Dec 26 2019 01:44:20.215 - Timed out.  3 total....  1472 presents.    0 dropped.    0 reprojected
-Thu Dec 26 2019 01:44:20.215 - ######################################################################
-Thu Dec 26 2019 01:44:20.215 - Total dropped frames: 0
-Thu Dec 26 2019 01:46:15.571 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21224
-Thu Dec 26 2019 01:46:15.593 - Closing pipe SpacePirateVR (21224) because it was broken from the other end
-Thu Dec 26 2019 01:46:15.593 - Process SpacePirateVR (21224) disconnected (Thread(0x000001D5529B9280/0x000)
-Thu Dec 26 2019 01:46:15.593 - Lost pipe connection from SpacePirateVR (21224)
-Thu Dec 26 2019 01:46:16.700 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21224
-Thu Dec 26 2019 01:46:22.114 - Screenshot: HookScreenshot, 1 types
-Thu Dec 26 2019 01:46:46.351 - Closing pipe SpacePirateVR (21224) because it was broken from the other end
-Thu Dec 26 2019 01:46:46.351 - Process SpacePirateVR (21224) disconnected (Thread(0x000001D54A5DADF0/0x000)
-Thu Dec 26 2019 01:46:46.351 - Lost pipe connection from SpacePirateVR (21224)
-Thu Dec 26 2019 01:46:46.351 - ######################################################################
-Thu Dec 26 2019 01:46:46.351 - Cumulative stats for pid: 21224
-Thu Dec 26 2019 01:46:46.351 - Total..................  1233 presents.    0 dropped.    0 reprojected
-Thu Dec 26 2019 01:46:46.351 - Startup................    64 presents.    0 dropped.    0 reprojected
-Thu Dec 26 2019 01:46:46.351 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Thu Dec 26 2019 01:46:46.351 - Timed out.  5 total....   201 presents.    0 dropped.    0 reprojected
-Thu Dec 26 2019 01:46:46.351 - ######################################################################
-Thu Dec 26 2019 01:46:46.351 - Total dropped frames: 0
+Thu Dec 26 2019 06:55:34.789 - //==============================================================================================
+Thu Dec 26 2019 06:55:34.790 - ================================================================================================
+Thu Dec 26 2019 06:55:34.790 - ================================================================================================
+Thu Dec 26 2019 06:55:34.790 - vrcompositor.exe 1.9.16 startup with PID=14132, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 06:55:34.790 - VR compositor 1.9.16 (v1576990468) starting up
+Thu Dec 26 2019 06:55:34.869 - CSharedResourceNamespaceClient::Init(): received namespace data 22408
+Thu Dec 26 2019 06:55:34.882 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 06:55:34.883 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 06:55:34.883 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 06:55:34.884 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 06:55:34.886 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 06:55:34.888 - Events created
+Thu Dec 26 2019 06:55:34.890 - Found bad mirror window settings: 
+Thu Dec 26 2019 06:55:34.929 - CGraphicsDevice Init...
+Thu Dec 26 2019 06:55:34.929 - Headset is using driver direct mode
+Thu Dec 26 2019 06:55:35.038 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Thu Dec 26 2019 06:55:35.038 - ****************************************** Begin GPU speed ******************************************
+Thu Dec 26 2019 06:55:35.280 - MeasureGpuMegaPixelsPerSecond(): Returning 288 MP/sec. Total CPU time 0.24 seconds.
+Thu Dec 26 2019 06:55:35.304 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Thu Dec 26 2019 06:55:35.305 - GPU speed from average of 6 median samples: 288
+Thu Dec 26 2019 06:55:35.307 - ******************************************* End GPU speed *******************************************
+Thu Dec 26 2019 06:55:35.307 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Thu Dec 26 2019 06:55:35.307 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Thu Dec 26 2019 06:55:35.307 - Raw ideal render target scale = 0.73
+Thu Dec 26 2019 06:55:35.308 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Thu Dec 26 2019 06:55:35.309 - Loading fonts/debug.spritefont
+Thu Dec 26 2019 06:55:35.314 - Creating samplers
+Thu Dec 26 2019 06:55:35.314 - Creating util resources
+Thu Dec 26 2019 06:55:35.315 - Creating/Updating distortion surfaces
+Thu Dec 26 2019 06:55:35.530 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 06:55:35.728 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 06:55:35.730 - Creating constant buffers
+Thu Dec 26 2019 06:55:35.731 - Creating layer texture (w=1552,h=1720)
+Thu Dec 26 2019 06:55:36.499 - Loading MC resources
+Thu Dec 26 2019 06:55:36.499 - Initializing timing resources
+Thu Dec 26 2019 06:55:36.499 - Initializing camera
+Thu Dec 26 2019 06:55:36.499 - Done initializing CGraphicsDevice resources
+Thu Dec 26 2019 06:55:36.500 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Thu Dec 26 2019 06:55:36.509 - Distort initialized
+Thu Dec 26 2019 06:55:36.522 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Thu Dec 26 2019 06:55:36.523 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 20800
+Thu Dec 26 2019 06:55:36.531 - Set thread 0000000000000674 priority to: 15
+Thu Dec 26 2019 06:55:36.531 - Compositor render thread started
+Thu Dec 26 2019 06:55:36.531 - Set thread 0000000000000648 priority to: 15
+Thu Dec 26 2019 06:55:36.532 - Startup Complete (1.662763 seconds)
+Thu Dec 26 2019 06:55:36.542 - Found 103 quads for Collision Bounds
+Thu Dec 26 2019 06:55:36.542 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Thu Dec 26 2019 06:55:36.542 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Thu Dec 26 2019 06:55:36.543 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Thu Dec 26 2019 06:55:36.544 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Thu Dec 26 2019 06:55:36.544 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Thu Dec 26 2019 06:55:36.544 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Thu Dec 26 2019 06:55:36.544 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Thu Dec 26 2019 06:55:36.544 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Thu Dec 26 2019 06:55:36.544 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Thu Dec 26 2019 06:55:36.544 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Thu Dec 26 2019 06:55:36.544 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Thu Dec 26 2019 06:55:36.554 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Thu Dec 26 2019 06:55:36.585 - Closing pipe SpacePirateVR (20800) because it was broken from the other end
+Thu Dec 26 2019 06:55:36.585 - Process SpacePirateVR (20800) disconnected (Thread(0x000001DEFC2C8930/0x000)
+Thu Dec 26 2019 06:55:36.585 - Lost pipe connection from SpacePirateVR (20800)
+Thu Dec 26 2019 06:55:36.787 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 28072
+Thu Dec 26 2019 06:55:37.264 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 23532
+Thu Dec 26 2019 06:55:37.719 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18396
+Thu Dec 26 2019 06:55:38.704 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 20800
+Thu Dec 26 2019 06:55:39.544 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 7216
+Thu Dec 26 2019 06:55:39.558 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 5440
+Thu Dec 26 2019 06:55:39.582 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 22512
+Thu Dec 26 2019 06:55:39.669 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4144
+Thu Dec 26 2019 06:55:39.704 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11188
+Thu Dec 26 2019 06:55:39.862 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18312
+Thu Dec 26 2019 06:55:39.907 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 27780
+Thu Dec 26 2019 06:55:39.973 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24912
+Thu Dec 26 2019 06:55:39.985 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 3816
+Thu Dec 26 2019 06:55:39.993 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17260
+Thu Dec 26 2019 06:55:41.317 - Processing message Unknown VRMsgType (0) from vrwebhelper (7216) took 0.00674 seconds
+Thu Dec 26 2019 06:55:44.933 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 06:55:48.918 - Closing pipe vrdashboard (28072) because it was broken from the other end
+Thu Dec 26 2019 06:55:48.918 - Process vrdashboard (28072) disconnected (Thread(0x000001DEFC2CA280/0x000)
+Thu Dec 26 2019 06:55:48.918 - Lost pipe connection from vrdashboard (28072)
+Thu Dec 26 2019 06:55:48.923 - Closing pipe vrwebhelper (4144) because it was broken from the other end
+Thu Dec 26 2019 06:55:48.923 - Process vrwebhelper (4144) disconnected (Thread(0x000001DEFC2CB090/0x000)
+Thu Dec 26 2019 06:55:48.923 - Lost pipe connection from vrwebhelper (4144)
+Thu Dec 26 2019 06:55:48.951 - Closing pipe vrwebhelper (24912) because it was broken from the other end
+Thu Dec 26 2019 06:55:48.951 - Process vrwebhelper (24912) disconnected (Thread(0x000001DEFC032A60/0x000)
+Thu Dec 26 2019 06:55:48.951 - Lost pipe connection from vrwebhelper (24912)
+Thu Dec 26 2019 06:55:48.958 - Closing pipe vrwebhelper (11188) because it was broken from the other end
+Thu Dec 26 2019 06:55:48.958 - Process vrwebhelper (11188) disconnected (Thread(0x000001DEFC034170/0x000)
+Thu Dec 26 2019 06:55:48.958 - Lost pipe connection from vrwebhelper (11188)
+Thu Dec 26 2019 06:55:48.965 - Closing pipe vrwebhelper (18312) because it was broken from the other end
+Thu Dec 26 2019 06:55:48.965 - Process vrwebhelper (18312) disconnected (Thread(0x000001DEFC0336C0/0x000)
+Thu Dec 26 2019 06:55:48.965 - Lost pipe connection from vrwebhelper (18312)
+Thu Dec 26 2019 06:55:48.980 - Closing pipe vrwebhelper (7216) because it was broken from the other end
+Thu Dec 26 2019 06:55:48.980 - Process vrwebhelper (7216) disconnected (Thread(0x000001DEFC2CA5E0/0x000)
+Thu Dec 26 2019 06:55:48.980 - Lost pipe connection from vrwebhelper (7216)
+Thu Dec 26 2019 06:55:48.988 - Closing pipe vrwebhelper (5440) because it was broken from the other end
+Thu Dec 26 2019 06:55:48.988 - Process vrwebhelper (5440) disconnected (Thread(0x000001DEFC2CB2D0/0x000)
+Thu Dec 26 2019 06:55:48.988 - Lost pipe connection from vrwebhelper (5440)
+Thu Dec 26 2019 06:55:49.005 - Closing pipe vrwebhelper (27780) because it was broken from the other end
+Thu Dec 26 2019 06:55:49.005 - Process vrwebhelper (27780) disconnected (Thread(0x000001DEFC0331B0/0x000)
+Thu Dec 26 2019 06:55:49.005 - Lost pipe connection from vrwebhelper (27780)
+Thu Dec 26 2019 06:55:49.008 - Closing pipe vrwebhelper (17260) because it was broken from the other end
+Thu Dec 26 2019 06:55:49.008 - Process vrwebhelper (17260) disconnected (Thread(0x000001DEFC0328B0/0x000)
+Thu Dec 26 2019 06:55:49.008 - Lost pipe connection from vrwebhelper (17260)
+Thu Dec 26 2019 06:55:49.020 - Closing pipe vrwebhelper (18396) because it was broken from the other end
+Thu Dec 26 2019 06:55:49.020 - Process vrwebhelper (18396) disconnected (Thread(0x000001DEFC2CA160/0x000)
+Thu Dec 26 2019 06:55:49.020 - Lost pipe connection from vrwebhelper (18396)
+Thu Dec 26 2019 06:55:49.028 - Closing pipe vrwebhelper (22512) because it was broken from the other end
+Thu Dec 26 2019 06:55:49.028 - Process vrwebhelper (22512) disconnected (Thread(0x000001DEFC2CADC0/0x000)
+Thu Dec 26 2019 06:55:49.028 - Lost pipe connection from vrwebhelper (22512)
+Thu Dec 26 2019 06:55:49.072 - Closing pipe vrwebhelper (3816) because it was broken from the other end
+Thu Dec 26 2019 06:55:49.072 - Process vrwebhelper (3816) disconnected (Thread(0x000001DEFC033750/0x000)
+Thu Dec 26 2019 06:55:49.072 - Lost pipe connection from vrwebhelper (3816)
+Thu Dec 26 2019 06:55:49.539 - Closing pipe SpacePirateVR (20800) because it was broken from the other end
+Thu Dec 26 2019 06:55:49.539 - Process SpacePirateVR (20800) disconnected (Thread(0x000001DEFC2CACA0/0x000)
+Thu Dec 26 2019 06:55:49.539 - Lost pipe connection from SpacePirateVR (20800)
+Thu Dec 26 2019 06:55:49.539 - ######################################################################
+Thu Dec 26 2019 06:55:49.539 - Cumulative stats for pid: 20800
+Thu Dec 26 2019 06:55:49.539 - Total..................  2266 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 06:55:49.539 - Startup................    84 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 06:55:49.539 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 06:55:49.540 - Timed out.  4 total....  1294 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 06:55:49.540 - ######################################################################
+Thu Dec 26 2019 06:55:49.540 - Total dropped frames: 0
+Thu Dec 26 2019 06:55:49.546 - Render thread ending
+Thu Dec 26 2019 06:55:49.546 - Signal thread ending
+Thu Dec 26 2019 06:55:49.553 - VR compositor shutting down
+Thu Dec 26 2019 06:55:49.557 - Listener thread ending
+Thu Dec 26 2019 06:55:49.632 - Process vrmonitor (23532) disconnected (Thread(0x000001DEFC2CA9D0/0x000)
+Thu Dec 26 2019 06:55:49.632 - Ignoring LostPipeConnection from vrmonitor (23532) because compositor is shutting down
+Thu Dec 26 2019 06:55:49.632 - Cleaning up
+Thu Dec 26 2019 06:55:52.973 - //==============================================================================================
+Thu Dec 26 2019 06:55:52.974 - ================================================================================================
+Thu Dec 26 2019 06:55:52.974 - ================================================================================================
+Thu Dec 26 2019 06:55:52.974 - vrcompositor.exe 1.9.16 startup with PID=4128, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 06:55:52.974 - VR compositor 1.9.16 (v1576990468) starting up
+Thu Dec 26 2019 06:55:53.049 - CSharedResourceNamespaceClient::Init(): received namespace data 16508
+Thu Dec 26 2019 06:55:53.067 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 06:55:53.068 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 06:55:53.068 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 06:55:53.069 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 06:55:53.071 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 06:55:53.073 - Events created
+Thu Dec 26 2019 06:55:53.075 - Found bad mirror window settings: 
+Thu Dec 26 2019 06:55:53.106 - CGraphicsDevice Init...
+Thu Dec 26 2019 06:55:53.106 - Headset is using driver direct mode
+Thu Dec 26 2019 06:55:53.222 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Thu Dec 26 2019 06:55:53.222 - ****************************************** Begin GPU speed ******************************************
+Thu Dec 26 2019 06:55:53.468 - MeasureGpuMegaPixelsPerSecond(): Returning 291 MP/sec. Total CPU time 0.25 seconds.
+Thu Dec 26 2019 06:55:53.481 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Thu Dec 26 2019 06:55:53.483 - GPU speed from average of 6 median samples: 288
+Thu Dec 26 2019 06:55:53.485 - ******************************************* End GPU speed *******************************************
+Thu Dec 26 2019 06:55:53.485 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Thu Dec 26 2019 06:55:53.485 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Thu Dec 26 2019 06:55:53.485 - Raw ideal render target scale = 0.73
+Thu Dec 26 2019 06:55:53.486 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Thu Dec 26 2019 06:55:53.486 - Loading fonts/debug.spritefont
+Thu Dec 26 2019 06:55:53.496 - Creating samplers
+Thu Dec 26 2019 06:55:53.496 - Creating util resources
+Thu Dec 26 2019 06:55:53.497 - Creating/Updating distortion surfaces
+Thu Dec 26 2019 06:55:53.713 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 06:55:53.924 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 06:55:53.925 - Creating constant buffers
+Thu Dec 26 2019 06:55:53.926 - Creating layer texture (w=1552,h=1720)
+Thu Dec 26 2019 06:55:54.524 - Loading MC resources
+Thu Dec 26 2019 06:55:54.524 - Initializing timing resources
+Thu Dec 26 2019 06:55:54.524 - Initializing camera
+Thu Dec 26 2019 06:55:54.525 - Done initializing CGraphicsDevice resources
+Thu Dec 26 2019 06:55:54.526 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Thu Dec 26 2019 06:55:54.533 - Distort initialized
+Thu Dec 26 2019 06:55:54.544 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Thu Dec 26 2019 06:55:54.545 - Set thread 000000000000065C priority to: 15
+Thu Dec 26 2019 06:55:54.545 - Set thread 0000000000000634 priority to: 15
+Thu Dec 26 2019 06:55:54.545 - Compositor render thread started
+Thu Dec 26 2019 06:55:54.545 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe 8460
+Thu Dec 26 2019 06:55:54.545 - Startup Complete (1.495810 seconds)
+Thu Dec 26 2019 06:55:54.556 - Found 103 quads for Collision Bounds
+Thu Dec 26 2019 06:55:54.556 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Thu Dec 26 2019 06:55:54.556 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Thu Dec 26 2019 06:55:54.557 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Thu Dec 26 2019 06:55:54.558 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Thu Dec 26 2019 06:55:54.567 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Thu Dec 26 2019 06:55:54.781 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 27912
+Thu Dec 26 2019 06:55:55.190 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 4612
+Thu Dec 26 2019 06:55:55.595 - Closing pipe vrstartup (8460) because it was broken from the other end
+Thu Dec 26 2019 06:55:55.595 - Process vrstartup (8460) disconnected (Thread(0x00000127EF61E2F0/0x000)
+Thu Dec 26 2019 06:55:55.595 - Lost pipe connection from vrstartup (8460)
+Thu Dec 26 2019 06:55:55.837 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4184
+Thu Dec 26 2019 06:55:57.744 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 19404
+Thu Dec 26 2019 06:55:57.759 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 16720
+Thu Dec 26 2019 06:55:57.783 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 26968
+Thu Dec 26 2019 06:55:57.791 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 19588
+Thu Dec 26 2019 06:55:57.870 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 23972
+Thu Dec 26 2019 06:55:57.885 - Processing message VRMsg_CompositorConnect from vrwebhelper (23972) took 0.0162 seconds
+Thu Dec 26 2019 06:55:57.983 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 23572
+Thu Dec 26 2019 06:55:58.072 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18104
+Thu Dec 26 2019 06:55:58.077 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11828
+Thu Dec 26 2019 06:55:58.089 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17204
+Thu Dec 26 2019 06:55:58.123 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 28512
+Thu Dec 26 2019 07:01:46.189 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 356
+Thu Dec 26 2019 07:01:46.210 - Closing pipe SpacePirateVR (356) because it was broken from the other end
+Thu Dec 26 2019 07:01:46.210 - Process SpacePirateVR (356) disconnected (Thread(0x00000127EC7173F0/0x000)
+Thu Dec 26 2019 07:01:46.210 - Lost pipe connection from SpacePirateVR (356)
+Thu Dec 26 2019 07:01:47.473 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 356
+Thu Dec 26 2019 07:01:52.186 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 07:01:58.465 - Closing pipe SpacePirateVR (356) because it was broken from the other end
+Thu Dec 26 2019 07:01:58.465 - Process SpacePirateVR (356) disconnected (Thread(0x00000127EC7176C0/0x000)
+Thu Dec 26 2019 07:01:58.465 - Lost pipe connection from SpacePirateVR (356)
+Thu Dec 26 2019 07:01:58.465 - ######################################################################
+Thu Dec 26 2019 07:01:58.465 - Cumulative stats for pid: 356
+Thu Dec 26 2019 07:01:58.465 - Total..................  1938 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:01:58.465 - Startup................    72 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:01:58.465 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:01:58.465 - Timed out.  4 total....  1006 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:01:58.465 - ######################################################################
+Thu Dec 26 2019 07:01:58.465 - Total dropped frames: 0
+Thu Dec 26 2019 07:02:00.928 - Closing pipe vrwebhelper (28512) because it was broken from the other end
+Thu Dec 26 2019 07:02:00.928 - Process vrwebhelper (28512) disconnected (Thread(0x00000127EC717510/0x000)
+Thu Dec 26 2019 07:02:00.928 - Lost pipe connection from vrwebhelper (28512)
+Thu Dec 26 2019 07:02:00.961 - Closing pipe vrwebhelper (16720) because it was broken from the other end
+Thu Dec 26 2019 07:02:00.961 - Process vrwebhelper (16720) disconnected (Thread(0x00000127EC718050/0x000)
+Thu Dec 26 2019 07:02:00.961 - Lost pipe connection from vrwebhelper (16720)
+Thu Dec 26 2019 07:02:00.977 - Closing pipe vrdashboard (27912) because it was broken from the other end
+Thu Dec 26 2019 07:02:00.977 - Process vrdashboard (27912) disconnected (Thread(0x00000127EC717090/0x000)
+Thu Dec 26 2019 07:02:00.977 - Lost pipe connection from vrdashboard (27912)
+Thu Dec 26 2019 07:02:01.011 - Closing pipe vrwebhelper (18104) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.011 - Process vrwebhelper (18104) disconnected (Thread(0x00000127EC716700/0x000)
+Thu Dec 26 2019 07:02:01.011 - Lost pipe connection from vrwebhelper (18104)
+Thu Dec 26 2019 07:02:01.029 - Closing pipe vrwebhelper (4184) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.029 - Process vrwebhelper (4184) disconnected (Thread(0x00000127EC717D80/0x000)
+Thu Dec 26 2019 07:02:01.029 - Lost pipe connection from vrwebhelper (4184)
+Thu Dec 26 2019 07:02:01.063 - Closing pipe vrwebhelper (19404) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.063 - Process vrwebhelper (19404) disconnected (Thread(0x00000127EC717360/0x000)
+Thu Dec 26 2019 07:02:01.064 - Lost pipe connection from vrwebhelper (19404)
+Thu Dec 26 2019 07:02:01.080 - Closing pipe vrwebhelper (23972) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.080 - Process vrwebhelper (23972) disconnected (Thread(0x00000127EC7180E0/0x000)
+Thu Dec 26 2019 07:02:01.080 - Lost pipe connection from vrwebhelper (23972)
+Thu Dec 26 2019 07:02:01.103 - Closing pipe vrwebhelper (26968) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.103 - Process vrwebhelper (26968) disconnected (Thread(0x00000127EC717C60/0x000)
+Thu Dec 26 2019 07:02:01.103 - Lost pipe connection from vrwebhelper (26968)
+Thu Dec 26 2019 07:02:01.124 - Closing pipe vrwebhelper (19588) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.124 - Process vrwebhelper (19588) disconnected (Thread(0x00000127EC716790/0x000)
+Thu Dec 26 2019 07:02:01.124 - Lost pipe connection from vrwebhelper (19588)
+Thu Dec 26 2019 07:02:01.140 - Closing pipe vrwebhelper (11828) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.140 - Process vrwebhelper (11828) disconnected (Thread(0x00000127EC718200/0x000)
+Thu Dec 26 2019 07:02:01.140 - Lost pipe connection from vrwebhelper (11828)
+Thu Dec 26 2019 07:02:01.265 - Render thread ending
+Thu Dec 26 2019 07:02:01.265 - Signal thread ending
+Thu Dec 26 2019 07:02:01.275 - VR compositor shutting down
+Thu Dec 26 2019 07:02:01.297 - Closing pipe vrwebhelper (17204) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.297 - Process vrwebhelper (17204) disconnected (Thread(0x00000127EC718320/0x000)
+Thu Dec 26 2019 07:02:01.297 - Ignoring LostPipeConnection from vrwebhelper (17204) because compositor is shutting down
+Thu Dec 26 2019 07:02:01.304 - Closing pipe vrwebhelper (23572) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.304 - Process vrwebhelper (23572) disconnected (Thread(0x00000127EC716AF0/0x000)
+Thu Dec 26 2019 07:02:01.304 - Ignoring LostPipeConnection from vrwebhelper (23572) because compositor is shutting down
+Thu Dec 26 2019 07:02:01.318 - Closing pipe vrmonitor (4612) because it was broken from the other end
+Thu Dec 26 2019 07:02:01.318 - Process vrmonitor (4612) disconnected (Thread(0x00000127EC7165E0/0x000)
+Thu Dec 26 2019 07:02:01.318 - Ignoring LostPipeConnection from vrmonitor (4612) because compositor is shutting down
+Thu Dec 26 2019 07:02:01.377 - Listener thread ending
+Thu Dec 26 2019 07:02:01.386 - Cleaning up
+Thu Dec 26 2019 07:05:27.275 - //==============================================================================================
+Thu Dec 26 2019 07:05:27.275 - ================================================================================================
+Thu Dec 26 2019 07:05:27.275 - ================================================================================================
+Thu Dec 26 2019 07:05:27.275 - vrcompositor.exe 1.9.16 startup with PID=5728, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 07:05:27.275 - VR compositor 1.9.16 (v1576990468) starting up
+Thu Dec 26 2019 07:05:27.338 - CSharedResourceNamespaceClient::Init(): received namespace data 8888
+Thu Dec 26 2019 07:05:27.351 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:05:27.351 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:05:27.352 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:05:27.353 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:05:27.354 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 07:05:27.357 - Events created
+Thu Dec 26 2019 07:05:27.361 - Found bad mirror window settings: 
+Thu Dec 26 2019 07:05:27.406 - CGraphicsDevice Init...
+Thu Dec 26 2019 07:05:27.406 - Headset is using driver direct mode
+Thu Dec 26 2019 07:05:27.510 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Thu Dec 26 2019 07:05:27.510 - ****************************************** Begin GPU speed ******************************************
+Thu Dec 26 2019 07:05:27.761 - MeasureGpuMegaPixelsPerSecond(): Returning 290 MP/sec. Total CPU time 0.25 seconds.
+Thu Dec 26 2019 07:05:27.773 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Thu Dec 26 2019 07:05:27.775 - GPU speed from average of 6 median samples: 288
+Thu Dec 26 2019 07:05:27.777 - ******************************************* End GPU speed *******************************************
+Thu Dec 26 2019 07:05:27.777 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Thu Dec 26 2019 07:05:27.777 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Thu Dec 26 2019 07:05:27.778 - Raw ideal render target scale = 0.73
+Thu Dec 26 2019 07:05:27.778 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Thu Dec 26 2019 07:05:27.778 - Loading fonts/debug.spritefont
+Thu Dec 26 2019 07:05:27.780 - Creating samplers
+Thu Dec 26 2019 07:05:27.780 - Creating util resources
+Thu Dec 26 2019 07:05:27.781 - Creating/Updating distortion surfaces
+Thu Dec 26 2019 07:05:27.990 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 07:05:28.202 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 07:05:28.204 - Creating constant buffers
+Thu Dec 26 2019 07:05:28.205 - Creating layer texture (w=1552,h=1720)
+Thu Dec 26 2019 07:05:28.867 - Loading MC resources
+Thu Dec 26 2019 07:05:28.867 - Initializing timing resources
+Thu Dec 26 2019 07:05:28.867 - Initializing camera
+Thu Dec 26 2019 07:05:28.867 - Done initializing CGraphicsDevice resources
+Thu Dec 26 2019 07:05:28.868 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Thu Dec 26 2019 07:05:28.877 - Distort initialized
+Thu Dec 26 2019 07:05:28.887 - Set thread 00000000000006B0 priority to: 15
+Thu Dec 26 2019 07:05:28.887 - Set thread 000000000000068C priority to: 15
+Thu Dec 26 2019 07:05:28.887 - Compositor render thread started
+Thu Dec 26 2019 07:05:28.887 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Thu Dec 26 2019 07:05:28.888 - Startup Complete (1.549112 seconds)
+Thu Dec 26 2019 07:05:28.888 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 14088
+Thu Dec 26 2019 07:05:28.899 - Found 103 quads for Collision Bounds
+Thu Dec 26 2019 07:05:28.899 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Thu Dec 26 2019 07:05:28.899 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Thu Dec 26 2019 07:05:28.900 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Thu Dec 26 2019 07:05:28.901 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Thu Dec 26 2019 07:05:28.908 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Thu Dec 26 2019 07:05:28.932 - Closing pipe SpacePirateVR (14088) because it was broken from the other end
+Thu Dec 26 2019 07:05:28.932 - Process SpacePirateVR (14088) disconnected (Thread(0x00000143B5E554A0/0x000)
+Thu Dec 26 2019 07:05:28.932 - Lost pipe connection from SpacePirateVR (14088)
+Thu Dec 26 2019 07:05:29.156 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 22384
+Thu Dec 26 2019 07:05:29.832 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 9864
+Thu Dec 26 2019 07:05:30.231 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 21920
+Thu Dec 26 2019 07:05:31.025 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 14088
+Thu Dec 26 2019 07:05:31.968 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8792
+Thu Dec 26 2019 07:05:31.989 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11496
+Thu Dec 26 2019 07:05:32.000 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 20012
+Thu Dec 26 2019 07:05:32.029 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 29148
+Thu Dec 26 2019 07:05:32.048 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 7512
+Thu Dec 26 2019 07:05:32.102 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24648
+Thu Dec 26 2019 07:05:32.300 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 23220
+Thu Dec 26 2019 07:05:32.315 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 1740
+Thu Dec 26 2019 07:05:32.346 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 23896
+Thu Dec 26 2019 07:05:32.368 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 28336
+Thu Dec 26 2019 07:05:34.778 - Closing pipe vrwebhelper (1740) because it was broken from the other end
+Thu Dec 26 2019 07:05:34.778 - Process vrwebhelper (1740) disconnected (Thread(0x00000143B5C47F20/0x000)
+Thu Dec 26 2019 07:05:34.778 - Lost pipe connection from vrwebhelper (1740)
+Thu Dec 26 2019 07:05:34.843 - Closing pipe vrwebhelper (28336) because it was broken from the other end
+Thu Dec 26 2019 07:05:34.843 - Process vrwebhelper (28336) disconnected (Thread(0x00000143B5E552F0/0x000)
+Thu Dec 26 2019 07:05:34.843 - Lost pipe connection from vrwebhelper (28336)
+Thu Dec 26 2019 07:05:34.845 - Closing pipe vrdashboard (22384) because it was broken from the other end
+Thu Dec 26 2019 07:05:34.845 - Process vrdashboard (22384) disconnected (Thread(0x00000143B5ED1250/0x000)
+Thu Dec 26 2019 07:05:34.845 - Lost pipe connection from vrdashboard (22384)
+Thu Dec 26 2019 07:05:34.888 - Closing pipe vrwebhelper (24648) because it was broken from the other end
+Thu Dec 26 2019 07:05:34.888 - Process vrwebhelper (24648) disconnected (Thread(0x00000143B5E554A0/0x000)
+Thu Dec 26 2019 07:05:34.888 - Lost pipe connection from vrwebhelper (24648)
+Thu Dec 26 2019 07:05:34.911 - Closing pipe vrwebhelper (7512) because it was broken from the other end
+Thu Dec 26 2019 07:05:34.911 - Process vrwebhelper (7512) disconnected (Thread(0x00000143B5CBEFD0/0x000)
+Thu Dec 26 2019 07:05:34.911 - Lost pipe connection from vrwebhelper (7512)
+Thu Dec 26 2019 07:05:34.945 - Closing pipe vrwebhelper (8792) because it was broken from the other end
+Thu Dec 26 2019 07:05:34.945 - Process vrwebhelper (8792) disconnected (Thread(0x00000143B5ED1130/0x000)
+Thu Dec 26 2019 07:05:34.945 - Lost pipe connection from vrwebhelper (8792)
+Thu Dec 26 2019 07:05:34.996 - Closing pipe vrwebhelper (23220) because it was broken from the other end
+Thu Dec 26 2019 07:05:34.997 - Process vrwebhelper (23220) disconnected (Thread(0x00000143B5C47D70/0x000)
+Thu Dec 26 2019 07:05:34.997 - Lost pipe connection from vrwebhelper (23220)
+Thu Dec 26 2019 07:05:34.997 - Closing pipe vrwebhelper (20012) because it was broken from the other end
+Thu Dec 26 2019 07:05:34.997 - Process vrwebhelper (20012) disconnected (Thread(0x00000143B5CBED90/0x000)
+Thu Dec 26 2019 07:05:34.997 - Lost pipe connection from vrwebhelper (20012)
+Thu Dec 26 2019 07:05:35.004 - Closing pipe vrwebhelper (11496) because it was broken from the other end
+Thu Dec 26 2019 07:05:35.004 - Process vrwebhelper (11496) disconnected (Thread(0x00000143B5ED1400/0x000)
+Thu Dec 26 2019 07:05:35.004 - Lost pipe connection from vrwebhelper (11496)
+Thu Dec 26 2019 07:05:35.011 - Closing pipe vrwebhelper (29148) because it was broken from the other end
+Thu Dec 26 2019 07:05:35.011 - Process vrwebhelper (29148) disconnected (Thread(0x00000143B5CBF060/0x000)
+Thu Dec 26 2019 07:05:35.011 - Lost pipe connection from vrwebhelper (29148)
+Thu Dec 26 2019 07:05:35.119 - Closing pipe vrwebhelper (21920) because it was broken from the other end
+Thu Dec 26 2019 07:05:35.119 - Process vrwebhelper (21920) disconnected (Thread(0x00000143B5ED11C0/0x000)
+Thu Dec 26 2019 07:05:35.119 - Lost pipe connection from vrwebhelper (21920)
+Thu Dec 26 2019 07:05:35.139 - Closing pipe vrwebhelper (23896) because it was broken from the other end
+Thu Dec 26 2019 07:05:35.139 - Process vrwebhelper (23896) disconnected (Thread(0x00000143B5E55380/0x000)
+Thu Dec 26 2019 07:05:35.139 - Lost pipe connection from vrwebhelper (23896)
+Thu Dec 26 2019 07:05:37.946 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 07:05:40.041 - Render thread ending
+Thu Dec 26 2019 07:05:40.041 - Signal thread ending
+Thu Dec 26 2019 07:05:40.052 - VR compositor shutting down
+Thu Dec 26 2019 07:05:40.059 - Closing pipe SpacePirateVR (14088) because it was broken from the other end
+Thu Dec 26 2019 07:05:40.059 - Process SpacePirateVR (14088) disconnected (Thread(0x00000143B5ED1370/0x000)
+Thu Dec 26 2019 07:05:40.059 - Ignoring LostPipeConnection from SpacePirateVR (14088) because compositor is shutting down
+Thu Dec 26 2019 07:05:40.083 - Listener thread ending
+Thu Dec 26 2019 07:05:40.123 - Process vrmonitor (9864) disconnected (Thread(0x00000143B5ED12E0/0x000)
+Thu Dec 26 2019 07:05:40.123 - Ignoring LostPipeConnection from vrmonitor (9864) because compositor is shutting down
+Thu Dec 26 2019 07:05:40.129 - Cleaning up
+Thu Dec 26 2019 07:06:54.497 - //==============================================================================================
+Thu Dec 26 2019 07:06:54.497 - ================================================================================================
+Thu Dec 26 2019 07:06:54.497 - ================================================================================================
+Thu Dec 26 2019 07:06:54.497 - vrcompositor.exe 1.9.16 startup with PID=7748, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 07:06:54.497 - VR compositor 1.9.16 (v1576990468) starting up
+Thu Dec 26 2019 07:06:54.579 - CSharedResourceNamespaceClient::Init(): received namespace data 16580
+Thu Dec 26 2019 07:06:54.596 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:06:54.596 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:06:54.596 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:06:54.597 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:06:54.599 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 07:06:54.601 - Events created
+Thu Dec 26 2019 07:06:54.603 - Found bad mirror window settings: 
+Thu Dec 26 2019 07:06:54.629 - CGraphicsDevice Init...
+Thu Dec 26 2019 07:06:54.629 - Headset is using driver direct mode
+Thu Dec 26 2019 07:06:54.770 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Thu Dec 26 2019 07:06:54.770 - ****************************************** Begin GPU speed ******************************************
+Thu Dec 26 2019 07:06:55.041 - MeasureGpuMegaPixelsPerSecond(): Returning 287 MP/sec. Total CPU time 0.27 seconds.
+Thu Dec 26 2019 07:06:55.068 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Thu Dec 26 2019 07:06:55.074 - GPU speed from average of 6 median samples: 288
+Thu Dec 26 2019 07:06:55.077 - ******************************************* End GPU speed *******************************************
+Thu Dec 26 2019 07:06:55.077 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Thu Dec 26 2019 07:06:55.077 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Thu Dec 26 2019 07:06:55.077 - Raw ideal render target scale = 0.73
+Thu Dec 26 2019 07:06:55.077 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Thu Dec 26 2019 07:06:55.077 - Loading fonts/debug.spritefont
+Thu Dec 26 2019 07:06:55.092 - Creating samplers
+Thu Dec 26 2019 07:06:55.092 - Creating util resources
+Thu Dec 26 2019 07:06:55.101 - Creating/Updating distortion surfaces
+Thu Dec 26 2019 07:06:55.317 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 07:06:55.523 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 07:06:55.527 - Creating constant buffers
+Thu Dec 26 2019 07:06:55.528 - Creating layer texture (w=1552,h=1720)
+Thu Dec 26 2019 07:06:56.115 - Loading MC resources
+Thu Dec 26 2019 07:06:56.115 - Initializing timing resources
+Thu Dec 26 2019 07:06:56.115 - Initializing camera
+Thu Dec 26 2019 07:06:56.115 - Done initializing CGraphicsDevice resources
+Thu Dec 26 2019 07:06:56.116 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Thu Dec 26 2019 07:06:56.126 - Distort initialized
+Thu Dec 26 2019 07:06:56.137 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Thu Dec 26 2019 07:06:56.137 - Set thread 0000000000000688 priority to: 15
+Thu Dec 26 2019 07:06:56.137 - Set thread 0000000000000664 priority to: 15
+Thu Dec 26 2019 07:06:56.137 - Compositor render thread started
+Thu Dec 26 2019 07:06:56.137 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18984
+Thu Dec 26 2019 07:06:56.137 - Startup Complete (1.558341 seconds)
+Thu Dec 26 2019 07:06:56.148 - Found 103 quads for Collision Bounds
+Thu Dec 26 2019 07:06:56.148 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Thu Dec 26 2019 07:06:56.148 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Thu Dec 26 2019 07:06:56.149 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Thu Dec 26 2019 07:06:56.150 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Thu Dec 26 2019 07:06:56.156 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Thu Dec 26 2019 07:06:56.186 - Closing pipe SpacePirateVR (18984) because it was broken from the other end
+Thu Dec 26 2019 07:06:56.186 - Process SpacePirateVR (18984) disconnected (Thread(0x00000247DCE61400/0x000)
+Thu Dec 26 2019 07:06:56.186 - Lost pipe connection from SpacePirateVR (18984)
+Thu Dec 26 2019 07:06:56.408 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 8360
+Thu Dec 26 2019 07:06:56.957 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 26868
+Thu Dec 26 2019 07:06:57.474 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 1732
+Thu Dec 26 2019 07:06:58.521 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18984
+Thu Dec 26 2019 07:06:59.345 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24780
+Thu Dec 26 2019 07:06:59.378 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24764
+Thu Dec 26 2019 07:06:59.401 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 23968
+Thu Dec 26 2019 07:06:59.424 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 28520
+Thu Dec 26 2019 07:06:59.447 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 9904
+Thu Dec 26 2019 07:06:59.523 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8820
+Thu Dec 26 2019 07:06:59.657 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 29428
+Thu Dec 26 2019 07:06:59.672 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 20544
+Thu Dec 26 2019 07:06:59.759 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 26032
+Thu Dec 26 2019 07:06:59.763 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 7260
+Thu Dec 26 2019 07:07:03.254 - Closing pipe vrdashboard (8360) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.254 - Process vrdashboard (8360) disconnected (Thread(0x00000247DD170AB0/0x000)
+Thu Dec 26 2019 07:07:03.254 - Lost pipe connection from vrdashboard (8360)
+Thu Dec 26 2019 07:07:03.523 - Closing pipe vrwebhelper (28520) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.523 - Process vrwebhelper (28520) disconnected (Thread(0x00000247DCE2F840/0x000)
+Thu Dec 26 2019 07:07:03.523 - Lost pipe connection from vrwebhelper (28520)
+Thu Dec 26 2019 07:07:03.529 - Closing pipe vrwebhelper (29428) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.529 - Process vrwebhelper (29428) disconnected (Thread(0x00000247DD170B40/0x000)
+Thu Dec 26 2019 07:07:03.529 - Lost pipe connection from vrwebhelper (29428)
+Thu Dec 26 2019 07:07:03.613 - Closing pipe vrwebhelper (24780) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.613 - Process vrwebhelper (24780) disconnected (Thread(0x00000247DCE2F7B0/0x000)
+Thu Dec 26 2019 07:07:03.613 - Lost pipe connection from vrwebhelper (24780)
+Thu Dec 26 2019 07:07:03.720 - Closing pipe vrwebhelper (20544) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.720 - Process vrwebhelper (20544) disconnected (Thread(0x00000247DD170A20/0x000)
+Thu Dec 26 2019 07:07:03.720 - Lost pipe connection from vrwebhelper (20544)
+Thu Dec 26 2019 07:07:03.748 - Closing pipe vrwebhelper (9904) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.748 - Process vrwebhelper (9904) disconnected (Thread(0x00000247DCE2F8D0/0x000)
+Thu Dec 26 2019 07:07:03.748 - Lost pipe connection from vrwebhelper (9904)
+Thu Dec 26 2019 07:07:03.753 - Closing pipe vrwebhelper (23968) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.753 - Process vrwebhelper (23968) disconnected (Thread(0x00000247DCE2FC30/0x000)
+Thu Dec 26 2019 07:07:03.753 - Lost pipe connection from vrwebhelper (23968)
+Thu Dec 26 2019 07:07:03.803 - Closing pipe vrwebhelper (26032) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.803 - Process vrwebhelper (26032) disconnected (Thread(0x00000247DD170750/0x000)
+Thu Dec 26 2019 07:07:03.803 - Lost pipe connection from vrwebhelper (26032)
+Thu Dec 26 2019 07:07:03.804 - Closing pipe vrwebhelper (8820) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.804 - Process vrwebhelper (8820) disconnected (Thread(0x00000247DD151170/0x000)
+Thu Dec 26 2019 07:07:03.804 - Lost pipe connection from vrwebhelper (8820)
+Thu Dec 26 2019 07:07:03.852 - Closing pipe vrwebhelper (7260) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.852 - Process vrwebhelper (7260) disconnected (Thread(0x00000247DD170BD0/0x000)
+Thu Dec 26 2019 07:07:03.852 - Lost pipe connection from vrwebhelper (7260)
+Thu Dec 26 2019 07:07:03.856 - Closing pipe vrwebhelper (24764) because it was broken from the other end
+Thu Dec 26 2019 07:07:03.856 - Process vrwebhelper (24764) disconnected (Thread(0x00000247DCE2FBA0/0x000)
+Thu Dec 26 2019 07:07:03.856 - Lost pipe connection from vrwebhelper (24764)
+Thu Dec 26 2019 07:07:04.027 - Closing pipe vrwebhelper (1732) because it was broken from the other end
+Thu Dec 26 2019 07:07:04.027 - Process vrwebhelper (1732) disconnected (Thread(0x00000247DD170990/0x000)
+Thu Dec 26 2019 07:07:04.027 - Lost pipe connection from vrwebhelper (1732)
+Thu Dec 26 2019 07:07:06.548 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 07:07:08.146 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 07:07:08.650 - Closing pipe SpacePirateVR (18984) because it was broken from the other end
+Thu Dec 26 2019 07:07:08.650 - Process SpacePirateVR (18984) disconnected (Thread(0x00000247DD170630/0x000)
+Thu Dec 26 2019 07:07:08.650 - Lost pipe connection from SpacePirateVR (18984)
+Thu Dec 26 2019 07:07:08.650 - ######################################################################
+Thu Dec 26 2019 07:07:08.650 - Cumulative stats for pid: 18984
+Thu Dec 26 2019 07:07:08.650 - Total..................  2959 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:07:08.650 - Startup................    68 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:07:08.650 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:07:08.650 - Timed out.  1 total....  2824 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:07:08.650 - ######################################################################
+Thu Dec 26 2019 07:07:08.650 - Total dropped frames: 0
+Thu Dec 26 2019 07:07:08.740 - Render thread ending
+Thu Dec 26 2019 07:07:08.740 - Signal thread ending
+Thu Dec 26 2019 07:07:08.750 - VR compositor shutting down
+Thu Dec 26 2019 07:07:08.765 - Listener thread ending
+Thu Dec 26 2019 07:07:08.772 - Process vrmonitor (26868) disconnected (Thread(0x00000247DD170870/0x000)
+Thu Dec 26 2019 07:07:08.772 - Ignoring LostPipeConnection from vrmonitor (26868) because compositor is shutting down
+Thu Dec 26 2019 07:07:08.772 - Cleaning up
+Thu Dec 26 2019 07:08:16.946 - //==============================================================================================
+Thu Dec 26 2019 07:08:16.946 - ================================================================================================
+Thu Dec 26 2019 07:08:16.946 - ================================================================================================
+Thu Dec 26 2019 07:08:16.946 - vrcompositor.exe 1.9.16 startup with PID=20396, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 07:08:16.946 - VR compositor 1.9.16 (v1576990468) starting up
+Thu Dec 26 2019 07:08:17.013 - CSharedResourceNamespaceClient::Init(): received namespace data 10276
+Thu Dec 26 2019 07:08:17.027 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:08:17.028 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:08:17.028 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:08:17.029 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:08:17.031 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 07:08:17.033 - Events created
+Thu Dec 26 2019 07:08:17.035 - Found bad mirror window settings: 
+Thu Dec 26 2019 07:08:17.075 - CGraphicsDevice Init...
+Thu Dec 26 2019 07:08:17.075 - Headset is using driver direct mode
+Thu Dec 26 2019 07:08:17.193 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Thu Dec 26 2019 07:08:17.193 - ****************************************** Begin GPU speed ******************************************
+Thu Dec 26 2019 07:08:17.450 - MeasureGpuMegaPixelsPerSecond(): Returning 289 MP/sec. Total CPU time 0.26 seconds.
+Thu Dec 26 2019 07:08:17.464 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Thu Dec 26 2019 07:08:17.466 - GPU speed from average of 6 median samples: 289
+Thu Dec 26 2019 07:08:17.467 - ******************************************* End GPU speed *******************************************
+Thu Dec 26 2019 07:08:17.467 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Thu Dec 26 2019 07:08:17.467 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Thu Dec 26 2019 07:08:17.467 - Raw ideal render target scale = 0.73
+Thu Dec 26 2019 07:08:17.467 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Thu Dec 26 2019 07:08:17.467 - Loading fonts/debug.spritefont
+Thu Dec 26 2019 07:08:17.471 - Creating samplers
+Thu Dec 26 2019 07:08:17.471 - Creating util resources
+Thu Dec 26 2019 07:08:17.472 - Creating/Updating distortion surfaces
+Thu Dec 26 2019 07:08:17.687 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 07:08:17.885 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 07:08:17.886 - Creating constant buffers
+Thu Dec 26 2019 07:08:17.888 - Creating layer texture (w=1552,h=1720)
+Thu Dec 26 2019 07:08:18.530 - Loading MC resources
+Thu Dec 26 2019 07:08:18.530 - Initializing timing resources
+Thu Dec 26 2019 07:08:18.530 - Initializing camera
+Thu Dec 26 2019 07:08:18.530 - Done initializing CGraphicsDevice resources
+Thu Dec 26 2019 07:08:18.531 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Thu Dec 26 2019 07:08:18.540 - Distort initialized
+Thu Dec 26 2019 07:08:18.551 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Thu Dec 26 2019 07:08:18.552 - Set thread 0000000000000660 priority to: 15
+Thu Dec 26 2019 07:08:18.552 - Set thread 0000000000000634 priority to: 15
+Thu Dec 26 2019 07:08:18.552 - Compositor render thread started
+Thu Dec 26 2019 07:08:18.552 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 19324
+Thu Dec 26 2019 07:08:18.552 - Startup Complete (1.538693 seconds)
+Thu Dec 26 2019 07:08:18.562 - Found 103 quads for Collision Bounds
+Thu Dec 26 2019 07:08:18.563 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Thu Dec 26 2019 07:08:18.563 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Thu Dec 26 2019 07:08:18.564 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Thu Dec 26 2019 07:08:18.565 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Thu Dec 26 2019 07:08:18.572 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Thu Dec 26 2019 07:08:18.602 - Closing pipe SpacePirateVR (19324) because it was broken from the other end
+Thu Dec 26 2019 07:08:18.602 - Process SpacePirateVR (19324) disconnected (Thread(0x000002DDA9CA4370/0x000)
+Thu Dec 26 2019 07:08:18.602 - Lost pipe connection from SpacePirateVR (19324)
+Thu Dec 26 2019 07:08:18.796 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 15852
+Thu Dec 26 2019 07:08:19.360 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 29456
+Thu Dec 26 2019 07:08:19.794 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 22840
+Thu Dec 26 2019 07:08:20.509 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 19324
+Thu Dec 26 2019 07:08:21.628 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 7812
+Thu Dec 26 2019 07:08:21.696 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10564
+Thu Dec 26 2019 07:08:21.698 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 19820
+Thu Dec 26 2019 07:08:21.727 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 28864
+Thu Dec 26 2019 07:08:21.756 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 14912
+Thu Dec 26 2019 07:08:21.822 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 9260
+Thu Dec 26 2019 07:08:21.913 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 21628
+Thu Dec 26 2019 07:08:22.032 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 23072
+Thu Dec 26 2019 07:08:22.033 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 29400
+Thu Dec 26 2019 07:08:22.046 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4036
+Thu Dec 26 2019 07:08:26.036 - Closing pipe vrdashboard (15852) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.036 - Process vrdashboard (15852) disconnected (Thread(0x000002DDA9A303D0/0x000)
+Thu Dec 26 2019 07:08:26.036 - Lost pipe connection from vrdashboard (15852)
+Thu Dec 26 2019 07:08:26.037 - Closing pipe vrwebhelper (7812) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.037 - Process vrwebhelper (7812) disconnected (Thread(0x000002DDA9A30E80/0x000)
+Thu Dec 26 2019 07:08:26.038 - Lost pipe connection from vrwebhelper (7812)
+Thu Dec 26 2019 07:08:26.060 - Closing pipe vrwebhelper (23072) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.060 - Process vrwebhelper (23072) disconnected (Thread(0x000002DDA9A304F0/0x000)
+Thu Dec 26 2019 07:08:26.060 - Lost pipe connection from vrwebhelper (23072)
+Thu Dec 26 2019 07:08:26.077 - Closing pipe vrwebhelper (9260) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.077 - Process vrwebhelper (9260) disconnected (Thread(0x000002DDA9A315D0/0x000)
+Thu Dec 26 2019 07:08:26.077 - Lost pipe connection from vrwebhelper (9260)
+Thu Dec 26 2019 07:08:26.087 - Closing pipe vrwebhelper (19820) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.087 - Process vrwebhelper (19820) disconnected (Thread(0x000002DDA9A318A0/0x000)
+Thu Dec 26 2019 07:08:26.087 - Lost pipe connection from vrwebhelper (19820)
+Thu Dec 26 2019 07:08:26.167 - Closing pipe vrwebhelper (21628) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.167 - Process vrwebhelper (21628) disconnected (Thread(0x000002DDA9A31930/0x000)
+Thu Dec 26 2019 07:08:26.167 - Lost pipe connection from vrwebhelper (21628)
+Thu Dec 26 2019 07:08:26.179 - Closing pipe vrwebhelper (28864) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.179 - Process vrwebhelper (28864) disconnected (Thread(0x000002DDA9A31B70/0x000)
+Thu Dec 26 2019 07:08:26.179 - Lost pipe connection from vrwebhelper (28864)
+Thu Dec 26 2019 07:08:26.181 - Closing pipe vrwebhelper (4036) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.181 - Process vrwebhelper (4036) disconnected (Thread(0x000002DDA9A30850/0x000)
+Thu Dec 26 2019 07:08:26.181 - Lost pipe connection from vrwebhelper (4036)
+Thu Dec 26 2019 07:08:26.198 - Closing pipe vrwebhelper (29400) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.198 - Process vrwebhelper (29400) disconnected (Thread(0x000002DDA9A31C00/0x000)
+Thu Dec 26 2019 07:08:26.198 - Lost pipe connection from vrwebhelper (29400)
+Thu Dec 26 2019 07:08:26.251 - Closing pipe vrwebhelper (14912) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.251 - Process vrwebhelper (14912) disconnected (Thread(0x000002DDA9A32110/0x000)
+Thu Dec 26 2019 07:08:26.251 - Lost pipe connection from vrwebhelper (14912)
+Thu Dec 26 2019 07:08:26.263 - Closing pipe vrwebhelper (10564) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.263 - Process vrwebhelper (10564) disconnected (Thread(0x000002DDA9A31F60/0x000)
+Thu Dec 26 2019 07:08:26.263 - Lost pipe connection from vrwebhelper (10564)
+Thu Dec 26 2019 07:08:26.336 - Closing pipe vrwebhelper (22840) because it was broken from the other end
+Thu Dec 26 2019 07:08:26.336 - Process vrwebhelper (22840) disconnected (Thread(0x000002DDA9A321A0/0x000)
+Thu Dec 26 2019 07:08:26.336 - Lost pipe connection from vrwebhelper (22840)
+Thu Dec 26 2019 07:08:26.932 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 07:08:28.660 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 07:08:29.228 - Closing pipe SpacePirateVR (19324) because it was broken from the other end
+Thu Dec 26 2019 07:08:29.228 - Process SpacePirateVR (19324) disconnected (Thread(0x000002DDA9A32230/0x000)
+Thu Dec 26 2019 07:08:29.228 - Lost pipe connection from SpacePirateVR (19324)
+Thu Dec 26 2019 07:08:29.228 - ######################################################################
+Thu Dec 26 2019 07:08:29.228 - Cumulative stats for pid: 19324
+Thu Dec 26 2019 07:08:29.228 - Total..................  2344 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:08:29.228 - Startup................    85 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:08:29.228 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:08:29.228 - Timed out.  1 total....  1818 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:08:29.228 - ######################################################################
+Thu Dec 26 2019 07:08:29.228 - Total dropped frames: 0
+Thu Dec 26 2019 07:08:29.237 - Render thread ending
+Thu Dec 26 2019 07:08:29.237 - Signal thread ending
+Thu Dec 26 2019 07:08:29.247 - VR compositor shutting down
+Thu Dec 26 2019 07:08:29.266 - Listener thread ending
+Thu Dec 26 2019 07:08:29.296 - Process vrmonitor (29456) disconnected (Thread(0x000002DDA9A30CD0/0x000)
+Thu Dec 26 2019 07:08:29.296 - Ignoring LostPipeConnection from vrmonitor (29456) because compositor is shutting down
+Thu Dec 26 2019 07:08:29.296 - Cleaning up
+Thu Dec 26 2019 07:10:57.252 - //==============================================================================================
+Thu Dec 26 2019 07:10:57.252 - ================================================================================================
+Thu Dec 26 2019 07:10:57.252 - ================================================================================================
+Thu Dec 26 2019 07:10:57.252 - vrcompositor.exe 1.9.16 startup with PID=17364, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 07:10:57.252 - VR compositor 1.9.16 (v1576990468) starting up
+Thu Dec 26 2019 07:10:57.323 - CSharedResourceNamespaceClient::Init(): received namespace data 7828
+Thu Dec 26 2019 07:10:57.340 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:10:57.341 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:10:57.341 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:10:57.342 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 07:10:57.344 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 07:10:57.346 - Events created
+Thu Dec 26 2019 07:10:57.348 - Found bad mirror window settings: 
+Thu Dec 26 2019 07:10:57.380 - CGraphicsDevice Init...
+Thu Dec 26 2019 07:10:57.380 - Headset is using driver direct mode
+Thu Dec 26 2019 07:10:57.519 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Thu Dec 26 2019 07:10:57.519 - ****************************************** Begin GPU speed ******************************************
+Thu Dec 26 2019 07:10:57.770 - MeasureGpuMegaPixelsPerSecond(): Returning 284 MP/sec. Total CPU time 0.25 seconds.
+Thu Dec 26 2019 07:10:57.791 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Thu Dec 26 2019 07:10:57.792 - GPU speed from average of 6 median samples: 288
+Thu Dec 26 2019 07:10:57.795 - ******************************************* End GPU speed *******************************************
+Thu Dec 26 2019 07:10:57.795 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Thu Dec 26 2019 07:10:57.795 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Thu Dec 26 2019 07:10:57.795 - Raw ideal render target scale = 0.73
+Thu Dec 26 2019 07:10:57.796 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Thu Dec 26 2019 07:10:57.796 - Loading fonts/debug.spritefont
+Thu Dec 26 2019 07:10:57.802 - Creating samplers
+Thu Dec 26 2019 07:10:57.802 - Creating util resources
+Thu Dec 26 2019 07:10:57.820 - Creating/Updating distortion surfaces
+Thu Dec 26 2019 07:10:58.027 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 07:10:58.229 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Thu Dec 26 2019 07:10:58.234 - Creating constant buffers
+Thu Dec 26 2019 07:10:58.237 - Creating layer texture (w=1552,h=1720)
+Thu Dec 26 2019 07:10:58.807 - Loading MC resources
+Thu Dec 26 2019 07:10:58.807 - Initializing timing resources
+Thu Dec 26 2019 07:10:58.807 - Initializing camera
+Thu Dec 26 2019 07:10:58.807 - Done initializing CGraphicsDevice resources
+Thu Dec 26 2019 07:10:58.808 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Thu Dec 26 2019 07:10:58.816 - Distort initialized
+Thu Dec 26 2019 07:10:58.828 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Thu Dec 26 2019 07:10:58.828 - Set thread 000000000000065C priority to: 15
+Thu Dec 26 2019 07:10:58.828 - Set thread 0000000000000634 priority to: 15
+Thu Dec 26 2019 07:10:58.828 - Compositor render thread started
+Thu Dec 26 2019 07:10:58.828 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 2908
+Thu Dec 26 2019 07:10:58.829 - Startup Complete (1.504401 seconds)
+Thu Dec 26 2019 07:10:58.838 - Found 103 quads for Collision Bounds
+Thu Dec 26 2019 07:10:58.838 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Thu Dec 26 2019 07:10:58.838 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Thu Dec 26 2019 07:10:58.839 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Thu Dec 26 2019 07:10:58.840 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Thu Dec 26 2019 07:10:58.848 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Thu Dec 26 2019 07:10:58.877 - Closing pipe SpacePirateVR (2908) because it was broken from the other end
+Thu Dec 26 2019 07:10:58.877 - Process SpacePirateVR (2908) disconnected (Thread(0x0000018BC7E8FD10/0x000)
+Thu Dec 26 2019 07:10:58.877 - Lost pipe connection from SpacePirateVR (2908)
+Thu Dec 26 2019 07:10:59.072 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 25660
+Thu Dec 26 2019 07:10:59.550 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 25076
+Thu Dec 26 2019 07:11:00.165 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 25464
+Thu Dec 26 2019 07:11:00.745 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 2908
+Thu Dec 26 2019 07:11:01.974 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 25992
+Thu Dec 26 2019 07:11:02.047 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 5868
+Thu Dec 26 2019 07:11:02.059 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 5924
+Thu Dec 26 2019 07:11:02.068 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11176
+Thu Dec 26 2019 07:11:02.070 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 28832
+Thu Dec 26 2019 07:11:02.141 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 29200
+Thu Dec 26 2019 07:11:02.262 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24736
+Thu Dec 26 2019 07:11:02.272 - Processing message VRMsg_CompositorConnect from vrwebhelper (24736) took 0.0104 seconds
+Thu Dec 26 2019 07:11:02.294 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17544
+Thu Dec 26 2019 07:11:02.303 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 22176
+Thu Dec 26 2019 07:11:02.329 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17788
+Thu Dec 26 2019 07:11:06.930 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 07:11:08.835 - Screenshot: HookScreenshot, 1 types
+Thu Dec 26 2019 07:11:09.413 - Closing pipe SpacePirateVR (2908) because it was broken from the other end
+Thu Dec 26 2019 07:11:09.413 - Process SpacePirateVR (2908) disconnected (Thread(0x0000018BC7E8DB50/0x000)
+Thu Dec 26 2019 07:11:09.413 - Lost pipe connection from SpacePirateVR (2908)
+Thu Dec 26 2019 07:11:09.413 - ######################################################################
+Thu Dec 26 2019 07:11:09.414 - Cumulative stats for pid: 2908
+Thu Dec 26 2019 07:11:09.414 - Total..................  1919 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:11:09.414 - Startup................    90 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:11:09.414 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:11:09.414 - Timed out.  1 total....  1201 presents.    0 dropped.    0 reprojected
+Thu Dec 26 2019 07:11:09.414 - ######################################################################
+Thu Dec 26 2019 07:11:09.414 - Total dropped frames: 0
+Thu Dec 26 2019 07:11:13.449 - Closing pipe vrwebhelper (11176) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.449 - Process vrwebhelper (11176) disconnected (Thread(0x0000018BC7E8E2A0/0x000)
+Thu Dec 26 2019 07:11:13.449 - Lost pipe connection from vrwebhelper (11176)
+Thu Dec 26 2019 07:11:13.553 - Closing pipe vrdashboard (25660) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.553 - Process vrdashboard (25660) disconnected (Thread(0x0000018BC7E8E3C0/0x000)
+Thu Dec 26 2019 07:11:13.553 - Lost pipe connection from vrdashboard (25660)
+Thu Dec 26 2019 07:11:13.610 - Closing pipe vrwebhelper (24736) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.610 - Process vrwebhelper (24736) disconnected (Thread(0x0000018BC7E8DEB0/0x000)
+Thu Dec 26 2019 07:11:13.610 - Lost pipe connection from vrwebhelper (24736)
+Thu Dec 26 2019 07:11:13.630 - Closing pipe vrwebhelper (28832) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.630 - Process vrwebhelper (28832) disconnected (Thread(0x0000018BC7E8F260/0x000)
+Thu Dec 26 2019 07:11:13.630 - Lost pipe connection from vrwebhelper (28832)
+Thu Dec 26 2019 07:11:13.634 - Closing pipe vrwebhelper (22176) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.634 - Process vrwebhelper (22176) disconnected (Thread(0x0000018BC7E8EC30/0x000)
+Thu Dec 26 2019 07:11:13.635 - Lost pipe connection from vrwebhelper (22176)
+Thu Dec 26 2019 07:11:13.652 - Closing pipe vrwebhelper (5868) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.652 - Process vrwebhelper (5868) disconnected (Thread(0x0000018BC7E8DFD0/0x000)
+Thu Dec 26 2019 07:11:13.652 - Lost pipe connection from vrwebhelper (5868)
+Thu Dec 26 2019 07:11:13.655 - Closing pipe vrwebhelper (17544) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.655 - Process vrwebhelper (17544) disconnected (Thread(0x0000018BC7E8EB10/0x000)
+Thu Dec 26 2019 07:11:13.655 - Lost pipe connection from vrwebhelper (17544)
+Thu Dec 26 2019 07:11:13.684 - Closing pipe vrwebhelper (25992) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.684 - Process vrwebhelper (25992) disconnected (Thread(0x0000018BC7E8DBE0/0x000)
+Thu Dec 26 2019 07:11:13.684 - Lost pipe connection from vrwebhelper (25992)
+Thu Dec 26 2019 07:11:13.693 - Closing pipe vrwebhelper (17788) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.693 - Process vrwebhelper (17788) disconnected (Thread(0x0000018BC7E8EF90/0x000)
+Thu Dec 26 2019 07:11:13.693 - Lost pipe connection from vrwebhelper (17788)
+Thu Dec 26 2019 07:11:13.694 - Closing pipe vrwebhelper (29200) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.694 - Process vrwebhelper (29200) disconnected (Thread(0x0000018BC7E8F020/0x000)
+Thu Dec 26 2019 07:11:13.694 - Lost pipe connection from vrwebhelper (29200)
+Thu Dec 26 2019 07:11:13.713 - Closing pipe vrwebhelper (25464) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.713 - Process vrwebhelper (25464) disconnected (Thread(0x0000018BC7E8E7B0/0x000)
+Thu Dec 26 2019 07:11:13.713 - Lost pipe connection from vrwebhelper (25464)
+Thu Dec 26 2019 07:11:13.722 - Render thread ending
+Thu Dec 26 2019 07:11:13.722 - Signal thread ending
+Thu Dec 26 2019 07:11:13.725 - Closing pipe vrwebhelper (5924) because it was broken from the other end
+Thu Dec 26 2019 07:11:13.725 - Process vrwebhelper (5924) disconnected (Thread(0x0000018BC7E8E840/0x000)
+Thu Dec 26 2019 07:11:13.725 - Lost pipe connection from vrwebhelper (5924)
+Thu Dec 26 2019 07:11:13.733 - VR compositor shutting down
+Thu Dec 26 2019 07:11:13.784 - Listener thread ending
+Thu Dec 26 2019 07:11:13.804 - Process vrmonitor (25076) disconnected (Thread(0x0000018BC7E8D760/0x000)
+Thu Dec 26 2019 07:11:13.804 - Ignoring LostPipeConnection from vrmonitor (25076) because compositor is shutting down
+Thu Dec 26 2019 07:11:13.804 - Cleaning up

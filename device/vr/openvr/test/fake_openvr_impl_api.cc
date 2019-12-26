@@ -34,6 +34,8 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/sample/hellovr_opengl_main.h"
 #include "device/vr/OpenOVR/Reimpl/static_bases.gen.h"
+// #include "device/vr/openvr/test/serializer.h"
+#include "device/vr/openvr/test/fnproxy.h"
 
 std::string dllDir;
 std::ofstream out;
@@ -164,13 +166,15 @@ extern "C" {
     return iface;
   }
 }
-  
+
+char lol[] = "lol";
+char lol2[] = "lol2";
 BOOL WINAPI DllMain(
   _In_ HINSTANCE hinstDLL,
   _In_ DWORD     fdwReason,
   _In_ LPVOID    lpvReserved
 ) {
-  {
+  { 
     // getOut() << "loading paths" << std::endl;
     char dllPath[MAX_PATH];
     HMODULE hm = NULL;
@@ -204,6 +208,30 @@ BOOL WINAPI DllMain(
   GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
   getOut() << "init dll 1 " << buf.data() << std::endl;
   getOut() << "init dll 2 " << buf.data() << std::endl;
+
+  {
+    FnProxy fnp;
+    getOut() << "init dll 3" << std::endl;
+    fnp.regV<lol, std::string, [](std::string s) -> void {
+      getOut() << "call lol " << s << std::endl;
+    }>();
+    fnp.reg<lol2, std::string, std::string, [](std::string s) -> std::string {
+      return s + " second";
+    }>();
+    getOut() << "init dll 4" << std::endl;
+    fnp.callV<lol, std::string>(std::string("woot 1"));
+    fnp.callV<lol, std::string>(std::string("woot 2"));
+    std::string woot3 = fnp.call<lol2, std::string, std::string>(std::string("woot 3"));
+    getOut() << "init dll 5" << woot3 << std::endl;
+    /* std::string woot("lol");
+    int i = 7;
+    std::string woot2;
+    int i2;
+    out(woot, i);
+    in(woot2, i2);
+    
+    getOut() << "got data " << woot2 << " " << i2 << std::endl; */
+  }
   
   return true;
 }
