@@ -9,12 +9,12 @@ public:
   std::mutex mut;
   // std::semaphore sem;
   std::vector<unsigned char> data;
-  // staticvector<unsigned char> data2;
+  staticvector<unsigned char> data2;
   std::map<std::string, std::function<void()>> fns;
   zpp::serializer::memory_input_archive in;
   zpp::serializer::memory_output_archive out;
   
-  FnProxy() : /*data(4096), data2(data.data(), 0), */in(data), out(data) {}
+  FnProxy() : data(4096), data2(data.data(), 0), in(data2), out(data2) {}
 
   template<const char *name, typename R, typename A>
   R call(A a) {

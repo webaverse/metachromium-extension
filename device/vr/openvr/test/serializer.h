@@ -23,6 +23,33 @@
 #include <variant>
 #endif
 
+template<typename T>
+class staticvector {
+public:
+  T *d;
+  size_t s;
+  staticvector<T>(T *d, size_t s) : d(d), s(s) {}
+  T *data() {
+    return d;
+  }
+  size_t size() {
+    return s;
+  }
+  void resize(size_t newS) {
+    s = newS;
+  }
+  T *begin() {
+    return d;
+  }
+  T *end() {
+    return d + s;
+  }
+  void erase(T *x, T *y) {
+    memcpy(x, y, (end() - y) * sizeof(T));
+    s -= y - x;
+  }
+};
+
 namespace zpp
 {
 /**
@@ -861,7 +888,7 @@ protected:
      * vector.
      */
     explicit lazy_vector_memory_output_archive(
-        std::vector<unsigned char> & output) noexcept :
+        staticvector<unsigned char> & output) noexcept :
         m_output(std::addressof(output))
     {
     }
@@ -926,7 +953,7 @@ private:
     /**
      * The output vector.
      */
-    std::vector<unsigned char> * m_output{};
+    staticvector<unsigned char> * m_output{};
 
     /**
      * The vector size.
@@ -951,7 +978,7 @@ public:
      * vector.
      */
     explicit memory_output_archive(
-        std::vector<unsigned char> & output) noexcept :
+        staticvector<unsigned char> & output) noexcept :
         lazy_vector_memory_output_archive(output)
     {
     }
@@ -1110,7 +1137,7 @@ public:
     /**
      * Construct a memory input archive from a vector.
      */
-    memory_input_archive(std::vector<unsigned char> & input) :
+    memory_input_archive(staticvector<unsigned char> & input) :
         memory_view_input_archive(input.data(), input.size()),
         m_input(std::addressof(input))
     {
@@ -1151,7 +1178,7 @@ private:
     /**
      * The input data.
      */
-    std::vector<unsigned char> * m_input{};
+    staticvector<unsigned char> * m_input{};
 };
 
 /**
