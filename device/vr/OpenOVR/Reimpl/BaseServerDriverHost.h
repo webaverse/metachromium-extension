@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseCommon.h"
 
+#error lol
+
 // TODO get this to work properly
 #include "OpenVR/interfaces/driver_IVRServerDriverHost_005.h"
 

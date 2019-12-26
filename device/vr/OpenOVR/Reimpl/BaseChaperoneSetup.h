@@ -1,22 +1,10 @@
 #pragma once
 #include "BaseCommon.h"
 
-enum OOVR_EChaperoneConfigFile {
-	EChaperoneConfigFile_Live = 1,		// The live chaperone config, used by most applications and games
-	EChaperoneConfigFile_Temp = 2,		// The temporary chaperone config, used to live-preview collision bounds in room setup
-};
-
-enum OOVR_EChaperoneImportFlags {
-	EChaperoneImport_BoundsOnly = 0x0001,
-};
-
 class BaseChaperoneSetup {
 public:
-	typedef OOVR_EChaperoneConfigFile EChaperoneConfigFile;
-	typedef OOVR_EChaperoneImportFlags EChaperoneConfigFlags;
-
 	/** Saves the current working copy to disk */
-	bool CommitWorkingCopy(EChaperoneConfigFile configFile);
+	bool CommitWorkingCopy(vr::EChaperoneConfigFile configFile);
 
 	/** Reverts the working copy to match the live chaperone calibration.
 	* To modify existing data this MUST be do WHILE getting a non-error ChaperoneCalibrationStatus.
@@ -62,7 +50,7 @@ public:
 	void SetWorkingStandingZeroPoseToRawTrackingPose(const vr::HmdMatrix34_t *pMatStandingZeroPoseToRawTrackingPose);
 
 	/** Tear everything down and reload it from the file on disk */
-	void ReloadFromDisk(EChaperoneConfigFile configFile);
+	void ReloadFromDisk(vr::EChaperoneConfigFile configFile);
 
 	/** Returns the preferred seated position. */
 	bool GetLiveSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pmatSeatedZeroPoseToRawTrackingPose);

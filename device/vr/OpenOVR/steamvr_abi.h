@@ -1,5 +1,7 @@
 #pragma once
 
+#error do not include
+
 #include "stdafx.h"
 
 using namespace vr;

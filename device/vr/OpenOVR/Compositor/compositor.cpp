@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "compositor.h"
 
+#error lol
+
 #include "libovr_wrapper.h"
 
 Compositor::~Compositor() {

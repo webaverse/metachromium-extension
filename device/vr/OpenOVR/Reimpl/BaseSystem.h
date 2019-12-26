@@ -1,7 +1,7 @@
 #pragma once
 #include "../BaseCommon.h" // TODO don't import from OCOVR, and remove the "../"
 #include "OpenVR/interfaces/IVRSystem_017.h"
-#include <OVR_CAPI.h>
+// #include <OVR_CAPI.h>
 #include <queue>
 
 using namespace vr;
@@ -10,7 +10,7 @@ class BaseSystem {
 	// Copied from IVRSystem, because MSVC made me.
 
 private:
-	struct event_info_t {
+	/* struct event_info_t {
 		TrackedDevicePose_t pose = { 0 };
 		VREvent_t ev = { 0 };
 
@@ -50,7 +50,7 @@ public:
 	static const TrackedDeviceIndex_t rightHandIndex = 2;
 	static const TrackedDeviceIndex_t thirdTouchIndex = 3;
 
-	static float SGetIpd();
+	static float SGetIpd(); */
 
 public:
 	BaseSystem();

@@ -4,33 +4,25 @@
 #include <string>
 
 using namespace vr;
-using EVRScreenshotError = BaseScreenshots::EVRScreenshotError;
 
 EVRScreenshotError BaseScreenshots::RequestScreenshot(ScreenshotHandle_t *pOutScreenshotHandle, EVRScreenshotType type, const char *pchPreviewFilename, const char *pchVRFilename) {
-	STUBBED();
+	return g_vrscreenshots->RequestScreenshot(pOutScreenshotHandle, type, pchPreviewFilename, pchVRFilename);
 }
 EVRScreenshotError BaseScreenshots::HookScreenshot(VR_ARRAY_COUNT(numTypes) const EVRScreenshotType *pSupportedTypes, int numTypes) {
-	// Since AFAIK LibOVR doesn't give the player the ability to trigger screenshots, do nothing here.
-	return VRScreenshotError_None;
+	return g_vrscreenshots->HookScreenshot(pSupportedTypes, numTypes);
 }
 EVRScreenshotType BaseScreenshots::GetScreenshotPropertyType(ScreenshotHandle_t screenshotHandle, EVRScreenshotError *pError) {
-	if (pError)
-		*pError = VRScreenshotError_None;
-
-	STUBBED();
+	return g_vrscreenshots->GetScreenshotPropertyType(screenshotHandle, pError);
 }
 uint32_t BaseScreenshots::GetScreenshotPropertyFilename(ScreenshotHandle_t screenshotHandle, EVRScreenshotPropertyFilenames filenameType, VR_OUT_STRING() char *pchFilename, uint32_t cchFilename, EVRScreenshotError *pError) {
-	if (pError)
-		*pError = VRScreenshotError_None;
-
-	STUBBED();
+	return g_vrscreenshots->GetScreenshotPropertyFilename(screenshotHandle, filenameType, pchFilename, cchFilename, pError);
 }
 EVRScreenshotError BaseScreenshots::UpdateScreenshotProgress(ScreenshotHandle_t screenshotHandle, float flProgress) {
-	STUBBED();
+	return g_vrscreenshots->UpdateScreenshotProgress(screenshotHandle, flProgress);
 }
 EVRScreenshotError BaseScreenshots::TakeStereoScreenshot(ScreenshotHandle_t *pOutScreenshotHandle, const char *pchPreviewFilename, const char *pchVRFilename) {
-	STUBBED();
+	return g_vrscreenshots->TakeStereoScreenshot(pOutScreenshotHandle, pchPreviewFilename, pchVRFilename);
 }
 EVRScreenshotError BaseScreenshots::SubmitScreenshot(ScreenshotHandle_t screenshotHandle, EVRScreenshotType type, const char *pchSourcePreviewFilename, const char *pchSourceVRFilename) {
-	STUBBED();
+	return g_vrscreenshots->SubmitScreenshot(screenshotHandle, type, pchSourcePreviewFilename, pchSourceVRFilename);
 }

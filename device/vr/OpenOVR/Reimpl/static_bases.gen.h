@@ -48,11 +48,13 @@ class BaseClientCore;
 std::shared_ptr<BaseClientCore> GetBaseClientCore();
 BaseClientCore* GetUnsafeBaseClientCore();
 std::shared_ptr<BaseClientCore> GetCreateBaseClientCore();
-class OCBaseSystem;
+/* class OCBaseSystem;
 std::shared_ptr<OCBaseSystem> GetBaseOCSystem();
 OCBaseSystem* GetUnsafeBaseOCSystem();
 std::shared_ptr<OCBaseSystem> GetCreateBaseOCSystem();
 class BaseServerDriverHost;
 std::shared_ptr<BaseServerDriverHost> GetBaseServerDriverHost();
 BaseServerDriverHost* GetUnsafeBaseServerDriverHost();
-std::shared_ptr<BaseServerDriverHost> GetCreateBaseServerDriverHost();
+std::shared_ptr<BaseServerDriverHost> GetCreateBaseServerDriverHost(); */
+
+void *CreateInterfaceByName(const char *name);

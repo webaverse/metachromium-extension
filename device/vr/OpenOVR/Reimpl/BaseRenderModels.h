@@ -1,13 +1,6 @@
 #pragma once
 #include "BaseCommon.h"
 
-enum OOVR_EVRRenderModelError;
-struct OOVR_RenderModel_t;
-typedef int32_t OOVR_TextureID_t;
-struct OOVR_RenderModel_TextureMap_t;
-struct OOVR_RenderModel_ControllerMode_State_t;
-struct OOVR_RenderModel_ComponentState_t;
-
 class BaseRenderModels {
 private:
 
@@ -22,24 +15,24 @@ public:
 	*
 	* The method returns VRRenderModelError_Loading while the render model is still being loaded.
 	* The method returns VRRenderModelError_None once loaded successfully, otherwise will return an error. */
-	virtual OOVR_EVRRenderModelError LoadRenderModel_Async(const char *pchRenderModelName, OOVR_RenderModel_t **ppRenderModel);
+	virtual vr::EVRRenderModelError LoadRenderModel_Async(const char *pchRenderModelName, vr::RenderModel_t **ppRenderModel);
 
 	/** Frees a previously returned render model
 	*   It is safe to call this on a null ptr. */
-	virtual void FreeRenderModel(OOVR_RenderModel_t *pRenderModel);
+	virtual void FreeRenderModel(vr::RenderModel_t *pRenderModel);
 
 	/** Loads and returns a texture for use in the application. */
-	virtual OOVR_EVRRenderModelError LoadTexture_Async(OOVR_TextureID_t textureId, OOVR_RenderModel_TextureMap_t **ppTexture);
+	virtual vr::EVRRenderModelError LoadTexture_Async(vr::TextureID_t textureId, vr::RenderModel_TextureMap_t **ppTexture);
 
 	/** Frees a previously returned texture
 	*   It is safe to call this on a null ptr. */
-	virtual void FreeTexture(OOVR_RenderModel_TextureMap_t *pTexture);
+	virtual void FreeTexture(vr::RenderModel_TextureMap_t *pTexture);
 
 	/** Creates a D3D11 texture and loads data into it. */
-	virtual OOVR_EVRRenderModelError LoadTextureD3D11_Async(OOVR_TextureID_t textureId, void *pD3D11Device, void **ppD3D11Texture2D);
+	virtual vr::EVRRenderModelError LoadTextureD3D11_Async(vr::TextureID_t textureId, void *pD3D11Device, void **ppD3D11Texture2D);
 
 	/** Helper function to copy the bits into an existing texture. */
-	virtual OOVR_EVRRenderModelError LoadIntoTextureD3D11_Async(OOVR_TextureID_t textureId, void *pDstTexture);
+	virtual vr::EVRRenderModelError LoadIntoTextureD3D11_Async(vr::TextureID_t textureId, void *pDstTexture);
 
 	/** Use this to free textures created with LoadTextureD3D11_Async instead of calling Release on them. */
 	virtual void FreeTextureD3D11(void *pD3D11Texture2D);
@@ -86,22 +79,22 @@ public:
 	* If the pchRenderModelName or pchComponentName is invalid, this will return false (and transforms will be set to identity).
 	* Otherwise, return true
 	* Note: For dynamic objects, visibility may be dynamic. (I.e., true/false will be returned based on controller state and controller mode state ) */
-	virtual bool GetComponentStateForDevicePath(const char *pchRenderModelName, const char *pchComponentName, vr::VRInputValueHandle_t devicePath, const OOVR_RenderModel_ControllerMode_State_t *pState, OOVR_RenderModel_ComponentState_t *pComponentState);
+	virtual bool GetComponentStateForDevicePath(const char *pchRenderModelName, const char *pchComponentName, vr::VRInputValueHandle_t devicePath, const vr::RenderModel_ControllerMode_State_t *pState, vr::RenderModel_ComponentState_t *pComponentState);
 
 	/** This version of GetComponentState takes a controller state block instead of an action origin. This function is deprecated. You should use the new input system and GetComponentStateForDevicePath instead. */
-	virtual bool GetComponentState(const char *pchRenderModelName, const char *pchComponentName, const vr::VRControllerState_t *pControllerState, const OOVR_RenderModel_ControllerMode_State_t *pState, OOVR_RenderModel_ComponentState_t *pComponentState);
+	virtual bool GetComponentState(const char *pchRenderModelName, const char *pchComponentName, const vr::VRControllerState_t *pControllerState, const vr::RenderModel_ControllerMode_State_t *pState, vr::RenderModel_ComponentState_t *pComponentState);
 
 	/** Returns true if the render model has a component with the specified name */
 	virtual bool RenderModelHasComponent(const char *pchRenderModelName, const char *pchComponentName);
 
 	/** Returns the URL of the thumbnail image for this rendermodel */
-	virtual uint32_t GetRenderModelThumbnailURL(const char *pchRenderModelName, VR_OUT_STRING() char *pchThumbnailURL, uint32_t unThumbnailURLLen, OOVR_EVRRenderModelError *peError);
+	virtual uint32_t GetRenderModelThumbnailURL(const char *pchRenderModelName, VR_OUT_STRING() char *pchThumbnailURL, uint32_t unThumbnailURLLen, vr::EVRRenderModelError *peError);
 
 	/** Provides a render model path that will load the unskinned model if the model name provided has been replace by the user. If the model
 	* hasn't been replaced the path value will still be a valid path to load the model. Pass this to LoadRenderModel_Async, etc. to load the
 	* model. */
-	virtual uint32_t GetRenderModelOriginalPath(const char *pchRenderModelName, VR_OUT_STRING() char *pchOriginalPath, uint32_t unOriginalPathLen, OOVR_EVRRenderModelError *peError);
+	virtual uint32_t GetRenderModelOriginalPath(const char *pchRenderModelName, VR_OUT_STRING() char *pchOriginalPath, uint32_t unOriginalPathLen, vr::EVRRenderModelError *peError);
 
 	/** Returns a string for a render model error */
-	virtual const char *GetRenderModelErrorNameFromEnum(OOVR_EVRRenderModelError error);
+	virtual const char *GetRenderModelErrorNameFromEnum(vr::EVRRenderModelError error);
 };

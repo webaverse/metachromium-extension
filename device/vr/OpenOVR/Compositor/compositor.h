@@ -1,5 +1,7 @@
 #pragma once
 
+#error lol
+
 #include "OpenVR/interfaces/vrtypes.h"
 #include <d3d12.h>
 #include <d3d11.h>

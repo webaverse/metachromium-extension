@@ -1,109 +1,89 @@
 #include "stdafx.h"
 #define BASE_IMPL
 #include "BaseChaperoneSetup.h"
-#include "libovr_wrapper.h"
+// #include "libovr_wrapper.h"
 
 #include <string>
 
 using namespace vr;
 using namespace std;
 
-bool BaseChaperoneSetup::CommitWorkingCopy(EChaperoneConfigFile configFile) {
-	STUBBED();
+bool BaseChaperoneSetup::CommitWorkingCopy(vr::EChaperoneConfigFile configFile) {
+	return g_vrchaperonesetup->CommitWorkingCopy(configFile);
 }
 void BaseChaperoneSetup::RevertWorkingCopy() {
-	STUBBED();
+	return g_vrchaperonesetup->RevertWorkingCopy();
 }
 bool BaseChaperoneSetup::GetWorkingPlayAreaSize(float *pSizeX, float *pSizeZ) {
-	STUBBED();
+	return g_vrchaperonesetup->GetWorkingPlayAreaSize(pSizeX, pSizeZ);
 }
 bool BaseChaperoneSetup::GetWorkingPlayAreaRect(HmdQuad_t *rect) {
-	STUBBED();
+	return g_vrchaperonesetup->GetWorkingPlayAreaRect(rect);
 }
 bool BaseChaperoneSetup::GetWorkingCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
-	STUBBED();
+	return g_vrchaperonesetup->GetWorkingCollisionBoundsInfo(pQuadsBuffer, punQuadsCount);
 }
 bool BaseChaperoneSetup::GetLiveCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
-	// TODO better find out what this method does
-
-	ovrVector3f points[4];
-	int pointsCount;
-
-	ovrResult status = ovr_GetBoundaryGeometry(
-		*ovr::session,
-		ovrBoundary_PlayArea,
-		points,
-		&pointsCount
-	);
-
-	// TODO handle ovrSuccess_BoundaryInvalid
-	OOVR_FAILED_OVR_ABORT(status);
-
-	// Lifted from ReVive
-	// TODO add ReVive (MIT) licence to repo
-	// TODO make it go counter-clockwise
-	if (pQuadsBuffer)
-		memcpy(points, pQuadsBuffer->vCorners, 4 * sizeof(ovrVector3f));
-
-	//string msg = to_string(status) + "," + to_string(pointsCount);
-	//OOVR_LOG(msg.c_str());
-
-	if (punQuadsCount)
-		*punQuadsCount = 1;
-
-	return true;
+	return g_vrchaperonesetup->GetLiveCollisionBoundsInfo(pQuadsBuffer, punQuadsCount);
 }
 bool BaseChaperoneSetup::GetWorkingSeatedZeroPoseToRawTrackingPose(HmdMatrix34_t *pmatSeatedZeroPoseToRawTrackingPose) {
-	STUBBED();
+	return g_vrchaperonesetup->GetWorkingSeatedZeroPoseToRawTrackingPose(pmatSeatedZeroPoseToRawTrackingPose);
 }
 bool BaseChaperoneSetup::GetWorkingStandingZeroPoseToRawTrackingPose(HmdMatrix34_t *pmatStandingZeroPoseToRawTrackingPose) {
-	STUBBED();
+	return g_vrchaperonesetup->GetWorkingStandingZeroPoseToRawTrackingPose(pmatStandingZeroPoseToRawTrackingPose);
 }
 void BaseChaperoneSetup::SetWorkingPlayAreaSize(float sizeX, float sizeZ) {
-	// Called by VRGIN (a VR mod framework), to hide Chaperone during seated play. Noop here.
+	return g_vrchaperonesetup->SetWorkingPlayAreaSize(sizeX, sizeZ);
 }
 void BaseChaperoneSetup::SetWorkingCollisionBoundsInfo(VR_ARRAY_COUNT(unQuadsCount) HmdQuad_t *pQuadsBuffer, uint32_t unQuadsCount) {
-	STUBBED();
+	return g_vrchaperonesetup->SetWorkingCollisionBoundsInfo(pQuadsBuffer, unQuadsCount);
 }
 void BaseChaperoneSetup::SetWorkingSeatedZeroPoseToRawTrackingPose(const HmdMatrix34_t *pMatSeatedZeroPoseToRawTrackingPose) {
-	STUBBED();
+	return g_vrchaperonesetup->SetWorkingSeatedZeroPoseToRawTrackingPose(pMatSeatedZeroPoseToRawTrackingPose);
 }
 void BaseChaperoneSetup::SetWorkingStandingZeroPoseToRawTrackingPose(const HmdMatrix34_t *pMatStandingZeroPoseToRawTrackingPose) {
-	STUBBED();
+	return g_vrchaperonesetup->SetWorkingStandingZeroPoseToRawTrackingPose(pMatStandingZeroPoseToRawTrackingPose);
 }
-void BaseChaperoneSetup::ReloadFromDisk(EChaperoneConfigFile configFile) {
-	STUBBED();
+void BaseChaperoneSetup::ReloadFromDisk(vr::EChaperoneConfigFile configFile) {
+	return g_vrchaperonesetup->ReloadFromDisk(configFile);
 }
 bool BaseChaperoneSetup::GetLiveSeatedZeroPoseToRawTrackingPose(HmdMatrix34_t *pmatSeatedZeroPoseToRawTrackingPose) {
-	STUBBED();
+	return g_vrchaperonesetup->GetLiveSeatedZeroPoseToRawTrackingPose(pmatSeatedZeroPoseToRawTrackingPose);
 }
 void BaseChaperoneSetup::SetWorkingCollisionBoundsTagsInfo(VR_ARRAY_COUNT(unTagCount) uint8_t *pTagsBuffer, uint32_t unTagCount) {
-	STUBBED();
+  abort();
+	// return g_vrchaperonesetup->SetWorkingCollisionBoundsTagsInfo(pTagsBuffer, unTagCount);
 }
 bool BaseChaperoneSetup::GetLiveCollisionBoundsTagsInfo(VR_OUT_ARRAY_COUNT(punTagCount) uint8_t *pTagsBuffer, uint32_t *punTagCount) {
-	STUBBED();
+  abort();
+  return false;
+	// return g_vrchaperonesetup->GetLiveCollisionBoundsTagsInfo(pTagsBuffer, punTagCount);
 }
 bool BaseChaperoneSetup::SetWorkingPhysicalBoundsInfo(VR_ARRAY_COUNT(unQuadsCount) HmdQuad_t *pQuadsBuffer, uint32_t unQuadsCount) {
-	STUBBED();
+  abort();
+  return false;
+	// return g_vrchaperonesetup->SetWorkingPhysicalBoundsInfo(pQuadsBuffer, unQuadsCount);
 }
 bool BaseChaperoneSetup::GetLivePhysicalBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
-	STUBBED();
+  abort();
+  return false;
+	// return g_vrchaperonesetup->GetLivePhysicalBoundsInfo(pQuadsBuffer, punQuadsCount);
 }
 bool BaseChaperoneSetup::ExportLiveToBuffer(VR_OUT_STRING() char *pBuffer, uint32_t *pnBufferLength) {
-	STUBBED();
+	return g_vrchaperonesetup->ExportLiveToBuffer(pBuffer, pnBufferLength);
 }
 bool BaseChaperoneSetup::ImportFromBufferToWorking(const char *pBuffer, uint32_t nImportFlags) {
-	STUBBED();
+	return g_vrchaperonesetup->ImportFromBufferToWorking(pBuffer, nImportFlags);
 }
 void BaseChaperoneSetup::SetWorkingPerimeter(VR_ARRAY_COUNT(unPointCount) HmdVector2_t *pPointBuffer, uint32_t unPointCount) {
-	STUBBED();
+	return g_vrchaperonesetup->SetWorkingPerimeter(pPointBuffer, unPointCount);
 }
 void BaseChaperoneSetup::ShowWorkingSetPreview() {
-	STUBBED();
+	return g_vrchaperonesetup->ShowWorkingSetPreview();
 }
 void BaseChaperoneSetup::HideWorkingSetPreview() {
-	STUBBED();
+	return g_vrchaperonesetup->HideWorkingSetPreview();
 }
 void BaseChaperoneSetup::RoomSetupStarting() {
-	STUBBED();
+	return g_vrchaperonesetup->RoomSetupStarting();
 }

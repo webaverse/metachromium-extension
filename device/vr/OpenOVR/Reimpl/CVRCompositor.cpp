@@ -23,10 +23,11 @@ using namespace vr;
 // Probably added by Valve for internal usage, and deprecated before it was released.
 IVRCompositor_015::EVRCompositorError CVRCompositor_015::RequestScreenshot(EVRScreenshotType type,
 	const char *pchDestinationFileName, const char *pchVRDestinationFileName) {
-
-	STUBBED();
+  // g_vrcompositor->RequestScreenshot(type, pchDestinationFileName, pchVRDestinationFileName);
+  abort();
 }
 
 EVRScreenshotType CVRCompositor_015::GetCurrentScreenshotType() {
-	STUBBED();
+	// g_vrcompositor->GetCurrentScreenshotType();
+  abort();
 }

@@ -40,3 +40,451 @@ Tue Dec 24 2019 21:36:05.264 - ASSERT: "Attempt to init shared state VR_Composit
 Tue Dec 24 2019 21:36:05.298 - Capturing Scene Focus
 Tue Dec 24 2019 21:36:05.336 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
 Tue Dec 24 2019 21:36:05.360 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Thu Dec 26 2019 00:00:34.626 - //==============================================================================================
+Thu Dec 26 2019 00:00:34.626 - ================================================================================================
+Thu Dec 26 2019 00:00:34.626 - ================================================================================================
+Thu Dec 26 2019 00:00:34.626 - SpacePirateVR.exe 1.9.16 startup with PID=24808, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:00:34.626 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:00:34.686 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:00:34.690 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:00:34.696 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:00:34.702 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:00:34.703 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:00:34.712 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Thu Dec 26 2019 00:00:34.720 - CSharedResourceNamespaceClient::Init(): failed connect
+Thu Dec 26 2019 00:00:34.720 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Thu Dec 26 2019 00:00:34.824 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Thu Dec 26 2019 00:00:34.824 - CSharedResourceNamespaceClient::Init(): received namespace data 26144
+Thu Dec 26 2019 00:00:35.960 - Received success response from vrserver connect
+Thu Dec 26 2019 00:00:36.005 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:00:36.005 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:00:36.023 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Thu Dec 26 2019 00:00:38.602 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:00:38.602 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:00:38.623 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 17436
+Thu Dec 26 2019 00:00:38.637 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 7504
+Thu Dec 26 2019 00:00:38.659 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 2744
+Thu Dec 26 2019 00:00:44.729 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:00:44.729 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:00:44.729 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:00:44.730 - //==============================================================================================
+Thu Dec 26 2019 00:00:44.730 - ================================================================================================
+Thu Dec 26 2019 00:00:44.730 - ================================================================================================
+Thu Dec 26 2019 00:00:44.730 - SpacePirateVR.exe 1.9.16 startup with PID=24808, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:00:44.731 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:00:44.792 - Received success response from vrserver connect
+Thu Dec 26 2019 00:00:44.792 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.792 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.792 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.795 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.795 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:00:44.795 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:00:44.795 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.796 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.796 - ASSERT: "Attempt to init shared state VR_InputConnectionState_24808 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.796 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.796 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.796 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.796 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.796 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.838 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:00:44.838 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:00:44.838 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:00:44.839 - //==============================================================================================
+Thu Dec 26 2019 00:00:44.839 - ================================================================================================
+Thu Dec 26 2019 00:00:44.839 - ================================================================================================
+Thu Dec 26 2019 00:00:44.839 - SpacePirateVR.exe 1.9.16 startup with PID=24808, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:00:44.839 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:00:44.872 - Received success response from vrserver connect
+Thu Dec 26 2019 00:00:44.872 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.873 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.873 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.876 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.876 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:00:44.876 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:00:44.876 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.877 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.877 - ASSERT: "Attempt to init shared state VR_InputConnectionState_24808 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.877 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.877 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.877 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.877 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:00:44.877 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:33.472 - //==============================================================================================
+Thu Dec 26 2019 00:02:33.472 - ================================================================================================
+Thu Dec 26 2019 00:02:33.472 - ================================================================================================
+Thu Dec 26 2019 00:02:33.472 - SpacePirateVR.exe 1.9.16 startup with PID=20764, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:02:33.473 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:02:33.478 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:02:33.478 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:02:33.478 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:02:33.479 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:02:33.480 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:02:33.484 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Thu Dec 26 2019 00:02:33.490 - CSharedResourceNamespaceClient::Init(): failed connect
+Thu Dec 26 2019 00:02:33.490 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Thu Dec 26 2019 00:02:33.593 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Thu Dec 26 2019 00:02:33.593 - CSharedResourceNamespaceClient::Init(): received namespace data 9040
+Thu Dec 26 2019 00:02:34.223 - Received success response from vrserver connect
+Thu Dec 26 2019 00:02:34.227 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:02:34.227 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:02:34.246 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Thu Dec 26 2019 00:02:35.826 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:02:35.826 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:02:35.844 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 1908
+Thu Dec 26 2019 00:02:35.856 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 12924
+Thu Dec 26 2019 00:02:35.871 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 6476
+Thu Dec 26 2019 00:02:38.044 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:02:38.044 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:02:38.044 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:02:38.045 - //==============================================================================================
+Thu Dec 26 2019 00:02:38.045 - ================================================================================================
+Thu Dec 26 2019 00:02:38.045 - ================================================================================================
+Thu Dec 26 2019 00:02:38.045 - SpacePirateVR.exe 1.9.16 startup with PID=20764, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:02:38.046 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:02:38.074 - Received success response from vrserver connect
+Thu Dec 26 2019 00:02:38.074 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.074 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.074 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.078 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.079 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:02:38.079 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:02:38.079 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.079 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.079 - ASSERT: "Attempt to init shared state VR_InputConnectionState_20764 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.079 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.079 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.079 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.079 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.079 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.122 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:02:38.122 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:02:38.122 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:02:38.123 - //==============================================================================================
+Thu Dec 26 2019 00:02:38.123 - ================================================================================================
+Thu Dec 26 2019 00:02:38.123 - ================================================================================================
+Thu Dec 26 2019 00:02:38.123 - SpacePirateVR.exe 1.9.16 startup with PID=20764, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:02:38.124 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:02:38.147 - Received success response from vrserver connect
+Thu Dec 26 2019 00:02:38.147 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.147 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.147 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.149 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.149 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:02:38.149 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:02:38.150 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.150 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.150 - ASSERT: "Attempt to init shared state VR_InputConnectionState_20764 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.150 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.150 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.150 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.150 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:02:38.150 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:48.009 - //==============================================================================================
+Thu Dec 26 2019 00:04:48.009 - ================================================================================================
+Thu Dec 26 2019 00:04:48.009 - ================================================================================================
+Thu Dec 26 2019 00:04:48.009 - SpacePirateVR.exe 1.9.16 startup with PID=11356, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:04:48.009 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:04:48.016 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:04:48.017 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:04:48.017 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:04:48.018 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:04:48.019 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:04:48.023 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Thu Dec 26 2019 00:04:48.028 - CSharedResourceNamespaceClient::Init(): failed connect
+Thu Dec 26 2019 00:04:48.028 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Thu Dec 26 2019 00:04:48.140 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Thu Dec 26 2019 00:04:48.140 - CSharedResourceNamespaceClient::Init(): received namespace data 27280
+Thu Dec 26 2019 00:04:48.838 - Received success response from vrserver connect
+Thu Dec 26 2019 00:04:48.842 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:04:48.842 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:04:48.860 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Thu Dec 26 2019 00:04:50.626 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:04:50.626 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:04:50.643 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 27212
+Thu Dec 26 2019 00:04:50.655 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 7160
+Thu Dec 26 2019 00:04:50.669 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 18172
+Thu Dec 26 2019 00:04:53.180 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:04:53.180 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:04:53.180 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:04:53.180 - //==============================================================================================
+Thu Dec 26 2019 00:04:53.180 - ================================================================================================
+Thu Dec 26 2019 00:04:53.180 - ================================================================================================
+Thu Dec 26 2019 00:04:53.180 - SpacePirateVR.exe 1.9.16 startup with PID=11356, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:04:53.181 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:04:53.207 - Received success response from vrserver connect
+Thu Dec 26 2019 00:04:53.207 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.207 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.207 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:04:53.211 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_InputConnectionState_11356 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.211 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.250 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:04:53.250 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:04:53.250 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:04:53.251 - //==============================================================================================
+Thu Dec 26 2019 00:04:53.251 - ================================================================================================
+Thu Dec 26 2019 00:04:53.251 - ================================================================================================
+Thu Dec 26 2019 00:04:53.251 - SpacePirateVR.exe 1.9.16 startup with PID=11356, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:04:53.251 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:04:53.277 - Received success response from vrserver connect
+Thu Dec 26 2019 00:04:53.277 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.277 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.277 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.281 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.281 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:04:53.281 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:04:53.282 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.282 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.282 - ASSERT: "Attempt to init shared state VR_InputConnectionState_11356 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.282 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.282 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.282 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.282 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:04:53.282 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:40.643 - //==============================================================================================
+Thu Dec 26 2019 00:12:40.643 - ================================================================================================
+Thu Dec 26 2019 00:12:40.643 - ================================================================================================
+Thu Dec 26 2019 00:12:40.643 - SpacePirateVR.exe 1.9.16 startup with PID=12320, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:12:40.644 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:12:40.648 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:12:40.648 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:12:40.648 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:12:40.649 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:12:40.650 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:12:40.654 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Thu Dec 26 2019 00:12:40.662 - CSharedResourceNamespaceClient::Init(): failed connect
+Thu Dec 26 2019 00:12:40.662 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Thu Dec 26 2019 00:12:40.774 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Thu Dec 26 2019 00:12:40.774 - CSharedResourceNamespaceClient::Init(): received namespace data 1432
+Thu Dec 26 2019 00:12:41.495 - Received success response from vrserver connect
+Thu Dec 26 2019 00:12:41.497 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:12:41.497 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:12:41.517 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Thu Dec 26 2019 00:12:43.145 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:12:43.145 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:12:43.166 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 472
+Thu Dec 26 2019 00:12:43.179 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 3620
+Thu Dec 26 2019 00:12:43.191 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 29368
+Thu Dec 26 2019 00:12:45.556 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:12:45.556 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:12:45.557 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:12:45.557 - //==============================================================================================
+Thu Dec 26 2019 00:12:45.557 - ================================================================================================
+Thu Dec 26 2019 00:12:45.557 - ================================================================================================
+Thu Dec 26 2019 00:12:45.557 - SpacePirateVR.exe 1.9.16 startup with PID=12320, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:12:45.558 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:12:45.578 - Received success response from vrserver connect
+Thu Dec 26 2019 00:12:45.578 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.578 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.578 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.581 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.582 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:12:45.582 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:12:45.582 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.582 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.582 - ASSERT: "Attempt to init shared state VR_InputConnectionState_12320 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.582 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.582 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.582 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.582 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.582 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.604 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:12:45.604 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:12:45.604 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:12:45.604 - //==============================================================================================
+Thu Dec 26 2019 00:12:45.605 - ================================================================================================
+Thu Dec 26 2019 00:12:45.605 - ================================================================================================
+Thu Dec 26 2019 00:12:45.605 - SpacePirateVR.exe 1.9.16 startup with PID=12320, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:12:45.606 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:12:45.631 - Received success response from vrserver connect
+Thu Dec 26 2019 00:12:45.631 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.631 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.631 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.634 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.634 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:12:45.634 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:12:45.634 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.634 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.634 - ASSERT: "Attempt to init shared state VR_InputConnectionState_12320 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.634 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.634 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.634 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.635 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:12:45.635 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:47.634 - //==============================================================================================
+Thu Dec 26 2019 00:18:47.634 - ================================================================================================
+Thu Dec 26 2019 00:18:47.634 - ================================================================================================
+Thu Dec 26 2019 00:18:47.634 - SpacePirateVR.exe 1.9.16 startup with PID=26660, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:18:47.635 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:18:47.644 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:18:47.644 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:18:47.645 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:18:47.645 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:18:47.646 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:18:47.651 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Thu Dec 26 2019 00:18:47.658 - CSharedResourceNamespaceClient::Init(): failed connect
+Thu Dec 26 2019 00:18:47.658 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Thu Dec 26 2019 00:18:47.769 - CSharedResourceNamespaceClient::Init(): received namespace data 26316
+Thu Dec 26 2019 00:18:48.459 - Received success response from vrserver connect
+Thu Dec 26 2019 00:18:48.463 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:18:48.463 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:18:48.481 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Thu Dec 26 2019 00:18:50.116 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:18:50.116 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:18:50.137 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 21596
+Thu Dec 26 2019 00:18:50.149 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 27336
+Thu Dec 26 2019 00:18:50.164 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 26864
+Thu Dec 26 2019 00:18:52.133 - Failed to find interface 'IVRPathsInternal_001'
+Thu Dec 26 2019 00:18:52.133 - Failed to find interface 'IVRServer_XXX'
+Thu Dec 26 2019 00:18:52.133 - Failed to find interface 'IVRCompositorInternal_001'
+Thu Dec 26 2019 00:18:52.133 - //==============================================================================================
+Thu Dec 26 2019 00:18:52.134 - ================================================================================================
+Thu Dec 26 2019 00:18:52.134 - ================================================================================================
+Thu Dec 26 2019 00:18:52.134 - SpacePirateVR.exe 1.9.16 startup with PID=26660, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:18:52.134 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:18:52.165 - Received success response from vrserver connect
+Thu Dec 26 2019 00:18:52.165 - ASSERT: "Attempt to init shared state VR_TrackingState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.165 - ASSERT: "Attempt to init shared state VR_WebServerState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.165 - ASSERT: "Attempt to init shared state VR_SettingsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_ApplicationsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:18:52.168 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_InputState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_InputConnectionState_26660 twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_SpatialAnchorsState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_MessageOverlay twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_EventState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.168 - ASSERT: "Attempt to init shared state VR_CompositorState twice" at c:\buildslave\steamvr_rel_win64\build\src\common\vrcommon\vripcsharedstate.cpp:16.
+Thu Dec 26 2019 00:18:52.194 - Capturing Scene Focus
+Thu Dec 26 2019 00:18:52.257 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Thu Dec 26 2019 00:18:52.291 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Thu Dec 26 2019 00:30:06.906 - //==============================================================================================
+Thu Dec 26 2019 00:30:06.906 - ================================================================================================
+Thu Dec 26 2019 00:30:06.906 - ================================================================================================
+Thu Dec 26 2019 00:30:06.906 - SpacePirateVR.exe 1.9.16 startup with PID=12628, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:30:06.906 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:30:06.912 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:30:06.912 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:30:06.913 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:30:06.913 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:30:06.915 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:30:06.922 - CSharedResourceNamespaceClient::Init(): received namespace data 27916
+Thu Dec 26 2019 00:30:06.948 - Received success response from vrserver connect
+Thu Dec 26 2019 00:30:06.951 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:30:06.951 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:30:06.966 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:30:06.966 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:30:06.983 - VR_Shutdown called
+Thu Dec 26 2019 00:30:08.196 - //==============================================================================================
+Thu Dec 26 2019 00:30:08.196 - ================================================================================================
+Thu Dec 26 2019 00:30:08.196 - ================================================================================================
+Thu Dec 26 2019 00:30:08.196 - SpacePirateVR.exe 1.9.16 startup with PID=12628, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:30:08.197 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:30:08.204 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:30:08.205 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:30:08.205 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:30:08.206 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:30:08.207 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:30:08.217 - CSharedResourceNamespaceClient::Init(): received namespace data 27916
+Thu Dec 26 2019 00:30:08.235 - Received success response from vrserver connect
+Thu Dec 26 2019 00:30:08.237 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:30:08.237 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:30:08.248 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:30:08.248 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:30:08.269 - Capturing Scene Focus
+Thu Dec 26 2019 00:30:08.307 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Thu Dec 26 2019 00:30:08.332 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Thu Dec 26 2019 00:30:16.862 - VR_Shutdown called
+Thu Dec 26 2019 00:43:02.245 - //==============================================================================================
+Thu Dec 26 2019 00:43:02.245 - ================================================================================================
+Thu Dec 26 2019 00:43:02.245 - ================================================================================================
+Thu Dec 26 2019 00:43:02.245 - SpacePirateVR.exe 1.9.16 startup with PID=11308, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:43:02.245 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:43:02.252 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:43:02.253 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:43:02.253 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:43:02.254 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:43:02.254 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:43:02.265 - CSharedResourceNamespaceClient::Init(): received namespace data 27916
+Thu Dec 26 2019 00:43:02.287 - Received success response from vrserver connect
+Thu Dec 26 2019 00:43:02.290 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:43:02.290 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:43:02.307 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:43:02.308 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:43:02.328 - VR_Shutdown called
+Thu Dec 26 2019 00:43:03.574 - //==============================================================================================
+Thu Dec 26 2019 00:43:03.574 - ================================================================================================
+Thu Dec 26 2019 00:43:03.574 - ================================================================================================
+Thu Dec 26 2019 00:43:03.574 - SpacePirateVR.exe 1.9.16 startup with PID=11308, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:43:03.575 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:43:03.583 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:43:03.583 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:43:03.583 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:43:03.584 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:43:03.585 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:43:03.594 - CSharedResourceNamespaceClient::Init(): received namespace data 27916
+Thu Dec 26 2019 00:43:03.609 - Received success response from vrserver connect
+Thu Dec 26 2019 00:43:03.613 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:43:03.613 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:43:03.627 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:43:03.627 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:43:03.646 - Capturing Scene Focus
+Thu Dec 26 2019 00:43:03.682 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Thu Dec 26 2019 00:43:03.705 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Thu Dec 26 2019 00:45:25.266 - //==============================================================================================
+Thu Dec 26 2019 00:45:25.266 - ================================================================================================
+Thu Dec 26 2019 00:45:25.266 - ================================================================================================
+Thu Dec 26 2019 00:45:25.266 - SpacePirateVR.exe 1.9.16 startup with PID=5996, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:45:25.266 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:45:25.272 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:45:25.272 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:45:25.273 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:45:25.273 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:45:25.274 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:45:25.278 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Thu Dec 26 2019 00:45:25.285 - CSharedResourceNamespaceClient::Init(): failed connect
+Thu Dec 26 2019 00:45:25.285 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Thu Dec 26 2019 00:45:25.394 - CSharedResourceNamespaceClient::Init(): received namespace data 19936
+Thu Dec 26 2019 00:45:26.030 - Received success response from vrserver connect
+Thu Dec 26 2019 00:45:26.033 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:45:26.033 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:45:26.050 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Thu Dec 26 2019 00:45:27.692 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:45:27.692 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:45:27.709 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 14676
+Thu Dec 26 2019 00:45:27.722 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 16348
+Thu Dec 26 2019 00:45:27.736 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 17172
+Thu Dec 26 2019 00:45:27.738 - VR_Shutdown called
+Thu Dec 26 2019 00:45:29.745 - //==============================================================================================
+Thu Dec 26 2019 00:45:29.745 - ================================================================================================
+Thu Dec 26 2019 00:45:29.745 - ================================================================================================
+Thu Dec 26 2019 00:45:29.745 - SpacePirateVR.exe 1.9.16 startup with PID=5996, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Dec 26 2019 00:45:29.746 - vrclient type=VRApplication_Scene
+Thu Dec 26 2019 00:45:29.756 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:45:29.756 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:45:29.757 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:45:29.757 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Thu Dec 26 2019 00:45:29.759 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Thu Dec 26 2019 00:45:29.770 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Thu Dec 26 2019 00:45:29.770 - CSharedResourceNamespaceClient::Init(): received namespace data 19936
+Thu Dec 26 2019 00:45:29.824 - Received success response from vrserver connect
+Thu Dec 26 2019 00:45:29.827 - Not looking for a good app key because Steam didn't start this app
+Thu Dec 26 2019 00:45:29.827 - App key after connect message:system.generated.spacepiratevr.exe
+Thu Dec 26 2019 00:45:29.843 - Received success response from vrcompositor connect
+Thu Dec 26 2019 00:45:29.843 - Initializing the limited version of CVRCompositorClient
+Thu Dec 26 2019 00:45:29.864 - Capturing Scene Focus
+Thu Dec 26 2019 00:45:29.911 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Thu Dec 26 2019 00:45:29.944 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Thu Dec 26 2019 00:45:35.971 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
+Thu Dec 26 2019 00:45:36.032 - Screenshot: Hook Screenshot called with types:Thu Dec 26 2019 00:45:36.032 -  5Thu Dec 26 2019 00:45:36.032 - 

@@ -2,92 +2,20 @@
 #include "../BaseCommon.h" // TODO don't import from OCOVR, and remove the "../"
 #include "OpenVR/interfaces/IVRCompositor_022.h"
 
-#include "Extras/OVR_Math.h"
+// #include "Extras/OVR_Math.h"
 
-#include "../Compositor/compositor.h" // TODO don't import from OCOVR, and remove the "../"
+// #include "../Compositor/compositor.h" // TODO don't import from OCOVR, and remove the "../"
 
 #include <vector>
 
-#ifdef SUPPORT_DX
+/* #ifdef SUPPORT_DX
 #include "OVR_CAPI_D3D.h"
 // Let's really hope noone tries to use DX10
 #include "d3d11.h"
 #include "d3d12.h"
-#endif
+#endif */
 
-typedef unsigned int GLuint;
-
-struct OOVR_Compositor_FrameTiming {
-	uint32_t m_nSize; // Set to sizeof( Compositor_FrameTiming )
-	uint32_t m_nFrameIndex;
-	uint32_t m_nNumFramePresents; // number of times this frame was presented
-	uint32_t m_nNumMisPresented; // number of times this frame was presented on a vsync other than it was originally predicted to
-	uint32_t m_nNumDroppedFrames; // number of additional times previous frame was scanned out
-	uint32_t m_nReprojectionFlags;
-
-	/** Absolute time reference for comparing frames.  This aligns with the vsync that running start is relative to. */
-	double m_flSystemTimeInSeconds;
-
-	/** These times may include work from other processes due to OS scheduling.
-	* The fewer packets of work these are broken up into, the less likely this will happen.
-	* GPU work can be broken up by calling Flush.  This can sometimes be useful to get the GPU started
-	* processing that work earlier in the frame. */
-	float m_flPreSubmitGpuMs; // time spent rendering the scene (gpu work submitted between WaitGetPoses and second Submit)
-	float m_flPostSubmitGpuMs; // additional time spent rendering by application (e.g. companion window)
-	float m_flTotalRenderGpuMs; // time between work submitted immediately after present (ideally vsync) until the end of compositor submitted work
-	float m_flCompositorRenderGpuMs; // time spend performing distortion correction, rendering chaperone, overlays, etc.
-	float m_flCompositorRenderCpuMs; // time spent on cpu submitting the above work for this frame
-	float m_flCompositorIdleCpuMs; // time spent waiting for running start (application could have used this much more time)
-
-								   /** Miscellaneous measured intervals. */
-	float m_flClientFrameIntervalMs; // time between calls to WaitGetPoses
-	float m_flPresentCallCpuMs; // time blocked on call to present (usually 0.0, but can go long)
-	float m_flWaitForPresentCpuMs; // time spent spin-waiting for frame index to change (not near-zero indicates wait object failure)
-	float m_flSubmitFrameMs; // time spent in IVRCompositor::Submit (not near-zero indicates driver issue)
-
-							 /** The following are all relative to this frame's SystemTimeInSeconds */
-	float m_flWaitGetPosesCalledMs;
-	float m_flNewPosesReadyMs;
-	float m_flNewFrameReadyMs; // second call to IVRCompositor::Submit
-	float m_flCompositorUpdateStartMs;
-	float m_flCompositorUpdateEndMs;
-	float m_flCompositorRenderStartMs;
-
-	vr::TrackedDevicePose_t m_HmdPose; // pose used by app to render this frame
-};
-
-struct OOVR_Compositor_CumulativeStats {
-	uint32_t m_nPid; // Process id associated with these stats (may no longer be running).
-	uint32_t m_nNumFramePresents; // total number of times we called present (includes reprojected frames)
-	uint32_t m_nNumDroppedFrames; // total number of times an old frame was re-scanned out (without reprojection)
-	uint32_t m_nNumReprojectedFrames; // total number of times a frame was scanned out a second time (with reprojection)
-
-	/** Values recorded at startup before application has fully faded in the first time. */
-	uint32_t m_nNumFramePresentsOnStartup;
-	uint32_t m_nNumDroppedFramesOnStartup;
-	uint32_t m_nNumReprojectedFramesOnStartup;
-
-	/** Applications may explicitly fade to the compositor.  This is usually to handle level transitions, and loading often causes
-	* system wide hitches.  The following stats are collected during this period.  Does not include values recorded during startup. */
-	uint32_t m_nNumLoading;
-	uint32_t m_nNumFramePresentsLoading;
-	uint32_t m_nNumDroppedFramesLoading;
-	uint32_t m_nNumReprojectedFramesLoading;
-
-	/** If we don't get a new frame from the app in less than 2.5 frames, then we assume the app has hung and start
-	* fading back to the compositor.  The following stats are a result of this, and are a subset of those recorded above.
-	* Does not include values recorded during start up or loading. */
-	uint32_t m_nNumTimedOut;
-	uint32_t m_nNumFramePresentsTimedOut;
-	uint32_t m_nNumDroppedFramesTimedOut;
-	uint32_t m_nNumReprojectedFramesTimedOut;
-};
-
-enum OOVR_EVRCompositorTimingMode {
-	VRCompositorTimingMode_Implicit = 0,
-	VRCompositorTimingMode_Explicit_RuntimePerformsPostPresentHandoff = 1,
-	VRCompositorTimingMode_Explicit_ApplicationPerformsPostPresentHandoff = 2,
-};
+// typedef unsigned int GLuint;
 
 class BaseCompositor {
 private:
@@ -107,16 +35,16 @@ public:
 	BaseCompositor();
 	~BaseCompositor();
 
-	// Used in CVRSystem
+	/* // Used in CVRSystem
 	void GetSinglePoseRendering(vr::ETrackingUniverseOrigin origin, vr::TrackedDeviceIndex_t index, vr::TrackedDevicePose_t* pose);
 
 	static OVR::Matrix4f GetHandTransform();
 
-	/** Creates API specific Compositor */
+	// Creates API specific Compositor
 	static Compositor* CreateCompositorAPI(const vr::Texture_t* texture, const OVR::Sizei& fovTextureSize);
 
 	// TODO clean this up, and make the keyboard work with OpenGL and Vulkan too
-	static DX11Compositor *dxcomp;
+	static DX11Compositor *dxcomp; */
 
 public:
 	// OpenVR interface methods from here on:
@@ -177,22 +105,22 @@ public:
 
 	/** Returns true if timing data is filled it.  Sets oldest timing info if nFramesAgo is larger than the stored history.
 	* Be sure to set timing.size = sizeof(Compositor_FrameTiming) on struct passed in before calling this function. */
-	virtual bool GetFrameTiming(OOVR_Compositor_FrameTiming *pTiming, uint32_t unFramesAgo);
+	virtual bool GetFrameTiming(vr::Compositor_FrameTiming *pTiming, uint32_t unFramesAgo);
 
 	/** Interface for copying a range of timing data.  Frames are returned in ascending order (oldest to newest) with the last being the most recent frame.
 	* Only the first entry's m_nSize needs to be set, as the rest will be inferred from that.  Returns total number of entries filled out. */
-	virtual uint32_t GetFrameTimings(OOVR_Compositor_FrameTiming *pTiming, uint32_t nFrames);
+	virtual uint32_t GetFrameTimings(vr::Compositor_FrameTiming *pTiming, uint32_t nFrames);
 
 	// The Compositor_FrameTiming type was moved to vrtypes.h, hence the duplicate methods
-	virtual bool GetFrameTiming(vr::Compositor_FrameTiming *pTiming, uint32_t unFramesAgo);
-	virtual uint32_t GetFrameTimings(vr::Compositor_FrameTiming *pTiming, uint32_t nFrames);
+	// virtual bool GetFrameTiming(vr::Compositor_FrameTiming *pTiming, uint32_t unFramesAgo);
+	// virtual uint32_t GetFrameTimings(vr::Compositor_FrameTiming *pTiming, uint32_t nFrames);
 
 	/** Returns the time in seconds left in the current (as identified by FrameTiming's frameIndex) frame.
 	* Due to "running start", this value may roll over to the next frame before ever reaching 0.0. */
 	virtual float GetFrameTimeRemaining();
 
 	/** Fills out stats accumulated for the last connected application.  Pass in sizeof( Compositor_CumulativeStats ) as second parameter. */
-	virtual void GetCumulativeStats(OOVR_Compositor_CumulativeStats *pStats, uint32_t nStatsSizeInBytes);
+	virtual void GetCumulativeStats(vr::Compositor_CumulativeStats *pStats, uint32_t nStatsSizeInBytes);
 
 	/** Fades the view on the HMD to the specified color. The fade will take fSeconds, and the color values are between
 	* 0.0 and 1.0. This color is faded on top of the scene based on the alpha parameter. Removing the fade color instantly

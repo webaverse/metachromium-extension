@@ -15,13 +15,16 @@
 
 // TODO: reference additional headers your program requires here
 
-#define VR_API_EXPORT 1
+// #define VR_API_EXPORT 1
 //#include "OpenVR/openvr.h"
-#include "OpenVR/interfaces/vrtypes.h"
-#include "OpenVR/interfaces/vrannotation.h"
+// #include "OpenVR/interfaces/vrtypes.h"
+// #include "OpenVR/interfaces/vrannotation.h"
+#include "third_party/openvr/src/headers/openvr.h"
 #include "custom_types.h"
 
-#include "logging.h"
+#include "device/vr/openvr/test/fake_openvr_impl_api.h"
+
+// #include "logging.h"
 
 #include <string>
 

@@ -3,12 +3,12 @@
 
 #include "Misc/Config.h"
 
-#include "OVR_CAPI.h"
-#include "libovr_wrapper.h"
-#include "convert.h"
+// #include "OVR_CAPI.h"
+// #include "libovr_wrapper.h"
+// #include "convert.h"
 
-#include "Extras/OVR_Math.h"
-using namespace OVR;
+// #include "Extras/OVR_Math.h"
+// using namespace OVR;
 
 using namespace std;
 
@@ -20,15 +20,15 @@ using namespace std;
 #include "static_bases.gen.h"
 
 // Need the LibOVR Vulkan headers for the GetVulkan[Device|Instance]ExtensionsRequired methods
-#if defined(SUPPORT_VK)
+/* #if defined(SUPPORT_VK)
 #include "OVR_CAPI_Vk.h"
 #endif
 #if defined(SUPPORT_DX)
 #include "OVR_CAPI_D3D.h"
-#endif
+#endif */
 
 #include "Misc/ScopeGuard.h"
-#include "Drivers/Backend.h"
+// #include "Drivers/Backend.h"
 
 using namespace vr;
 using namespace IVRCompositor_022;
@@ -44,36 +44,25 @@ BaseCompositor::~BaseCompositor() {
 }
 
 void BaseCompositor::SetTrackingSpace(ETrackingUniverseOrigin eOrigin) {
-	ovrTrackingOrigin origin = ovrTrackingOrigin_FloorLevel;
+  g_vrcompositor->SetTrackingSpace(eOrigin);
+	/* ovrTrackingOrigin origin = ovrTrackingOrigin_FloorLevel;
 	if (eOrigin == TrackingUniverseSeated) {
 		origin = ovrTrackingOrigin_EyeLevel;
 	}
 
-	OOVR_FAILED_OVR_ABORT(ovr_SetTrackingOriginType(SESS, origin));
+	vr::FAILED_OVR_ABORT(ovr_SetTrackingOriginType(SESS, origin)); */
 }
 
 ETrackingUniverseOrigin BaseCompositor::GetTrackingSpace() {
-	if (ovr_GetTrackingOriginType(SESS) == ovrTrackingOrigin_EyeLevel) {
-		return TrackingUniverseSeated;
-	}
-	else {
-		return TrackingUniverseStanding;
-	}
+  return g_vrcompositor->GetTrackingSpace();
 }
 
 ovr_enum_t BaseCompositor::WaitGetPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
-
-	// Assume this method isn't being called between frames, b/c it really shouldn't be.
-	leftEyeSubmitted = false;
-	rightEyeSubmitted = false;
-
-	BackendManager::Instance().WaitForTrackingData();
-
-	return GetLastPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
+  return g_vrcompositor->WaitGetPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
 }
 
-void BaseCompositor::GetSinglePoseRendering(ETrackingUniverseOrigin origin, TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t * pOutputPose) {
+/* void BaseCompositor::GetSinglePoseRendering(ETrackingUniverseOrigin origin, TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t * pOutputPose) {
 	BackendManager::Instance().GetSinglePose(origin, unDeviceIndex, pOutputPose, ETrackingStateType::TrackingStateType_Rendering);
 }
 
@@ -99,160 +88,26 @@ Matrix4f BaseCompositor::GetHandTransform() {
 	transform.SetTranslation(Vector3f(0.0f, 0.0353f, -0.0451f));
 
 	return transform;
-}
+} */
 
 ovr_enum_t BaseCompositor::GetLastPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
-	TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
-
-	ETrackingUniverseOrigin origin = GetUnsafeBaseSystem()->_GetTrackingOrigin();
-
-	for (uint32_t i = 0; i < max(gamePoseArrayCount, renderPoseArrayCount); i++) {
-		TrackedDevicePose_t *renderPose = NULL;
-		TrackedDevicePose_t *gamePose = NULL;
-
-		if (renderPoseArray) {
-			renderPose = i < renderPoseArrayCount ? renderPoseArray + i : NULL;
-		}
-
-		if (gamePoseArray) {
-			gamePose = i < gamePoseArrayCount ? gamePoseArray + i : NULL;
-		}
-
-		if (renderPose) {
-			GetSinglePoseRendering(origin, i, renderPose);
-		}
-
-		if (gamePose) {
-			if (renderPose) {
-				*gamePose = *renderPose;
-			}
-			else {
-				GetSinglePoseRendering(origin, i, gamePose);
-			}
-		}
-	}
-
-	return VRCompositorError_None;
+	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
+  return g_vrcompositor->GetLastPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
 }
 
 ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t * pOutputPose,
-	TrackedDevicePose_t * pOutputGamePose) {
-
-	if (unDeviceIndex < 0 || unDeviceIndex >= k_unMaxTrackedDeviceCount) {
-		return VRCompositorError_IndexOutOfRange;
-	}
-
-	ETrackingUniverseOrigin origin = GetUnsafeBaseSystem()->_GetTrackingOrigin();
-
-	TrackedDevicePose_t pose;
-	GetSinglePoseRendering(origin, unDeviceIndex, &pose);
-
-	if (pOutputPose) {
-		*pOutputPose = pose;
-	}
-
-	if (pOutputGamePose) {
-		*pOutputGamePose = pose;
-	}
-
-	return VRCompositorError_None;
-}
-
-DX11Compositor *BaseCompositor::dxcomp;
-
-Compositor* BaseCompositor::CreateCompositorAPI(const vr::Texture_t* texture, const OVR::Sizei& fovTextureSize)
-{
-	Compositor* comp = nullptr;
-
-	switch (texture->eType) {
-#ifdef SUPPORT_GL
-	case TextureType_OpenGL: {
-		comp = new GLCompositor(fovTextureSize);
-		break;
-	}
-#endif
-#ifdef SUPPORT_DX
-	case TextureType_DirectX: {
-		if (!oovr_global_configuration.DX10Mode())
-			comp = new DX11Compositor((ID3D11Texture2D*)texture->handle);
-		else
-			comp = new DX10Compositor((ID3D10Texture2D*)texture->handle);
-
-		dxcomp = (DX11Compositor*) comp;
-
-		break;
-	}
-#endif
-#if defined(SUPPORT_VK)
-	case TextureType_Vulkan: {
-		comp = new VkCompositor(texture);
-		break;
-	}
-#endif
-#if defined(SUPPORT_DX12)
-	case TextureType_DirectX12: {
-		compositor = new DX12Compositor((D3D12TextureData_t*)texture->handle, fovTextureSize, chains);
-		break;
-	}
-#endif
-	default:
-		string err = "[BaseCompositor::Submit] Unsupported texture type: " + to_string(texture->eType);
-		OOVR_ABORT(err.c_str());
-	}
-
-	if (comp->GetSwapChain() == NULL && texture->eType != TextureType_DirectX && texture->eType != TextureType_Vulkan) {
-		OOVR_ABORT("Failed to create texture.");
-	}
-
-	return comp;
+	  TrackedDevicePose_t * pOutputGamePose) {
+  return g_vrcompositor->GetLastPoseForTrackedDeviceIndex(unDeviceIndex, pOutputPose, pOutputGamePose);
 }
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
-	bool isFirstEye = !leftEyeSubmitted && !rightEyeSubmitted;
-
-	bool eyeState = false;
-	if (eye == Eye_Left)
-		eyeState = leftEyeSubmitted;
-	else
-		eyeState = rightEyeSubmitted;
-
-	if (eyeState) {
-		OOVR_ABORT("Eye already submitted!");
-	}
-
-	if (eye == Eye_Left)
-		leftEyeSubmitted = true;
-	else
-		rightEyeSubmitted = true;
-
-	// Handle null textures
-	// Rather surprisingly, it's perfectly valid to pass null textures to SteamVR. So far, I've
-	// only seen this used in Sparc (see #19). If a game tries to do this, ensure that either neither or
-	// both eyes do so, and don't actually send a frame to LibOVR.
-	bool textureNull = texture->handle == nullptr;
-	if (isFirstEye) {
-		isNullRender = textureNull;
-	} else if(textureNull != isNullRender) {
-		OOVR_ABORT("Cannot mismatch first and second eye renders");
-	}
-
-	if(!textureNull)
-		BackendManager::Instance().StoreEyeTexture(eye, texture, bounds, submitFlags, isFirstEye);
-
-	if (leftEyeSubmitted && rightEyeSubmitted) {
-		if(!isNullRender)
-			BackendManager::Instance().SubmitFrames(isInSkybox);
-
-		leftEyeSubmitted = false;
-		rightEyeSubmitted = false;
-	}
-
-	return VRCompositorError_None;
+	return g_vrcompositor->Submit(eye, texture, bounds, submitFlags);
 }
 
 void BaseCompositor::ClearLastSubmittedFrame() {
 	// At this point we should show the loading screen and show Guardian, and undo this when the
 	// next frame comes along. TODO implement since it would improve loading screens, but it's certainly not critical
+  return g_vrcompositor->ClearLastSubmittedFrame();
 }
 
 void BaseCompositor::PostPresentHandoff() {
@@ -267,206 +122,168 @@ void BaseCompositor::PostPresentHandoff() {
 	//
 	// TODO: use ovr_EndFrame and co instead of ovr_SubmitFrame for better performance, not just here but in all cases
 	//  that way we can call ovr_WaitToBeginFrame in WaitGetPoses to mimick SteamVR.
+  return g_vrcompositor->PostPresentHandoff();
 }
 
-bool BaseCompositor::GetFrameTiming(OOVR_Compositor_FrameTiming * pTiming, uint32_t unFramesAgo) {
-	return BackendManager::Instance().GetFrameTiming(pTiming, unFramesAgo);
+bool BaseCompositor::GetFrameTiming(vr::Compositor_FrameTiming * pTiming, uint32_t unFramesAgo) {
+  return g_vrcompositor->GetFrameTiming(pTiming, unFramesAgo);
 
 	// TODO fill in the m_nNumVSyncsReadyForUse and uint32_t m_nNumVSyncsToFirstView fields, but only
 	// when called from the correct version of the interface.
 }
 
-uint32_t BaseCompositor::GetFrameTimings(OOVR_Compositor_FrameTiming * pTiming, uint32_t nFrames) {
-	STUBBED();
+uint32_t BaseCompositor::GetFrameTimings(vr::Compositor_FrameTiming * pTiming, uint32_t nFrames) {
+	return g_vrcompositor->GetFrameTimings(pTiming, nFrames);
 }
 
-bool BaseCompositor::GetFrameTiming(vr::Compositor_FrameTiming * pTiming, uint32_t unFramesAgo) {
-	return GetFrameTiming((OOVR_Compositor_FrameTiming *) pTiming, unFramesAgo);
+/* bool BaseCompositor::GetFrameTiming(vr::Compositor_FrameTiming * pTiming, uint32_t unFramesAgo) {
+  return g_vrcompositor->GetFrameTiming(pTiming, unFramesAgo);
 }
 
 uint32_t BaseCompositor::GetFrameTimings(vr::Compositor_FrameTiming * pTiming, uint32_t nFrames) {
-	return GetFrameTimings((OOVR_Compositor_FrameTiming *) pTiming, nFrames);
-}
+	return g_vrcompositor->GetFrameTimings(pTiming, nFrames);
+} */
 
 float BaseCompositor::GetFrameTimeRemaining() {
-	STUBBED();
+	return g_vrcompositor->GetFrameTimeRemaining();
 }
 
-void BaseCompositor::GetCumulativeStats(OOVR_Compositor_CumulativeStats * pStats, uint32_t nStatsSizeInBytes) {
-	STUBBED();
+void BaseCompositor::GetCumulativeStats(vr::Compositor_CumulativeStats * pStats, uint32_t nStatsSizeInBytes) {
+	return g_vrcompositor->GetCumulativeStats(pStats, nStatsSizeInBytes);
 }
 
 void BaseCompositor::FadeToColor(float fSeconds, float fRed, float fGreen, float fBlue, float fAlpha, bool bBackground) {
-	fadeTime = fSeconds;
-	fadeColour.r = fRed;
-	fadeColour.g = fGreen;
-	fadeColour.b = fBlue;
-	fadeColour.a = fAlpha;
-
-	// TODO what does background do?
+	return g_vrcompositor->FadeToColor(fSeconds, fRed, fGreen, fBlue, fAlpha, bBackground);
 }
 
 HmdColor_t BaseCompositor::GetCurrentFadeColor(bool bBackground) {
-	return fadeColour;
+	return g_vrcompositor->GetCurrentFadeColor(bBackground);
 }
 
 void BaseCompositor::FadeGrid(float fSeconds, bool bFadeIn) {
-	// This is the app telling SteamVR to fade from the rendered scene into the skybox, eg before the
-	//  app loads a new level (this is how the default SteamVR Unity plugin works).
-	//
-	// Let's not bother implementing the fade (that would be a LOT of work), and just skip straight over.
-	isInSkybox = bFadeIn;
-
-	// TODO suppress input while in this mode
+	return g_vrcompositor->FadeGrid(fSeconds, bFadeIn);
 }
 
 float BaseCompositor::GetCurrentGridAlpha() {
-	STUBBED();
+	return g_vrcompositor->GetCurrentGridAlpha();
 }
 
 ovr_enum_t BaseCompositor::SetSkyboxOverride(const Texture_t * pTextures, uint32_t unTextureCount) {
-	return BackendManager::Instance().SetSkyboxOverride(pTextures, unTextureCount);
+	return g_vrcompositor->SetSkyboxOverride(pTextures, unTextureCount);
 }
 
 void BaseCompositor::ClearSkyboxOverride() {
-	BackendManager::Instance().ClearSkyboxOverride();
+	return g_vrcompositor->ClearSkyboxOverride();
 }
 
 void BaseCompositor::CompositorBringToFront() {
-	// No actions required, Oculus runs via direct mode
+	return g_vrcompositor->CompositorBringToFront();
 }
 
 void BaseCompositor::CompositorGoToBack() {
-	STUBBED();
+	return g_vrcompositor->CompositorGoToBack();
 }
 
 void BaseCompositor::CompositorQuit() {
-	STUBBED();
+	return g_vrcompositor->CompositorQuit();
 }
 
 bool BaseCompositor::IsFullscreen() {
-	STUBBED();
+	return g_vrcompositor->IsFullscreen();
 }
 
 uint32_t BaseCompositor::GetCurrentSceneFocusProcess() {
-	STUBBED();
+	return g_vrcompositor->GetCurrentSceneFocusProcess();
 }
 
 uint32_t BaseCompositor::GetLastFrameRenderer() {
-	STUBBED();
+	return g_vrcompositor->GetLastFrameRenderer();
 }
 
 bool BaseCompositor::CanRenderScene() {
-	return true; // TODO implement
+	return g_vrcompositor->CanRenderScene();
 }
 
 void BaseCompositor::ShowMirrorWindow() {
-	STUBBED();
+	return g_vrcompositor->ShowMirrorWindow();
 }
 
 void BaseCompositor::HideMirrorWindow() {
-	STUBBED();
+	return g_vrcompositor->HideMirrorWindow();
 }
 
 bool BaseCompositor::IsMirrorWindowVisible() {
-	STUBBED();
+	return g_vrcompositor->IsMirrorWindowVisible();
 }
 
 void BaseCompositor::CompositorDumpImages() {
-	STUBBED();
+	return g_vrcompositor->CompositorDumpImages();
 }
 
 bool BaseCompositor::ShouldAppRenderWithLowResources() {
-	// TODO put in config file
-	return false;
+	return g_vrcompositor->ShouldAppRenderWithLowResources();
 }
 
 void BaseCompositor::ForceInterleavedReprojectionOn(bool bOverride) {
-	// Force timewarp on? Yeah right.
+	return g_vrcompositor->ForceInterleavedReprojectionOn(bOverride);
 }
 
 void BaseCompositor::ForceReconnectProcess() {
-	// We should always be connected
+	return g_vrcompositor->ForceReconnectProcess();
 }
 
 void BaseCompositor::SuspendRendering(bool bSuspend) {
-	// TODO
-	// I'm not sure what the purpose of this function is. If you know, please tell me.
-	// - ZNix
-	//STUBBED();
+	return g_vrcompositor->SuspendRendering(bSuspend);
 }
 
-#if defined(SUPPORT_DX)
 ovr_enum_t BaseCompositor::GetMirrorTextureD3D11(EVREye eEye, void * pD3D11DeviceOrResource, void ** ppD3D11ShaderResourceView) {
-	return BackendManager::Instance().GetMirrorTextureD3D11(eEye, pD3D11DeviceOrResource, ppD3D11ShaderResourceView);
+	return g_vrcompositor->GetMirrorTextureD3D11(eEye, pD3D11DeviceOrResource, ppD3D11ShaderResourceView);
 }
-#else
-ovr_enum_t BaseCompositor::GetMirrorTextureD3D11(EVREye eEye, void * pD3D11DeviceOrResource, void ** ppD3D11ShaderResourceView) {
-	OOVR_ABORT("Cannot get D3D mirror texture - D3D support disabled");
-}
-#endif
 
 void BaseCompositor::ReleaseMirrorTextureD3D11(void * pD3D11ShaderResourceView) {
-	return BackendManager::Instance().ReleaseMirrorTextureD3D11(pD3D11ShaderResourceView);
+	return g_vrcompositor->ReleaseMirrorTextureD3D11(pD3D11ShaderResourceView);
 }
 
 ovr_enum_t BaseCompositor::GetMirrorTextureGL(EVREye eEye, glUInt_t * pglTextureId, glSharedTextureHandle_t * pglSharedTextureHandle) {
-	STUBBED();
+  return g_vrcompositor->GetMirrorTextureGL(eEye, pglTextureId, pglSharedTextureHandle);
 }
 
 bool BaseCompositor::ReleaseSharedGLTexture(glUInt_t glTextureId, glSharedTextureHandle_t glSharedTextureHandle) {
-	STUBBED();
+	return g_vrcompositor->ReleaseSharedGLTexture(glTextureId, glSharedTextureHandle);
 }
 
 void BaseCompositor::LockGLSharedTextureForAccess(glSharedTextureHandle_t glSharedTextureHandle) {
-	STUBBED();
+	return g_vrcompositor->LockGLSharedTextureForAccess(glSharedTextureHandle);
 }
 
 void BaseCompositor::UnlockGLSharedTextureForAccess(glSharedTextureHandle_t glSharedTextureHandle) {
-	STUBBED();
+	return g_vrcompositor->UnlockGLSharedTextureForAccess(glSharedTextureHandle);
 }
 
 uint32_t BaseCompositor::GetVulkanInstanceExtensionsRequired(VR_OUT_STRING() char * pchValue, uint32_t unBufferSize) {
-#if defined(SUPPORT_VK)
-	// Whaddya know, the Oculus and Valve methods work almost identically...
-	OOVR_FAILED_OVR_ABORT(ovr_GetInstanceExtensionsVk(*ovr::luid, pchValue, &unBufferSize));
-	return unBufferSize;
-#else
-	STUBBED();
-#endif
+	return g_vrcompositor->GetVulkanInstanceExtensionsRequired(pchValue, unBufferSize);
 }
 
 uint32_t BaseCompositor::GetVulkanDeviceExtensionsRequired(VkPhysicalDevice_T * pPhysicalDevice, char * pchValue, uint32_t unBufferSize) {
-#if defined(SUPPORT_VK)
-	// Use the default LUID, even if another physical device is passed in. TODO.
-	OOVR_FAILED_OVR_ABORT(ovr_GetDeviceExtensionsVk(*ovr::luid, pchValue, &unBufferSize));
-	return unBufferSize;
-#else
-	STUBBED();
-#endif
+	return g_vrcompositor->GetVulkanDeviceExtensionsRequired(pPhysicalDevice, pchValue, unBufferSize);
 }
 
 void BaseCompositor::SetExplicitTimingMode(ovr_enum_t eTimingMode) {
-	// Explicit timing means the application calls SubmitExplicitTimingData each
-	// frame, and in return we're not allowed to use their Vulkan queue
-	// during WaitGetPoses. We don't do any of that anyway, so nothing needs to
-	// be done here.
+	return g_vrcompositor->SetExplicitTimingMode((vr::EVRCompositorTimingMode)eTimingMode);
 }
 
 ovr_enum_t BaseCompositor::SubmitExplicitTimingData() {
-	// In SteamVR this records a more accurate timestamp for tracking via the GPU's
-	// clock, Oculus doesn't support that so noop here is fine.
-	return VRCompositorError_None;
+	return g_vrcompositor->SubmitExplicitTimingData();
 }
 
 bool BaseCompositor::IsMotionSmoothingSupported() {
-	STUBBED();
+	return g_vrcompositor->IsMotionSmoothingSupported();
 }
 
 bool BaseCompositor::IsMotionSmoothingEnabled() {
-	STUBBED();
+	return g_vrcompositor->IsMotionSmoothingEnabled();
 }
 
 bool BaseCompositor::IsCurrentSceneFocusAppLoading() {
-	STUBBED();
+	return g_vrcompositor->IsCurrentSceneFocusAppLoading();
 }

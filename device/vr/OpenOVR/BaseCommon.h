@@ -1,5 +1,12 @@
 #pragma once
-#include "OpenVR/interfaces/vrtypes.h"
+// #include "OpenVR/interfaces/vrtypes.h"
+
+namespace vr {
+  typedef uint32_t EOverlayDirection;
+  typedef uint32_t EVRApplicationTransitionState;
+}
+
+#define OOVR_ABORT(s) abort()
 
 class CVRCommon {
 public:

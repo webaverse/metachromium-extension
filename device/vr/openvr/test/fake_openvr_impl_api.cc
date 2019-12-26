@@ -23,20 +23,21 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include <D3D11_1.h>
 #include <DXGI1_4.h>
 #include <memory>
-#include <functional>
 
 #include "device/vr/openvr/test/test_helper.h"
 #include "device/vr/test/test_hook.h"
 #include "device/vr/windows/d3d11_device_helpers.h"
 #include "third_party/openvr/src/headers/openvr.h"
 #include "third_party/openvr/src/src/ivrclientcore.h"
+#include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 
+#include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/sample/hellovr_opengl_main.h"
-
+#include "device/vr/OpenOVR/Reimpl/static_bases.gen.h"
 std::ofstream out;
 std::ofstream &getOut() {
   if (!out.is_open()) {
-    out.open("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\log\\log.txt", std::ofstream::out|std::ofstream::app);
+    out.open("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\log\\log.txt", std::ofstream::out|std::ofstream::app|std::ofstream::binary);
     out << "--------------------------------------------------------------------------------" << std::endl;
   }
   return out;
@@ -57,787 +58,118 @@ namespace vr {
 vr::IVRSystem *g_vrsystem = nullptr;
 vr::IVRCompositor *g_vrcompositor = nullptr;
 vr::IVRChaperone *g_vrchaperone = nullptr;
-// vr::IVRInput *g_vrinput = nullptr;
-// CMainApplication mainApplication;
-
-class TestVRSystem : public IVRSystem {
- public: 
-  void GetRecommendedRenderTargetSize(uint32_t* width,
-                                      uint32_t* height) override;
-  HmdMatrix44_t GetProjectionMatrix(EVREye eye,
-                                    float near_z,
-                                    float far_z) override {
-    // getOut() << "get projection  matrix" <<  std::endl;
-    return g_vrsystem->GetProjectionMatrix(eye, near_z, far_z);
-  }
-  void GetProjectionRaw(EVREye eye,
-                        float* left,
-                        float* right,
-                        float* top,
-                        float* bottom) override;
-  bool ComputeDistortion(
-      EVREye eye,
-      float u,
-      float v,
-      DistortionCoordinates_t* distortion_coordinates) override {
-    return g_vrsystem->ComputeDistortion(eye, u, v, distortion_coordinates);
-  }
-  HmdMatrix34_t GetEyeToHeadTransform(EVREye eye) override;
-  bool GetTimeSinceLastVsync(float* seconds_since_last_vsync,
-                             uint64_t* frame_counter) override {
-    return g_vrsystem->GetTimeSinceLastVsync(seconds_since_last_vsync, frame_counter);
-  }
-  int32_t GetD3D9AdapterIndex() override {
-    return g_vrsystem->GetD3D9AdapterIndex();
-  }
-  void GetDXGIOutputInfo(int32_t* adapter_index) override;
-  bool IsDisplayOnDesktop() override {
-    return g_vrsystem->IsDisplayOnDesktop();
-  }
-  bool SetDisplayVisibility(bool is_visible_on_desktop) override {
-    return g_vrsystem->SetDisplayVisibility(is_visible_on_desktop);
-  }
-  void GetDeviceToAbsoluteTrackingPose(
-      ETrackingUniverseOrigin origin,
-      float predicted_seconds_to_photons_from_now,
-      VR_ARRAY_COUNT(tracked_device_pose_array_count)
-          TrackedDevicePose_t* tracked_device_pose_array,
-      uint32_t tracked_device_pose_array_count) override;
-  void ResetSeatedZeroPose() override {
-    return g_vrsystem->ResetSeatedZeroPose();
-  }
-  HmdMatrix34_t GetSeatedZeroPoseToStandingAbsoluteTrackingPose() override;
-  HmdMatrix34_t GetRawZeroPoseToStandingAbsoluteTrackingPose() override {
-    return g_vrsystem->GetRawZeroPoseToStandingAbsoluteTrackingPose();
-  }
-  uint32_t GetSortedTrackedDeviceIndicesOfClass(
-      ETrackedDeviceClass tracked_device_class,
-      VR_ARRAY_COUNT(tracked_device_index_array_count)
-          TrackedDeviceIndex_t* tracked_device_index_array,
-      uint32_t tracked_device_index_array_count,
-      TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex =
-          k_unTrackedDeviceIndex_Hmd) override {
-    return g_vrsystem->GetSortedTrackedDeviceIndicesOfClass(tracked_device_class, tracked_device_index_array, tracked_device_index_array_count, unRelativeToTrackedDeviceIndex);
-  }
-  EDeviceActivityLevel GetTrackedDeviceActivityLevel(
-      TrackedDeviceIndex_t device_id) override {
-    return g_vrsystem->GetTrackedDeviceActivityLevel(device_id);
-  }
-  void ApplyTransform(TrackedDevicePose_t* output_pose,
-                      const TrackedDevicePose_t* tracked_device_pose,
-                      const HmdMatrix34_t* transform) override {
-    return g_vrsystem->ApplyTransform(output_pose, tracked_device_pose, transform);
-  }
-  TrackedDeviceIndex_t GetTrackedDeviceIndexForControllerRole(
-      ETrackedControllerRole device_type) override {
-    return g_vrsystem->GetTrackedDeviceIndexForControllerRole(device_type);
-  }
-  ETrackedControllerRole GetControllerRoleForTrackedDeviceIndex(
-      TrackedDeviceIndex_t device_index) override;
-  ETrackedDeviceClass GetTrackedDeviceClass(
-      TrackedDeviceIndex_t device_index) override;
-  bool IsTrackedDeviceConnected(TrackedDeviceIndex_t device_index) override {
-    return g_vrsystem->IsTrackedDeviceConnected(device_index);
-  }
-  bool GetBoolTrackedDeviceProperty(
-      TrackedDeviceIndex_t device_index,
-      ETrackedDeviceProperty prop,
-      ETrackedPropertyError* error = 0L) override {
-    return g_vrsystem->GetBoolTrackedDeviceProperty(device_index, prop, error);
-  }
-  float GetFloatTrackedDeviceProperty(
-      TrackedDeviceIndex_t device_index,
-      ETrackedDeviceProperty prop,
-      ETrackedPropertyError* error = 0L) override;
-  int32_t GetInt32TrackedDeviceProperty(
-      TrackedDeviceIndex_t device_index,
-      ETrackedDeviceProperty prop,
-      ETrackedPropertyError* error = 0L) override;
-  uint64_t GetUint64TrackedDeviceProperty(
-      TrackedDeviceIndex_t device_index,
-      ETrackedDeviceProperty prop,
-      ETrackedPropertyError* error = 0L) override;
-  HmdMatrix34_t GetMatrix34TrackedDeviceProperty(
-      TrackedDeviceIndex_t device_index,
-      ETrackedDeviceProperty prop,
-      ETrackedPropertyError* error = 0L) override {
-    return g_vrsystem->GetMatrix34TrackedDeviceProperty(device_index, prop, error);
-  }
-  uint32_t GetStringTrackedDeviceProperty(
-      TrackedDeviceIndex_t device_index,
-      ETrackedDeviceProperty prop,
-      VR_OUT_STRING() char* value,
-      uint32_t buffer_size,
-      ETrackedPropertyError* error = 0L) override;
-  const char* GetPropErrorNameFromEnum(ETrackedPropertyError error) override {
-    return g_vrsystem->GetPropErrorNameFromEnum(error);
-  }
-  bool PollNextEvent(VREvent_t* event, uint32_t vr_event) override;
-  bool PollNextEventWithPose(
-      ETrackingUniverseOrigin origin,
-      VREvent_t* event,
-      uint32_t vr_event,
-      TrackedDevicePose_t* tracked_device_pose) override {
-    return g_vrsystem->PollNextEventWithPose(origin, event, vr_event, tracked_device_pose);
-  }
-  const char* GetEventTypeNameFromEnum(EVREventType type) override {
-    return g_vrsystem->GetEventTypeNameFromEnum(type);
-  }
-  HiddenAreaMesh_t GetHiddenAreaMesh(
-      EVREye eye,
-      EHiddenAreaMeshType type = k_eHiddenAreaMesh_Standard) override {
-    return g_vrsystem->GetHiddenAreaMesh(eye, type);
-  }
-  bool GetControllerState(TrackedDeviceIndex_t controller_device_index,
-                          VRControllerState_t* controller_state,
-                          uint32_t controller_state_size) override;
-  bool GetControllerStateWithPose(
-      ETrackingUniverseOrigin origin,
-      TrackedDeviceIndex_t device_controller_index,
-      VRControllerState_t* controller_state,
-      uint32_t controller_state_size,
-      TrackedDevicePose_t* tracked_device_pose) override;
-  void TriggerHapticPulse(TrackedDeviceIndex_t device_index,
-                          uint32_t axis_id,
-                          unsigned short duration_micro_sec) override {
-    g_vrsystem->TriggerHapticPulse(device_index, axis_id, duration_micro_sec);
-  }
-  const char* GetButtonIdNameFromEnum(EVRButtonId button_id) override {
-    return g_vrsystem->GetButtonIdNameFromEnum(button_id);
-  }
-  const char* GetControllerAxisTypeNameFromEnum(
-      EVRControllerAxisType axis_type) override {
-    return g_vrsystem->GetControllerAxisTypeNameFromEnum(axis_type);
-  }
-  bool CaptureInputFocus() override {
-    return g_vrsystem->CaptureInputFocus();
-  }
-  void ReleaseInputFocus() override {
-     return g_vrsystem->ReleaseInputFocus();
-  }
-  bool IsInputFocusCapturedByAnotherProcess() override {
-    return g_vrsystem->IsInputFocusCapturedByAnotherProcess();
-  }
-  uint32_t DriverDebugRequest(TrackedDeviceIndex_t device_index,
-                              const char* request,
-                              char* response_buffer,
-                              uint32_t response_buffer_size) override {
-    return g_vrsystem->DriverDebugRequest(device_index, request, response_buffer, response_buffer_size);
-  }
-  EVRFirmwareError PerformFirmwareUpdate(
-      TrackedDeviceIndex_t device_index) override {
-    return g_vrsystem->PerformFirmwareUpdate(device_index);
-  }
-  void AcknowledgeQuit_Exiting() override {
-    return g_vrsystem->AcknowledgeQuit_Exiting();
-  }
-  void AcknowledgeQuit_UserPrompt() override {
-    return g_vrsystem->AcknowledgeQuit_UserPrompt();
-  }
-};
-
-class TestVRCompositor : public IVRCompositor {
- public:
-  void SetTrackingSpace(ETrackingUniverseOrigin origin) override;
-  ETrackingUniverseOrigin GetTrackingSpace() override {
-    return g_vrcompositor->GetTrackingSpace();
-  }
-  EVRCompositorError WaitGetPoses(VR_ARRAY_COUNT(render_pose_array_count)
-                                      TrackedDevicePose_t* render_pose_array,
-                                  uint32_t render_pose_array_count,
-                                  VR_ARRAY_COUNT(game_pose_array_count)
-                                      TrackedDevicePose_t* game_pose_array,
-                                  uint32_t game_pose_array_count) override;
-  EVRCompositorError GetLastPoses(VR_ARRAY_COUNT(render_pose_array_count)
-                                      TrackedDevicePose_t* render_pose_array,
-                                  uint32_t render_pose_array_count,
-                                  VR_ARRAY_COUNT(game_pose_array_count)
-                                      TrackedDevicePose_t* game_pose_array,
-                                  uint32_t game_pose_array_count) override {
-    return g_vrcompositor->GetLastPoses(render_pose_array, render_pose_array_count, game_pose_array, game_pose_array_count);
-  }
-  EVRCompositorError GetLastPoseForTrackedDeviceIndex(
-      TrackedDeviceIndex_t device_index,
-      TrackedDevicePose_t* output_pose,
-      TrackedDevicePose_t* output_game_pose) override {
-    return g_vrcompositor->GetLastPoseForTrackedDeviceIndex(device_index, output_pose, output_game_pose);
-  }
-  EVRCompositorError Submit(
-      EVREye eye,
-      const Texture_t* texture,
-      const VRTextureBounds_t* bounds = 0,
-      EVRSubmitFlags submit_flags = Submit_Default) override;
-  void ClearLastSubmittedFrame() override {
-    g_vrcompositor->ClearLastSubmittedFrame();
-  }
-  void PostPresentHandoff() override;
-  bool GetFrameTiming(Compositor_FrameTiming* timing,
-                      uint32_t frames_ago = 0) override;
-  uint32_t GetFrameTimings(Compositor_FrameTiming* timing,
-                           uint32_t frames) override {
-    return g_vrcompositor->GetFrameTimings(timing, frames);
-  }
-  float GetFrameTimeRemaining() override {
-    return g_vrcompositor->GetFrameTimeRemaining();
-  }
-  void GetCumulativeStats(Compositor_CumulativeStats* stats,
-                          uint32_t stats_size_in_bytes) override {
-    g_vrcompositor->GetCumulativeStats(stats, stats_size_in_bytes);
-  }
-  void FadeToColor(float seconds,
-                   float red,
-                   float green,
-                   float blue,
-                   float alpha,
-                   bool background = false) override {
-    g_vrcompositor->FadeToColor(seconds, seconds, red, green, blue, alpha);
-  }
-  HmdColor_t GetCurrentFadeColor(bool background = false) override {
-    return g_vrcompositor->GetCurrentFadeColor(background);
-  }
-  void FadeGrid(float seconds, bool fade_in) override {
-    g_vrcompositor->FadeGrid(seconds, fade_in);
-  }
-  float GetCurrentGridAlpha() override {
-    return g_vrcompositor->GetCurrentGridAlpha();
-  }
-  EVRCompositorError SetSkyboxOverride(VR_ARRAY_COUNT(texture_count)
-                                           const Texture_t* textures,
-                                       uint32_t texture_count) override {
-    return g_vrcompositor->SetSkyboxOverride(textures, texture_count);
-  }
-  void ClearSkyboxOverride() override {
-    g_vrcompositor->ClearSkyboxOverride();
-  }
-  void CompositorBringToFront() override {
-    g_vrcompositor->CompositorBringToFront();
-  }
-  void CompositorGoToBack() override {
-    g_vrcompositor->CompositorGoToBack();
-  }
-  void CompositorQuit() override {
-    g_vrcompositor->CompositorQuit();
-  }
-  bool IsFullscreen() override {
-    return g_vrcompositor->IsFullscreen();
-  }
-  uint32_t GetCurrentSceneFocusProcess() override {
-    return g_vrcompositor->GetCurrentSceneFocusProcess();
-  }
-  uint32_t GetLastFrameRenderer() override {
-    return g_vrcompositor->GetLastFrameRenderer();
-  }
-  bool CanRenderScene() override {
-    return g_vrcompositor->CanRenderScene();
-  }
-  void ShowMirrorWindow() override {
-    g_vrcompositor->ShowMirrorWindow();
-  }
-  void HideMirrorWindow() override {
-    g_vrcompositor->HideMirrorWindow();
-  }
-  bool IsMirrorWindowVisible() override {
-    return g_vrcompositor->IsMirrorWindowVisible();
-  }
-  void CompositorDumpImages() override {
-    g_vrcompositor->CompositorDumpImages();
-  }
-  bool ShouldAppRenderWithLowResources() override {
-    return g_vrcompositor->ShouldAppRenderWithLowResources();
-  }
-  void ForceInterleavedReprojectionOn(bool override) override {
-    return g_vrcompositor->ForceInterleavedReprojectionOn(override);
-  }
-  void ForceReconnectProcess() override {
-    return g_vrcompositor->ForceReconnectProcess();
-  }
-  void SuspendRendering(bool suspend) override;
-  EVRCompositorError GetMirrorTextureD3D11(
-      EVREye eye,
-      void* d3d11_device_or_resource,
-      void** d3d11_shader_resource_view) override {
-    return g_vrcompositor->GetMirrorTextureD3D11(eye, d3d11_device_or_resource, d3d11_shader_resource_view);
-  }
-  void ReleaseMirrorTextureD3D11(void* d3d11_shader_resource_view) override {
-    g_vrcompositor->ReleaseMirrorTextureD3D11(d3d11_shader_resource_view);
-  }
-  EVRCompositorError GetMirrorTextureGL(
-      EVREye eye,
-      glUInt_t* texture_id,
-      glSharedTextureHandle_t* shared_texture_handle) override {
-    return g_vrcompositor->GetMirrorTextureGL(eye, texture_id, shared_texture_handle);
-  }
-  bool ReleaseSharedGLTexture(
-      glUInt_t texture_id,
-      glSharedTextureHandle_t shared_texture_handle) override {
-    return g_vrcompositor->ReleaseSharedGLTexture(texture_id, shared_texture_handle);
-  }
-  void LockGLSharedTextureForAccess(
-      glSharedTextureHandle_t shared_texture_handle) override {
-    g_vrcompositor->LockGLSharedTextureForAccess(shared_texture_handle);
-  }
-  void UnlockGLSharedTextureForAccess(
-      glSharedTextureHandle_t shared_texture_handle) override {
-    g_vrcompositor->UnlockGLSharedTextureForAccess(shared_texture_handle);
-  }
-  uint32_t GetVulkanInstanceExtensionsRequired(VR_OUT_STRING() char* value,
-                                               uint32_t buffer_size) override {
-    return g_vrcompositor->GetVulkanInstanceExtensionsRequired(value, buffer_size);
-  }
-  uint32_t GetVulkanDeviceExtensionsRequired(
-      VkPhysicalDevice_T* physical_device,
-      VR_OUT_STRING() char* value,
-      uint32_t buffer_size) override {
-    return g_vrcompositor->GetVulkanDeviceExtensionsRequired(physical_device, value, buffer_size);
-  }
-};
-
-class TestVRClientCore : public IVRClientCore {
- public:
-  EVRInitError Init(EVRApplicationType application_type) override;
-  void Cleanup() override;
-  EVRInitError IsInterfaceVersionValid(const char* interface_version) override;
-  void* GetGenericInterface(const char* name_and_version,
-                            EVRInitError* error) override;
-  bool BIsHmdPresent() override;
-  const char* GetEnglishStringForHmdError(EVRInitError error) override {
-    getOut() << "GetEnglishStringForHmdError" << std::endl;
-    std::stringstream ss;
-    ss << "error: " << (int)error << std::endl;
-    return ss.str().c_str();
-  }
-  const char* GetIDForVRInitError(EVRInitError error) override {
-    getOut() << "GetIDForVRInitError" << std::endl;
-    std::stringstream ss;
-    ss << "error: " << (int)error << std::endl;
-    return ss.str().c_str();
-  }
-};
-
-TestHelper g_test_helper;
-TestVRSystem g_system;
-TestVRCompositor g_compositor;
-TestVRClientCore g_loader;
-
-EVRInitError TestVRClientCore::Init(EVRApplicationType application_type) {
-  // DebugBreak();
-  std::vector<char> buf(4096);
-  GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
-  getOut() << "init 1 " << buf.data() << std::endl;
-  return VRInitError_None;
-  SetEnvironmentVariable("VR_OVERRIDE", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SteamVR");
-  EVRInitError result = vr::VRInitError_None;
-  vr::VR_Init(&result, application_type);
-  if (result == vr::VRInitError_None) {
-    getOut() << "init 2" << std::endl;
-    // vr::VRSystem();
-    // vr::VRCompositor();
-    result = VRInitError_None;
-  } else {
-    getOut() << "init 3" << std::endl;
-    vr::VR_Shutdown();
-    // getOut() << "init 4" << std::endl;
-    result = VRInitError_Unknown;
-  }
-  getOut() << "init 4" << std::endl;
-  SetEnvironmentVariable("VR_OVERRIDE", buf.data());
-  return result;
-}
-
-void TestVRClientCore::Cleanup() {
-  getOut() << "Cleanup" << std::endl;
-  /* std::vector<char> buf(4096);
-  GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
-  // getOut() << "Cleanup " << buf.data() << std::endl;
-  // return;
-  SetEnvironmentVariable("VR_OVERRIDE", "C:\\Program Files (x86)\\Steam\\steamapps\\common\\SteamVR");
-  mainApplication.Shutdown();
-  SetEnvironmentVariable("VR_OVERRIDE", buf.data()); */
-}
-
-EVRInitError TestVRClientCore::IsInterfaceVersionValid(
-    const char* interface_version) {
-  getOut() << "IsInterfaceVersionValid " << interface_version << std::endl;
-  return VRInitError_None;
-}
-
-void* TestVRClientCore::GetGenericInterface(const char* name_and_version,
-                                            EVRInitError* error) {
-  getOut() << "GetGenericInterface 0 " << name_and_version << std::endl;
-  *error = VRInitError_None;
-  if (strcmp(name_and_version, IVRSystem_Version) == 0) {
-    getOut() << "GetGenericInterface ok " << name_and_version << std::endl;
-    return static_cast<IVRSystem*>(&g_system);
-  }
-  if (strcmp(name_and_version, IVRCompositor_Version) == 0) {
-    getOut() << "GetGenericInterface ok " << name_and_version << std::endl;
-    return static_cast<IVRCompositor*>(&g_compositor);
-  }
-  /*  if (strcmp(name_and_version, device::kChromeOpenVRTestHookAPI) == 0) {
-    getOut() << "GetGenericInterface 3 " << name_and_version << std::endl;
-    return static_cast<device::ServiceTestHook*>(&g_test_helper);
-  } */
-  if (strcmp(name_and_version, IVRChaperone_Version) == 0) {
-    getOut() << "GetGenericInterface ok " << name_and_version << std::endl;
-    void *chaperone = g_vrchaperone;
-    // getOut() << "GetGenericInterface 4.2 " << (uintptr_t)chaperone << std::endl;
-    return chaperone;
-  }
-  /* if (strcmp(name_and_version, IVRInput_Version) == 0) {
-    getOut() << "GetGenericInterface ok " << name_and_version << std::endl;
-    void *input = g_vrinput;
-    // getOut() << "GetGenericInterface 4.2 " << (uintptr_t)chaperone << std::endl;
-    return input;
-  } */
-  
-  // getOut() << "GetGenericInterface 5 " << name_and_version << std::endl;
-
-  *error = VRInitError_Init_InvalidInterface;
-  return nullptr;
-}
-
-bool TestVRClientCore::BIsHmdPresent() {
-  getOut() << "BIsHmdPresent 1" << std::endl;
-  return true;
-}
-
-void TestVRSystem::GetRecommendedRenderTargetSize(uint32_t* width,
-                                                  uint32_t* height) {
-  getOut() << "GetRecommendedRenderTargetSize 1 " <<  (uintptr_t)g_vrsystem << std::endl;
-  /* *width = 1024;
-  *height = 768; */
-  g_vrsystem->GetRecommendedRenderTargetSize(width, height);
-  // getOut() << "GetRecommendedRenderTargetSize 2 " << *width << " " << *height << std::endl;
-  getOut() << "GetRecommendedRenderTargetSize 2" << std::endl;
-}
-
-void TestVRSystem::GetDXGIOutputInfo(int32_t* adapter_index) {
-  externalOpenVr([&]() -> void {
-    getOut() << "GetDXGIOutputInfo 1 " << (uintptr_t)adapter_index << std::endl;
-    // *adapter_index = 0;
-    g_vrsystem->GetDXGIOutputInfo(adapter_index);
-    // g_vrsystem->GetDXGIOutputInfo(adapter_index);
-    // getOut() << "GetDXGIOutputInfo 2 " << *adapter_index << std::endl;
-    getOut() << "GetDXGIOutputInfo 2" << std::endl;
-  });
-}
-
-void TestVRSystem::GetProjectionRaw(EVREye eye,
-                                    float* left,
-                                    float* right,
-                                    float* top,
-                                    float* bottom) {
-  getOut() << "GetProjectionRaw" << std::endl;
-  // getOut() << "GetProjectionRaw" << std::endl;
-  /* auto proj = g_test_helper.GetProjectionRaw(eye == EVREye::Eye_Left);
-  *left = proj.projection[0];
-  *right = proj.projection[1];
-  *top = proj.projection[2];
-  *bottom = proj.projection[3];
-  return; */
-  return g_vrsystem->GetProjectionRaw(eye, left, right, top, bottom);
-  // return mainApplication.GetProjectionRaw(eye, left, right, top, bottom);
-}
-
-HmdMatrix34_t TestVRSystem::GetEyeToHeadTransform(EVREye eye) {
-  // getOut() << "GetEyeToHeadTransform" << std::endl;
-  /* HmdMatrix34_t ret = {};
-  ret.m[0][0] = 1;
-  ret.m[1][1] = 1;
-  ret.m[2][2] = 1;
-  float ipd = g_test_helper.GetInterpupillaryDistance();
-  ret.m[0][3] = ((eye == Eye_Left) ? 1 : -1) * ipd / 2;
-  return ret; */
-  getOut() << "GetEyeToHeadTransform" << std::endl;
-  return g_vrsystem->GetEyeToHeadTransform(eye);
-}
-
-void TestVRSystem::GetDeviceToAbsoluteTrackingPose(
-    ETrackingUniverseOrigin origin,
-    float predicted_seconds_to_photons_from_now,
-    VR_ARRAY_COUNT(tracked_device_pose_array_count)
-        TrackedDevicePose_t* tracked_device_pose_array,
-    uint32_t tracked_device_pose_array_count) {
-  // getOut() << "GetDeviceToAbsoluteTrackingPose" << std::endl;
-  /*  TrackedDevicePose_t pose = g_test_helper.GetPose(false);
-  tracked_device_pose_array[0] = pose;
-  for (unsigned int i = 1; i < tracked_device_pose_array_count; ++i) {
-    TrackedDevicePose_t pose = {};
-    tracked_device_pose_array[i] = pose;
-  }
-  return; */
-  getOut() << "GetDeviceToAbsoluteTrackingPose" << std::endl;
-  return g_vrsystem->GetDeviceToAbsoluteTrackingPose(origin, predicted_seconds_to_photons_from_now, tracked_device_pose_array, tracked_device_pose_array_count);
-}
-
-bool TestVRSystem::PollNextEvent(VREvent_t *pEvent, unsigned int uncbVREvent) {
-  // getOut() << "PollNextEvent" << std::endl;
-  // return false;
-  getOut() << "PollNextEvent" << std::endl;
-  return g_vrsystem->PollNextEvent(pEvent, uncbVREvent);
-}
-
-bool TestVRSystem::GetControllerState(
-    TrackedDeviceIndex_t controller_device_index,
-    VRControllerState_t* controller_state,
-    uint32_t controller_state_size) {
-  // getOut() << "GetControllerState" << std::endl;
-  /* return g_test_helper.GetControllerState(controller_device_index,
-                                          controller_state); */
-  return g_vrsystem->GetControllerState(controller_device_index, controller_state, controller_state_size);
-}
-
-bool TestVRSystem::GetControllerStateWithPose(
-    ETrackingUniverseOrigin origin,
-    TrackedDeviceIndex_t controller_device_index,
-    VRControllerState_t* controller_state,
-    uint32_t controller_state_size,
-    TrackedDevicePose_t* tracked_device_pose) {
-  // getOut() << "GetControllerStateWithPose" << std::endl;
-  /* g_test_helper.GetControllerState(controller_device_index, controller_state);
-  return g_test_helper.GetControllerPose(controller_device_index,
-                                         tracked_device_pose); */
-  getOut() << "GetControllerStateWithPose" << std::endl;
-  return g_vrsystem->GetControllerStateWithPose(origin, controller_device_index, controller_state, controller_state_size, tracked_device_pose);
-}
-
-uint32_t TestVRSystem::GetStringTrackedDeviceProperty(
-    TrackedDeviceIndex_t device_index,
-    ETrackedDeviceProperty prop,
-    VR_OUT_STRING() char* value,
-    uint32_t buffer_size,
-    ETrackedPropertyError* error) {
-  // getOut() << "GetStringTrackedDeviceProperty" << std::endl;
-  /* if (error) {
-    *error = TrackedProp_Success;
-  }
-  sprintf_s(value, buffer_size, "test-value");
-  return 11; */
-  getOut() << "GetStringTrackedDeviceProperty" << std::endl;
-  return g_vrsystem->GetStringTrackedDeviceProperty(device_index, prop, value, buffer_size, error);
-}
-
-float TestVRSystem::GetFloatTrackedDeviceProperty(
-    TrackedDeviceIndex_t device_index,
-    ETrackedDeviceProperty prop,
-    ETrackedPropertyError* error) {
-  // getOut() << "GetFloatTrackedDeviceProperty" << std::endl;
-  /* if (error) {
-    *error = TrackedProp_Success;
-  }
-  switch (prop) {
-    case Prop_UserIpdMeters_Float:
-      return g_test_helper.GetInterpupillaryDistance();
-    default:
-      NOTIMPLEMENTED();
-  }
-  return 0; */
-  getOut() << "GetFloatTrackedDeviceProperty" << std::endl;
-  return g_vrsystem->GetFloatTrackedDeviceProperty(device_index, prop, error);
-}
-
-int32_t TestVRSystem::GetInt32TrackedDeviceProperty(
-    TrackedDeviceIndex_t device_index,
-    ETrackedDeviceProperty prop,
-    ETrackedPropertyError* error) {
-  // getOut() << "GetInt32TrackedDeviceProperty" << std::endl;
-  /* int32_t ret;
-  ETrackedPropertyError err =
-      g_test_helper.GetInt32TrackedDeviceProperty(device_index, prop, ret);
-  if (err != TrackedProp_Success) {
-    NOTIMPLEMENTED();
-  }
-  if (error) {
-    *error = err;
-  }
-  return ret; */
-  getOut() << "GetInt32TrackedDeviceProperty" << std::endl;
-  return g_vrsystem->GetInt32TrackedDeviceProperty(device_index, prop, error);
-}
-
-uint64_t TestVRSystem::GetUint64TrackedDeviceProperty(
-    TrackedDeviceIndex_t device_index,
-    ETrackedDeviceProperty prop,
-    ETrackedPropertyError* error) {
-  // getOut() << "GetUint64TrackedDeviceProperty" << std::endl;
-  /* uint64_t ret;
-  ETrackedPropertyError err =
-      g_test_helper.GetUint64TrackedDeviceProperty(device_index, prop, ret);
-  if (err != TrackedProp_Success) {
-    NOTIMPLEMENTED();
-  }
-  if (error) {
-    *error = err;
-  }
-  return ret; */
-  getOut() << "GetUint64TrackedDeviceProperty" << std::endl;
-  return g_vrsystem->GetUint64TrackedDeviceProperty(device_index, prop, error);
-}
-
-HmdMatrix34_t TestVRSystem::GetSeatedZeroPoseToStandingAbsoluteTrackingPose() {
-  // getOut() << "GetSeatedZeroPoseToStandingAbsoluteTrackingPose" << std::endl;
-  /* HmdMatrix34_t ret = {};
-  ret.m[0][0] = 1;
-  ret.m[1][1] = 1;
-  ret.m[2][2] = 1;
-  ret.m[1][3] = 1.2f;
-  return ret; */
-  getOut() << "GetSeatedZeroPoseToStandingAbsoluteTrackingPose" << std::endl;
-  return g_vrsystem->GetSeatedZeroPoseToStandingAbsoluteTrackingPose();
-}
-
-ETrackedControllerRole TestVRSystem::GetControllerRoleForTrackedDeviceIndex(
-    TrackedDeviceIndex_t device_index) {
-  // getOut() << "GetControllerRoleForTrackedDeviceIndex" << std::endl;
-  // return g_test_helper.GetControllerRoleForTrackedDeviceIndex(device_index);
-  getOut() << "GetControllerRoleForTrackedDeviceIndex" << std::endl;
-  return g_vrsystem->GetControllerRoleForTrackedDeviceIndex(device_index);
-}
-
-ETrackedDeviceClass TestVRSystem::GetTrackedDeviceClass(
-    TrackedDeviceIndex_t device_index) {
-  // getOut() << "GetTrackedDeviceClass" << std::endl;
-  // return g_test_helper.GetTrackedDeviceClass(device_index);
-  getOut() << "GetTrackedDeviceClass" << std::endl;
-  return g_vrsystem->GetTrackedDeviceClass(device_index);
-}
-
-void TestVRCompositor::SuspendRendering(bool suspend) {
-  // getOut() << "SuspendRendering " << suspend << std::endl;
-  // return;
-  getOut() << "SuspendRendering" << std::endl;
-  g_vrcompositor->SuspendRendering(suspend);
-}
-
-void TestVRCompositor::SetTrackingSpace(ETrackingUniverseOrigin origin) {
-  // getOut() << "SetTrackingSpace" << std::endl;
-  // return;
-  g_vrcompositor->SetTrackingSpace(origin);
-}
-
-std::chrono::milliseconds lastTimestamp(0);
-EVRCompositorError TestVRCompositor::WaitGetPoses(TrackedDevicePose_t* poses1,
-                                                  unsigned int count1,
-                                                  TrackedDevicePose_t* poses2,
-                                                  unsigned int count2) {
-  getOut() << "wait get poses" << std::endl;
-  EVRCompositorError err = g_vrcompositor->WaitGetPoses(poses1, count1, poses2, count2);
-  /* if (!err) {
-    mainApplication.PreRender();
-  } */
-  return err;
-
-  /* // getOut() << "WaitGetPoses 1" << std::endl;
-  std::chrono::milliseconds now = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-  std::chrono::milliseconds timeDiff = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()) - lastTimestamp;
-  float fSecondsSinceLastVsync = timeDiff.count() / 1000.0;
-  // g_vrsystem->GetTimeSinceLastVsync( &fSecondsSinceLastVsync, NULL );
-  float fDisplayFrequency = g_vrsystem->GetFloatTrackedDeviceProperty( vr::k_unTrackedDeviceIndex_Hmd, vr::Prop_DisplayFrequency_Float );
-  float fFrameDuration = 1.f / fDisplayFrequency;
-  float fPredictedSecondsFromNow = std::max<float>(fFrameDuration - fSecondsSinceLastVsync, 0);
-  
-  getOut() << "seconds since last vsync " << fSecondsSinceLastVsync << " " << fPredictedSecondsFromNow << " " << fFrameDuration << std::endl;
-  
-  if (fPredictedSecondsFromNow > 3.0/1000.0) {
-    float tWait = fPredictedSecondsFromNow - 3.0/1000.0;
-    std::this_thread::sleep_for(std::chrono::duration<float, std::milli>(tWait*1000.0));
-    fPredictedSecondsFromNow -= tWait;
-  }
-
-  {
-    g_vrcompositor->GetLastPoses(poses1, count1, poses2, count2);
-    mainApplication.PreRender();
-
-    // std::chrono::milliseconds now = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch());
-    lastTimestamp = now;
-  }
-  
-  return VRCompositorError_None; */
-  
-  /* TrackedDevicePose_t pose;
-  for (unsigned int i = 0; i < count1; ++i) {
-    if (i != vr::k_unTrackedDeviceIndex_Hmd) {
-      VRControllerState_t controller_state;
-      g_test_helper.GetControllerPose(i, &pose);
-      pose.bDeviceIsConnected =
-          g_test_helper.GetControllerState(i, &controller_state);
-    } else {
-      pose = g_test_helper.GetPose(true);
-      pose.bDeviceIsConnected = true;
-    }
-    poses1[i] = pose;
-  }
-
-  for (unsigned int i = 0; i < count2; ++i) {
-    if (i != vr::k_unTrackedDeviceIndex_Hmd) {
-      VRControllerState_t controller_state;
-      g_test_helper.GetControllerPose(i, &pose);
-      pose.bDeviceIsConnected =
-          g_test_helper.GetControllerState(i, &controller_state);
-    } else {
-      pose = g_test_helper.GetPose(true);
-      pose.bDeviceIsConnected = true;
-    }
-    poses2[i] = pose;
-  }
-
-  return VRCompositorError_None; */
-}
-
-EVRCompositorError TestVRCompositor::Submit(EVREye eye,
-                                            Texture_t const* texture,
-                                            VRTextureBounds_t const* bounds,
-                                            EVRSubmitFlags flags) {
-  getOut() << "submit " << (void *)eye << " " << texture->eType << " " << texture->eColorSpace << " " << (void *)flags << std::endl;
-  /* if (eye == EVREye::Eye_Left) {
-    // g_test_helper.OnPresentedFrame(reinterpret_cast<ID3D11Texture2D*>(texture->handle), bounds, eye);
-    // getOut() << "Submit " << bounds->uMin << " " << bounds->vMin << " " << bounds->uMax << " " << bounds->vMax << " " << (uintptr_t)dxTexture << std::endl;
-    mainApplication.PostRender((uintptr_t)(texture->handle));
-    // vr::Texture_t rightEyeTexture = {(void*)(uintptr_t)dxTexture, vr::TextureType_DirectX, vr::ColorSpace_Gamma};
-    // vr::VROverlay()->SetOverlayTexture(mainApplication.m_ulOverlayHandle, &rightEyeTexture);
-  }
-  return VRCompositorError_None; */
-  
-  return g_vrcompositor->Submit(eye, texture, bounds, flags);
-}
-
-void TestVRCompositor::PostPresentHandoff() {
-  getOut() << "PostPresentHandoff" << std::endl;
-}
-
-bool TestVRCompositor::GetFrameTiming(Compositor_FrameTiming *pTiming, unsigned int unFramesAgo) {
-  getOut() << "GetFrameTiming" << std::endl;
-  // return false;
-  return g_vrcompositor->GetFrameTiming(pTiming, unFramesAgo);
-}
+vr::IVRChaperoneSetup *g_vrchaperonesetup = nullptr;
+vr::IVROverlay *g_vroverlay = nullptr;
+vr::IVRRenderModels *vr::g_vrrendermodels = nullptr;
+vr::IVRScreenshots *vr::g_vrscreenshots = nullptr;
+vr::IVRSettings *vr::g_vrsettings = nullptr;
+vr::IVRExtendedDisplay *vr::g_vrextendeddisplay = nullptr;
+vr::IVRApplications *vr::g_vrapplications = nullptr;
+vr::IVRInput *g_vrinput = nullptr;
 
 }  // namespace vr
 
 extern "C" {
-__declspec(dllexport) void* VRClientCoreFactory(const char* interface_name,
-                                                int* return_code) {
-  getOut() << "core " << interface_name << " " << (uintptr_t)&vr::g_loader << std::endl;
-  {
-    // DebugBreak();
+  void *__imp_VR_GetGenericInterface = nullptr;
+  void *__imp_VR_IsInterfaceVersionVersion = nullptr;
+  void *__imp_VR_GetInitToken = nullptr;
+  void *__imp_VR_IsInterfaceVersion = nullptr;
+  void *__imp_VR_InitInternal2 = nullptr;
+  void *__imp_VR_IsInterfaceVersionValid = nullptr;
+  void *__imp_VR_ShutdownInternal = nullptr;
+  void *__imp_VR_IsHmdPresent = nullptr;
+  void *__imp_VR_GetVRInitErrorAsSymbol = nullptr;
+  void *__imp_VR_GetVRInitErrorAsEnglishDescription = nullptr;
+  
+  __declspec(dllexport) void* VRClientCoreFactory(const char* interface_name, int* return_code) {
+    getOut() << "core 0 " << std::endl;
+    getOut() << "core 1 " << interface_name << std::endl;
     externalOpenVr([&]() -> void {
       vr::EVRInitError result = vr::VRInitError_None;
+
+      getOut() << "core 2 " << interface_name << std::endl;
+
+      // only look in the override
+      void *pMod = SharedLib_Load("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\third_party\\openvr\\src\\bin\\win64\\openvr_api.dll");
+      // dumpbin /exports "C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrclient_x64.dll"
+      // nothing more to do if we can't load the DLL
+      getOut() << "core 3 " << pMod << std::endl;
+      if( !pMod )
+      {
+        abort();
+        // return vr::VRInitError_Init_VRClientDLLNotFound;
+      }
+      
+      getOut() << "core 4 " << pMod << std::endl;
+
+      __imp_VR_GetGenericInterface = SharedLib_GetFunction( pMod, "VR_GetGenericInterface" );
+      __imp_VR_IsInterfaceVersionVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionVersion" );
+      __imp_VR_GetInitToken = SharedLib_GetFunction( pMod, "VR_GetInitToken" );
+      __imp_VR_IsInterfaceVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersion" );
+      __imp_VR_InitInternal2 = SharedLib_GetFunction( pMod, "VR_InitInternal2" );
+      __imp_VR_IsInterfaceVersionValid = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionValid" );
+      __imp_VR_ShutdownInternal = SharedLib_GetFunction( pMod, "VR_ShutdownInternal" );
+      __imp_VR_IsHmdPresent = SharedLib_GetFunction( pMod, "VR_IsHmdPresent" );
+      __imp_VR_GetVRInitErrorAsSymbol = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsSymbol" );
+      __imp_VR_GetVRInitErrorAsEnglishDescription = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsEnglishDescription" );
+      getOut() << "core 5 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
+      if( !__imp_VR_GetGenericInterface )
+      {
+        SharedLib_Unload( pMod );
+        abort();
+        // return vr::VRInitError_Init_FactoryNotFound;
+      }
+      
+      getOut() << "core 6 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
+
+      /* int nReturnCode = 0;
+      g_pHmdSystem = static_cast< IVRClientCore * > ( fnFactory( vr::IVRClientCore_Version, &nReturnCode ) );
+      if( !g_pHmdSystem )
+      {
+        SharedLib_Unload( pMod );
+        return vr::VRInitError_Init_InterfaceNotFound;
+      } */
+      
       vr::VR_Init(&result, vr::VRApplication_Scene);
       if (result == vr::VRInitError_None) {
         getOut() << "init 2" << std::endl;
         vr::g_vrsystem = vr::VRSystem();
         vr::g_vrcompositor = vr::VRCompositor();
         vr::g_vrchaperone = vr::VRChaperone();
-        // vr::g_vrinput = vr::VRInput();
+        vr::g_vrchaperonesetup = vr::VRChaperoneSetup();
+        vr::g_vroverlay = vr::VROverlay();
+        vr::g_vrrendermodels = vr::VRRenderModels();
+        vr::g_vrscreenshots = vr::VRScreenshots();
+        vr::g_vrsettings = vr::VRSettings();
+        vr::g_vrextendeddisplay = vr::VRExtendedDisplay();
+        vr::g_vrapplications = vr::VRApplications();
+        vr::g_vrinput = vr::VRInput();
         result = vr::VRInitError_None;
-      } else {
         getOut() << "init 3" << std::endl;
-        vr::VR_Shutdown();
+      } else {
+        getOut() << "init 4" << std::endl;
+        // vr::VR_Shutdown();
         // getOut() << "init 4" << std::endl;
         result = vr::VRInitError_Unknown;
       }
-      getOut() << "init 4" << std::endl;
+      getOut() << "init 5" << std::endl;
     });
+    getOut() << "init 6 " << interface_name << std::endl;
+    void *iface = CreateInterfaceByName(interface_name);
+    getOut() << "init 7 " << interface_name << " " << iface << std::endl;
+    return iface;
   }
-  return &vr::g_loader;
 }
+  
+BOOL WINAPI DllMain(
+  _In_ HINSTANCE hinstDLL,
+  _In_ DWORD     fdwReason,
+  _In_ LPVOID    lpvReserved
+) {
+  getOut() << "init dll 0" << std::endl;
+  std::vector<char> buf(4096);
+  GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
+  getOut() << "init dll 1 " << buf.data() << std::endl;
+  getOut() << "init dll 2 " << buf.data() << std::endl;
+  return true;
 }
