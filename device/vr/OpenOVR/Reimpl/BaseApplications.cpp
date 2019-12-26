@@ -87,7 +87,7 @@ EVRApplicationError BaseApplications::GetStartingApplication(VR_OUT_STRING() cha
 	return g_vrapplications->GetStartingApplication(pchAppKeyBuffer, unAppKeyBufferLen);
 }
 EVRApplicationTransitionState BaseApplications::GetTransitionState() {
-  abort();
+  getOut() << "abort BaseApplications::GetTransitionState" << std::endl; abort();
   return EVRApplicationTransitionState();
 	// return g_vrapplications->GetTransitionState();
 }
@@ -95,12 +95,12 @@ EVRApplicationError BaseApplications::PerformApplicationPrelaunchCheck(const cha
 	return g_vrapplications->PerformApplicationPrelaunchCheck(pchAppKey);
 }
 const char * BaseApplications::GetApplicationsTransitionStateNameFromEnum(EVRApplicationTransitionState state) {
-  abort();
+  getOut() << "abort BaseApplications::GetApplicationsTransitionStateNameFromEnum" << std::endl; abort();
   return nullptr;
 	// return g_vrapplications->GetApplicationsTransitionStateNameFromEnum(state);
 }
 bool BaseApplications::IsQuitUserPromptRequested() {
-  abort();
+  getOut() << "abort BaseApplications::IsQuitUserPromptRequested" << std::endl; abort();
   return false;
 	// return g_vrapplications->IsQuitUserPromptRequested();
 }

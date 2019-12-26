@@ -1,7 +1,5 @@
 #include "stdafx.h"
 #define BASE_IMPL
-
-#error lol
 #include "BaseServerDriverHost.h"
 
 #include "Drivers/DriverManager.h"

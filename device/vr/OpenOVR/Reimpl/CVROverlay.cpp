@@ -20,7 +20,8 @@ vr::EVROverlayError CVROverlay_011::GetOverlayTexture(vr::VROverlayHandle_t ulOv
 	vr::EColorSpace* pColorSpace) {
 
 	// It should be fairly simple, but it's unlikely to be used so I can't be bothered implementing it now
-	STUBBED();
+  getOut() << "abort CVROverlay_011::GetOverlayTexture" << std::endl; abort();
+	// STUBBED();
 }
 
 vr::EVROverlayError CVROverlay_013::GetOverlayTexture(vr::VROverlayHandle_t ulOverlayHandle, void** pNativeTextureHandle,
@@ -28,5 +29,6 @@ vr::EVROverlayError CVROverlay_013::GetOverlayTexture(vr::VROverlayHandle_t ulOv
 	vr::EColorSpace* pColorSpace) {
 
 	// It should be fairly simple, but it's unlikely to be used so I can't be bothered implementing it now
-	STUBBED();
+  getOut() << "abort CVROverlay_013::GetOverlayTexture" << std::endl; abort();
+  // STUBBED();
 }

@@ -6,7 +6,7 @@ namespace vr {
   typedef uint32_t EVRApplicationTransitionState;
 }
 
-#define OOVR_ABORT(s) abort()
+// #define OOVR_ABORT(s) abort()
 
 class CVRCommon {
 public:

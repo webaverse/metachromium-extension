@@ -64,9 +64,7 @@ EVRInputError BaseInput::GetAnalogActionData(VRActionHandle_t action, InputAnalo
 }
 EVRInputError BaseInput::GetPoseActionData(VRActionHandle_t action, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow,
 	  InputPoseActionData_t *pActionData, uint32_t unActionDataSize, VRInputValueHandle_t ulRestrictToDevice) {
-  abort();
-  return VRInputError_None;
-  // return g_vrinput->GetPoseActionData(action, eOrigin, fPredictedSecondsFromNow, pActionData, unActionDataSize, ulRestrictToDevice);
+  return BaseInput::GetPoseActionDataRelativeToNow(action, eOrigin, fPredictedSecondsFromNow, pActionData, unActionDataSize, ulRestrictToDevice);
 }
 
 EVRInputError BaseInput::GetPoseActionDataRelativeToNow(VRActionHandle_t action, ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, InputPoseActionData_t *pActionData, uint32_t unActionDataSize, VRInputValueHandle_t ulRestrictToDevice) {
@@ -110,14 +108,12 @@ EVRInputError BaseInput::GetSkeletalSummaryData(VRActionHandle_t action, EVRSumm
 	return g_vrinput->GetSkeletalSummaryData(action, eSummaryType, pSkeletalSummaryData);
 }
 EVRInputError BaseInput::GetSkeletalSummaryData(VRActionHandle_t action, VRSkeletalSummaryData_t * pSkeletalSummaryData) {
-  abort();
-  return VRInputError_None;
-	// return g_vrinput->GetSkeletalSummaryData(action, pSkeletalSummaryData);
+  return GetSkeletalSummaryData(action, VRSummaryType_FromAnimation, pSkeletalSummaryData);
 }
 EVRInputError BaseInput::GetSkeletalBoneDataCompressed(VRActionHandle_t action, EVRSkeletalTransformSpace eTransformSpace,
 	  EVRSkeletalMotionRange eMotionRange, VR_OUT_BUFFER_COUNT(unCompressedSize) void *pvCompressedData, uint32_t unCompressedSize,
 	  uint32_t *punRequiredCompressedSize, VRInputValueHandle_t ulRestrictToDevice) {
-  abort();
+  getOut() << "abort BaseInput::GetSkeletalBoneDataCompressed" << std::endl; abort();
   return VRInputError_None;
   // return g_vrinput->GetSkeletalBoneDataCompressed(action, eTransformSpace, eMotionRange, pvCompressedData, unCompressedSize, punRequiredCompressedSize, ulRestrictToDevice);
 }
@@ -128,7 +124,7 @@ EVRInputError BaseInput::GetSkeletalBoneDataCompressed(VRActionHandle_t action, 
 EVRInputError BaseInput::DecompressSkeletalBoneData(void *pvCompressedBuffer, uint32_t unCompressedBufferSize,
 	  EVRSkeletalTransformSpace *peTransformSpace, VR_ARRAY_COUNT(unTransformArrayCount) VRBoneTransform_t *pTransformArray,
 	  uint32_t unTransformArrayCount) {
-  abort();
+  getOut() << "abort BaseInput::DecompressSkeletalBoneData" << std::endl; abort();
   return VRInputError_None;
   // return g_vrinput->DecompressSkeletalBoneData(pvCompressedBuffer, unCompressedBufferSize, peTransformSpace, pTransformArray, unTransformArrayCount);
 }
@@ -146,7 +142,7 @@ EVRInputError BaseInput::GetActionOrigins(VRActionSetHandle_t actionSetHandle, V
   return g_vrinput->GetActionOrigins(actionSetHandle, digitalActionHandle, originsOut, originOutCount);
 }
 EVRInputError BaseInput::GetOriginLocalizedName(VRInputValueHandle_t origin, VR_OUT_STRING() char *pchNameArray, uint32_t unNameArraySize) {
-  abort();
+  getOut() << "abort BaseInput::GetOriginLocalizedName" << std::endl; abort();
   return VRInputError_None;
 	// return g_vrinput->GetOriginLocalizedName(origin, pchNameArray, unNameArraySize);
 }

@@ -26,12 +26,12 @@ EVROverlayError BaseOverlay::DestroyOverlay(VROverlayHandle_t ulOverlayHandle) {
 	return g_vroverlay->DestroyOverlay(ulOverlayHandle);
 }
 EVROverlayError BaseOverlay::SetHighQualityOverlay(VROverlayHandle_t ulOverlayHandle) {
-  abort();
+  getOut() << "abort BaseOverlay::SetHighQualityOverlay" << std::endl; abort();
   return VROverlayError_None;
 	// return g_vroverlay->SetHighQualityOverlay(ulOverlayHandle);
 }
 VROverlayHandle_t BaseOverlay::GetHighQualityOverlay() {
-  abort();
+  getOut() << "abort BaseOverlay::GetHighQualityOverlay" << std::endl; abort();
   return VROverlayError_None;
 	// return g_vroverlay->GetHighQualityOverlay();
 }
@@ -93,12 +93,12 @@ EVROverlayError BaseOverlay::GetOverlayWidthInMeters(VROverlayHandle_t ulOverlay
 	return g_vroverlay->GetOverlayWidthInMeters(ulOverlayHandle, pfWidthInMeters);
 }
 EVROverlayError BaseOverlay::SetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float fMinDistanceInMeters, float fMaxDistanceInMeters) {
-  abort();
+  getOut() << "abort BaseOverlay::SetOverlayAutoCurveDistanceRangeInMeters" << std::endl; abort();
   return VROverlayError_None;
 	// return g_vroverlay->SetOverlayAutoCurveDistanceRangeInMeters(ulOverlayHandle, fMinDistanceInMeters, fMaxDistanceInMeters);
 }
 EVROverlayError BaseOverlay::GetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float *pfMinDistanceInMeters, float *pfMaxDistanceInMeters) {
-  abort();
+  getOut() << "abort BaseOverlay::GetOverlayAutoCurveDistanceRangeInMeters" << std::endl; abort();
   return VROverlayError_None;
 	// return g_vroverlay->GetOverlayAutoCurveDistanceRangeInMeters(ulOverlayHandle, pfMinDistanceInMeters, pfMaxDistanceInMeters);
 }
@@ -179,7 +179,7 @@ bool BaseOverlay::ComputeOverlayIntersection(VROverlayHandle_t ulOverlayHandle, 
 	return g_vroverlay->ComputeOverlayIntersection(ulOverlayHandle, pParams, pResults);
 }
 bool BaseOverlay::HandleControllerOverlayInteractionAsMouse(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unControllerDeviceIndex) {
-  abort();
+  getOut() << "abort BaseOverlay::HandleControllerOverlayInteractionAsMouse" << std::endl; abort();
   return false;
 	// return g_vroverlay->HandleControllerOverlayInteractionAsMouse(ulOverlayHandle, unControllerDeviceIndex);
 }
@@ -187,22 +187,22 @@ bool BaseOverlay::IsHoverTargetOverlay(VROverlayHandle_t ulOverlayHandle) {
 	return g_vroverlay->IsHoverTargetOverlay(ulOverlayHandle);
 }
 VROverlayHandle_t BaseOverlay::GetGamepadFocusOverlay() {
-  abort();
+  getOut() << "abort BaseOverlay::GetGamepadFocusOverlay" << std::endl; abort();
   return VROverlayHandle_t();
 	// return g_vroverlay->GetGamepadFocusOverlay();
 }
 EVROverlayError BaseOverlay::SetGamepadFocusOverlay(VROverlayHandle_t ulNewFocusOverlay) {
-  abort();
+  getOut() << "abort BaseOverlay::SetGamepadFocusOverlay" << std::endl; abort();
   return VROverlayError_None;
 	// return g_vroverlay->SetGamepadFocusOverlay(ulNewFocusOverlay);
 }
 EVROverlayError BaseOverlay::SetOverlayNeighbor(EOverlayDirection eDirection, VROverlayHandle_t ulFrom, VROverlayHandle_t ulTo) {
-  abort();
+  getOut() << "abort BaseOverlay::SetOverlayNeighbor" << std::endl; abort();
   return VROverlayError_None;
 	// return g_vroverlay->SetOverlayNeighbor(eDirection, ulFrom, ulTo);
 }
 EVROverlayError BaseOverlay::MoveGamepadFocusToNeighbor(EOverlayDirection eDirection, VROverlayHandle_t ulFrom) {
-  abort();
+  getOut() << "abort BaseOverlay::MoveGamepadFocusToNeighbor" << std::endl; abort();
   return VROverlayError_None;
 	// return g_vroverlay->MoveGamepadFocusToNeighbor(eDirection, ulFrom);
 }

@@ -24,10 +24,10 @@ using namespace vr;
 IVRCompositor_015::EVRCompositorError CVRCompositor_015::RequestScreenshot(EVRScreenshotType type,
 	const char *pchDestinationFileName, const char *pchVRDestinationFileName) {
   // g_vrcompositor->RequestScreenshot(type, pchDestinationFileName, pchVRDestinationFileName);
-  abort();
+  getOut() << "abort CVRCompositor_015::RequestScreenshot" << std::endl; abort();
 }
 
 EVRScreenshotType CVRCompositor_015::GetCurrentScreenshotType() {
 	// g_vrcompositor->GetCurrentScreenshotType();
-  abort();
+  getOut() << "abort CVRCompositor_015::GetCurrentScreenshotType" << std::endl; abort();
 }

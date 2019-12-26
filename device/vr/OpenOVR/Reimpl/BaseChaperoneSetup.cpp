@@ -51,21 +51,21 @@ bool BaseChaperoneSetup::GetLiveSeatedZeroPoseToRawTrackingPose(HmdMatrix34_t *p
 	return g_vrchaperonesetup->GetLiveSeatedZeroPoseToRawTrackingPose(pmatSeatedZeroPoseToRawTrackingPose);
 }
 void BaseChaperoneSetup::SetWorkingCollisionBoundsTagsInfo(VR_ARRAY_COUNT(unTagCount) uint8_t *pTagsBuffer, uint32_t unTagCount) {
-  abort();
+  getOut() << "abort BaseChaperoneSetup::SetWorkingCollisionBoundsTagsInfo" << std::endl; abort();
 	// return g_vrchaperonesetup->SetWorkingCollisionBoundsTagsInfo(pTagsBuffer, unTagCount);
 }
 bool BaseChaperoneSetup::GetLiveCollisionBoundsTagsInfo(VR_OUT_ARRAY_COUNT(punTagCount) uint8_t *pTagsBuffer, uint32_t *punTagCount) {
-  abort();
+  getOut() << "abort BaseChaperoneSetup::GetLiveCollisionBoundsTagsInfo" << std::endl; abort();
   return false;
 	// return g_vrchaperonesetup->GetLiveCollisionBoundsTagsInfo(pTagsBuffer, punTagCount);
 }
 bool BaseChaperoneSetup::SetWorkingPhysicalBoundsInfo(VR_ARRAY_COUNT(unQuadsCount) HmdQuad_t *pQuadsBuffer, uint32_t unQuadsCount) {
-  abort();
+  getOut() << "abort BaseChaperoneSetup::SetWorkingPhysicalBoundsInfo" << std::endl; abort();
   return false;
 	// return g_vrchaperonesetup->SetWorkingPhysicalBoundsInfo(pQuadsBuffer, unQuadsCount);
 }
 bool BaseChaperoneSetup::GetLivePhysicalBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
-  abort();
+  getOut() << "abort BaseChaperoneSetup::GetLivePhysicalBoundsInfo" << std::endl; abort();
   return false;
 	// return g_vrchaperonesetup->GetLivePhysicalBoundsInfo(pQuadsBuffer, punQuadsCount);
 }

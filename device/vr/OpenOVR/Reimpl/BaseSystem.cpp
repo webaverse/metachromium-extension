@@ -215,23 +215,23 @@ const char * BaseSystem::GetControllerAxisTypeNameFromEnum(EVRControllerAxisType
 }
 
 bool BaseSystem::CaptureInputFocus() {
-  abort();
+  getOut() << "abort BaseSystem::CaptureInputFocus" << std::endl; abort();
 	// return g_vrsystem->CaptureInputFocus();
 }
 
 void BaseSystem::ReleaseInputFocus() {
-  abort();
+  getOut() << "abort BaseSystem::ReleaseInputFocus" << std::endl; abort();
 	// return g_vrsystem->ReleaseInputFocus();
 }
 
 bool BaseSystem::IsInputFocusCapturedByAnotherProcess() {
-  abort();
+  getOut() << "abort BaseSystem::IsInputFocusCapturedByAnotherProcess" << std::endl; abort();
   return false;
 	// return g_vrsystem->IsInputFocusCapturedByAnotherProcess();
 }
 
 uint32_t BaseSystem::DriverDebugRequest(vr::TrackedDeviceIndex_t unDeviceIndex, const char * pchRequest, char * pchResponseBuffer, uint32_t unResponseBufferSize) {
-  abort();
+  getOut() << "abort BaseSystem::DriverDebugRequest" << std::endl; abort();
   return 0;
 	// return g_vrsystem->DriverDebugRequest(unDeviceIndex, pchRequest, pchResponseBuffer, unResponseBufferSize);
 }
@@ -245,7 +245,7 @@ void BaseSystem::AcknowledgeQuit_Exiting() {
 }
 
 void BaseSystem::AcknowledgeQuit_UserPrompt() {
-  abort();
+  getOut() << "abort BaseSystem::AcknowledgeQuit_UserPrompt" << std::endl; abort();
 	// return g_vrsystem->AcknowledgeQuit_UserPrompt();
 }
 
@@ -268,12 +268,12 @@ HmdMatrix44_t BaseSystem::GetProjectionMatrix(EVREye eye, float znear, float zfa
 }
 
 void BaseSystem::PerformanceTestEnableCapture(bool bEnable) {
-  abort();
+  getOut() << "abort BaseSystem::PerformanceTestEnableCapture" << std::endl; abort();
 	// return g_vrsystem->PerformanceTestEnableCapture(bEnable);
 }
 
 void BaseSystem::PerformanceTestReportFidelityLevelChange(int nFidelityLevel) {
-  abort();
+  getOut() << "abort BaseSystem::PerformanceTestReportFidelityLevelChange" << std::endl; abort();
 	// return g_vrsystem->PerformanceTestReportFidelityLevelChange(nFidelityLevel);
 }
 

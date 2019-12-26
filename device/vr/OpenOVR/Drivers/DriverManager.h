@@ -2,8 +2,6 @@
 #include <vector>
 #include <memory>
 
-#error lol
-
 // TODO get this file to split correctly, so we can use different versions of it's interfaces
 #include "OpenVR/interfaces/driver_itrackeddevicedriverprovider.h"
 
