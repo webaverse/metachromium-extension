@@ -216,11 +216,43 @@ public:
       return r;
     }
   }
+  template<const char *name, typename R, typename A, typename B, typename C, typename D, typename E>
+  R call(A a, B b, C c, D d, E e) {
+    {
+      std::lock_guard<Mutex> lock(mut);
+      writeArg(std::string(name));
+      writeArg(a, b, c, d, e);
+    }
+    inSem.unlock();
+    outSem.lock();
+    {
+      std::lock_guard<Mutex> lock(mut);
+      R r;
+      readResult(r);
+      return r;
+    }
+  }
+  template<const char *name, typename R, typename A, typename B, typename C, typename D, typename E, typename F>
+  R call(A a, B b, C c, D d, E e, F f) {
+    {
+      std::lock_guard<Mutex> lock(mut);
+      writeArg(std::string(name));
+      writeArg(a, b, c, d, e, f);
+    }
+    inSem.unlock();
+    outSem.lock();
+    {
+      std::lock_guard<Mutex> lock(mut);
+      R r;
+      readResult(r);
+      return r;
+    }
+  }
 
   template<const char *name, typename R>
-  void reg(std::function<R()> f) {
-    fns[std::string(name)] = [this, f]() -> void {
-      R r = f();
+  void reg(std::function<R()> fn) {
+    fns[std::string(name)] = [this, fn]() -> void {
+      R r = fn();
       {
         std::lock_guard<Mutex> lock(mut);
         writeResult(r);
@@ -228,14 +260,14 @@ public:
     };
   }
   template<const char *name, typename R, typename A>
-  void reg(std::function<R(A)> f) {
-    fns[std::string(name)] = [this, f]() -> void {
+  void reg(std::function<R(A)> fn) {
+    fns[std::string(name)] = [this, fn]() -> void {
       A a;
       {
         std::lock_guard<Mutex> lock(mut);
         readArg(a);
       }
-      R r = f(a);
+      R r = fn(a);
       {
         std::lock_guard<Mutex> lock(mut);
         writeResult(r);
@@ -243,15 +275,15 @@ public:
     };
   }
   template<const char *name, typename R, typename A, typename B>
-  void reg(std::function<R(A, B)> f) {
-    fns[std::string(name)] = [this, f]() -> void {
+  void reg(std::function<R(A, B)> fn) {
+    fns[std::string(name)] = [this, fn]() -> void {
       A a;
       B b;
       {
         std::lock_guard<Mutex> lock(mut);
         readArg(a, b);
       }
-      R r = f(a, b);
+      R r = fn(a, b);
       {
         std::lock_guard<Mutex> lock(mut);
         writeResult(r);
@@ -259,8 +291,8 @@ public:
     };
   }
   template<const char *name, typename R, typename A, typename B, typename C>
-  void reg(std::function<R(A, B, C)> f) {
-    fns[std::string(name)] = [this, f]() -> void {
+  void reg(std::function<R(A, B, C)> fn) {
+    fns[std::string(name)] = [this, fn]() -> void {
       A a;
       B b;
       C c;
@@ -268,7 +300,7 @@ public:
         std::lock_guard<Mutex> lock(mut);
         readArg(a, b, c);
       }
-      R r = f(a, b, c);
+      R r = fn(a, b, c);
       {
         std::lock_guard<Mutex> lock(mut);
         writeResult(r);
@@ -276,8 +308,8 @@ public:
     };
   }
   template<const char *name, typename R, typename A, typename B, typename C, typename D>
-  void reg(std::function<R(A, B, C, D)> f) {
-    fns[std::string(name)] = [this, f]() -> void {
+  void reg(std::function<R(A, B, C, D)> fn) {
+    fns[std::string(name)] = [this, fn]() -> void {
       A a;
       B b;
       C c;
@@ -286,7 +318,46 @@ public:
         std::lock_guard<Mutex> lock(mut);
         readArg(a, b, c, d);
       }
-      R r = f(a, b, c, d);
+      R r = fn(a, b, c, d);
+      {
+        std::lock_guard<Mutex> lock(mut);
+        writeResult(r);
+      }
+    };
+  }
+  template<const char *name, typename R, typename A, typename B, typename C, typename D, typename E>
+  void reg(std::function<R(A, B, C, D, E)> fn) {
+    fns[std::string(name)] = [this, fn]() -> void {
+      A a;
+      B b;
+      C c;
+      D d;
+      E e;
+      {
+        std::lock_guard<Mutex> lock(mut);
+        readArg(a, b, c, d, e);
+      }
+      R r = fn(a, b, c, d, e);
+      {
+        std::lock_guard<Mutex> lock(mut);
+        writeResult(r);
+      }
+    };
+  }
+  template<const char *name, typename R, typename A, typename B, typename C, typename D, typename E, typename F>
+  void reg(std::function<R(A, B, C, D, E, F)> fn) {
+    fns[std::string(name)] = [this, fn]() -> void {
+      A a;
+      B b;
+      C c;
+      D d;
+      E e;
+      F f;
+      {
+        std::lock_guard<Mutex> lock(mut);
+        readArg(a, b, c, d, e, f);
+      }
+      R r = fn(a, b, c, d, e, f);
       {
         std::lock_guard<Mutex> lock(mut);
         writeResult(r);

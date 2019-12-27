@@ -83,6 +83,10 @@ char kIVRCompositor_PostPresentHandoff[] = "IVRCompositor::PostPresentHandoff";
 char kIVRCompositor_GetFrameTiming[] = "IVRCompositor::GetFrameTiming";
 char kIVRCompositor_GetFrameTimings[] = "IVRCompositor::GetFrameTimings";
 char kIVRCompositor_GetFrameTimeRemaining[] = "IVRCompositor::GetFrameTimeRemaining";
+char kIVRCompositor_GetCumulativeStats[] = "IVRCompositor::GetCumulativeStats";
+char kIVRCompositor_FadeToColor[] = "IVRCompositor::FadeToColor";
+char kIVRCompositor_GetCurrentFadeColor[] = "IVRCompositor::GetCurrentFadeColor";
+char kIVRCompositor_FadeGrid[] = "IVRCompositor::FadeGrid";
 class PVRCompositor /*: IVRCompositor*/ {
 public:
   IVRCompositor *vrcompositor;
@@ -207,6 +211,50 @@ public:
     >([=]() {
       return vrcompositor->GetFrameTimeRemaining();
     });
+    fnp.reg<
+      kIVRCompositor_GetCumulativeStats,
+      zpp::serializer::managed_binary<Compositor_CumulativeStats>,
+      uint32_t
+    >([=](uint32_t nStatsSizeInBytes) {
+      zpp::serializer::managed_binary<Compositor_CumulativeStats> stats(1);
+
+      vrcompositor->GetCumulativeStats(stats.data(), nStatsSizeInBytes);
+
+      return std::move(stats);
+    });
+    fnp.reg<
+      kIVRCompositor_FadeToColor,
+      int,
+      float,
+      float,
+      float,
+      float,
+      float,
+      bool
+    >([=](float fSeconds, float fRed, float fGreen, float fBlue, float fAlpha, bool bBackground) {
+      vrcompositor->FadeToColor(fSeconds, fRed, fGreen, fBlue, fAlpha, bBackground);
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_GetCurrentFadeColor,
+      zpp::serializer::managed_binary<HmdColor_t>,
+      bool
+    >([=](bool bBackground) {
+      zpp::serializer::managed_binary<HmdColor_t> result(1);
+
+      *result.data() = vrcompositor->GetCurrentFadeColor(bBackground);
+      
+      return std::move(result);
+    });
+    fnp.reg<
+      kIVRCompositor_FadeGrid,
+      int,
+      float,
+      bool
+    >([=](float fSeconds, bool bFadeIn) {
+      vrcompositor->FadeGrid(fSeconds, bFadeIn);
+      return 0;
+    });
   }
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
     fnp.call<kIVRCompositor_SetTrackingSpace, int, ETrackingUniverseOrigin>(eOrigin);
@@ -292,11 +340,43 @@ public:
       float
     >();
   }
-	/* virtual void GetCumulativeStats( Compositor_CumulativeStats *pStats, uint32_t nStatsSizeInBytes ) = 0;
-	virtual void FadeToColor( float fSeconds, float fRed, float fGreen, float fBlue, float fAlpha, bool bBackground = false ) = 0;
-	virtual HmdColor_t GetCurrentFadeColor( bool bBackground = false ) = 0;
-	virtual void FadeGrid( float fSeconds, bool bFadeIn ) = 0;
-	virtual float GetCurrentGridAlpha() = 0;
+	virtual void GetCumulativeStats( Compositor_CumulativeStats *pStats, uint32_t nStatsSizeInBytes ) {
+    auto result = fnp.call<
+      kIVRCompositor_GetCumulativeStats,
+      zpp::serializer::managed_binary<Compositor_CumulativeStats>,
+      uint32_t
+    >(nStatsSizeInBytes);
+    *pStats = *result.data();
+  }
+	virtual void FadeToColor( float fSeconds, float fRed, float fGreen, float fBlue, float fAlpha, bool bBackground = false ) {
+    fnp.call<
+      kIVRCompositor_FadeToColor,
+      int,
+      float,
+      float,
+      float,
+      float,
+      float,
+      bool
+    >(fSeconds, fRed, fGreen, fBlue, fAlpha, bBackground);
+  }
+	virtual HmdColor_t GetCurrentFadeColor( bool bBackground = false ) {
+    auto result = fnp.call<
+      kIVRCompositor_GetCurrentFadeColor,
+      zpp::serializer::managed_binary<HmdColor_t>,
+      bool
+    >(bBackground);
+    return *result.data();
+  }
+	virtual void FadeGrid( float fSeconds, bool bFadeIn ) {
+    fnp.call<
+      kIVRCompositor_FadeGrid,
+      int,
+      float,
+      bool
+    >(fSeconds, bFadeIn);
+  }
+	/* virtual float GetCurrentGridAlpha() = 0;
 	virtual EVRCompositorError SetSkyboxOverride( VR_ARRAY_COUNT( unTextureCount ) const Texture_t *pTextures, uint32_t unTextureCount ) = 0;
 	virtual void ClearSkyboxOverride() = 0;
 	virtual void CompositorBringToFront() = 0;
