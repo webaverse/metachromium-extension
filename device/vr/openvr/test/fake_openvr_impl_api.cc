@@ -159,8 +159,9 @@ extern "C" {
         FnProxy *fnp = new FnProxy();
         vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
 
-        std::thread t([]() {
+        std::thread t([=]() {
           FnProxy fnp;
+          vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
           for (;;) {
             fnp.handle();
           }
@@ -192,40 +193,41 @@ BOOL WINAPI DllMain(
   _In_ DWORD     fdwReason,
   _In_ LPVOID    lpvReserved
 ) {
-  { 
-    // getOut() << "loading paths" << std::endl;
-    char dllPath[MAX_PATH];
-    HMODULE hm = NULL;
-    if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | 
-            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-            (LPCSTR) &VRClientCoreFactory, &hm) == 0)
+  if (fdwReason == DLL_PROCESS_ATTACH) {
     {
-        int ret = GetLastError();
-        // getOut() << "GetModuleHandle failed, error = " << ret << std::endl;
-        // Return or however you want to handle an error.
-        getOut() << "dll abort 1" << std::endl; abort();
-    }
-    if (GetModuleFileName(hm, dllPath, sizeof(dllPath)) == 0)
-    {
-        int ret = GetLastError();
-        // getOut() << "GetModuleFileName failed, error = " << ret << std::endl;
-        getOut() << "dll abort 2" << std::endl; abort();
+      // getOut() << "loading paths" << std::endl;
+      char dllPath[MAX_PATH];
+      HMODULE hm = NULL;
+      if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | 
+              GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+              (LPCSTR) &VRClientCoreFactory, &hm) == 0)
+      {
+          int ret = GetLastError();
+          // getOut() << "GetModuleHandle failed, error = " << ret << std::endl;
+          // Return or however you want to handle an error.
+          getOut() << "dll abort 1" << std::endl; abort();
+      }
+      if (GetModuleFileName(hm, dllPath, sizeof(dllPath)) == 0)
+      {
+          int ret = GetLastError();
+          // getOut() << "GetModuleFileName failed, error = " << ret << std::endl;
+          getOut() << "dll abort 2" << std::endl; abort();
+      }
+      
+      char drive[MAX_PATH];
+      char dir[MAX_PATH];
+      // char fname[MAX_PATH];
+      // char ext[MAX_PATH];
+      _splitpath(dllPath, drive, dir, nullptr, nullptr);
+      dllDir = drive;
+      dllDir += dir;
     }
     
-    char drive[MAX_PATH];
-    char dir[MAX_PATH];
-    // char fname[MAX_PATH];
-    // char ext[MAX_PATH];
-    _splitpath(dllPath, drive, dir, nullptr, nullptr);
-    dllDir = drive;
-    dllDir += dir;
+    getOut() << "init dll 0" << std::endl;
+    std::vector<char> buf(4096);
+    GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
+    getOut() << "init dll 1 " << buf.data() << std::endl;
+    getOut() << "init dll 2 " << buf.data() << std::endl;
   }
-  
-  getOut() << "init dll 0" << std::endl;
-  std::vector<char> buf(4096);
-  GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
-  getOut() << "init dll 1 " << buf.data() << std::endl;
-  getOut() << "init dll 2 " << buf.data() << std::endl;
-  
   return true;
 }
