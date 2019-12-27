@@ -20,6 +20,8 @@ LINK_DIRECTORIES(
 
 SET(src
   openvr/test/fake_openvr_impl_api.cc
+  openvr/test/proxy.cpp
+  openvr/test/fnproxy.cpp
   # openvr/test/test_helper.cc
   # openvr/test/test_helper.h
   # test/test_hook.h
@@ -65,11 +67,11 @@ target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
 
-ADD_EXECUTABLE(process openvr/test/process.cpp)
+ADD_EXECUTABLE(process openvr/test/process.cpp openvr/test/fnproxy.cpp)
 set_property(TARGET process PROPERTY CXX_STANDARD 17)
 set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
 
-ADD_EXECUTABLE(process2 openvr/test/process2.cpp)
+ADD_EXECUTABLE(process2 openvr/test/process2.cpp openvr/test/fnproxy.cpp)
 set_property(TARGET process2 PROPERTY CXX_STANDARD 17)
 set_property(TARGET process2 PROPERTY CXX_STANDARD_REQUIRED ON)
 

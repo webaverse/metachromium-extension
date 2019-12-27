@@ -1,115 +1,35 @@
+#ifndef _openvr_test_fnproxy_h_
+#define _openvr_test_fnproxy_h_
+
 #include <map>
 // #include <mutex>
 // #include <semaphore>
 #include <functional>
 
-#include "device/vr/openvr/test/fake_openvr_impl_api.h"
+#include <D3D11_1.h>
+#include <DXGI1_4.h>
+
+#include "device/vr/openvr/test/out.h"
+#include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/serializer.h"
 
 class Mutex {
 public:
   HANDLE h;
-  Mutex(const char *name) {
-    h = CreateMutex(
-      NULL,
-      false,
-      name
-    );
-    if (!h) {
-      getOut() << "mutex error " << GetLastError() << std::endl;
-      // abort();
-    }
-  }
-  void lock() {
-    getOut() << "mutex lock 1" << std::endl;
-    auto r = WaitForSingleObject(
-      h,
-      INFINITE
-    );
-    getOut() << "mutex lock 2 " << r << " " << GetLastError() << std::endl;
-  }
-  void unlock() {
-    ReleaseMutex(
-      h
-    );
-  }
+  Mutex(const char *name);
+  void lock();
+  void unlock();
 };
 
 class Semaphore {
 public:
   HANDLE h;
-  Semaphore(const char *name) {
-    h = CreateSemaphore(
-      NULL,
-      0,
-      1024,
-      name
-    );
-    if (!h) {
-      getOut() << "semaphore error " << GetLastError() << std::endl;
-      // abort();
-    }
-  }
-  void lock() {
-    getOut() << "sempaphore lock 1" << std::endl;
-    auto r = WaitForSingleObject(
-      h,
-      INFINITE
-    );
-    getOut() << "sempaphore lock 2 " << r << " " << GetLastError() << std::endl;
-  }
-  void unlock() {
-    ReleaseSemaphore(
-      h,
-      1,
-      NULL
-    );
-  }
+  Semaphore(const char *name);
+  void lock();
+  void unlock();
 };
 
-void *allocateShared(const char *szName, size_t s) {
-  HANDLE hMapFile;
-  void *pBuf;
-
-  getOut() << "allocate shared 0 " << szName << " " << s << std::endl;
-
-  hMapFile = CreateFileMapping(
-               INVALID_HANDLE_VALUE,    // use paging file
-               NULL,                    // default security
-               PAGE_READWRITE,          // read/write access
-               0,                       // maximum object size (high-order DWORD)
-               s,                       // maximum object size (low-order DWORD)
-               szName);                 // name of mapping object
-
-  getOut() << "allocate shared 1 " << szName << " " << s << " " << hMapFile << " " << GetLastError() << std::endl;
-
-  if (hMapFile == NULL)
-  {
-    /*_tprintf(TEXT("Could not create file mapping object (%d).\n"),
-           GetLastError());*/
-    // return 1;
-  }
-  pBuf = MapViewOfFile(hMapFile,   // handle to map object
-                      FILE_MAP_ALL_ACCESS, // read/write permission
-                      0,
-                      0,
-                      s);
-  getOut() << "allocate shared 2 " << pBuf << std::endl;
-
-  if (pBuf == NULL)
-  {
-    /*_tprintf(TEXT("Could not map view of file (%d).\n"),
-           GetLastError());*/
-
-    CloseHandle(hMapFile);
-
-    // return 1;
-  }
-  
-  getOut() << "allocate shared 3 " << pBuf << std::endl;
-  
-  return pBuf;
-}
+void *allocateShared(const char *szName, size_t s);
 
 class FnProxy {
 public:
@@ -125,17 +45,7 @@ public:
   zpp::serializer::memory_input_archive readResult;
   zpp::serializer::memory_output_archive writeResult;
   
-  FnProxy() :
-    mut("Local\\OpenVrProxyMutex"),
-    inSem("Local\\OpenVrProxySemaphoreIn"),
-    outSem("Local\\OpenVrProxySemaphoreOut"),
-    dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", 4096)),
-    dataResult((unsigned char *)allocateShared("Local\\OpenVrProxyResult", 4096)),
-    readArg(dataArg),
-    writeArg(dataArg),
-    readResult(dataResult),
-    writeResult(dataResult)
-    {}
+  FnProxy();
 
   template<const char *name, typename R>
   R call() {
@@ -381,3 +291,5 @@ public:
     outSem.unlock();
   }
 };
+
+#endif
