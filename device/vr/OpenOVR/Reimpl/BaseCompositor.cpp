@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #define BASE_IMPL
 
+#include <D3D11_1.h>
+#include <wrl.h>
+
 #include "Misc/Config.h"
 
 // #include "OVR_CAPI.h"
@@ -102,6 +105,51 @@ ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
   // getOut() << "submit " << texture->eType << " " << texture->eColorSpace << std::endl;
+
+  /* ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(texture->handle);
+
+  IDXGIResource *pDXGIResource;
+	HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource), (void **)&pDXGIResource);
+  // IDXGIResource1 *pDXGIResource;
+	// HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
+
+  D3D11_TEXTURE2D_DESC desc;
+  tex->GetDesc(&desc);
+  getOut() << "succ 0 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
+
+  if (SUCCEEDED(hr)) {
+    getOut() << "succ 1 " << (void *)pDXGIResource << std::endl;
+    HANDLE sharedHandle;
+    hr = pDXGIResource->GetSharedHandle(&sharedHandle);
+    // hr = pDXGIResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ, L"Local\\lol", &sharedHandle);
+
+    getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+    if (SUCCEEDED(hr)) {
+      getOut() << "succ 3" << std::endl;
+      Microsoft::WRL::ComPtr<ID3D11Device> device;
+      tex->GetDevice(&device);
+      getOut() << "succ 4" << std::endl;
+
+      ID3D11Resource *pD3DResource;
+      hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
+
+      getOut() << "succ 5 " << (void *)hr << " " << GetLastError() << std::endl;
+
+      if (SUCCEEDED(hr)) {
+        getOut() << "succ 6 OK" << std::endl;
+      } else {
+        IDXGIResource *pDXGIResource2;
+        hr = device->OpenSharedResource(sharedHandle, __uuidof(IDXGIResource), (void**)(&pDXGIResource2));
+        
+        getOut() << "succ 7 " << (void *)hr << " " << GetLastError() << std::endl;
+        
+        if (SUCCEEDED(hr)) {
+          getOut() << "succ 8 OK" << std::endl;
+        }
+      }
+    }
+  } */
+
 	return g_vrcompositor->Submit(eye, texture, bounds, submitFlags);
 }
 
