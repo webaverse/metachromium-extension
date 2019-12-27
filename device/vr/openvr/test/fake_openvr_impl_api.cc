@@ -87,6 +87,36 @@ char kIVRCompositor_GetCumulativeStats[] = "IVRCompositor::GetCumulativeStats";
 char kIVRCompositor_FadeToColor[] = "IVRCompositor::FadeToColor";
 char kIVRCompositor_GetCurrentFadeColor[] = "IVRCompositor::GetCurrentFadeColor";
 char kIVRCompositor_FadeGrid[] = "IVRCompositor::FadeGrid";
+char kIVRCompositor_GetCurrentGridAlpha[] = "IVRCompositor::GetCurrentGridAlpha";
+char kIVRCompositor_ClearSkyboxOverride[] = "IVRCompositor::ClearSkyboxOverride";
+char kIVRCompositor_CompositorBringToFront[] = "IVRCompositor::CompositorBringToFront";
+char kIVRCompositor_CompositorGoToBack[] = "IVRCompositor::CompositorGoToBack";
+char kIVRCompositor_CompositorQuit[] = "IVRCompositor::CompositorQuit";
+char kIVRCompositor_IsFullscreen[] = "IVRCompositor::IsFullscreen";
+char kIVRCompositor_GetCurrentSceneFocusProcess[] = "IVRCompositor::GetCurrentSceneFocusProcess";
+char kIVRCompositor_GetLastFrameRenderer[] = "IVRCompositor::GetLastFrameRenderer";
+char kIVRCompositor_CanRenderScene[] = "IVRCompositor::CanRenderScene";
+char kIVRCompositor_ShowMirrorWindow[] = "IVRCompositor::ShowMirrorWindow";
+char kIVRCompositor_HideMirrorWindow[] = "IVRCompositor::HideMirrorWindow";
+char kIVRCompositor_IsMirrorWindowVisible[] = "IVRCompositor::IsMirrorWindowVisible";
+char kIVRCompositor_CompositorDumpImages[] = "IVRCompositor::CompositorDumpImages";
+char kIVRCompositor_ShouldAppRenderWithLowResources[] = "IVRCompositor::ShouldAppRenderWithLowResources";
+char kIVRCompositor_ForceInterleavedReprojectionOn[] = "IVRCompositor::ForceInterleavedReprojectionOn";
+char kIVRCompositor_ForceReconnectProcess[] = "IVRCompositor::ForceReconnectProcess";
+char kIVRCompositor_SuspendRendering[] = "IVRCompositor::SuspendRendering";
+char kIVRCompositor_GetMirrorTextureD3D11[] = "IVRCompositor::GetMirrorTextureD3D11";
+char kIVRCompositor_ReleaseMirrorTextureD3D11[] = "IVRCompositor::ReleaseMirrorTextureD3D11";
+char kIVRCompositor_GetMirrorTextureGL[] = "IVRCompositor::GetMirrorTextureGL";
+char kIVRCompositor_ReleaseSharedGLTexture[] = "IVRCompositor::ReleaseSharedGLTexture";
+char kIVRCompositor_LockGLSharedTextureForAccess[] = "IVRCompositor::LockGLSharedTextureForAccess";
+char kIVRCompositor_UnlockGLSharedTextureForAccess[] = "IVRCompositor::UnlockGLSharedTextureForAccess";
+char kIVRCompositor_GetVulkanInstanceExtensionsRequired[] = "IVRCompositor::GetVulkanInstanceExtensionsRequired";
+char kIVRCompositor_GetVulkanDeviceExtensionsRequired[] = "IVRCompositor::GetVulkanDeviceExtensionsRequired";
+char kIVRCompositor_SetExplicitTimingMode[] = "IVRCompositor::SetExplicitTimingMode";
+char kIVRCompositor_SubmitExplicitTimingData[] = "IVRCompositor::SubmitExplicitTimingData";
+char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothingEnabled";
+char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
+char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
 class PVRCompositor /*: IVRCompositor*/ {
 public:
   IVRCompositor *vrcompositor;
@@ -255,6 +285,215 @@ public:
       vrcompositor->FadeGrid(fSeconds, bFadeIn);
       return 0;
     });
+    fnp.reg<
+      kIVRCompositor_GetCurrentGridAlpha,
+      float
+    >([=]() {
+      return vrcompositor->GetCurrentGridAlpha();
+    });
+    fnp.reg<
+      kIVRCompositor_ClearSkyboxOverride,
+      int
+    >([=]() {
+      vrcompositor->ClearSkyboxOverride();
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_CompositorBringToFront,
+      int
+    >([=]() {
+      vrcompositor->CompositorBringToFront();
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_CompositorGoToBack,
+      int
+    >([=]() {
+      vrcompositor->CompositorGoToBack();
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_CompositorQuit,
+      int
+    >([=]() {
+      vrcompositor->CompositorQuit();
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_IsFullscreen,
+      bool
+    >([=]() {
+      return vrcompositor->IsFullscreen();
+    });
+    fnp.reg<
+      kIVRCompositor_GetCurrentSceneFocusProcess,
+      uint32_t
+    >([=]() {
+      return vrcompositor->GetCurrentSceneFocusProcess();
+    });
+    fnp.reg<
+      kIVRCompositor_GetLastFrameRenderer,
+      uint32_t
+    >([=]() {
+      return vrcompositor->GetLastFrameRenderer();
+    });
+    fnp.reg<
+      kIVRCompositor_CanRenderScene,
+      bool
+    >([=]() {
+      return vrcompositor->CanRenderScene();
+    });
+    fnp.reg<
+      kIVRCompositor_ShowMirrorWindow,
+      int
+    >([=]() {
+      vrcompositor->ShowMirrorWindow();
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_HideMirrorWindow,
+      int
+    >([=]() {
+      vrcompositor->HideMirrorWindow();
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_IsMirrorWindowVisible,
+      bool
+    >([=]() {
+      return vrcompositor->IsMirrorWindowVisible();
+    });
+    fnp.reg<
+      kIVRCompositor_CompositorDumpImages,
+      int
+    >([=]() {
+      vrcompositor->CompositorDumpImages();
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_ShouldAppRenderWithLowResources,
+      bool
+    >([=]() {
+      return vrcompositor->ShouldAppRenderWithLowResources();
+    });
+    fnp.reg<
+      kIVRCompositor_ForceInterleavedReprojectionOn,
+      int,
+      bool
+    >([=](bool bOverride) {
+      vrcompositor->ForceInterleavedReprojectionOn(bOverride);
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_ForceReconnectProcess,
+      int
+    >([=]() {
+      vrcompositor->ForceReconnectProcess();
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_SuspendRendering,
+      int,
+      bool
+    >([=](bool bSuspend) {
+      vrcompositor->SuspendRendering(bSuspend);
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_GetMirrorTextureD3D11,
+      vr::EVRCompositorError
+    >([=]() {
+      abort();
+      return VRCompositorError_None;
+    });
+    fnp.reg<
+      kIVRCompositor_ReleaseMirrorTextureD3D11,
+      vr::EVRCompositorError
+    >([=]() {
+      abort();
+      return VRCompositorError_None;
+    });
+    fnp.reg<
+      kIVRCompositor_GetMirrorTextureGL,
+      vr::EVRCompositorError
+    >([=]() {
+      abort();
+      return VRCompositorError_None;
+    });
+    fnp.reg<
+      kIVRCompositor_ReleaseSharedGLTexture,
+      bool
+    >([=]() {
+      abort();
+      return false;
+    });
+    fnp.reg<
+      kIVRCompositor_LockGLSharedTextureForAccess,
+      bool
+    >([=]() {
+      abort();
+      return false;
+    });
+    fnp.reg<
+      kIVRCompositor_UnlockGLSharedTextureForAccess,
+      bool
+    >([=]() {
+      abort();
+      return false;
+    });
+    fnp.reg<
+      kIVRCompositor_GetVulkanInstanceExtensionsRequired,
+      uint32_t
+    >([=]() {
+      abort();
+      return false;
+    });
+    fnp.reg<
+      kIVRCompositor_GetVulkanInstanceExtensionsRequired,
+      uint32_t
+    >([=]() {
+      abort();
+      return false;
+    });
+    fnp.reg<
+      kIVRCompositor_GetVulkanDeviceExtensionsRequired,
+      uint32_t
+    >([=]() {
+      abort();
+      return false;
+    });
+    fnp.reg<
+      kIVRCompositor_SetExplicitTimingMode,
+      int,
+      EVRCompositorTimingMode
+    >([=](EVRCompositorTimingMode eTimingMode) {
+      vrcompositor->SetExplicitTimingMode(eTimingMode);
+      return 0;
+    });
+    fnp.reg<
+      kIVRCompositor_SubmitExplicitTimingData,
+      EVRCompositorError
+    >([=]() {
+      return vrcompositor->SubmitExplicitTimingData();
+    });
+    fnp.reg<
+      kIVRCompositor_IsMotionSmoothingEnabled,
+      bool
+    >([=]() {
+      return vrcompositor->IsMotionSmoothingEnabled();
+    });
+    fnp.reg<
+      kIVRCompositor_IsMotionSmoothingSupported,
+      bool
+    >([=]() {
+      return vrcompositor->IsMotionSmoothingSupported();
+    });
+    fnp.reg<
+      kIVRCompositor_IsCurrentSceneFocusAppLoading,
+      bool
+    >([=]() {
+      return vrcompositor->IsCurrentSceneFocusAppLoading();
+    });
   }
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
     fnp.call<kIVRCompositor_SetTrackingSpace, int, ETrackingUniverseOrigin>(eOrigin);
@@ -376,37 +615,168 @@ public:
       bool
     >(fSeconds, bFadeIn);
   }
-	/* virtual float GetCurrentGridAlpha() = 0;
-	virtual EVRCompositorError SetSkyboxOverride( VR_ARRAY_COUNT( unTextureCount ) const Texture_t *pTextures, uint32_t unTextureCount ) = 0;
-	virtual void ClearSkyboxOverride() = 0;
-	virtual void CompositorBringToFront() = 0;
-	virtual void CompositorGoToBack() = 0;
-	virtual void CompositorQuit() = 0;
-	virtual bool IsFullscreen() = 0;
-	virtual uint32_t GetCurrentSceneFocusProcess() = 0;
-	virtual uint32_t GetLastFrameRenderer() = 0;
-	virtual bool CanRenderScene() = 0;
-	virtual void ShowMirrorWindow() = 0;
-	virtual void HideMirrorWindow() = 0;
-	virtual bool IsMirrorWindowVisible() = 0;
-	virtual void CompositorDumpImages() = 0;
-	virtual bool ShouldAppRenderWithLowResources() = 0;
-	virtual void ForceInterleavedReprojectionOn( bool bOverride ) = 0;
-	virtual void ForceReconnectProcess() = 0;
-	virtual void SuspendRendering( bool bSuspend ) = 0;
-	virtual vr::EVRCompositorError GetMirrorTextureD3D11( vr::EVREye eEye, void *pD3D11DeviceOrResource, void **ppD3D11ShaderResourceView ) = 0;
-	virtual void ReleaseMirrorTextureD3D11( void *pD3D11ShaderResourceView ) = 0;
-	virtual vr::EVRCompositorError GetMirrorTextureGL( vr::EVREye eEye, vr::glUInt_t *pglTextureId, vr::glSharedTextureHandle_t *pglSharedTextureHandle ) = 0;
-	virtual bool ReleaseSharedGLTexture( vr::glUInt_t glTextureId, vr::glSharedTextureHandle_t glSharedTextureHandle ) = 0;
-	virtual void LockGLSharedTextureForAccess( vr::glSharedTextureHandle_t glSharedTextureHandle ) = 0;
-	virtual void UnlockGLSharedTextureForAccess( vr::glSharedTextureHandle_t glSharedTextureHandle ) = 0;
-	virtual uint32_t GetVulkanInstanceExtensionsRequired( VR_OUT_STRING() char *pchValue, uint32_t unBufferSize ) = 0;
-	virtual uint32_t GetVulkanDeviceExtensionsRequired( VkPhysicalDevice_T *pPhysicalDevice, VR_OUT_STRING() char *pchValue, uint32_t unBufferSize ) = 0;
-	virtual void SetExplicitTimingMode( EVRCompositorTimingMode eTimingMode ) = 0;
-	virtual EVRCompositorError SubmitExplicitTimingData() = 0;
-	virtual bool IsMotionSmoothingEnabled() = 0;
-	virtual bool IsMotionSmoothingSupported() = 0;
-	virtual bool IsCurrentSceneFocusAppLoading() = 0; */
+	virtual float GetCurrentGridAlpha() {
+    return fnp.call<
+      kIVRCompositor_GetCurrentGridAlpha,
+      float
+    >();
+  }
+	virtual EVRCompositorError SetSkyboxOverride( VR_ARRAY_COUNT( unTextureCount ) const Texture_t *pTextures, uint32_t unTextureCount ) {
+    abort();
+    return VRCompositorError_None;
+  }
+	virtual void ClearSkyboxOverride() {
+    fnp.call<
+      kIVRCompositor_ClearSkyboxOverride,
+      int
+    >();
+  }
+	virtual void CompositorBringToFront() {
+    fnp.call<
+      kIVRCompositor_CompositorBringToFront,
+      int
+    >();
+  }
+	virtual void CompositorGoToBack() {
+    fnp.call<
+      kIVRCompositor_CompositorGoToBack,
+      int
+    >();
+  }
+	virtual void CompositorQuit() {
+    fnp.call<
+      kIVRCompositor_CompositorQuit,
+      int
+    >();
+  }
+	virtual bool IsFullscreen() {
+    fnp.call<
+      kIVRCompositor_IsFullscreen,
+      bool
+    >();
+  }
+	virtual uint32_t GetCurrentSceneFocusProcess() {
+    fnp.call<
+      kIVRCompositor_GetCurrentSceneFocusProcess,
+      uint32_t
+    >();
+  }
+	virtual bool CanRenderScene() {
+    fnp.call<
+      kIVRCompositor_CanRenderScene,
+      bool
+    >();
+  }
+	virtual void ShowMirrorWindow() {
+    fnp.call<
+      kIVRCompositor_ShowMirrorWindow,
+      int
+    >();
+  }
+	virtual void HideMirrorWindow() {
+    fnp.call<
+      kIVRCompositor_HideMirrorWindow,
+      int
+    >();
+  }
+	virtual bool IsMirrorWindowVisible() {
+    fnp.call<
+      kIVRCompositor_IsMirrorWindowVisible,
+      int
+    >();
+  }
+	virtual void CompositorDumpImages() {
+    fnp.call<
+      kIVRCompositor_CompositorDumpImages,
+      int
+    >();
+  }
+	virtual bool ShouldAppRenderWithLowResources() {
+    fnp.call<
+      kIVRCompositor_ShouldAppRenderWithLowResources,
+      bool
+    >();
+  }
+	virtual void ForceInterleavedReprojectionOn( bool bOverride ) {
+    fnp.call<
+      kIVRCompositor_ShouldAppRenderWithLowResources,
+      int,
+      bool
+    >(bOverride);
+  }
+	virtual void ForceReconnectProcess() {
+    fnp.call<
+      kIVRCompositor_ForceReconnectProcess,
+      int
+    >();
+  }
+	virtual void SuspendRendering( bool bSuspend ) {
+    fnp.call<
+      kIVRCompositor_SuspendRendering,
+      int,
+      bool
+    >(bSuspend);
+  }
+	virtual vr::EVRCompositorError GetMirrorTextureD3D11( vr::EVREye eEye, void *pD3D11DeviceOrResource, void **ppD3D11ShaderResourceView ) {
+    abort();
+    return VRCompositorError_None;
+  }
+	virtual void ReleaseMirrorTextureD3D11( void *pD3D11ShaderResourceView ) {
+    abort();
+  }
+	virtual vr::EVRCompositorError GetMirrorTextureGL( vr::EVREye eEye, vr::glUInt_t *pglTextureId, vr::glSharedTextureHandle_t *pglSharedTextureHandle ) {
+    abort();
+    return VRCompositorError_None;
+  }
+	virtual bool ReleaseSharedGLTexture( vr::glUInt_t glTextureId, vr::glSharedTextureHandle_t glSharedTextureHandle ) {
+    abort();
+    return false;
+  }
+	virtual void LockGLSharedTextureForAccess( vr::glSharedTextureHandle_t glSharedTextureHandle ) {
+    abort();
+  }
+	virtual void UnlockGLSharedTextureForAccess( vr::glSharedTextureHandle_t glSharedTextureHandle ) {
+    abort();
+  }
+	virtual uint32_t GetVulkanInstanceExtensionsRequired( VR_OUT_STRING() char *pchValue, uint32_t unBufferSize ) {
+    abort();
+    return 0;
+  }
+	virtual uint32_t GetVulkanDeviceExtensionsRequired( VkPhysicalDevice_T *pPhysicalDevice, VR_OUT_STRING() char *pchValue, uint32_t unBufferSize ) {
+    abort();
+    return 0;
+  }
+	virtual void SetExplicitTimingMode( EVRCompositorTimingMode eTimingMode ) {
+    fnp.call<
+      kIVRCompositor_SetExplicitTimingMode,
+      int,
+      EVRCompositorTimingMode
+    >(eTimingMode);
+  }
+	virtual EVRCompositorError SubmitExplicitTimingData() {
+    return fnp.call<
+      kIVRCompositor_SubmitExplicitTimingData,
+      EVRCompositorError
+    >();
+  }
+	virtual bool IsMotionSmoothingEnabled() {
+    return fnp.call<
+      kIVRCompositor_IsMotionSmoothingEnabled,
+      bool
+    >();
+  }
+	virtual bool IsMotionSmoothingSupported() {
+    return fnp.call<
+      kIVRCompositor_IsMotionSmoothingSupported,
+      bool
+    >();
+  }
+	virtual bool IsCurrentSceneFocusAppLoading() {
+    return fnp.call<
+      kIVRCompositor_IsCurrentSceneFocusAppLoading,
+      bool
+    >();
+  }
 };
 
 }  // namespace vr
