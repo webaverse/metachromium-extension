@@ -563,6 +563,10 @@ public:
     {
     }
     
+    binary(const binary<Item> &o) : m_items(o.m_items), m_count(o.m_count)
+    {
+    }
+    
     binary() : m_items(nullptr), m_count(0)
     {
     }
