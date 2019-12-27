@@ -60,19 +60,6 @@ void externalOpenVr(std::function<void()> &&fn) {
 }
 
 namespace vr {
-
-vr::IVRSystem *g_vrsystem = nullptr;
-vr::IVRCompositor *g_vrcompositor = nullptr;
-vr::IVRChaperone *g_vrchaperone = nullptr;
-vr::IVRChaperoneSetup *g_vrchaperonesetup = nullptr;
-vr::IVROverlay *g_vroverlay = nullptr;
-vr::IVRRenderModels *vr::g_vrrendermodels = nullptr;
-vr::IVRScreenshots *vr::g_vrscreenshots = nullptr;
-vr::IVRSettings *vr::g_vrsettings = nullptr;
-vr::IVRExtendedDisplay *vr::g_vrextendeddisplay = nullptr;
-vr::IVRApplications *vr::g_vrapplications = nullptr;
-vr::IVRInput *g_vrinput = nullptr;
-
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
 char kIVRCompositor_GetTrackingSpace[] = "IVRCompositor::GetTrackingSpace";
 char kIVRCompositor_WaitGetPoses[] = "IVRCompositor::WaitGetPoses";
@@ -118,7 +105,7 @@ char kIVRCompositor_SubmitExplicitTimingData[] = "IVRCompositor::SubmitExplicitT
 char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothingEnabled";
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
-class PVRCompositor /*: IVRCompositor*/ {
+class PVRCompositor : public IVRCompositor {
 public:
   IVRSystem *vrsystem;
   IVRCompositor *vrcompositor;
@@ -808,19 +795,25 @@ public:
     >();
   }
 	virtual bool IsFullscreen() {
-    fnp.call<
+    return fnp.call<
       kIVRCompositor_IsFullscreen,
       bool
     >();
   }
 	virtual uint32_t GetCurrentSceneFocusProcess() {
-    fnp.call<
+    return fnp.call<
       kIVRCompositor_GetCurrentSceneFocusProcess,
       uint32_t
     >();
   }
+  virtual uint32_t GetLastFrameRenderer() {
+    return fnp.call<
+      kIVRCompositor_GetLastFrameRenderer,
+      uint32_t
+    >();
+  }
 	virtual bool CanRenderScene() {
-    fnp.call<
+    return fnp.call<
       kIVRCompositor_CanRenderScene,
       bool
     >();
@@ -838,7 +831,7 @@ public:
     >();
   }
 	virtual bool IsMirrorWindowVisible() {
-    fnp.call<
+    return fnp.call<
       kIVRCompositor_IsMirrorWindowVisible,
       int
     >();
@@ -850,7 +843,7 @@ public:
     >();
   }
 	virtual bool ShouldAppRenderWithLowResources() {
-    fnp.call<
+    return fnp.call<
       kIVRCompositor_ShouldAppRenderWithLowResources,
       bool
     >();
@@ -937,6 +930,20 @@ public:
   }
 };
 
+IVRSystem *g_vrsystem = nullptr;
+IVRCompositor *g_vrcompositor = nullptr;
+IVRChaperone *g_vrchaperone = nullptr;
+IVRChaperoneSetup *g_vrchaperonesetup = nullptr;
+IVROverlay *g_vroverlay = nullptr;
+IVRRenderModels *vr::g_vrrendermodels = nullptr;
+IVRScreenshots *vr::g_vrscreenshots = nullptr;
+IVRSettings *vr::g_vrsettings = nullptr;
+IVRExtendedDisplay *vr::g_vrextendeddisplay = nullptr;
+IVRApplications *vr::g_vrapplications = nullptr;
+IVRInput *g_vrinput = nullptr;
+
+PVRCompositor *g_pvrcompositor = nullptr;
+
 }  // namespace vr
 
 extern "C" {
@@ -1004,6 +1011,7 @@ extern "C" {
       vr::VR_Init(&result, vr::VRApplication_Scene);
       if (result == vr::VRInitError_None) {
         getOut() << "init 2" << std::endl;
+
         vr::g_vrsystem = vr::VRSystem();
         vr::g_vrcompositor = vr::VRCompositor();
         vr::g_vrchaperone = vr::VRChaperone();
@@ -1015,6 +1023,10 @@ extern "C" {
         vr::g_vrextendeddisplay = vr::VRExtendedDisplay();
         vr::g_vrapplications = vr::VRApplications();
         vr::g_vrinput = vr::VRInput();
+
+        /* FnProxy fnp;
+        vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, fnp); */
+
         result = vr::VRInitError_None;
         getOut() << "init 3" << std::endl;
       } else {

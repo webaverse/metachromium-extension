@@ -61,6 +61,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
 ADD_LIBRARY(vrclient_x64 SHARED ${src})
 # target_link_libraries(vrclient_x64 openvr_api.dll)
+target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
 
