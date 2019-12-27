@@ -591,7 +591,7 @@ public:
         return m_count;
     }
 
-private:
+protected:
     /**
      * Pointer to the items.
      */
@@ -601,6 +601,32 @@ private:
      * The number of items.
      */
     size_type m_count{};
+};
+
+template <typename Item>
+class managed_binary
+{
+public:
+    managed_binary() {}
+    managed_binary(size_type count) : m_managedItems(count)
+    {
+      m_items = m_managedItems.data();
+      m_count = m_managedItems.size();
+    }
+    managed_binary(managed_binary<T> &&o) : m_managedItems(std::move(o.m_managedItems))
+    {
+      m_items = m_managedItems.data();
+      m_count = m_managedItems.size();
+    }
+
+    managed_binary &operator=(managed_binary<Item> &&o) {
+      m_managedItems = std::move(o.m_managedItems);
+      m_items = m_managedItems.data();
+      m_count = m_managedItems.size();
+      return *this;
+    }
+protected:
+    std::vector<Item> m_managedItems;
 };
 
 /**
