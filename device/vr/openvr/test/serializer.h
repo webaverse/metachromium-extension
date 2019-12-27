@@ -604,7 +604,7 @@ protected:
 };
 
 template <typename Item>
-class managed_binary
+class managed_binary : public binary<Item>
 {
 public:
     managed_binary() {}
@@ -613,7 +613,7 @@ public:
       m_items = m_managedItems.data();
       m_count = m_managedItems.size();
     }
-    managed_binary(managed_binary<T> &&o) : m_managedItems(std::move(o.m_managedItems))
+    managed_binary(managed_binary<Item> &&o) : m_managedItems(std::move(o.m_managedItems))
     {
       m_items = m_managedItems.data();
       m_count = m_managedItems.size();
@@ -787,7 +787,7 @@ private:
     void serialize_items(Item && first, Items &&... items)
     {
         // Invoke serialize_item the first item.
-        serialize_item(std::move(std::forward<Item>(first)));
+        serialize_item(std::forward<Item>(first));
 
         // Serialize the rest of the items.
         serialize_items(std::forward<Items>(items)...);
@@ -875,7 +875,7 @@ private:
      * Serialize binary data.
      */
     template <typename T>
-    void serialize_item(binary<T> && item)
+    void serialize_item(const binary<T> & item)
     {
         concrete_archive().serialize(item.data(), item.size_in_bytes());
     }
