@@ -77,7 +77,7 @@ PVRCompositor *g_pvrcompositor = nullptr;
 
 }  // namespace vr
 
-bool hasThread = false;
+void *shMem = nullptr;
 extern "C" {
   void *__imp_VR_GetGenericInterface = nullptr;
   void *__imp_VR_IsInterfaceVersionVersion = nullptr;
@@ -92,6 +92,7 @@ extern "C" {
   
   __declspec(dllexport) void* VRClientCoreFactory(const char* interface_name, int* return_code) {
     getOut() << "core 0 " << std::endl;
+    int &booted = *((int *)shMem);
     getOut() << "core 1 " << interface_name << std::endl;
     externalOpenVr([&]() -> void {
       vr::EVRInitError result = vr::VRInitError_None;
@@ -159,9 +160,9 @@ extern "C" {
         FnProxy *fnp = new FnProxy();
         vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
 
-        if (!hasThread) {
+        if (!booted) {
           getOut() << "create thread" << std::endl;
-          hasThread = true;
+          booted = 1;
           std::thread t([=]() {
             FnProxy fnp;
             vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
@@ -226,6 +227,8 @@ BOOL WINAPI DllMain(
       dllDir = drive;
       dllDir += dir;
     }
+    
+    shMem = allocateShared("Local\\OpenVrProxyInit", 16);
     
     getOut() << "init dll 0" << std::endl;
     std::vector<char> buf(4096);
