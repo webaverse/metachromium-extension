@@ -60,9 +60,8 @@ ETrackingUniverseOrigin BaseCompositor::GetTrackingSpace() {
 ovr_enum_t BaseCompositor::WaitGetPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
   // getOut() << "wait get poses 1" << std::endl;
-  auto result = g_pvrcompositor->WaitGetPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
+  return g_pvrcompositor->WaitGetPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
   // getOut() << "wait get poses 2 " << result << std::endl;
-  return result;
 }
 
 /* void BaseCompositor::GetSinglePoseRendering(ETrackingUniverseOrigin origin, TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t * pOutputPose) {
@@ -104,8 +103,10 @@ ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t
 }
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
-  // getOut() << "submit " << texture->eType << " " << texture->eColorSpace << std::endl;
-	return g_vrcompositor->Submit(eye, texture, bounds, submitFlags);
+  // getOut() << "submit 1 " << texture->eType << " " << texture->eColorSpace << std::endl;
+	auto result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
+  // getOut() << "submit 2 " << texture->eType << " " << texture->eColorSpace << std::endl;
+  return result;
 }
 
 void BaseCompositor::ClearLastSubmittedFrame() {

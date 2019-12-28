@@ -3,6 +3,7 @@
 
 #include <D3D11_1.h>
 #include <DXGI1_4.h>
+#include <wrl.h>
 
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
@@ -15,10 +16,10 @@ public:
   IVRCompositor *vrcompositor;
   FnProxy &fnp;
   
-  /* Microsoft::WRL::ComPtr<ID3D11Device> device;
-  Microsoft::WRL::ComPtr<ID3D11DeviceContext> context; */
-  ID3D11Device *device;
-  ID3D11DeviceContext *context;
+  Microsoft::WRL::ComPtr<ID3D11Device> device;
+  Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+  /* ID3D11Device *device;
+  ID3D11DeviceContext *context; */
   ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;

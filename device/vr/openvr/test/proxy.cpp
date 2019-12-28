@@ -130,28 +130,56 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     VRTextureBounds_t *pBounds = bounds.data();
     
     if (!device) {          
-      IDXGIFactory *factory;
-      HRESULT hr = CreateDXGIFactory(
-        __uuidof(IDXGIFactory),
+      IDXGIFactory1 *factory;
+      HRESULT hr = CreateDXGIFactory1(
+        __uuidof(IDXGIFactory1),
         (void **)(&factory)
       );
       
       if (SUCCEEDED(hr)) {
         int32_t adapterIndex;
         vrsystem->GetDXGIOutputInfo(&adapterIndex);
-        
+
         if (adapterIndex != -1) {
-          IDXGIAdapter *pAdapter;
-          hr = factory->EnumAdapters(
+          IDXGIAdapter1 *pAdapter;
+          hr = factory->EnumAdapters1(
             adapterIndex,
             &pAdapter
           );
+
+          /* for (int32_t i = 0;;i++) {
+            IDXGIAdapter *pAdapter;
+            HRESULT hr = factory->EnumAdapters(
+              i,
+              &pAdapter
+            );
+            if (SUCCEEDED(hr)) {
+              DXGI_ADAPTER_DESC desc;
+              pAdapter->GetDesc(&desc);
+              std::wstring ws(desc.Description);
+              getOut() << "got desc " << i << " " << std::string(ws.begin(), ws.end()) << " " << desc.VendorId << " " << (void *)desc.AdapterLuid.HighPart << " " << (void *)desc.AdapterLuid.LowPart << std::endl;
+            } else {
+              break;
+            }
+          } */
           if (SUCCEEDED(hr)) {
+            // ID3D11Device *pDevice;
+            // ID3D11DeviceContext *pContext;
+            /* D3D_FEATURE_LEVEL featureLevels[] = {
+              D3D_FEATURE_LEVEL_11_1,
+              D3D_FEATURE_LEVEL_11_0,
+              D3D_FEATURE_LEVEL_10_1,
+              D3D_FEATURE_LEVEL_10_0,
+            };
+            UINT numFeatureLevels = ARRAYSIZE(featureLevels); */
             hr = D3D11CreateDevice(
               pAdapter,
-              D3D_DRIVER_TYPE_REFERENCE,
+              // nullptr,
+              D3D_DRIVER_TYPE_UNKNOWN,
               NULL,
               0,
+              /* featureLevels,
+              numFeatureLevels, */
               NULL,
               0,
               D3D11_SDK_VERSION,
@@ -162,7 +190,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
             if (SUCCEEDED(hr)) {
               // nothing
             } else {
-              getOut() << "failed to create device: " << (void *)hr << std::endl;
+              getOut() << "failed to create device: " << adapterIndex << " " << (void *)pAdapter << " " << (void *)hr << " " << device << " " << context << std::endl;
               abort();
             }
           } else {
@@ -192,13 +220,13 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         if (SUCCEEDED(hr)) {
           // nothing
         } else {
-          getOut() << "failed to unpack shared texture: " << (void *)hr << std::endl;
+          getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
           abort();
         }
 
         pD3DResource->Release();
       } else {
-        getOut() << "failed to unpack shared texture handle: " << (void *)hr << std::endl;
+        getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
         abort();
       }
     }
@@ -557,17 +585,23 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
+  getOut() << "get submit 1 " << (void *)tex << std::endl;
   if (!device) {
     tex->GetDevice(&device);
   }
+  getOut() << "get submit 2 " << device << std::endl;
   if (!context) {
     device->GetImmediateContext(&context);
   }
+  getOut() << "get submit 3 " << context << std::endl;
 
   ID3D11Texture2D *&shTex = eEye == Eye_Left ? shTexLeft : shTexRight;
+  HANDLE &sharedHandle = eEye == Eye_Left ? shTexLeftHandle : shTexRightHandle;
   if (!shTex) {
     D3D11_TEXTURE2D_DESC desc;
     tex->GetDesc(&desc);
+    
+    getOut() << "get submit 4" << std::endl;
 
     // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
 
@@ -578,21 +612,26 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       NULL,
       &shTex
     );
+    
+    getOut() << "get submit 5" << std::endl;
 
     if (SUCCEEDED(hr)) {
+      getOut() << "get submit 6" << std::endl;
+      
       IDXGIResource *pDXGIResource;
       hr = shTex->QueryInterface(__uuidof(IDXGIResource), (void **)&pDXGIResource);
       // IDXGIResource1 *pDXGIResource;
       // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
 
       if (SUCCEEDED(hr)) {
+        getOut() << "get submit 7" << std::endl;
         // getOut() << "succ 1 " << (void *)pDXGIResource << std::endl;
-        HANDLE &sharedHandle = eEye == Eye_Left ? shTexLeftHandle : shTexRightHandle;
         hr = pDXGIResource->GetSharedHandle(&sharedHandle);
         // hr = pDXGIResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ, L"Local\\lol", &sharedHandle);
 
         // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
         if (SUCCEEDED(hr)) {
+          getOut() << "get submit 8" << std::endl;
           // nothing
         } else {
           getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
@@ -608,16 +647,22 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     }
   }
 
+  getOut() << "get submit 8" << std::endl;
+
   context->CopyResource(shTex, tex);
+  
+  getOut() << "get submit 9 " << (void *)shTex << std::endl;
   
   managed_binary<Texture_t> sharedTexture(1);
   *sharedTexture.data() = Texture_t{
-    (void *)shTex,
+    (void *)sharedHandle,
     pTexture->eType,
     pTexture->eColorSpace
   };
+  getOut() << "get submit 10" << std::endl;
   managed_binary<VRTextureBounds_t> bounds(1);
   *bounds.data() = *pBounds;
+  getOut() << "get submit 11" << std::endl;
   return fnp.call<
     kIVRCompositor_Submit,
     EVRCompositorError,
