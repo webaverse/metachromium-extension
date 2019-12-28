@@ -35,10 +35,9 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/sample/hellovr_opengl_main.h"
 #include "device/vr/OpenOVR/Reimpl/static_bases.gen.h"
-// #include "device/vr/openvr/test/serializer.h"
+#include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/fnproxy.h"
 #include "device/vr/openvr/test/proxy.h"
-#include "device/vr/openvr/test/out.h"
 
 std::string dllDir;
 std::ofstream out;
@@ -78,6 +77,7 @@ PVRCompositor *g_pvrcompositor = nullptr;
 
 }  // namespace vr
 
+bool hasThread = false;
 extern "C" {
   void *__imp_VR_GetGenericInterface = nullptr;
   void *__imp_VR_IsInterfaceVersionVersion = nullptr;
@@ -159,14 +159,18 @@ extern "C" {
         FnProxy *fnp = new FnProxy();
         vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
 
-        std::thread t([=]() {
-          FnProxy fnp;
-          vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
-          for (;;) {
-            fnp.handle();
-          }
-        });
-        t.detach();
+        if (!hasThread) {
+          getOut() << "create thread" << std::endl;
+          hasThread = true;
+          std::thread t([=]() {
+            FnProxy fnp;
+            vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
+            for (;;) {
+              fnp.handle();
+            }
+          });
+          t.detach();
+        }
 
         result = vr::VRInitError_None;
         getOut() << "init 3" << std::endl;

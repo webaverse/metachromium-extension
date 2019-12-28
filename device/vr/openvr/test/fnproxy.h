@@ -37,13 +37,13 @@ public:
   Semaphore inSem;
   Semaphore outSem;
   // std::vector<unsigned char> data;
-  staticvector<unsigned char> dataArg;
-  staticvector<unsigned char> dataResult;
+  unsigned char *dataArg;
+  unsigned char *dataResult;
   std::map<std::string, std::function<void()>> fns;
-  zpp::serializer::memory_input_archive readArg;
-  zpp::serializer::memory_output_archive writeArg;
-  zpp::serializer::memory_input_archive readResult;
-  zpp::serializer::memory_output_archive writeResult;
+  Serializer readArg;
+  Serializer writeArg;
+  Serializer readResult;
+  Serializer writeResult;
   
   FnProxy();
 
@@ -51,14 +51,14 @@ public:
   R call() {
     {
       std::lock_guard<Mutex> lock(mut);
-      writeArg(std::string(name));
+      writeArg << std::string(name);
     }
     inSem.unlock();
     outSem.lock();
     {
       std::lock_guard<Mutex> lock(mut);
       R r;
-      readResult(r);
+      readResult >> r;
       return r;
     }
   }
@@ -66,31 +66,36 @@ public:
   R call(A a) {
     {
       std::lock_guard<Mutex> lock(mut);
-      writeArg(std::string(name));
-      writeArg(a);
+      writeArg << std::string(name) << a;
     }
     inSem.unlock();
     outSem.lock();
     {
       std::lock_guard<Mutex> lock(mut);
       R r;
-      readResult(r);
+      readResult >> r;
       return r;
     }
   }
   template<const char *name, typename R, typename A, typename B>
   R call(A a, B b) {
     {
+      // getOut() << "proxy call 1" << std::endl;
       std::lock_guard<Mutex> lock(mut);
-      writeArg(std::string(name));
-      writeArg(a, b);
+      // getOut() << "proxy call 2" << std::endl;
+      writeArg << std::string(name) << a << b;
+      // getOut() << "proxy call 3" << std::endl;
     }
     inSem.unlock();
     outSem.lock();
     {
+      // getOut() << "proxy call 4" << std::endl;
       std::lock_guard<Mutex> lock(mut);
+      // getOut() << "proxy call 5" << std::endl;
       R r;
-      readResult(r);
+      // getOut() << "proxy call 6" << std::endl;
+      readResult >> r;
+      // getOut() << "proxy call 7" << std::endl;
       return r;
     }
   }
@@ -98,15 +103,14 @@ public:
   R call(A a, B b, C c) {
     {
       std::lock_guard<Mutex> lock(mut);
-      writeArg(std::string(name));
-      writeArg(a, b, c);
+      writeArg << std::string(name) << a << b << c;
     }
     inSem.unlock();
     outSem.lock();
     {
       std::lock_guard<Mutex> lock(mut);
       R r;
-      readResult(r);
+      readResult >> r;
       return r;
     }
   }
@@ -114,15 +118,14 @@ public:
   R call(A a, B b, C c, D d) {
     {
       std::lock_guard<Mutex> lock(mut);
-      writeArg(std::string(name));
-      writeArg(a, b, c, d);
+      writeArg << std::string(name) << a << b << c << d;
     }
     inSem.unlock();
     outSem.lock();
     {
       std::lock_guard<Mutex> lock(mut);
       R r;
-      readResult(r);
+      readResult >> r;
       return r;
     }
   }
@@ -130,15 +133,14 @@ public:
   R call(A a, B b, C c, D d, E e) {
     {
       std::lock_guard<Mutex> lock(mut);
-      writeArg(std::string(name));
-      writeArg(a, b, c, d, e);
+      writeArg << std::string(name) << a << b << c << d << e;
     }
     inSem.unlock();
     outSem.lock();
     {
       std::lock_guard<Mutex> lock(mut);
       R r;
-      readResult(r);
+      readResult >> r;
       return r;
     }
   }
@@ -146,15 +148,14 @@ public:
   R call(A a, B b, C c, D d, E e, F f) {
     {
       std::lock_guard<Mutex> lock(mut);
-      writeArg(std::string(name));
-      writeArg(a, b, c, d, e, f);
+      writeArg << std::string(name) << a << b << c << d << e << f;
     }
     inSem.unlock();
     outSem.lock();
     {
       std::lock_guard<Mutex> lock(mut);
       R r;
-      readResult(r);
+      readResult >> r;
       return r;
     }
   }
@@ -165,7 +166,7 @@ public:
       R r = fn();
       {
         std::lock_guard<Mutex> lock(mut);
-        writeResult(r);
+        writeResult << r;
       }
     };
   }
@@ -175,28 +176,38 @@ public:
       A a;
       {
         std::lock_guard<Mutex> lock(mut);
-        readArg(a);
+        readArg >> a;
       }
-      R r = fn(a);
+      R r = fn(std::move(a));
       {
         std::lock_guard<Mutex> lock(mut);
-        writeResult(r);
+        writeResult << r;
       }
     };
   }
   template<const char *name, typename R, typename A, typename B>
   void reg(std::function<R(A, B)> fn) {
     fns[std::string(name)] = [this, fn]() -> void {
+      // getOut() << "proxy handle 0" << std::endl;
       A a;
       B b;
+      // getOut() << "proxy handle 1" << std::endl;
       {
+        // getOut() << "proxy handle 2" << std::endl;
         std::lock_guard<Mutex> lock(mut);
-        readArg(a, b);
+        // getOut() << "proxy handle 3" << std::endl;
+        readArg >> a >> b;
+        // getOut() << "proxy handle 4" << std::endl;
       }
-      R r = fn(a, b);
+      // getOut() << "proxy handle 5" << std::endl;
+      R r = fn(std::move(a), std::move(b));
+      // getOut() << "proxy handle 6" << std::endl;
       {
+        // getOut() << "proxy handle 7" << std::endl;
         std::lock_guard<Mutex> lock(mut);
-        writeResult(r);
+        // getOut() << "proxy handle 8" << std::endl;
+        writeResult << r;
+        // getOut() << "proxy handle 9" << std::endl;
       }
     };
   }
@@ -208,12 +219,12 @@ public:
       C c;
       {
         std::lock_guard<Mutex> lock(mut);
-        readArg(a, b, c);
+        readArg >> a >> b >> c;
       }
-      R r = fn(a, b, c);
+      R r = fn(std::move(a), std::move(b), std::move(c));
       {
         std::lock_guard<Mutex> lock(mut);
-        writeResult(r);
+        writeResult << r;
       }
     };
   }
@@ -226,12 +237,12 @@ public:
       D d;
       {
         std::lock_guard<Mutex> lock(mut);
-        readArg(a, b, c, d);
+        readArg >> a >> b >> c >> d;
       }
-      R r = fn(a, b, c, d);
+      R r = fn(std::move(a), std::move(b), std::move(c), std::move(d));
       {
         std::lock_guard<Mutex> lock(mut);
-        writeResult(r);
+        writeResult << r;
       }
     };
   }
@@ -245,12 +256,12 @@ public:
       E e;
       {
         std::lock_guard<Mutex> lock(mut);
-        readArg(a, b, c, d, e);
+        readArg >> a >> b >> c >> d >> e;
       }
-      R r = fn(a, b, c, d, e);
+      R r = fn(std::move(a), std::move(b), std::move(c), std::move(d), std::move(e));
       {
         std::lock_guard<Mutex> lock(mut);
-        writeResult(r);
+        writeResult << r;
       }
     };
   }
@@ -265,31 +276,19 @@ public:
       F f;
       {
         std::lock_guard<Mutex> lock(mut);
-        readArg(a, b, c, d, e, f);
+        readArg >> a >> b >> c >> d >> e >> f;
       }
-      R r = fn(a, b, c, d, e, f);
+      R r = fn(std::move(a), std::move(b), std::move(c), std::move(d), std::move(e), std::move(f));
       {
         std::lock_guard<Mutex> lock(mut);
-        writeResult(r);
+        writeResult << r;
       }
     };
   }
   
-  void handle() {
-    inSem.lock();
-    
-    std::string name;
-    {
-      std::lock_guard<Mutex> lock(mut);
-      // getOut() << "read arg 1" << std::endl;
-      readArg(name);
-      // getOut() << "read arg 2 " << name << std::endl;
-    }
-    std::function<void()> &f = fns.find(name)->second;
-    f();
-    
-    outSem.unlock();
-  }
+  void handle();
+  
+  static constexpr size_t BUF_SIZE = 4096;
 };
 
 #endif

@@ -64,33 +64,39 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_WaitGetPoses,
-    std::tuple<EVRCompositorError, zpp::serializer::managed_binary<TrackedDevicePose_t>, zpp::serializer::managed_binary<TrackedDevicePose_t>>,
+    std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
     uint32_t,
     uint32_t
   >([=](uint32_t unRenderPoseArrayCount, uint32_t unGamePoseArrayCount) {
-    zpp::serializer::managed_binary<TrackedDevicePose_t> renderPoseArray(unRenderPoseArrayCount);
-    zpp::serializer::managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
+    // getOut() << "handle poses 1" << std::endl;
+    managed_binary<TrackedDevicePose_t> renderPoseArray(unRenderPoseArrayCount);
+    managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
+    // getOut() << "handle poses 2" << std::endl;
 
     EVRCompositorError error = vrcompositor->WaitGetPoses(renderPoseArray.data(), unRenderPoseArrayCount, gamePoseArray.data(), unGamePoseArrayCount);
 
-    return std::tuple<EVRCompositorError, zpp::serializer::managed_binary<TrackedDevicePose_t>, zpp::serializer::managed_binary<TrackedDevicePose_t>>(
+    // getOut() << "handle poses 3" << std::endl;
+
+    auto result = std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>(
       error,
       std::move(renderPoseArray),
       std::move(gamePoseArray)
     );
+    // getOut() << "handle poses 4" << std::endl;
+    return std::move(result);
   });
   fnp.reg<
     kIVRCompositor_GetLastPoses,
-    std::tuple<EVRCompositorError, zpp::serializer::managed_binary<TrackedDevicePose_t>, zpp::serializer::managed_binary<TrackedDevicePose_t>>,
+    std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
     uint32_t,
     uint32_t
   >([=](uint32_t unRenderPoseArrayCount, uint32_t unGamePoseArrayCount) {
-    zpp::serializer::managed_binary<TrackedDevicePose_t> renderPoseArray(unRenderPoseArrayCount);
-    zpp::serializer::managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
+    managed_binary<TrackedDevicePose_t> renderPoseArray(unRenderPoseArrayCount);
+    managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
 
     EVRCompositorError error = vrcompositor->WaitGetPoses(renderPoseArray.data(), unRenderPoseArrayCount, gamePoseArray.data(), unGamePoseArrayCount);
 
-    return std::tuple<EVRCompositorError, zpp::serializer::managed_binary<TrackedDevicePose_t>, zpp::serializer::managed_binary<TrackedDevicePose_t>>(
+    return std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>(
       error,
       std::move(renderPoseArray),
       std::move(gamePoseArray)
@@ -98,15 +104,15 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_GetLastPoseForTrackedDeviceIndex,
-    std::tuple<EVRCompositorError, zpp::serializer::managed_binary<TrackedDevicePose_t>, zpp::serializer::managed_binary<TrackedDevicePose_t>>,
+    std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
     TrackedDeviceIndex_t
   >([=](TrackedDeviceIndex_t unDeviceIndex) {
-    zpp::serializer::managed_binary<TrackedDevicePose_t> outputPose(1);
-    zpp::serializer::managed_binary<TrackedDevicePose_t> gamePose(1);
+    managed_binary<TrackedDevicePose_t> outputPose(1);
+    managed_binary<TrackedDevicePose_t> gamePose(1);
 
     EVRCompositorError error = vrcompositor->GetLastPoseForTrackedDeviceIndex(unDeviceIndex, outputPose.data(), gamePose.data());
 
-    return std::tuple<EVRCompositorError, zpp::serializer::managed_binary<TrackedDevicePose_t>, zpp::serializer::managed_binary<TrackedDevicePose_t>>(
+    return std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>(
       error,
       std::move(outputPose),
       std::move(gamePose)
@@ -116,10 +122,10 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_Submit,
     EVRCompositorError,
     EVREye,
-    zpp::serializer::binary<Texture_t>,
-    zpp::serializer::binary<VRTextureBounds_t>,
+    managed_binary<Texture_t>,
+    managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags
-  >([=](EVREye eEye, zpp::serializer::binary<Texture_t> sharedTexture, zpp::serializer::binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
+  >([=](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
     
@@ -216,28 +222,28 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_GetFrameTiming,
-    std::tuple<bool, zpp::serializer::managed_binary<Compositor_FrameTiming>>,
+    std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
     uint32_t
   >([=](uint32_t unFramesAgo) {
-    zpp::serializer::managed_binary<Compositor_FrameTiming> timing(1);
+    managed_binary<Compositor_FrameTiming> timing(1);
 
     bool result = vrcompositor->GetFrameTiming(timing.data(), unFramesAgo);
 
-    return std::tuple<bool, zpp::serializer::managed_binary<Compositor_FrameTiming>>(
+    return std::tuple<bool, managed_binary<Compositor_FrameTiming>>(
       result,
       std::move(timing)
     );
   });
   fnp.reg<
     kIVRCompositor_GetFrameTimings,
-    std::tuple<uint32_t, zpp::serializer::managed_binary<Compositor_FrameTiming>>,
+    std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
     uint32_t
   >([=](uint32_t nFrames) {
-    zpp::serializer::managed_binary<Compositor_FrameTiming> timings(nFrames);
+    managed_binary<Compositor_FrameTiming> timings(nFrames);
 
     uint32_t result = vrcompositor->GetFrameTimings(timings.data(), nFrames);
 
-    return std::tuple<uint32_t, zpp::serializer::managed_binary<Compositor_FrameTiming>>(
+    return std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>(
       result,
       std::move(timings)
     );
@@ -250,10 +256,10 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_GetCumulativeStats,
-    zpp::serializer::managed_binary<Compositor_CumulativeStats>,
+    managed_binary<Compositor_CumulativeStats>,
     uint32_t
   >([=](uint32_t nStatsSizeInBytes) {
-    zpp::serializer::managed_binary<Compositor_CumulativeStats> stats(1);
+    managed_binary<Compositor_CumulativeStats> stats(1);
 
     vrcompositor->GetCumulativeStats(stats.data(), nStatsSizeInBytes);
 
@@ -274,10 +280,10 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_GetCurrentFadeColor,
-    zpp::serializer::managed_binary<HmdColor_t>,
+    managed_binary<HmdColor_t>,
     bool
   >([=](bool bBackground) {
-    zpp::serializer::managed_binary<HmdColor_t> result(1);
+    managed_binary<HmdColor_t> result(1);
 
     *result.data() = vrcompositor->GetCurrentFadeColor(bBackground);
     
@@ -512,30 +518,36 @@ EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArra
     VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
   auto result = fnp.call<
     kIVRCompositor_WaitGetPoses,
-    std::tuple<EVRCompositorError, zpp::serializer::binary<TrackedDevicePose_t>, zpp::serializer::binary<TrackedDevicePose_t>>,
+    std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
     uint32_t,
     uint32_t
   >(unRenderPoseArrayCount, unGamePoseArrayCount);
-  memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size_in_bytes());
-  memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size_in_bytes());
+  // getOut() << "wait get poses 1 " << unRenderPoseArrayCount << " " << unGamePoseArrayCount << " " << std::get<1>(result).size() << " " << std::get<2>(result).size() << std::endl;
+  if (std::get<1>(result).size() == 0) {
+    abort();
+  }
+  memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(*std::get<1>(result).data()));
+  // getOut() << "wait get poses 2 " << unRenderPoseArrayCount << " " << unGamePoseArrayCount << " " << std::get<1>(result).size() << " " << std::get<2>(result).size() << std::endl;
+  memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(*std::get<2>(result).data()));
+  // getOut() << "wait get poses 3 " << unRenderPoseArrayCount << " " << unGamePoseArrayCount << " " << std::get<1>(result).size() << " " << std::get<2>(result).size() << std::endl;
   return std::get<0>(result);
 }
 EVRCompositorError PVRCompositor::GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
     VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
   auto result = fnp.call<
     kIVRCompositor_GetLastPoses,
-    std::tuple<EVRCompositorError, zpp::serializer::binary<TrackedDevicePose_t>, zpp::serializer::binary<TrackedDevicePose_t>>,
+    std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
     uint32_t,
     uint32_t
   >(unRenderPoseArrayCount, unGamePoseArrayCount);
-  memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size_in_bytes());
-  memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size_in_bytes());
+  memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(*std::get<1>(result).data()));
+  memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(*std::get<2>(result).data()));
   return std::get<0>(result);
 }
 EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose ) {
   auto result = fnp.call<
     kIVRCompositor_GetLastPoseForTrackedDeviceIndex,
-    std::tuple<EVRCompositorError, zpp::serializer::binary<TrackedDevicePose_t>, zpp::serializer::binary<TrackedDevicePose_t>>,
+    std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
     TrackedDeviceIndex_t
   >(unDeviceIndex);
   *pOutputPose = *std::get<1>(result).data();
@@ -598,20 +610,20 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
   context->CopyResource(shTex, tex);
   
-  zpp::serializer::managed_binary<Texture_t> sharedTexture(1);
+  managed_binary<Texture_t> sharedTexture(1);
   *sharedTexture.data() = Texture_t{
     (void *)shTex,
     pTexture->eType,
     pTexture->eColorSpace
   };
-  zpp::serializer::managed_binary<VRTextureBounds_t> bounds(1);
+  managed_binary<VRTextureBounds_t> bounds(1);
   *bounds.data() = *pBounds;
   return fnp.call<
     kIVRCompositor_Submit,
     EVRCompositorError,
     EVREye,
-    zpp::serializer::managed_binary<Texture_t>,
-    zpp::serializer::managed_binary<VRTextureBounds_t>,
+    managed_binary<Texture_t>,
+    managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags
   >(eEye, std::move(sharedTexture), std::move(bounds), nSubmitFlags);
 }
@@ -630,7 +642,7 @@ void PVRCompositor::PostPresentHandoff() {
 bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo ) {
   auto result = fnp.call<
     kIVRCompositor_GetFrameTiming,
-    std::tuple<bool, zpp::serializer::managed_binary<Compositor_FrameTiming>>,
+    std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
     uint32_t
   >(unFramesAgo);
   *pTiming = *std::get<1>(result).data();
@@ -639,7 +651,7 @@ bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t un
 uint32_t PVRCompositor::GetFrameTimings( VR_ARRAY_COUNT( nFrames ) Compositor_FrameTiming *pTiming, uint32_t nFrames ) {
   auto result = fnp.call<
     kIVRCompositor_GetFrameTimings,
-    std::tuple<uint32_t, zpp::serializer::managed_binary<Compositor_FrameTiming>>,
+    std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
     uint32_t
   >(nFrames);
   *pTiming = *std::get<1>(result).data();
@@ -654,7 +666,7 @@ float PVRCompositor::GetFrameTimeRemaining() {
 void PVRCompositor::GetCumulativeStats( Compositor_CumulativeStats *pStats, uint32_t nStatsSizeInBytes ) {
   auto result = fnp.call<
     kIVRCompositor_GetCumulativeStats,
-    zpp::serializer::managed_binary<Compositor_CumulativeStats>,
+    managed_binary<Compositor_CumulativeStats>,
     uint32_t
   >(nStatsSizeInBytes);
   *pStats = *result.data();
@@ -674,7 +686,7 @@ void PVRCompositor::FadeToColor( float fSeconds, float fRed, float fGreen, float
 HmdColor_t PVRCompositor::GetCurrentFadeColor( bool bBackground ) {
   auto result = fnp.call<
     kIVRCompositor_GetCurrentFadeColor,
-    zpp::serializer::managed_binary<HmdColor_t>,
+    managed_binary<HmdColor_t>,
     bool
   >(bBackground);
   return *result.data();

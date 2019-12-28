@@ -1,27 +1,39 @@
-#ifndef __zpp_serializer_h__
-#define __zpp_serializer_h__
+#ifndef __serializer_h__
+#define __serializer_h__
 
-#include <algorithm>
-#include <array>
-#include <cstddef>
-#include <cstdint>
-#include <cstring>
-#include <initializer_list>
-#include <memory>
-#include <mutex>
-#include <new>
-#include <shared_mutex>
-#include <stdexcept>
-#include <string>
-#include <tuple>
-#include <type_traits>
-#include <unordered_map>
-#include <utility>
 #include <vector>
-#if __cplusplus >= 201703L
-#include <optional>
-#include <variant>
-#endif
+#include <mutex>
+
+#include "device/vr/openvr/test/out.h"
+
+/* template<typename T>
+class staticvector {
+public:
+  T *d;
+  size_t &s;
+  // staticvector<T>() : d(nullptr), s(0) {}
+  staticvector<T>(T *d) : d((T *)((unsigned char *)d + sizeof(size_t))), s(*((size_t *)d)) {}
+  // staticvector<T>(const staticvector<T> &other) : d(other.data()), s(other.size()) {}
+  T *data() {
+    return d;
+  }
+  size_t size() {
+    return s;
+  }
+  void resize(size_t newS) {
+    s = newS;
+  }
+  T *begin() {
+    return d;
+  }
+  T *end() {
+    return d + s;
+  }
+  void erase(T *x, T *y) {
+    memcpy(x, y, (end() - y) * sizeof(T));
+    s -= y - x;
+  }
+}; */
 
 template <typename Item>
 class binary
@@ -30,7 +42,7 @@ public:
     /**
      * Constructs the binary wrapper from pointer and count of items.
      */
-    binary(Item * items, size_type count) : m_items(items), m_count(count)
+    binary(Item * items, size_t count) : m_items(items), m_count(count)
     {
     }
     
@@ -53,15 +65,15 @@ public:
     /**
      * Returns the size in bytes of the binary data.
      */
-    size_type size_in_bytes() const noexcept
+    size_t size() const noexcept
     {
-        return m_count * sizeof(Item);
+        return m_count;
     }
 
     /**
      * Returns the count of items in the binary wrapper.
      */
-    size_type count() const noexcept
+    size_t count() const noexcept
     {
         return m_count;
     }
@@ -75,7 +87,7 @@ protected:
     /**
      * The number of items.
      */
-    size_type m_count{};
+    size_t m_count{};
 };
 
 template <typename Item>
@@ -83,7 +95,13 @@ class managed_binary : public binary<Item>
 {
 public:
     managed_binary() {}
-    managed_binary(size_type count) : m_managedItems(count)
+    managed_binary(Item *t, size_t count) : m_managedItems(count)
+    {
+      memcpy(m_managedItems.data(), (void *)t, count * sizeof(Item));
+      m_items = m_managedItems.data();
+      m_count = m_managedItems.size();
+    }
+    managed_binary(size_t count) : m_managedItems(count)
     {
       m_items = m_managedItems.data();
       m_count = m_managedItems.size();
@@ -106,68 +124,192 @@ protected:
 
 class Serializer {
 public:
-  Serializer(unsigned char *data, size_t size) : m_data(data), m_read(data), m_write(data), m_size(size) {}
+  Serializer(unsigned char *data, size_t size);
   template<typename T>
-  Serializer &operator>>(Serializer &in, T &t) {
+  Serializer &operator>>(T &t) {
+    Serializer &in = *this;
     static_assert(std::is_trivially_copyable<T>::value, "Must be trivially copyable");
-    if (((in.m_data + in.m_size) - in.m_read) > sizeof(T)) {
-      in.m_read = 0;
+    // getOut() << "reader T 1 " << (in.m_read - in.m_data) << std::endl;
+    if ((in.m_read + sizeof(T)) > (in.m_data + m_size)) {
+      // getOut() << "reset reader T" << std::endl;
+      in.m_read = in.m_data;
     }
+    // getOut() << "reader T 2 " << (in.m_read - in.m_data) << std::endl;
+
     memcpy((void *)&t, in.m_read, sizeof(T));
     in.m_read += sizeof(T);
+    
+    // getOut() << "reader T 3 " << (in.m_read - in.m_data) << std::endl;
+
     return in;
   }
   template<>
-  Serializer &operator>>(Serializer &in, std::string &t) {
-    if (((in.m_data + in.m_size) - in.m_read) > t.size()) {
-      in.m_read = 0;
+  Serializer &operator>>(std::string &t) {
+    Serializer &in = *this;
+    // getOut() << "reader string 1 " << (in.m_read - in.m_data) << std::endl;
+    if ((in.m_read + sizeof(size_t)) > (in.m_data + m_size)) {
+      // getOut() << "reset reader string" << std::endl;
+      in.m_read = in.m_data;
     }
-    memcpy((void *)t.data(), in.m_read, t.size());
-    in.m_read += t.size();
+    
+    // getOut() << "reader string 2 " << (in.m_read - in.m_data) << std::endl;
+
+    size_t size = *((size_t *)in.m_read);
+    in.m_read += sizeof(size_t);
+    
+    if ((in.m_read + size) > (in.m_data + m_size)) {
+      // getOut() << "reset reader managed_binary" << std::endl;
+      in.m_read = in.m_data;
+    }
+    
+    // getOut() << "reader string 3 " << (in.m_read - in.m_data) << " " << size << std::endl;
+
+    t = std::string((char *)in.m_read, size);
+    in.m_read += size;
+    
+    // getOut() << "reader string 4 " << (in.m_read - in.m_data) << std::endl;
+
     return in;
   }
   template<typename T>
-  Serializer &operator>>(Serializer &in, binary<T> &t) {
-    if (((in.m_data + in.m_size) - in.m_read) > t.size()) {
-      in.m_read = 0;
+  Serializer &operator>>(managed_binary<T> &t) {
+    Serializer &in = *this;
+    // getOut() << "reader binary 1 " << (in.m_read - in.m_data) << std::endl;
+    if ((in.m_read + sizeof(size_t)) > (in.m_data + m_size)) {
+      // getOut() << "reset reader managed_binary" << std::endl;
+      in.m_read = in.m_data;
     }
-    memcpy((void *)t.data(), in.m_read, t.size());
-    in.m_read += t.size();
+    
+    // getOut() << "reader binary 2 " << (in.m_read - in.m_data) << std::endl;
+
+    size_t size = *((size_t *)in.m_read);
+    in.m_read += sizeof(size_t);
+    
+    if ((in.m_read + size*sizeof(T)) > (in.m_data + m_size)) {
+      // getOut() << "reset reader managed_binary" << std::endl;
+      in.m_read = in.m_data;
+    }
+    
+    // getOut() << "reader binary 3 " << (in.m_read - in.m_data) << " " << size << std::endl;
+
+    t = managed_binary<T>((T *)in.m_read, size);
+    in.m_read += size * sizeof(T);
+    
+    // getOut() << "reader binary 4 " << (in.m_read - in.m_data) << std::endl;
+
     return in;
   }
+  template<int I = 0, typename... Ts>
+  inline typename std::enable_if<I == sizeof...(Ts), void>::type deserializeTuple(std::tuple<Ts...> &ts) {
+    // nothing
+  }
+  template<int I = 0, typename... Ts>
+  inline typename std::enable_if<I < sizeof...(Ts), void>::type deserializeTuple(std::tuple<Ts...> &ts) {
+    *this >> std::get<I>(ts);
+    deserializeTuple<I + 1, Ts...>(ts);
+  }
+  template<typename... Ts>
+  Serializer &operator>>(std::tuple<Ts...> &ts) {
+    deserializeTuple<0, Ts...>(ts);
+    return *this;
+  }
   template<typename T>
-  Serializer &operator<<(Serializer &out, const T &t) {
+  Serializer &operator<<(const T &t) {
+    Serializer &out = *this;
+    // getOut() << "writer T 1 " << (out.m_write - out.m_data) << std::endl;
     static_assert(std::is_trivially_copyable<T>::value, "Must be trivially copyable");
-    if (((out.m_data + out.m_size) - out.m_write) > sizeof(T)) {
-      out.m_write = 0;
+    if ((out.m_write + sizeof(T)) > (out.m_data + m_size)) {
+      // getOut() << "reset writer T" << std::endl;
+      out.m_write = out.m_data;
     }
+    
+    // getOut() << "writer T 2 " << (out.m_write - out.m_data) << std::endl;
+
     memcpy(out.m_write, (void *)&t, sizeof(T));
     out.m_write += sizeof(T);
+    
+    // getOut() << "writer T 3 " << (out.m_write - out.m_data) << std::endl;
+
     return out;
   }
   template<>
-  Serializer &operator<<(Serializer &out, const std::string &t) {
-    if (((out.m_data + out.m_size) - out.m_write) > t.size()) {
-      out.m_write = 0;
+  Serializer &operator<<(const std::string &t) {
+    Serializer &out = *this;
+    // getOut() << "writer string 1 " << (out.m_write - out.m_data) << std::endl;
+    if ((out.m_write + sizeof(size_t)) > (out.m_data + m_size)) {
+      // getOut() << "reset writer string" << std::endl;
+      out.m_write = out.m_data;
     }
+    
+    // getOut() << "writer string 2 " << (out.m_write - out.m_data) << std::endl;
+    
+    *((size_t *)out.m_write) = t.size();
+    out.m_write += sizeof(size_t);
+    
+    if ((out.m_write + t.size()) > (out.m_data + m_size)) {
+      // getOut() << "reset writer string" << std::endl;
+      out.m_write = out.m_data;
+    }
+    
+    // getOut() << "writer string 3 " << (out.m_write - out.m_data) << " " << t.size() << std::endl;
+    
     memcpy(out.m_write, (void *)t.data(), t.size());
     out.m_write += t.size();
+    
+    // getOut() << "writer string 4 " << (out.m_write - out.m_data) << std::endl;
+
     return out;
   }
   template<typename T>
-  Serializer &operator<<(Serializer &out, const binary<T> &t) {
-    if (((out.m_data + out.m_size) - out.m_write) > t.size()) {
-      out.m_write = 0;
+  Serializer &operator<<(const binary<T> &t) {
+    Serializer &out = *this;
+    // getOut() << "writer binary 1 " << (out.m_write - out.m_data) << std::endl;
+    if ((out.m_write + sizeof(size_t)) > (out.m_data + m_size)) {
+      // getOut() << "reset writer binary" << std::endl;
+      out.m_write = out.m_data;
     }
-    memcpy(out.m_write, (void *)t.data(), t.size());
-    out.m_write += t.size();
+    
+    // getOut() << "writer binary 2 " << (out.m_write - out.m_data) << std::endl;
+    *((size_t *)out.m_write) = t.size();
+    // getOut() << "writer binary 3 " << (out.m_write - out.m_data) << " " << t.size() << std::endl;
+    out.m_write += sizeof(size_t);
+    // getOut() << "writer binary 4 " << (out.m_write - out.m_data) << std::endl;
+
+    if ((out.m_write + t.size()*sizeof(T)) > (out.m_data + m_size)) {
+      // getOut() << "reset writer binary" << std::endl;
+      out.m_write = out.m_data;
+    }
+
+    memcpy(out.m_write, (void *)t.data(), t.size() * sizeof(T));
+    // getOut() << "writer binary 5 " << (out.m_write - out.m_data) << std::endl;
+    out.m_write += t.size() * sizeof(T);
+    // getOut() << "writer binary 6 " << (out.m_write - out.m_data) << std::endl;
+
     return out;
   }
+  template<typename T>
+  Serializer &operator<<(const managed_binary<T> &t) {
+    return *this << *((const binary<T> *)(&t));
+  }
+  template<int I = 0, typename... Ts>
+  inline typename std::enable_if<I == sizeof...(Ts), void>::type serializeTuple(std::tuple<Ts...> &ts) {
+    // nothing
+  }
+  template<int I = 0, typename... Ts>
+  inline typename std::enable_if<I < sizeof...(Ts), void>::type serializeTuple(std::tuple<Ts...> &ts) {
+    *this << std::get<I>(ts);
+    serializeTuple<I + 1, Ts...>(ts);
+  }
+  template<typename... Ts>
+  Serializer &operator<<(std::tuple<Ts...> &ts) {
+    serializeTuple<0, Ts...>(ts);
+    return *this;
+  }
 protected:
-  unsigned char *m_data;
+  unsigned char * const m_data;
   unsigned char *m_read;
   unsigned char *m_write;
-  size_t m_size;
+  const size_t m_size;
 };
 
 #endif

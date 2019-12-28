@@ -12,12 +12,12 @@ Mutex::Mutex(const char *name) {
   }
 }
 void Mutex::lock() {
-  getOut() << "mutex lock 1" << std::endl;
+  // getOut() << "mutex lock 1" << std::endl;
   auto r = WaitForSingleObject(
     h,
     INFINITE
   );
-  getOut() << "mutex lock 2 " << r << " " << GetLastError() << std::endl;
+  // getOut() << "mutex lock 2 " << r << " " << GetLastError() << std::endl;
 }
 void Mutex::unlock() {
   ReleaseMutex(
@@ -38,12 +38,12 @@ Semaphore::Semaphore(const char *name) {
   }
 }
 void Semaphore::lock() {
-  getOut() << "sempaphore lock 1" << std::endl;
+  // getOut() << "sempaphore lock 1" << std::endl;
   auto r = WaitForSingleObject(
     h,
     INFINITE
   );
-  getOut() << "sempaphore lock 2 " << r << " " << GetLastError() << std::endl;
+  // getOut() << "sempaphore lock 2 " << r << " " << GetLastError() << std::endl;
 }
 void Semaphore::unlock() {
   ReleaseSemaphore(
@@ -101,10 +101,29 @@ FnProxy::FnProxy() :
   mut("Local\\OpenVrProxyMutex"),
   inSem("Local\\OpenVrProxySemaphoreIn"),
   outSem("Local\\OpenVrProxySemaphoreOut"),
-  dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", 4096)),
-  dataResult((unsigned char *)allocateShared("Local\\OpenVrProxyResult", 4096)),
-  readArg(dataArg),
-  writeArg(dataArg),
-  readResult(dataResult),
-  writeResult(dataResult)
+  dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", FnProxy::BUF_SIZE)),
+  dataResult((unsigned char *)allocateShared("Local\\OpenVrProxyResult", FnProxy::BUF_SIZE)),
+  readArg(dataArg, FnProxy::BUF_SIZE),
+  writeArg(dataArg, FnProxy::BUF_SIZE),
+  readResult(dataResult, FnProxy::BUF_SIZE),
+  writeResult(dataResult, FnProxy::BUF_SIZE)
   {}
+
+void FnProxy::handle() {
+  inSem.lock();
+  
+  std::string name;
+  {
+    std::lock_guard<Mutex> lock(mut);
+    // getOut() << "read arg 1" << std::endl;
+    readArg >> name;
+    // getOut() << "read arg 2 " << name << std::endl;
+  }
+  // getOut() << "read arg 3 " << name << std::endl;
+  std::function<void()> &f = fns.find(name)->second;
+  // getOut() << "read arg 4 " << name << std::endl;
+  f();
+  // getOut() << "read arg 5 " << name << std::endl;
+  
+  outSem.unlock();
+}

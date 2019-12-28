@@ -1,579 +1,428 @@
-Fri Dec 27 2019 09:07:38.494 - //==============================================================================================
-Fri Dec 27 2019 09:07:38.495 - ================================================================================================
-Fri Dec 27 2019 09:07:38.495 - ================================================================================================
-Fri Dec 27 2019 09:07:38.495 - SpacePirateVR.exe 1.9.16 startup with PID=18540, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 09:07:38.495 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 09:07:38.507 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 09:07:38.507 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 09:07:38.508 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 09:07:38.509 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 09:07:38.510 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 09:07:38.516 - CSharedResourceNamespaceClient::Init(): received namespace data 12420
-Fri Dec 27 2019 09:07:38.585 - Received success response from vrserver connect
-Fri Dec 27 2019 09:07:38.589 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 09:07:38.589 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 09:07:38.608 - Received success response from vrcompositor connect
-Fri Dec 27 2019 09:07:38.608 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 09:07:38.633 - Capturing Scene Focus
-Fri Dec 27 2019 09:07:38.696 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 09:07:38.729 - Setting max texture dimensions to 2894x3202 before requiring downsampling
-Fri Dec 27 2019 09:07:47.110 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Fri Dec 27 2019 09:07:47.162 - Screenshot: Hook Screenshot called with types:Fri Dec 27 2019 09:07:47.162 -  5Fri Dec 27 2019 09:07:47.162 - 
-Fri Dec 27 2019 09:08:00.696 - Unknown action set /actions/buggy
-Fri Dec 27 2019 09:08:00.702 - Unknown action set /actions/platformer
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=base inputRouting=0 filename=
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=tip inputRouting=0 filename=
-Fri Dec 27 2019 09:08:00.746 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Fri Dec 27 2019 09:08:00.752 - Unknown action set /actions/buggy
-Fri Dec 27 2019 09:08:00.753 - Unknown action set /actions/platformer
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=base inputRouting=0 filename=
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=tip inputRouting=0 filename=
-Fri Dec 27 2019 09:08:00.767 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Fri Dec 27 2019 09:08:01.295 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png' due to destination texture format.
-Fri Dec 27 2019 09:08:01.385 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Fri Dec 27 2019 09:08:01.484 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png' due to destination texture format.
-Fri Dec 27 2019 09:08:01.577 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Fri Dec 27 2019 09:09:23.186 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 09:10:48.688 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 09:11:13.289 - VR_Shutdown called
-Fri Dec 27 2019 11:46:08.454 - //==============================================================================================
-Fri Dec 27 2019 11:46:08.454 - ================================================================================================
-Fri Dec 27 2019 11:46:08.454 - ================================================================================================
-Fri Dec 27 2019 11:46:08.454 - SpacePirateVR.exe 1.9.16 startup with PID=18104, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 11:46:08.454 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 11:46:08.528 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:46:08.532 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:46:08.537 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:46:08.543 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:46:08.544 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 11:46:08.554 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
-Fri Dec 27 2019 11:46:08.561 - CSharedResourceNamespaceClient::Init(): failed connect
-Fri Dec 27 2019 11:46:08.561 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Fri Dec 27 2019 11:46:08.662 - CSharedResourceNamespaceClient::Init(): received namespace data 25144
-Fri Dec 27 2019 11:46:09.640 - Received success response from vrserver connect
-Fri Dec 27 2019 11:46:09.681 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 11:46:09.681 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 11:46:09.696 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
-Fri Dec 27 2019 11:46:12.210 - Received success response from vrcompositor connect
-Fri Dec 27 2019 11:46:12.210 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 11:46:12.232 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 19988
-Fri Dec 27 2019 11:46:12.244 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 9000
-Fri Dec 27 2019 11:46:12.257 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 24124
-Fri Dec 27 2019 11:46:12.260 - VR_Shutdown called
-Fri Dec 27 2019 11:46:17.165 - //==============================================================================================
-Fri Dec 27 2019 11:46:17.165 - ================================================================================================
-Fri Dec 27 2019 11:46:17.165 - ================================================================================================
-Fri Dec 27 2019 11:46:17.165 - SpacePirateVR.exe 1.9.16 startup with PID=18104, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 11:46:17.165 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 11:46:17.173 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:46:17.173 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:46:17.174 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:46:17.175 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:46:17.176 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 11:46:17.189 - CSharedResourceNamespaceClient::Init(): received namespace data 25144
-Fri Dec 27 2019 11:46:17.209 - Received success response from vrserver connect
-Fri Dec 27 2019 11:46:17.211 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 11:46:17.211 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 11:46:17.231 - Received success response from vrcompositor connect
-Fri Dec 27 2019 11:46:17.231 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 11:46:17.252 - Capturing Scene Focus
-Fri Dec 27 2019 11:46:17.297 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 11:46:17.323 - Setting max texture dimensions to 2894x3202 before requiring downsampling
-Fri Dec 27 2019 11:46:23.733 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Fri Dec 27 2019 11:46:23.797 - Screenshot: Hook Screenshot called with types:Fri Dec 27 2019 11:46:23.798 -  5Fri Dec 27 2019 11:46:23.798 - 
-Fri Dec 27 2019 11:46:28.186 - VR_Shutdown called
-Fri Dec 27 2019 11:47:36.373 - //==============================================================================================
-Fri Dec 27 2019 11:47:36.373 - ================================================================================================
-Fri Dec 27 2019 11:47:36.373 - ================================================================================================
-Fri Dec 27 2019 11:47:36.373 - SpacePirateVR.exe 1.9.16 startup with PID=20884, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 11:47:36.373 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 11:47:36.380 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:47:36.380 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:47:36.381 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:47:36.381 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:47:36.382 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 11:47:36.386 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
-Fri Dec 27 2019 11:47:36.392 - CSharedResourceNamespaceClient::Init(): failed connect
-Fri Dec 27 2019 11:47:36.393 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Fri Dec 27 2019 11:47:36.503 - CSharedResourceNamespaceClient::Init(): received namespace data 25412
-Fri Dec 27 2019 11:47:37.114 - Received success response from vrserver connect
-Fri Dec 27 2019 11:47:37.118 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 11:47:37.118 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 11:47:37.134 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
-Fri Dec 27 2019 11:47:38.720 - Received success response from vrcompositor connect
-Fri Dec 27 2019 11:47:38.720 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 11:47:38.739 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 24072
-Fri Dec 27 2019 11:47:38.751 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 21352
-Fri Dec 27 2019 11:47:38.766 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 19612
-Fri Dec 27 2019 11:47:38.767 - VR_Shutdown called
-Fri Dec 27 2019 11:47:40.744 - //==============================================================================================
-Fri Dec 27 2019 11:47:40.744 - ================================================================================================
-Fri Dec 27 2019 11:47:40.744 - ================================================================================================
-Fri Dec 27 2019 11:47:40.744 - SpacePirateVR.exe 1.9.16 startup with PID=20884, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 11:47:40.744 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 11:47:40.753 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:47:40.754 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:47:40.755 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:47:40.755 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:47:40.756 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 11:47:40.770 - CSharedResourceNamespaceClient::Init(): received namespace data 25412
-Fri Dec 27 2019 11:47:40.806 - Received success response from vrserver connect
-Fri Dec 27 2019 11:47:40.809 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 11:47:40.809 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 11:47:40.824 - Received success response from vrcompositor connect
-Fri Dec 27 2019 11:47:40.824 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 11:47:40.843 - Capturing Scene Focus
-Fri Dec 27 2019 11:47:40.894 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 11:47:40.917 - Setting max texture dimensions to 2894x3202 before requiring downsampling
-Fri Dec 27 2019 11:47:46.866 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Fri Dec 27 2019 11:47:46.938 - Screenshot: Hook Screenshot called with types:Fri Dec 27 2019 11:47:46.938 -  5Fri Dec 27 2019 11:47:46.938 - 
-Fri Dec 27 2019 11:48:01.521 - VR_Shutdown called
-Fri Dec 27 2019 11:49:26.331 - //==============================================================================================
-Fri Dec 27 2019 11:49:26.331 - ================================================================================================
-Fri Dec 27 2019 11:49:26.331 - ================================================================================================
-Fri Dec 27 2019 11:49:26.331 - SpacePirateVR.exe 1.9.16 startup with PID=13880, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 11:49:26.331 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 11:49:26.338 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:49:26.339 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:49:26.339 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:49:26.340 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:49:26.341 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 11:49:26.356 - Closing pipe SteamVR_Namespace because it was broken from the other end
-Fri Dec 27 2019 11:49:26.356 - CSharedResourceNamespaceClient::Init(): received namespace data 1920
-Fri Dec 27 2019 11:49:26.371 - Received success response from vrserver connect
-Fri Dec 27 2019 11:49:26.374 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 11:49:26.374 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 11:49:26.392 - Received success response from vrcompositor connect
-Fri Dec 27 2019 11:49:26.392 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 11:49:26.414 - VR_Shutdown called
-Fri Dec 27 2019 11:49:27.477 - //==============================================================================================
-Fri Dec 27 2019 11:49:27.477 - ================================================================================================
-Fri Dec 27 2019 11:49:27.477 - ================================================================================================
-Fri Dec 27 2019 11:49:27.477 - SpacePirateVR.exe 1.9.16 startup with PID=13880, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 11:49:27.477 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 11:49:27.484 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:49:27.485 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:49:27.485 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:49:27.486 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 11:49:27.487 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 11:49:27.494 - CSharedResourceNamespaceClient::Init(): received namespace data 1920
-Fri Dec 27 2019 11:49:27.515 - Received success response from vrserver connect
-Fri Dec 27 2019 11:49:27.518 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 11:49:27.518 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 11:49:27.538 - Received success response from vrcompositor connect
-Fri Dec 27 2019 11:49:27.538 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 11:49:27.558 - Capturing Scene Focus
-Fri Dec 27 2019 11:49:27.615 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 11:49:27.637 - Setting max texture dimensions to 2894x3202 before requiring downsampling
-Fri Dec 27 2019 11:49:33.275 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Fri Dec 27 2019 11:49:33.333 - Screenshot: Hook Screenshot called with types:Fri Dec 27 2019 11:49:33.333 -  5Fri Dec 27 2019 11:49:33.333 - 
-Fri Dec 27 2019 11:49:36.306 - Unknown action set /actions/buggy
-Fri Dec 27 2019 11:49:36.306 - Unknown action set /actions/platformer
-Fri Dec 27 2019 11:49:36.340 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Fri Dec 27 2019 11:49:36.340 - RendermodelManager: name=base inputRouting=0 filename=
-Fri Dec 27 2019 11:49:36.340 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Fri Dec 27 2019 11:49:36.340 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Fri Dec 27 2019 11:49:36.341 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Fri Dec 27 2019 11:49:36.341 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Fri Dec 27 2019 11:49:36.341 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Fri Dec 27 2019 11:49:36.341 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Fri Dec 27 2019 11:49:36.341 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Fri Dec 27 2019 11:49:36.341 - RendermodelManager: name=tip inputRouting=0 filename=
-Fri Dec 27 2019 11:49:36.341 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Fri Dec 27 2019 11:49:36.381 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=base inputRouting=0 filename=
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=tip inputRouting=0 filename=
-Fri Dec 27 2019 11:49:36.382 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Fri Dec 27 2019 11:49:36.724 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png' due to destination texture format.
-Fri Dec 27 2019 11:49:36.819 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Fri Dec 27 2019 11:49:36.923 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png' due to destination texture format.
-Fri Dec 27 2019 11:49:37.004 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Fri Dec 27 2019 11:50:49.062 - PropertyContainer: High lock acquisition counters: sp:100002 yd:2 re:0
-Fri Dec 27 2019 11:51:13.927 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 11:51:24.344 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 11:51:52.678 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 11:52:15.744 - VR_Shutdown called
-Fri Dec 27 2019 13:13:04.372 - //==============================================================================================
-Fri Dec 27 2019 13:13:04.372 - ================================================================================================
-Fri Dec 27 2019 13:13:04.372 - ================================================================================================
-Fri Dec 27 2019 13:13:04.372 - SpacePirateVR.exe 1.9.16 startup with PID=25300, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 13:13:04.372 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 13:13:04.378 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:13:04.379 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:13:04.379 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:13:04.379 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:13:04.380 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 13:13:04.385 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
-Fri Dec 27 2019 13:13:04.396 - CSharedResourceNamespaceClient::Init(): failed connect
-Fri Dec 27 2019 13:13:04.396 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Fri Dec 27 2019 13:13:04.507 - CSharedResourceNamespaceClient::Init(): received namespace data 17672
-Fri Dec 27 2019 13:13:05.227 - Received success response from vrserver connect
-Fri Dec 27 2019 13:13:05.231 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 13:13:05.231 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 13:13:05.249 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
-Fri Dec 27 2019 13:13:06.903 - Received success response from vrcompositor connect
-Fri Dec 27 2019 13:13:06.903 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 13:13:06.922 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 19376
-Fri Dec 27 2019 13:13:06.937 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 1664
-Fri Dec 27 2019 13:13:06.952 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 26676
-Fri Dec 27 2019 13:13:06.955 - VR_Shutdown called
-Fri Dec 27 2019 13:13:09.252 - //==============================================================================================
-Fri Dec 27 2019 13:13:09.252 - ================================================================================================
-Fri Dec 27 2019 13:13:09.252 - ================================================================================================
-Fri Dec 27 2019 13:13:09.252 - SpacePirateVR.exe 1.9.16 startup with PID=25300, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 13:13:09.253 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 13:13:09.261 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:13:09.262 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:13:09.263 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:13:09.264 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:13:09.266 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 13:13:09.273 - CSharedResourceNamespaceClient::Init(): received namespace data 17672
-Fri Dec 27 2019 13:13:09.301 - Received success response from vrserver connect
-Fri Dec 27 2019 13:13:09.305 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 13:13:09.305 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 13:13:09.328 - Received success response from vrcompositor connect
-Fri Dec 27 2019 13:13:09.328 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 13:13:09.350 - Capturing Scene Focus
-Fri Dec 27 2019 13:13:09.401 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 13:13:09.430 - Setting max texture dimensions to 2894x3202 before requiring downsampling
-Fri Dec 27 2019 13:13:16.861 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Fri Dec 27 2019 13:13:16.930 - Screenshot: Hook Screenshot called with types:Fri Dec 27 2019 13:13:16.930 -  5Fri Dec 27 2019 13:13:16.931 - 
-Fri Dec 27 2019 13:13:19.065 - Screenshot: Hook Screenshot called with types:Fri Dec 27 2019 13:13:19.065 -  5Fri Dec 27 2019 13:13:19.065 - 
-Fri Dec 27 2019 13:13:19.653 - VR_Shutdown called
-Fri Dec 27 2019 13:14:33.866 - //==============================================================================================
-Fri Dec 27 2019 13:14:33.866 - ================================================================================================
-Fri Dec 27 2019 13:14:33.866 - ================================================================================================
-Fri Dec 27 2019 13:14:33.866 - SpacePirateVR.exe 1.9.16 startup with PID=13556, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 13:14:33.867 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 13:14:33.876 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:14:33.877 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:14:33.877 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:14:33.878 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:14:33.879 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 13:14:33.886 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
-Fri Dec 27 2019 13:14:33.893 - CSharedResourceNamespaceClient::Init(): failed connect
-Fri Dec 27 2019 13:14:33.893 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Fri Dec 27 2019 13:14:34.003 - CSharedResourceNamespaceClient::Init(): received namespace data 14352
-Fri Dec 27 2019 13:14:34.535 - Received success response from vrserver connect
-Fri Dec 27 2019 13:14:34.538 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 13:14:34.538 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 13:14:34.555 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
-Fri Dec 27 2019 13:14:35.595 - Received success response from vrcompositor connect
-Fri Dec 27 2019 13:14:35.595 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 13:14:35.619 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 17064
-Fri Dec 27 2019 13:14:35.632 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 19088
-Fri Dec 27 2019 13:14:35.650 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 11544
-Fri Dec 27 2019 13:14:35.654 - VR_Shutdown called
-Fri Dec 27 2019 13:14:37.900 - //==============================================================================================
-Fri Dec 27 2019 13:14:37.900 - ================================================================================================
-Fri Dec 27 2019 13:14:37.900 - ================================================================================================
-Fri Dec 27 2019 13:14:37.900 - SpacePirateVR.exe 1.9.16 startup with PID=13556, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 13:14:37.900 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 13:14:37.909 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:14:37.910 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:14:37.910 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:14:37.911 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 13:14:37.911 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 13:14:37.918 - CSharedResourceNamespaceClient::Init(): received namespace data 14352
-Fri Dec 27 2019 13:14:37.943 - Received success response from vrserver connect
-Fri Dec 27 2019 13:14:37.945 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 13:14:37.945 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 13:14:37.960 - Received success response from vrcompositor connect
-Fri Dec 27 2019 13:14:37.960 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 13:14:37.979 - Capturing Scene Focus
-Fri Dec 27 2019 13:14:38.031 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 13:14:38.056 - Setting max texture dimensions to 2894x3202 before requiring downsampling
-Fri Dec 27 2019 13:14:43.705 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Fri Dec 27 2019 13:14:43.763 - Screenshot: Hook Screenshot called with types:Fri Dec 27 2019 13:14:43.763 -  5Fri Dec 27 2019 13:14:43.763 - 
-Fri Dec 27 2019 13:14:46.482 - Unknown action set /actions/buggy
-Fri Dec 27 2019 13:14:46.483 - Unknown action set /actions/platformer
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=base inputRouting=0 filename=
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Fri Dec 27 2019 13:14:46.706 - RendermodelManager: name=tip inputRouting=0 filename=
-Fri Dec 27 2019 13:14:46.707 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=base inputRouting=0 filename=
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=tip inputRouting=0 filename=
-Fri Dec 27 2019 13:14:46.750 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Fri Dec 27 2019 13:14:47.062 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png' due to destination texture format.
-Fri Dec 27 2019 13:14:47.171 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Fri Dec 27 2019 13:14:47.295 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png' due to destination texture format.
-Fri Dec 27 2019 13:14:47.381 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Fri Dec 27 2019 13:16:07.732 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 13:16:24.095 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 13:16:37.308 - VR_Shutdown called
-Fri Dec 27 2019 14:28:07.991 - //==============================================================================================
-Fri Dec 27 2019 14:28:07.992 - ================================================================================================
-Fri Dec 27 2019 14:28:07.992 - ================================================================================================
-Fri Dec 27 2019 14:28:07.992 - SpacePirateVR.exe 1.9.16 startup with PID=24408, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 14:28:07.992 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 14:28:08.002 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 14:28:08.003 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 14:28:08.003 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 14:28:08.004 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 14:28:08.006 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 14:28:08.012 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
-Fri Dec 27 2019 14:28:08.019 - CSharedResourceNamespaceClient::Init(): failed connect
-Fri Dec 27 2019 14:28:08.019 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Fri Dec 27 2019 14:28:08.122 - CSharedResourceNamespaceClient::Init(): received namespace data 19688
-Fri Dec 27 2019 14:28:08.661 - Received success response from vrserver connect
-Fri Dec 27 2019 14:28:08.665 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 14:28:08.665 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 14:28:08.687 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
-Fri Dec 27 2019 14:28:09.657 - Received success response from vrcompositor connect
-Fri Dec 27 2019 14:28:09.657 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 14:28:09.677 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 20324
-Fri Dec 27 2019 14:28:09.689 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 10296
-Fri Dec 27 2019 14:28:09.705 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 9480
-Fri Dec 27 2019 14:28:09.712 - VR_Shutdown called
-Fri Dec 27 2019 14:28:11.666 - //==============================================================================================
-Fri Dec 27 2019 14:28:11.667 - ================================================================================================
-Fri Dec 27 2019 14:28:11.667 - ================================================================================================
-Fri Dec 27 2019 14:28:11.667 - SpacePirateVR.exe 1.9.16 startup with PID=24408, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 14:28:11.667 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 14:28:11.677 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 14:28:11.677 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 14:28:11.678 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 14:28:11.679 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 14:28:11.680 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 14:28:11.694 - CSharedResourceNamespaceClient::Init(): received namespace data 19688
-Fri Dec 27 2019 14:28:11.748 - Received success response from vrserver connect
-Fri Dec 27 2019 14:28:11.752 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 14:28:11.752 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 14:28:11.772 - Received success response from vrcompositor connect
-Fri Dec 27 2019 14:28:11.772 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 14:28:11.794 - Capturing Scene Focus
-Fri Dec 27 2019 14:28:11.834 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 14:28:11.859 - Setting max texture dimensions to 2894x3202 before requiring downsampling
-Fri Dec 27 2019 14:28:15.361 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 14:28:18.106 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Fri Dec 27 2019 14:28:18.169 - Screenshot: Hook Screenshot called with types:Fri Dec 27 2019 14:28:18.169 -  5Fri Dec 27 2019 14:28:18.169 - 
-Fri Dec 27 2019 14:28:20.890 - Unknown action set /actions/buggy
-Fri Dec 27 2019 14:28:20.916 - Unknown action set /actions/platformer
-Fri Dec 27 2019 14:28:21.138 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Fri Dec 27 2019 14:28:21.138 - RendermodelManager: name=base inputRouting=0 filename=
-Fri Dec 27 2019 14:28:21.138 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Fri Dec 27 2019 14:28:21.138 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Fri Dec 27 2019 14:28:21.139 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Fri Dec 27 2019 14:28:21.139 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Fri Dec 27 2019 14:28:21.139 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Fri Dec 27 2019 14:28:21.139 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Fri Dec 27 2019 14:28:21.139 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Fri Dec 27 2019 14:28:21.139 - RendermodelManager: name=tip inputRouting=0 filename=
-Fri Dec 27 2019 14:28:21.139 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Fri Dec 27 2019 14:28:21.178 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Fri Dec 27 2019 14:28:21.178 - RendermodelManager: name=base inputRouting=0 filename=
-Fri Dec 27 2019 14:28:21.178 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Fri Dec 27 2019 14:28:21.178 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Fri Dec 27 2019 14:28:21.178 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Fri Dec 27 2019 14:28:21.179 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Fri Dec 27 2019 14:28:21.179 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Fri Dec 27 2019 14:28:21.179 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Fri Dec 27 2019 14:28:21.179 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Fri Dec 27 2019 14:28:21.179 - RendermodelManager: name=tip inputRouting=0 filename=
-Fri Dec 27 2019 14:28:21.179 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Fri Dec 27 2019 14:28:21.669 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png' due to destination texture format.
-Fri Dec 27 2019 14:28:21.754 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Fri Dec 27 2019 14:28:22.002 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png' due to destination texture format.
-Fri Dec 27 2019 14:28:22.087 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Fri Dec 27 2019 14:28:35.661 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Fri Dec 27 2019 14:28:41.711 - VR_Shutdown called
-Fri Dec 27 2019 15:10:58.539 - //==============================================================================================
-Fri Dec 27 2019 15:10:58.539 - ================================================================================================
-Fri Dec 27 2019 15:10:58.539 - ================================================================================================
-Fri Dec 27 2019 15:10:58.539 - SpacePirateVR.exe 1.9.16 startup with PID=14080, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 15:10:58.539 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 15:10:58.545 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:10:58.545 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:10:58.546 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:10:58.546 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:10:58.547 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 15:10:58.551 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
-Fri Dec 27 2019 15:10:58.560 - CSharedResourceNamespaceClient::Init(): failed connect
-Fri Dec 27 2019 15:10:58.560 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Fri Dec 27 2019 15:10:58.666 - Closing pipe SteamVR_Namespace because it was broken from the other end
-Fri Dec 27 2019 15:10:58.666 - CSharedResourceNamespaceClient::Init(): received namespace data 16432
-Fri Dec 27 2019 15:10:59.317 - Received success response from vrserver connect
-Fri Dec 27 2019 15:10:59.321 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 15:10:59.321 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 15:10:59.338 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
-Fri Dec 27 2019 15:11:00.999 - Received success response from vrcompositor connect
-Fri Dec 27 2019 15:11:00.999 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 15:11:01.016 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 19588
-Fri Dec 27 2019 15:11:01.030 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 26768
-Fri Dec 27 2019 15:11:01.045 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 20788
-Fri Dec 27 2019 15:11:01.062 - VR_Shutdown called
-Fri Dec 27 2019 15:11:02.937 - //==============================================================================================
-Fri Dec 27 2019 15:11:02.937 - ================================================================================================
-Fri Dec 27 2019 15:11:02.937 - ================================================================================================
-Fri Dec 27 2019 15:11:02.937 - SpacePirateVR.exe 1.9.16 startup with PID=14080, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 15:11:02.937 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 15:11:02.947 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:11:02.947 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:11:02.948 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:11:02.949 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:11:02.950 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 15:11:02.964 - CSharedResourceNamespaceClient::Init(): received namespace data 16432
-Fri Dec 27 2019 15:11:03.011 - Received success response from vrserver connect
-Fri Dec 27 2019 15:11:03.014 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 15:11:03.014 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 15:11:03.061 - Received success response from vrcompositor connect
-Fri Dec 27 2019 15:11:03.061 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 15:12:44.921 - //==============================================================================================
-Fri Dec 27 2019 15:12:44.921 - ================================================================================================
-Fri Dec 27 2019 15:12:44.921 - ================================================================================================
-Fri Dec 27 2019 15:12:44.921 - SpacePirateVR.exe 1.9.16 startup with PID=15728, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 15:12:44.921 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 15:12:44.927 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:12:44.927 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:12:44.927 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:12:44.928 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:12:44.929 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 15:12:44.934 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
-Fri Dec 27 2019 15:12:44.942 - CSharedResourceNamespaceClient::Init(): failed connect
-Fri Dec 27 2019 15:12:44.942 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Fri Dec 27 2019 15:12:45.053 - Closing pipe SteamVR_Namespace because it was broken from the other end
-Fri Dec 27 2019 15:12:45.053 - CSharedResourceNamespaceClient::Init(): received namespace data 19836
-Fri Dec 27 2019 15:12:45.569 - Received success response from vrserver connect
-Fri Dec 27 2019 15:12:45.571 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 15:12:45.571 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 15:12:45.587 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
-Fri Dec 27 2019 15:12:46.430 - Received success response from vrcompositor connect
-Fri Dec 27 2019 15:12:46.430 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 15:12:46.450 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 16196
-Fri Dec 27 2019 15:12:46.461 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 19120
-Fri Dec 27 2019 15:12:46.479 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 5912
-Fri Dec 27 2019 15:12:46.485 - VR_Shutdown called
-Fri Dec 27 2019 15:12:48.127 - //==============================================================================================
-Fri Dec 27 2019 15:12:48.127 - ================================================================================================
-Fri Dec 27 2019 15:12:48.127 - ================================================================================================
-Fri Dec 27 2019 15:12:48.128 - SpacePirateVR.exe 1.9.16 startup with PID=15728, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 15:12:48.128 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 15:12:48.137 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:12:48.137 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:12:48.138 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:12:48.138 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:12:48.139 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 15:12:48.147 - CSharedResourceNamespaceClient::Init(): received namespace data 19836
-Fri Dec 27 2019 15:12:48.171 - Received success response from vrserver connect
-Fri Dec 27 2019 15:12:48.173 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 15:12:48.173 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 15:12:48.189 - Received success response from vrcompositor connect
-Fri Dec 27 2019 15:12:48.189 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 15:12:48.212 - Capturing Scene Focus
-Fri Dec 27 2019 15:12:48.245 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 15:12:48.272 - Setting max texture dimensions to 2894x3202 before requiring downsampling
-Fri Dec 27 2019 15:14:55.413 - //==============================================================================================
-Fri Dec 27 2019 15:14:55.413 - ================================================================================================
-Fri Dec 27 2019 15:14:55.413 - ================================================================================================
-Fri Dec 27 2019 15:14:55.413 - SpacePirateVR.exe 1.9.16 startup with PID=7948, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 15:14:55.413 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 15:14:55.422 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:14:55.423 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:14:55.423 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:14:55.424 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:14:55.425 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 15:14:55.435 - Closing pipe SteamVR_Namespace because it was broken from the other end
-Fri Dec 27 2019 15:14:55.435 - CSharedResourceNamespaceClient::Init(): received namespace data 19836
-Fri Dec 27 2019 15:14:55.458 - Received success response from vrserver connect
-Fri Dec 27 2019 15:14:55.461 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 15:14:55.461 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 15:14:55.484 - Received success response from vrcompositor connect
-Fri Dec 27 2019 15:14:55.484 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 15:14:55.507 - VR_Shutdown called
-Fri Dec 27 2019 15:14:56.743 - //==============================================================================================
-Fri Dec 27 2019 15:14:56.743 - ================================================================================================
-Fri Dec 27 2019 15:14:56.743 - ================================================================================================
-Fri Dec 27 2019 15:14:56.743 - SpacePirateVR.exe 1.9.16 startup with PID=7948, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 15:14:56.743 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 15:14:56.751 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:14:56.752 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:14:56.752 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:14:56.752 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:14:56.754 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 15:14:56.760 - CSharedResourceNamespaceClient::Init(): received namespace data 19836
-Fri Dec 27 2019 15:14:56.780 - Received success response from vrserver connect
-Fri Dec 27 2019 15:14:56.784 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 15:14:56.784 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 15:14:56.803 - Received success response from vrcompositor connect
-Fri Dec 27 2019 15:14:56.803 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 15:19:04.626 - //==============================================================================================
-Fri Dec 27 2019 15:19:04.626 - ================================================================================================
-Fri Dec 27 2019 15:19:04.626 - ================================================================================================
-Fri Dec 27 2019 15:19:04.626 - SpacePirateVR.exe 1.9.16 startup with PID=11360, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 15:19:04.626 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 15:19:04.632 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:19:04.632 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:19:04.632 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:19:04.633 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:19:04.633 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 15:19:04.638 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
-Fri Dec 27 2019 15:19:04.646 - CSharedResourceNamespaceClient::Init(): failed connect
-Fri Dec 27 2019 15:19:04.646 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Fri Dec 27 2019 15:19:04.748 - CSharedResourceNamespaceClient::Init(): received namespace data 27364
-Fri Dec 27 2019 15:19:05.271 - Received success response from vrserver connect
-Fri Dec 27 2019 15:19:05.274 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 15:19:05.274 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 15:19:05.289 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
-Fri Dec 27 2019 15:19:06.158 - Received success response from vrcompositor connect
-Fri Dec 27 2019 15:19:06.158 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 15:19:06.175 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 25040
-Fri Dec 27 2019 15:19:06.187 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 2768
-Fri Dec 27 2019 15:19:06.201 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 24964
-Fri Dec 27 2019 15:19:06.217 - VR_Shutdown called
-Fri Dec 27 2019 15:19:07.691 - //==============================================================================================
-Fri Dec 27 2019 15:19:07.691 - ================================================================================================
-Fri Dec 27 2019 15:19:07.691 - ================================================================================================
-Fri Dec 27 2019 15:19:07.691 - SpacePirateVR.exe 1.9.16 startup with PID=11360, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Fri Dec 27 2019 15:19:07.692 - vrclient type=VRApplication_Scene
-Fri Dec 27 2019 15:19:07.701 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:19:07.702 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:19:07.703 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:19:07.704 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Fri Dec 27 2019 15:19:07.705 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Fri Dec 27 2019 15:19:07.714 - CSharedResourceNamespaceClient::Init(): received namespace data 27364
-Fri Dec 27 2019 15:19:07.763 - Received success response from vrserver connect
-Fri Dec 27 2019 15:19:07.766 - Not looking for a good app key because Steam didn't start this app
-Fri Dec 27 2019 15:19:07.766 - App key after connect message:system.generated.spacepiratevr.exe
-Fri Dec 27 2019 15:19:07.778 - Received success response from vrcompositor connect
-Fri Dec 27 2019 15:19:07.778 - Initializing the limited version of CVRCompositorClient
-Fri Dec 27 2019 15:19:07.797 - Capturing Scene Focus
-Fri Dec 27 2019 15:19:07.835 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
-Fri Dec 27 2019 15:19:07.863 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sat Dec 28 2019 04:33:13.163 - //==============================================================================================
+Sat Dec 28 2019 04:33:13.163 - ================================================================================================
+Sat Dec 28 2019 04:33:13.163 - ================================================================================================
+Sat Dec 28 2019 04:33:13.163 - SpacePirateVR.exe 1.9.16 startup with PID=7400, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 04:33:13.164 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 04:33:13.169 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 04:33:13.169 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 04:33:13.169 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 04:33:13.170 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 04:33:13.171 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 04:33:13.175 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Sat Dec 28 2019 04:33:13.185 - CSharedResourceNamespaceClient::Init(): failed connect
+Sat Dec 28 2019 04:33:13.185 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Sat Dec 28 2019 04:33:13.295 - CSharedResourceNamespaceClient::Init(): received namespace data 27208
+Sat Dec 28 2019 04:33:14.079 - Received success response from vrserver connect
+Sat Dec 28 2019 04:33:14.083 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 04:33:14.083 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 04:33:14.104 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Sat Dec 28 2019 04:33:16.013 - Received success response from vrcompositor connect
+Sat Dec 28 2019 04:33:16.013 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 04:33:16.034 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 17440
+Sat Dec 28 2019 04:33:16.046 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 18632
+Sat Dec 28 2019 04:33:16.063 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 18448
+Sat Dec 28 2019 04:33:16.068 - VR_Shutdown called
+Sat Dec 28 2019 04:33:18.178 - //==============================================================================================
+Sat Dec 28 2019 04:33:18.178 - ================================================================================================
+Sat Dec 28 2019 04:33:18.178 - ================================================================================================
+Sat Dec 28 2019 04:33:18.178 - SpacePirateVR.exe 1.9.16 startup with PID=7400, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 04:33:18.178 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 04:33:18.187 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 04:33:18.188 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 04:33:18.188 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 04:33:18.189 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 04:33:18.191 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 04:33:18.196 - CSharedResourceNamespaceClient::Init(): received namespace data 27208
+Sat Dec 28 2019 04:33:18.279 - Received success response from vrserver connect
+Sat Dec 28 2019 04:33:18.281 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 04:33:18.282 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 04:33:18.321 - Received success response from vrcompositor connect
+Sat Dec 28 2019 04:33:18.321 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 04:33:18.345 - Capturing Scene Focus
+Sat Dec 28 2019 04:33:18.421 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Sat Dec 28 2019 04:33:18.477 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sat Dec 28 2019 05:04:58.442 - //==============================================================================================
+Sat Dec 28 2019 05:04:58.442 - ================================================================================================
+Sat Dec 28 2019 05:04:58.442 - ================================================================================================
+Sat Dec 28 2019 05:04:58.442 - SpacePirateVR.exe 1.9.16 startup with PID=1128, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:04:58.443 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:04:58.448 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:04:58.449 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:04:58.449 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:04:58.450 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:04:58.450 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:04:58.454 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Sat Dec 28 2019 05:04:58.463 - CSharedResourceNamespaceClient::Init(): failed connect
+Sat Dec 28 2019 05:04:58.463 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Sat Dec 28 2019 05:04:58.571 - CSharedResourceNamespaceClient::Init(): received namespace data 29548
+Sat Dec 28 2019 05:04:59.295 - Received success response from vrserver connect
+Sat Dec 28 2019 05:04:59.299 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:04:59.299 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:04:59.316 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Sat Dec 28 2019 05:05:00.977 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:05:00.977 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:05:00.999 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 16144
+Sat Dec 28 2019 05:05:01.013 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 3764
+Sat Dec 28 2019 05:05:01.026 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 23540
+Sat Dec 28 2019 05:05:01.033 - VR_Shutdown called
+Sat Dec 28 2019 05:05:03.239 - //==============================================================================================
+Sat Dec 28 2019 05:05:03.239 - ================================================================================================
+Sat Dec 28 2019 05:05:03.239 - ================================================================================================
+Sat Dec 28 2019 05:05:03.239 - SpacePirateVR.exe 1.9.16 startup with PID=1128, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:05:03.240 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:05:03.248 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:05:03.249 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:05:03.249 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:05:03.250 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:05:03.252 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:05:03.260 - CSharedResourceNamespaceClient::Init(): received namespace data 29548
+Sat Dec 28 2019 05:05:03.295 - Received success response from vrserver connect
+Sat Dec 28 2019 05:05:03.299 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:05:03.299 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:05:03.313 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:05:03.313 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:05:03.340 - Capturing Scene Focus
+Sat Dec 28 2019 05:05:03.394 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Sat Dec 28 2019 05:05:03.419 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sat Dec 28 2019 05:24:56.440 - //==============================================================================================
+Sat Dec 28 2019 05:24:56.440 - ================================================================================================
+Sat Dec 28 2019 05:24:56.440 - ================================================================================================
+Sat Dec 28 2019 05:24:56.440 - SpacePirateVR.exe 1.9.16 startup with PID=20132, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:24:56.441 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:24:56.447 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:24:56.447 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:24:56.448 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:24:56.448 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:24:56.449 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:24:56.454 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Sat Dec 28 2019 05:24:56.463 - CSharedResourceNamespaceClient::Init(): failed connect
+Sat Dec 28 2019 05:24:56.463 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Sat Dec 28 2019 05:24:56.572 - CSharedResourceNamespaceClient::Init(): received namespace data 25924
+Sat Dec 28 2019 05:24:57.267 - Received success response from vrserver connect
+Sat Dec 28 2019 05:24:57.272 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:24:57.272 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:24:57.303 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Sat Dec 28 2019 05:24:58.962 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:24:58.962 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:24:58.979 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 7256
+Sat Dec 28 2019 05:24:58.992 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 24532
+Sat Dec 28 2019 05:24:59.004 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 24760
+Sat Dec 28 2019 05:24:59.018 - VR_Shutdown called
+Sat Dec 28 2019 05:25:01.271 - //==============================================================================================
+Sat Dec 28 2019 05:25:01.271 - ================================================================================================
+Sat Dec 28 2019 05:25:01.271 - ================================================================================================
+Sat Dec 28 2019 05:25:01.271 - SpacePirateVR.exe 1.9.16 startup with PID=20132, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:25:01.272 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:25:01.283 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:25:01.284 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:25:01.284 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:25:01.285 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:25:01.286 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:25:01.299 - CSharedResourceNamespaceClient::Init(): received namespace data 25924
+Sat Dec 28 2019 05:25:01.326 - Received success response from vrserver connect
+Sat Dec 28 2019 05:25:01.329 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:25:01.329 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:25:01.340 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:25:01.340 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:25:01.365 - Capturing Scene Focus
+Sat Dec 28 2019 05:25:01.420 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Sat Dec 28 2019 05:25:01.446 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sat Dec 28 2019 05:25:04.487 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 05:25:07.875 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
+Sat Dec 28 2019 05:25:07.938 - Screenshot: Hook Screenshot called with types:Sat Dec 28 2019 05:25:07.938 -  5Sat Dec 28 2019 05:25:07.938 - 
+Sat Dec 28 2019 05:25:11.264 - Unknown action set /actions/buggy
+Sat Dec 28 2019 05:25:11.264 - Unknown action set /actions/platformer
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 05:25:11.358 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 05:25:11.359 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 05:25:11.396 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 05:25:12.002 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png' due to destination texture format.
+Sat Dec 28 2019 05:25:12.084 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
+Sat Dec 28 2019 05:25:12.354 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png' due to destination texture format.
+Sat Dec 28 2019 05:25:12.439 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
+Sat Dec 28 2019 05:25:52.055 - VR_Shutdown called
+Sat Dec 28 2019 05:27:07.927 - //==============================================================================================
+Sat Dec 28 2019 05:27:07.927 - ================================================================================================
+Sat Dec 28 2019 05:27:07.927 - ================================================================================================
+Sat Dec 28 2019 05:27:07.927 - SpacePirateVR.exe 1.9.16 startup with PID=29392, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:27:07.928 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:27:07.935 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:07.935 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:07.936 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:07.936 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:07.937 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:27:07.943 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sat Dec 28 2019 05:27:07.943 - CSharedResourceNamespaceClient::Init(): received namespace data 26160
+Sat Dec 28 2019 05:27:07.965 - Received success response from vrserver connect
+Sat Dec 28 2019 05:27:07.968 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:27:07.968 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:27:07.987 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:27:07.987 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:27:08.010 - VR_Shutdown called
+Sat Dec 28 2019 05:27:09.129 - //==============================================================================================
+Sat Dec 28 2019 05:27:09.129 - ================================================================================================
+Sat Dec 28 2019 05:27:09.129 - ================================================================================================
+Sat Dec 28 2019 05:27:09.129 - SpacePirateVR.exe 1.9.16 startup with PID=29392, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:27:09.130 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:27:09.139 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:09.139 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:09.140 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:09.141 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:09.143 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:27:09.151 - CSharedResourceNamespaceClient::Init(): received namespace data 26160
+Sat Dec 28 2019 05:27:09.167 - Received success response from vrserver connect
+Sat Dec 28 2019 05:27:09.170 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:27:09.170 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:27:09.185 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:27:09.185 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:27:09.212 - Capturing Scene Focus
+Sat Dec 28 2019 05:27:09.249 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Sat Dec 28 2019 05:27:09.274 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sat Dec 28 2019 05:27:13.972 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
+Sat Dec 28 2019 05:27:14.032 - Screenshot: Hook Screenshot called with types:Sat Dec 28 2019 05:27:14.032 -  5Sat Dec 28 2019 05:27:14.032 - 
+Sat Dec 28 2019 05:27:17.484 - Unknown action set /actions/buggy
+Sat Dec 28 2019 05:27:17.484 - Unknown action set /actions/platformer
+Sat Dec 28 2019 05:27:17.507 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
+Sat Dec 28 2019 05:27:17.507 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 05:27:17.507 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 05:27:17.507 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 05:27:17.508 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 05:27:17.508 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
+Sat Dec 28 2019 05:27:17.508 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
+Sat Dec 28 2019 05:27:17.508 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 05:27:17.508 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 05:27:17.508 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 05:27:17.508 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 05:27:17.544 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 05:27:17.545 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 05:27:17.545 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 05:27:17.824 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png' due to destination texture format.
+Sat Dec 28 2019 05:27:17.921 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
+Sat Dec 28 2019 05:27:18.018 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png' due to destination texture format.
+Sat Dec 28 2019 05:27:18.100 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
+Sat Dec 28 2019 05:27:46.000 - Aborting GetDeltas(Compositor Client) disjoint! (n=1)
+Sat Dec 28 2019 05:27:50.456 - VR_Shutdown called
+Sat Dec 28 2019 05:27:59.598 - //==============================================================================================
+Sat Dec 28 2019 05:27:59.598 - ================================================================================================
+Sat Dec 28 2019 05:27:59.598 - ================================================================================================
+Sat Dec 28 2019 05:27:59.598 - SpacePirateVR.exe 1.9.16 startup with PID=18764, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:27:59.599 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:27:59.610 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:59.611 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:59.611 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:59.612 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:27:59.614 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:27:59.624 - CSharedResourceNamespaceClient::Init(): received namespace data 11456
+Sat Dec 28 2019 05:27:59.651 - Received success response from vrserver connect
+Sat Dec 28 2019 05:27:59.654 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:27:59.654 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:27:59.677 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:27:59.677 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:27:59.700 - VR_Shutdown called
+Sat Dec 28 2019 05:28:01.120 - //==============================================================================================
+Sat Dec 28 2019 05:28:01.120 - ================================================================================================
+Sat Dec 28 2019 05:28:01.120 - ================================================================================================
+Sat Dec 28 2019 05:28:01.120 - SpacePirateVR.exe 1.9.16 startup with PID=18764, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:28:01.121 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:28:01.129 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:28:01.129 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:28:01.130 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:28:01.130 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:28:01.131 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:28:01.138 - CSharedResourceNamespaceClient::Init(): received namespace data 11456
+Sat Dec 28 2019 05:28:01.164 - Received success response from vrserver connect
+Sat Dec 28 2019 05:28:01.168 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:28:01.168 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:28:01.182 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:28:01.182 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:28:01.206 - Capturing Scene Focus
+Sat Dec 28 2019 05:28:01.269 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Sat Dec 28 2019 05:28:01.294 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sat Dec 28 2019 05:28:06.933 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
+Sat Dec 28 2019 05:28:06.990 - Screenshot: Hook Screenshot called with types:Sat Dec 28 2019 05:28:06.990 -  5Sat Dec 28 2019 05:28:06.990 - 
+Sat Dec 28 2019 05:28:09.687 - Unknown action set /actions/buggy
+Sat Dec 28 2019 05:28:09.730 - Unknown action set /actions/platformer
+Sat Dec 28 2019 05:28:09.860 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
+Sat Dec 28 2019 05:28:09.860 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 05:28:09.860 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 05:28:09.860 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 05:28:09.860 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 05:28:09.861 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
+Sat Dec 28 2019 05:28:09.861 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
+Sat Dec 28 2019 05:28:09.861 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 05:28:09.861 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 05:28:09.861 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 05:28:09.861 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 05:28:09.902 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 05:28:10.437 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png' due to destination texture format.
+Sat Dec 28 2019 05:28:10.517 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
+Sat Dec 28 2019 05:28:10.849 - Disabling texture compression on 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png' due to destination texture format.
+Sat Dec 28 2019 05:28:10.930 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
+Sat Dec 28 2019 05:28:58.406 - PropertyContainer: High lock acquisition counters: sp:100002 yd:2 re:0
+Sat Dec 28 2019 05:29:07.502 - VR_Shutdown called
+Sat Dec 28 2019 05:32:26.046 - //==============================================================================================
+Sat Dec 28 2019 05:32:26.046 - ================================================================================================
+Sat Dec 28 2019 05:32:26.046 - ================================================================================================
+Sat Dec 28 2019 05:32:26.046 - SpacePirateVR.exe 1.9.16 startup with PID=9076, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:32:26.046 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:32:26.052 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:32:26.052 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:32:26.052 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:32:26.053 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:32:26.054 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:32:26.058 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Sat Dec 28 2019 05:32:26.066 - CSharedResourceNamespaceClient::Init(): failed connect
+Sat Dec 28 2019 05:32:26.066 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Sat Dec 28 2019 05:32:26.170 - CSharedResourceNamespaceClient::Init(): received namespace data 8456
+Sat Dec 28 2019 05:32:26.904 - Received success response from vrserver connect
+Sat Dec 28 2019 05:32:26.907 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:32:26.908 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:32:26.926 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Sat Dec 28 2019 05:32:28.629 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:32:28.630 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:32:28.648 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 1992
+Sat Dec 28 2019 05:32:28.661 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 29088
+Sat Dec 28 2019 05:32:28.679 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 5232
+Sat Dec 28 2019 05:32:28.688 - VR_Shutdown called
+Sat Dec 28 2019 05:32:30.603 - //==============================================================================================
+Sat Dec 28 2019 05:32:30.603 - ================================================================================================
+Sat Dec 28 2019 05:32:30.603 - ================================================================================================
+Sat Dec 28 2019 05:32:30.603 - SpacePirateVR.exe 1.9.16 startup with PID=9076, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:32:30.604 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:32:30.613 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:32:30.614 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:32:30.614 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:32:30.615 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:32:30.616 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:32:30.627 - CSharedResourceNamespaceClient::Init(): received namespace data 8456
+Sat Dec 28 2019 05:32:30.655 - Received success response from vrserver connect
+Sat Dec 28 2019 05:32:30.658 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:32:30.658 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:32:30.675 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:32:30.675 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:32:30.697 - Capturing Scene Focus
+Sat Dec 28 2019 05:32:30.742 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Sat Dec 28 2019 05:32:30.775 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sat Dec 28 2019 05:32:38.133 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
+Sat Dec 28 2019 05:32:38.201 - Screenshot: Hook Screenshot called with types:Sat Dec 28 2019 05:32:38.201 -  5Sat Dec 28 2019 05:32:38.201 - 
+Sat Dec 28 2019 05:32:49.851 - VR_Shutdown called
+Sat Dec 28 2019 05:35:53.765 - //==============================================================================================
+Sat Dec 28 2019 05:35:53.765 - ================================================================================================
+Sat Dec 28 2019 05:35:53.765 - ================================================================================================
+Sat Dec 28 2019 05:35:53.765 - SpacePirateVR.exe 1.9.16 startup with PID=24364, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:35:53.766 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:35:53.772 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:35:53.772 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:35:53.772 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:35:53.773 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:35:53.774 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:35:53.778 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Sat Dec 28 2019 05:35:53.785 - CSharedResourceNamespaceClient::Init(): failed connect
+Sat Dec 28 2019 05:35:53.785 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Sat Dec 28 2019 05:35:53.887 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sat Dec 28 2019 05:35:53.887 - CSharedResourceNamespaceClient::Init(): received namespace data 23212
+Sat Dec 28 2019 05:35:54.563 - Received success response from vrserver connect
+Sat Dec 28 2019 05:35:54.567 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:35:54.567 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:35:54.582 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Sat Dec 28 2019 05:35:56.213 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:35:56.213 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:35:56.234 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 18204
+Sat Dec 28 2019 05:35:56.252 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 3060
+Sat Dec 28 2019 05:35:56.264 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 26568
+Sat Dec 28 2019 05:35:56.282 - VR_Shutdown called
+Sat Dec 28 2019 05:35:58.118 - //==============================================================================================
+Sat Dec 28 2019 05:35:58.118 - ================================================================================================
+Sat Dec 28 2019 05:35:58.118 - ================================================================================================
+Sat Dec 28 2019 05:35:58.118 - SpacePirateVR.exe 1.9.16 startup with PID=24364, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:35:58.118 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:35:58.127 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:35:58.128 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:35:58.128 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:35:58.129 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:35:58.131 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:35:58.143 - CSharedResourceNamespaceClient::Init(): received namespace data 23212
+Sat Dec 28 2019 05:35:58.257 - Received success response from vrserver connect
+Sat Dec 28 2019 05:35:58.261 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:35:58.261 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:35:58.291 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:35:58.291 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:35:58.313 - Capturing Scene Focus
+Sat Dec 28 2019 05:35:58.357 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Sat Dec 28 2019 05:35:58.409 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sat Dec 28 2019 05:36:05.778 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
+Sat Dec 28 2019 05:36:05.838 - Screenshot: Hook Screenshot called with types:Sat Dec 28 2019 05:36:05.838 -  5Sat Dec 28 2019 05:36:05.838 - 
+Sat Dec 28 2019 05:36:11.311 - VR_Shutdown called
+Sat Dec 28 2019 05:38:30.069 - //==============================================================================================
+Sat Dec 28 2019 05:38:30.069 - ================================================================================================
+Sat Dec 28 2019 05:38:30.069 - ================================================================================================
+Sat Dec 28 2019 05:38:30.069 - SpacePirateVR.exe 1.9.16 startup with PID=3464, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:38:30.070 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:38:30.076 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:38:30.076 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:38:30.076 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:38:30.077 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:38:30.077 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:38:30.089 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sat Dec 28 2019 05:38:30.089 - CSharedResourceNamespaceClient::Init(): received namespace data 23212
+Sat Dec 28 2019 05:38:30.111 - Received success response from vrserver connect
+Sat Dec 28 2019 05:38:30.115 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:38:30.115 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:38:30.133 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:38:30.133 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:38:30.157 - VR_Shutdown called
+Sat Dec 28 2019 05:38:31.363 - //==============================================================================================
+Sat Dec 28 2019 05:38:31.363 - ================================================================================================
+Sat Dec 28 2019 05:38:31.363 - ================================================================================================
+Sat Dec 28 2019 05:38:31.363 - SpacePirateVR.exe 1.9.16 startup with PID=3464, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:38:31.363 - vrclient type=VRApplication_Scene
+Sat Dec 28 2019 05:38:31.371 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:38:31.372 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:38:31.372 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:38:31.372 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 05:38:31.373 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 05:38:31.388 - CSharedResourceNamespaceClient::Init(): received namespace data 23212
+Sat Dec 28 2019 05:38:31.409 - Received success response from vrserver connect
+Sat Dec 28 2019 05:38:31.412 - Not looking for a good app key because Steam didn't start this app
+Sat Dec 28 2019 05:38:31.412 - App key after connect message:system.generated.spacepiratevr.exe
+Sat Dec 28 2019 05:38:31.430 - Received success response from vrcompositor connect
+Sat Dec 28 2019 05:38:31.430 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 05:38:31.455 - Capturing Scene Focus
+Sat Dec 28 2019 05:38:31.501 - Found Windows 10 or newer, so enable advanced image processing of scene textures.
+Sat Dec 28 2019 05:38:31.527 - Setting max texture dimensions to 2894x3202 before requiring downsampling
