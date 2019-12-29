@@ -1,0 +1,284 @@
+--------------------------------------------------------------------------------
+allocate shared 0 Local\OpenVrProxyInit 16
+allocate shared 1 Local\OpenVrProxyInit 16 00000000000004EC 0
+allocate shared 2 000001F40F230000
+allocate shared 3 000001F40F230000
+init dll 0
+init dll 1 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+init dll 2 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+core 0 
+core 1 IVRClientCore_002
+core 2 IVRClientCore_002
+core 3 00007FFCEE020000
+core 4 00007FFCEE020000
+core 5 00007FFCEE020000 00007FFCEE021900
+core 6 00007FFCEE020000 00007FFCEE021900
+init 2 
+allocate shared 0 Local\OpenVrProxyArg 524304
+allocate shared 1 Local\OpenVrProxyArg 524304 0000000000000660 0
+allocate shared 2 000001F40FA40000
+allocate shared 3 000001F40FA40000
+allocate shared 0 Local\OpenVrProxyResult 524304
+allocate shared 1 Local\OpenVrProxyResult 524304 0000000000000664 0
+allocate shared 2 000001F40FAD0000
+allocate shared 3 000001F40FAD0000
+create thread
+init 3
+allocate shared 0 init 5Local\OpenVrProxyArg 524304
+
+init 6 allocate shared 1 IVRClientCore_002Local\OpenVrProxyArg 524304
+ 0000000000000674 183
+create interface 0 allocate shared 2 000001F40FB60000IVRClientCore_002
+
+allocate shared 3 000001F40FB60000
+create interface 1 allocate shared 0 IVRClientCore_002Local\OpenVrProxyResult 
+524304
+allocate shared 1 Local\OpenVrProxyResult 524304 0000000000000678 183
+allocate shared 2 000001F40FBF0000
+allocate shared 3 000001F40FBF0000
+init 7 IVRClientCore_002 000001F40A47D670
+init inner
+get generic interface 0 IVRSystem_015
+create interface 0 IVRSystem_015
+create interface 1 IVRSystem_015
+get generic interface 1 IVRSystem_015 000001F40A47D550
+cleanup inner
+core 0 
+core 1 IVRClientCore_002
+core 2 IVRClientCore_002
+core 3 00007FFCEE020000
+core 4 00007FFCEE020000
+core 5 00007FFCEE020000 00007FFCEE021900
+core 6 00007FFCEE020000 00007FFCEE021900
+init 2 
+allocate shared 0 Local\OpenVrProxyArg 524304
+allocate shared 1 Local\OpenVrProxyArg 524304 0000000000000A44 183
+allocate shared 2 000001F41B330000
+allocate shared 3 000001F41B330000
+allocate shared 0 Local\OpenVrProxyResult 524304
+allocate shared 1 Local\OpenVrProxyResult 524304 0000000000000A48 183
+allocate shared 2 000001F41B3C0000
+allocate shared 3 000001F41B3C0000
+init 3
+init 5
+init 6 IVRClientCore_002
+create interface 0 IVRClientCore_002
+create interface 1 IVRClientCore_002
+init 7 IVRClientCore_002 000001F416076470
+init inner
+get generic interface 0 IVRSystem_015
+create interface 0 IVRSystem_015
+create interface 1 IVRSystem_015
+get generic interface 1 IVRSystem_015 000001F416076590
+get generic interface 0 IVRChaperone_003
+create interface 0 IVRChaperone_003
+create interface 1 IVRChaperone_003
+get generic interface 1 IVRChaperone_003 000001F416076DD0
+get generic interface 0 IVRChaperoneSetup_005
+create interface 0 IVRChaperoneSetup_005
+create interface 1 IVRChaperoneSetup_005
+get generic interface 1 IVRChaperoneSetup_005 000001F416076950
+get generic interface 0 IVRCompositor_020
+create interface 0 IVRCompositor_020
+create interface 1 IVRCompositor_020
+get generic interface 1 IVRCompositor_020 000001F416077430
+get generic interface 0 IVRCompositor_022
+create interface 0 IVRCompositor_022
+create interface 1 IVRCompositor_022
+get generic interface 1 IVRCompositor_022 000001F48AE22D40
+get generic interface 0 IVROverlay_019
+create interface 0 IVROverlay_019
+create interface 1 IVROverlay_019
+get generic interface 1 IVROverlay_019 000001F48AE22620
+get generic interface 0 FnTable:IVRInput_005
+create interface 0 FnTable:IVRInput_005
+create function table 0 IVRInput_005
+create interface 0 IVRInput_005
+create interface 1 IVRInput_005
+create function table 1 IVRInput_005 000001F48AE21D80
+get generic interface 1 FnTable:IVRInput_005 00007FFCDF1A6B10
+get generic interface 0 FnTable:IVRSystem_019
+create interface 0 FnTable:IVRSystem_019
+create function table 0 IVRSystem_019
+create interface 0 IVRSystem_019
+create interface 1 IVRSystem_019
+create function table 1 IVRSystem_019 000001F48AE21FC0
+get generic interface 1 FnTable:IVRSystem_019 00007FFCDF1A4E00
+get generic interface 0 FnTable:IVRCompositor_022
+create interface 0 FnTable:IVRCompositor_022
+create function table 0 IVRCompositor_022
+create interface 0 IVRCompositor_022
+create interface 1 IVRCompositor_022
+create function table 1 IVRCompositor_022 000001F48AE22560
+get generic interface 1 FnTable:IVRCompositor_022 00007FFCDF1A4420
+get generic interface 0 FnTable:IVROverlay_019
+create interface 0 FnTable:IVROverlay_019
+create function table 0 IVROverlay_019
+create interface 0 IVROverlay_019
+create interface 1 IVROverlay_019
+create function table 1 IVROverlay_019 000001F48AE224A0
+get generic interface 1 FnTable:IVROverlay_019 00007FFCDF1A61D0
+get generic interface 0 FnTable:IVRScreenshots_001
+create interface 0 FnTable:IVRScreenshots_001
+create function table 0 IVRScreenshots_001
+create interface 0 IVRScreenshots_001
+create interface 1 IVRScreenshots_001
+create function table 1 IVRScreenshots_001 000001F48AE22C80
+get generic interface 1 FnTable:IVRScreenshots_001 00007FFCDF1A39F8
+get generic interface 0 FnTable:IVRChaperone_003
+create interface 0 FnTable:IVRChaperone_003
+create function table 0 IVRChaperone_003
+create interface 0 IVRChaperone_003
+create interface 1 IVRChaperone_003
+create function table 1 IVRChaperone_003 000001F48AE25260
+get generic interface 1 FnTable:IVRChaperone_003 00007FFCDF1A5100
+get generic interface 0 FnTable:IVRRenderModels_006
+create interface 0 FnTable:IVRRenderModels_006
+create function table 0 IVRRenderModels_006
+create interface 0 IVRRenderModels_006
+create interface 1 IVRRenderModels_006
+create function table 1 IVRRenderModels_006 000001F4B7D1E4A0
+get generic interface 1 FnTable:IVRRenderModels_006 00007FFCDF1A66A0
+cleanup inner
+--------------------------------------------------------------------------------
+allocate shared 0 Local\OpenVrProxyInit 16
+allocate shared 1 Local\OpenVrProxyInit 16 0000000000000450 0
+allocate shared 2 000001ED5FA70000
+allocate shared 3 000001ED5FA70000
+init dll 0
+init dll 1 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+init dll 2 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+core 0 
+core 1 IVRClientCore_002
+core 2 IVRClientCore_002
+core 3 00007FFCDF460000
+core 4 00007FFCDF460000
+core 5 00007FFCDF460000 00007FFCDF461900
+core 6 00007FFCDF460000 00007FFCDF461900
+init 2 
+allocate shared 0 Local\OpenVrProxyArg 524304
+allocate shared 1 Local\OpenVrProxyArg 524304 0000000000000670 0
+allocate shared 2 000001ED61410000
+allocate shared 3 000001ED61410000
+allocate shared 0 Local\OpenVrProxyResult 524304
+allocate shared 1 Local\OpenVrProxyResult 524304 0000000000000674 0
+allocate shared 2 000001ED614A0000
+allocate shared 3 000001ED614A0000
+create thread
+init 3
+allocate shared 0 init 5Local\OpenVrProxyArg
+ 524304
+init 6 IVRClientCore_002
+create interface 0 IVRClientCore_002
+allocate shared 1 create interface 1 Local\OpenVrProxyArgIVRClientCore_002 
+524304 0000000000000518 183
+init 7 IVRClientCore_002 000001ED60E407F0allocate shared 2 
+000001ED61530000init inner
+
+allocate shared 3 get generic interface 0 000001ED61530000IVRSystem_015
+
+allocate shared 0 create interface 0 Local\OpenVrProxyResultIVRSystem_015 
+524304
+create interface 1 IVRSystem_015
+allocate shared 1 Local\OpenVrProxyResult 524304get generic interface 1  IVRSystem_01500000000000005A4 000001ED60E40970 183
+
+allocate shared 2 000001ED615C0000
+allocate shared 3 000001ED615C0000
+cleanup inner
+core 0 
+core 1 IVRClientCore_002
+core 2 IVRClientCore_002
+core 3 00007FFCDF460000
+core 4 00007FFCDF460000
+core 5 00007FFCDF460000 00007FFCDF461900
+core 6 00007FFCDF460000 00007FFCDF461900
+init 2 
+allocate shared 0 Local\OpenVrProxyArg 524304
+allocate shared 1 Local\OpenVrProxyArg 524304 0000000000000A44 183
+allocate shared 2 000001ED6CEF0000
+allocate shared 3 000001ED6CEF0000
+allocate shared 0 Local\OpenVrProxyResult 524304
+allocate shared 1 Local\OpenVrProxyResult 524304 0000000000000A48 183
+allocate shared 2 000001ED6CF80000
+allocate shared 3 000001ED6CF80000
+init 3
+init 5
+init 6 IVRClientCore_002
+create interface 0 IVRClientCore_002
+create interface 1 IVRClientCore_002
+init 7 IVRClientCore_002 000001ED7204E980
+init inner
+get generic interface 0 IVRSystem_015
+create interface 0 IVRSystem_015
+create interface 1 IVRSystem_015
+get generic interface 1 IVRSystem_015 000001ED7204F460
+get generic interface 0 IVRChaperone_003
+create interface 0 IVRChaperone_003
+create interface 1 IVRChaperone_003
+get generic interface 1 IVRChaperone_003 000001ED7204EA40
+get generic interface 0 IVRChaperoneSetup_005
+create interface 0 IVRChaperoneSetup_005
+create interface 1 IVRChaperoneSetup_005
+get generic interface 1 IVRChaperoneSetup_005 000001ED7204EC80
+get generic interface 0 IVRCompositor_020
+create interface 0 IVRCompositor_020
+create interface 1 IVRCompositor_020
+get generic interface 1 IVRCompositor_020 000001ED7204F040
+get generic interface 0 IVRCompositor_022
+create interface 0 IVRCompositor_022
+create interface 1 IVRCompositor_022
+get generic interface 1 IVRCompositor_022 000001ED4DFEE750
+get generic interface 0 IVROverlay_019
+create interface 0 IVROverlay_019
+create interface 1 IVROverlay_019
+get generic interface 1 IVROverlay_019 000001ED4DFEE3F0
+get generic interface 0 FnTable:IVRInput_005
+create interface 0 FnTable:IVRInput_005
+create function table 0 IVRInput_005
+create interface 0 IVRInput_005
+create interface 1 IVRInput_005
+create function table 1 IVRInput_005 000001ED4DFEE4B0
+get generic interface 1 FnTable:IVRInput_005 00007FFCDF1A6B10
+get generic interface 0 FnTable:IVRSystem_019
+create interface 0 FnTable:IVRSystem_019
+create function table 0 IVRSystem_019
+create interface 0 IVRSystem_019
+create interface 1 IVRSystem_019
+create function table 1 IVRSystem_019 000001ED4DFEE630
+get generic interface 1 FnTable:IVRSystem_019 00007FFCDF1A4E00
+get generic interface 0 FnTable:IVRCompositor_022
+create interface 0 FnTable:IVRCompositor_022
+create function table 0 IVRCompositor_022
+create interface 0 IVRCompositor_022
+create interface 1 IVRCompositor_022
+create function table 1 IVRCompositor_022 000001ED4DFEE7B0
+get generic interface 1 FnTable:IVRCompositor_022 00007FFCDF1A4420
+get generic interface 0 FnTable:IVROverlay_019
+create interface 0 FnTable:IVROverlay_019
+create function table 0 IVROverlay_019
+create interface 0 IVROverlay_019
+create interface 1 IVROverlay_019
+create function table 1 IVROverlay_019 000001ED4DFEE0F0
+get generic interface 1 FnTable:IVROverlay_019 00007FFCDF1A61D0
+get generic interface 0 FnTable:IVRScreenshots_001
+create interface 0 FnTable:IVRScreenshots_001
+create function table 0 IVRScreenshots_001
+create interface 0 IVRScreenshots_001
+create interface 1 IVRScreenshots_001
+create function table 1 IVRScreenshots_001 000001ED4DFEE510
+get generic interface 1 FnTable:IVRScreenshots_001 00007FFCDF1A39F8
+get generic interface 0 FnTable:IVRChaperone_003
+create interface 0 FnTable:IVRChaperone_003
+create function table 0 IVRChaperone_003
+create interface 0 IVRChaperone_003
+create interface 1 IVRChaperone_003
+create function table 1 IVRChaperone_003 000001ED0F2AC630
+get generic interface 1 FnTable:IVRChaperone_003 00007FFCDF1A5100
+get generic interface 0 FnTable:IVRRenderModels_006
+create interface 0 FnTable:IVRRenderModels_006
+create function table 0 IVRRenderModels_006
+create interface 0 IVRRenderModels_006
+create interface 1 IVRRenderModels_006
+create function table 1 IVRRenderModels_006 000001EDBC7DA790
+get generic interface 1 FnTable:IVRRenderModels_006 00007FFCDF1A66A0
+cleanup inner

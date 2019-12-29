@@ -45,7 +45,7 @@ BaseCompositor::~BaseCompositor() {
 }
 
 void BaseCompositor::SetTrackingSpace(ETrackingUniverseOrigin eOrigin) {
-  g_vrcompositor->SetTrackingSpace(eOrigin);
+  g_pvrcompositor->SetTrackingSpace(eOrigin);
 	/* ovrTrackingOrigin origin = ovrTrackingOrigin_FloorLevel;
 	if (eOrigin == TrackingUniverseSeated) {
 		origin = ovrTrackingOrigin_EyeLevel;
@@ -55,7 +55,7 @@ void BaseCompositor::SetTrackingSpace(ETrackingUniverseOrigin eOrigin) {
 }
 
 ETrackingUniverseOrigin BaseCompositor::GetTrackingSpace() {
-  return g_vrcompositor->GetTrackingSpace();
+  return g_pvrcompositor->GetTrackingSpace();
 }
 
 ovr_enum_t BaseCompositor::WaitGetPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
@@ -119,7 +119,7 @@ ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const V
 void BaseCompositor::ClearLastSubmittedFrame() {
 	// At this point we should show the loading screen and show Guardian, and undo this when the
 	// next frame comes along. TODO implement since it would improve loading screens, but it's certainly not critical
-  return g_vrcompositor->ClearLastSubmittedFrame();
+  return g_pvrcompositor->ClearLastSubmittedFrame();
 }
 
 void BaseCompositor::PostPresentHandoff() {
@@ -134,18 +134,18 @@ void BaseCompositor::PostPresentHandoff() {
 	//
 	// TODO: use ovr_EndFrame and co instead of ovr_SubmitFrame for better performance, not just here but in all cases
 	//  that way we can call ovr_WaitToBeginFrame in WaitGetPoses to mimick SteamVR.
-  return g_vrcompositor->PostPresentHandoff();
+  return g_pvrcompositor->PostPresentHandoff();
 }
 
 bool BaseCompositor::GetFrameTiming(vr::Compositor_FrameTiming * pTiming, uint32_t unFramesAgo) {
-  return g_vrcompositor->GetFrameTiming(pTiming, unFramesAgo);
+  return g_pvrcompositor->GetFrameTiming(pTiming, unFramesAgo);
 
 	// TODO fill in the m_nNumVSyncsReadyForUse and uint32_t m_nNumVSyncsToFirstView fields, but only
 	// when called from the correct version of the interface.
 }
 
 uint32_t BaseCompositor::GetFrameTimings(vr::Compositor_FrameTiming * pTiming, uint32_t nFrames) {
-	return g_vrcompositor->GetFrameTimings(pTiming, nFrames);
+	return g_pvrcompositor->GetFrameTimings(pTiming, nFrames);
 }
 
 /* bool BaseCompositor::GetFrameTiming(vr::Compositor_FrameTiming * pTiming, uint32_t unFramesAgo) {
@@ -157,63 +157,63 @@ uint32_t BaseCompositor::GetFrameTimings(vr::Compositor_FrameTiming * pTiming, u
 } */
 
 float BaseCompositor::GetFrameTimeRemaining() {
-	return g_vrcompositor->GetFrameTimeRemaining();
+	return g_pvrcompositor->GetFrameTimeRemaining();
 }
 
 void BaseCompositor::GetCumulativeStats(vr::Compositor_CumulativeStats * pStats, uint32_t nStatsSizeInBytes) {
-	return g_vrcompositor->GetCumulativeStats(pStats, nStatsSizeInBytes);
+	return g_pvrcompositor->GetCumulativeStats(pStats, nStatsSizeInBytes);
 }
 
 void BaseCompositor::FadeToColor(float fSeconds, float fRed, float fGreen, float fBlue, float fAlpha, bool bBackground) {
-	return g_vrcompositor->FadeToColor(fSeconds, fRed, fGreen, fBlue, fAlpha, bBackground);
+	return g_pvrcompositor->FadeToColor(fSeconds, fRed, fGreen, fBlue, fAlpha, bBackground);
 }
 
 HmdColor_t BaseCompositor::GetCurrentFadeColor(bool bBackground) {
-	return g_vrcompositor->GetCurrentFadeColor(bBackground);
+	return g_pvrcompositor->GetCurrentFadeColor(bBackground);
 }
 
 void BaseCompositor::FadeGrid(float fSeconds, bool bFadeIn) {
-	return g_vrcompositor->FadeGrid(fSeconds, bFadeIn);
+	return g_pvrcompositor->FadeGrid(fSeconds, bFadeIn);
 }
 
 float BaseCompositor::GetCurrentGridAlpha() {
-	return g_vrcompositor->GetCurrentGridAlpha();
+	return g_pvrcompositor->GetCurrentGridAlpha();
 }
 
 ovr_enum_t BaseCompositor::SetSkyboxOverride(const Texture_t * pTextures, uint32_t unTextureCount) {
-	return g_vrcompositor->SetSkyboxOverride(pTextures, unTextureCount);
+	return g_pvrcompositor->SetSkyboxOverride(pTextures, unTextureCount);
 }
 
 void BaseCompositor::ClearSkyboxOverride() {
-	return g_vrcompositor->ClearSkyboxOverride();
+	return g_pvrcompositor->ClearSkyboxOverride();
 }
 
 void BaseCompositor::CompositorBringToFront() {
-	return g_vrcompositor->CompositorBringToFront();
+	return g_pvrcompositor->CompositorBringToFront();
 }
 
 void BaseCompositor::CompositorGoToBack() {
-	return g_vrcompositor->CompositorGoToBack();
+	return g_pvrcompositor->CompositorGoToBack();
 }
 
 void BaseCompositor::CompositorQuit() {
-	return g_vrcompositor->CompositorQuit();
+	return g_pvrcompositor->CompositorQuit();
 }
 
 bool BaseCompositor::IsFullscreen() {
-	return g_vrcompositor->IsFullscreen();
+	return g_pvrcompositor->IsFullscreen();
 }
 
 uint32_t BaseCompositor::GetCurrentSceneFocusProcess() {
-	return g_vrcompositor->GetCurrentSceneFocusProcess();
+	return g_pvrcompositor->GetCurrentSceneFocusProcess();
 }
 
 uint32_t BaseCompositor::GetLastFrameRenderer() {
-	return g_vrcompositor->GetLastFrameRenderer();
+	return g_pvrcompositor->GetLastFrameRenderer();
 }
 
 bool BaseCompositor::CanRenderScene() {
-	return g_vrcompositor->CanRenderScene();
+	return g_pvrcompositor->CanRenderScene();
 }
 
 void BaseCompositor::ShowMirrorWindow() {
@@ -221,81 +221,81 @@ void BaseCompositor::ShowMirrorWindow() {
 }
 
 void BaseCompositor::HideMirrorWindow() {
-	return g_vrcompositor->HideMirrorWindow();
+	return g_pvrcompositor->HideMirrorWindow();
 }
 
 bool BaseCompositor::IsMirrorWindowVisible() {
-	return g_vrcompositor->IsMirrorWindowVisible();
+	return g_pvrcompositor->IsMirrorWindowVisible();
 }
 
 void BaseCompositor::CompositorDumpImages() {
-	return g_vrcompositor->CompositorDumpImages();
+	return g_pvrcompositor->CompositorDumpImages();
 }
 
 bool BaseCompositor::ShouldAppRenderWithLowResources() {
-	return g_vrcompositor->ShouldAppRenderWithLowResources();
+	return g_pvrcompositor->ShouldAppRenderWithLowResources();
 }
 
 void BaseCompositor::ForceInterleavedReprojectionOn(bool bOverride) {
-	return g_vrcompositor->ForceInterleavedReprojectionOn(bOverride);
+	return g_pvrcompositor->ForceInterleavedReprojectionOn(bOverride);
 }
 
 void BaseCompositor::ForceReconnectProcess() {
-	return g_vrcompositor->ForceReconnectProcess();
+	return g_pvrcompositor->ForceReconnectProcess();
 }
 
 void BaseCompositor::SuspendRendering(bool bSuspend) {
-	return g_vrcompositor->SuspendRendering(bSuspend);
+	return g_pvrcompositor->SuspendRendering(bSuspend);
 }
 
 ovr_enum_t BaseCompositor::GetMirrorTextureD3D11(EVREye eEye, void * pD3D11DeviceOrResource, void ** ppD3D11ShaderResourceView) {
-	return g_vrcompositor->GetMirrorTextureD3D11(eEye, pD3D11DeviceOrResource, ppD3D11ShaderResourceView);
+	return g_pvrcompositor->GetMirrorTextureD3D11(eEye, pD3D11DeviceOrResource, ppD3D11ShaderResourceView);
 }
 
 void BaseCompositor::ReleaseMirrorTextureD3D11(void * pD3D11ShaderResourceView) {
-	return g_vrcompositor->ReleaseMirrorTextureD3D11(pD3D11ShaderResourceView);
+	return g_pvrcompositor->ReleaseMirrorTextureD3D11(pD3D11ShaderResourceView);
 }
 
 ovr_enum_t BaseCompositor::GetMirrorTextureGL(EVREye eEye, glUInt_t * pglTextureId, glSharedTextureHandle_t * pglSharedTextureHandle) {
-  return g_vrcompositor->GetMirrorTextureGL(eEye, pglTextureId, pglSharedTextureHandle);
+  return g_pvrcompositor->GetMirrorTextureGL(eEye, pglTextureId, pglSharedTextureHandle);
 }
 
 bool BaseCompositor::ReleaseSharedGLTexture(glUInt_t glTextureId, glSharedTextureHandle_t glSharedTextureHandle) {
-	return g_vrcompositor->ReleaseSharedGLTexture(glTextureId, glSharedTextureHandle);
+	return g_pvrcompositor->ReleaseSharedGLTexture(glTextureId, glSharedTextureHandle);
 }
 
 void BaseCompositor::LockGLSharedTextureForAccess(glSharedTextureHandle_t glSharedTextureHandle) {
-	return g_vrcompositor->LockGLSharedTextureForAccess(glSharedTextureHandle);
+	return g_pvrcompositor->LockGLSharedTextureForAccess(glSharedTextureHandle);
 }
 
 void BaseCompositor::UnlockGLSharedTextureForAccess(glSharedTextureHandle_t glSharedTextureHandle) {
-	return g_vrcompositor->UnlockGLSharedTextureForAccess(glSharedTextureHandle);
+	return g_pvrcompositor->UnlockGLSharedTextureForAccess(glSharedTextureHandle);
 }
 
 uint32_t BaseCompositor::GetVulkanInstanceExtensionsRequired(VR_OUT_STRING() char * pchValue, uint32_t unBufferSize) {
-	return g_vrcompositor->GetVulkanInstanceExtensionsRequired(pchValue, unBufferSize);
+	return g_pvrcompositor->GetVulkanInstanceExtensionsRequired(pchValue, unBufferSize);
 }
 
 uint32_t BaseCompositor::GetVulkanDeviceExtensionsRequired(VkPhysicalDevice_T * pPhysicalDevice, char * pchValue, uint32_t unBufferSize) {
-	return g_vrcompositor->GetVulkanDeviceExtensionsRequired(pPhysicalDevice, pchValue, unBufferSize);
+	return g_pvrcompositor->GetVulkanDeviceExtensionsRequired(pPhysicalDevice, pchValue, unBufferSize);
 }
 
 void BaseCompositor::SetExplicitTimingMode(ovr_enum_t eTimingMode) {
-	return g_vrcompositor->SetExplicitTimingMode((vr::EVRCompositorTimingMode)eTimingMode);
+	return g_pvrcompositor->SetExplicitTimingMode((vr::EVRCompositorTimingMode)eTimingMode);
 }
 
 ovr_enum_t BaseCompositor::SubmitExplicitTimingData() {
-	return g_vrcompositor->SubmitExplicitTimingData();
+	return g_pvrcompositor->SubmitExplicitTimingData();
 }
 
 bool BaseCompositor::IsMotionSmoothingSupported() {
-	return g_vrcompositor->IsMotionSmoothingSupported();
+	return g_pvrcompositor->IsMotionSmoothingSupported();
 }
 
 bool BaseCompositor::IsMotionSmoothingEnabled() {
-	return g_vrcompositor->IsMotionSmoothingEnabled();
+	return g_pvrcompositor->IsMotionSmoothingEnabled();
 }
 
 bool BaseCompositor::IsCurrentSceneFocusAppLoading() {
-	return g_vrcompositor->IsCurrentSceneFocusAppLoading();
+	return g_pvrcompositor->IsCurrentSceneFocusAppLoading();
 }

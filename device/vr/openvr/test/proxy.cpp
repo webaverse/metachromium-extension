@@ -256,9 +256,10 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   fnp.reg<
     kIVRCompositor_GetFrameTiming,
     std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
+    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >([=](uint32_t unFramesAgo) {
-    managed_binary<Compositor_FrameTiming> timing(1);
+  >([=](managed_binary<Compositor_FrameTiming> timing, uint32_t unFramesAgo) {
+    //  managed_binary<Compositor_FrameTiming> timing(1);
 
     bool result = vrcompositor->GetFrameTiming(timing.data(), unFramesAgo);
 
@@ -270,10 +271,9 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   fnp.reg<
     kIVRCompositor_GetFrameTimings,
     std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
+    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >([=](uint32_t nFrames) {
-    managed_binary<Compositor_FrameTiming> timings(nFrames);
-
+  >([=](managed_binary<Compositor_FrameTiming> timings, uint32_t nFrames) {
     uint32_t result = vrcompositor->GetFrameTimings(timings.data(), nFrames);
 
     return std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>(
@@ -434,7 +434,9 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_ForceReconnectProcess,
     int
   >([=]() {
-    vrcompositor->ForceReconnectProcess();
+    getOut() << "ForceReconnectProcess" << std::endl;
+    abort();
+    // vrcompositor->ForceReconnectProcess();
     return 0;
   });
   fnp.reg<
@@ -449,6 +451,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_GetMirrorTextureD3D11,
     vr::EVRCompositorError
   >([=]() {
+    getOut() << "GetMirrorTextureD3D11" << std::endl;
     abort();
     return VRCompositorError_None;
   });
@@ -456,6 +459,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_ReleaseMirrorTextureD3D11,
     vr::EVRCompositorError
   >([=]() {
+    getOut() << "ReleaseMirrorTextureD3D11" << std::endl;
     abort();
     return VRCompositorError_None;
   });
@@ -463,6 +467,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_GetMirrorTextureGL,
     vr::EVRCompositorError
   >([=]() {
+    getOut() << "GetMirrorTextureGL" << std::endl;
     abort();
     return VRCompositorError_None;
   });
@@ -470,6 +475,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_ReleaseSharedGLTexture,
     bool
   >([=]() {
+    getOut() << "ReleaseSharedGLTexture" << std::endl;
     abort();
     return false;
   });
@@ -477,6 +483,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_LockGLSharedTextureForAccess,
     bool
   >([=]() {
+    getOut() << "LockGLSharedTextureForAccess" << std::endl;
     abort();
     return false;
   });
@@ -484,6 +491,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_UnlockGLSharedTextureForAccess,
     bool
   >([=]() {
+    getOut() << "UnlockGLSharedTextureForAccess" << std::endl;
     abort();
     return false;
   });
@@ -491,13 +499,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_GetVulkanInstanceExtensionsRequired,
     uint32_t
   >([=]() {
-    abort();
-    return false;
-  });
-  fnp.reg<
-    kIVRCompositor_GetVulkanInstanceExtensionsRequired,
-    uint32_t
-  >([=]() {
+    getOut() << "GetVulkanInstanceExtensionsRequired" << std::endl;
     abort();
     return false;
   });
@@ -505,6 +507,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_GetVulkanDeviceExtensionsRequired,
     uint32_t
   >([=]() {
+    getOut() << "GetVulkanDeviceExtensionsRequired" << std::endl;
     abort();
     return false;
   });
@@ -556,9 +559,6 @@ EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArra
     uint32_t
   >(unRenderPoseArrayCount, unGamePoseArrayCount);
   // getOut() << "wait get poses 1 " << unRenderPoseArrayCount << " " << unGamePoseArrayCount << " " << std::get<1>(result).size() << " " << std::get<2>(result).size() << std::endl;
-  if (std::get<1>(result).size() == 0) {
-    abort();
-  }
   memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(*std::get<1>(result).data()));
   // getOut() << "wait get poses 2 " << unRenderPoseArrayCount << " " << unGamePoseArrayCount << " " << std::get<1>(result).size() << " " << std::get<2>(result).size() << std::endl;
   memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(*std::get<2>(result).data()));
@@ -694,21 +694,27 @@ void PVRCompositor::PostPresentHandoff() {
   >();
 }
 bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo ) {
+  managed_binary<Compositor_FrameTiming> timing(1);
+  *timing.data() = *pTiming;
   auto result = fnp.call<
     kIVRCompositor_GetFrameTiming,
     std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
+    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >(unFramesAgo);
+  >(std::move(timing), unFramesAgo);
   *pTiming = *std::get<1>(result).data();
   return std::get<0>(result);
 }
 uint32_t PVRCompositor::GetFrameTimings( VR_ARRAY_COUNT( nFrames ) Compositor_FrameTiming *pTiming, uint32_t nFrames ) {
+  managed_binary<Compositor_FrameTiming> timings(nFrames);
+  memcpy(timings.data(), (void *)pTiming, nFrames * sizeof(Compositor_FrameTiming));
   auto result = fnp.call<
     kIVRCompositor_GetFrameTimings,
     std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
+    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >(nFrames);
-  *pTiming = *std::get<1>(result).data();
+  >(std::move(timings), nFrames);
+  memcpy((void *)pTiming, (void *)std::get<1>(result).data(), nFrames * sizeof(Compositor_FrameTiming));
   return std::get<0>(result);
 }
 float PVRCompositor::GetFrameTimeRemaining() {
@@ -760,7 +766,7 @@ float PVRCompositor::GetCurrentGridAlpha() {
   >();
 }
 EVRCompositorError PVRCompositor::SetSkyboxOverride( VR_ARRAY_COUNT( unTextureCount ) const Texture_t *pTextures, uint32_t unTextureCount ) {
-  // XXX
+  getOut() << "SetSkyboxOverride" << std::endl;
   abort();
   return VRCompositorError_None;
 }

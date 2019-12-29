@@ -174,10 +174,10 @@ public:
     t = std::string((char *)in.m_read, size);
     in.m_read += size;
     
-    if (size > 512*1024) {
+    /* if (size > 512*1024) {
       // getOut() << "size overflow 1 " << id << " " << size << " " << (void *)in.m_read << std::endl;
       abort();
-    }
+    } */
     
     // getOut() << "reader string 4 " << (in.m_read - in.m_data) << std::endl;
 
@@ -203,10 +203,10 @@ public:
     // getOut() << "read size 2 " << id << " " << size << " " << sizeof(T) << " " << (void *)in.m_read << std::endl;
     in.m_read += sizeof(size_t);
     
-    if (size > 512*1024) {
+    /* if (size > 512*1024) {
       // getOut() << "size overflow 2 " << size << " " << (void *)in.m_read << std::endl;
       abort();
-    }
+    } */
     
     if ((in.m_read + size*sizeof(T)) > (in.m_data + m_size)) {
       // getOut() << "reset reader managed_binary 2 " << id << " " << (in.m_read - in.m_data) << " " << size << " " << sizeof(T) << std::endl;
