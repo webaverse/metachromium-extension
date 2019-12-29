@@ -1,901 +1,345 @@
-Sat Dec 28 2019 03:16:14.122 - //==============================================================================================
-Sat Dec 28 2019 03:16:14.122 - ================================================================================================
-Sat Dec 28 2019 03:16:14.122 - ================================================================================================
-Sat Dec 28 2019 03:16:14.122 - vrmonitor.exe 1.9.16 startup with PID=27216, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 03:16:14.124 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 03:16:14.125 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 03:16:14.238 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 03:16:14.324 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 03:16:14.368 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 03:16:14.368 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 03:16:14.368 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 03:16:14.368 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 03:16:14.368 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 03:16:14.368 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 03:16:14.370 - [System] Prepare operating system environment
-Sat Dec 28 2019 03:16:14.370 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 03:16:14.447 - [System] Detected first setup.
-Sat Dec 28 2019 03:16:14.455 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 03:16:14.621 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 03:16:14.841 - VR_Init successful
-Sat Dec 28 2019 03:16:15.852 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:16:15.853 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:16:15.853 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:16:15.854 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:16:15.863 - CSharedResourceNamespaceClient::Init(): received namespace data 10108
-Sat Dec 28 2019 03:16:15.865 - [Audio] Audio init
-Sat Dec 28 2019 03:16:17.157 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 03:16:17.188 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 03:16:17.265 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 03:16:23.331 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 03:16:23.331 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 03:16:23.763 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 03:16:23.763 - [Audio] Audio shutdown!
-Sat Dec 28 2019 03:16:25.104 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 1717 in 1717 frames
-Sat Dec 28 2019 03:16:25.123 - [System] Restore operating system environment
-Sat Dec 28 2019 03:16:25.123 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 03:23:52.419 - //==============================================================================================
-Sat Dec 28 2019 03:23:52.419 - ================================================================================================
-Sat Dec 28 2019 03:23:52.419 - ================================================================================================
-Sat Dec 28 2019 03:23:52.419 - vrmonitor.exe 1.9.16 startup with PID=23564, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 03:23:52.422 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 03:23:52.423 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 03:23:52.520 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 03:23:52.629 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 03:23:52.647 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 03:23:52.647 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 03:23:52.647 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 03:23:52.647 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 03:23:52.647 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 03:23:52.647 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 03:23:52.649 - [System] Prepare operating system environment
-Sat Dec 28 2019 03:23:52.649 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 03:23:52.684 - [System] Detected first setup.
-Sat Dec 28 2019 03:23:52.689 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 03:23:52.835 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 03:23:53.040 - VR_Init successful
-Sat Dec 28 2019 03:23:54.231 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:23:54.232 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:23:54.232 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:23:54.233 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:23:54.237 - CSharedResourceNamespaceClient::Init(): received namespace data 1128
-Sat Dec 28 2019 03:23:54.239 - [Audio] Audio init
-Sat Dec 28 2019 03:23:55.668 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 03:23:55.706 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 03:23:55.807 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 03:23:58.139 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 03:23:58.153 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 03:23:58.667 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 03:23:58.667 - [Audio] Audio shutdown!
-Sat Dec 28 2019 03:24:00.024 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 651 in 651 frames
-Sat Dec 28 2019 03:24:00.051 - [System] Restore operating system environment
-Sat Dec 28 2019 03:24:00.051 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 03:45:03.743 - //==============================================================================================
-Sat Dec 28 2019 03:45:03.744 - ================================================================================================
-Sat Dec 28 2019 03:45:03.744 - ================================================================================================
-Sat Dec 28 2019 03:45:03.744 - vrmonitor.exe 1.9.16 startup with PID=22684, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 03:45:03.745 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 03:45:03.745 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 03:45:03.839 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 03:45:03.894 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 03:45:03.908 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 03:45:03.908 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 03:45:03.908 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 03:45:03.908 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 03:45:03.908 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 03:45:03.908 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 03:45:03.909 - [System] Prepare operating system environment
-Sat Dec 28 2019 03:45:03.909 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 03:45:03.954 - [System] Detected first setup.
-Sat Dec 28 2019 03:45:03.959 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 03:45:04.114 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 03:45:04.305 - VR_Init successful
-Sat Dec 28 2019 03:45:05.247 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:45:05.248 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:45:05.248 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:45:05.249 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 03:45:05.259 - CSharedResourceNamespaceClient::Init(): received namespace data 7552
-Sat Dec 28 2019 03:45:05.260 - [Audio] Audio init
-Sat Dec 28 2019 03:45:06.582 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 03:45:06.618 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 03:45:06.684 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 03:45:13.610 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 03:45:13.949 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 03:45:14.608 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 03:45:16.106 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 03:45:16.106 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 03:45:16.583 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 03:45:16.583 - [Audio] Audio shutdown!
-Sat Dec 28 2019 03:45:17.924 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 2621 in 2621 frames
-Sat Dec 28 2019 03:45:17.949 - [System] Restore operating system environment
-Sat Dec 28 2019 03:45:17.949 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 04:24:45.992 - //==============================================================================================
-Sat Dec 28 2019 04:24:45.992 - ================================================================================================
-Sat Dec 28 2019 04:24:45.992 - ================================================================================================
-Sat Dec 28 2019 04:24:45.992 - vrmonitor.exe 1.9.16 startup with PID=4180, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 04:24:45.994 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 04:24:45.994 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 04:24:46.113 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 04:24:46.255 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 04:24:46.298 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 04:24:46.298 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 04:24:46.298 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 04:24:46.298 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 04:24:46.298 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 04:24:46.299 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 04:24:46.300 - [System] Prepare operating system environment
-Sat Dec 28 2019 04:24:46.300 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 04:24:46.346 - [System] Detected first setup.
-Sat Dec 28 2019 04:24:46.350 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 04:24:46.495 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 04:24:46.706 - VR_Init successful
-Sat Dec 28 2019 04:24:48.299 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 04:24:48.300 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 04:24:48.300 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 04:24:48.302 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 04:24:48.309 - CSharedResourceNamespaceClient::Init(): received namespace data 21920
-Sat Dec 28 2019 04:24:48.311 - [Audio] Audio init
-Sat Dec 28 2019 04:24:49.546 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 04:24:49.584 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 04:24:49.653 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 04:24:55.581 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 04:24:56.341 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 04:25:11.578 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 04:25:14.759 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 04:25:14.759 - [Audio] Audio shutdown!
-Sat Dec 28 2019 04:25:15.786 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 4515 in 4515 frames
-Sat Dec 28 2019 04:25:15.812 - [System] Restore operating system environment
-Sat Dec 28 2019 04:25:15.812 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 04:33:16.202 - //==============================================================================================
-Sat Dec 28 2019 04:33:16.202 - ================================================================================================
-Sat Dec 28 2019 04:33:16.202 - ================================================================================================
-Sat Dec 28 2019 04:33:16.202 - vrmonitor.exe 1.9.16 startup with PID=18448, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 04:33:16.204 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 04:33:16.205 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 04:33:16.291 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 04:33:16.389 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 04:33:16.427 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 04:33:16.427 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 04:33:16.428 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 04:33:16.428 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 04:33:16.428 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 04:33:16.428 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 04:33:16.429 - [System] Prepare operating system environment
-Sat Dec 28 2019 04:33:16.429 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 04:33:16.486 - [System] Detected first setup.
-Sat Dec 28 2019 04:33:16.490 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 04:33:16.633 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 04:33:16.799 - VR_Init successful
-Sat Dec 28 2019 04:33:17.982 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 04:33:17.983 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 04:33:17.983 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 04:33:17.984 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 04:33:17.990 - CSharedResourceNamespaceClient::Init(): received namespace data 27208
-Sat Dec 28 2019 04:33:17.991 - [Audio] Audio init
-Sat Dec 28 2019 04:33:19.415 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 04:33:19.415 - [Dismissable Warning Added] SteamVR Safe Mode (0x1000000)
-Sat Dec 28 2019 04:33:19.486 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 04:33:19.647 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 04:33:21.778 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 04:33:21.778 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 04:33:22.413 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 04:33:22.413 - [Audio] Audio shutdown!
-Sat Dec 28 2019 04:33:23.754 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 599 in 599 frames
-Sat Dec 28 2019 04:33:23.758 - [System] Restore operating system environment
-Sat Dec 28 2019 04:33:23.758 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 05:05:01.232 - //==============================================================================================
-Sat Dec 28 2019 05:05:01.232 - ================================================================================================
-Sat Dec 28 2019 05:05:01.232 - ================================================================================================
-Sat Dec 28 2019 05:05:01.232 - vrmonitor.exe 1.9.16 startup with PID=23540, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:05:01.234 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 05:05:01.234 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 05:05:01.351 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 05:05:01.521 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 05:05:01.535 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 05:05:01.535 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 05:05:01.535 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 05:05:01.535 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 05:05:01.535 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 05:05:01.535 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 05:05:01.537 - [System] Prepare operating system environment
-Sat Dec 28 2019 05:05:01.537 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 05:05:01.575 - [System] Detected first setup.
-Sat Dec 28 2019 05:05:01.578 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 05:05:01.736 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 05:05:01.917 - VR_Init successful
-Sat Dec 28 2019 05:05:03.081 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:05:03.081 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:05:03.082 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:05:03.082 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:05:03.090 - CSharedResourceNamespaceClient::Init(): received namespace data 29548
-Sat Dec 28 2019 05:05:03.092 - [Audio] Audio init
-Sat Dec 28 2019 05:05:04.494 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 05:05:04.494 - [Dismissable Warning Added] SteamVR Safe Mode (0x1000000)
-Sat Dec 28 2019 05:05:04.554 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 05:05:04.605 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:05:06.386 - Open URL vrmonitor://safemode/disable
-Sat Dec 28 2019 05:05:06.387 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:05:06.388 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:05:07.743 - [Settings] Save Json Settings to C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:05:07.743 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Sat Dec 28 2019 05:05:07.759 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:05:08.543 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 05:05:08.543 - [Audio] Audio shutdown!
-Sat Dec 28 2019 05:05:09.779 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 977 in 977 frames
-Sat Dec 28 2019 05:05:09.804 - [System] Restore operating system environment
-Sat Dec 28 2019 05:05:09.804 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 05:05:13.493 - //==============================================================================================
-Sat Dec 28 2019 05:05:13.493 - ================================================================================================
-Sat Dec 28 2019 05:05:13.494 - ================================================================================================
-Sat Dec 28 2019 05:05:13.494 - vrmonitor.exe 1.9.16 startup with PID=17452, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:05:13.495 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 05:05:13.495 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 05:05:13.579 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 05:05:13.667 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 05:05:13.680 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 05:05:13.680 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 05:05:13.680 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 05:05:13.680 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 05:05:13.680 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 05:05:13.680 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 05:05:13.682 - [System] Prepare operating system environment
-Sat Dec 28 2019 05:05:13.682 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 05:05:13.708 - [System] Detected first setup.
-Sat Dec 28 2019 05:05:13.713 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 05:05:13.851 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 05:05:13.996 - VR_Init successful
-Sat Dec 28 2019 05:05:15.433 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:05:15.436 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:05:15.436 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:05:15.436 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:05:15.442 - CSharedResourceNamespaceClient::Init(): received namespace data 29472
-Sat Dec 28 2019 05:05:15.442 - [Audio] Audio init
-Sat Dec 28 2019 05:05:16.670 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 05:05:16.705 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 05:05:16.780 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:05:18.668 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 05:05:18.742 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:05:19.199 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 05:05:19.199 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:05:19.200 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 05:05:19.200 - [Audio] Audio shutdown!
-Sat Dec 28 2019 05:05:20.438 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 580 in 580 frames
-Sat Dec 28 2019 05:05:20.442 - [System] Restore operating system environment
-Sat Dec 28 2019 05:05:20.442 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 05:24:59.145 - //==============================================================================================
-Sat Dec 28 2019 05:24:59.145 - ================================================================================================
-Sat Dec 28 2019 05:24:59.145 - ================================================================================================
-Sat Dec 28 2019 05:24:59.145 - vrmonitor.exe 1.9.16 startup with PID=24760, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:24:59.146 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 05:24:59.146 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 05:24:59.232 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 05:24:59.310 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 05:24:59.332 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 05:24:59.332 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 05:24:59.332 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 05:24:59.332 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 05:24:59.332 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 05:24:59.332 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 05:24:59.336 - [System] Prepare operating system environment
-Sat Dec 28 2019 05:24:59.336 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 05:24:59.398 - [System] Detected first setup.
-Sat Dec 28 2019 05:24:59.401 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 05:24:59.586 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 05:24:59.746 - VR_Init successful
-Sat Dec 28 2019 05:25:00.711 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:25:00.711 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:25:00.712 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:25:00.713 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:25:00.720 - Closing pipe SteamVR_Namespace because it was broken from the other end
-Sat Dec 28 2019 05:25:00.720 - CSharedResourceNamespaceClient::Init(): received namespace data 25924
-Sat Dec 28 2019 05:25:00.721 - [Audio] Audio init
-Sat Dec 28 2019 05:25:02.142 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 05:25:02.199 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 05:25:02.460 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:25:09.390 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 05:25:22.171 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 05:25:51.203 - [System] Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Restart'.
-Sat Dec 28 2019 05:25:51.206 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:25:52.148 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 05:25:52.148 - [Audio] Audio shutdown!
-Sat Dec 28 2019 05:25:53.390 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 4412 in 4412 frames
-Sat Dec 28 2019 05:25:53.394 - [System] Restore operating system environment
-Sat Dec 28 2019 05:25:53.394 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 05:25:57.102 - //==============================================================================================
-Sat Dec 28 2019 05:25:57.102 - ================================================================================================
-Sat Dec 28 2019 05:25:57.102 - ================================================================================================
-Sat Dec 28 2019 05:25:57.103 - vrmonitor.exe 1.9.16 startup with PID=5924, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:25:57.105 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 05:25:57.105 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 05:25:57.205 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 05:25:57.340 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 05:25:57.372 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 05:25:57.372 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 05:25:57.372 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 05:25:57.372 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 05:25:57.372 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 05:25:57.372 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 05:25:57.373 - [System] Prepare operating system environment
-Sat Dec 28 2019 05:25:57.373 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 05:25:57.418 - [System] Detected first setup.
-Sat Dec 28 2019 05:25:57.422 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 05:25:57.554 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 05:25:57.711 - VR_Init successful
-Sat Dec 28 2019 05:25:58.864 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:25:58.864 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:25:58.865 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:25:58.866 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:25:58.871 - CSharedResourceNamespaceClient::Init(): received namespace data 26160
-Sat Dec 28 2019 05:25:58.872 - [Audio] Audio init
-Sat Dec 28 2019 05:26:00.889 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 05:26:00.927 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 05:26:01.228 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:26:07.420 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 05:26:07.919 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 05:27:08.922 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:27:49.609 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Sat Dec 28 2019 05:27:49.610 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:27:49.613 - Large number of events this frame caused the poll loop to exit without draining
-Sat Dec 28 2019 05:27:50.515 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 05:27:50.515 - [Audio] Audio shutdown!
-Sat Dec 28 2019 05:27:50.882 - Drops over entire run:-  1 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 5697 in 5698 frames
-Sat Dec 28 2019 05:27:50.886 - [System] Restore operating system environment
-Sat Dec 28 2019 05:27:50.886 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 05:27:54.310 - //==============================================================================================
-Sat Dec 28 2019 05:27:54.310 - ================================================================================================
-Sat Dec 28 2019 05:27:54.310 - ================================================================================================
-Sat Dec 28 2019 05:27:54.310 - vrmonitor.exe 1.9.16 startup with PID=16740, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:27:54.311 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 05:27:54.311 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 05:27:54.412 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 05:27:54.496 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 05:27:54.509 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 05:27:54.509 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 05:27:54.509 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 05:27:54.509 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 05:27:54.509 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 05:27:54.509 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 05:27:54.510 - [System] Prepare operating system environment
-Sat Dec 28 2019 05:27:54.510 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 05:27:54.540 - [System] Detected first setup.
-Sat Dec 28 2019 05:27:54.546 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 05:27:54.688 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 05:27:54.833 - VR_Init successful
-Sat Dec 28 2019 05:27:56.103 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:27:56.103 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:27:56.104 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:27:56.104 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:27:56.116 - CSharedResourceNamespaceClient::Init(): received namespace data 11456
-Sat Dec 28 2019 05:27:56.117 - [Audio] Audio init
-Sat Dec 28 2019 05:27:57.372 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 05:27:57.403 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 05:27:57.483 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:28:04.543 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 05:29:05.403 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 05:29:08.402 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:29:10.454 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 05:29:10.454 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:29:10.887 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 05:29:10.887 - [Audio] Audio shutdown!
-Sat Dec 28 2019 05:29:11.467 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 2826 in 2826 frames
-Sat Dec 28 2019 05:29:11.470 - [System] Restore operating system environment
-Sat Dec 28 2019 05:29:11.470 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 05:32:28.791 - //==============================================================================================
-Sat Dec 28 2019 05:32:28.791 - ================================================================================================
-Sat Dec 28 2019 05:32:28.791 - ================================================================================================
-Sat Dec 28 2019 05:32:28.791 - vrmonitor.exe 1.9.16 startup with PID=5232, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:32:28.793 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 05:32:28.793 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 05:32:28.871 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 05:32:28.964 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 05:32:28.986 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 05:32:28.986 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 05:32:28.986 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 05:32:28.986 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 05:32:28.986 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 05:32:28.986 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 05:32:28.987 - [System] Prepare operating system environment
-Sat Dec 28 2019 05:32:28.987 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 05:32:29.017 - [System] Detected first setup.
-Sat Dec 28 2019 05:32:29.021 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 05:32:29.180 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 05:32:29.399 - VR_Init successful
-Sat Dec 28 2019 05:32:30.258 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:32:30.258 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:32:30.259 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:32:30.260 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:32:30.267 - CSharedResourceNamespaceClient::Init(): received namespace data 8456
-Sat Dec 28 2019 05:32:30.268 - [Audio] Audio init
-Sat Dec 28 2019 05:32:31.743 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 05:32:31.787 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 05:32:31.839 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:32:39.011 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 05:32:46.763 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 05:32:49.014 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 05:32:49.014 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:32:49.763 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:32:49.891 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 05:32:49.891 - [Audio] Audio shutdown!
-Sat Dec 28 2019 05:32:51.229 - Drops over entire run:-  1 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 2321 in 2322 frames
-Sat Dec 28 2019 05:32:51.257 - [System] Restore operating system environment
-Sat Dec 28 2019 05:32:51.257 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 05:35:56.464 - //==============================================================================================
-Sat Dec 28 2019 05:35:56.465 - ================================================================================================
-Sat Dec 28 2019 05:35:56.465 - ================================================================================================
-Sat Dec 28 2019 05:35:56.465 - vrmonitor.exe 1.9.16 startup with PID=26568, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:35:56.468 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 05:35:56.468 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 05:35:56.575 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 05:35:56.688 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 05:35:56.703 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 05:35:56.703 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 05:35:56.703 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 05:35:56.703 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 05:35:56.703 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 05:35:56.703 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 05:35:56.705 - [System] Prepare operating system environment
-Sat Dec 28 2019 05:35:56.705 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 05:35:56.735 - [System] Detected first setup.
-Sat Dec 28 2019 05:35:56.740 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 05:35:56.878 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 05:35:57.041 - VR_Init successful
-Sat Dec 28 2019 05:35:58.283 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:35:58.283 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:35:58.284 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:35:58.285 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:35:58.292 - CSharedResourceNamespaceClient::Init(): received namespace data 23212
-Sat Dec 28 2019 05:35:58.293 - [Audio] Audio init
-Sat Dec 28 2019 05:35:59.933 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 05:35:59.973 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 05:36:00.068 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:36:06.732 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 05:36:16.951 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 05:38:30.952 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:38:45.950 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 05:39:22.825 - [System] Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 05:39:22.837 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:39:23.263 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 05:39:23.263 - [Audio] Audio shutdown!
-Sat Dec 28 2019 05:39:23.713 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 21241 in 21241 frames
-Sat Dec 28 2019 05:39:23.719 - [System] Restore operating system environment
-Sat Dec 28 2019 05:39:23.719 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 05:48:15.920 - //==============================================================================================
-Sat Dec 28 2019 05:48:15.920 - ================================================================================================
-Sat Dec 28 2019 05:48:15.920 - ================================================================================================
-Sat Dec 28 2019 05:48:15.921 - vrmonitor.exe 1.9.16 startup with PID=20012, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:48:15.924 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 05:48:15.924 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 05:48:16.047 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 05:48:16.163 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 05:48:16.185 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 05:48:16.185 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 05:48:16.185 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 05:48:16.185 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 05:48:16.185 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 05:48:16.185 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 05:48:16.188 - [System] Prepare operating system environment
-Sat Dec 28 2019 05:48:16.188 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 05:48:16.226 - [System] Detected first setup.
-Sat Dec 28 2019 05:48:16.232 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 05:48:16.400 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 05:48:16.633 - VR_Init successful
-Sat Dec 28 2019 05:48:17.864 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:48:17.864 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:48:17.864 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:48:17.865 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 05:48:17.873 - CSharedResourceNamespaceClient::Init(): received namespace data 21888
-Sat Dec 28 2019 05:48:17.874 - [Audio] Audio init
-Sat Dec 28 2019 05:48:19.465 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 05:48:19.493 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 05:48:19.578 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 05:48:26.217 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 05:48:34.686 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 05:48:34.698 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 05:48:35.340 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 05:48:35.340 - [Audio] Audio shutdown!
-Sat Dec 28 2019 05:48:36.577 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 3087 in 3087 frames
-Sat Dec 28 2019 05:48:36.581 - [System] Restore operating system environment
-Sat Dec 28 2019 05:48:36.582 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 07:45:56.500 - //==============================================================================================
-Sat Dec 28 2019 07:45:56.500 - ================================================================================================
-Sat Dec 28 2019 07:45:56.500 - ================================================================================================
-Sat Dec 28 2019 07:45:56.501 - vrmonitor.exe 1.9.16 startup with PID=19892, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:45:56.502 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 07:45:56.502 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 07:45:56.583 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 07:45:56.650 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 07:45:56.685 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 07:45:56.685 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 07:45:56.685 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 07:45:56.685 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 07:45:56.685 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 07:45:56.685 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 07:45:56.687 - [System] Prepare operating system environment
-Sat Dec 28 2019 07:45:56.687 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 07:45:56.762 - [System] Detected first setup.
-Sat Dec 28 2019 07:45:56.767 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 07:45:56.903 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 07:45:57.097 - VR_Init successful
-Sat Dec 28 2019 07:45:58.323 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:45:58.323 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:45:58.324 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:45:58.325 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:45:58.329 - CSharedResourceNamespaceClient::Init(): received namespace data 4408
-Sat Dec 28 2019 07:45:58.331 - [Audio] Audio init
-Sat Dec 28 2019 07:45:59.719 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 07:45:59.761 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 07:45:59.826 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 07:46:06.764 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 07:46:07.575 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 07:46:07.586 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 07:46:08.045 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 07:46:08.045 - [Audio] Audio shutdown!
-Sat Dec 28 2019 07:46:09.284 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 1920 in 1920 frames
-Sat Dec 28 2019 07:46:09.329 - [System] Restore operating system environment
-Sat Dec 28 2019 07:46:09.329 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 07:46:58.919 - //==============================================================================================
-Sat Dec 28 2019 07:46:58.919 - ================================================================================================
-Sat Dec 28 2019 07:46:58.919 - ================================================================================================
-Sat Dec 28 2019 07:46:58.919 - vrmonitor.exe 1.9.16 startup with PID=15568, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:46:58.921 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 07:46:58.922 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 07:46:58.997 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 07:46:59.127 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 07:46:59.143 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 07:46:59.143 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 07:46:59.143 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 07:46:59.143 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 07:46:59.143 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 07:46:59.143 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 07:46:59.155 - [System] Prepare operating system environment
-Sat Dec 28 2019 07:46:59.155 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 07:46:59.211 - [System] Detected first setup.
-Sat Dec 28 2019 07:46:59.216 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 07:46:59.357 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 07:46:59.537 - VR_Init successful
-Sat Dec 28 2019 07:47:00.557 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:47:00.558 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:47:00.558 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:47:00.559 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:47:00.567 - CSharedResourceNamespaceClient::Init(): received namespace data 27880
-Sat Dec 28 2019 07:47:00.568 - [Audio] Audio init
-Sat Dec 28 2019 07:47:02.153 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 07:47:02.183 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 07:47:02.348 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 07:47:09.199 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 07:47:09.949 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 07:47:09.961 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 07:47:10.481 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 07:47:10.481 - [Audio] Audio shutdown!
-Sat Dec 28 2019 07:47:11.724 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 1899 in 1899 frames
-Sat Dec 28 2019 07:47:11.729 - [System] Restore operating system environment
-Sat Dec 28 2019 07:47:11.729 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 07:47:24.546 - //==============================================================================================
-Sat Dec 28 2019 07:47:24.546 - ================================================================================================
-Sat Dec 28 2019 07:47:24.546 - ================================================================================================
-Sat Dec 28 2019 07:47:24.547 - vrmonitor.exe 1.9.16 startup with PID=19860, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:47:24.549 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 07:47:24.550 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 07:47:24.704 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 07:47:24.787 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 07:47:24.811 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 07:47:24.812 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 07:47:24.812 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 07:47:24.812 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 07:47:24.812 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 07:47:24.812 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 07:47:24.813 - [System] Prepare operating system environment
-Sat Dec 28 2019 07:47:24.813 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 07:47:24.845 - [System] Detected first setup.
-Sat Dec 28 2019 07:47:24.851 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 07:47:25.006 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 07:47:25.164 - VR_Init successful
-Sat Dec 28 2019 07:47:26.224 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:47:26.224 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:47:26.225 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:47:26.225 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:47:26.236 - CSharedResourceNamespaceClient::Init(): received namespace data 20692
-Sat Dec 28 2019 07:47:26.238 - [Audio] Audio init
-Sat Dec 28 2019 07:47:27.623 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 07:47:27.650 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 07:47:27.731 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 07:47:34.841 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 07:47:43.655 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 07:48:26.689 - [System] Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Restart'.
-Sat Dec 28 2019 07:48:26.691 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 07:48:26.692 - Large number of events this frame caused the poll loop to exit without draining
-Sat Dec 28 2019 07:48:26.701 - Large number of events this frame caused the poll loop to exit without draining
-Sat Dec 28 2019 07:48:27.482 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 07:48:27.482 - [Audio] Audio shutdown!
-Sat Dec 28 2019 07:48:27.740 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 6166 in 6166 frames
-Sat Dec 28 2019 07:48:27.748 - [System] Restore operating system environment
-Sat Dec 28 2019 07:48:27.748 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 07:48:30.791 - //==============================================================================================
-Sat Dec 28 2019 07:48:30.791 - ================================================================================================
-Sat Dec 28 2019 07:48:30.791 - ================================================================================================
-Sat Dec 28 2019 07:48:30.791 - vrmonitor.exe 1.9.16 startup with PID=18876, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:48:30.793 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 07:48:30.794 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 07:48:30.871 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 07:48:30.985 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 07:48:31.008 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 07:48:31.008 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 07:48:31.008 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 07:48:31.008 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 07:48:31.008 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 07:48:31.008 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 07:48:31.009 - [System] Prepare operating system environment
-Sat Dec 28 2019 07:48:31.009 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 07:48:31.036 - [System] Detected first setup.
-Sat Dec 28 2019 07:48:31.043 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 07:48:31.193 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 07:48:31.342 - VR_Init successful
-Sat Dec 28 2019 07:48:32.212 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:48:32.213 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:48:32.214 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:48:32.214 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:48:32.221 - CSharedResourceNamespaceClient::Init(): received namespace data 23352
-Sat Dec 28 2019 07:48:32.222 - [Audio] Audio init
-Sat Dec 28 2019 07:48:33.379 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 07:48:33.388 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 07:48:33.389 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 07:48:33.392 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 07:48:33.418 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 07:48:33.496 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 07:48:33.497 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 07:48:33.685 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 07:48:33.685 - [Audio] Audio shutdown!
-Sat Dec 28 2019 07:48:35.020 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 70 in 70 frames
-Sat Dec 28 2019 07:48:35.025 - [System] Restore operating system environment
-Sat Dec 28 2019 07:48:35.025 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 07:59:25.964 - //==============================================================================================
-Sat Dec 28 2019 07:59:25.964 - ================================================================================================
-Sat Dec 28 2019 07:59:25.964 - ================================================================================================
-Sat Dec 28 2019 07:59:25.964 - vrmonitor.exe 1.9.16 startup with PID=20384, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:59:25.965 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 07:59:25.966 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 07:59:26.043 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 07:59:26.127 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 07:59:26.145 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 07:59:26.145 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 07:59:26.145 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 07:59:26.145 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 07:59:26.145 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 07:59:26.145 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 07:59:26.147 - [System] Prepare operating system environment
-Sat Dec 28 2019 07:59:26.147 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 07:59:26.194 - [System] Detected first setup.
-Sat Dec 28 2019 07:59:26.199 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 07:59:26.349 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 07:59:26.523 - VR_Init successful
-Sat Dec 28 2019 07:59:27.738 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:59:27.739 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:59:27.739 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:59:27.740 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 07:59:27.750 - CSharedResourceNamespaceClient::Init(): received namespace data 17800
-Sat Dec 28 2019 07:59:27.752 - [Audio] Audio init
-Sat Dec 28 2019 07:59:29.128 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 07:59:29.167 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 07:59:29.245 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 07:59:36.183 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 07:59:37.153 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 07:59:41.152 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 07:59:43.403 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 07:59:43.403 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 07:59:43.810 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 07:59:43.810 - [Audio] Audio shutdown!
-Sat Dec 28 2019 07:59:45.150 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 3890 in 3890 frames
-Sat Dec 28 2019 07:59:45.171 - [System] Restore operating system environment
-Sat Dec 28 2019 07:59:45.171 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 08:16:05.712 - //==============================================================================================
-Sat Dec 28 2019 08:16:05.712 - ================================================================================================
-Sat Dec 28 2019 08:16:05.712 - ================================================================================================
-Sat Dec 28 2019 08:16:05.712 - vrmonitor.exe 1.9.16 startup with PID=24308, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:16:05.712 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 08:16:05.713 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 08:16:05.799 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 08:16:05.863 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 08:16:05.882 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 08:16:05.882 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 08:16:05.882 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 08:16:05.882 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 08:16:05.882 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 08:16:05.882 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 08:16:05.883 - [System] Prepare operating system environment
-Sat Dec 28 2019 08:16:05.884 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 08:16:05.915 - [System] Detected first setup.
-Sat Dec 28 2019 08:16:05.920 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 08:16:06.094 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 08:16:06.311 - VR_Init successful
-Sat Dec 28 2019 08:16:07.084 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:16:07.085 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:16:07.085 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:16:07.086 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:16:07.091 - CSharedResourceNamespaceClient::Init(): received namespace data 11904
-Sat Dec 28 2019 08:16:07.092 - [Audio] Audio init
-Sat Dec 28 2019 08:16:08.339 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 08:16:08.372 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 08:16:08.434 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:16:14.357 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:16:15.902 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 08:16:20.122 - [System] Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 08:16:20.135 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 08:16:25.405 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 08:16:25.405 - [Audio] Audio shutdown!
-Sat Dec 28 2019 08:16:26.644 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 4405 in 4405 frames
-Sat Dec 28 2019 08:16:26.672 - [System] Restore operating system environment
-Sat Dec 28 2019 08:16:26.672 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 08:17:35.989 - //==============================================================================================
-Sat Dec 28 2019 08:17:35.989 - ================================================================================================
-Sat Dec 28 2019 08:17:35.989 - ================================================================================================
-Sat Dec 28 2019 08:17:35.989 - vrmonitor.exe 1.9.16 startup with PID=26612, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:17:35.990 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 08:17:35.990 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 08:17:36.139 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 08:17:36.242 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 08:17:36.258 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 08:17:36.259 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 08:17:36.259 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 08:17:36.259 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 08:17:36.259 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 08:17:36.259 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 08:17:36.264 - [System] Prepare operating system environment
-Sat Dec 28 2019 08:17:36.264 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 08:17:36.291 - [System] Detected first setup.
-Sat Dec 28 2019 08:17:36.298 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 08:17:36.486 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 08:17:36.673 - VR_Init successful
-Sat Dec 28 2019 08:17:37.849 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:17:37.850 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:17:37.850 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:17:37.851 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:17:37.859 - CSharedResourceNamespaceClient::Init(): received namespace data 7344
-Sat Dec 28 2019 08:17:37.860 - [Audio] Audio init
-Sat Dec 28 2019 08:17:39.392 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 08:17:39.430 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 08:17:39.498 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:17:46.293 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 08:17:49.226 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 08:17:49.239 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 08:17:54.452 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 08:17:54.452 - [Audio] Audio shutdown!
-Sat Dec 28 2019 08:17:55.793 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 4052 in 4052 frames
-Sat Dec 28 2019 08:17:55.798 - [System] Restore operating system environment
-Sat Dec 28 2019 08:17:55.798 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 08:19:04.601 - //==============================================================================================
-Sat Dec 28 2019 08:19:04.601 - ================================================================================================
-Sat Dec 28 2019 08:19:04.602 - ================================================================================================
-Sat Dec 28 2019 08:19:04.602 - vrmonitor.exe 1.9.16 startup with PID=21128, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:19:04.603 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 08:19:04.604 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 08:19:04.683 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 08:19:04.777 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 08:19:04.819 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 08:19:04.819 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 08:19:04.819 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 08:19:04.819 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 08:19:04.819 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 08:19:04.819 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 08:19:04.821 - [System] Prepare operating system environment
-Sat Dec 28 2019 08:19:04.821 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 08:19:04.852 - [System] Detected first setup.
-Sat Dec 28 2019 08:19:04.856 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 08:19:05.007 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 08:19:05.176 - VR_Init successful
-Sat Dec 28 2019 08:19:06.147 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:19:06.148 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:19:06.149 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:19:06.149 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:19:06.158 - CSharedResourceNamespaceClient::Init(): received namespace data 11212
-Sat Dec 28 2019 08:19:06.159 - [Audio] Audio init
-Sat Dec 28 2019 08:19:07.514 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 08:19:07.560 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 08:19:07.692 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:19:13.545 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:19:14.550 - [System] Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_ShutdownRequested'.
-Sat Dec 28 2019 08:19:14.562 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 08:19:14.841 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 08:19:17.904 - Quitting SteamVR at the request of a driver
-Sat Dec 28 2019 08:19:17.904 - [System] Quit gracefully: Waiting for process quitting...
-Sat Dec 28 2019 08:19:19.779 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Sat Dec 28 2019 08:19:19.779 - [Audio] Audio shutdown!
-Sat Dec 28 2019 08:19:21.129 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 3320 in 3320 frames
-Sat Dec 28 2019 08:19:21.136 - [System] Restore operating system environment
-Sat Dec 28 2019 08:19:21.136 - [System] Restore power settings to previous power savings.
-Sat Dec 28 2019 08:38:49.117 - //==============================================================================================
-Sat Dec 28 2019 08:38:49.117 - ================================================================================================
-Sat Dec 28 2019 08:38:49.117 - ================================================================================================
-Sat Dec 28 2019 08:38:49.117 - vrmonitor.exe 1.9.16 startup with PID=6280, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:38:49.118 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sat Dec 28 2019 08:38:49.118 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sat Dec 28 2019 08:38:49.242 - AUDIO: Refreshing audio devices
-Sat Dec 28 2019 08:38:49.331 - AUDIO: Detected 18 playback and 16 record devices
-Sat Dec 28 2019 08:38:49.342 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sat Dec 28 2019 08:38:49.342 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sat Dec 28 2019 08:38:49.342 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sat Dec 28 2019 08:38:49.342 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
-Sat Dec 28 2019 08:38:49.342 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sat Dec 28 2019 08:38:49.342 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Sat Dec 28 2019 08:38:49.343 - [System] Prepare operating system environment
-Sat Dec 28 2019 08:38:49.343 - [System] Setting power settings to minimum power savings.
-Sat Dec 28 2019 08:38:49.376 - [System] Detected first setup.
-Sat Dec 28 2019 08:38:49.381 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sat Dec 28 2019 08:38:49.527 - [System] Runtime: 1576990468 250820  STEAMVR
-Sat Dec 28 2019 08:38:49.732 - VR_Init successful
-Sat Dec 28 2019 08:38:51.005 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:38:51.006 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:38:51.007 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:38:51.008 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sat Dec 28 2019 08:38:51.014 - CSharedResourceNamespaceClient::Init(): received namespace data 12904
-Sat Dec 28 2019 08:38:51.015 - [Audio] Audio init
-Sat Dec 28 2019 08:38:52.362 - [Status] Graphics driver version is 431.60.
-Sat Dec 28 2019 08:38:52.397 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sat Dec 28 2019 08:38:52.466 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:38:58.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:38:59.374 - [System] System is running for 10 seconds.
-Sat Dec 28 2019 08:41:03.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:41:14.390 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:42:26.389 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:42:34.388 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:42:50.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:42:58.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:48:18.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:48:26.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:54:43.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:54:51.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:55:39.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:55:46.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:58:14.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:58:22.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 08:59:31.389 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 08:59:41.388 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:00:09.389 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:00:16.390 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:05:15.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:05:23.386 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:09:03.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:09:11.390 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:19:29.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:19:37.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:22:17.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:22:25.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:44:26.389 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:44:32.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:44:46.389 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:44:54.388 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:45:27.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:45:33.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:45:38.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:45:43.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:46:46.386 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:46:52.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:46:54.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:46:59.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:51:21.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:51:27.390 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 09:51:32.389 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 09:51:37.388 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:03:40.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:03:48.390 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:07:29.386 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:07:37.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:10:20.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:10:28.388 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:13:34.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:13:54.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:16:17.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:16:24.390 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:19:17.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:19:25.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:21:52.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:22:00.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:41:22.388 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:41:30.390 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:48:14.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:48:21.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:51:58.387 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:52:06.389 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:53:01.389 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:53:08.391 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sat Dec 28 2019 10:53:29.390 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sat Dec 28 2019 10:53:45.387 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:33:21.676 - //==============================================================================================
+Sat Dec 28 2019 11:33:21.677 - ================================================================================================
+Sat Dec 28 2019 11:33:21.677 - ================================================================================================
+Sat Dec 28 2019 11:33:21.677 - vrmonitor.exe 1.9.16 startup with PID=24384, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:33:21.679 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
+Sat Dec 28 2019 11:33:21.679 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
+Sat Dec 28 2019 11:33:21.769 - AUDIO: Refreshing audio devices
+Sat Dec 28 2019 11:33:21.836 - AUDIO: Detected 18 playback and 16 record devices
+Sat Dec 28 2019 11:33:21.862 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
+Sat Dec 28 2019 11:33:21.862 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
+Sat Dec 28 2019 11:33:21.862 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Sat Dec 28 2019 11:33:21.862 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
+Sat Dec 28 2019 11:33:21.862 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
+Sat Dec 28 2019 11:33:21.862 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
+Sat Dec 28 2019 11:33:21.864 - [System] Prepare operating system environment
+Sat Dec 28 2019 11:33:21.864 - [System] Setting power settings to minimum power savings.
+Sat Dec 28 2019 11:33:21.899 - [System] Detected first setup.
+Sat Dec 28 2019 11:33:21.903 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
+Sat Dec 28 2019 11:33:22.049 - [System] Runtime: 1576990468 250820  STEAMVR
+Sat Dec 28 2019 11:33:22.227 - VR_Init successful
+Sat Dec 28 2019 11:33:23.208 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
+Sat Dec 28 2019 11:33:23.209 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
+Sat Dec 28 2019 11:33:23.209 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
+Sat Dec 28 2019 11:33:23.210 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
+Sat Dec 28 2019 11:33:23.217 - CSharedResourceNamespaceClient::Init(): received namespace data 27960
+Sat Dec 28 2019 11:33:23.218 - [Audio] Audio init
+Sat Dec 28 2019 11:33:24.776 - Large number of events this frame caused the poll loop to exit without draining
+Sat Dec 28 2019 11:33:24.782 - [Status] Graphics driver version is 431.60.
+Sat Dec 28 2019 11:33:24.819 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
+Sat Dec 28 2019 11:33:24.849 - Large number of events this frame caused the poll loop to exit without draining
+Sat Dec 28 2019 11:33:24.889 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:33:31.887 - [System] System is running for 10 seconds.
+Sat Dec 28 2019 11:33:54.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:34:28.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:34:55.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:35:30.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:36:01.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:36:35.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:37:09.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:37:38.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:38:09.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:40:21.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:40:27.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:40:38.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:40:43.808 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:55:14.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:55:20.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:55:30.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:55:35.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:56:03.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:56:09.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:56:17.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:56:22.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 11:56:44.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 11:57:28.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:02:35.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:03:05.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:06:55.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:07:24.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:10:17.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:11:36.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:15:50.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:16:09.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:23:56.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:24:31.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:26:46.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:27:37.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:33:05.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:33:53.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:39:15.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:39:38.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:45:01.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:45:20.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:52:28.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:52:47.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 12:59:22.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 12:59:44.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 13:09:57.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 13:10:12.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 13:10:31.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 13:10:36.816 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 13:28:56.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 13:29:08.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 13:29:09.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 13:29:23.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 13:29:26.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 13:29:31.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 13:37:27.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 13:37:47.812 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 13:59:58.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 14:00:15.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 15:16:16.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 15:16:24.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 15:20:22.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 15:20:30.812 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 15:21:37.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 15:21:45.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 15:22:48.811 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 15:23:09.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 15:24:55.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 15:25:11.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 15:25:25.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 15:25:30.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 15:42:59.811 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 15:43:16.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 16:53:40.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 16:53:55.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 16:54:00.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 16:54:05.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 16:56:44.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 16:56:58.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 16:57:09.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 16:57:14.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 16:59:21.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 16:59:33.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:01:41.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:01:53.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:12:27.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:12:44.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:18:49.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:19:03.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:19:06.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:19:11.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:22:23.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:22:39.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:22:40.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:22:45.808 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:28:56.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:29:20.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:30:49.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:31:05.808 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:34:20.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:34:34.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:34:37.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:34:42.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:37:06.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:37:22.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:39:56.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:40:13.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:40:24.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:40:29.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:45:25.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:45:49.812 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:53:25.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:53:40.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 17:54:01.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 17:54:06.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:14:03.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:14:21.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:14:29.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:14:34.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:18:07.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:18:26.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:22:59.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:23:15.812 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:23:20.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:23:25.812 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:23:59.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:24:14.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:24:40.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:25:00.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:25:05.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:25:10.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:33:40.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:33:54.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:34:14.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:34:19.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:34:22.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:34:37.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:35:15.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:35:20.811 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:35:21.810 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:35:45.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 18:39:52.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 18:40:10.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 19:04:53.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 19:05:10.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 19:05:25.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 19:05:46.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 19:06:05.809 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 19:06:28.810 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 19:11:23.808 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sat Dec 28 2019 19:11:43.809 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sat Dec 28 2019 19:30:40.810 - [Steam] Attempt to connect to Steam
+Sat Dec 28 2019 19:30:40.814 - [Steam] Connection to Steam failed after 0.00 seconds.
+Sat Dec 28 2019 19:30:40.815 - [Steam] Connect to Steam finished: check for dismissable warnings
+Sat Dec 28 2019 19:30:40.815 - [Status Warning Added] Please start Steam
+Sat Dec 28 2019 19:30:41.810 - [Steam] Do not try to connect to Steam: Last attempt was too recent
+Sat Dec 28 2019 19:30:48.810 - [Steam] Attempt to connect to Steam
+Sat Dec 28 2019 19:30:48.925 - [Steam] Connected to Steam in 0.12 seconds.
+Sat Dec 28 2019 19:30:48.927 - [System] Runtime: 1576990468 250820  STEAMVR
+Sat Dec 28 2019 19:30:48.927 - [Steam] Connect to Steam finished: check for dismissable warnings
+Sat Dec 28 2019 19:30:48.927 - [Status Warning Removed] Please start Steam
+Sat Dec 28 2019 20:54:30.869 - [System] Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_ShutdownRequested'.
+Sat Dec 28 2019 20:54:30.880 - [System] Quit gracefully: Waiting for process quitting...
+Sat Dec 28 2019 20:54:31.261 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
+Sat Dec 28 2019 20:54:31.261 - [Audio] Audio shutdown!
+Sat Dec 28 2019 20:54:31.612 - Drops over entire run:-  4 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 86363 in 86367 frames
+Sat Dec 28 2019 20:54:31.620 - [System] Restore operating system environment
+Sat Dec 28 2019 20:54:31.620 - [System] Restore power settings to previous power savings.
+Sun Dec 29 2019 06:55:02.857 - //==============================================================================================
+Sun Dec 29 2019 06:55:02.857 - ================================================================================================
+Sun Dec 29 2019 06:55:02.857 - ================================================================================================
+Sun Dec 29 2019 06:55:02.857 - vrmonitor.exe 1.9.16 startup with PID=27020, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 06:55:02.864 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
+Sun Dec 29 2019 06:55:02.865 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
+Sun Dec 29 2019 06:55:03.511 - AUDIO: Refreshing audio devices
+Sun Dec 29 2019 06:55:03.573 - AUDIO: Detected 18 playback and 16 record devices
+Sun Dec 29 2019 06:55:03.588 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
+Sun Dec 29 2019 06:55:03.588 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
+Sun Dec 29 2019 06:55:03.588 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Sun Dec 29 2019 06:55:03.588 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
+Sun Dec 29 2019 06:55:03.588 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
+Sun Dec 29 2019 06:55:03.588 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
+Sun Dec 29 2019 06:55:03.590 - [System] Prepare operating system environment
+Sun Dec 29 2019 06:55:03.590 - [System] Setting power settings to minimum power savings.
+Sun Dec 29 2019 06:55:03.612 - [System] Detected first setup.
+Sun Dec 29 2019 06:55:03.627 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
+Sun Dec 29 2019 06:55:03.802 - [System] Runtime: 1576990468 250820  STEAMVR
+Sun Dec 29 2019 06:55:04.019 - VR_Init successful
+Sun Dec 29 2019 06:55:05.219 - [Steam] Attempt to connect to Steam
+Sun Dec 29 2019 06:55:05.225 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
+Sun Dec 29 2019 06:55:05.226 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
+Sun Dec 29 2019 06:55:05.227 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
+Sun Dec 29 2019 06:55:05.227 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
+Sun Dec 29 2019 06:55:05.234 - CSharedResourceNamespaceClient::Init(): received namespace data 16752
+Sun Dec 29 2019 06:55:05.234 - [Audio] Audio init
+Sun Dec 29 2019 06:55:06.659 - [Status] Graphics driver version is 431.60.
+Sun Dec 29 2019 06:55:06.695 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
+Sun Dec 29 2019 06:55:06.714 - [Steam] Connected to Steam in 0.40 seconds.
+Sun Dec 29 2019 06:55:06.715 - [System] Runtime: 1576990468 250820  STEAMVR
+Sun Dec 29 2019 06:55:06.715 - [Steam] Connect to Steam finished: check for dismissable warnings
+Sun Dec 29 2019 06:55:06.765 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 06:55:13.605 - [System] System is running for 10 seconds.
+Sun Dec 29 2019 06:55:15.685 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 06:55:20.684 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 06:55:25.685 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 06:55:59.684 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 06:56:21.684 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:02:23.683 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:02:29.685 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:02:47.684 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:02:52.686 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:10:44.684 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:10:50.686 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:10:57.684 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:11:02.685 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:12:23.683 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:12:39.686 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:12:55.683 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:13:00.685 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:14:49.683 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:15:04.684 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:15:31.685 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:15:51.684 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:16:18.685 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:16:38.684 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:16:50.683 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:17:09.685 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:17:16.940 - [System] Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Restart'.
+Sun Dec 29 2019 07:17:16.941 - [System] Quit gracefully: Waiting for process quitting...
+Sun Dec 29 2019 07:17:19.107 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
+Sun Dec 29 2019 07:17:19.107 - [Audio] Audio shutdown!
+Sun Dec 29 2019 07:17:19.495 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 48184 in 48184 frames
+Sun Dec 29 2019 07:17:19.501 - [System] Restore operating system environment
+Sun Dec 29 2019 07:17:19.502 - [System] Restore power settings to previous power savings.
+Sun Dec 29 2019 07:17:22.950 - //==============================================================================================
+Sun Dec 29 2019 07:17:22.951 - ================================================================================================
+Sun Dec 29 2019 07:17:22.951 - ================================================================================================
+Sun Dec 29 2019 07:17:22.951 - vrmonitor.exe 1.9.16 startup with PID=29444, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 07:17:22.952 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
+Sun Dec 29 2019 07:17:22.953 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
+Sun Dec 29 2019 07:17:23.036 - AUDIO: Refreshing audio devices
+Sun Dec 29 2019 07:17:23.111 - AUDIO: Detected 18 playback and 16 record devices
+Sun Dec 29 2019 07:17:23.130 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
+Sun Dec 29 2019 07:17:23.131 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
+Sun Dec 29 2019 07:17:23.131 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Sun Dec 29 2019 07:17:23.131 - Default Record Audio Device: {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}, {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac} (Comm)
+Sun Dec 29 2019 07:17:23.131 - 	-->Microphone (Realtek High Definition Audio),0,Microphone,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
+Sun Dec 29 2019 07:17:23.131 - 	Headset Microphone (Oculus Virtual Audio Device),0,Headset Microphone,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
+Sun Dec 29 2019 07:17:23.133 - [System] Prepare operating system environment
+Sun Dec 29 2019 07:17:23.133 - [System] Setting power settings to minimum power savings.
+Sun Dec 29 2019 07:17:23.168 - [System] Detected first setup.
+Sun Dec 29 2019 07:17:23.172 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
+Sun Dec 29 2019 07:17:23.300 - [System] Runtime: 1576990468 250820  STEAMVR
+Sun Dec 29 2019 07:17:23.432 - VR_Init successful
+Sun Dec 29 2019 07:17:24.378 - [Steam] Attempt to connect to Steam
+Sun Dec 29 2019 07:17:24.387 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
+Sun Dec 29 2019 07:17:24.388 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
+Sun Dec 29 2019 07:17:24.388 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
+Sun Dec 29 2019 07:17:24.390 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
+Sun Dec 29 2019 07:17:24.401 - CSharedResourceNamespaceClient::Init(): received namespace data 23532
+Sun Dec 29 2019 07:17:24.402 - [Audio] Audio init
+Sun Dec 29 2019 07:17:25.734 - [Status] Graphics driver version is 431.60.
+Sun Dec 29 2019 07:17:25.753 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
+Sun Dec 29 2019 07:17:25.764 - [Steam] Connected to Steam in 0.18 seconds.
+Sun Dec 29 2019 07:17:25.765 - [System] Runtime: 1576990468 250820  STEAMVR
+Sun Dec 29 2019 07:17:25.765 - [Steam] Connect to Steam finished: check for dismissable warnings
+Sun Dec 29 2019 07:17:25.845 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:17:33.168 - [System] System is running for 10 seconds.
+Sun Dec 29 2019 07:17:54.765 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:21:01.765 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:21:17.764 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:21:20.764 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:21:25.766 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:21:48.762 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:22:42.762 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:35:06.762 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:35:21.762 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:35:50.762 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:35:55.764 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:38:03.851 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:38:21.851 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:38:34.852 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:38:39.851 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:47:16.853 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:47:46.851 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:47:49.851 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:47:54.852 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 07:47:55.851 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 07:48:18.849 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:18:18.855 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:18:34.852 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:18:46.853 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:18:51.853 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:36:35.856 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:36:41.856 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:36:53.852 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:36:58.850 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:40:17.852 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:40:32.853 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:41:20.852 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:41:25.848 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:41:26.850 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:41:41.853 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:43:33.855 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:43:38.857 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:49:05.853 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:49:21.853 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:49:48.852 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:49:53.851 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:55:36.858 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:55:52.850 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Sun Dec 29 2019 08:56:01.853 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
+Sun Dec 29 2019 08:56:06.854 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.

@@ -1,906 +1,301 @@
-Sat Dec 28 2019 03:23:50.480 - //==============================================================================================
-Sat Dec 28 2019 03:23:50.480 - ================================================================================================
-Sat Dec 28 2019 03:23:50.480 - ================================================================================================
-Sat Dec 28 2019 03:23:50.480 - vrcompositor.exe 1.9.16 startup with PID=16092, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 03:23:50.481 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 03:23:50.492 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 03:23:50.492 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 03:23:50.493 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 03:23:50.494 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 03:23:50.495 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 03:23:50.511 - CSharedResourceNamespaceClient::Init(): received namespace data 1128
-Sat Dec 28 2019 03:23:50.534 - Received success response from vrserver connect
-Sat Dec 28 2019 03:23:50.538 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 03:23:50.577 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 03:23:52.192 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 03:23:52.210 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 03:23:52.210 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 03:23:52.210 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 03:23:52.268 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 03:23:52.268 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 03:23:52.268 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 03:23:52.269 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 03:23:52.269 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 03:23:52.270 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 03:23:52.270 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 03:23:52.270 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 03:23:52.271 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 03:23:52.271 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 03:23:52.271 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 03:23:52.273 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 03:23:52.274 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 03:23:52.397 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 03:23:52.408 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 03:23:52.431 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 03:23:52.831 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 03:23:53.150 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 03:23:53.316 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 03:23:58.344 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 03:23:58.734 - VR_Shutdown called
-Sat Dec 28 2019 03:45:01.926 - //==============================================================================================
-Sat Dec 28 2019 03:45:01.926 - ================================================================================================
-Sat Dec 28 2019 03:45:01.926 - ================================================================================================
-Sat Dec 28 2019 03:45:01.926 - vrcompositor.exe 1.9.16 startup with PID=25040, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 03:45:01.927 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 03:45:01.943 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 03:45:01.944 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 03:45:01.944 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 03:45:01.945 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 03:45:01.947 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 03:45:01.961 - CSharedResourceNamespaceClient::Init(): received namespace data 7552
-Sat Dec 28 2019 03:45:01.985 - Received success response from vrserver connect
-Sat Dec 28 2019 03:45:01.988 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 03:45:02.031 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 03:45:03.522 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 03:45:03.531 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 03:45:03.531 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 03:45:03.531 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 03:45:03.545 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 03:45:03.545 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 03:45:03.545 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 03:45:03.546 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 03:45:03.546 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 03:45:03.546 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 03:45:03.546 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 03:45:03.546 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 03:45:03.547 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 03:45:03.547 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 03:45:03.547 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 03:45:03.548 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 03:45:03.548 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 03:45:03.548 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 03:45:03.548 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 03:45:03.549 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 03:45:03.549 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 03:45:03.549 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 03:45:03.549 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 03:45:03.549 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 03:45:03.549 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 03:45:03.549 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 03:45:03.603 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 03:45:03.627 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 03:45:03.732 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 03:45:04.089 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 03:45:04.380 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 03:45:04.488 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 03:45:16.601 - VR_Shutdown called
-Sat Dec 28 2019 04:24:43.715 - //==============================================================================================
-Sat Dec 28 2019 04:24:43.715 - ================================================================================================
-Sat Dec 28 2019 04:24:43.715 - ================================================================================================
-Sat Dec 28 2019 04:24:43.715 - vrcompositor.exe 1.9.16 startup with PID=26504, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 04:24:43.716 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 04:24:43.729 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 04:24:43.730 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 04:24:43.730 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 04:24:43.731 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 04:24:43.733 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 04:24:43.748 - CSharedResourceNamespaceClient::Init(): received namespace data 21920
-Sat Dec 28 2019 04:24:43.766 - Received success response from vrserver connect
-Sat Dec 28 2019 04:24:43.770 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 04:24:43.807 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 04:24:45.592 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 04:24:45.609 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 04:24:45.609 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 04:24:45.609 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 04:24:45.654 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 04:24:45.654 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 04:24:45.654 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 04:24:45.654 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 04:24:45.654 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 04:24:45.655 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 04:24:45.655 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 04:24:45.655 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 04:24:45.656 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 04:24:45.656 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 04:24:45.657 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 04:24:45.658 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 04:24:45.658 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 04:24:45.658 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 04:24:45.658 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 04:24:45.660 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 04:24:45.660 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 04:24:45.660 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 04:24:45.660 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 04:24:45.660 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 04:24:45.660 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 04:24:45.660 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 04:24:45.782 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 04:24:45.805 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 04:24:45.821 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 04:24:46.149 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 04:24:46.403 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 04:24:46.562 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 04:24:59.111 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 04:25:13.530 - Closing pipe VR_ServerPipe_21920 because it was broken from the other end
-Sat Dec 28 2019 04:25:13.530 - Lost connection to VR Server
-Sat Dec 28 2019 04:25:13.734 - VR_Shutdown called
-Sat Dec 28 2019 04:33:14.247 - //==============================================================================================
-Sat Dec 28 2019 04:33:14.247 - ================================================================================================
-Sat Dec 28 2019 04:33:14.247 - ================================================================================================
-Sat Dec 28 2019 04:33:14.247 - vrcompositor.exe 1.9.16 startup with PID=25148, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 04:33:14.247 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 04:33:14.259 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 04:33:14.260 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 04:33:14.260 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 04:33:14.261 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 04:33:14.263 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 04:33:14.282 - CSharedResourceNamespaceClient::Init(): received namespace data 27208
-Sat Dec 28 2019 04:33:14.300 - Received success response from vrserver connect
-Sat Dec 28 2019 04:33:14.303 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 04:33:14.338 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 04:33:16.027 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 04:33:16.036 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 04:33:16.036 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 04:33:16.036 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 04:33:16.051 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 04:33:16.051 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 04:33:16.051 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 04:33:16.051 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 04:33:16.052 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 04:33:16.052 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 04:33:16.052 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 04:33:16.052 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 04:33:16.053 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 04:33:16.053 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 04:33:16.053 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 04:33:16.061 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 04:33:16.061 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 04:33:16.061 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 04:33:16.061 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 04:33:16.062 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 04:33:16.062 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 04:33:16.062 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 04:33:16.062 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 04:33:16.062 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 04:33:16.062 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 04:33:16.062 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 04:33:16.162 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 04:33:16.188 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 04:33:16.252 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 04:33:16.613 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 04:33:16.674 - PropertyContainer: High lock acquisition counters: sp:100002 yd:2 re:0
-Sat Dec 28 2019 04:33:16.717 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 04:33:16.976 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 04:33:17.116 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 04:33:20.132 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 04:33:20.986 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 04:33:22.493 - VR_Shutdown called
-Sat Dec 28 2019 05:04:59.391 - //==============================================================================================
-Sat Dec 28 2019 05:04:59.391 - ================================================================================================
-Sat Dec 28 2019 05:04:59.391 - ================================================================================================
-Sat Dec 28 2019 05:04:59.391 - vrcompositor.exe 1.9.16 startup with PID=24224, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:04:59.391 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 05:04:59.399 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:04:59.400 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:04:59.400 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:04:59.401 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:04:59.402 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:04:59.417 - CSharedResourceNamespaceClient::Init(): received namespace data 29548
-Sat Dec 28 2019 05:04:59.435 - Received success response from vrserver connect
-Sat Dec 28 2019 05:04:59.439 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 05:04:59.476 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 05:05:00.989 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 05:05:01.000 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:05:01.000 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 05:05:01.000 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 05:05:01.014 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 05:05:01.014 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:05:01.014 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:05:01.014 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:05:01.014 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:05:01.014 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 05:05:01.015 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 05:05:01.015 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:05:01.015 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:05:01.015 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:05:01.016 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:05:01.017 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 05:05:01.017 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:05:01.017 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:05:01.017 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 05:05:01.018 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 05:05:01.018 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:05:01.018 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:05:01.018 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:05:01.018 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:05:01.018 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:05:01.018 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:05:01.127 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:05:01.150 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:05:01.211 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 05:05:01.620 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 05:05:01.874 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 05:05:02.011 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 05:05:08.613 - VR_Shutdown called
-Sat Dec 28 2019 05:05:11.813 - //==============================================================================================
-Sat Dec 28 2019 05:05:11.813 - ================================================================================================
-Sat Dec 28 2019 05:05:11.813 - ================================================================================================
-Sat Dec 28 2019 05:05:11.813 - vrcompositor.exe 1.9.16 startup with PID=25648, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:05:11.814 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 05:05:11.833 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:05:11.833 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:05:11.834 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:05:11.835 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:05:11.836 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:05:11.844 - CSharedResourceNamespaceClient::Init(): received namespace data 29472
-Sat Dec 28 2019 05:05:11.866 - Received success response from vrserver connect
-Sat Dec 28 2019 05:05:11.870 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 05:05:11.932 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 05:05:13.333 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 05:05:13.341 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:05:13.341 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 05:05:13.341 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 05:05:13.358 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 05:05:13.358 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:05:13.358 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:05:13.359 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:05:13.359 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:05:13.359 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 05:05:13.359 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 05:05:13.359 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:05:13.360 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:05:13.361 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:05:13.361 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:05:13.371 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 05:05:13.371 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:05:13.372 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:05:13.372 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 05:05:13.372 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 05:05:13.372 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:05:13.372 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:05:13.372 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:05:13.373 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:05:13.373 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:05:13.373 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:05:13.406 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:05:13.429 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:05:13.522 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 05:05:13.787 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 05:05:13.916 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 05:05:14.182 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 05:05:19.232 - VR_Shutdown called
-Sat Dec 28 2019 05:24:57.391 - //==============================================================================================
-Sat Dec 28 2019 05:24:57.391 - ================================================================================================
-Sat Dec 28 2019 05:24:57.391 - ================================================================================================
-Sat Dec 28 2019 05:24:57.391 - vrcompositor.exe 1.9.16 startup with PID=17584, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:24:57.392 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 05:24:57.402 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:24:57.404 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:24:57.404 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:24:57.405 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:24:57.407 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:24:57.419 - CSharedResourceNamespaceClient::Init(): received namespace data 25924
-Sat Dec 28 2019 05:24:57.442 - Received success response from vrserver connect
-Sat Dec 28 2019 05:24:57.446 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 05:24:57.485 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 05:24:58.978 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 05:24:58.995 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:24:58.995 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 05:24:58.995 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 05:24:59.006 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 05:24:59.006 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:24:59.006 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:24:59.007 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:24:59.007 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:24:59.007 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 05:24:59.007 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 05:24:59.007 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:24:59.008 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:24:59.008 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:24:59.008 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:24:59.009 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 05:24:59.009 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:24:59.009 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:24:59.009 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 05:24:59.010 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 05:24:59.010 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:24:59.010 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:24:59.010 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:24:59.010 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:24:59.010 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:24:59.010 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:24:59.138 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:24:59.164 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:24:59.180 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 05:24:59.620 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 05:24:59.765 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 05:24:59.929 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 05:25:10.623 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 05:25:36.297 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:25:36.297 - Sending focus captured event
-Sat Dec 28 2019 05:25:36.561 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:25:36.561 - Sending focus released event
-Sat Dec 28 2019 05:25:42.222 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 05:25:42.353 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 05:25:52.205 - VR_Shutdown called
-Sat Dec 28 2019 05:25:55.358 - //==============================================================================================
-Sat Dec 28 2019 05:25:55.358 - ================================================================================================
-Sat Dec 28 2019 05:25:55.358 - ================================================================================================
-Sat Dec 28 2019 05:25:55.358 - vrcompositor.exe 1.9.16 startup with PID=28496, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:25:55.358 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 05:25:55.367 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:25:55.368 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:25:55.369 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:25:55.369 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:25:55.371 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:25:55.383 - CSharedResourceNamespaceClient::Init(): received namespace data 26160
-Sat Dec 28 2019 05:25:55.397 - Received success response from vrserver connect
-Sat Dec 28 2019 05:25:55.400 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 05:25:55.434 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 05:25:56.939 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 05:25:56.954 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:25:56.954 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 05:25:56.954 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 05:25:56.981 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 05:25:56.981 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:25:56.981 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:25:56.982 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:25:56.982 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:25:56.982 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 05:25:56.982 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 05:25:56.982 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:25:56.982 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:25:56.982 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:25:56.983 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:25:56.998 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 05:25:56.998 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:25:56.998 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:25:56.999 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 05:25:56.999 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 05:25:56.999 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:25:56.999 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:25:56.999 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:25:56.999 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:25:56.999 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:25:56.999 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:25:57.122 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:25:57.144 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:25:57.172 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 05:25:57.550 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 05:25:57.699 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 05:25:57.831 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 05:27:14.548 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 05:27:15.335 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 05:27:22.706 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:27:22.706 - Sending focus captured event
-Sat Dec 28 2019 05:27:22.969 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:27:22.969 - Sending focus released event
-Sat Dec 28 2019 05:27:23.251 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:27:23.251 - Sending focus captured event
-Sat Dec 28 2019 05:27:31.954 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:27:31.954 - Sending focus released event
-Sat Dec 28 2019 05:27:44.965 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:27:44.965 - Sending focus captured event
-Sat Dec 28 2019 05:27:46.142 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:27:46.142 - Sending focus released event
-Sat Dec 28 2019 05:27:50.572 - VR_Shutdown called
-Sat Dec 28 2019 05:27:53.157 - //==============================================================================================
-Sat Dec 28 2019 05:27:53.157 - ================================================================================================
-Sat Dec 28 2019 05:27:53.157 - ================================================================================================
-Sat Dec 28 2019 05:27:53.157 - vrcompositor.exe 1.9.16 startup with PID=4236, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:27:53.158 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 05:27:53.207 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:27:53.208 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:27:53.208 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:27:53.209 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:27:53.212 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:27:53.226 - CSharedResourceNamespaceClient::Init(): received namespace data 11456
-Sat Dec 28 2019 05:27:53.243 - Received success response from vrserver connect
-Sat Dec 28 2019 05:27:53.246 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 05:27:53.283 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 05:27:54.189 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 05:27:54.210 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:27:54.210 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:27:54.227 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 05:27:54.227 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:27:54.227 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:27:54.227 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:27:54.228 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:27:54.228 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 05:27:54.229 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 05:27:54.229 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:27:54.229 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:27:54.229 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:27:54.229 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 05:27:54.231 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 05:27:54.311 - Controller (/user/hand/left/input/system) not available for input to chord, ignoring chord
-Sat Dec 28 2019 05:27:54.397 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 05:27:54.611 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 05:27:54.747 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 05:27:54.964 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 05:27:54.964 - Removing focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:27:54.983 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 05:27:56.324 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 05:28:58.405 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 05:29:10.487 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:29:10.487 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 05:29:10.487 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 05:29:10.957 - VR_Shutdown called
-Sat Dec 28 2019 05:32:26.989 - //==============================================================================================
-Sat Dec 28 2019 05:32:26.989 - ================================================================================================
-Sat Dec 28 2019 05:32:26.989 - ================================================================================================
-Sat Dec 28 2019 05:32:26.989 - vrcompositor.exe 1.9.16 startup with PID=18372, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:32:26.990 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 05:32:26.999 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:32:27.000 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:32:27.001 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:32:27.002 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:32:27.003 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:32:27.018 - CSharedResourceNamespaceClient::Init(): received namespace data 8456
-Sat Dec 28 2019 05:32:27.036 - Received success response from vrserver connect
-Sat Dec 28 2019 05:32:27.040 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 05:32:27.071 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 05:32:28.644 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 05:32:28.651 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:32:28.651 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 05:32:28.651 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 05:32:28.853 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 05:32:29.209 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 05:32:50.033 - VR_Shutdown called
-Sat Dec 28 2019 05:35:54.635 - //==============================================================================================
-Sat Dec 28 2019 05:35:54.635 - ================================================================================================
-Sat Dec 28 2019 05:35:54.635 - ================================================================================================
-Sat Dec 28 2019 05:35:54.635 - vrcompositor.exe 1.9.16 startup with PID=3612, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:35:54.635 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 05:35:54.647 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:35:54.647 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:35:54.648 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:35:54.649 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:35:54.651 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:35:54.660 - CSharedResourceNamespaceClient::Init(): received namespace data 23212
-Sat Dec 28 2019 05:35:54.677 - Received success response from vrserver connect
-Sat Dec 28 2019 05:35:54.680 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 05:35:54.714 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 05:35:56.227 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 05:35:56.236 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:35:56.236 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 05:35:56.236 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 05:35:56.450 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 05:35:56.717 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 05:39:23.318 - VR_Shutdown called
-Sat Dec 28 2019 05:48:13.965 - //==============================================================================================
-Sat Dec 28 2019 05:48:13.965 - ================================================================================================
-Sat Dec 28 2019 05:48:13.965 - ================================================================================================
-Sat Dec 28 2019 05:48:13.965 - vrcompositor.exe 1.9.16 startup with PID=26680, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 05:48:13.965 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 05:48:13.975 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:48:13.976 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:48:13.976 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:48:13.977 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 05:48:13.979 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 05:48:13.992 - CSharedResourceNamespaceClient::Init(): received namespace data 21888
-Sat Dec 28 2019 05:48:14.014 - Received success response from vrserver connect
-Sat Dec 28 2019 05:48:14.018 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 05:48:14.063 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 05:48:15.644 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 05:48:15.652 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 05:48:15.652 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 05:48:15.652 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 05:48:15.870 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 05:48:16.105 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 05:48:35.424 - VR_Shutdown called
-Sat Dec 28 2019 07:45:54.656 - //==============================================================================================
-Sat Dec 28 2019 07:45:54.656 - ================================================================================================
-Sat Dec 28 2019 07:45:54.656 - ================================================================================================
-Sat Dec 28 2019 07:45:54.656 - vrcompositor.exe 1.9.16 startup with PID=25188, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:45:54.656 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 07:45:54.667 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:45:54.668 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:45:54.668 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:45:54.669 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:45:54.673 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 07:45:54.683 - CSharedResourceNamespaceClient::Init(): received namespace data 4408
-Sat Dec 28 2019 07:45:54.705 - Received success response from vrserver connect
-Sat Dec 28 2019 07:45:54.709 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 07:45:54.751 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 07:45:56.271 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 07:45:56.280 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 07:45:56.280 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 07:45:56.280 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 07:45:56.504 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 07:45:56.750 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 07:46:08.131 - VR_Shutdown called
-Sat Dec 28 2019 07:46:57.064 - //==============================================================================================
-Sat Dec 28 2019 07:46:57.065 - ================================================================================================
-Sat Dec 28 2019 07:46:57.065 - ================================================================================================
-Sat Dec 28 2019 07:46:57.065 - vrcompositor.exe 1.9.16 startup with PID=16156, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:46:57.065 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 07:46:57.075 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:46:57.076 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:46:57.076 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:46:57.077 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:46:57.079 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 07:46:57.087 - CSharedResourceNamespaceClient::Init(): received namespace data 27880
-Sat Dec 28 2019 07:46:57.110 - Received success response from vrserver connect
-Sat Dec 28 2019 07:46:57.113 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 07:46:57.152 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 07:46:58.723 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 07:46:58.732 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 07:46:58.732 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 07:46:58.732 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 07:46:58.955 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 07:46:59.094 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 07:47:10.602 - VR_Shutdown called
-Sat Dec 28 2019 07:47:22.749 - //==============================================================================================
-Sat Dec 28 2019 07:47:22.749 - ================================================================================================
-Sat Dec 28 2019 07:47:22.749 - ================================================================================================
-Sat Dec 28 2019 07:47:22.749 - vrcompositor.exe 1.9.16 startup with PID=4336, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:47:22.749 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 07:47:22.762 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:47:22.763 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:47:22.764 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:47:22.765 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:47:22.766 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 07:47:22.780 - CSharedResourceNamespaceClient::Init(): received namespace data 20692
-Sat Dec 28 2019 07:47:22.809 - Received success response from vrserver connect
-Sat Dec 28 2019 07:47:22.812 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 07:47:22.844 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 07:47:24.356 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 07:47:24.366 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 07:47:24.367 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 07:47:24.367 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 07:47:24.625 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 07:47:24.785 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 07:47:58.810 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 07:47:58.810 - Sending focus captured event
-Sat Dec 28 2019 07:47:59.011 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 07:47:59.011 - Sending focus released event
-Sat Dec 28 2019 07:47:59.531 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 07:47:59.531 - Sending focus captured event
-Sat Dec 28 2019 07:47:59.791 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 07:47:59.804 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 07:47:59.804 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 07:47:59.804 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 07:47:59.804 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 07:47:59.805 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 07:47:59.805 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 07:47:59.805 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 07:47:59.805 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 07:47:59.805 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 07:47:59.805 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 07:47:59.805 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 07:47:59.817 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 07:48:08.323 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
-Sat Dec 28 2019 07:48:08.323 - Sending focus released event
-Sat Dec 28 2019 07:48:27.453 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 07:48:27.453 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 07:48:27.453 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 07:48:27.454 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 07:48:27.454 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 07:48:27.454 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 07:48:27.454 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 07:48:27.454 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 07:48:27.454 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 07:48:27.454 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 07:48:27.454 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 07:48:27.505 - VR_Shutdown called
-Sat Dec 28 2019 07:48:29.802 - //==============================================================================================
-Sat Dec 28 2019 07:48:29.802 - ================================================================================================
-Sat Dec 28 2019 07:48:29.802 - ================================================================================================
-Sat Dec 28 2019 07:48:29.802 - vrcompositor.exe 1.9.16 startup with PID=20656, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:48:29.802 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 07:48:29.813 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:48:29.814 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:48:29.814 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:48:29.815 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:48:29.817 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 07:48:29.833 - CSharedResourceNamespaceClient::Init(): received namespace data 23352
-Sat Dec 28 2019 07:48:29.848 - Received success response from vrserver connect
-Sat Dec 28 2019 07:48:29.852 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 07:48:29.884 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 07:48:30.665 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 07:48:30.676 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 07:48:30.705 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 07:48:30.705 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 07:48:30.705 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 07:48:30.706 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 07:48:30.706 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 07:48:30.706 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 07:48:30.706 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 07:48:30.706 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 07:48:30.706 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 07:48:30.706 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 07:48:30.707 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 07:48:30.715 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 07:48:30.716 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 07:48:30.716 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 07:48:30.802 - Controller (/user/hand/left/input/system) not available for input to chord, ignoring chord
-Sat Dec 28 2019 07:48:30.895 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 07:48:31.157 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 07:48:31.284 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 07:48:31.332 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 07:48:31.332 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 07:48:31.529 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 07:48:32.803 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 07:48:32.831 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 07:48:33.779 - VR_Shutdown called
-Sat Dec 28 2019 07:59:24.161 - //==============================================================================================
-Sat Dec 28 2019 07:59:24.161 - ================================================================================================
-Sat Dec 28 2019 07:59:24.161 - ================================================================================================
-Sat Dec 28 2019 07:59:24.161 - vrcompositor.exe 1.9.16 startup with PID=9940, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 07:59:24.162 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 07:59:24.173 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:59:24.174 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:59:24.174 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:59:24.176 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 07:59:24.177 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 07:59:24.194 - CSharedResourceNamespaceClient::Init(): received namespace data 17800
-Sat Dec 28 2019 07:59:24.219 - Received success response from vrserver connect
-Sat Dec 28 2019 07:59:24.223 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 07:59:24.260 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 07:59:25.755 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 07:59:25.771 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 07:59:25.771 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 07:59:25.771 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 07:59:25.779 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 07:59:25.779 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 07:59:25.779 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 07:59:25.779 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 07:59:25.780 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 07:59:25.780 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 07:59:25.780 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 07:59:25.780 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 07:59:25.780 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 07:59:25.781 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 07:59:25.781 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 07:59:25.782 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 07:59:25.782 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 07:59:25.782 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 07:59:25.783 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 07:59:25.783 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 07:59:25.783 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 07:59:25.783 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 07:59:25.784 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 07:59:25.784 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 07:59:25.784 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 07:59:25.784 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 07:59:25.917 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 07:59:25.949 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 07:59:26.000 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 07:59:26.532 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 07:59:26.673 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 07:59:26.832 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 07:59:40.749 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 07:59:43.735 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 07:59:43.846 - VR_Shutdown called
-Sat Dec 28 2019 08:16:03.772 - //==============================================================================================
-Sat Dec 28 2019 08:16:03.772 - ================================================================================================
-Sat Dec 28 2019 08:16:03.772 - ================================================================================================
-Sat Dec 28 2019 08:16:03.772 - vrcompositor.exe 1.9.16 startup with PID=17492, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:16:03.773 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 08:16:03.787 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:16:03.788 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:16:03.788 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:16:03.790 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:16:03.791 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 08:16:03.806 - CSharedResourceNamespaceClient::Init(): received namespace data 11904
-Sat Dec 28 2019 08:16:03.831 - Received success response from vrserver connect
-Sat Dec 28 2019 08:16:03.834 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 08:16:03.874 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 08:16:05.519 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 08:16:05.529 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 08:16:05.529 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 08:16:05.529 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 08:16:05.543 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 08:16:05.543 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 08:16:05.543 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 08:16:05.543 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 08:16:05.544 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 08:16:05.544 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 08:16:05.544 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 08:16:05.544 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 08:16:05.545 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 08:16:05.545 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 08:16:05.545 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 08:16:05.547 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 08:16:05.608 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 08:16:05.631 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 08:16:05.745 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 08:16:06.190 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 08:16:06.333 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 08:16:06.595 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 08:16:25.567 - VR_Shutdown called
-Sat Dec 28 2019 08:17:33.919 - //==============================================================================================
-Sat Dec 28 2019 08:17:33.919 - ================================================================================================
-Sat Dec 28 2019 08:17:33.919 - ================================================================================================
-Sat Dec 28 2019 08:17:33.919 - vrcompositor.exe 1.9.16 startup with PID=19228, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:17:33.919 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 08:17:33.941 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:17:33.942 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:17:33.946 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:17:33.951 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:17:33.961 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 08:17:33.968 - CSharedResourceNamespaceClient::Init(): received namespace data 7344
-Sat Dec 28 2019 08:17:33.988 - Received success response from vrserver connect
-Sat Dec 28 2019 08:17:33.991 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 08:17:34.022 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 08:17:35.808 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 08:17:35.818 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 08:17:35.818 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 08:17:35.818 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 08:17:35.830 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 08:17:35.830 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 08:17:35.830 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 08:17:35.830 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 08:17:35.830 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 08:17:35.831 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 08:17:35.831 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 08:17:35.831 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 08:17:35.831 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 08:17:35.831 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 08:17:35.832 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 08:17:35.833 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 08:17:35.833 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 08:17:35.834 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 08:17:35.876 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 08:17:35.900 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 08:17:36.005 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 08:17:36.474 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 08:17:36.626 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 08:17:36.793 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 08:17:54.546 - VR_Shutdown called
-Sat Dec 28 2019 08:19:02.702 - //==============================================================================================
-Sat Dec 28 2019 08:19:02.703 - ================================================================================================
-Sat Dec 28 2019 08:19:02.703 - ================================================================================================
-Sat Dec 28 2019 08:19:02.703 - vrcompositor.exe 1.9.16 startup with PID=22596, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:19:02.703 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 08:19:02.715 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:19:02.715 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:19:02.716 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:19:02.717 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:19:02.718 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 08:19:02.727 - CSharedResourceNamespaceClient::Init(): received namespace data 11212
-Sat Dec 28 2019 08:19:02.753 - Received success response from vrserver connect
-Sat Dec 28 2019 08:19:02.757 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 08:19:02.794 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 08:19:04.467 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 08:19:04.475 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 08:19:04.475 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 08:19:04.475 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 08:19:04.490 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 08:19:04.490 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 08:19:04.490 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 08:19:04.491 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 08:19:04.491 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 08:19:04.491 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 08:19:04.491 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 08:19:04.491 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 08:19:04.492 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 08:19:04.492 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 08:19:04.492 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 08:19:04.494 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 08:19:04.614 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 08:19:04.640 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 08:19:04.694 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 08:19:04.738 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 08:19:05.001 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 08:19:05.174 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 08:19:05.491 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 08:19:19.898 - VR_Shutdown called
-Sat Dec 28 2019 08:38:47.078 - //==============================================================================================
-Sat Dec 28 2019 08:38:47.078 - ================================================================================================
-Sat Dec 28 2019 08:38:47.078 - ================================================================================================
-Sat Dec 28 2019 08:38:47.078 - vrcompositor.exe 1.9.16 startup with PID=23448, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:38:47.079 - vrclient type=VRApplication_Background
-Sat Dec 28 2019 08:38:47.091 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:38:47.093 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:38:47.094 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:38:47.095 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:38:47.097 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 08:38:47.108 - CSharedResourceNamespaceClient::Init(): received namespace data 12904
-Sat Dec 28 2019 08:38:47.130 - Received success response from vrserver connect
-Sat Dec 28 2019 08:38:47.132 - App key after connect message:openvr.component.vrcompositor
-Sat Dec 28 2019 08:38:47.176 - Initializing the limited version of CVRCompositorClient
-Sat Dec 28 2019 08:38:48.777 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
-Sat Dec 28 2019 08:38:48.788 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
-Sat Dec 28 2019 08:38:48.788 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
-Sat Dec 28 2019 08:38:48.788 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
-Sat Dec 28 2019 08:38:48.799 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Sat Dec 28 2019 08:38:48.799 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 08:38:48.799 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 08:38:48.800 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 08:38:48.800 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 08:38:48.800 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Sat Dec 28 2019 08:38:48.801 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Sat Dec 28 2019 08:38:48.801 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 08:38:48.801 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 08:38:48.801 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 08:38:48.802 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=base inputRouting=0 filename=
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Sat Dec 28 2019 08:38:48.803 - RendermodelManager: name=tip inputRouting=0 filename=
-Sat Dec 28 2019 08:38:48.804 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Sat Dec 28 2019 08:38:48.897 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 08:38:48.923 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Sat Dec 28 2019 08:38:48.998 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
-Sat Dec 28 2019 08:38:49.337 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
-Sat Dec 28 2019 08:38:49.470 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
-Sat Dec 28 2019 08:38:49.840 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
-Sat Dec 28 2019 08:54:46.114 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 09:44:25.698 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 09:45:31.451 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 09:51:31.601 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
-Sat Dec 28 2019 10:19:22.756 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 11:31:45.015 - //==============================================================================================
+Sat Dec 28 2019 11:31:45.015 - ================================================================================================
+Sat Dec 28 2019 11:31:45.015 - ================================================================================================
+Sat Dec 28 2019 11:31:45.015 - vrcompositor.exe 1.9.16 startup with PID=2376, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:31:45.017 - vrclient type=VRApplication_Background
+Sat Dec 28 2019 11:31:45.027 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 11:31:45.027 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 11:31:45.028 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 11:31:45.028 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 11:31:45.030 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 11:31:45.041 - CSharedResourceNamespaceClient::Init(): received namespace data 8916
+Sat Dec 28 2019 11:31:45.065 - Received success response from vrserver connect
+Sat Dec 28 2019 11:31:45.069 - App key after connect message:openvr.component.vrcompositor
+Sat Dec 28 2019 11:31:45.104 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 11:31:45.959 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
+Sat Dec 28 2019 11:31:45.988 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:31:45.988 - Sending focus captured event
+Sat Dec 28 2019 11:31:45.988 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sat Dec 28 2019 11:31:46.000 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
+Sat Dec 28 2019 11:31:46.000 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 11:31:46.000 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 11:31:46.001 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 11:31:46.001 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 11:31:46.001 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
+Sat Dec 28 2019 11:31:46.001 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
+Sat Dec 28 2019 11:31:46.002 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 11:31:46.002 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 11:31:46.002 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 11:31:46.003 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 11:31:46.004 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 11:31:46.137 - Controller (/user/hand/left/input/system) not available for input to chord, ignoring chord
+Sat Dec 28 2019 11:31:46.236 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
+Sat Dec 28 2019 11:31:46.662 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
+Sat Dec 28 2019 11:31:47.068 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
+Sat Dec 28 2019 11:31:47.228 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
+Sat Dec 28 2019 11:31:47.472 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:31:47.472 - Removing focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sat Dec 28 2019 11:31:48.116 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
+Sat Dec 28 2019 11:32:28.524 - VR_Shutdown called
+Sat Dec 28 2019 11:33:20.590 - //==============================================================================================
+Sat Dec 28 2019 11:33:20.590 - ================================================================================================
+Sat Dec 28 2019 11:33:20.590 - ================================================================================================
+Sat Dec 28 2019 11:33:20.590 - vrcompositor.exe 1.9.16 startup with PID=23432, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:33:20.591 - vrclient type=VRApplication_Background
+Sat Dec 28 2019 11:33:20.602 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Dec 28 2019 11:33:20.604 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Dec 28 2019 11:33:20.604 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Dec 28 2019 11:33:20.606 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Dec 28 2019 11:33:20.610 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Dec 28 2019 11:33:20.620 - CSharedResourceNamespaceClient::Init(): received namespace data 27960
+Sat Dec 28 2019 11:33:20.639 - Received success response from vrserver connect
+Sat Dec 28 2019 11:33:20.643 - App key after connect message:openvr.component.vrcompositor
+Sat Dec 28 2019 11:33:20.686 - Initializing the limited version of CVRCompositorClient
+Sat Dec 28 2019 11:33:21.544 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
+Sat Dec 28 2019 11:33:21.551 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sat Dec 28 2019 11:33:21.764 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
+Sat Dec 28 2019 11:33:21.925 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
+Sat Dec 28 2019 11:33:23.418 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:33:23.418 - Sending focus captured event
+Sat Dec 28 2019 11:33:23.553 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
+Sat Dec 28 2019 11:33:23.553 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 11:33:23.553 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 11:33:23.553 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 11:33:23.554 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 11:33:23.554 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
+Sat Dec 28 2019 11:33:23.555 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
+Sat Dec 28 2019 11:33:23.555 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 11:33:23.555 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 11:33:23.555 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 11:33:23.556 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 11:33:23.557 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
+Sat Dec 28 2019 11:33:23.557 - RendermodelManager: name=base inputRouting=0 filename=
+Sat Dec 28 2019 11:33:23.557 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sat Dec 28 2019 11:33:23.557 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
+Sat Dec 28 2019 11:33:23.558 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
+Sat Dec 28 2019 11:33:23.558 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sat Dec 28 2019 11:33:23.558 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sat Dec 28 2019 11:33:23.558 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sat Dec 28 2019 11:33:23.558 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sat Dec 28 2019 11:33:23.558 - RendermodelManager: name=tip inputRouting=0 filename=
+Sat Dec 28 2019 11:33:23.558 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sat Dec 28 2019 11:33:23.635 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
+Sat Dec 28 2019 11:33:23.666 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
+Sat Dec 28 2019 11:33:23.674 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:33:23.674 - Sending focus released event
+Sat Dec 28 2019 11:33:23.685 - Removing focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sat Dec 28 2019 11:33:23.812 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
+Sat Dec 28 2019 11:33:24.064 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
+Sat Dec 28 2019 11:34:30.610 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:34:30.610 - Sending focus captured event
+Sat Dec 28 2019 11:34:30.727 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:34:30.727 - Sending focus released event
+Sat Dec 28 2019 11:35:35.390 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:35:35.390 - Sending focus captured event
+Sat Dec 28 2019 11:35:35.498 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:35:35.498 - Sending focus released event
+Sat Dec 28 2019 11:36:38.760 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:36:38.760 - Sending focus captured event
+Sat Dec 28 2019 11:36:38.897 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:36:38.897 - Sending focus released event
+Sat Dec 28 2019 11:37:41.814 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:37:41.814 - Sending focus captured event
+Sat Dec 28 2019 11:37:41.954 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:37:41.955 - Sending focus released event
+Sat Dec 28 2019 11:56:44.152 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:56:44.258 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:56:46.870 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:56:46.987 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:56:47.733 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:56:47.837 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:57:00.358 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 11:57:11.887 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:57:11.887 - Sending focus captured event
+Sat Dec 28 2019 11:57:12.004 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:57:12.004 - Sending focus released event
+Sat Dec 28 2019 11:57:13.707 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:57:13.707 - Sending focus captured event
+Sat Dec 28 2019 11:57:13.828 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:57:13.828 - Sending focus released event
+Sat Dec 28 2019 11:57:18.911 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:57:18.911 - Sending focus captured event
+Sat Dec 28 2019 11:57:19.028 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 11:57:19.028 - Sending focus released event
+Sat Dec 28 2019 12:02:42.601 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:02:42.601 - Sending focus captured event
+Sat Dec 28 2019 12:02:42.719 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:02:42.719 - Sending focus released event
+Sat Dec 28 2019 12:02:43.070 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:02:43.070 - Sending focus captured event
+Sat Dec 28 2019 12:02:43.313 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:02:43.313 - Sending focus released event
+Sat Dec 28 2019 12:07:02.017 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:07:02.017 - Sending focus captured event
+Sat Dec 28 2019 12:07:02.155 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:07:02.155 - Sending focus released event
+Sat Dec 28 2019 12:10:17.395 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:17.491 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:19.340 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:19.436 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:33.892 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 12:10:37.937 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:37.937 - Sending focus captured event
+Sat Dec 28 2019 12:10:38.198 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:38.198 - Sending focus released event
+Sat Dec 28 2019 12:10:38.500 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:38.500 - Sending focus captured event
+Sat Dec 28 2019 12:10:38.553 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:38.553 - Sending focus released event
+Sat Dec 28 2019 12:10:43.761 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:43.761 - Sending focus captured event
+Sat Dec 28 2019 12:10:43.901 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:10:43.901 - Sending focus released event
+Sat Dec 28 2019 12:24:06.904 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:24:06.904 - Sending focus captured event
+Sat Dec 28 2019 12:24:07.022 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:24:07.022 - Sending focus released event
+Sat Dec 28 2019 12:24:07.340 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:24:07.340 - Sending focus captured event
+Sat Dec 28 2019 12:24:07.447 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:24:07.447 - Sending focus released event
+Sat Dec 28 2019 12:24:11.906 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sat Dec 28 2019 12:24:11.906 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
+Sat Dec 28 2019 12:24:11.906 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
+Sat Dec 28 2019 12:24:13.770 - Removing focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sat Dec 28 2019 12:24:13.770 - Removing focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
+Sat Dec 28 2019 12:24:13.770 - Removing focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
+Sat Dec 28 2019 12:24:24.051 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:24:24.051 - Sending focus captured event
+Sat Dec 28 2019 12:24:24.157 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:24:24.157 - Sending focus released event
+Sat Dec 28 2019 12:26:50.037 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:26:50.037 - Sending focus captured event
+Sat Dec 28 2019 12:26:50.154 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:26:50.154 - Sending focus released event
+Sat Dec 28 2019 12:33:07.102 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:33:07.102 - Sending focus captured event
+Sat Dec 28 2019 12:33:07.220 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:33:07.220 - Sending focus released event
+Sat Dec 28 2019 12:33:09.151 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:33:09.151 - Sending focus captured event
+Sat Dec 28 2019 12:33:09.290 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:33:09.290 - Sending focus released event
+Sat Dec 28 2019 12:33:44.795 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 12:39:16.760 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:39:16.760 - Sending focus captured event
+Sat Dec 28 2019 12:39:16.887 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:39:16.887 - Sending focus released event
+Sat Dec 28 2019 12:39:19.160 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:39:19.160 - Sending focus captured event
+Sat Dec 28 2019 12:39:19.287 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sat Dec 28 2019 12:39:19.287 - Sending focus released event
+Sat Dec 28 2019 13:10:36.004 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 13:37:28.549 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 17:28:59.839 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 17:37:07.033 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 17:37:12.132 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 18:34:23.449 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sat Dec 28 2019 20:54:31.289 - VR_Shutdown called
+Sun Dec 29 2019 06:54:59.711 - //==============================================================================================
+Sun Dec 29 2019 06:54:59.711 - ================================================================================================
+Sun Dec 29 2019 06:54:59.711 - ================================================================================================
+Sun Dec 29 2019 06:54:59.712 - vrcompositor.exe 1.9.16 startup with PID=4024, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 06:54:59.713 - vrclient type=VRApplication_Background
+Sun Dec 29 2019 06:54:59.723 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:54:59.723 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:54:59.724 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:54:59.726 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:54:59.727 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 06:54:59.740 - CSharedResourceNamespaceClient::Init(): received namespace data 16752
+Sun Dec 29 2019 06:54:59.777 - Received success response from vrserver connect
+Sun Dec 29 2019 06:54:59.782 - App key after connect message:openvr.component.vrcompositor
+Sun Dec 29 2019 06:54:59.835 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 06:55:02.193 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
+Sun Dec 29 2019 06:55:02.203 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sun Dec 29 2019 06:55:02.203 - Adding focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
+Sun Dec 29 2019 06:55:02.203 - Adding focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
+Sun Dec 29 2019 06:55:02.533 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
+Sun Dec 29 2019 06:55:02.780 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
+Sun Dec 29 2019 06:55:06.855 - Loaded image C:\Program Files (x86)\Steam\resource\icon_steam_vr.png (300x300)
+Sun Dec 29 2019 06:55:10.331 - Removing focus flag SystemBehaviorFlag_DriverRequestsApplicationPause
+Sun Dec 29 2019 06:55:10.331 - Removing focus flag SystemBehaviorFlag_DriverRequestsReducedRendering
+Sun Dec 29 2019 07:17:19.214 - VR_Shutdown called
+Sun Dec 29 2019 07:17:21.346 - //==============================================================================================
+Sun Dec 29 2019 07:17:21.346 - ================================================================================================
+Sun Dec 29 2019 07:17:21.346 - ================================================================================================
+Sun Dec 29 2019 07:17:21.346 - vrcompositor.exe 1.9.16 startup with PID=27580, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 07:17:21.347 - vrclient type=VRApplication_Background
+Sun Dec 29 2019 07:17:21.353 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:21.354 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:21.354 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:21.355 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:21.356 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 07:17:21.364 - CSharedResourceNamespaceClient::Init(): received namespace data 23532
+Sun Dec 29 2019 07:17:21.387 - Received success response from vrserver connect
+Sun Dec 29 2019 07:17:21.390 - App key after connect message:openvr.component.vrcompositor
+Sun Dec 29 2019 07:17:21.423 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 07:17:22.774 - Collision Bounds distances: flMinAxis=1.864637, Hmd=0.350000->0.700000, Controllers=0.262500->0.525000
+Sun Dec 29 2019 07:17:22.785 - Adding focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sun Dec 29 2019 07:17:22.997 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png (4096x2048)
+Sun Dec 29 2019 07:17:23.138 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\icon_steamvr_desktop.png (512x512)
+Sun Dec 29 2019 07:17:25.892 - Loaded image C:\Program Files (x86)\Steam\resource\icon_steam_vr.png (300x300)
+Sun Dec 29 2019 07:17:26.490 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:17:26.664 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:17:27.089 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:17:27.335 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
+Sun Dec 29 2019 07:17:27.335 - RendermodelManager: name=base inputRouting=0 filename=
+Sun Dec 29 2019 07:17:27.335 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sun Dec 29 2019 07:17:27.335 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sun Dec 29 2019 07:17:27.335 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sun Dec 29 2019 07:17:27.336 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
+Sun Dec 29 2019 07:17:27.336 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
+Sun Dec 29 2019 07:17:27.336 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sun Dec 29 2019 07:17:27.337 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sun Dec 29 2019 07:17:27.337 - RendermodelManager: name=tip inputRouting=0 filename=
+Sun Dec 29 2019 07:17:27.337 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sun Dec 29 2019 07:17:27.348 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
+Sun Dec 29 2019 07:17:27.348 - RendermodelManager: name=base inputRouting=0 filename=
+Sun Dec 29 2019 07:17:27.348 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sun Dec 29 2019 07:17:27.349 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
+Sun Dec 29 2019 07:17:27.350 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
+Sun Dec 29 2019 07:17:27.350 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sun Dec 29 2019 07:17:27.350 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sun Dec 29 2019 07:17:27.350 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sun Dec 29 2019 07:17:27.350 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sun Dec 29 2019 07:17:27.350 - RendermodelManager: name=tip inputRouting=0 filename=
+Sun Dec 29 2019 07:17:27.350 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sun Dec 29 2019 07:17:27.570 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
+Sun Dec 29 2019 07:17:28.463 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\left_diff.png (2048x2048)
+Sun Dec 29 2019 07:17:28.833 - Loaded image C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\right_diff.png (2048x2048)
+Sun Dec 29 2019 07:17:31.940 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:17:31.940 - Removing focus flag SystemBehaviorFlag_DriverIsDrawingControllers
+Sun Dec 29 2019 07:21:09.239 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:09.239 - Sending focus captured event
+Sun Dec 29 2019 07:21:09.345 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:09.345 - Sending focus released event
+Sun Dec 29 2019 07:21:09.863 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:09.863 - Sending focus captured event
+Sun Dec 29 2019 07:21:09.979 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:09.979 - Sending focus released event
+Sun Dec 29 2019 07:21:48.003 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:48.111 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:56.252 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:56.252 - Sending focus captured event
+Sun Dec 29 2019 07:21:56.378 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:56.378 - Sending focus released event
+Sun Dec 29 2019 07:21:56.813 - Adding focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:56.813 - Sending focus captured event
+Sun Dec 29 2019 07:21:56.975 - Removing focus flag SystemBehaviorFlag_DisplaySuppressed
+Sun Dec 29 2019 07:21:56.975 - Sending focus released event
+Sun Dec 29 2019 07:22:27.807 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 07:35:48.243 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0

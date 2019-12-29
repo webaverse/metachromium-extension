@@ -92,7 +92,8 @@ extern "C" {
   
   __declspec(dllexport) void* VRClientCoreFactory(const char* interface_name, int* return_code) {
     getOut() << "core 0 " << std::endl;
-    int &booted = *((int *)shMem);
+    size_t &booted = *((size_t *)shMem);
+    // size_t &id = *((size_t *)shMem + 1);
     getOut() << "core 1 " << interface_name << std::endl;
     externalOpenVr([&]() -> void {
       vr::EVRInitError result = vr::VRInitError_None;
@@ -143,7 +144,7 @@ extern "C" {
       
       vr::VR_Init(&result, vr::VRApplication_Scene);
       if (result == vr::VRInitError_None) {
-        getOut() << "init 2" << std::endl;
+        getOut() << "init 2 " << std::endl;
 
         vr::g_vrsystem = vr::VRSystem();
         vr::g_vrcompositor = vr::VRCompositor();

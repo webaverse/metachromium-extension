@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #define BASE_IMPL
 
+#include <chrono>
 #include "Misc/Config.h"
 
 // #include "OVR_CAPI.h"
@@ -94,19 +95,25 @@ Matrix4f BaseCompositor::GetHandTransform() {
 
 ovr_enum_t BaseCompositor::GetLastPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
-  return g_vrcompositor->GetLastPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
+  // getOut() << "get last poses 1 " << (void *)GetCurrentThreadId() << std::endl;
+  // auto start = std::chrono::high_resolution_clock::now();
+  auto result = g_pvrcompositor->GetLastPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
+  /* auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed = end - start;
+  getOut() << "get last poses 2 " << elapsed.count() << std::endl; */
+  return result;
 }
 
 ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t * pOutputPose,
 	  TrackedDevicePose_t * pOutputGamePose) {
-  return g_vrcompositor->GetLastPoseForTrackedDeviceIndex(unDeviceIndex, pOutputPose, pOutputGamePose);
+  // getOut() << "get last pose 1 " << std::endl;
+  return g_pvrcompositor->GetLastPoseForTrackedDeviceIndex(unDeviceIndex, pOutputPose, pOutputGamePose);
 }
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
-  // getOut() << "submit 1 " << texture->eType << " " << texture->eColorSpace << std::endl;
-	auto result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
+  // getOut() << "submit 1 " << (void *)GetCurrentThreadId() << std::endl;
+	return g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
   // getOut() << "submit 2 " << texture->eType << " " << texture->eColorSpace << std::endl;
-  return result;
 }
 
 void BaseCompositor::ClearLastSubmittedFrame() {

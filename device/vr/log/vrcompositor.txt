@@ -1,1109 +1,748 @@
-Sat Dec 28 2019 08:17:33.914 - //==============================================================================================
-Sat Dec 28 2019 08:17:33.914 - ================================================================================================
-Sat Dec 28 2019 08:17:33.914 - ================================================================================================
-Sat Dec 28 2019 08:17:33.914 - vrcompositor.exe 1.9.16 startup with PID=19228, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:17:33.914 - VR compositor 1.9.16 (v1576990468) starting up
-Sat Dec 28 2019 08:17:34.000 - CSharedResourceNamespaceClient::Init(): received namespace data 7344
-Sat Dec 28 2019 08:17:34.016 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:17:34.017 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:17:34.018 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:17:34.019 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:17:34.019 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 08:17:34.021 - Events created
-Sat Dec 28 2019 08:17:34.023 - Found bad mirror window settings: 
-Sat Dec 28 2019 08:17:34.051 - CGraphicsDevice Init...
-Sat Dec 28 2019 08:17:34.051 - Headset is using driver direct mode
-Sat Dec 28 2019 08:17:34.163 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
-Sat Dec 28 2019 08:17:34.163 - ****************************************** Begin GPU speed ******************************************
-Sat Dec 28 2019 08:17:34.432 - MeasureGpuMegaPixelsPerSecond(): Returning 286 MP/sec. Total CPU time 0.27 seconds.
-Sat Dec 28 2019 08:17:34.452 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
-Sat Dec 28 2019 08:17:34.454 - GPU speed from average of 6 median samples: 288
-Sat Dec 28 2019 08:17:34.455 - ******************************************* End GPU speed *******************************************
-Sat Dec 28 2019 08:17:34.455 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
-Sat Dec 28 2019 08:17:34.456 - GPU speed being set at first generation HMD resolution 382 MP/sec
-Sat Dec 28 2019 08:17:34.456 - Raw ideal render target scale = 0.73
-Sat Dec 28 2019 08:17:34.456 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
-Sat Dec 28 2019 08:17:34.456 - Loading fonts/debug.spritefont
-Sat Dec 28 2019 08:17:34.458 - Creating samplers
-Sat Dec 28 2019 08:17:34.458 - Creating util resources
-Sat Dec 28 2019 08:17:34.460 - Creating/Updating distortion surfaces
-Sat Dec 28 2019 08:17:34.679 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Dec 28 2019 08:17:34.899 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Dec 28 2019 08:17:34.902 - Creating constant buffers
-Sat Dec 28 2019 08:17:34.903 - Creating layer texture (w=1552,h=1720)
-Sat Dec 28 2019 08:17:35.769 - Loading MC resources
-Sat Dec 28 2019 08:17:35.769 - Initializing timing resources
-Sat Dec 28 2019 08:17:35.769 - Initializing camera
-Sat Dec 28 2019 08:17:35.770 - Done initializing CGraphicsDevice resources
-Sat Dec 28 2019 08:17:35.771 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
-Sat Dec 28 2019 08:17:35.781 - Distort initialized
-Sat Dec 28 2019 08:17:35.795 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Sat Dec 28 2019 08:17:35.795 - Set thread 000000000000065C priority to: 15
-Sat Dec 28 2019 08:17:35.796 - Compositor render thread started
-Sat Dec 28 2019 08:17:35.796 - Set thread 0000000000000634 priority to: 15
-Sat Dec 28 2019 08:17:35.796 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18200
-Sat Dec 28 2019 08:17:35.796 - Startup Complete (1.794376 seconds)
-Sat Dec 28 2019 08:17:35.805 - Found 103 quads for Collision Bounds
-Sat Dec 28 2019 08:17:35.806 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sat Dec 28 2019 08:17:35.806 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sat Dec 28 2019 08:17:35.807 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sat Dec 28 2019 08:17:35.815 - Creating solid play area quad for compositor construct: 1.27 x 2.38
-Sat Dec 28 2019 08:17:35.912 - Closing pipe SpacePirateVR (18200) because it was broken from the other end
-Sat Dec 28 2019 08:17:35.912 - Process SpacePirateVR (18200) disconnected (Thread(0x000001D31AC227C0/0x000)
-Sat Dec 28 2019 08:17:35.912 - Lost pipe connection from SpacePirateVR (18200)
-Sat Dec 28 2019 08:17:36.037 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 2432
-Sat Dec 28 2019 08:17:36.661 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 26612
-Sat Dec 28 2019 08:17:37.077 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 25144
-Sat Dec 28 2019 08:17:38.358 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18200
-Sat Dec 28 2019 08:17:38.935 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 19556
-Sat Dec 28 2019 08:17:38.940 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 1716
-Sat Dec 28 2019 08:17:39.004 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11208
-Sat Dec 28 2019 08:17:39.014 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 2384
-Sat Dec 28 2019 08:17:39.036 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 28808
-Sat Dec 28 2019 08:17:39.079 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 22244
-Sat Dec 28 2019 08:17:39.079 - Processing message VRMsg_CompositorConnect from vrwebhelper (22244) took 0.00519 seconds
-Sat Dec 28 2019 08:17:39.265 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8004
-Sat Dec 28 2019 08:17:39.267 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11116
-Sat Dec 28 2019 08:17:39.276 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 6536
-Sat Dec 28 2019 08:17:39.281 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24224
-Sat Dec 28 2019 08:17:49.439 - Closing pipe vrdashboard (2432) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.439 - Process vrdashboard (2432) disconnected (Thread(0x000001D31A91EA30/0x000)
-Sat Dec 28 2019 08:17:49.439 - Lost pipe connection from vrdashboard (2432)
-Sat Dec 28 2019 08:17:49.454 - Closing pipe vrwebhelper (8004) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.454 - Process vrwebhelper (8004) disconnected (Thread(0x000001D31A8C5540/0x000)
-Sat Dec 28 2019 08:17:49.454 - Lost pipe connection from vrwebhelper (8004)
-Sat Dec 28 2019 08:17:49.481 - Closing pipe vrwebhelper (19556) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.481 - Process vrwebhelper (19556) disconnected (Thread(0x000001D31AACB960/0x000)
-Sat Dec 28 2019 08:17:49.481 - Lost pipe connection from vrwebhelper (19556)
-Sat Dec 28 2019 08:17:49.482 - Closing pipe vrwebhelper (6536) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.482 - Process vrwebhelper (6536) disconnected (Thread(0x000001D31DDBA630/0x000)
-Sat Dec 28 2019 08:17:49.482 - Lost pipe connection from vrwebhelper (6536)
-Sat Dec 28 2019 08:17:49.506 - Closing pipe vrwebhelper (28808) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.506 - Process vrwebhelper (28808) disconnected (Thread(0x000001D31AACB3C0/0x000)
-Sat Dec 28 2019 08:17:49.506 - Lost pipe connection from vrwebhelper (28808)
-Sat Dec 28 2019 08:17:49.586 - Closing pipe vrwebhelper (11208) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.586 - Process vrwebhelper (11208) disconnected (Thread(0x000001D31AACB600/0x000)
-Sat Dec 28 2019 08:17:49.586 - Lost pipe connection from vrwebhelper (11208)
-Sat Dec 28 2019 08:17:49.589 - Closing pipe vrwebhelper (11116) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.589 - Process vrwebhelper (11116) disconnected (Thread(0x000001D31DDBA3F0/0x000)
-Sat Dec 28 2019 08:17:49.589 - Lost pipe connection from vrwebhelper (11116)
-Sat Dec 28 2019 08:17:49.591 - Closing pipe vrwebhelper (2384) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.591 - Process vrwebhelper (2384) disconnected (Thread(0x000001D31AACBA80/0x000)
-Sat Dec 28 2019 08:17:49.591 - Lost pipe connection from vrwebhelper (2384)
-Sat Dec 28 2019 08:17:49.596 - Closing pipe vrwebhelper (22244) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.596 - Process vrwebhelper (22244) disconnected (Thread(0x000001D31AACB690/0x000)
-Sat Dec 28 2019 08:17:49.596 - Lost pipe connection from vrwebhelper (22244)
-Sat Dec 28 2019 08:17:49.620 - Closing pipe vrwebhelper (24224) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.620 - Process vrwebhelper (24224) disconnected (Thread(0x000001D31DDBA120/0x000)
-Sat Dec 28 2019 08:17:49.620 - Lost pipe connection from vrwebhelper (24224)
-Sat Dec 28 2019 08:17:49.637 - Closing pipe vrwebhelper (1716) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.637 - Process vrwebhelper (1716) disconnected (Thread(0x000001D31AACB9F0/0x000)
-Sat Dec 28 2019 08:17:49.637 - Lost pipe connection from vrwebhelper (1716)
-Sat Dec 28 2019 08:17:49.704 - Closing pipe vrwebhelper (25144) because it was broken from the other end
-Sat Dec 28 2019 08:17:49.704 - Process vrwebhelper (25144) disconnected (Thread(0x000001D31AACB570/0x000)
-Sat Dec 28 2019 08:17:49.704 - Lost pipe connection from vrwebhelper (25144)
-Sat Dec 28 2019 08:17:54.382 - Closing pipe SpacePirateVR (18200) because it was broken from the other end
-Sat Dec 28 2019 08:17:54.382 - Process SpacePirateVR (18200) disconnected (Thread(0x000001D31AACB7B0/0x000)
-Sat Dec 28 2019 08:17:54.382 - Lost pipe connection from SpacePirateVR (18200)
-Sat Dec 28 2019 08:17:54.382 - ######################################################################
-Sat Dec 28 2019 08:17:54.382 - Cumulative stats for pid: 18200
-Sat Dec 28 2019 08:17:54.382 - Total..................  4264 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:17:54.382 - Startup................  4264 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:17:54.382 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:17:54.382 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:17:54.382 - ######################################################################
-Sat Dec 28 2019 08:17:54.382 - Total dropped frames: 0
-Sat Dec 28 2019 08:17:54.424 - Render thread ending
-Sat Dec 28 2019 08:17:54.425 - Signal thread ending
-Sat Dec 28 2019 08:17:54.434 - VR compositor shutting down
-Sat Dec 28 2019 08:17:54.465 - Process vrmonitor (26612) disconnected (Thread(0x000001D31AACB4E0/0x000)
-Sat Dec 28 2019 08:17:54.465 - Ignoring LostPipeConnection from vrmonitor (26612) because compositor is shutting down
-Sat Dec 28 2019 08:17:54.531 - Listener thread ending
-Sat Dec 28 2019 08:17:54.537 - Cleaning up
-Sat Dec 28 2019 08:19:02.697 - //==============================================================================================
-Sat Dec 28 2019 08:19:02.697 - ================================================================================================
-Sat Dec 28 2019 08:19:02.697 - ================================================================================================
-Sat Dec 28 2019 08:19:02.697 - vrcompositor.exe 1.9.16 startup with PID=22596, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:19:02.697 - VR compositor 1.9.16 (v1576990468) starting up
-Sat Dec 28 2019 08:19:02.770 - CSharedResourceNamespaceClient::Init(): received namespace data 11212
-Sat Dec 28 2019 08:19:02.786 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:19:02.787 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:19:02.787 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:19:02.788 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:19:02.790 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 08:19:02.792 - Events created
-Sat Dec 28 2019 08:19:02.795 - Found bad mirror window settings: 
-Sat Dec 28 2019 08:19:02.827 - CGraphicsDevice Init...
-Sat Dec 28 2019 08:19:02.827 - Headset is using driver direct mode
-Sat Dec 28 2019 08:19:02.957 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
-Sat Dec 28 2019 08:19:02.957 - ****************************************** Begin GPU speed ******************************************
-Sat Dec 28 2019 08:19:03.268 - MeasureGpuMegaPixelsPerSecond(): Returning 289 MP/sec. Total CPU time 0.31 seconds.
-Sat Dec 28 2019 08:19:03.292 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
-Sat Dec 28 2019 08:19:03.293 - GPU speed from average of 6 median samples: 288
-Sat Dec 28 2019 08:19:03.295 - ******************************************* End GPU speed *******************************************
-Sat Dec 28 2019 08:19:03.295 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
-Sat Dec 28 2019 08:19:03.295 - GPU speed being set at first generation HMD resolution 382 MP/sec
-Sat Dec 28 2019 08:19:03.295 - Raw ideal render target scale = 0.73
-Sat Dec 28 2019 08:19:03.295 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
-Sat Dec 28 2019 08:19:03.295 - Loading fonts/debug.spritefont
-Sat Dec 28 2019 08:19:03.297 - Creating samplers
-Sat Dec 28 2019 08:19:03.297 - Creating util resources
-Sat Dec 28 2019 08:19:03.303 - Creating/Updating distortion surfaces
-Sat Dec 28 2019 08:19:03.521 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Dec 28 2019 08:19:03.726 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Dec 28 2019 08:19:03.730 - Creating constant buffers
-Sat Dec 28 2019 08:19:03.731 - Creating layer texture (w=1552,h=1720)
-Sat Dec 28 2019 08:19:04.428 - Loading MC resources
-Sat Dec 28 2019 08:19:04.429 - Initializing timing resources
-Sat Dec 28 2019 08:19:04.429 - Initializing camera
-Sat Dec 28 2019 08:19:04.429 - Done initializing CGraphicsDevice resources
-Sat Dec 28 2019 08:19:04.430 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
-Sat Dec 28 2019 08:19:04.439 - Distort initialized
-Sat Dec 28 2019 08:19:04.451 - Set thread 000000000000068C priority to: 15
-Sat Dec 28 2019 08:19:04.451 - Set thread 00000000000005A4 priority to: 15
-Sat Dec 28 2019 08:19:04.451 - Compositor render thread started
-Sat Dec 28 2019 08:19:04.452 - Startup Complete (1.681233 seconds)
-Sat Dec 28 2019 08:19:04.452 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Sat Dec 28 2019 08:19:04.453 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 26028
-Sat Dec 28 2019 08:19:04.464 - Found 103 quads for Collision Bounds
-Sat Dec 28 2019 08:19:04.464 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sat Dec 28 2019 08:19:04.464 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sat Dec 28 2019 08:19:04.465 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sat Dec 28 2019 08:19:04.466 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sat Dec 28 2019 08:19:04.474 - Creating solid play area quad for compositor construct: 1.27 x 2.38
-Sat Dec 28 2019 08:19:04.522 - Closing pipe SpacePirateVR (26028) because it was broken from the other end
-Sat Dec 28 2019 08:19:04.522 - Process SpacePirateVR (26028) disconnected (Thread(0x000001765BB0D230/0x000)
-Sat Dec 28 2019 08:19:04.522 - Lost pipe connection from SpacePirateVR (26028)
-Sat Dec 28 2019 08:19:04.698 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 11436
-Sat Dec 28 2019 08:19:05.162 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 21128
-Sat Dec 28 2019 08:19:05.863 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 29592
-Sat Dec 28 2019 08:19:06.739 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 26028
-Sat Dec 28 2019 08:19:07.693 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15696
-Sat Dec 28 2019 08:19:07.748 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 27676
-Sat Dec 28 2019 08:19:07.753 - Processing message VRMsg_CompositorConnect from vrwebhelper (27676) took 0.00544 seconds
-Sat Dec 28 2019 08:19:07.769 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24352
-Sat Dec 28 2019 08:19:07.776 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 12700
-Sat Dec 28 2019 08:19:07.788 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 25444
-Sat Dec 28 2019 08:19:07.822 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 21984
-Sat Dec 28 2019 08:19:07.992 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 26136
-Sat Dec 28 2019 08:19:07.993 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17528
-Sat Dec 28 2019 08:19:08.001 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 13952
-Sat Dec 28 2019 08:19:08.080 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 1468
-Sat Dec 28 2019 08:19:14.760 - Closing pipe vrwebhelper (17528) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.760 - Process vrwebhelper (17528) disconnected (Thread(0x000001765BDD8DE0/0x000)
-Sat Dec 28 2019 08:19:14.760 - Lost pipe connection from vrwebhelper (17528)
-Sat Dec 28 2019 08:19:14.760 - Closing pipe vrwebhelper (27676) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.760 - Process vrwebhelper (27676) disconnected (Thread(0x000001765BDD9AD0/0x000)
-Sat Dec 28 2019 08:19:14.760 - Lost pipe connection from vrwebhelper (27676)
-Sat Dec 28 2019 08:19:14.783 - Closing pipe vrwebhelper (12700) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.783 - Process vrwebhelper (12700) disconnected (Thread(0x000001765BB0CCD0/0x000)
-Sat Dec 28 2019 08:19:14.784 - Lost pipe connection from vrwebhelper (12700)
-Sat Dec 28 2019 08:19:14.788 - Closing pipe vrwebhelper (24352) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.788 - Process vrwebhelper (24352) disconnected (Thread(0x000001765BDDA3D0/0x000)
-Sat Dec 28 2019 08:19:14.788 - Lost pipe connection from vrwebhelper (24352)
-Sat Dec 28 2019 08:19:14.799 - Closing pipe vrwebhelper (15696) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.799 - Process vrwebhelper (15696) disconnected (Thread(0x000001765BB0CDF0/0x000)
-Sat Dec 28 2019 08:19:14.799 - Lost pipe connection from vrwebhelper (15696)
-Sat Dec 28 2019 08:19:14.808 - Closing pipe vrwebhelper (25444) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.808 - Process vrwebhelper (25444) disconnected (Thread(0x000001765BDD9FE0/0x000)
-Sat Dec 28 2019 08:19:14.808 - Lost pipe connection from vrwebhelper (25444)
-Sat Dec 28 2019 08:19:14.819 - Closing pipe vrwebhelper (21984) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.819 - Process vrwebhelper (21984) disconnected (Thread(0x000001765BDD9020/0x000)
-Sat Dec 28 2019 08:19:14.819 - Lost pipe connection from vrwebhelper (21984)
-Sat Dec 28 2019 08:19:14.837 - Closing pipe vrwebhelper (13952) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.837 - Process vrwebhelper (13952) disconnected (Thread(0x000001765BDDA340/0x000)
-Sat Dec 28 2019 08:19:14.837 - Lost pipe connection from vrwebhelper (13952)
-Sat Dec 28 2019 08:19:14.842 - Closing pipe vrwebhelper (1468) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.842 - Process vrwebhelper (1468) disconnected (Thread(0x000001765BDD8F90/0x000)
-Sat Dec 28 2019 08:19:14.842 - Lost pipe connection from vrwebhelper (1468)
-Sat Dec 28 2019 08:19:14.858 - Closing pipe vrdashboard (11436) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.858 - Process vrdashboard (11436) disconnected (Thread(0x000001765BDD94A0/0x000)
-Sat Dec 28 2019 08:19:14.858 - Lost pipe connection from vrdashboard (11436)
-Sat Dec 28 2019 08:19:14.934 - Closing pipe vrwebhelper (26136) because it was broken from the other end
-Sat Dec 28 2019 08:19:14.934 - Process vrwebhelper (26136) disconnected (Thread(0x000001765BB0D740/0x000)
-Sat Dec 28 2019 08:19:14.934 - Lost pipe connection from vrwebhelper (26136)
-Sat Dec 28 2019 08:19:15.004 - Closing pipe vrwebhelper (29592) because it was broken from the other end
-Sat Dec 28 2019 08:19:15.004 - Process vrwebhelper (29592) disconnected (Thread(0x000001765BB0C6A0/0x000)
-Sat Dec 28 2019 08:19:15.004 - Lost pipe connection from vrwebhelper (29592)
-Sat Dec 28 2019 08:19:19.734 - Closing pipe SpacePirateVR (26028) because it was broken from the other end
-Sat Dec 28 2019 08:19:19.734 - Process SpacePirateVR (26028) disconnected (Thread(0x000001765BB0C460/0x000)
-Sat Dec 28 2019 08:19:19.734 - Lost pipe connection from SpacePirateVR (26028)
-Sat Dec 28 2019 08:19:19.734 - ######################################################################
-Sat Dec 28 2019 08:19:19.734 - Cumulative stats for pid: 26028
-Sat Dec 28 2019 08:19:19.734 - Total..................  3454 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:19:19.734 - Startup................  3454 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:19:19.734 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:19:19.734 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:19:19.734 - ######################################################################
-Sat Dec 28 2019 08:19:19.734 - Total dropped frames: 0
-Sat Dec 28 2019 08:19:19.773 - Render thread ending
-Sat Dec 28 2019 08:19:19.773 - Signal thread ending
-Sat Dec 28 2019 08:19:19.784 - VR compositor shutting down
-Sat Dec 28 2019 08:19:19.841 - Process vrmonitor (21128) disconnected (Thread(0x000001765BDD88D0/0x000)
-Sat Dec 28 2019 08:19:19.841 - Ignoring LostPipeConnection from vrmonitor (21128) because compositor is shutting down
-Sat Dec 28 2019 08:19:19.879 - Listener thread ending
-Sat Dec 28 2019 08:19:19.882 - Cleaning up
-Sat Dec 28 2019 08:38:47.072 - //==============================================================================================
-Sat Dec 28 2019 08:38:47.072 - ================================================================================================
-Sat Dec 28 2019 08:38:47.072 - ================================================================================================
-Sat Dec 28 2019 08:38:47.072 - vrcompositor.exe 1.9.16 startup with PID=23448, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Dec 28 2019 08:38:47.072 - VR compositor 1.9.16 (v1576990468) starting up
-Sat Dec 28 2019 08:38:47.151 - CSharedResourceNamespaceClient::Init(): received namespace data 12904
-Sat Dec 28 2019 08:38:47.169 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:38:47.170 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:38:47.170 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:38:47.171 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Dec 28 2019 08:38:47.172 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Dec 28 2019 08:38:47.175 - Events created
-Sat Dec 28 2019 08:38:47.177 - Found bad mirror window settings: 
-Sat Dec 28 2019 08:38:47.204 - CGraphicsDevice Init...
-Sat Dec 28 2019 08:38:47.204 - Headset is using driver direct mode
-Sat Dec 28 2019 08:38:47.301 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
-Sat Dec 28 2019 08:38:47.301 - ****************************************** Begin GPU speed ******************************************
-Sat Dec 28 2019 08:38:47.546 - MeasureGpuMegaPixelsPerSecond(): Returning 285 MP/sec. Total CPU time 0.25 seconds.
-Sat Dec 28 2019 08:38:47.562 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
-Sat Dec 28 2019 08:38:47.564 - GPU speed from average of 6 median samples: 288
-Sat Dec 28 2019 08:38:47.565 - ******************************************* End GPU speed *******************************************
-Sat Dec 28 2019 08:38:47.565 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
-Sat Dec 28 2019 08:38:47.565 - GPU speed being set at first generation HMD resolution 382 MP/sec
-Sat Dec 28 2019 08:38:47.565 - Raw ideal render target scale = 0.73
-Sat Dec 28 2019 08:38:47.565 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
-Sat Dec 28 2019 08:38:47.565 - Loading fonts/debug.spritefont
-Sat Dec 28 2019 08:38:47.567 - Creating samplers
-Sat Dec 28 2019 08:38:47.567 - Creating util resources
-Sat Dec 28 2019 08:38:47.569 - Creating/Updating distortion surfaces
-Sat Dec 28 2019 08:38:47.807 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Dec 28 2019 08:38:48.054 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Dec 28 2019 08:38:48.061 - Creating constant buffers
-Sat Dec 28 2019 08:38:48.062 - Creating layer texture (w=1552,h=1720)
-Sat Dec 28 2019 08:38:48.743 - Loading MC resources
-Sat Dec 28 2019 08:38:48.743 - Initializing timing resources
-Sat Dec 28 2019 08:38:48.743 - Initializing camera
-Sat Dec 28 2019 08:38:48.743 - Done initializing CGraphicsDevice resources
-Sat Dec 28 2019 08:38:48.745 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
-Sat Dec 28 2019 08:38:48.751 - Distort initialized
-Sat Dec 28 2019 08:38:48.765 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Sat Dec 28 2019 08:38:48.765 - Set thread 000000000000065C priority to: 15
-Sat Dec 28 2019 08:38:48.765 - Set thread 0000000000000634 priority to: 15
-Sat Dec 28 2019 08:38:48.765 - Compositor render thread started
-Sat Dec 28 2019 08:38:48.765 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21692
-Sat Dec 28 2019 08:38:48.765 - Startup Complete (1.614062 seconds)
-Sat Dec 28 2019 08:38:48.775 - Found 103 quads for Collision Bounds
-Sat Dec 28 2019 08:38:48.775 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sat Dec 28 2019 08:38:48.775 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sat Dec 28 2019 08:38:48.776 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sat Dec 28 2019 08:38:48.777 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sat Dec 28 2019 08:38:48.784 - Creating solid play area quad for compositor construct: 1.27 x 2.38
-Sat Dec 28 2019 08:38:48.817 - Closing pipe SpacePirateVR (21692) because it was broken from the other end
-Sat Dec 28 2019 08:38:48.817 - Process SpacePirateVR (21692) disconnected (Thread(0x000001ADF2FCCE90/0x000)
-Sat Dec 28 2019 08:38:48.817 - Lost pipe connection from SpacePirateVR (21692)
-Sat Dec 28 2019 08:38:49.054 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 24428
-Sat Dec 28 2019 08:38:49.719 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 6280
-Sat Dec 28 2019 08:38:50.166 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4792
-Sat Dec 28 2019 08:38:51.178 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21692
-Sat Dec 28 2019 08:38:51.866 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 2036
-Sat Dec 28 2019 08:38:51.873 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 13804
-Sat Dec 28 2019 08:38:51.896 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11804
-Sat Dec 28 2019 08:38:51.906 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 25452
-Sat Dec 28 2019 08:38:51.916 - Processing message VRMsg_CompositorConnect from vrwebhelper (25452) took 0.00978 seconds
-Sat Dec 28 2019 08:38:51.922 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 28172
-Sat Dec 28 2019 08:38:51.933 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 22320
-Sat Dec 28 2019 08:38:51.946 - Processing message VRMsg_CompositorConnect from vrwebhelper (22320) took 0.0133 seconds
-Sat Dec 28 2019 08:38:52.140 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18896
-Sat Dec 28 2019 08:38:52.154 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 12332
-Sat Dec 28 2019 08:38:52.165 - Processing message VRMsg_CompositorConnect from vrwebhelper (12332) took 0.0108 seconds
-Sat Dec 28 2019 08:38:52.196 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 16596
-Sat Dec 28 2019 08:38:52.250 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15452
-Sat Dec 28 2019 08:38:52.948 - Closing pipe SpacePirateVR (21692) because it was broken from the other end
-Sat Dec 28 2019 08:38:52.948 - Process SpacePirateVR (21692) disconnected (Thread(0x000001ADF601CBE0/0x000)
-Sat Dec 28 2019 08:38:52.948 - Lost pipe connection from SpacePirateVR (21692)
-Sat Dec 28 2019 08:38:52.948 - ######################################################################
-Sat Dec 28 2019 08:38:52.948 - Cumulative stats for pid: 21692
-Sat Dec 28 2019 08:38:52.948 - Total..................   365 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:38:52.948 - Startup................   365 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:38:52.948 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:38:52.948 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:38:52.948 - ######################################################################
-Sat Dec 28 2019 08:38:52.948 - Total dropped frames: 0
-Sat Dec 28 2019 08:41:03.354 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 14692
-Sat Dec 28 2019 08:41:03.379 - Closing pipe SpacePirateVR (14692) because it was broken from the other end
-Sat Dec 28 2019 08:41:03.379 - Process SpacePirateVR (14692) disconnected (Thread(0x000001ADF2E40AA0/0x000)
-Sat Dec 28 2019 08:41:03.379 - Lost pipe connection from SpacePirateVR (14692)
-Sat Dec 28 2019 08:41:04.621 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 14692
-Sat Dec 28 2019 08:41:06.028 - Closing pipe SpacePirateVR (14692) because it was broken from the other end
-Sat Dec 28 2019 08:41:06.028 - Process SpacePirateVR (14692) disconnected (Thread(0x000001ADF624E4B0/0x000)
-Sat Dec 28 2019 08:41:06.028 - Lost pipe connection from SpacePirateVR (14692)
-Sat Dec 28 2019 08:41:06.028 - ######################################################################
-Sat Dec 28 2019 08:41:06.028 - Cumulative stats for pid: 14692
-Sat Dec 28 2019 08:41:06.028 - Total..................   364 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:41:06.028 - Startup................   364 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:41:06.028 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:41:06.028 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:41:06.028 - ######################################################################
-Sat Dec 28 2019 08:41:06.028 - Total dropped frames: 0
-Sat Dec 28 2019 08:42:25.893 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 14912
-Sat Dec 28 2019 08:42:25.915 - Closing pipe SpacePirateVR (14912) because it was broken from the other end
-Sat Dec 28 2019 08:42:25.915 - Process SpacePirateVR (14912) disconnected (Thread(0x000001ADF2DABD30/0x000)
-Sat Dec 28 2019 08:42:25.915 - Lost pipe connection from SpacePirateVR (14912)
-Sat Dec 28 2019 08:42:27.112 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 14912
-Sat Dec 28 2019 08:42:28.519 - Closing pipe SpacePirateVR (14912) because it was broken from the other end
-Sat Dec 28 2019 08:42:28.519 - Process SpacePirateVR (14912) disconnected (Thread(0x000001ADF624E5D0/0x000)
-Sat Dec 28 2019 08:42:28.519 - Lost pipe connection from SpacePirateVR (14912)
-Sat Dec 28 2019 08:42:28.519 - ######################################################################
-Sat Dec 28 2019 08:42:28.519 - Cumulative stats for pid: 14912
-Sat Dec 28 2019 08:42:28.519 - Total..................   361 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:42:28.519 - Startup................   361 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:42:28.519 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:42:28.519 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:42:28.519 - ######################################################################
-Sat Dec 28 2019 08:42:28.519 - Total dropped frames: 0
-Sat Dec 28 2019 08:42:49.966 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29340
-Sat Dec 28 2019 08:42:49.991 - Closing pipe SpacePirateVR (29340) because it was broken from the other end
-Sat Dec 28 2019 08:42:49.991 - Process SpacePirateVR (29340) disconnected (Thread(0x000001ADF601C880/0x000)
-Sat Dec 28 2019 08:42:49.991 - Lost pipe connection from SpacePirateVR (29340)
-Sat Dec 28 2019 08:42:51.184 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29340
-Sat Dec 28 2019 08:42:52.692 - Closing pipe SpacePirateVR (29340) because it was broken from the other end
-Sat Dec 28 2019 08:42:52.692 - Process SpacePirateVR (29340) disconnected (Thread(0x000001ADF2E40B30/0x000)
-Sat Dec 28 2019 08:42:52.692 - Lost pipe connection from SpacePirateVR (29340)
-Sat Dec 28 2019 08:42:52.692 - ######################################################################
-Sat Dec 28 2019 08:42:52.692 - Cumulative stats for pid: 29340
-Sat Dec 28 2019 08:42:52.692 - Total..................   413 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:42:52.692 - Startup................   413 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:42:52.692 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:42:52.692 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:42:52.692 - ######################################################################
-Sat Dec 28 2019 08:42:52.692 - Total dropped frames: 0
-Sat Dec 28 2019 08:48:18.119 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23960
-Sat Dec 28 2019 08:48:18.138 - Closing pipe SpacePirateVR (23960) because it was broken from the other end
-Sat Dec 28 2019 08:48:18.138 - Process SpacePirateVR (23960) disconnected (Thread(0x000001ADF2FCD160/0x000)
-Sat Dec 28 2019 08:48:18.138 - Lost pipe connection from SpacePirateVR (23960)
-Sat Dec 28 2019 08:48:19.361 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23960
-Sat Dec 28 2019 08:48:20.870 - Closing pipe SpacePirateVR (23960) because it was broken from the other end
-Sat Dec 28 2019 08:48:20.870 - Process SpacePirateVR (23960) disconnected (Thread(0x000001ADF2FCD160/0x000)
-Sat Dec 28 2019 08:48:20.870 - Lost pipe connection from SpacePirateVR (23960)
-Sat Dec 28 2019 08:48:20.870 - ######################################################################
-Sat Dec 28 2019 08:48:20.870 - Cumulative stats for pid: 23960
-Sat Dec 28 2019 08:48:20.870 - Total..................   399 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:48:20.870 - Startup................   399 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:48:20.870 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:48:20.870 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:48:20.870 - ######################################################################
-Sat Dec 28 2019 08:48:20.870 - Total dropped frames: 0
-Sat Dec 28 2019 08:54:42.511 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 5268
-Sat Dec 28 2019 08:54:42.534 - Closing pipe SpacePirateVR (5268) because it was broken from the other end
-Sat Dec 28 2019 08:54:42.534 - Process SpacePirateVR (5268) disconnected (Thread(0x000001ADF3111F70/0x000)
-Sat Dec 28 2019 08:54:42.534 - Lost pipe connection from SpacePirateVR (5268)
-Sat Dec 28 2019 08:54:43.909 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 5268
-Sat Dec 28 2019 08:54:45.619 - Closing pipe SpacePirateVR (5268) because it was broken from the other end
-Sat Dec 28 2019 08:54:45.619 - Process SpacePirateVR (5268) disconnected (Thread(0x000001ADF3112480/0x000)
-Sat Dec 28 2019 08:54:45.619 - Lost pipe connection from SpacePirateVR (5268)
-Sat Dec 28 2019 08:54:45.619 - ######################################################################
-Sat Dec 28 2019 08:54:45.619 - Cumulative stats for pid: 5268
-Sat Dec 28 2019 08:54:45.619 - Total..................   468 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:54:45.619 - Startup................   468 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:54:45.619 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:54:45.619 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:54:45.619 - ######################################################################
-Sat Dec 28 2019 08:54:45.619 - Total dropped frames: 0
-Sat Dec 28 2019 08:55:38.754 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 28724
-Sat Dec 28 2019 08:55:38.779 - Closing pipe SpacePirateVR (28724) because it was broken from the other end
-Sat Dec 28 2019 08:55:38.779 - Process SpacePirateVR (28724) disconnected (Thread(0x000001ADF601CB50/0x000)
-Sat Dec 28 2019 08:55:38.779 - Lost pipe connection from SpacePirateVR (28724)
-Sat Dec 28 2019 08:55:40.021 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 28724
-Sat Dec 28 2019 08:55:41.425 - Closing pipe SpacePirateVR (28724) because it was broken from the other end
-Sat Dec 28 2019 08:55:41.425 - Process SpacePirateVR (28724) disconnected (Thread(0x000001ADF2DABB80/0x000)
-Sat Dec 28 2019 08:55:41.425 - Lost pipe connection from SpacePirateVR (28724)
-Sat Dec 28 2019 08:55:41.425 - ######################################################################
-Sat Dec 28 2019 08:55:41.425 - Cumulative stats for pid: 28724
-Sat Dec 28 2019 08:55:41.425 - Total..................   364 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:55:41.425 - Startup................   364 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:55:41.425 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:55:41.425 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:55:41.425 - ######################################################################
-Sat Dec 28 2019 08:55:41.425 - Total dropped frames: 0
-Sat Dec 28 2019 08:58:14.064 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 24712
-Sat Dec 28 2019 08:58:14.091 - Closing pipe SpacePirateVR (24712) because it was broken from the other end
-Sat Dec 28 2019 08:58:14.091 - Process SpacePirateVR (24712) disconnected (Thread(0x000001ADF624E810/0x000)
-Sat Dec 28 2019 08:58:14.091 - Lost pipe connection from SpacePirateVR (24712)
-Sat Dec 28 2019 08:58:15.371 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 24712
-Sat Dec 28 2019 08:58:16.677 - Closing pipe SpacePirateVR (24712) because it was broken from the other end
-Sat Dec 28 2019 08:58:16.677 - Process SpacePirateVR (24712) disconnected (Thread(0x000001ADF601C760/0x000)
-Sat Dec 28 2019 08:58:16.677 - Lost pipe connection from SpacePirateVR (24712)
-Sat Dec 28 2019 08:58:16.677 - ######################################################################
-Sat Dec 28 2019 08:58:16.677 - Cumulative stats for pid: 24712
-Sat Dec 28 2019 08:58:16.677 - Total..................   320 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:58:16.677 - Startup................   320 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:58:16.677 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:58:16.677 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:58:16.677 - ######################################################################
-Sat Dec 28 2019 08:58:16.677 - Total dropped frames: 0
-Sat Dec 28 2019 08:59:31.393 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 27876
-Sat Dec 28 2019 08:59:31.414 - Closing pipe SpacePirateVR (27876) because it was broken from the other end
-Sat Dec 28 2019 08:59:31.414 - Process SpacePirateVR (27876) disconnected (Thread(0x000001ADF2DABB80/0x000)
-Sat Dec 28 2019 08:59:31.414 - Lost pipe connection from SpacePirateVR (27876)
-Sat Dec 28 2019 08:59:32.736 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 27876
-Sat Dec 28 2019 08:59:34.041 - Closing pipe SpacePirateVR (27876) because it was broken from the other end
-Sat Dec 28 2019 08:59:34.041 - Process SpacePirateVR (27876) disconnected (Thread(0x000001ADF601C760/0x000)
-Sat Dec 28 2019 08:59:34.041 - Lost pipe connection from SpacePirateVR (27876)
-Sat Dec 28 2019 08:59:34.041 - ######################################################################
-Sat Dec 28 2019 08:59:34.041 - Cumulative stats for pid: 27876
-Sat Dec 28 2019 08:59:34.041 - Total..................   339 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:59:34.041 - Startup................   339 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:59:34.041 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:59:34.041 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 08:59:34.041 - ######################################################################
-Sat Dec 28 2019 08:59:34.041 - Total dropped frames: 0
-Sat Dec 28 2019 09:00:08.640 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 17452
-Sat Dec 28 2019 09:00:08.668 - Closing pipe SpacePirateVR (17452) because it was broken from the other end
-Sat Dec 28 2019 09:00:08.668 - Process SpacePirateVR (17452) disconnected (Thread(0x000001ADF2DAB700/0x000)
-Sat Dec 28 2019 09:00:08.668 - Lost pipe connection from SpacePirateVR (17452)
-Sat Dec 28 2019 09:00:09.784 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 17452
-Sat Dec 28 2019 09:00:11.191 - Closing pipe SpacePirateVR (17452) because it was broken from the other end
-Sat Dec 28 2019 09:00:11.191 - Process SpacePirateVR (17452) disconnected (Thread(0x000001ADF2E410D0/0x000)
-Sat Dec 28 2019 09:00:11.191 - Lost pipe connection from SpacePirateVR (17452)
-Sat Dec 28 2019 09:00:11.191 - ######################################################################
-Sat Dec 28 2019 09:00:11.191 - Cumulative stats for pid: 17452
-Sat Dec 28 2019 09:00:11.191 - Total..................   370 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:00:11.191 - Startup................   370 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:00:11.191 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:00:11.191 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:00:11.191 - ######################################################################
-Sat Dec 28 2019 09:00:11.191 - Total dropped frames: 0
-Sat Dec 28 2019 09:05:15.091 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 13676
-Sat Dec 28 2019 09:05:15.113 - Closing pipe SpacePirateVR (13676) because it was broken from the other end
-Sat Dec 28 2019 09:05:15.113 - Process SpacePirateVR (13676) disconnected (Thread(0x000001ADF2FCCE90/0x000)
-Sat Dec 28 2019 09:05:15.113 - Lost pipe connection from SpacePirateVR (13676)
-Sat Dec 28 2019 09:05:16.422 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 13676
-Sat Dec 28 2019 09:05:17.728 - Closing pipe SpacePirateVR (13676) because it was broken from the other end
-Sat Dec 28 2019 09:05:17.728 - Process SpacePirateVR (13676) disconnected (Thread(0x000001ADF601C7F0/0x000)
-Sat Dec 28 2019 09:05:17.728 - Lost pipe connection from SpacePirateVR (13676)
-Sat Dec 28 2019 09:05:17.728 - ######################################################################
-Sat Dec 28 2019 09:05:17.728 - Cumulative stats for pid: 13676
-Sat Dec 28 2019 09:05:17.729 - Total..................   343 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:05:17.729 - Startup................   343 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:05:17.729 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:05:17.734 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:05:17.734 - ######################################################################
-Sat Dec 28 2019 09:05:17.735 - Total dropped frames: 0
-Sat Dec 28 2019 09:09:03.124 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23256
-Sat Dec 28 2019 09:09:03.149 - Closing pipe SpacePirateVR (23256) because it was broken from the other end
-Sat Dec 28 2019 09:09:03.149 - Process SpacePirateVR (23256) disconnected (Thread(0x000001ADF2FB4900/0x000)
-Sat Dec 28 2019 09:09:03.149 - Lost pipe connection from SpacePirateVR (23256)
-Sat Dec 28 2019 09:09:04.476 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23256
-Sat Dec 28 2019 09:09:05.883 - Closing pipe SpacePirateVR (23256) because it was broken from the other end
-Sat Dec 28 2019 09:09:05.883 - Process SpacePirateVR (23256) disconnected (Thread(0x000001ADF2DAB700/0x000)
-Sat Dec 28 2019 09:09:05.883 - Lost pipe connection from SpacePirateVR (23256)
-Sat Dec 28 2019 09:09:05.883 - ######################################################################
-Sat Dec 28 2019 09:09:05.883 - Cumulative stats for pid: 23256
-Sat Dec 28 2019 09:09:05.883 - Total..................   374 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:09:05.883 - Startup................   374 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:09:05.883 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:09:05.883 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:09:05.883 - ######################################################################
-Sat Dec 28 2019 09:09:05.884 - Total dropped frames: 0
-Sat Dec 28 2019 09:19:29.365 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 19392
-Sat Dec 28 2019 09:19:29.387 - Closing pipe SpacePirateVR (19392) because it was broken from the other end
-Sat Dec 28 2019 09:19:29.387 - Process SpacePirateVR (19392) disconnected (Thread(0x000001ADF624E660/0x000)
-Sat Dec 28 2019 09:19:29.387 - Lost pipe connection from SpacePirateVR (19392)
-Sat Dec 28 2019 09:19:30.626 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 19392
-Sat Dec 28 2019 09:19:31.928 - Closing pipe SpacePirateVR (19392) because it was broken from the other end
-Sat Dec 28 2019 09:19:31.928 - Process SpacePirateVR (19392) disconnected (Thread(0x000001ADF601CB50/0x000)
-Sat Dec 28 2019 09:19:31.928 - Lost pipe connection from SpacePirateVR (19392)
-Sat Dec 28 2019 09:19:31.928 - ######################################################################
-Sat Dec 28 2019 09:19:31.928 - Cumulative stats for pid: 19392
-Sat Dec 28 2019 09:19:31.928 - Total..................   346 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:19:31.928 - Startup................   346 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:19:31.928 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:19:31.928 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:19:31.928 - ######################################################################
-Sat Dec 28 2019 09:19:31.928 - Total dropped frames: 0
-Sat Dec 28 2019 09:22:16.978 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18732
-Sat Dec 28 2019 09:22:17.002 - Closing pipe SpacePirateVR (18732) because it was broken from the other end
-Sat Dec 28 2019 09:22:17.002 - Process SpacePirateVR (18732) disconnected (Thread(0x000001ADF3111310/0x000)
-Sat Dec 28 2019 09:22:17.002 - Lost pipe connection from SpacePirateVR (18732)
-Sat Dec 28 2019 09:22:18.261 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18732
-Sat Dec 28 2019 09:22:19.870 - Closing pipe SpacePirateVR (18732) because it was broken from the other end
-Sat Dec 28 2019 09:22:19.870 - Process SpacePirateVR (18732) disconnected (Thread(0x000001ADF2E41040/0x000)
-Sat Dec 28 2019 09:22:19.870 - Lost pipe connection from SpacePirateVR (18732)
-Sat Dec 28 2019 09:22:19.870 - ######################################################################
-Sat Dec 28 2019 09:22:19.870 - Cumulative stats for pid: 18732
-Sat Dec 28 2019 09:22:19.870 - Total..................   441 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:22:19.870 - Startup................   441 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:22:19.870 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:22:19.870 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:22:19.870 - ######################################################################
-Sat Dec 28 2019 09:22:19.870 - Total dropped frames: 0
-Sat Dec 28 2019 09:44:25.528 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 26796
-Sat Dec 28 2019 09:44:25.551 - Closing pipe SpacePirateVR (26796) because it was broken from the other end
-Sat Dec 28 2019 09:44:25.551 - Process SpacePirateVR (26796) disconnected (Thread(0x000001ADF2FB45A0/0x000)
-Sat Dec 28 2019 09:44:25.551 - Lost pipe connection from SpacePirateVR (26796)
-Sat Dec 28 2019 09:44:26.951 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 26796
-Sat Dec 28 2019 09:44:45.644 - Closing pipe SpacePirateVR (26796) because it was broken from the other end
-Sat Dec 28 2019 09:44:45.644 - Process SpacePirateVR (26796) disconnected (Thread(0x000001ADF2E40AA0/0x000)
-Sat Dec 28 2019 09:44:45.644 - Lost pipe connection from SpacePirateVR (26796)
-Sat Dec 28 2019 09:44:45.644 - ######################################################################
-Sat Dec 28 2019 09:44:45.644 - Cumulative stats for pid: 26796
-Sat Dec 28 2019 09:44:45.644 - Total..................  5011 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:44:45.644 - Startup................  5011 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:44:45.644 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:44:45.644 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:44:45.644 - ######################################################################
-Sat Dec 28 2019 09:44:45.644 - Total dropped frames: 0
-Sat Dec 28 2019 09:45:26.652 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 9464
-Sat Dec 28 2019 09:45:26.677 - Closing pipe SpacePirateVR (9464) because it was broken from the other end
-Sat Dec 28 2019 09:45:26.677 - Process SpacePirateVR (9464) disconnected (Thread(0x000001ADF2DABF70/0x000)
-Sat Dec 28 2019 09:45:26.677 - Lost pipe connection from SpacePirateVR (9464)
-Sat Dec 28 2019 09:45:27.857 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 9464
-Sat Dec 28 2019 09:45:37.405 - Closing pipe SpacePirateVR (9464) because it was broken from the other end
-Sat Dec 28 2019 09:45:37.405 - Process SpacePirateVR (9464) disconnected (Thread(0x000001ADF2DABF70/0x000)
-Sat Dec 28 2019 09:45:37.405 - Lost pipe connection from SpacePirateVR (9464)
-Sat Dec 28 2019 09:45:37.405 - ######################################################################
-Sat Dec 28 2019 09:45:37.405 - Cumulative stats for pid: 9464
-Sat Dec 28 2019 09:45:37.405 - Total..................  2701 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:45:37.405 - Startup................  2701 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:45:37.405 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:45:37.405 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:45:37.405 - ######################################################################
-Sat Dec 28 2019 09:45:37.405 - Total dropped frames: 0
-Sat Dec 28 2019 09:46:45.772 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 20296
-Sat Dec 28 2019 09:46:45.796 - Closing pipe SpacePirateVR (20296) because it was broken from the other end
-Sat Dec 28 2019 09:46:45.797 - Process SpacePirateVR (20296) disconnected (Thread(0x000001ADF601C760/0x000)
-Sat Dec 28 2019 09:46:45.797 - Lost pipe connection from SpacePirateVR (20296)
-Sat Dec 28 2019 09:46:47.037 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 20296
-Sat Dec 28 2019 09:46:53.870 - Closing pipe SpacePirateVR (20296) because it was broken from the other end
-Sat Dec 28 2019 09:46:53.870 - Process SpacePirateVR (20296) disconnected (Thread(0x000001ADF601CA30/0x000)
-Sat Dec 28 2019 09:46:53.870 - Lost pipe connection from SpacePirateVR (20296)
-Sat Dec 28 2019 09:46:53.870 - ######################################################################
-Sat Dec 28 2019 09:46:53.870 - Cumulative stats for pid: 20296
-Sat Dec 28 2019 09:46:53.870 - Total..................  1839 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:46:53.870 - Startup................  1839 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:46:53.870 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:46:53.870 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:46:53.870 - ######################################################################
-Sat Dec 28 2019 09:46:53.870 - Total dropped frames: 0
-Sat Dec 28 2019 09:51:20.924 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 15504
-Sat Dec 28 2019 09:51:20.946 - Closing pipe SpacePirateVR (15504) because it was broken from the other end
-Sat Dec 28 2019 09:51:20.946 - Process SpacePirateVR (15504) disconnected (Thread(0x000001ADF624E8A0/0x000)
-Sat Dec 28 2019 09:51:20.946 - Lost pipe connection from SpacePirateVR (15504)
-Sat Dec 28 2019 09:51:22.378 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 15504
-Sat Dec 28 2019 09:51:31.746 - Closing pipe SpacePirateVR (15504) because it was broken from the other end
-Sat Dec 28 2019 09:51:31.746 - Process SpacePirateVR (15504) disconnected (Thread(0x000001ADF624E8A0/0x000)
-Sat Dec 28 2019 09:51:31.746 - Lost pipe connection from SpacePirateVR (15504)
-Sat Dec 28 2019 09:51:31.746 - ######################################################################
-Sat Dec 28 2019 09:51:31.746 - Cumulative stats for pid: 15504
-Sat Dec 28 2019 09:51:31.746 - Total..................  2593 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:51:31.746 - Startup................  2593 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:51:31.746 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:51:31.746 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 09:51:31.746 - ######################################################################
-Sat Dec 28 2019 09:51:31.746 - Total dropped frames: 0
-Sat Dec 28 2019 10:03:40.338 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 17652
-Sat Dec 28 2019 10:03:40.356 - Closing pipe SpacePirateVR (17652) because it was broken from the other end
-Sat Dec 28 2019 10:03:40.356 - Process SpacePirateVR (17652) disconnected (Thread(0x000001ADF2E41430/0x000)
-Sat Dec 28 2019 10:03:40.356 - Lost pipe connection from SpacePirateVR (17652)
-Sat Dec 28 2019 10:03:41.555 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 17652
-Sat Dec 28 2019 10:03:43.162 - Closing pipe SpacePirateVR (17652) because it was broken from the other end
-Sat Dec 28 2019 10:03:43.162 - Process SpacePirateVR (17652) disconnected (Thread(0x000001ADF624E300/0x000)
-Sat Dec 28 2019 10:03:43.162 - Lost pipe connection from SpacePirateVR (17652)
-Sat Dec 28 2019 10:03:43.162 - ######################################################################
-Sat Dec 28 2019 10:03:43.162 - Cumulative stats for pid: 17652
-Sat Dec 28 2019 10:03:43.162 - Total..................   413 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:03:43.162 - Startup................   413 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:03:43.162 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:03:43.162 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:03:43.162 - ######################################################################
-Sat Dec 28 2019 10:03:43.162 - Total dropped frames: 0
-Sat Dec 28 2019 10:07:29.130 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23252
-Sat Dec 28 2019 10:07:29.157 - Closing pipe SpacePirateVR (23252) because it was broken from the other end
-Sat Dec 28 2019 10:07:29.157 - Process SpacePirateVR (23252) disconnected (Thread(0x000001ADF2FCD3A0/0x000)
-Sat Dec 28 2019 10:07:29.157 - Lost pipe connection from SpacePirateVR (23252)
-Sat Dec 28 2019 10:07:30.455 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23252
-Sat Dec 28 2019 10:07:31.963 - Closing pipe SpacePirateVR (23252) because it was broken from the other end
-Sat Dec 28 2019 10:07:31.963 - Process SpacePirateVR (23252) disconnected (Thread(0x000001ADF601C760/0x000)
-Sat Dec 28 2019 10:07:31.963 - Lost pipe connection from SpacePirateVR (23252)
-Sat Dec 28 2019 10:07:31.963 - ######################################################################
-Sat Dec 28 2019 10:07:31.963 - Cumulative stats for pid: 23252
-Sat Dec 28 2019 10:07:31.963 - Total..................   402 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:07:31.963 - Startup................   402 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:07:31.963 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:07:31.963 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:07:31.963 - ######################################################################
-Sat Dec 28 2019 10:07:31.963 - Total dropped frames: 0
-Sat Dec 28 2019 10:10:19.917 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 24016
-Sat Dec 28 2019 10:10:19.943 - Closing pipe SpacePirateVR (24016) because it was broken from the other end
-Sat Dec 28 2019 10:10:19.943 - Process SpacePirateVR (24016) disconnected (Thread(0x000001ADF624E780/0x000)
-Sat Dec 28 2019 10:10:19.943 - Lost pipe connection from SpacePirateVR (24016)
-Sat Dec 28 2019 10:10:21.289 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 24016
-Sat Dec 28 2019 10:10:22.596 - Closing pipe SpacePirateVR (24016) because it was broken from the other end
-Sat Dec 28 2019 10:10:22.597 - Process SpacePirateVR (24016) disconnected (Thread(0x000001ADF624E780/0x000)
-Sat Dec 28 2019 10:10:22.597 - Lost pipe connection from SpacePirateVR (24016)
-Sat Dec 28 2019 10:10:22.597 - ######################################################################
-Sat Dec 28 2019 10:10:22.597 - Cumulative stats for pid: 24016
-Sat Dec 28 2019 10:10:22.597 - Total..................   345 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:10:22.597 - Startup................   345 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:10:22.597 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:10:22.597 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:10:22.597 - ######################################################################
-Sat Dec 28 2019 10:10:22.597 - Total dropped frames: 0
-Sat Dec 28 2019 10:13:33.683 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29628
-Sat Dec 28 2019 10:13:33.708 - Closing pipe SpacePirateVR (29628) because it was broken from the other end
-Sat Dec 28 2019 10:13:33.708 - Process SpacePirateVR (29628) disconnected (Thread(0x000001ADF624E300/0x000)
-Sat Dec 28 2019 10:13:33.708 - Lost pipe connection from SpacePirateVR (29628)
-Sat Dec 28 2019 10:13:34.977 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29628
-Sat Dec 28 2019 10:13:36.483 - Closing pipe SpacePirateVR (29628) because it was broken from the other end
-Sat Dec 28 2019 10:13:36.483 - Process SpacePirateVR (29628) disconnected (Thread(0x000001ADF2E40FB0/0x000)
-Sat Dec 28 2019 10:13:36.483 - Lost pipe connection from SpacePirateVR (29628)
-Sat Dec 28 2019 10:13:36.483 - ######################################################################
-Sat Dec 28 2019 10:13:36.483 - Cumulative stats for pid: 29628
-Sat Dec 28 2019 10:13:36.483 - Total..................   399 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:13:36.483 - Startup................   399 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:13:36.483 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:13:36.483 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:13:36.483 - ######################################################################
-Sat Dec 28 2019 10:13:36.483 - Total dropped frames: 0
-Sat Dec 28 2019 10:13:41.843 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23020
-Sat Dec 28 2019 10:13:41.865 - Closing pipe SpacePirateVR (23020) because it was broken from the other end
-Sat Dec 28 2019 10:13:41.865 - Process SpacePirateVR (23020) disconnected (Thread(0x000001ADF31111F0/0x000)
-Sat Dec 28 2019 10:13:41.865 - Lost pipe connection from SpacePirateVR (23020)
-Sat Dec 28 2019 10:13:42.993 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23020
-Sat Dec 28 2019 10:13:44.399 - Closing pipe SpacePirateVR (23020) because it was broken from the other end
-Sat Dec 28 2019 10:13:44.399 - Process SpacePirateVR (23020) disconnected (Thread(0x000001ADF2FCCE90/0x000)
-Sat Dec 28 2019 10:13:44.399 - Lost pipe connection from SpacePirateVR (23020)
-Sat Dec 28 2019 10:13:44.399 - ######################################################################
-Sat Dec 28 2019 10:13:44.399 - Cumulative stats for pid: 23020
-Sat Dec 28 2019 10:13:44.399 - Total..................   353 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:13:44.399 - Startup................   353 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:13:44.399 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:13:44.399 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:13:44.399 - ######################################################################
-Sat Dec 28 2019 10:13:44.399 - Total dropped frames: 0
-Sat Dec 28 2019 10:16:16.461 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 27472
-Sat Dec 28 2019 10:16:16.485 - Closing pipe SpacePirateVR (27472) because it was broken from the other end
-Sat Dec 28 2019 10:16:16.485 - Process SpacePirateVR (27472) disconnected (Thread(0x000001ADF601CBE0/0x000)
-Sat Dec 28 2019 10:16:16.485 - Lost pipe connection from SpacePirateVR (27472)
-Sat Dec 28 2019 10:16:17.845 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 27472
-Sat Dec 28 2019 10:16:19.050 - Closing pipe SpacePirateVR (27472) because it was broken from the other end
-Sat Dec 28 2019 10:16:19.050 - Process SpacePirateVR (27472) disconnected (Thread(0x000001ADF2DABD30/0x000)
-Sat Dec 28 2019 10:16:19.050 - Lost pipe connection from SpacePirateVR (27472)
-Sat Dec 28 2019 10:16:19.050 - ######################################################################
-Sat Dec 28 2019 10:16:19.050 - Cumulative stats for pid: 27472
-Sat Dec 28 2019 10:16:19.050 - Total..................   317 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:16:19.050 - Startup................   317 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:16:19.050 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:16:19.050 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:16:19.050 - ######################################################################
-Sat Dec 28 2019 10:16:19.050 - Total dropped frames: 0
-Sat Dec 28 2019 10:19:17.225 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 11180
-Sat Dec 28 2019 10:19:17.247 - Closing pipe SpacePirateVR (11180) because it was broken from the other end
-Sat Dec 28 2019 10:19:17.247 - Process SpacePirateVR (11180) disconnected (Thread(0x000001ADF2FCCF20/0x000)
-Sat Dec 28 2019 10:19:17.247 - Lost pipe connection from SpacePirateVR (11180)
-Sat Dec 28 2019 10:19:18.473 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 11180
-Sat Dec 28 2019 10:19:19.478 - Closing pipe SpacePirateVR (11180) because it was broken from the other end
-Sat Dec 28 2019 10:19:19.478 - Process SpacePirateVR (11180) disconnected (Thread(0x000001ADF2E40A10/0x000)
-Sat Dec 28 2019 10:19:19.478 - Lost pipe connection from SpacePirateVR (11180)
-Sat Dec 28 2019 10:19:19.478 - ######################################################################
-Sat Dec 28 2019 10:19:19.478 - Cumulative stats for pid: 11180
-Sat Dec 28 2019 10:19:19.478 - Total..................   251 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:19:19.478 - Startup................   251 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:19:19.478 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:19:19.478 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:19:19.478 - ######################################################################
-Sat Dec 28 2019 10:19:19.478 - Total dropped frames: 0
-Sat Dec 28 2019 10:21:51.780 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 14692
-Sat Dec 28 2019 10:21:51.806 - Closing pipe SpacePirateVR (14692) because it was broken from the other end
-Sat Dec 28 2019 10:21:51.806 - Process SpacePirateVR (14692) disconnected (Thread(0x000001ADF601C5B0/0x000)
-Sat Dec 28 2019 10:21:51.806 - Lost pipe connection from SpacePirateVR (14692)
-Sat Dec 28 2019 10:21:53.106 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 14692
-Sat Dec 28 2019 10:21:54.513 - Closing pipe SpacePirateVR (14692) because it was broken from the other end
-Sat Dec 28 2019 10:21:54.513 - Process SpacePirateVR (14692) disconnected (Thread(0x000001ADF601C880/0x000)
-Sat Dec 28 2019 10:21:54.513 - Lost pipe connection from SpacePirateVR (14692)
-Sat Dec 28 2019 10:21:54.513 - ######################################################################
-Sat Dec 28 2019 10:21:54.513 - Cumulative stats for pid: 14692
-Sat Dec 28 2019 10:21:54.513 - Total..................   346 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:21:54.513 - Startup................   346 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:21:54.513 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:21:54.513 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:21:54.513 - ######################################################################
-Sat Dec 28 2019 10:21:54.513 - Total dropped frames: 0
-Sat Dec 28 2019 10:41:22.066 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21428
-Sat Dec 28 2019 10:41:22.085 - Closing pipe SpacePirateVR (21428) because it was broken from the other end
-Sat Dec 28 2019 10:41:22.085 - Process SpacePirateVR (21428) disconnected (Thread(0x000001ADF601C880/0x000)
-Sat Dec 28 2019 10:41:22.085 - Lost pipe connection from SpacePirateVR (21428)
-Sat Dec 28 2019 10:41:23.333 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21428
-Sat Dec 28 2019 10:41:24.741 - Closing pipe SpacePirateVR (21428) because it was broken from the other end
-Sat Dec 28 2019 10:41:24.741 - Process SpacePirateVR (21428) disconnected (Thread(0x000001ADF624E5D0/0x000)
-Sat Dec 28 2019 10:41:24.741 - Lost pipe connection from SpacePirateVR (21428)
-Sat Dec 28 2019 10:41:24.741 - ######################################################################
-Sat Dec 28 2019 10:41:24.741 - Cumulative stats for pid: 21428
-Sat Dec 28 2019 10:41:24.741 - Total..................   348 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:41:24.741 - Startup................   348 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:41:24.741 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:41:24.741 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:41:24.741 - ######################################################################
-Sat Dec 28 2019 10:41:24.741 - Total dropped frames: 0
-Sat Dec 28 2019 10:48:13.531 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 22216
-Sat Dec 28 2019 10:48:13.554 - Closing pipe SpacePirateVR (22216) because it was broken from the other end
-Sat Dec 28 2019 10:48:13.554 - Process SpacePirateVR (22216) disconnected (Thread(0x000001ADF2DAC240/0x000)
-Sat Dec 28 2019 10:48:13.554 - Lost pipe connection from SpacePirateVR (22216)
-Sat Dec 28 2019 10:48:14.847 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 22216
-Sat Dec 28 2019 10:48:16.153 - Closing pipe SpacePirateVR (22216) because it was broken from the other end
-Sat Dec 28 2019 10:48:16.153 - Process SpacePirateVR (22216) disconnected (Thread(0x000001ADF624E4B0/0x000)
-Sat Dec 28 2019 10:48:16.153 - Lost pipe connection from SpacePirateVR (22216)
-Sat Dec 28 2019 10:48:16.153 - ######################################################################
-Sat Dec 28 2019 10:48:16.153 - Cumulative stats for pid: 22216
-Sat Dec 28 2019 10:48:16.153 - Total..................   349 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:48:16.153 - Startup................   349 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:48:16.153 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:48:16.153 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:48:16.153 - ######################################################################
-Sat Dec 28 2019 10:48:16.153 - Total dropped frames: 0
-Sat Dec 28 2019 10:51:57.802 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29680
-Sat Dec 28 2019 10:51:57.823 - Closing pipe SpacePirateVR (29680) because it was broken from the other end
-Sat Dec 28 2019 10:51:57.823 - Process SpacePirateVR (29680) disconnected (Thread(0x000001ADF2DAB940/0x000)
-Sat Dec 28 2019 10:51:57.823 - Lost pipe connection from SpacePirateVR (29680)
-Sat Dec 28 2019 10:51:59.155 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29680
-Sat Dec 28 2019 10:52:00.562 - Closing pipe SpacePirateVR (29680) because it was broken from the other end
-Sat Dec 28 2019 10:52:00.562 - Process SpacePirateVR (29680) disconnected (Thread(0x000001ADF624E8A0/0x000)
-Sat Dec 28 2019 10:52:00.562 - Lost pipe connection from SpacePirateVR (29680)
-Sat Dec 28 2019 10:52:00.562 - ######################################################################
-Sat Dec 28 2019 10:52:00.562 - Cumulative stats for pid: 29680
-Sat Dec 28 2019 10:52:00.562 - Total..................   386 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:52:00.562 - Startup................   386 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:52:00.562 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:52:00.562 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:52:00.562 - ######################################################################
-Sat Dec 28 2019 10:52:00.562 - Total dropped frames: 0
-Sat Dec 28 2019 10:53:00.635 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21528
-Sat Dec 28 2019 10:53:00.659 - Closing pipe SpacePirateVR (21528) because it was broken from the other end
-Sat Dec 28 2019 10:53:00.659 - Process SpacePirateVR (21528) disconnected (Thread(0x000001ADF624E780/0x000)
-Sat Dec 28 2019 10:53:00.659 - Lost pipe connection from SpacePirateVR (21528)
-Sat Dec 28 2019 10:53:01.861 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21528
-Sat Dec 28 2019 10:53:03.267 - Closing pipe SpacePirateVR (21528) because it was broken from the other end
-Sat Dec 28 2019 10:53:03.267 - Process SpacePirateVR (21528) disconnected (Thread(0x000001ADF2E41430/0x000)
-Sat Dec 28 2019 10:53:03.267 - Lost pipe connection from SpacePirateVR (21528)
-Sat Dec 28 2019 10:53:03.267 - ######################################################################
-Sat Dec 28 2019 10:53:03.267 - Cumulative stats for pid: 21528
-Sat Dec 28 2019 10:53:03.267 - Total..................   374 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:53:03.267 - Startup................   374 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:53:03.267 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:53:03.267 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:53:03.267 - ######################################################################
-Sat Dec 28 2019 10:53:03.267 - Total dropped frames: 0
-Sat Dec 28 2019 10:53:29.348 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 25676
-Sat Dec 28 2019 10:53:29.371 - Closing pipe SpacePirateVR (25676) because it was broken from the other end
-Sat Dec 28 2019 10:53:29.371 - Process SpacePirateVR (25676) disconnected (Thread(0x000001ADF2E411F0/0x000)
-Sat Dec 28 2019 10:53:29.371 - Lost pipe connection from SpacePirateVR (25676)
-Sat Dec 28 2019 10:53:30.513 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 25676
-Sat Dec 28 2019 10:53:35.342 - Screenshot: HookScreenshot, 1 types
-Sat Dec 28 2019 10:53:40.109 - Closing pipe SpacePirateVR (25676) because it was broken from the other end
-Sat Dec 28 2019 10:53:40.109 - Process SpacePirateVR (25676) disconnected (Thread(0x000001ADF2E41310/0x000)
-Sat Dec 28 2019 10:53:40.109 - Lost pipe connection from SpacePirateVR (25676)
-Sat Dec 28 2019 10:53:40.109 - ######################################################################
-Sat Dec 28 2019 10:53:40.109 - Cumulative stats for pid: 25676
-Sat Dec 28 2019 10:53:40.109 - Total..................  1759 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:53:40.109 - Startup................    81 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:53:40.109 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:53:40.109 - Timed out.  5 total....  1116 presents.    0 dropped.    0 reprojected
-Sat Dec 28 2019 10:53:40.109 - ######################################################################
-Sat Dec 28 2019 10:53:40.109 - Total dropped frames: 0
+Sun Dec 29 2019 06:54:59.698 - //==============================================================================================
+Sun Dec 29 2019 06:54:59.698 - ================================================================================================
+Sun Dec 29 2019 06:54:59.698 - ================================================================================================
+Sun Dec 29 2019 06:54:59.698 - vrcompositor.exe 1.9.16 startup with PID=4024, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 06:54:59.698 - VR compositor 1.9.16 (v1576990468) starting up
+Sun Dec 29 2019 06:54:59.804 - CSharedResourceNamespaceClient::Init(): received namespace data 16752
+Sun Dec 29 2019 06:54:59.820 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:54:59.820 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:54:59.821 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:54:59.822 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:54:59.823 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 06:54:59.827 - Events created
+Sun Dec 29 2019 06:54:59.836 - Found bad mirror window settings: 
+Sun Dec 29 2019 06:54:59.879 - CGraphicsDevice Init...
+Sun Dec 29 2019 06:54:59.879 - Headset is using driver direct mode
+Sun Dec 29 2019 06:55:00.724 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Sun Dec 29 2019 06:55:00.724 - ****************************************** Begin GPU speed ******************************************
+Sun Dec 29 2019 06:55:00.958 - MeasureGpuMegaPixelsPerSecond(): Returning 287 MP/sec. Total CPU time 0.23 seconds.
+Sun Dec 29 2019 06:55:00.989 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Sun Dec 29 2019 06:55:00.990 - GPU speed from average of 6 median samples: 287
+Sun Dec 29 2019 06:55:00.991 - ******************************************* End GPU speed *******************************************
+Sun Dec 29 2019 06:55:00.991 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Sun Dec 29 2019 06:55:00.991 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Sun Dec 29 2019 06:55:00.991 - Raw ideal render target scale = 0.73
+Sun Dec 29 2019 06:55:00.992 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Sun Dec 29 2019 06:55:00.992 - Loading fonts/debug.spritefont
+Sun Dec 29 2019 06:55:01.007 - Creating samplers
+Sun Dec 29 2019 06:55:01.007 - Creating util resources
+Sun Dec 29 2019 06:55:01.011 - Creating/Updating distortion surfaces
+Sun Dec 29 2019 06:55:01.231 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Sun Dec 29 2019 06:55:01.436 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Sun Dec 29 2019 06:55:01.439 - Creating constant buffers
+Sun Dec 29 2019 06:55:01.439 - Creating layer texture (w=1552,h=1720)
+Sun Dec 29 2019 06:55:02.153 - Loading MC resources
+Sun Dec 29 2019 06:55:02.153 - Initializing timing resources
+Sun Dec 29 2019 06:55:02.153 - Initializing camera
+Sun Dec 29 2019 06:55:02.153 - Done initializing CGraphicsDevice resources
+Sun Dec 29 2019 06:55:02.155 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Sun Dec 29 2019 06:55:02.168 - Distort initialized
+Sun Dec 29 2019 06:55:02.180 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Sun Dec 29 2019 06:55:02.181 - Set thread 0000000000000664 priority to: 15
+Sun Dec 29 2019 06:55:02.181 - Set thread 0000000000000638 priority to: 15
+Sun Dec 29 2019 06:55:02.181 - Compositor render thread started
+Sun Dec 29 2019 06:55:02.181 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 25992
+Sun Dec 29 2019 06:55:02.181 - Startup Complete (2.376284 seconds)
+Sun Dec 29 2019 06:55:02.190 - Found 103 quads for Collision Bounds
+Sun Dec 29 2019 06:55:02.191 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Sun Dec 29 2019 06:55:02.191 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Sun Dec 29 2019 06:55:02.192 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Sun Dec 29 2019 06:55:02.202 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Sun Dec 29 2019 06:55:02.252 - Closing pipe SpacePirateVR (25992) because it was broken from the other end
+Sun Dec 29 2019 06:55:02.253 - Process SpacePirateVR (25992) disconnected (Thread(0x00000215BA919D10/0x000)
+Sun Dec 29 2019 06:55:02.253 - Lost pipe connection from SpacePirateVR (25992)
+Sun Dec 29 2019 06:55:02.533 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 24700
+Sun Dec 29 2019 06:55:04.005 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 27020
+Sun Dec 29 2019 06:55:04.237 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 26344
+Sun Dec 29 2019 06:55:06.087 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 25228
+Sun Dec 29 2019 06:55:06.123 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18596
+Sun Dec 29 2019 06:55:06.133 - Processing message VRMsg_CompositorConnect from vrwebhelper (18596) took 0.00948 seconds
+Sun Dec 29 2019 06:55:06.146 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 16572
+Sun Dec 29 2019 06:55:06.214 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 2292
+Sun Dec 29 2019 06:55:06.220 - Processing message VRMsg_CompositorConnect from vrwebhelper (2292) took 0.00627 seconds
+Sun Dec 29 2019 06:55:06.221 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 14148
+Sun Dec 29 2019 06:55:06.299 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 19208
+Sun Dec 29 2019 06:55:06.459 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17364
+Sun Dec 29 2019 06:55:06.512 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 19072
+Sun Dec 29 2019 06:55:06.524 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18912
+Sun Dec 29 2019 06:55:06.572 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 29236
+Sun Dec 29 2019 06:55:06.817 - External connection from C:\Program Files (x86)\Steam\Steam.exe 27996
+Sun Dec 29 2019 06:55:08.238 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 25992
+Sun Dec 29 2019 06:55:16.497 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 06:55:19.472 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 06:55:20.135 - Closing pipe SpacePirateVR (25992) because it was broken from the other end
+Sun Dec 29 2019 06:55:20.135 - Process SpacePirateVR (25992) disconnected (Thread(0x00000215BABBF300/0x000)
+Sun Dec 29 2019 06:55:20.135 - Lost pipe connection from SpacePirateVR (25992)
+Sun Dec 29 2019 06:55:20.135 - ######################################################################
+Sun Dec 29 2019 06:55:20.135 - Cumulative stats for pid: 25992
+Sun Dec 29 2019 06:55:20.135 - Total..................  3075 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 06:55:20.135 - Startup................    75 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 06:55:20.135 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 06:55:20.136 - Timed out.  1 total....  2929 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 06:55:20.136 - ######################################################################
+Sun Dec 29 2019 06:55:20.136 - Total dropped frames: 0
+Sun Dec 29 2019 06:55:59.573 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 8048
+Sun Dec 29 2019 06:55:59.613 - Closing pipe SpacePirateVR (8048) because it was broken from the other end
+Sun Dec 29 2019 06:55:59.613 - Process SpacePirateVR (8048) disconnected (Thread(0x00000215BABD1C40/0x000)
+Sun Dec 29 2019 06:55:59.613 - Lost pipe connection from SpacePirateVR (8048)
+Sun Dec 29 2019 06:56:00.834 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 8048
+Sun Dec 29 2019 06:56:05.627 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 06:56:14.744 - Closing pipe SpacePirateVR (8048) because it was broken from the other end
+Sun Dec 29 2019 06:56:14.744 - Process SpacePirateVR (8048) disconnected (Thread(0x00000215BA92C1B0/0x000)
+Sun Dec 29 2019 06:56:14.744 - Lost pipe connection from SpacePirateVR (8048)
+Sun Dec 29 2019 06:56:14.744 - ######################################################################
+Sun Dec 29 2019 06:56:14.744 - Cumulative stats for pid: 8048
+Sun Dec 29 2019 06:56:14.744 - Total..................  2553 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 06:56:14.744 - Startup................    79 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 06:56:14.744 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 06:56:14.744 - Timed out.  4 total....  1784 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 06:56:14.744 - ######################################################################
+Sun Dec 29 2019 06:56:14.744 - Total dropped frames: 0
+Sun Dec 29 2019 07:02:22.862 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 6264
+Sun Dec 29 2019 07:02:22.883 - Closing pipe SpacePirateVR (6264) because it was broken from the other end
+Sun Dec 29 2019 07:02:22.883 - Process SpacePirateVR (6264) disconnected (Thread(0x00000215BAA74200/0x000)
+Sun Dec 29 2019 07:02:22.883 - Lost pipe connection from SpacePirateVR (6264)
+Sun Dec 29 2019 07:02:24.158 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 6264
+Sun Dec 29 2019 07:02:46.692 - Closing pipe SpacePirateVR (6264) because it was broken from the other end
+Sun Dec 29 2019 07:02:46.693 - Process SpacePirateVR (6264) disconnected (Thread(0x00000215BABBD1C0/0x000)
+Sun Dec 29 2019 07:02:46.693 - Lost pipe connection from SpacePirateVR (6264)
+Sun Dec 29 2019 07:02:46.693 - ######################################################################
+Sun Dec 29 2019 07:02:46.693 - Cumulative stats for pid: 6264
+Sun Dec 29 2019 07:02:46.693 - Total..................  6492 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:02:46.693 - Startup................  6492 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:02:46.694 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:02:46.694 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:02:46.694 - ######################################################################
+Sun Dec 29 2019 07:02:46.694 - Total dropped frames: 0
+Sun Dec 29 2019 07:10:43.975 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21460
+Sun Dec 29 2019 07:10:43.996 - Closing pipe SpacePirateVR (21460) because it was broken from the other end
+Sun Dec 29 2019 07:10:43.996 - Process SpacePirateVR (21460) disconnected (Thread(0x00000215BAA74200/0x000)
+Sun Dec 29 2019 07:10:43.996 - Lost pipe connection from SpacePirateVR (21460)
+Sun Dec 29 2019 07:10:45.270 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 21460
+Sun Dec 29 2019 07:10:57.330 - Closing pipe SpacePirateVR (21460) because it was broken from the other end
+Sun Dec 29 2019 07:10:57.330 - Process SpacePirateVR (21460) disconnected (Thread(0x00000215BAA74200/0x000)
+Sun Dec 29 2019 07:10:57.330 - Lost pipe connection from SpacePirateVR (21460)
+Sun Dec 29 2019 07:10:57.332 - ######################################################################
+Sun Dec 29 2019 07:10:57.332 - Cumulative stats for pid: 21460
+Sun Dec 29 2019 07:10:57.333 - Total..................  3384 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:10:57.333 - Startup................  3384 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:10:57.333 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:10:57.333 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:10:57.333 - ######################################################################
+Sun Dec 29 2019 07:10:57.333 - Total dropped frames: 0
+Sun Dec 29 2019 07:12:22.878 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 19640
+Sun Dec 29 2019 07:12:22.904 - Closing pipe SpacePirateVR (19640) because it was broken from the other end
+Sun Dec 29 2019 07:12:22.904 - Process SpacePirateVR (19640) disconnected (Thread(0x00000215BAA73510/0x000)
+Sun Dec 29 2019 07:12:22.904 - Lost pipe connection from SpacePirateVR (19640)
+Sun Dec 29 2019 07:12:24.237 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 19640
+Sun Dec 29 2019 07:12:29.000 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:12:55.265 - Closing pipe SpacePirateVR (19640) because it was broken from the other end
+Sun Dec 29 2019 07:12:55.265 - Process SpacePirateVR (19640) disconnected (Thread(0x00000215BA91A6A0/0x000)
+Sun Dec 29 2019 07:12:55.265 - Lost pipe connection from SpacePirateVR (19640)
+Sun Dec 29 2019 07:12:55.265 - ######################################################################
+Sun Dec 29 2019 07:12:55.265 - Cumulative stats for pid: 19640
+Sun Dec 29 2019 07:12:55.265 - Total..................  3589 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:12:55.265 - Startup................    81 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:12:55.265 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:12:55.265 - Timed out.  4 total....  1821 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:12:55.265 - ######################################################################
+Sun Dec 29 2019 07:12:55.265 - Total dropped frames: 0
+Sun Dec 29 2019 07:14:49.465 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 20040
+Sun Dec 29 2019 07:14:49.488 - Closing pipe SpacePirateVR (20040) because it was broken from the other end
+Sun Dec 29 2019 07:14:49.488 - Process SpacePirateVR (20040) disconnected (Thread(0x00000215BAA73D80/0x000)
+Sun Dec 29 2019 07:14:49.489 - Lost pipe connection from SpacePirateVR (20040)
+Sun Dec 29 2019 07:14:50.819 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 20040
+Sun Dec 29 2019 07:14:55.569 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:15:31.262 - Closing pipe SpacePirateVR (20040) because it was broken from the other end
+Sun Dec 29 2019 07:15:31.262 - Process SpacePirateVR (20040) disconnected (Thread(0x00000215BABBF0C0/0x000)
+Sun Dec 29 2019 07:15:31.262 - Lost pipe connection from SpacePirateVR (20040)
+Sun Dec 29 2019 07:15:31.262 - ######################################################################
+Sun Dec 29 2019 07:15:31.262 - Cumulative stats for pid: 20040
+Sun Dec 29 2019 07:15:31.262 - Total..................  3778 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:15:31.262 - Startup................    83 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:15:31.262 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:15:31.262 - Timed out.  4 total....  1374 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:15:31.262 - ######################################################################
+Sun Dec 29 2019 07:15:31.262 - Total dropped frames: 0
+Sun Dec 29 2019 07:15:36.445 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 816
+Sun Dec 29 2019 07:15:36.477 - Closing pipe SpacePirateVR (816) because it was broken from the other end
+Sun Dec 29 2019 07:15:36.477 - Process SpacePirateVR (816) disconnected (Thread(0x00000215BA91A6A0/0x000)
+Sun Dec 29 2019 07:15:36.477 - Lost pipe connection from SpacePirateVR (816)
+Sun Dec 29 2019 07:15:37.614 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 816
+Sun Dec 29 2019 07:15:42.371 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:16:18.273 - Closing pipe SpacePirateVR (816) because it was broken from the other end
+Sun Dec 29 2019 07:16:18.273 - Process SpacePirateVR (816) disconnected (Thread(0x00000215BAD34610/0x000)
+Sun Dec 29 2019 07:16:18.273 - Lost pipe connection from SpacePirateVR (816)
+Sun Dec 29 2019 07:16:18.273 - ######################################################################
+Sun Dec 29 2019 07:16:18.273 - Cumulative stats for pid: 816
+Sun Dec 29 2019 07:16:18.273 - Total..................  3767 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:16:18.273 - Startup................    84 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:16:18.273 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:16:18.274 - Timed out.  4 total....  1347 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:16:18.274 - ######################################################################
+Sun Dec 29 2019 07:16:18.274 - Total dropped frames: 0
+Sun Dec 29 2019 07:16:23.366 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 13444
+Sun Dec 29 2019 07:16:23.399 - Closing pipe SpacePirateVR (13444) because it was broken from the other end
+Sun Dec 29 2019 07:16:23.399 - Process SpacePirateVR (13444) disconnected (Thread(0x00000215BAD112D0/0x000)
+Sun Dec 29 2019 07:16:23.399 - Lost pipe connection from SpacePirateVR (13444)
+Sun Dec 29 2019 07:16:24.546 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 13444
+Sun Dec 29 2019 07:16:29.253 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:16:50.305 - Closing pipe SpacePirateVR (13444) because it was broken from the other end
+Sun Dec 29 2019 07:16:50.305 - Process SpacePirateVR (13444) disconnected (Thread(0x00000215BA91A580/0x000)
+Sun Dec 29 2019 07:16:50.305 - Lost pipe connection from SpacePirateVR (13444)
+Sun Dec 29 2019 07:16:50.305 - ######################################################################
+Sun Dec 29 2019 07:16:50.305 - Cumulative stats for pid: 13444
+Sun Dec 29 2019 07:16:50.305 - Total..................  2832 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:16:50.305 - Startup................    59 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:16:50.305 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:16:50.305 - Timed out.  4 total....  1351 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:16:50.305 - ######################################################################
+Sun Dec 29 2019 07:16:50.305 - Total dropped frames: 0
+Sun Dec 29 2019 07:16:54.581 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 26324
+Sun Dec 29 2019 07:16:54.609 - Closing pipe SpacePirateVR (26324) because it was broken from the other end
+Sun Dec 29 2019 07:16:54.609 - Process SpacePirateVR (26324) disconnected (Thread(0x00000215BABBD910/0x000)
+Sun Dec 29 2019 07:16:54.609 - Lost pipe connection from SpacePirateVR (26324)
+Sun Dec 29 2019 07:16:55.749 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 26324
+Sun Dec 29 2019 07:17:00.484 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:17:17.127 - Closing pipe vrwebhelper (16572) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.127 - Process vrwebhelper (16572) disconnected (Thread(0x00000215BAD11120/0x000)
+Sun Dec 29 2019 07:17:17.127 - Lost pipe connection from vrwebhelper (16572)
+Sun Dec 29 2019 07:17:17.137 - Closing pipe vrdashboard (24700) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.137 - Process vrdashboard (24700) disconnected (Thread(0x00000215BAD11F80/0x000)
+Sun Dec 29 2019 07:17:17.137 - Lost pipe connection from vrdashboard (24700)
+Sun Dec 29 2019 07:17:17.141 - Closing pipe vrwebhelper (29236) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.141 - Process vrwebhelper (29236) disconnected (Thread(0x00000215BA92C990/0x000)
+Sun Dec 29 2019 07:17:17.141 - Lost pipe connection from vrwebhelper (29236)
+Sun Dec 29 2019 07:17:17.147 - Closing pipe vrwebhelper (17364) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.147 - Process vrwebhelper (17364) disconnected (Thread(0x00000215BA92C900/0x000)
+Sun Dec 29 2019 07:17:17.147 - Lost pipe connection from vrwebhelper (17364)
+Sun Dec 29 2019 07:17:17.165 - Closing pipe vrwebhelper (14148) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.165 - Process vrwebhelper (14148) disconnected (Thread(0x00000215BAD10A60/0x000)
+Sun Dec 29 2019 07:17:17.165 - Lost pipe connection from vrwebhelper (14148)
+Sun Dec 29 2019 07:17:17.196 - Closing pipe vrwebhelper (25228) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.197 - Process vrwebhelper (25228) disconnected (Thread(0x00000215BAD12010/0x000)
+Sun Dec 29 2019 07:17:17.197 - Lost pipe connection from vrwebhelper (25228)
+Sun Dec 29 2019 07:17:17.254 - Closing pipe vrwebhelper (18912) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.254 - Process vrwebhelper (18912) disconnected (Thread(0x00000215BA92D8C0/0x000)
+Sun Dec 29 2019 07:17:17.254 - Lost pipe connection from vrwebhelper (18912)
+Sun Dec 29 2019 07:17:17.264 - Closing pipe vrwebhelper (19072) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.264 - Process vrwebhelper (19072) disconnected (Thread(0x00000215BA92D200/0x000)
+Sun Dec 29 2019 07:17:17.264 - Lost pipe connection from vrwebhelper (19072)
+Sun Dec 29 2019 07:17:17.279 - Closing pipe vrwebhelper (19208) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.279 - Process vrwebhelper (19208) disconnected (Thread(0x00000215BAD10790/0x000)
+Sun Dec 29 2019 07:17:17.279 - Lost pipe connection from vrwebhelper (19208)
+Sun Dec 29 2019 07:17:17.287 - Closing pipe vrwebhelper (2292) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.287 - Process vrwebhelper (2292) disconnected (Thread(0x00000215BAD11090/0x000)
+Sun Dec 29 2019 07:17:17.287 - Lost pipe connection from vrwebhelper (2292)
+Sun Dec 29 2019 07:17:17.298 - Closing pipe vrwebhelper (18596) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.298 - Process vrwebhelper (18596) disconnected (Thread(0x00000215BABA8A50/0x000)
+Sun Dec 29 2019 07:17:17.298 - Lost pipe connection from vrwebhelper (18596)
+Sun Dec 29 2019 07:17:17.423 - Closing pipe vrwebhelper (26344) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.423 - Process vrwebhelper (26344) disconnected (Thread(0x00000215BAD11CB0/0x000)
+Sun Dec 29 2019 07:17:17.423 - Lost pipe connection from vrwebhelper (26344)
+Sun Dec 29 2019 07:17:17.732 - Closing pipe SpacePirateVR (26324) because it was broken from the other end
+Sun Dec 29 2019 07:17:17.732 - Process SpacePirateVR (26324) disconnected (Thread(0x00000215BA91A340/0x000)
+Sun Dec 29 2019 07:17:17.732 - Lost pipe connection from SpacePirateVR (26324)
+Sun Dec 29 2019 07:17:17.733 - ######################################################################
+Sun Dec 29 2019 07:17:17.733 - Cumulative stats for pid: 26324
+Sun Dec 29 2019 07:17:17.733 - Total..................  2919 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:17:17.733 - Startup................    83 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:17:17.733 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:17:17.733 - Timed out.  4 total....  1567 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:17:17.733 - ######################################################################
+Sun Dec 29 2019 07:17:17.733 - Total dropped frames: 0
+Sun Dec 29 2019 07:17:19.103 - Closing pipe Steam (27996) because it was broken from the other end
+Sun Dec 29 2019 07:17:19.103 - Process Steam (27996) disconnected (Thread(0x00000215BAD11240/0x000)
+Sun Dec 29 2019 07:17:19.103 - Lost pipe connection from Steam (27996)
+Sun Dec 29 2019 07:17:19.103 - Destroying overlay 1800000013 valve.steam.bigpicture (Steam)from pid 27996 because that process disconnected
+Sun Dec 29 2019 07:17:19.103 - Destroying overlay 1900000014 valve.steam.bigpicture.thumb (Steam (Thumb))from pid 27996 because that process disconnected
+Sun Dec 29 2019 07:17:19.110 - Render thread ending
+Sun Dec 29 2019 07:17:19.110 - Signal thread ending
+Sun Dec 29 2019 07:17:19.121 - VR compositor shutting down
+Sun Dec 29 2019 07:17:19.168 - Process vrmonitor (27020) disconnected (Thread(0x00000215BAD11B00/0x000)
+Sun Dec 29 2019 07:17:19.168 - Ignoring LostPipeConnection from vrmonitor (27020) because compositor is shutting down
+Sun Dec 29 2019 07:17:19.208 - Listener thread ending
+Sun Dec 29 2019 07:17:19.208 - Cleaning up
+Sun Dec 29 2019 07:17:21.342 - //==============================================================================================
+Sun Dec 29 2019 07:17:21.342 - ================================================================================================
+Sun Dec 29 2019 07:17:21.342 - ================================================================================================
+Sun Dec 29 2019 07:17:21.342 - vrcompositor.exe 1.9.16 startup with PID=27580, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 07:17:21.342 - VR compositor 1.9.16 (v1576990468) starting up
+Sun Dec 29 2019 07:17:21.407 - CSharedResourceNamespaceClient::Init(): received namespace data 23532
+Sun Dec 29 2019 07:17:21.419 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:21.419 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:21.419 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:21.419 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:21.420 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 07:17:21.422 - Events created
+Sun Dec 29 2019 07:17:21.424 - Found bad mirror window settings: 
+Sun Dec 29 2019 07:17:21.449 - CGraphicsDevice Init...
+Sun Dec 29 2019 07:17:21.449 - Headset is using driver direct mode
+Sun Dec 29 2019 07:17:21.533 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Sun Dec 29 2019 07:17:21.533 - ****************************************** Begin GPU speed ******************************************
+Sun Dec 29 2019 07:17:21.719 - MeasureGpuMegaPixelsPerSecond(): Returning 274 MP/sec. Total CPU time 0.19 seconds.
+Sun Dec 29 2019 07:17:21.732 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Sun Dec 29 2019 07:17:21.733 - GPU speed from average of 6 median samples: 286
+Sun Dec 29 2019 07:17:21.734 - ******************************************* End GPU speed *******************************************
+Sun Dec 29 2019 07:17:21.734 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Sun Dec 29 2019 07:17:21.734 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Sun Dec 29 2019 07:17:21.735 - Raw ideal render target scale = 0.73
+Sun Dec 29 2019 07:17:21.735 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Sun Dec 29 2019 07:17:21.735 - Loading fonts/debug.spritefont
+Sun Dec 29 2019 07:17:21.736 - Creating samplers
+Sun Dec 29 2019 07:17:21.736 - Creating util resources
+Sun Dec 29 2019 07:17:21.737 - Creating/Updating distortion surfaces
+Sun Dec 29 2019 07:17:21.932 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Sun Dec 29 2019 07:17:22.138 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Sun Dec 29 2019 07:17:22.140 - Creating constant buffers
+Sun Dec 29 2019 07:17:22.141 - Creating layer texture (w=1552,h=1720)
+Sun Dec 29 2019 07:17:22.742 - Loading MC resources
+Sun Dec 29 2019 07:17:22.742 - Initializing timing resources
+Sun Dec 29 2019 07:17:22.742 - Initializing camera
+Sun Dec 29 2019 07:17:22.742 - Done initializing CGraphicsDevice resources
+Sun Dec 29 2019 07:17:22.743 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Sun Dec 29 2019 07:17:22.752 - Distort initialized
+Sun Dec 29 2019 07:17:22.762 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Sun Dec 29 2019 07:17:22.762 - Set thread 0000000000000660 priority to: 15
+Sun Dec 29 2019 07:17:22.762 - Set thread 0000000000000634 priority to: 15
+Sun Dec 29 2019 07:17:22.763 - Compositor render thread started
+Sun Dec 29 2019 07:17:22.763 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe 15568
+Sun Dec 29 2019 07:17:22.763 - Startup Complete (1.355475 seconds)
+Sun Dec 29 2019 07:17:22.772 - Found 103 quads for Collision Bounds
+Sun Dec 29 2019 07:17:22.772 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Sun Dec 29 2019 07:17:22.772 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Sun Dec 29 2019 07:17:22.773 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Sun Dec 29 2019 07:17:22.774 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Sun Dec 29 2019 07:17:22.783 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Sun Dec 29 2019 07:17:22.976 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 27516
+Sun Dec 29 2019 07:17:23.419 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 29444
+Sun Dec 29 2019 07:17:23.821 - Closing pipe vrstartup (15568) because it was broken from the other end
+Sun Dec 29 2019 07:17:23.821 - Process vrstartup (15568) disconnected (Thread(0x000002618BA9D980/0x000)
+Sun Dec 29 2019 07:17:23.821 - Lost pipe connection from vrstartup (15568)
+Sun Dec 29 2019 07:17:23.892 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 16720
+Sun Dec 29 2019 07:17:25.618 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 5840
+Sun Dec 29 2019 07:17:25.626 - Processing message VRMsg_CompositorConnect from vrwebhelper (5840) took 0.00794 seconds
+Sun Dec 29 2019 07:17:25.651 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 3004
+Sun Dec 29 2019 07:17:25.666 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 26476
+Sun Dec 29 2019 07:17:25.670 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 20972
+Sun Dec 29 2019 07:17:25.704 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 22504
+Sun Dec 29 2019 07:17:25.726 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 26332
+Sun Dec 29 2019 07:17:25.866 - External connection from C:\Program Files (x86)\Steam\Steam.exe 27996
+Sun Dec 29 2019 07:17:25.900 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24048
+Sun Dec 29 2019 07:17:25.910 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18248
+Sun Dec 29 2019 07:17:25.921 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 21972
+Sun Dec 29 2019 07:17:26.006 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 23200
+Sun Dec 29 2019 07:17:33.158 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 25324
+Sun Dec 29 2019 07:17:33.190 - Closing pipe SpacePirateVR (25324) because it was broken from the other end
+Sun Dec 29 2019 07:17:33.190 - Process SpacePirateVR (25324) disconnected (Thread(0x000002618BE51500/0x000)
+Sun Dec 29 2019 07:17:33.190 - Lost pipe connection from SpacePirateVR (25324)
+Sun Dec 29 2019 07:17:34.435 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 25324
+Sun Dec 29 2019 07:17:40.356 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:17:48.796 - Closing pipe SpacePirateVR (25324) because it was broken from the other end
+Sun Dec 29 2019 07:17:48.796 - Process SpacePirateVR (25324) disconnected (Thread(0x000002618BE3DC20/0x000)
+Sun Dec 29 2019 07:17:48.796 - Lost pipe connection from SpacePirateVR (25324)
+Sun Dec 29 2019 07:17:48.796 - ######################################################################
+Sun Dec 29 2019 07:17:48.796 - Cumulative stats for pid: 25324
+Sun Dec 29 2019 07:17:48.796 - Total..................   884 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:17:48.796 - Startup................    64 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:17:48.796 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:17:48.796 - Timed out.  4 total....   538 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:17:48.796 - ######################################################################
+Sun Dec 29 2019 07:17:48.796 - Total dropped frames: 0
+Sun Dec 29 2019 07:21:01.533 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 10448
+Sun Dec 29 2019 07:21:01.557 - Closing pipe SpacePirateVR (10448) because it was broken from the other end
+Sun Dec 29 2019 07:21:01.557 - Process SpacePirateVR (10448) disconnected (Thread(0x000002618B8ADE30/0x000)
+Sun Dec 29 2019 07:21:01.557 - Lost pipe connection from SpacePirateVR (10448)
+Sun Dec 29 2019 07:21:02.776 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 10448
+Sun Dec 29 2019 07:21:07.952 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:21:19.919 - Closing pipe SpacePirateVR (10448) because it was broken from the other end
+Sun Dec 29 2019 07:21:19.919 - Process SpacePirateVR (10448) disconnected (Thread(0x000002618BBE7700/0x000)
+Sun Dec 29 2019 07:21:19.919 - Lost pipe connection from SpacePirateVR (10448)
+Sun Dec 29 2019 07:21:19.919 - ######################################################################
+Sun Dec 29 2019 07:21:19.919 - Cumulative stats for pid: 10448
+Sun Dec 29 2019 07:21:19.919 - Total..................   970 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:21:19.919 - Startup................    60 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:21:19.919 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:21:19.919 - Timed out.  5 total....   281 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:21:19.919 - ######################################################################
+Sun Dec 29 2019 07:21:19.919 - Total dropped frames: 0
+Sun Dec 29 2019 07:21:51.599 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18776
+Sun Dec 29 2019 07:21:51.608 - Processing message VRMsg_CompositorConnect from SpacePirateVR (18776) took 0.0143 seconds
+Sun Dec 29 2019 07:21:51.633 - Closing pipe SpacePirateVR (18776) because it was broken from the other end
+Sun Dec 29 2019 07:21:51.633 - Process SpacePirateVR (18776) disconnected (Thread(0x000002618B8AD9B0/0x000)
+Sun Dec 29 2019 07:21:51.633 - Lost pipe connection from SpacePirateVR (18776)
+Sun Dec 29 2019 07:21:52.882 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18776
+Sun Dec 29 2019 07:21:58.308 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:22:36.779 - Closing pipe SpacePirateVR (18776) because it was broken from the other end
+Sun Dec 29 2019 07:22:36.779 - Process SpacePirateVR (18776) disconnected (Thread(0x000002618BBE6D70/0x000)
+Sun Dec 29 2019 07:22:36.779 - Lost pipe connection from SpacePirateVR (18776)
+Sun Dec 29 2019 07:22:36.779 - ######################################################################
+Sun Dec 29 2019 07:22:36.779 - Cumulative stats for pid: 18776
+Sun Dec 29 2019 07:22:36.779 - Total..................  2413 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:22:36.779 - Startup................    60 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:22:36.779 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:22:36.779 - Timed out.  5 total....  1531 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:22:36.779 - ######################################################################
+Sun Dec 29 2019 07:22:36.779 - Total dropped frames: 0
+Sun Dec 29 2019 07:35:06.072 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 8428
+Sun Dec 29 2019 07:35:06.092 - Closing pipe SpacePirateVR (8428) because it was broken from the other end
+Sun Dec 29 2019 07:35:06.092 - Process SpacePirateVR (8428) disconnected (Thread(0x000002618B8AEF90/0x000)
+Sun Dec 29 2019 07:35:06.092 - Lost pipe connection from SpacePirateVR (8428)
+Sun Dec 29 2019 07:35:07.353 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 8428
+Sun Dec 29 2019 07:35:12.686 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:35:50.319 - Closing pipe SpacePirateVR (8428) because it was broken from the other end
+Sun Dec 29 2019 07:35:50.319 - Process SpacePirateVR (8428) disconnected (Thread(0x000002618B8AD9B0/0x000)
+Sun Dec 29 2019 07:35:50.319 - Lost pipe connection from SpacePirateVR (8428)
+Sun Dec 29 2019 07:35:50.319 - ######################################################################
+Sun Dec 29 2019 07:35:50.319 - Cumulative stats for pid: 8428
+Sun Dec 29 2019 07:35:50.319 - Total..................  2434 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:35:50.319 - Startup................    64 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:35:50.319 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:35:50.319 - Timed out.  5 total....   558 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:35:50.319 - ######################################################################
+Sun Dec 29 2019 07:35:50.319 - Total dropped frames: 0
+Sun Dec 29 2019 07:38:03.640 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29336
+Sun Dec 29 2019 07:38:03.669 - Closing pipe SpacePirateVR (29336) because it was broken from the other end
+Sun Dec 29 2019 07:38:03.669 - Process SpacePirateVR (29336) disconnected (Thread(0x000002618BA001E0/0x000)
+Sun Dec 29 2019 07:38:03.669 - Lost pipe connection from SpacePirateVR (29336)
+Sun Dec 29 2019 07:38:04.842 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29336
+Sun Dec 29 2019 07:38:10.084 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:38:34.216 - Closing pipe SpacePirateVR (29336) because it was broken from the other end
+Sun Dec 29 2019 07:38:34.216 - Process SpacePirateVR (29336) disconnected (Thread(0x000002618BE3E010/0x000)
+Sun Dec 29 2019 07:38:34.216 - Lost pipe connection from SpacePirateVR (29336)
+Sun Dec 29 2019 07:38:34.216 - ######################################################################
+Sun Dec 29 2019 07:38:34.216 - Cumulative stats for pid: 29336
+Sun Dec 29 2019 07:38:34.217 - Total..................  1746 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:38:34.217 - Startup................    63 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:38:34.217 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:38:34.217 - Timed out.  5 total....   588 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:38:34.217 - ######################################################################
+Sun Dec 29 2019 07:38:34.217 - Total dropped frames: 0
+Sun Dec 29 2019 07:47:16.375 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23084
+Sun Dec 29 2019 07:47:16.395 - Closing pipe SpacePirateVR (23084) because it was broken from the other end
+Sun Dec 29 2019 07:47:16.395 - Process SpacePirateVR (23084) disconnected (Thread(0x000002618BA004B0/0x000)
+Sun Dec 29 2019 07:47:16.395 - Lost pipe connection from SpacePirateVR (23084)
+Sun Dec 29 2019 07:47:17.600 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 23084
+Sun Dec 29 2019 07:47:22.861 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:47:49.676 - Closing pipe SpacePirateVR (23084) because it was broken from the other end
+Sun Dec 29 2019 07:47:49.676 - Process SpacePirateVR (23084) disconnected (Thread(0x000002618BE3DA70/0x000)
+Sun Dec 29 2019 07:47:49.676 - Lost pipe connection from SpacePirateVR (23084)
+Sun Dec 29 2019 07:47:49.676 - ######################################################################
+Sun Dec 29 2019 07:47:49.676 - Cumulative stats for pid: 23084
+Sun Dec 29 2019 07:47:49.676 - Total..................  1816 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:47:49.676 - Startup................    60 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:47:49.676 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:47:49.676 - Timed out.  5 total....   293 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:47:49.676 - ######################################################################
+Sun Dec 29 2019 07:47:49.676 - Total dropped frames: 0
+Sun Dec 29 2019 07:47:55.808 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 24704
+Sun Dec 29 2019 07:47:55.834 - Closing pipe SpacePirateVR (24704) because it was broken from the other end
+Sun Dec 29 2019 07:47:55.834 - Process SpacePirateVR (24704) disconnected (Thread(0x000002618BE3E5B0/0x000)
+Sun Dec 29 2019 07:47:55.834 - Lost pipe connection from SpacePirateVR (24704)
+Sun Dec 29 2019 07:47:57.012 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 24704
+Sun Dec 29 2019 07:48:02.918 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 07:48:13.604 - Closing pipe SpacePirateVR (24704) because it was broken from the other end
+Sun Dec 29 2019 07:48:13.604 - Process SpacePirateVR (24704) disconnected (Thread(0x000002618BBE7430/0x000)
+Sun Dec 29 2019 07:48:13.604 - Lost pipe connection from SpacePirateVR (24704)
+Sun Dec 29 2019 07:48:13.604 - ######################################################################
+Sun Dec 29 2019 07:48:13.604 - Cumulative stats for pid: 24704
+Sun Dec 29 2019 07:48:13.604 - Total..................   992 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:48:13.604 - Startup................    61 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:48:13.604 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:48:13.604 - Timed out.  6 total....   409 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 07:48:13.604 - ######################################################################
+Sun Dec 29 2019 07:48:13.604 - Total dropped frames: 0
+Sun Dec 29 2019 08:18:17.898 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 2524
+Sun Dec 29 2019 08:18:17.920 - Closing pipe SpacePirateVR (2524) because it was broken from the other end
+Sun Dec 29 2019 08:18:17.920 - Process SpacePirateVR (2524) disconnected (Thread(0x000002618B8AD650/0x000)
+Sun Dec 29 2019 08:18:17.920 - Lost pipe connection from SpacePirateVR (2524)
+Sun Dec 29 2019 08:18:19.211 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 2524
+Sun Dec 29 2019 08:18:24.759 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 08:18:45.977 - Closing pipe SpacePirateVR (2524) because it was broken from the other end
+Sun Dec 29 2019 08:18:45.977 - Process SpacePirateVR (2524) disconnected (Thread(0x000002618BA004B0/0x000)
+Sun Dec 29 2019 08:18:45.977 - Lost pipe connection from SpacePirateVR (2524)
+Sun Dec 29 2019 08:18:45.977 - ######################################################################
+Sun Dec 29 2019 08:18:45.977 - Cumulative stats for pid: 2524
+Sun Dec 29 2019 08:18:45.977 - Total..................  1616 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:18:45.977 - Startup................    61 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:18:45.977 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:18:45.977 - Timed out.  6 total....   540 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:18:45.977 - ######################################################################
+Sun Dec 29 2019 08:18:45.977 - Total dropped frames: 0
+Sun Dec 29 2019 08:36:35.318 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18336
+Sun Dec 29 2019 08:36:35.339 - Closing pipe SpacePirateVR (18336) because it was broken from the other end
+Sun Dec 29 2019 08:36:35.339 - Process SpacePirateVR (18336) disconnected (Thread(0x000002618BE3E5B0/0x000)
+Sun Dec 29 2019 08:36:35.339 - Lost pipe connection from SpacePirateVR (18336)
+Sun Dec 29 2019 08:36:36.530 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18336
+Sun Dec 29 2019 08:36:53.223 - Closing pipe SpacePirateVR (18336) because it was broken from the other end
+Sun Dec 29 2019 08:36:53.224 - Process SpacePirateVR (18336) disconnected (Thread(0x000002618BE3D9E0/0x000)
+Sun Dec 29 2019 08:36:53.224 - Lost pipe connection from SpacePirateVR (18336)
+Sun Dec 29 2019 08:40:17.272 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 26888
+Sun Dec 29 2019 08:40:17.294 - Closing pipe SpacePirateVR (26888) because it was broken from the other end
+Sun Dec 29 2019 08:40:17.295 - Process SpacePirateVR (26888) disconnected (Thread(0x000002618BA9DD70/0x000)
+Sun Dec 29 2019 08:40:17.295 - Lost pipe connection from SpacePirateVR (26888)
+Sun Dec 29 2019 08:40:18.527 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 26888
+Sun Dec 29 2019 08:40:23.816 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 08:41:20.111 - Closing pipe SpacePirateVR (26888) because it was broken from the other end
+Sun Dec 29 2019 08:41:20.111 - Process SpacePirateVR (26888) disconnected (Thread(0x000002618BE511A0/0x000)
+Sun Dec 29 2019 08:41:20.111 - Lost pipe connection from SpacePirateVR (26888)
+Sun Dec 29 2019 08:41:20.111 - ######################################################################
+Sun Dec 29 2019 08:41:20.111 - Cumulative stats for pid: 26888
+Sun Dec 29 2019 08:41:20.111 - Total..................  3286 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:41:20.111 - Startup................    62 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:41:20.111 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:41:20.111 - Timed out.  6 total....   311 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:41:20.111 - ######################################################################
+Sun Dec 29 2019 08:41:20.111 - Total dropped frames: 1
+Sun Dec 29 2019 08:41:26.129 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 2656
+Sun Dec 29 2019 08:41:26.156 - Closing pipe SpacePirateVR (2656) because it was broken from the other end
+Sun Dec 29 2019 08:41:26.156 - Process SpacePirateVR (2656) disconnected (Thread(0x000002618BE3E130/0x000)
+Sun Dec 29 2019 08:41:26.156 - Lost pipe connection from SpacePirateVR (2656)
+Sun Dec 29 2019 08:41:27.298 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 2656
+Sun Dec 29 2019 08:41:32.588 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 08:43:33.175 - Closing pipe SpacePirateVR (2656) because it was broken from the other end
+Sun Dec 29 2019 08:43:33.175 - Process SpacePirateVR (2656) disconnected (Thread(0x000002618B8AF5C0/0x000)
+Sun Dec 29 2019 08:43:33.176 - Lost pipe connection from SpacePirateVR (2656)
+Sun Dec 29 2019 08:43:33.176 - ######################################################################
+Sun Dec 29 2019 08:43:33.176 - Cumulative stats for pid: 2656
+Sun Dec 29 2019 08:43:33.176 - Total..................  7026 presents.    1 dropped.    0 reprojected
+Sun Dec 29 2019 08:43:33.176 - Startup................    62 presents.    1 dropped.    0 reprojected
+Sun Dec 29 2019 08:43:33.176 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:43:33.176 - Timed out.  6 total....   305 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:43:33.176 - ######################################################################
+Sun Dec 29 2019 08:43:33.176 - Total dropped frames: 2
+Sun Dec 29 2019 08:49:04.916 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 2352
+Sun Dec 29 2019 08:49:04.939 - Closing pipe SpacePirateVR (2352) because it was broken from the other end
+Sun Dec 29 2019 08:49:04.939 - Process SpacePirateVR (2352) disconnected (Thread(0x000002618BE511A0/0x000)
+Sun Dec 29 2019 08:49:04.939 - Lost pipe connection from SpacePirateVR (2352)
+Sun Dec 29 2019 08:49:06.247 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 2352
+Sun Dec 29 2019 08:49:11.687 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 08:49:48.757 - Closing pipe SpacePirateVR (2352) because it was broken from the other end
+Sun Dec 29 2019 08:49:48.757 - Process SpacePirateVR (2352) disconnected (Thread(0x000002618BE51230/0x000)
+Sun Dec 29 2019 08:49:48.757 - Lost pipe connection from SpacePirateVR (2352)
+Sun Dec 29 2019 08:49:48.757 - ######################################################################
+Sun Dec 29 2019 08:49:48.757 - Cumulative stats for pid: 2352
+Sun Dec 29 2019 08:49:48.757 - Total..................  2423 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:49:48.757 - Startup................    62 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:49:48.757 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:49:48.757 - Timed out.  6 total....   321 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:49:48.757 - ######################################################################
+Sun Dec 29 2019 08:49:48.757 - Total dropped frames: 2
+Sun Dec 29 2019 08:55:36.292 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 13768
+Sun Dec 29 2019 08:55:36.314 - Closing pipe SpacePirateVR (13768) because it was broken from the other end
+Sun Dec 29 2019 08:55:36.314 - Process SpacePirateVR (13768) disconnected (Thread(0x000002618B8AD260/0x000)
+Sun Dec 29 2019 08:55:36.314 - Lost pipe connection from SpacePirateVR (13768)
+Sun Dec 29 2019 08:55:37.730 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 13768
+Sun Dec 29 2019 08:55:43.046 - Screenshot: HookScreenshot, 1 types
+Sun Dec 29 2019 08:56:00.995 - Closing pipe SpacePirateVR (13768) because it was broken from the other end
+Sun Dec 29 2019 08:56:00.995 - Process SpacePirateVR (13768) disconnected (Thread(0x000002618BE3E010/0x000)
+Sun Dec 29 2019 08:56:00.995 - Lost pipe connection from SpacePirateVR (13768)
+Sun Dec 29 2019 08:56:00.995 - ######################################################################
+Sun Dec 29 2019 08:56:00.995 - Cumulative stats for pid: 13768
+Sun Dec 29 2019 08:56:00.995 - Total..................  1271 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:56:00.995 - Startup................    58 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:56:00.995 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:56:00.995 - Timed out.  5 total....   312 presents.    0 dropped.    0 reprojected
+Sun Dec 29 2019 08:56:00.995 - ######################################################################
+Sun Dec 29 2019 08:56:00.995 - Total dropped frames: 2

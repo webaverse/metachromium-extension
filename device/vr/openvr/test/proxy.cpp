@@ -1,3 +1,4 @@
+#include <chrono>
 #include "device/vr/openvr/test/proxy.h"
 
 namespace vr {
@@ -94,7 +95,11 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     managed_binary<TrackedDevicePose_t> renderPoseArray(unRenderPoseArrayCount);
     managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
 
-    EVRCompositorError error = vrcompositor->WaitGetPoses(renderPoseArray.data(), unRenderPoseArrayCount, gamePoseArray.data(), unGamePoseArrayCount);
+    // auto start = std::chrono::high_resolution_clock::now();
+    EVRCompositorError error = vrcompositor->GetLastPoses(renderPoseArray.data(), unRenderPoseArrayCount, gamePoseArray.data(), unGamePoseArrayCount);
+    /* auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    getOut() << "get last poses real " << elapsed.count() << std::endl; */
 
     return std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>(
       error,
@@ -562,12 +567,16 @@ EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArra
 }
 EVRCompositorError PVRCompositor::GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
     VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
+  // auto start = std::chrono::high_resolution_clock::now();
   auto result = fnp.call<
     kIVRCompositor_GetLastPoses,
     std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
     uint32_t,
     uint32_t
   >(unRenderPoseArrayCount, unGamePoseArrayCount);
+  /* auto end = std::chrono::high_resolution_clock::now();
+  std::chrono::duration<double> elapsed = end - start;
+  getOut() << "get last poses call " << elapsed.count() << std::endl;  */
   memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(*std::get<1>(result).data()));
   memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(*std::get<2>(result).data()));
   return std::get<0>(result);
@@ -585,15 +594,15 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
-  getOut() << "get submit 1 " << (void *)tex << std::endl;
+  // getOut() << "get submit 1 " << (void *)tex << std::endl;
   if (!device) {
     tex->GetDevice(&device);
   }
-  getOut() << "get submit 2 " << device << std::endl;
+  // getOut() << "get submit 2 " << device << std::endl;
   if (!context) {
     device->GetImmediateContext(&context);
   }
-  getOut() << "get submit 3 " << context << std::endl;
+  // getOut() << "get submit 3 " << context << std::endl;
 
   ID3D11Texture2D *&shTex = eEye == Eye_Left ? shTexLeft : shTexRight;
   HANDLE &sharedHandle = eEye == Eye_Left ? shTexLeftHandle : shTexRightHandle;
@@ -601,7 +610,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     D3D11_TEXTURE2D_DESC desc;
     tex->GetDesc(&desc);
     
-    getOut() << "get submit 4" << std::endl;
+    // getOut() << "get submit 4" << std::endl;
 
     // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
 
@@ -613,10 +622,10 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       &shTex
     );
     
-    getOut() << "get submit 5" << std::endl;
+    // getOut() << "get submit 5" << std::endl;
 
     if (SUCCEEDED(hr)) {
-      getOut() << "get submit 6" << std::endl;
+      // getOut() << "get submit 6" << std::endl;
       
       IDXGIResource *pDXGIResource;
       hr = shTex->QueryInterface(__uuidof(IDXGIResource), (void **)&pDXGIResource);
@@ -624,34 +633,34 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
 
       if (SUCCEEDED(hr)) {
-        getOut() << "get submit 7" << std::endl;
+        // getOut() << "get submit 7" << std::endl;
         // getOut() << "succ 1 " << (void *)pDXGIResource << std::endl;
         hr = pDXGIResource->GetSharedHandle(&sharedHandle);
         // hr = pDXGIResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ, L"Local\\lol", &sharedHandle);
 
         // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
         if (SUCCEEDED(hr)) {
-          getOut() << "get submit 8" << std::endl;
+          // getOut() << "get submit 8" << std::endl;
           // nothing
         } else {
-          getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
+          // getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
           abort();
         }
       } else {
-        getOut() << "failed to get shared texture: " << (void *)hr << std::endl;
+        // getOut() << "failed to get shared texture: " << (void *)hr << std::endl;
         abort();
       }
     } else {
-      getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
+      // getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
     }
   }
 
-  getOut() << "get submit 8" << std::endl;
+  // getOut() << "get submit 8" << std::endl;
 
   context->CopyResource(shTex, tex);
   
-  getOut() << "get submit 9 " << (void *)shTex << std::endl;
+  // getOut() << "get submit 9 " << (void *)shTex << std::endl;
   
   managed_binary<Texture_t> sharedTexture(1);
   *sharedTexture.data() = Texture_t{
@@ -659,10 +668,10 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     pTexture->eType,
     pTexture->eColorSpace
   };
-  getOut() << "get submit 10" << std::endl;
+  // getOut() << "get submit 10" << std::endl;
   managed_binary<VRTextureBounds_t> bounds(1);
   *bounds.data() = *pBounds;
-  getOut() << "get submit 11" << std::endl;
+  // getOut() << "get submit 11" << std::endl;
   return fnp.call<
     kIVRCompositor_Submit,
     EVRCompositorError,
@@ -751,6 +760,7 @@ float PVRCompositor::GetCurrentGridAlpha() {
   >();
 }
 EVRCompositorError PVRCompositor::SetSkyboxOverride( VR_ARRAY_COUNT( unTextureCount ) const Texture_t *pTextures, uint32_t unTextureCount ) {
+  // XXX
   abort();
   return VRCompositorError_None;
 }
