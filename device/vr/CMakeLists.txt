@@ -12,14 +12,22 @@ INCLUDE_DIRECTORIES(
   sample
   OpenOVR
   SplitOpenVRHeaders
+  gl/include
+  gl/include/glew
+  # gl/include/glad
+  gl/include/KHR
+  gl/include/GLFW
 )
 LINK_DIRECTORIES(
+  gl/lib/glew
+  gl/lib/glfw
   ../../third_party/openvr/src/bin/win64
   ../../third_party/openvr/src/lib/win64
 )
 
 SET(src
   openvr/test/fake_openvr_impl_api.cc
+  openvr/test/glcontext.cpp
   openvr/test/serializer.cpp
   openvr/test/proxy.cpp
   openvr/test/fnproxy.cpp
@@ -64,17 +72,17 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
 ADD_LIBRARY(vrclient_x64 SHARED ${src})
 # target_link_libraries(vrclient_x64 openvr_api.dll)
-target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib)
+target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib opengl32.lib glew32.lib glfw3.lib)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
 
-ADD_EXECUTABLE(process openvr/test/serializer.cpp openvr/test/process.cpp openvr/test/fnproxy.cpp)
-set_property(TARGET process PROPERTY CXX_STANDARD 17)
-set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
+# ADD_EXECUTABLE(process openvr/test/serializer.cpp openvr/test/process.cpp openvr/test/fnproxy.cpp)
+# set_property(TARGET process PROPERTY CXX_STANDARD 17)
+# set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
 
-ADD_EXECUTABLE(process2 openvr/test/serializer.cpp openvr/test/process2.cpp openvr/test/fnproxy.cpp)
-set_property(TARGET process2 PROPERTY CXX_STANDARD 17)
-set_property(TARGET process2 PROPERTY CXX_STANDARD_REQUIRED ON)
+# ADD_EXECUTABLE(process2 openvr/test/serializer.cpp openvr/test/process2.cpp openvr/test/fnproxy.cpp)
+# set_property(TARGET process2 PROPERTY CXX_STANDARD 17)
+# set_property(TARGET process2 PROPERTY CXX_STANDARD_REQUIRED ON)
 
 add_definitions(-D_USE_MATH_DEFINES)
 add_definitions(-DNOMINMAX)

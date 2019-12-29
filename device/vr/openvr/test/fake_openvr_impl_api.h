@@ -6,7 +6,7 @@
 
 #include <functional>
 
-void externalOpenVr(std::function<void()> &&fn);
+void wrapExternalOpenVr(std::function<void()> &&fn);
 
 namespace vr {
   extern IVRSystem *g_vrsystem;

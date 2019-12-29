@@ -57,7 +57,7 @@ void *allocateShared(const char *szName, size_t s) {
   HANDLE hMapFile;
   void *pBuf;
 
-  getOut() << "allocate shared 0 " << szName << " " << s << std::endl;
+  // getOut() << "allocate shared 0 " << szName << " " << s << std::endl;
 
   hMapFile = CreateFileMapping(
                INVALID_HANDLE_VALUE,    // use paging file
@@ -67,7 +67,7 @@ void *allocateShared(const char *szName, size_t s) {
                s,                       // maximum object size (low-order DWORD)
                szName);                 // name of mapping object
 
-  getOut() << "allocate shared 1 " << szName << " " << s << " " << hMapFile << " " << GetLastError() << std::endl;
+  // getOut() << "allocate shared 1 " << szName << " " << s << " " << hMapFile << " " << GetLastError() << std::endl;
 
   if (hMapFile == NULL)
   {
@@ -80,7 +80,7 @@ void *allocateShared(const char *szName, size_t s) {
                       0,
                       0,
                       s);
-  getOut() << "allocate shared 2 " << pBuf << std::endl;
+  // getOut() << "allocate shared 2 " << pBuf << std::endl;
 
   if (pBuf == NULL)
   {
@@ -92,7 +92,7 @@ void *allocateShared(const char *szName, size_t s) {
     // return 1;
   }
   
-  getOut() << "allocate shared 3 " << pBuf << std::endl;
+  // getOut() << "allocate shared 3 " << pBuf << std::endl;
   
   return pBuf;
 }

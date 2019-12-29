@@ -33,7 +33,8 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
-#include "device/vr/sample/hellovr_opengl_main.h"
+#include "device/vr/openvr/test/glcontext.h"
+// #include "device/vr/sample/hellovr_opengl_main.h"
 #include "device/vr/OpenOVR/Reimpl/static_bases.gen.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/fnproxy.h"
@@ -50,7 +51,7 @@ std::ostream &getOut() {
   return out;
 }
 
-void externalOpenVr(std::function<void()> &&fn) {
+void wrapExternalOpenVr(std::function<void()> &&fn) {
   std::vector<char> buf(4096);
   GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
   SetEnvironmentVariable("VR_OVERRIDE", "");
@@ -78,6 +79,8 @@ PVRCompositor *g_pvrcompositor = nullptr;
 }  // namespace vr
 
 void *shMem = nullptr;
+size_t *pBooted = nullptr;
+GLFWwindow **ppWindow;
 extern "C" {
   void *__imp_VR_GetGenericInterface = nullptr;
   void *__imp_VR_IsInterfaceVersionVersion = nullptr;
@@ -92,10 +95,9 @@ extern "C" {
   
   __declspec(dllexport) void* VRClientCoreFactory(const char* interface_name, int* return_code) {
     getOut() << "core 0 " << std::endl;
-    size_t &booted = *((size_t *)shMem);
     // size_t &id = *((size_t *)shMem + 1);
     getOut() << "core 1 " << interface_name << std::endl;
-    externalOpenVr([&]() -> void {
+    wrapExternalOpenVr([&]() -> void {
       vr::EVRInitError result = vr::VRInitError_None;
 
       getOut() << "core 2 " << interface_name << std::endl;
@@ -109,6 +111,7 @@ extern "C" {
       if( !pMod )
       {
         getOut() << "core abort" << std::endl; abort();
+        abort();
         // return vr::VRInitError_Init_VRClientDLLNotFound;
       }
       
@@ -161,9 +164,11 @@ extern "C" {
         FnProxy *fnp = new FnProxy();
         vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
 
-        if (!booted) {
+        if (!*pBooted) {
           getOut() << "create thread" << std::endl;
-          booted = 1;
+          *pBooted = 1;
+          *ppWindow = initGl();
+          
           std::thread t([=]() {
             FnProxy fnp;
             vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
@@ -230,12 +235,14 @@ BOOL WINAPI DllMain(
     }
     
     shMem = allocateShared("Local\\OpenVrProxyInit", 16);
+    pBooted = (size_t *)shMem;
+    ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     
-    getOut() << "init dll 0" << std::endl;
+    // getOut() << "init dll 0" << std::endl;
     std::vector<char> buf(4096);
     GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
-    getOut() << "init dll 1 " << buf.data() << std::endl;
-    getOut() << "init dll 2 " << buf.data() << std::endl;
+    getOut() << "init dll " << buf.data() << std::endl;
+    // getOut() << "init dll 2 " << buf.data() << std::endl;
   }
   return true;
 }

@@ -22,6 +22,8 @@ public:
   ID3D11DeviceContext *context; */
   ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
+  ID3D11Texture2D *shTexLeft2 = nullptr;
+  ID3D11Texture2D *shTexRight2 = nullptr;
   HANDLE shTexLeftHandle = 0;
   HANDLE shTexRightHandle = 0;
   

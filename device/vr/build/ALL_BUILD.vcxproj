@@ -63,7 +63,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -73,7 +73,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -83,7 +83,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -93,7 +93,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -163,18 +163,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\ZERO_CHECK.vcxproj">
       <Project>{4460FFA9-9FA0-3889-99E5-F806AAAA834F}</Project>
       <Name>ZERO_CHECK</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\process.vcxproj">
-      <Project>{D331C748-C497-3567-875C-5E8F5EFD77D0}</Project>
-      <Name>process</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </ProjectReference>
-    <ProjectReference Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\process2.vcxproj">
-      <Project>{BE248F03-B2AF-365E-BF41-D652FD0AC465}</Project>
-      <Name>process2</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
