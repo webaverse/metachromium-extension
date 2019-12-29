@@ -610,7 +610,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     D3D11_TEXTURE2D_DESC desc;
     tex->GetDesc(&desc);
     
-    // getOut() << "get submit 4" << std::endl;
+    getOut() << "get texture desc " << (int)eEye << " " << desc.Width << " " << desc.Height << std::endl;
 
     // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
 
@@ -656,10 +656,20 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     }
   }
 
-  // getOut() << "get submit 8" << std::endl;
+  // getOut() << "bounds " << pBounds->uMin << " " << pBounds->uMax << " " << pBounds->vMin << " " << pBounds->vMax << std::endl;
 
+  /* uint32_t width = 1552;
+  uint32_t height = 1552;
+  D3D11_BOX srcBox;
+  srcBox.left = pBounds->uMin * width;
+  srcBox.right = pBounds->uMax * height;
+  srcBox.top = pBounds->vMax * width;
+  srcBox.bottom = pBounds->vMin * height;
+  srcBox.front = 0;
+  srcBox.back = 1;
+  context->CopySubresourceRegion(shTex, 0, pBounds->uMin, pBounds->vMax, 0, tex, 0, &srcBox); */
   context->CopyResource(shTex, tex);
-  
+
   // getOut() << "get submit 9 " << (void *)shTex << std::endl;
   
   managed_binary<Texture_t> sharedTexture(1);

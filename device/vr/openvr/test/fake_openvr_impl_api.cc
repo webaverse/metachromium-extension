@@ -4,8 +4,8 @@
 
 /*
 cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build
-cmake -G "Visual Studio 15 2017" -DCMAKE_GENERATOR_PLATFORM=x64 ..
-msbuild  ALL_BUILD.vcxproj
+cmake -G "Visual Studio 15 2017" -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
+msbuild /p:Configuration=Release ALL_BUILD.vcxproj
 
 cd C:\Users\avaer\AppData\Local\Chromium\Application
 set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
