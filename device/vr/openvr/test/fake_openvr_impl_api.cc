@@ -50,8 +50,8 @@ std::ostream &getOut() {
   }
   return out;
 }
-// constexpr bool tracing = true;
-constexpr bool tracing = false;
+constexpr bool tracing = true;
+// constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {
   if (tracing) {
     fn();
@@ -101,20 +101,18 @@ extern "C" {
   void *__imp_VR_GetVRInitErrorAsEnglishDescription = nullptr;
   
   __declspec(dllexport) void* VRClientCoreFactory(const char* interface_name, int* return_code) {
-    getOut() << "core 0 " << std::endl;
+    getOut() << "get interface " << interface_name << std::endl;
     // size_t &id = *((size_t *)shMem + 1);
-    getOut() << "core 1 " << interface_name << std::endl;
+    // getOut() << "core 1 " << interface_name << std::endl;
     wrapExternalOpenVr([&]() -> void {
-      vr::EVRInitError result = vr::VRInitError_None;
-
-      getOut() << "core 2 " << interface_name << std::endl;
+      // getOut() << "core 2 " << interface_name << std::endl;
 
       // only look in the override
       std::string openvrApiDllPath = dllDir + "openvr_api.dll";
       void *pMod = SharedLib_Load(openvrApiDllPath.c_str());
       // dumpbin /exports "C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrclient_x64.dll"
       // nothing more to do if we can't load the DLL
-      getOut() << "core 3 " << pMod << std::endl;
+      // getOut() << "core 3 " << pMod << std::endl;
       if( !pMod )
       {
         getOut() << "core abort" << std::endl; abort();
@@ -122,7 +120,7 @@ extern "C" {
         // return vr::VRInitError_Init_VRClientDLLNotFound;
       }
       
-      getOut() << "core 4 " << pMod << std::endl;
+      // getOut() << "core 4 " << pMod << std::endl;
 
       __imp_VR_GetGenericInterface = SharedLib_GetFunction( pMod, "VR_GetGenericInterface" );
       __imp_VR_IsInterfaceVersionVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionVersion" );
@@ -134,7 +132,7 @@ extern "C" {
       __imp_VR_IsHmdPresent = SharedLib_GetFunction( pMod, "VR_IsHmdPresent" );
       __imp_VR_GetVRInitErrorAsSymbol = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsSymbol" );
       __imp_VR_GetVRInitErrorAsEnglishDescription = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsEnglishDescription" );
-      getOut() << "core 5 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
+      // getOut() << "core 5 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
       if( !__imp_VR_GetGenericInterface )
       {
         SharedLib_Unload( pMod );
@@ -142,7 +140,7 @@ extern "C" {
         // return vr::VRInitError_Init_FactoryNotFound;
       }
       
-      getOut() << "core 6 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
+      // getOut() << "core 6 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
 
       /* int nReturnCode = 0;
       g_pHmdSystem = static_cast< IVRClientCore * > ( fnFactory( vr::IVRClientCore_Version, &nReturnCode ) );
@@ -151,10 +149,14 @@ extern "C" {
         SharedLib_Unload( pMod );
         return vr::VRInitError_Init_InterfaceNotFound;
       } */
-      
-      vr::VR_Init(&result, vr::VRApplication_Scene);
+
+      vr::EVRInitError result = vr::VRInitError_None;
+      if (!*pBooted) {
+        getOut() << "vr_init " << GetCurrentThreadId() << std::endl;
+        vr::VR_Init(&result, vr::VRApplication_Scene);
+      }
       if (result == vr::VRInitError_None) {
-        getOut() << "init 2 " << std::endl;
+        getOut() << "proxy init" << std::endl;
 
         vr::g_vrsystem = vr::VRSystem();
         vr::g_vrcompositor = vr::VRCompositor();
@@ -174,7 +176,7 @@ extern "C" {
         if (!*pBooted) {
           getOut() << "create thread" << std::endl;
           *pBooted = 1;
-          *ppWindow = initGl();
+          // *ppWindow = initGl();
           
           std::thread t([=]() {
             FnProxy fnp;
@@ -186,7 +188,7 @@ extern "C" {
           t.detach();
         }
 
-        result = vr::VRInitError_None;
+        // result = vr::VRInitError_None;
         getOut() << "init 3" << std::endl;
       } else {
         getOut() << "init 4" << std::endl;
@@ -212,35 +214,37 @@ BOOL WINAPI DllMain(
   _In_ LPVOID    lpvReserved
 ) {
   if (fdwReason == DLL_PROCESS_ATTACH) {
+    // getOut() << "loading paths" << std::endl;
+    char dllPath[MAX_PATH];
+    HMODULE hm = NULL;
+    if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | 
+            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+            (LPCSTR) &VRClientCoreFactory, &hm) == 0)
     {
-      // getOut() << "loading paths" << std::endl;
-      char dllPath[MAX_PATH];
-      HMODULE hm = NULL;
-      if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | 
-              GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-              (LPCSTR) &VRClientCoreFactory, &hm) == 0)
-      {
-          int ret = GetLastError();
-          // getOut() << "GetModuleHandle failed, error = " << ret << std::endl;
-          // Return or however you want to handle an error.
-          getOut() << "dll abort 1" << std::endl; abort();
-      }
-      if (GetModuleFileName(hm, dllPath, sizeof(dllPath)) == 0)
-      {
-          int ret = GetLastError();
-          // getOut() << "GetModuleFileName failed, error = " << ret << std::endl;
-          getOut() << "dll abort 2" << std::endl; abort();
-      }
-      
-      char drive[MAX_PATH];
-      char dir[MAX_PATH];
-      // char fname[MAX_PATH];
-      // char ext[MAX_PATH];
-      _splitpath(dllPath, drive, dir, nullptr, nullptr);
-      dllDir = drive;
-      dllDir += dir;
+        int ret = GetLastError();
+        // getOut() << "GetModuleHandle failed, error = " << ret << std::endl;
+        // Return or however you want to handle an error.
+        getOut() << "dll abort 1" << std::endl; abort();
+    }
+    if (GetModuleFileName(hm, dllPath, sizeof(dllPath)) == 0)
+    {
+        int ret = GetLastError();
+        // getOut() << "GetModuleFileName failed, error = " << ret << std::endl;
+        getOut() << "dll abort 2" << std::endl; abort();
     }
     
+    char drive[MAX_PATH];
+    char dir[MAX_PATH];
+    // char fname[MAX_PATH];
+    // char ext[MAX_PATH];
+    _splitpath(dllPath, drive, dir, nullptr, nullptr);
+    dllDir = drive;
+    dllDir += dir;
+  }
+
+  getOut() << "dll main " << fdwReason << std::endl;
+
+  if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 16);
     pBooted = (size_t *)shMem;
     ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));

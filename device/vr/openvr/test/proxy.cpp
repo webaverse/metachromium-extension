@@ -70,6 +70,7 @@ uniform sampler2D tex;\n\
 \n\
 void main() {\n\
   fragColor = texture(tex, vUv);\n\
+  // if (fragColor.a < 0.5) discard;\n\
   // fragColor = vec4(vec3(0.0), 1.0);\n\
   // fragColor.r += 0.1;\n\
   // gl_FragDepth = texture(depthTex, vUv).r;\n\
@@ -387,7 +388,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     if (lockOk) {
       glBindFramebuffer(GL_FRAMEBUFFER, fbo);
       glBindTexture(GL_TEXTURE_2D, shTexInId);
-      glClearColor(0, 0, 0, 1);
+      glClearColor(0, 0, 0, 0);
       glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
       // glFinish();
       glDrawElements(
@@ -773,7 +774,7 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
-  getOut() << "get submit 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
+  // getOut() << "get submit 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
   if (!device) {
     tex->GetDevice(&device);
   }

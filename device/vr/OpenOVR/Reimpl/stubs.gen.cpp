@@ -5674,20 +5674,20 @@ class CVRCorrectLayout : public _InheritCVRLayout, public CVRCommon {};
 
 // Get interface by name
 void *CreateInterfaceByName(const char *name) {
-  getOut() << "create interface 0 " << name << std::endl;
+  getOut() << "create interface " << name << std::endl;
   
   const char *fnTableStr = "FnTable:";
   if (!strncmp(fnTableStr, name, strlen(fnTableStr))) {
     const char *baseInterface = name + strlen(fnTableStr);
     
-    getOut() << "create function table 0 " << baseInterface << std::endl;
+    // getOut() << "create function table 0 " << baseInterface << std::endl;
 
     // Get the C++ interface
     // Note we can't directly cast to CVRCommon, as we'll then be referring to the OpenVR interface
     // vtable - look up how vtables work with multiple inheritance if you're confused about this.
     CVRCorrectLayout *interfaceClass = (CVRCorrectLayout*) CreateInterfaceByName(baseInterface);
     
-    getOut() << "create function table 1 " << baseInterface << " " << interfaceClass << std::endl;
+    // getOut() << "create function table 1 " << baseInterface << " " << interfaceClass << std::endl;
 
     // If the interface is NULL, then error will have been set and we can return null too.
     if (!interfaceClass) {
@@ -5697,7 +5697,7 @@ void *CreateInterfaceByName(const char *name) {
     return interfaceClass->_GetStatFuncList();
   }
   
-  getOut() << "create interface 1 " << name << std::endl;
+  // getOut() << "create interface 1 " << name << std::endl;
   
 	if(strcmp(vr::IVRCompositor_012::IVRCompositor_Version, name) == 0) return new CVRCompositor_012();
 	if(strcmp(vr::IVRCompositor_013::IVRCompositor_Version, name) == 0) return new CVRCompositor_013();
@@ -5747,7 +5747,7 @@ void *CreateInterfaceByName(const char *name) {
 	if(strcmp(vr::IVRClientCore_002::IVRClientCore_Version, name) == 0) return new CVRClientCore_002();
 	// if(strcmp(ocapi::IVROCSystem_001::IVROCSystem_Version, name) == 0) return new CVROCSystem_001();
 	// if(strcmp(vr::driver_IVRServerDriverHost_005::IVRServerDriverHost_Version, name) == 0) return new CVRServerDriverHost_005();
-  getOut() << "create interface 2 " << name << std::endl;
+  // getOut() << "create interface 2 " << name << std::endl;
 	return nullptr;
 }
 // Get flags by name
