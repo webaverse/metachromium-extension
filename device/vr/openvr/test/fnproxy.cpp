@@ -99,7 +99,7 @@ void *allocateShared(const char *szName, size_t s) {
 
 FnProxy::FnProxy() :
   callbackId((size_t)GetCurrentThreadId()),
-  mut("Local\\OpenVrProxyMutex"),
+  mut((std::string("Local\\OpenVrProxyMutex") + std::to_string(callbackId)).c_str()),
   inSem("Local\\OpenVrProxySemaphoreIn"),
   // outSem((std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(id)).c_str()),
   dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", FnProxy::BUF_SIZE + sizeof(unsigned char *)*2)),
