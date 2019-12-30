@@ -29,7 +29,8 @@ SET(src
   openvr/test/fake_openvr_impl_api.cc
   openvr/test/glcontext.cpp
   openvr/test/serializer.cpp
-  openvr/test/proxy.cpp
+  openvr/test/coreproxy.cpp
+  openvr/test/compositorproxy.cpp
   openvr/test/fnproxy.cpp
   # openvr/test/test_helper.cc
   # openvr/test/test_helper.h

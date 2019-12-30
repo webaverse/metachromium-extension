@@ -43,7 +43,7 @@ GLFWwindow *initGl() {
     return window;
   // }
 }
-GLFWwindow *initGlSub() {
+/* GLFWwindow *initGlSub() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -61,4 +61,4 @@ GLFWwindow *initGlSub() {
   getOut() << "share gl context " << subWindow << " " << (void *)(*ppWindow) << std::endl;
   glfwMakeContextCurrent(subWindow);
   return subWindow;
-}
+} */

@@ -99,6 +99,7 @@ void *allocateShared(const char *szName, size_t s) {
 
 FnProxy::FnProxy() :
   callbackId((size_t)GetCurrentThreadId()),
+  // mut("Local\\OpenVrProxyMutex"),
   mut((std::string("Local\\OpenVrProxyMutex") + std::to_string(callbackId)).c_str()),
   inSem("Local\\OpenVrProxySemaphoreIn"),
   // outSem((std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(id)).c_str()),
@@ -109,6 +110,7 @@ FnProxy::FnProxy() :
   readResult(callbackId, dataResult + sizeof(unsigned char *)*2, *((unsigned char **)dataResult), *((unsigned char **)(dataResult + sizeof(unsigned char *))), FnProxy::BUF_SIZE),
   writeResult(callbackId, dataResult + sizeof(unsigned char *)*2, *((unsigned char **)dataResult), *((unsigned char **)(dataResult + sizeof(unsigned char *))), FnProxy::BUF_SIZE)
   {
+    // getOut() << "fn proxy init" << std::endl;
     // getOut() << "fn proxy init " << callbackId << " " << (std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(callbackId)) << std::endl;
   }
 
@@ -126,7 +128,8 @@ void FnProxy::dispatchCall() {
 void FnProxy::handle() {
   inSem.lock();
 
-  size_t remoteCallbackId;
+  // getOut() << "fn proxy handle 1" << std::endl;
+
   std::string name;
   // {
     // std::lock_guard<Mutex> lock(mut);
@@ -135,19 +138,30 @@ void FnProxy::handle() {
     // getOut() << "read arg 2 " << name << std::endl;
   // }
   
+  /* if (name.size() == 0) {
+    getOut() << "fn proxy handle 2 " << remoteCallbackId << " " << name.size() << " " << name << " " << fns.size() << " " << (fns.find(name) != fns.end()) << std::endl;
+  }
+  for (auto iter : fns) {
+    getOut() << iter.first << std::endl;
+  } */
+  
   // getOut() << "read arg 3 " << name << std::endl;
   std::function<void()> &f = fns.find(name)->second;
   // getOut() << "read arg 4 " << name << std::endl;
   f();
   // getOut() << "read arg 5 " << name << std::endl;
 
+  // getOut() << "fn proxy handle 3" << std::endl;
+
   std::map<size_t, Semaphore>::iterator iter = outSems.find(remoteCallbackId);
   if (iter == outSems.end()) {
     outSems.emplace(remoteCallbackId, (std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(remoteCallbackId)).c_str());
     iter = outSems.find(remoteCallbackId);
   }
+  // getOut() << "fn proxy handle 4" << std::endl;
   // getOut() << "callback " << (std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(remoteCallbackId)) << " " << outSems.size() << std::endl;
   iter->second.unlock();
+  // getOut() << "fn proxy handle 5" << std::endl;
 }
 
 /* Mutex checkMutex("Local\\CheckMutex");

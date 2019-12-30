@@ -9,4 +9,4 @@
 
 extern GLFWwindow **ppWindow;
 GLFWwindow *initGl();
-GLFWwindow *initGlSub();
+// GLFWwindow *initGlSub();

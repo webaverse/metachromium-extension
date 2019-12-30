@@ -971,3 +971,568 @@ Mon Dec 30 2019 13:05:49.679 - AppInfoManager.ProcessQuit processid=1480 eLaunch
 Mon Dec 30 2019 13:05:49.679 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 1480 has exited
 Mon Dec 30 2019 13:05:49.679 - oculus: CliD3D11CompositorClient::release 3
 Mon Dec 30 2019 13:05:54.775 - 0 - entering standby
+Mon Dec 30 2019 13:10:49.768 - 1 - Setting standby flag (timeSinceHmdIdle=300.003796, timeSinceDeviceActive=671474.298831 (0x61b65dede14), timeout=300.000000
+Mon Dec 30 2019 13:10:49.768 - 2 - Setting standby flag (timeSinceHmdIdle=300.003796, timeSinceDeviceActive=671474.298831 (0x61b65dede14), timeout=300.000000
+Mon Dec 30 2019 13:10:49.768 - 1 - entering standby
+Mon Dec 30 2019 13:10:49.768 - 2 - entering standby
+Mon Dec 30 2019 13:30:53.714 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 13:30:53.722 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 19292 
+Mon Dec 30 2019 13:30:53.722 - StartSceneApplicationTransitionFromProcess( 19292, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 13:30:53.722 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 13:30:53.722 - AppInfoManager.ProcessConnected BEGIN 19292 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 13:30:53.730 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=19292, external transition
+Mon Dec 30 2019 13:30:53.730 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 19292
+Mon Dec 30 2019 13:30:53.730 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 13:30:53.730 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 13:30:53.732 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 13:30:53.732 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 13:30:53.732 - 0 - leaving standby
+Mon Dec 30 2019 13:30:53.733 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 13:30:53.733 - Processing message VRMsg_Connect from SpacePirateVR (19292) took 0.0109 seconds
+Mon Dec 30 2019 13:30:55.758 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 13:30:55.768 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 13:31:01.810 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Dec 30 2019 13:31:01.811 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 13:31:01.811 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 13:31:01.811 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 13:31:01.811 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 13:31:01.832 - Unknown action set /actions/buggy
+Mon Dec 30 2019 13:31:01.832 - Unknown action set /actions/platformer
+Mon Dec 30 2019 13:31:01.835 - Unknown action set /actions/buggy
+Mon Dec 30 2019 13:31:01.836 - Unknown action set /actions/platformer
+Mon Dec 30 2019 13:31:08.562 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 14.832468 seconds
+Mon Dec 30 2019 13:31:08.901 - Closing pipe SpacePirateVR (19292) because it was broken from the other end
+Mon Dec 30 2019 13:31:08.901 - Process SpacePirateVR (19292) disconnected (Thread(0x000001C9E277E4E0/0x000)
+Mon Dec 30 2019 13:31:08.901 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 13:31:08.902 - AppInfoManager.ProcessQuit processid=19292 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 13:31:08.902 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 19292 has exited
+Mon Dec 30 2019 13:31:08.902 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 13:31:13.904 - 0 - entering standby
+Mon Dec 30 2019 13:31:18.563 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:26:34.865 - [OnMsg_LaunchApplication( openvr.tool.steamvr_tutorial )] from vrmonitor (21152)
+Mon Dec 30 2019 14:26:34.946 - SetApplicationPid appkey=openvr.tool.steamvr_tutorial pid=15996, external transition
+Mon Dec 30 2019 14:26:34.946 - SetApplicationPid: Setting app openvr.tool.steamvr_tutorial PID to 15996
+Mon Dec 30 2019 14:26:34.946 - Processing message VRMsg_LaunchApplication from vrmonitor (21152) took 0.0827 seconds
+Mon Dec 30 2019 14:26:35.476 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:26:35.487 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools\steamvr_tutorial\win64\steamvr_tutorial.exe (VRApplication_Scene) (Args: -popupwindow) 15996 
+Mon Dec 30 2019 14:26:35.487 - StartSceneApplicationTransitionFromProcess( 15996, C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools\steamvr_tutorial\win64\steamvr_tutorial.exe, openvr.tool.steamvr_tutorial)
+Mon Dec 30 2019 14:26:35.487 - AppInfoManager.ProcessConnected BEGIN 15996 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools\steamvr_tutorial\win64\steamvr_tutorial.exe 1 openvr.tool.steamvr_tutorial
+Mon Dec 30 2019 14:26:35.496 - SetApplicationPid appkey=openvr.tool.steamvr_tutorial pid=15996, external transition
+Mon Dec 30 2019 14:26:35.496 - SetApplicationPid: Setting app openvr.tool.steamvr_tutorial PID to 15996
+Mon Dec 30 2019 14:26:35.496 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:26:35.496 - Enabling legacy input for openvr.tool.steamvr_tutorial
+Mon Dec 30 2019 14:26:35.498 - openvr.tool.steamvr_tutorial (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:26:35.498 - openvr.tool.steamvr_tutorial (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:26:35.498 - 0 - leaving standby
+Mon Dec 30 2019 14:26:35.498 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:26:35.498 - Processing message VRMsg_Connect from steamvr_tutorial (15996) took 0.0124 seconds
+Mon Dec 30 2019 14:26:35.547 - Closing pipe steamvr_tutorial (15996) because it was broken from the other end
+Mon Dec 30 2019 14:26:35.547 - Process steamvr_tutorial (15996) disconnected (Thread(0x000001C9E2C7BD50/0x000)
+Mon Dec 30 2019 14:26:35.547 - AppInfoManager.ProcessQuit processid=15996 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:26:35.547 - AppInfoManager.ProcessQuit: Clearing application openvr.tool.steamvr_tutorial PID because 15996 has exited
+Mon Dec 30 2019 14:26:37.577 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:26:37.588 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools\steamvr_tutorial\win64\steamvr_tutorial.exe (VRApplication_Scene) (Args: -popupwindow) 15996 
+Mon Dec 30 2019 14:26:37.588 - Unable to create property container PC_700003e7c because it already existed
+Mon Dec 30 2019 14:26:37.588 - Unable to create property container for steamvr_tutorial (15996). Maybe it's a reconnect?
+Mon Dec 30 2019 14:26:37.588 - StartSceneApplicationTransitionFromProcess( 15996, C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools\steamvr_tutorial\win64\steamvr_tutorial.exe, openvr.tool.steamvr_tutorial)
+Mon Dec 30 2019 14:26:37.588 - AppInfoManager.ProcessConnected BEGIN 15996 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools\steamvr_tutorial\win64\steamvr_tutorial.exe 1 openvr.tool.steamvr_tutorial
+Mon Dec 30 2019 14:26:37.597 - SetApplicationPid appkey=openvr.tool.steamvr_tutorial pid=15996, external transition
+Mon Dec 30 2019 14:26:37.597 - SetApplicationPid: Setting app openvr.tool.steamvr_tutorial PID to 15996
+Mon Dec 30 2019 14:26:37.597 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:26:37.597 - Enabling legacy input for openvr.tool.steamvr_tutorial
+Mon Dec 30 2019 14:26:37.599 - openvr.tool.steamvr_tutorial (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:26:37.599 - openvr.tool.steamvr_tutorial (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:26:37.600 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:26:37.600 - Processing message VRMsg_Connect from steamvr_tutorial (15996) took 0.0123 seconds
+Mon Dec 30 2019 14:26:39.848 - Remembering SetActionManifestPath call from openvr.tool.steamvr_tutorial: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/tools/steamvr_tutorial/win64/actions.json
+Mon Dec 30 2019 14:26:39.856 - openvr.tool.steamvr_tutorial (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/tools/steamvr_tutorial/win64/bindings_oculus_touch.json
+Mon Dec 30 2019 14:26:39.856 - openvr.tool.steamvr_tutorial (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/tools/steamvr_tutorial/win64/binding_rift.json
+Mon Dec 30 2019 14:26:39.856 - openvr.tool.steamvr_tutorial (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/tools/steamvr_tutorial/win64/bindings_oculus_touch.json
+Mon Dec 30 2019 14:26:39.856 - openvr.tool.steamvr_tutorial (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/tools/steamvr_tutorial/win64/binding_rift.json
+Mon Dec 30 2019 14:26:39.856 - Processing message VRMsg_Input_SetActionManifestPath from steamvr_tutorial (15996) took 0.00864 seconds
+Mon Dec 30 2019 14:26:39.945 - Unknown action set /actions/buggy
+Mon Dec 30 2019 14:26:39.946 - Invalid input type click for controller (/user/hand/right/input/x)
+Mon Dec 30 2019 14:26:39.946 - Invalid input type click for controller (/user/hand/right/input/y)
+Mon Dec 30 2019 14:26:39.946 - Item /user/hand/left/input/skeleton/right in "skeleton" array missing path invalid device path for skeleton outputMon Dec 30 2019 14:26:39.946 - Unknown action set /actions/platformer
+Mon Dec 30 2019 14:26:39.952 - Unknown action set /actions/buggy
+Mon Dec 30 2019 14:26:39.952 - Invalid input type click for controller (/user/hand/right/input/x)
+Mon Dec 30 2019 14:26:39.953 - Invalid input type click for controller (/user/hand/right/input/y)
+Mon Dec 30 2019 14:26:39.953 - Item /user/hand/left/input/skeleton/right in "skeleton" array missing path invalid device path for skeleton outputMon Dec 30 2019 14:26:39.953 - Unknown action set /actions/platformer
+Mon Dec 30 2019 14:26:41.147 - Closing pipe steamvr_tutorial (15996) because it was broken from the other end
+Mon Dec 30 2019 14:26:41.148 - Process steamvr_tutorial (15996) disconnected (Thread(0x000001C9DD9B74A0/0x000)
+Mon Dec 30 2019 14:26:41.148 - AppInfoManager.ProcessQuit processid=15996 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:26:41.148 - AppInfoManager.ProcessQuit: Clearing application openvr.tool.steamvr_tutorial PID because 15996 has exited
+Mon Dec 30 2019 14:26:41.461 - Delaying SteamVR Home launch because openvr.tool.steamvr_tutorial ran for only 3.863579 seconds
+Mon Dec 30 2019 14:26:46.149 - 0 - entering standby
+Mon Dec 30 2019 14:26:51.465 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:45:04.863 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:45:04.872 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 17820 
+Mon Dec 30 2019 14:45:04.872 - StartSceneApplicationTransitionFromProcess( 17820, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 14:45:04.872 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 14:45:04.872 - AppInfoManager.ProcessConnected BEGIN 17820 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 14:45:04.881 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=17820, external transition
+Mon Dec 30 2019 14:45:04.881 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 17820
+Mon Dec 30 2019 14:45:04.881 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:45:04.881 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 14:45:04.883 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:45:04.883 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:45:04.884 - 0 - leaving standby
+Mon Dec 30 2019 14:45:04.884 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:45:04.884 - Processing message VRMsg_Connect from SpacePirateVR (17820) took 0.0113 seconds
+Mon Dec 30 2019 14:45:06.595 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 1.713444 seconds
+Mon Dec 30 2019 14:45:06.622 - Closing pipe SpacePirateVR (17820) because it was broken from the other end
+Mon Dec 30 2019 14:45:06.622 - Process SpacePirateVR (17820) disconnected (Thread(0x000001C9E277E4E0/0x000)
+Mon Dec 30 2019 14:45:06.622 - AppInfoManager.ProcessQuit processid=17820 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:45:06.622 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 17820 has exited
+Mon Dec 30 2019 14:45:11.631 - 0 - entering standby
+Mon Dec 30 2019 14:45:16.602 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:47:39.560 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:47:39.570 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 25868 
+Mon Dec 30 2019 14:47:39.570 - StartSceneApplicationTransitionFromProcess( 25868, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 14:47:39.570 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 14:47:39.570 - AppInfoManager.ProcessConnected BEGIN 25868 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 14:47:39.579 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=25868, external transition
+Mon Dec 30 2019 14:47:39.579 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 25868
+Mon Dec 30 2019 14:47:39.579 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:47:39.579 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 14:47:39.581 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:47:39.581 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:47:39.581 - 0 - leaving standby
+Mon Dec 30 2019 14:47:39.581 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:47:39.581 - Processing message VRMsg_Connect from SpacePirateVR (25868) took 0.0113 seconds
+Mon Dec 30 2019 14:47:41.323 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 1.744358 seconds
+Mon Dec 30 2019 14:47:41.427 - Closing pipe SpacePirateVR (25868) because it was broken from the other end
+Mon Dec 30 2019 14:47:41.427 - Process SpacePirateVR (25868) disconnected (Thread(0x000001C9E29FFAD0/0x000)
+Mon Dec 30 2019 14:47:41.427 - AppInfoManager.ProcessQuit processid=25868 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:47:41.427 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 25868 has exited
+Mon Dec 30 2019 14:47:46.431 - 0 - entering standby
+Mon Dec 30 2019 14:47:51.327 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:49:56.674 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:49:56.675 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 20976 
+Mon Dec 30 2019 14:49:56.675 - StartSceneApplicationTransitionFromProcess( 20976, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 14:49:56.675 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 14:49:56.675 - AppInfoManager.ProcessConnected BEGIN 20976 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 14:49:56.686 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=20976, external transition
+Mon Dec 30 2019 14:49:56.686 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 20976
+Mon Dec 30 2019 14:49:56.686 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:49:56.686 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 14:49:56.690 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:49:56.691 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:49:56.691 - 0 - leaving standby
+Mon Dec 30 2019 14:49:56.691 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:49:56.691 - Processing message VRMsg_Connect from SpacePirateVR (20976) took 0.0155 seconds
+Mon Dec 30 2019 14:49:58.212 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 1.525192 seconds
+Mon Dec 30 2019 14:49:58.237 - Closing pipe SpacePirateVR (20976) because it was broken from the other end
+Mon Dec 30 2019 14:49:58.237 - Process SpacePirateVR (20976) disconnected (Thread(0x000001C9E29FFAD0/0x000)
+Mon Dec 30 2019 14:49:58.237 - AppInfoManager.ProcessQuit processid=20976 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:49:58.237 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 20976 has exited
+Mon Dec 30 2019 14:50:03.242 - 0 - entering standby
+Mon Dec 30 2019 14:50:08.217 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:52:32.929 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:52:32.934 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 22064 
+Mon Dec 30 2019 14:52:32.934 - StartSceneApplicationTransitionFromProcess( 22064, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 14:52:32.934 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 14:52:32.934 - AppInfoManager.ProcessConnected BEGIN 22064 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 14:52:32.943 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=22064, external transition
+Mon Dec 30 2019 14:52:32.943 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 22064
+Mon Dec 30 2019 14:52:32.943 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:52:32.943 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 14:52:32.945 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:52:32.945 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:52:32.945 - 0 - leaving standby
+Mon Dec 30 2019 14:52:32.945 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:52:32.945 - Processing message VRMsg_Connect from SpacePirateVR (22064) took 0.011 seconds
+Mon Dec 30 2019 14:52:34.744 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 1.801661 seconds
+Mon Dec 30 2019 14:52:34.788 - Closing pipe SpacePirateVR (22064) because it was broken from the other end
+Mon Dec 30 2019 14:52:34.788 - Process SpacePirateVR (22064) disconnected (Thread(0x000001C9E462BE90/0x000)
+Mon Dec 30 2019 14:52:34.788 - AppInfoManager.ProcessQuit processid=22064 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:52:34.788 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 22064 has exited
+Mon Dec 30 2019 14:52:39.790 - 0 - entering standby
+Mon Dec 30 2019 14:52:44.753 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:53:56.741 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:53:56.752 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 2928 
+Mon Dec 30 2019 14:53:56.752 - StartSceneApplicationTransitionFromProcess( 2928, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 14:53:56.752 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 14:53:56.752 - AppInfoManager.ProcessConnected BEGIN 2928 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 14:53:56.761 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=2928, external transition
+Mon Dec 30 2019 14:53:56.761 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 2928
+Mon Dec 30 2019 14:53:56.761 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:53:56.761 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 14:53:56.763 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:53:56.763 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:53:56.763 - 0 - leaving standby
+Mon Dec 30 2019 14:53:56.763 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:53:56.763 - Processing message VRMsg_Connect from SpacePirateVR (2928) took 0.0114 seconds
+Mon Dec 30 2019 14:53:58.861 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 2.099719 seconds
+Mon Dec 30 2019 14:53:58.906 - Closing pipe SpacePirateVR (2928) because it was broken from the other end
+Mon Dec 30 2019 14:53:58.906 - Process SpacePirateVR (2928) disconnected (Thread(0x000001C9E462C820/0x000)
+Mon Dec 30 2019 14:53:58.906 - AppInfoManager.ProcessQuit processid=2928 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:53:58.906 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 2928 has exited
+Mon Dec 30 2019 14:54:03.911 - 0 - entering standby
+Mon Dec 30 2019 14:54:08.861 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:55:24.984 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:55:24.986 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 24584 
+Mon Dec 30 2019 14:55:24.986 - StartSceneApplicationTransitionFromProcess( 24584, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 14:55:24.986 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 14:55:24.986 - AppInfoManager.ProcessConnected BEGIN 24584 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 14:55:24.996 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=24584, external transition
+Mon Dec 30 2019 14:55:24.996 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 24584
+Mon Dec 30 2019 14:55:24.996 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:55:24.996 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 14:55:24.998 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:55:24.998 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:55:24.998 - 0 - leaving standby
+Mon Dec 30 2019 14:55:24.998 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:55:24.998 - Processing message VRMsg_Connect from SpacePirateVR (24584) took 0.0125 seconds
+Mon Dec 30 2019 14:55:26.992 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 1.995678 seconds
+Mon Dec 30 2019 14:55:27.053 - Closing pipe SpacePirateVR (24584) because it was broken from the other end
+Mon Dec 30 2019 14:55:27.053 - Process SpacePirateVR (24584) disconnected (Thread(0x000001C9E28D0100/0x000)
+Mon Dec 30 2019 14:55:27.053 - AppInfoManager.ProcessQuit processid=24584 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:55:27.053 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 24584 has exited
+Mon Dec 30 2019 14:55:32.061 - 0 - entering standby
+Mon Dec 30 2019 14:55:36.997 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:58:09.177 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:58:09.188 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 17736 
+Mon Dec 30 2019 14:58:09.188 - StartSceneApplicationTransitionFromProcess( 17736, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 14:58:09.188 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 14:58:09.188 - AppInfoManager.ProcessConnected BEGIN 17736 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 14:58:09.196 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=17736, external transition
+Mon Dec 30 2019 14:58:09.196 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 17736
+Mon Dec 30 2019 14:58:09.196 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:58:09.196 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 14:58:09.198 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:58:09.198 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:58:09.198 - 0 - leaving standby
+Mon Dec 30 2019 14:58:09.198 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:58:09.198 - Processing message VRMsg_Connect from SpacePirateVR (17736) took 0.0111 seconds
+Mon Dec 30 2019 14:58:10.732 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 1.535654 seconds
+Mon Dec 30 2019 14:58:10.848 - Closing pipe SpacePirateVR (17736) because it was broken from the other end
+Mon Dec 30 2019 14:58:10.848 - Process SpacePirateVR (17736) disconnected (Thread(0x000001C9E29531C0/0x000)
+Mon Dec 30 2019 14:58:10.848 - AppInfoManager.ProcessQuit processid=17736 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:58:10.848 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 17736 has exited
+Mon Dec 30 2019 14:58:15.854 - 0 - entering standby
+Mon Dec 30 2019 14:58:20.735 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 14:59:36.150 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 14:59:36.160 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 21072 
+Mon Dec 30 2019 14:59:36.160 - StartSceneApplicationTransitionFromProcess( 21072, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 14:59:36.160 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 14:59:36.160 - AppInfoManager.ProcessConnected BEGIN 21072 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 14:59:36.168 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=21072, external transition
+Mon Dec 30 2019 14:59:36.168 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 21072
+Mon Dec 30 2019 14:59:36.169 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 14:59:36.169 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 14:59:36.172 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 14:59:36.172 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 14:59:36.172 - 0 - leaving standby
+Mon Dec 30 2019 14:59:36.172 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 14:59:36.172 - Processing message VRMsg_Connect from SpacePirateVR (21072) took 0.0124 seconds
+Mon Dec 30 2019 14:59:38.946 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 2.777400 seconds
+Mon Dec 30 2019 14:59:39.124 - Closing pipe SpacePirateVR (21072) because it was broken from the other end
+Mon Dec 30 2019 14:59:39.124 - Process SpacePirateVR (21072) disconnected (Thread(0x000001C9DD9B6840/0x000)
+Mon Dec 30 2019 14:59:39.124 - AppInfoManager.ProcessQuit processid=21072 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 14:59:39.124 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 21072 has exited
+Mon Dec 30 2019 14:59:44.133 - 0 - entering standby
+Mon Dec 30 2019 14:59:48.956 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:01:27.597 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:01:27.599 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 17544 
+Mon Dec 30 2019 15:01:27.599 - StartSceneApplicationTransitionFromProcess( 17544, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:01:27.599 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:01:27.600 - AppInfoManager.ProcessConnected BEGIN 17544 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:01:27.608 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=17544, external transition
+Mon Dec 30 2019 15:01:27.608 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 17544
+Mon Dec 30 2019 15:01:27.608 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:01:27.609 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:01:27.611 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:01:27.611 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:01:27.611 - 0 - leaving standby
+Mon Dec 30 2019 15:01:27.612 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:01:27.612 - Processing message VRMsg_Connect from SpacePirateVR (17544) took 0.0127 seconds
+Mon Dec 30 2019 15:01:30.211 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 2.602785 seconds
+Mon Dec 30 2019 15:01:30.367 - Closing pipe SpacePirateVR (17544) because it was broken from the other end
+Mon Dec 30 2019 15:01:30.367 - Process SpacePirateVR (17544) disconnected (Thread(0x000001C9DD9B6840/0x000)
+Mon Dec 30 2019 15:01:30.367 - AppInfoManager.ProcessQuit processid=17544 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:01:30.368 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 17544 has exited
+Mon Dec 30 2019 15:01:35.378 - 0 - entering standby
+Mon Dec 30 2019 15:01:40.218 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:05:15.204 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:05:15.214 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 28712 
+Mon Dec 30 2019 15:05:15.215 - StartSceneApplicationTransitionFromProcess( 28712, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:05:15.215 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:05:15.215 - AppInfoManager.ProcessConnected BEGIN 28712 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:05:15.224 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=28712, external transition
+Mon Dec 30 2019 15:05:15.225 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 28712
+Mon Dec 30 2019 15:05:15.225 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:05:15.225 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:05:15.227 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:05:15.227 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:05:15.227 - 0 - leaving standby
+Mon Dec 30 2019 15:05:15.228 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:05:15.228 - Processing message VRMsg_Connect from SpacePirateVR (28712) took 0.0126 seconds
+Mon Dec 30 2019 15:05:17.634 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 2.409093 seconds
+Mon Dec 30 2019 15:05:17.782 - Closing pipe SpacePirateVR (28712) because it was broken from the other end
+Mon Dec 30 2019 15:05:17.783 - Process SpacePirateVR (28712) disconnected (Thread(0x000001C9E29FFEC0/0x000)
+Mon Dec 30 2019 15:05:17.783 - AppInfoManager.ProcessQuit processid=28712 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:05:17.783 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 28712 has exited
+Mon Dec 30 2019 15:05:22.786 - 0 - entering standby
+Mon Dec 30 2019 15:05:27.636 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:06:50.863 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:06:50.864 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 5840 
+Mon Dec 30 2019 15:06:50.864 - StartSceneApplicationTransitionFromProcess( 5840, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:06:50.864 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:06:50.864 - AppInfoManager.ProcessConnected BEGIN 5840 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:06:50.872 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=5840, external transition
+Mon Dec 30 2019 15:06:50.872 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 5840
+Mon Dec 30 2019 15:06:50.872 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:06:50.872 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:06:50.876 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:06:50.876 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:06:50.876 - 0 - leaving standby
+Mon Dec 30 2019 15:06:50.876 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:06:50.876 - Processing message VRMsg_Connect from SpacePirateVR (5840) took 0.0117 seconds
+Mon Dec 30 2019 15:06:52.887 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 15:06:52.898 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 15:06:56.619 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Dec 30 2019 15:06:56.621 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:06:56.621 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:06:56.621 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:06:56.621 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:06:56.700 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:06:56.701 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:06:56.703 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:06:56.703 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:06:59.243 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 8.370638 seconds
+Mon Dec 30 2019 15:06:59.287 - 0 - entering standby
+Mon Dec 30 2019 15:06:59.585 - Closing pipe SpacePirateVR (5840) because it was broken from the other end
+Mon Dec 30 2019 15:06:59.585 - Process SpacePirateVR (5840) disconnected (Thread(0x000001C9E462BAA0/0x000)
+Mon Dec 30 2019 15:06:59.585 - 0 - leaving standby
+Mon Dec 30 2019 15:06:59.586 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 15:06:59.586 - AppInfoManager.ProcessQuit processid=5840 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:06:59.586 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 5840 has exited
+Mon Dec 30 2019 15:06:59.587 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 15:07:04.591 - 0 - entering standby
+Mon Dec 30 2019 15:07:09.250 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:10:23.323 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:10:23.329 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 12128 
+Mon Dec 30 2019 15:10:23.329 - StartSceneApplicationTransitionFromProcess( 12128, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:10:23.329 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:10:23.329 - AppInfoManager.ProcessConnected BEGIN 12128 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:10:23.338 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=12128, external transition
+Mon Dec 30 2019 15:10:23.338 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 12128
+Mon Dec 30 2019 15:10:23.338 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:10:23.338 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:10:23.342 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:10:23.342 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:10:23.342 - 0 - leaving standby
+Mon Dec 30 2019 15:10:23.342 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:10:23.342 - Processing message VRMsg_Connect from SpacePirateVR (12128) took 0.0128 seconds
+Mon Dec 30 2019 15:10:25.472 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 15:10:25.479 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 15:10:29.101 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Dec 30 2019 15:10:29.102 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:10:29.102 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:10:29.102 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:10:29.102 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:10:29.124 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:10:29.124 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:10:29.127 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:10:29.128 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:10:31.758 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 8.419414 seconds
+Mon Dec 30 2019 15:10:31.861 - 0 - entering standby
+Mon Dec 30 2019 15:10:32.036 - Closing pipe SpacePirateVR (12128) because it was broken from the other end
+Mon Dec 30 2019 15:10:32.036 - Process SpacePirateVR (12128) disconnected (Thread(0x000001C9DD9B7260/0x000)
+Mon Dec 30 2019 15:10:32.036 - 0 - leaving standby
+Mon Dec 30 2019 15:10:32.036 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 15:10:32.037 - AppInfoManager.ProcessQuit processid=12128 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:10:32.037 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 12128 has exited
+Mon Dec 30 2019 15:10:32.037 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 15:10:37.044 - 0 - entering standby
+Mon Dec 30 2019 15:10:41.762 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:11:11.986 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:11:11.992 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 26952 
+Mon Dec 30 2019 15:11:11.992 - StartSceneApplicationTransitionFromProcess( 26952, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:11:11.992 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:11:11.992 - AppInfoManager.ProcessConnected BEGIN 26952 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:11:12.001 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=26952, external transition
+Mon Dec 30 2019 15:11:12.001 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 26952
+Mon Dec 30 2019 15:11:12.001 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:11:12.001 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:11:12.003 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:11:12.003 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:11:12.003 - 0 - leaving standby
+Mon Dec 30 2019 15:11:12.003 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:11:12.003 - Processing message VRMsg_Connect from SpacePirateVR (26952) took 0.0115 seconds
+Mon Dec 30 2019 15:11:14.468 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 2.466830 seconds
+Mon Dec 30 2019 15:11:14.552 - Closing pipe SpacePirateVR (26952) because it was broken from the other end
+Mon Dec 30 2019 15:11:14.552 - Process SpacePirateVR (26952) disconnected (Thread(0x000001C9DD9B6C30/0x000)
+Mon Dec 30 2019 15:11:14.552 - AppInfoManager.ProcessQuit processid=26952 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:11:14.552 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 26952 has exited
+Mon Dec 30 2019 15:11:19.555 - 0 - entering standby
+Mon Dec 30 2019 15:11:24.472 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:12:22.188 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:12:22.199 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 22072 
+Mon Dec 30 2019 15:12:22.199 - StartSceneApplicationTransitionFromProcess( 22072, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:12:22.199 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:12:22.199 - AppInfoManager.ProcessConnected BEGIN 22072 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:12:22.207 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=22072, external transition
+Mon Dec 30 2019 15:12:22.207 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 22072
+Mon Dec 30 2019 15:12:22.208 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:12:22.208 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:12:22.210 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:12:22.210 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:12:22.210 - 0 - leaving standby
+Mon Dec 30 2019 15:12:22.210 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:12:22.210 - Processing message VRMsg_Connect from SpacePirateVR (22072) took 0.0116 seconds
+Mon Dec 30 2019 15:12:24.909 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 2.701460 seconds
+Mon Dec 30 2019 15:12:25.078 - Closing pipe SpacePirateVR (22072) because it was broken from the other end
+Mon Dec 30 2019 15:12:25.078 - Process SpacePirateVR (22072) disconnected (Thread(0x000001C9E462C040/0x000)
+Mon Dec 30 2019 15:12:25.081 - AppInfoManager.ProcessQuit processid=22072 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:12:25.081 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 22072 has exited
+Mon Dec 30 2019 15:12:30.084 - 0 - entering standby
+Mon Dec 30 2019 15:12:34.910 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:16:00.449 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:16:00.450 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 14540 
+Mon Dec 30 2019 15:16:00.451 - StartSceneApplicationTransitionFromProcess( 14540, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:16:00.451 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:16:00.451 - AppInfoManager.ProcessConnected BEGIN 14540 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:16:00.459 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=14540, external transition
+Mon Dec 30 2019 15:16:00.459 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 14540
+Mon Dec 30 2019 15:16:00.459 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:16:00.460 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:16:00.462 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:16:00.462 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:16:00.463 - 0 - leaving standby
+Mon Dec 30 2019 15:16:00.463 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:16:00.463 - Processing message VRMsg_Connect from SpacePirateVR (14540) took 0.0124 seconds
+Mon Dec 30 2019 15:16:02.447 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 15:16:02.456 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 15:16:06.871 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Dec 30 2019 15:16:06.872 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:16:06.872 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:16:06.872 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:16:06.872 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:16:06.942 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:16:06.942 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:16:06.945 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:16:06.946 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:16:09.476 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 9.016313 seconds
+Mon Dec 30 2019 15:16:09.849 - Closing pipe SpacePirateVR (14540) because it was broken from the other end
+Mon Dec 30 2019 15:16:09.849 - Process SpacePirateVR (14540) disconnected (Thread(0x000001C9DD9B7260/0x000)
+Mon Dec 30 2019 15:16:09.850 - AppInfoManager.ProcessQuit processid=14540 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:16:09.850 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 14540 has exited
+Mon Dec 30 2019 15:16:09.866 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 15:16:09.914 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 15:16:14.859 - 0 - entering standby
+Mon Dec 30 2019 15:16:19.480 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:16:33.967 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:16:33.978 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 21900 
+Mon Dec 30 2019 15:16:33.978 - StartSceneApplicationTransitionFromProcess( 21900, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:16:33.978 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:16:33.978 - AppInfoManager.ProcessConnected BEGIN 21900 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:16:33.986 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=21900, external transition
+Mon Dec 30 2019 15:16:33.986 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 21900
+Mon Dec 30 2019 15:16:33.986 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:16:33.987 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:16:33.990 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:16:33.990 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:16:33.990 - 0 - leaving standby
+Mon Dec 30 2019 15:16:33.990 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:16:33.990 - Processing message VRMsg_Connect from SpacePirateVR (21900) took 0.0121 seconds
+Mon Dec 30 2019 15:16:35.828 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 15:16:35.836 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 15:16:40.179 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Dec 30 2019 15:16:40.180 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:16:40.180 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:16:40.180 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:16:40.180 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:16:40.256 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:16:40.257 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:16:40.258 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:16:40.259 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:16:42.919 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 8.932518 seconds
+Mon Dec 30 2019 15:16:43.220 - Closing pipe SpacePirateVR (21900) because it was broken from the other end
+Mon Dec 30 2019 15:16:43.220 - Process SpacePirateVR (21900) disconnected (Thread(0x000001C9E2A89F40/0x000)
+Mon Dec 30 2019 15:16:43.221 - AppInfoManager.ProcessQuit processid=21900 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:16:43.221 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 21900 has exited
+Mon Dec 30 2019 15:16:43.251 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 15:16:43.252 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 15:16:48.231 - 0 - entering standby
+Mon Dec 30 2019 15:16:52.928 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 15:17:54.408 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:17:54.419 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 4860 
+Mon Dec 30 2019 15:17:54.419 - StartSceneApplicationTransitionFromProcess( 4860, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:17:54.419 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:17:54.419 - AppInfoManager.ProcessConnected BEGIN 4860 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:17:54.426 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=4860, external transition
+Mon Dec 30 2019 15:17:54.427 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 4860
+Mon Dec 30 2019 15:17:54.427 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:17:54.427 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:17:54.430 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:17:54.430 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:17:54.430 - 0 - leaving standby
+Mon Dec 30 2019 15:17:54.430 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:17:54.430 - Processing message VRMsg_Connect from SpacePirateVR (4860) took 0.0118 seconds
+Mon Dec 30 2019 15:17:56.347 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 15:17:56.356 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 15:18:02.515 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Dec 30 2019 15:18:02.516 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:18:02.516 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:18:02.516 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:18:02.516 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:18:02.576 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:18:02.576 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:18:02.578 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:18:02.578 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:18:12.072 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 15:18:12.072 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 15:18:12.072 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 15:18:12.072 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 15:18:13.050 - 2 - leaving standby
+Mon Dec 30 2019 15:20:54.979 - oculus: Prediction interval too high: 0.100803 s, clamping at 0.100000 s
+Mon Dec 30 2019 15:21:01.139 - 0 - entering standby
+Mon Dec 30 2019 15:21:05.078 - Starting SteamVR Home launch because system.generated.spacepiratevr.exe exited after 190.651178 seconds
+Mon Dec 30 2019 15:21:05.374 - Closing pipe SpacePirateVR (4860) because it was broken from the other end
+Mon Dec 30 2019 15:21:05.374 - Process SpacePirateVR (4860) disconnected (Thread(0x000001C9E277EBA0/0x000)
+Mon Dec 30 2019 15:21:05.374 - 0 - leaving standby
+Mon Dec 30 2019 15:21:05.375 - AppInfoManager.ProcessQuit processid=4860 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:21:05.375 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 4860 has exited
+Mon Dec 30 2019 15:21:05.376 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 15:21:05.376 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 15:21:10.701 - 0 - entering standby
+Mon Dec 30 2019 15:26:05.696 - 2 - Setting standby flag (timeSinceHmdIdle=300.001241, timeSinceDeviceActive=679590.226062 (0x62e4b571590), timeout=300.000000
+Mon Dec 30 2019 15:26:05.696 - 2 - entering standby
+Mon Dec 30 2019 15:29:03.973 - CSharedResourceNamespaceServer sent namespace data: 10860
+Mon Dec 30 2019 15:29:03.974 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 16052 
+Mon Dec 30 2019 15:29:03.974 - StartSceneApplicationTransitionFromProcess( 16052, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Mon Dec 30 2019 15:29:03.974 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Mon Dec 30 2019 15:29:03.975 - AppInfoManager.ProcessConnected BEGIN 16052 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Mon Dec 30 2019 15:29:03.986 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=16052, external transition
+Mon Dec 30 2019 15:29:03.986 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 16052
+Mon Dec 30 2019 15:29:03.987 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 15:29:03.987 - Enabling legacy input for system.generated.spacepiratevr.exe
+Mon Dec 30 2019 15:29:03.989 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 15:29:03.989 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 15:29:03.989 - 0 - leaving standby
+Mon Dec 30 2019 15:29:03.989 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 15:29:03.989 - Processing message VRMsg_Connect from SpacePirateVR (16052) took 0.015 seconds
+Mon Dec 30 2019 15:29:06.089 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 15:29:06.099 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 15:29:09.927 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Dec 30 2019 15:29:09.929 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:29:09.929 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:29:09.929 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Dec 30 2019 15:29:09.929 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Dec 30 2019 15:29:10.007 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:29:10.008 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:29:10.009 - Unknown action set /actions/buggy
+Mon Dec 30 2019 15:29:10.010 - Unknown action set /actions/platformer
+Mon Dec 30 2019 15:29:12.672 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 8.686590 seconds
+Mon Dec 30 2019 15:29:12.781 - 0 - entering standby
+Mon Dec 30 2019 15:29:13.194 - Closing pipe SpacePirateVR (16052) because it was broken from the other end
+Mon Dec 30 2019 15:29:13.194 - Process SpacePirateVR (16052) disconnected (Thread(0x000001C9E46CDA10/0x000)
+Mon Dec 30 2019 15:29:13.194 - 0 - leaving standby
+Mon Dec 30 2019 15:29:13.194 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 15:29:13.194 - AppInfoManager.ProcessQuit processid=16052 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 15:29:13.194 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 15:29:13.194 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 16052 has exited
+Mon Dec 30 2019 15:29:18.203 - 0 - entering standby
+Mon Dec 30 2019 15:29:22.675 - Starting home app after 10.000000 seconds

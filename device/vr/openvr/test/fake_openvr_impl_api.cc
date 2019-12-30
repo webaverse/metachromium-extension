@@ -38,7 +38,6 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "device/vr/OpenOVR/Reimpl/static_bases.gen.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/fnproxy.h"
-#include "device/vr/openvr/test/proxy.h"
 
 std::string dllDir;
 std::ofstream out;
@@ -81,13 +80,19 @@ IVRExtendedDisplay *vr::g_vrextendeddisplay = nullptr;
 IVRApplications *vr::g_vrapplications = nullptr;
 IVRInput *g_vrinput = nullptr;
 
+PVRClientCore *g_pvrclientcore = nullptr;
 PVRCompositor *g_pvrcompositor = nullptr;
 
 }  // namespace vr
 
+void vrShutdownInternal() {
+  getOut() << "vr shutdown internal" << std::endl;
+}
+
 void *shMem = nullptr;
 size_t *pBooted = nullptr;
-GLFWwindow **ppWindow;
+// GLFWwindow **ppWindow;
+size_t *pNumClients = nullptr;
 extern "C" {
   void *__imp_VR_GetGenericInterface = nullptr;
   void *__imp_VR_IsInterfaceVersionVersion = nullptr;
@@ -95,7 +100,7 @@ extern "C" {
   void *__imp_VR_IsInterfaceVersion = nullptr;
   void *__imp_VR_InitInternal2 = nullptr;
   void *__imp_VR_IsInterfaceVersionValid = nullptr;
-  void *__imp_VR_ShutdownInternal = nullptr;
+  void *__imp_VR_ShutdownInternal = vrShutdownInternal;
   void *__imp_VR_IsHmdPresent = nullptr;
   void *__imp_VR_GetVRInitErrorAsSymbol = nullptr;
   void *__imp_VR_GetVRInitErrorAsEnglishDescription = nullptr;
@@ -128,13 +133,11 @@ extern "C" {
       __imp_VR_IsInterfaceVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersion" );
       __imp_VR_InitInternal2 = SharedLib_GetFunction( pMod, "VR_InitInternal2" );
       __imp_VR_IsInterfaceVersionValid = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionValid" );
-      __imp_VR_ShutdownInternal = SharedLib_GetFunction( pMod, "VR_ShutdownInternal" );
+      // __imp_VR_ShutdownInternal = SharedLib_GetFunction( pMod, "VR_ShutdownInternal" );
       __imp_VR_IsHmdPresent = SharedLib_GetFunction( pMod, "VR_IsHmdPresent" );
       __imp_VR_GetVRInitErrorAsSymbol = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsSymbol" );
       __imp_VR_GetVRInitErrorAsEnglishDescription = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsEnglishDescription" );
-      // getOut() << "core 5 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
-      if( !__imp_VR_GetGenericInterface )
-      {
+      if (!__imp_VR_GetGenericInterface) {
         SharedLib_Unload( pMod );
         getOut() << "unload abort" << std::endl; abort();
         // return vr::VRInitError_Init_FactoryNotFound;
@@ -155,9 +158,13 @@ extern "C" {
         getOut() << "vr_init " << GetCurrentThreadId() << std::endl;
         vr::VR_Init(&result, vr::VRApplication_Scene);
       }
-      if (result == vr::VRInitError_None) {
-        getOut() << "proxy init" << std::endl;
+      if (result != vr::VRInitError_None) {
+        getOut() << "vr_init failed" << std::endl;
+        abort();
+      }
+      getOut() << "proxy init" << std::endl;
 
+      if (!vr::g_vrsystem) {
         vr::g_vrsystem = vr::VRSystem();
         vr::g_vrcompositor = vr::VRCompositor();
         vr::g_vrchaperone = vr::VRChaperone();
@@ -171,32 +178,28 @@ extern "C" {
         vr::g_vrinput = vr::VRInput();
 
         FnProxy *fnp = new FnProxy();
+        vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
         vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
-
-        if (!*pBooted) {
-          getOut() << "create thread" << std::endl;
-          *pBooted = 1;
-          // *ppWindow = initGl();
-          
-          std::thread t([=]() {
-            FnProxy fnp;
-            vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
-            for (;;) {
-              fnp.handle();
-            }
-          });
-          t.detach();
-        }
-
-        // result = vr::VRInitError_None;
-        getOut() << "init 3" << std::endl;
-      } else {
-        getOut() << "init 4" << std::endl;
-        // vr::VR_Shutdown();
-        // getOut() << "init 4" << std::endl;
-        result = vr::VRInitError_Unknown;
       }
-      getOut() << "init 5" << std::endl;
+
+      if (!*pBooted) {
+        getOut() << "create thread" << std::endl;
+        *pBooted = 1;
+        // *ppWindow = initGl();
+        
+        std::thread t([=]() {
+          FnProxy fnp;
+          vr::PVRClientCore clientcore(fnp);
+          vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
+          for (;;) {
+            fnp.handle();
+          }
+        });
+        t.detach();
+      }
+
+      // result = vr::VRInitError_None;
+      getOut() << "init 3" << std::endl;
     });
     getOut() << "init 6 " << interface_name << std::endl;
     void *iface = CreateInterfaceByName(interface_name);
@@ -247,7 +250,8 @@ BOOL WINAPI DllMain(
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 16);
     pBooted = (size_t *)shMem;
-    ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
+    // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
+    //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
     
     // getOut() << "init dll 0" << std::endl;
     std::vector<char> buf(4096);

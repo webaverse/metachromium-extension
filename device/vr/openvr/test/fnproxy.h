@@ -40,6 +40,7 @@ public:
 class FnProxy {
 public:
   size_t callbackId;
+  size_t remoteCallbackId;
   Mutex mut;
   Semaphore inSem;
   // Semaphore outSem;

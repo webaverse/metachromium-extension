@@ -2,9 +2,15 @@
 #define _fake_openvr_impl_api_h_
 
 #include "third_party/openvr/src/headers/openvr.h"
-#include "device/vr/openvr/test/proxy.h"
+#include "device/vr/openvr/test/coreproxy.h"
+#include "device/vr/openvr/test/compositorproxy.h"
 
 #include <functional>
+
+extern void *shMem;
+extern size_t *pBooted;
+// extern GLFWwindow **ppWindow;
+// extern size_t *pNumClients;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
 
@@ -21,6 +27,7 @@ namespace vr {
   extern IVRApplications *g_vrapplications;
   extern IVRInput *g_vrinput;
 
+  extern PVRClientCore *g_pvrclientcore;
   extern PVRCompositor *g_pvrcompositor;
 }
 

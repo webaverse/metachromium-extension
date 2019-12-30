@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #define BASE_IMPL
 
-#include <chrono>
-#include "Misc/Config.h"
+// #include <chrono>
+// #include "Misc/Config.h"
 
 // #include "OVR_CAPI.h"
 // #include "libovr_wrapper.h"

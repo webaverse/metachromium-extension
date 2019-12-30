@@ -3,7 +3,7 @@
 #include "BaseClientCore.h"
 // #include "steamvr_abi.h"
 
-#include <fstream>
+// #include <fstream>
 
 // #include <codecvt>
 
@@ -27,7 +27,8 @@ EVRInitError BaseClientCore::Init(vr::EVRApplicationType eApplicationType, const
   getOut() << "core client init" << std::endl;
 	// EVRInitError err;
 	// VR_InitInternal2(&err, eApplicationType, pStartupInfo);
-	return VRInitError_None;
+  // return VRInitError_None;
+  return vr::g_pvrclientcore->Init(eApplicationType, pStartupInfo);
 }
 
 void BaseClientCore::Cleanup() {
@@ -35,6 +36,7 @@ void BaseClientCore::Cleanup() {
 	// Note that this object is not affected by the shutdown, as it is handled seperately
 	//  from all the other interface objects and is only destroyed when the DLL is unloaded.
 	//  VR_ShutdownInternal();
+  vr::g_pvrclientcore->Cleanup();
 }
 
 EVRInitError BaseClientCore::IsInterfaceVersionValid(const char * pchInterfaceVersion) {
@@ -60,7 +62,7 @@ void * BaseClientCore::GetGenericInterface(const char * pchNameAndVersion, EVRIn
 bool BaseClientCore::BIsHmdPresent() {
   // return true;
 	auto result = VR_IsHmdPresent();
-  getOut() << "is hmd present " << result << std::endl;
+  // getOut() << "is hmd present " << result << std::endl;
   return result;
 }
 
