@@ -1000,3 +1000,952 @@ Mon Dec 30 2019 10:09:59.014 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Le
 Mon Dec 30 2019 10:09:59.014 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
 Mon Dec 30 2019 10:09:59.014 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
 Mon Dec 30 2019 10:09:59.045 - oculus: Prediction interval too high: 0.103967 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:14:51.800 - 1 - Setting standby flag (timeSinceHmdIdle=300.009835, timeSinceDeviceActive=660916.330232 (0x602d0d4b5b4), timeout=300.000000
+Mon Dec 30 2019 10:14:51.800 - 2 - Setting standby flag (timeSinceHmdIdle=300.009835, timeSinceDeviceActive=660916.330232 (0x602d0d4b5b4), timeout=300.000000
+Mon Dec 30 2019 10:14:51.800 - 1 - entering standby
+Mon Dec 30 2019 10:14:51.800 - 2 - entering standby
+Mon Dec 30 2019 10:17:27.102 - 0 - leaving standby
+Mon Dec 30 2019 10:17:27.102 - 0 - leaving standby
+Mon Dec 30 2019 10:17:27.757 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 10:17:27.757 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 10:17:27.757 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:17:27.757 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:17:32.096 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 10:17:32.107 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,9950963714497059101,8159633082155164196,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=13687370779699477054 --mojo-platform-channel-handle=3484 /prefetch:8) 11912 
+Mon Dec 30 2019 10:17:32.107 - StartSceneApplicationTransitionFromProcess( 11912, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:17:32.107 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 10:17:32.107 - AppInfoManager.ProcessConnected BEGIN 11912 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:17:32.118 - SetApplicationPid appkey=system.generated.chrome.exe pid=11912, external transition
+Mon Dec 30 2019 10:17:32.118 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 11912
+Mon Dec 30 2019 10:17:32.118 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:17:32.119 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:17:32.121 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:17:32.121 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:17:32.121 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:17:32.121 - Processing message VRMsg_Connect from chrome (11912) took 0.0143 seconds
+Mon Dec 30 2019 10:17:34.641 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 10:17:34.641 - Process chrome (11912) forced to disconnect (Thread(0x000002101C5D8EE0/0x000)
+Mon Dec 30 2019 10:17:34.641 - AppInfoManager.ProcessQuit processid=11912 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:17:34.641 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 11912 has exited
+Mon Dec 30 2019 10:17:34.642 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,9950963714497059101,8159633082155164196,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=13687370779699477054 --mojo-platform-channel-handle=3484 /prefetch:8) 11912 
+Mon Dec 30 2019 10:17:34.642 - Unable to create property container PC_700002e88 because it already existed
+Mon Dec 30 2019 10:17:34.642 - Unable to create property container for chrome (11912). Maybe it's a reconnect?
+Mon Dec 30 2019 10:17:34.643 - StartSceneApplicationTransitionFromProcess( 11912, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:17:34.643 - AppInfoManager.ProcessConnected BEGIN 11912 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:17:34.661 - SetApplicationPid appkey=system.generated.chrome.exe pid=11912, external transition
+Mon Dec 30 2019 10:17:34.661 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 11912
+Mon Dec 30 2019 10:17:34.662 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:17:34.662 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:17:34.666 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:17:34.666 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:17:34.666 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:17:34.667 - Processing message VRMsg_Connect from chrome (11912) took 0.025 seconds
+Mon Dec 30 2019 10:17:34.700 - Closing pipe chrome (11912) because it was broken from the other end
+Mon Dec 30 2019 10:17:34.700 - Process chrome (11912) disconnected (Thread(0x000002101C4074D0/0x000)
+Mon Dec 30 2019 10:17:34.700 - AppInfoManager.ProcessQuit processid=11912 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:17:34.700 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 11912 has exited
+Mon Dec 30 2019 10:17:34.738 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,9950963714497059101,8159633082155164196,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=13687370779699477054 --mojo-platform-channel-handle=3484 /prefetch:8) 11912 
+Mon Dec 30 2019 10:17:34.738 - Unable to create property container PC_700002e88 because it already existed
+Mon Dec 30 2019 10:17:34.738 - Unable to create property container for chrome (11912). Maybe it's a reconnect?
+Mon Dec 30 2019 10:17:34.738 - StartSceneApplicationTransitionFromProcess( 11912, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:17:34.738 - AppInfoManager.ProcessConnected BEGIN 11912 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:17:34.749 - SetApplicationPid appkey=system.generated.chrome.exe pid=11912, external transition
+Mon Dec 30 2019 10:17:34.749 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 11912
+Mon Dec 30 2019 10:17:34.750 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:17:34.750 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:17:34.752 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:17:34.752 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:17:34.752 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:17:34.752 - Processing message VRMsg_Connect from chrome (11912) took 0.0143 seconds
+Mon Dec 30 2019 10:17:35.400 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 10:17:35.409 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:17:37.153 - 2 - leaving standby
+Mon Dec 30 2019 10:17:46.321 - oculus: Prediction interval too high: 0.102498 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:18:04.940 - Closing pipe chrome (11912) because it was broken from the other end
+Mon Dec 30 2019 10:18:04.941 - Process chrome (11912) disconnected (Thread(0x000002101C67D940/0x000)
+Mon Dec 30 2019 10:18:04.941 - AppInfoManager.ProcessQuit processid=11912 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:18:04.941 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 11912 has exited
+Mon Dec 30 2019 10:18:04.942 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:18:04.942 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 10:18:05.154 - Starting SteamVR Home launch because system.generated.chrome.exe exited after 30.404227 seconds
+Mon Dec 30 2019 10:18:05.332 - Closing pipe chrome (11912) because it was broken from the other end
+Mon Dec 30 2019 10:19:24.240 - 1 - leaving standby
+Mon Dec 30 2019 10:19:24.407 - oculus: Prediction interval too high: 0.100133 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:19:33.660 - 0 - entering standby
+Mon Dec 30 2019 10:19:39.403 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:19:39.403 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:19:39.403 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 10:19:39.403 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 10:19:39.456 - oculus: Prediction interval too high: 0.107166 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:22:05.675 - 0 - leaving standby
+Mon Dec 30 2019 10:22:05.675 - 0 - leaving standby
+Mon Dec 30 2019 10:22:05.776 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:22:05.776 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:22:06.123 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 10:22:06.207 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 10:22:06.664 - oculus: Prediction interval too high: 0.104842 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:22:06.679 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 10:22:06.679 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 10:22:06.753 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:22:06.753 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:22:06.838 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 10:22:06.849 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1604,7893583245930709610,15039669432849060711,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=11522500076830855414 --mojo-platform-channel-handle=2584 /prefetch:8) 15492 
+Mon Dec 30 2019 10:22:06.850 - StartSceneApplicationTransitionFromProcess( 15492, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:22:06.850 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 10:22:06.850 - AppInfoManager.ProcessConnected BEGIN 15492 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:22:06.865 - SetApplicationPid appkey=system.generated.chrome.exe pid=15492, external transition
+Mon Dec 30 2019 10:22:06.865 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 15492
+Mon Dec 30 2019 10:22:06.866 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:22:06.867 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:22:06.870 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:22:06.870 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:22:06.870 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:22:06.870 - Processing message VRMsg_Connect from chrome (15492) took 0.0209 seconds
+Mon Dec 30 2019 10:22:07.881 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 10:22:07.881 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 10:22:07.881 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:22:07.882 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:22:09.305 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 10:22:09.306 - Process chrome (15492) forced to disconnect (Thread(0x000002101C2A2E40/0x000)
+Mon Dec 30 2019 10:22:09.306 - AppInfoManager.ProcessQuit processid=15492 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:22:09.306 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 15492 has exited
+Mon Dec 30 2019 10:22:09.306 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1604,7893583245930709610,15039669432849060711,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=11522500076830855414 --mojo-platform-channel-handle=2584 /prefetch:8) 15492 
+Mon Dec 30 2019 10:22:09.306 - Unable to create property container PC_700003c84 because it already existed
+Mon Dec 30 2019 10:22:09.306 - Unable to create property container for chrome (15492). Maybe it's a reconnect?
+Mon Dec 30 2019 10:22:09.306 - StartSceneApplicationTransitionFromProcess( 15492, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:22:09.306 - AppInfoManager.ProcessConnected BEGIN 15492 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:22:09.318 - SetApplicationPid appkey=system.generated.chrome.exe pid=15492, external transition
+Mon Dec 30 2019 10:22:09.318 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 15492
+Mon Dec 30 2019 10:22:09.318 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:22:09.318 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:22:09.321 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:22:09.321 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:22:09.321 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:22:09.321 - Processing message VRMsg_Connect from chrome (15492) took 0.0167 seconds
+Mon Dec 30 2019 10:22:09.367 - Closing pipe chrome (15492) because it was broken from the other end
+Mon Dec 30 2019 10:22:09.367 - Process chrome (15492) disconnected (Thread(0x000002101C4AE1B0/0x000)
+Mon Dec 30 2019 10:22:09.367 - AppInfoManager.ProcessQuit processid=15492 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:22:09.367 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 15492 has exited
+Mon Dec 30 2019 10:22:09.412 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1604,7893583245930709610,15039669432849060711,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=11522500076830855414 --mojo-platform-channel-handle=2584 /prefetch:8) 15492 
+Mon Dec 30 2019 10:22:09.412 - Unable to create property container PC_700003c84 because it already existed
+Mon Dec 30 2019 10:22:09.412 - Unable to create property container for chrome (15492). Maybe it's a reconnect?
+Mon Dec 30 2019 10:22:09.412 - StartSceneApplicationTransitionFromProcess( 15492, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:22:09.412 - AppInfoManager.ProcessConnected BEGIN 15492 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:22:09.426 - SetApplicationPid appkey=system.generated.chrome.exe pid=15492, external transition
+Mon Dec 30 2019 10:22:09.426 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 15492
+Mon Dec 30 2019 10:22:09.427 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:22:09.427 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:22:09.429 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:22:09.429 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:22:09.429 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:22:09.429 - Processing message VRMsg_Connect from chrome (15492) took 0.0175 seconds
+Mon Dec 30 2019 10:22:09.868 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 10:22:09.873 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:22:09.879 - Processing message VRMsg_CreateSwapTextureSet from chrome (15492) took 0.00641 seconds
+Mon Dec 30 2019 10:22:10.051 - oculus: Prediction interval too high: 0.103395 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:22:14.652 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:22:14.652 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:22:15.141 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:22:15.141 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:22:23.782 - oculus: Prediction interval too high: 0.101264 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:22:26.779 - Closing pipe chrome (15492) because it was broken from the other end
+Mon Dec 30 2019 10:22:26.779 - Process chrome (15492) disconnected (Thread(0x000002101C2C1EF0/0x000)
+Mon Dec 30 2019 10:22:26.779 - AppInfoManager.ProcessQuit processid=15492 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:22:26.779 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 15492 has exited
+Mon Dec 30 2019 10:22:26.782 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:22:26.782 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 10:22:26.959 - Delaying SteamVR Home launch because system.generated.chrome.exe ran for only 17.532045 seconds
+Mon Dec 30 2019 10:22:27.058 - Closing pipe chrome (15492) because it was broken from the other end
+Mon Dec 30 2019 10:22:36.963 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 10:22:37.794 - 0 - entering standby
+Mon Dec 30 2019 10:22:38.809 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:22:38.809 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:22:38.809 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 10:22:38.809 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 10:22:38.851 - oculus: Prediction interval too high: 0.104204 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:25:38.403 - 0 - leaving standby
+Mon Dec 30 2019 10:25:38.403 - 0 - leaving standby
+Mon Dec 30 2019 10:25:38.456 - oculus: Prediction interval too high: 0.104231 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:25:38.505 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:25:38.505 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:25:39.791 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:25:39.791 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:25:40.166 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:25:40.166 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:25:41.951 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 10:25:42.021 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 10:25:44.222 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 10:25:44.232 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1640,9907064959819573047,11107140373245541797,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=6662082197329398849 --mojo-platform-channel-handle=4380 /prefetch:8) 26448 
+Mon Dec 30 2019 10:25:44.232 - StartSceneApplicationTransitionFromProcess( 26448, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:25:44.232 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 10:25:44.232 - AppInfoManager.ProcessConnected BEGIN 26448 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:25:44.242 - SetApplicationPid appkey=system.generated.chrome.exe pid=26448, external transition
+Mon Dec 30 2019 10:25:44.242 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 26448
+Mon Dec 30 2019 10:25:44.242 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:25:44.243 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:25:44.245 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:25:44.245 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:25:44.245 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:25:44.245 - Processing message VRMsg_Connect from chrome (26448) took 0.0126 seconds
+Mon Dec 30 2019 10:25:46.321 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 10:25:46.321 - Process chrome (26448) forced to disconnect (Thread(0x000002101C5D9000/0x000)
+Mon Dec 30 2019 10:25:46.321 - AppInfoManager.ProcessQuit processid=26448 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:25:46.321 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 26448 has exited
+Mon Dec 30 2019 10:25:46.321 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1640,9907064959819573047,11107140373245541797,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=6662082197329398849 --mojo-platform-channel-handle=4380 /prefetch:8) 26448 
+Mon Dec 30 2019 10:25:46.321 - Unable to create property container PC_700006750 because it already existed
+Mon Dec 30 2019 10:25:46.321 - Unable to create property container for chrome (26448). Maybe it's a reconnect?
+Mon Dec 30 2019 10:25:46.321 - StartSceneApplicationTransitionFromProcess( 26448, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:25:46.321 - AppInfoManager.ProcessConnected BEGIN 26448 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:25:46.334 - SetApplicationPid appkey=system.generated.chrome.exe pid=26448, external transition
+Mon Dec 30 2019 10:25:46.334 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 26448
+Mon Dec 30 2019 10:25:46.334 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:25:46.334 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:25:46.338 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:25:46.338 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:25:46.338 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:25:46.338 - Processing message VRMsg_Connect from chrome (26448) took 0.0174 seconds
+Mon Dec 30 2019 10:25:46.367 - Closing pipe chrome (26448) because it was broken from the other end
+Mon Dec 30 2019 10:25:46.368 - Process chrome (26448) disconnected (Thread(0x0000021016B98D50/0x000)
+Mon Dec 30 2019 10:25:46.368 - AppInfoManager.ProcessQuit processid=26448 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:25:46.368 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 26448 has exited
+Mon Dec 30 2019 10:25:46.394 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1640,9907064959819573047,11107140373245541797,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=6662082197329398849 --mojo-platform-channel-handle=4380 /prefetch:8) 26448 
+Mon Dec 30 2019 10:25:46.394 - Unable to create property container PC_700006750 because it already existed
+Mon Dec 30 2019 10:25:46.394 - Unable to create property container for chrome (26448). Maybe it's a reconnect?
+Mon Dec 30 2019 10:25:46.394 - StartSceneApplicationTransitionFromProcess( 26448, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:25:46.394 - AppInfoManager.ProcessConnected BEGIN 26448 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:25:46.412 - SetApplicationPid appkey=system.generated.chrome.exe pid=26448, external transition
+Mon Dec 30 2019 10:25:46.412 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 26448
+Mon Dec 30 2019 10:25:46.416 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:25:46.416 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:25:46.420 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:25:46.420 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:25:46.420 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:25:46.420 - Processing message VRMsg_Connect from chrome (26448) took 0.0259 seconds
+Mon Dec 30 2019 10:25:46.837 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 10:25:46.841 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:25:58.407 - oculus: Prediction interval too high: 0.101959 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:26:04.507 - Closing pipe chrome (26448) because it was broken from the other end
+Mon Dec 30 2019 10:26:04.507 - Process chrome (26448) disconnected (Thread(0x0000021018599900/0x000)
+Mon Dec 30 2019 10:26:04.507 - AppInfoManager.ProcessQuit processid=26448 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:26:04.507 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 26448 has exited
+Mon Dec 30 2019 10:26:04.508 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:26:04.508 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 10:26:04.677 - Delaying SteamVR Home launch because system.generated.chrome.exe ran for only 18.264284 seconds
+Mon Dec 30 2019 10:26:04.803 - Closing pipe chrome (26448) because it was broken from the other end
+Mon Dec 30 2019 10:26:13.456 - 0 - entering standby
+Mon Dec 30 2019 10:26:14.686 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 10:26:15.471 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:26:15.471 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:26:15.471 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 10:26:15.471 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 10:26:15.555 - oculus: Prediction interval too high: 0.107282 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:27:10.749 - 0 - leaving standby
+Mon Dec 30 2019 10:27:10.850 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:27:10.850 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:27:10.850 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 10:27:10.850 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 10:27:11.562 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 10:27:11.565 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1588,15257943149510816294,10275271577758194996,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18067629028907278080 --mojo-platform-channel-handle=3112 /prefetch:8) 24452 
+Mon Dec 30 2019 10:27:11.565 - StartSceneApplicationTransitionFromProcess( 24452, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:11.565 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 10:27:11.565 - AppInfoManager.ProcessConnected BEGIN 24452 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:11.574 - SetApplicationPid appkey=system.generated.chrome.exe pid=24452, external transition
+Mon Dec 30 2019 10:27:11.574 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 24452
+Mon Dec 30 2019 10:27:11.574 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:11.575 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:11.577 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:11.577 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:11.577 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:11.577 - Processing message VRMsg_Connect from chrome (24452) took 0.0127 seconds
+Mon Dec 30 2019 10:27:13.635 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 10:27:13.635 - Process chrome (24452) forced to disconnect (Thread(0x0000021018598EE0/0x000)
+Mon Dec 30 2019 10:27:13.635 - AppInfoManager.ProcessQuit processid=24452 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:27:13.635 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 24452 has exited
+Mon Dec 30 2019 10:27:13.635 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1588,15257943149510816294,10275271577758194996,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18067629028907278080 --mojo-platform-channel-handle=3112 /prefetch:8) 24452 
+Mon Dec 30 2019 10:27:13.635 - Unable to create property container PC_700005f84 because it already existed
+Mon Dec 30 2019 10:27:13.635 - Unable to create property container for chrome (24452). Maybe it's a reconnect?
+Mon Dec 30 2019 10:27:13.635 - StartSceneApplicationTransitionFromProcess( 24452, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:13.635 - AppInfoManager.ProcessConnected BEGIN 24452 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:13.649 - SetApplicationPid appkey=system.generated.chrome.exe pid=24452, external transition
+Mon Dec 30 2019 10:27:13.650 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 24452
+Mon Dec 30 2019 10:27:13.650 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:13.650 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:13.656 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:13.656 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:13.656 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:13.656 - Processing message VRMsg_Connect from chrome (24452) took 0.0213 seconds
+Mon Dec 30 2019 10:27:13.691 - Closing pipe chrome (24452) because it was broken from the other end
+Mon Dec 30 2019 10:27:13.691 - Process chrome (24452) disconnected (Thread(0x0000021019FE5790/0x000)
+Mon Dec 30 2019 10:27:13.691 - AppInfoManager.ProcessQuit processid=24452 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:27:13.691 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 24452 has exited
+Mon Dec 30 2019 10:27:13.721 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1588,15257943149510816294,10275271577758194996,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18067629028907278080 --mojo-platform-channel-handle=3112 /prefetch:8) 24452 
+Mon Dec 30 2019 10:27:13.721 - Unable to create property container PC_700005f84 because it already existed
+Mon Dec 30 2019 10:27:13.721 - Unable to create property container for chrome (24452). Maybe it's a reconnect?
+Mon Dec 30 2019 10:27:13.721 - StartSceneApplicationTransitionFromProcess( 24452, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:13.721 - AppInfoManager.ProcessConnected BEGIN 24452 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:13.734 - SetApplicationPid appkey=system.generated.chrome.exe pid=24452, external transition
+Mon Dec 30 2019 10:27:13.734 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 24452
+Mon Dec 30 2019 10:27:13.734 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:13.734 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:13.740 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:13.740 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:13.740 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:13.740 - Processing message VRMsg_Connect from chrome (24452) took 0.0199 seconds
+Mon Dec 30 2019 10:27:14.206 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 10:27:14.209 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:27:23.887 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:27:23.887 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:27:23.890 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:27:23.890 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:27:41.273 - oculus: Prediction interval too high: 0.101818 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:27:45.883 - Closing pipe chrome (24452) because it was broken from the other end
+Mon Dec 30 2019 10:27:45.884 - Process chrome (24452) disconnected (Thread(0x0000021019FE5790/0x000)
+Mon Dec 30 2019 10:27:45.884 - AppInfoManager.ProcessQuit processid=24452 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:27:45.884 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 24452 has exited
+Mon Dec 30 2019 10:27:45.884 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:27:45.885 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 10:27:45.965 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1588,15257943149510816294,10275271577758194996,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18067629028907278080 --mojo-platform-channel-handle=3112 /prefetch:8) 24452 
+Mon Dec 30 2019 10:27:45.965 - Unable to create property container PC_700005f84 because it already existed
+Mon Dec 30 2019 10:27:45.965 - Unable to create property container for chrome (24452). Maybe it's a reconnect?
+Mon Dec 30 2019 10:27:45.965 - StartSceneApplicationTransitionFromProcess( 24452, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:45.965 - AppInfoManager.ProcessConnected BEGIN 24452 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:45.977 - SetApplicationPid appkey=system.generated.chrome.exe pid=24452, external transition
+Mon Dec 30 2019 10:27:45.977 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 24452
+Mon Dec 30 2019 10:27:45.977 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:45.978 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:45.980 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:45.980 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:45.980 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:45.980 - Processing message VRMsg_Connect from chrome (24452) took 0.0147 seconds
+Mon Dec 30 2019 10:27:47.973 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 10:27:47.973 - Process chrome (24452) forced to disconnect (Thread(0x00000210185991B0/0x000)
+Mon Dec 30 2019 10:27:47.973 - AppInfoManager.ProcessQuit processid=24452 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:27:47.973 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 24452 has exited
+Mon Dec 30 2019 10:27:47.973 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1588,15257943149510816294,10275271577758194996,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18067629028907278080 --mojo-platform-channel-handle=3112 /prefetch:8) 24452 
+Mon Dec 30 2019 10:27:47.973 - Unable to create property container PC_700005f84 because it already existed
+Mon Dec 30 2019 10:27:47.973 - Unable to create property container for chrome (24452). Maybe it's a reconnect?
+Mon Dec 30 2019 10:27:47.973 - StartSceneApplicationTransitionFromProcess( 24452, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:47.973 - AppInfoManager.ProcessConnected BEGIN 24452 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:47.990 - SetApplicationPid appkey=system.generated.chrome.exe pid=24452, external transition
+Mon Dec 30 2019 10:27:47.990 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 24452
+Mon Dec 30 2019 10:27:47.990 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:47.990 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:47.994 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:47.994 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:47.994 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:47.994 - Processing message VRMsg_Connect from chrome (24452) took 0.0213 seconds
+Mon Dec 30 2019 10:27:48.022 - Closing pipe chrome (24452) because it was broken from the other end
+Mon Dec 30 2019 10:27:48.022 - Process chrome (24452) disconnected (Thread(0x000002101C5DDB50/0x000)
+Mon Dec 30 2019 10:27:48.022 - AppInfoManager.ProcessQuit processid=24452 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:27:48.022 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 24452 has exited
+Mon Dec 30 2019 10:27:48.059 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1588,15257943149510816294,10275271577758194996,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18067629028907278080 --mojo-platform-channel-handle=3112 /prefetch:8) 24452 
+Mon Dec 30 2019 10:27:48.059 - Unable to create property container PC_700005f84 because it already existed
+Mon Dec 30 2019 10:27:48.059 - Unable to create property container for chrome (24452). Maybe it's a reconnect?
+Mon Dec 30 2019 10:27:48.059 - StartSceneApplicationTransitionFromProcess( 24452, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:48.059 - AppInfoManager.ProcessConnected BEGIN 24452 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:48.073 - SetApplicationPid appkey=system.generated.chrome.exe pid=24452, external transition
+Mon Dec 30 2019 10:27:48.073 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 24452
+Mon Dec 30 2019 10:27:48.073 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:48.074 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:48.076 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:48.076 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:48.076 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:48.076 - Processing message VRMsg_Connect from chrome (24452) took 0.0172 seconds
+Mon Dec 30 2019 10:27:51.523 - Delaying SteamVR Home launch because system.generated.chrome.exe ran for only 3.449784 seconds
+Mon Dec 30 2019 10:27:51.697 - Closing pipe chrome (24452) because it was broken from the other end
+Mon Dec 30 2019 10:27:51.697 - Process chrome (24452) disconnected (Thread(0x0000021019FE4D70/0x000)
+Mon Dec 30 2019 10:27:51.697 - AppInfoManager.ProcessQuit processid=24452 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:27:51.697 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 24452 has exited
+Mon Dec 30 2019 10:27:51.715 - Closing pipe chrome (24452) because it was broken from the other end
+Mon Dec 30 2019 10:27:51.715 - Closing pipe chrome (24452) because it was broken from the other end
+Mon Dec 30 2019 10:27:55.285 - oculus: Prediction interval too high: 0.100961 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:27:56.297 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 10:27:56.309 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,16933302798500474216,5838033335156881857,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=308747215539266698 --mojo-platform-channel-handle=4492 /prefetch:8) 28828 
+Mon Dec 30 2019 10:27:56.310 - StartSceneApplicationTransitionFromProcess( 28828, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:56.310 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 10:27:56.310 - AppInfoManager.ProcessConnected BEGIN 28828 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:56.325 - SetApplicationPid appkey=system.generated.chrome.exe pid=28828, external transition
+Mon Dec 30 2019 10:27:56.326 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 28828
+Mon Dec 30 2019 10:27:56.326 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:56.326 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:56.331 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:56.331 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:56.331 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:56.331 - Processing message VRMsg_Connect from chrome (28828) took 0.0226 seconds
+Mon Dec 30 2019 10:27:58.563 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 10:27:58.563 - Process chrome (28828) forced to disconnect (Thread(0x000002101C5D8D30/0x000)
+Mon Dec 30 2019 10:27:58.563 - AppInfoManager.ProcessQuit processid=28828 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:27:58.563 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 28828 has exited
+Mon Dec 30 2019 10:27:58.563 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,16933302798500474216,5838033335156881857,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=308747215539266698 --mojo-platform-channel-handle=4492 /prefetch:8) 28828 
+Mon Dec 30 2019 10:27:58.563 - Unable to create property container PC_70000709c because it already existed
+Mon Dec 30 2019 10:27:58.563 - Unable to create property container for chrome (28828). Maybe it's a reconnect?
+Mon Dec 30 2019 10:27:58.563 - StartSceneApplicationTransitionFromProcess( 28828, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:58.563 - AppInfoManager.ProcessConnected BEGIN 28828 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:58.578 - SetApplicationPid appkey=system.generated.chrome.exe pid=28828, external transition
+Mon Dec 30 2019 10:27:58.578 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 28828
+Mon Dec 30 2019 10:27:58.578 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:58.578 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:58.581 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:58.581 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:58.581 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:58.581 - Processing message VRMsg_Connect from chrome (28828) took 0.0183 seconds
+Mon Dec 30 2019 10:27:58.609 - Closing pipe chrome (28828) because it was broken from the other end
+Mon Dec 30 2019 10:27:58.609 - Process chrome (28828) disconnected (Thread(0x0000021019FE4CE0/0x000)
+Mon Dec 30 2019 10:27:58.609 - AppInfoManager.ProcessQuit processid=28828 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:27:58.609 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 28828 has exited
+Mon Dec 30 2019 10:27:58.648 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,16933302798500474216,5838033335156881857,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=308747215539266698 --mojo-platform-channel-handle=4492 /prefetch:8) 28828 
+Mon Dec 30 2019 10:27:58.648 - Unable to create property container PC_70000709c because it already existed
+Mon Dec 30 2019 10:27:58.648 - Unable to create property container for chrome (28828). Maybe it's a reconnect?
+Mon Dec 30 2019 10:27:58.648 - StartSceneApplicationTransitionFromProcess( 28828, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:27:58.648 - AppInfoManager.ProcessConnected BEGIN 28828 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:27:58.664 - SetApplicationPid appkey=system.generated.chrome.exe pid=28828, external transition
+Mon Dec 30 2019 10:27:58.664 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 28828
+Mon Dec 30 2019 10:27:58.664 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:27:58.664 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:27:58.668 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:27:58.668 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:27:58.668 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:27:58.668 - Processing message VRMsg_Connect from chrome (28828) took 0.0206 seconds
+Mon Dec 30 2019 10:27:59.124 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 10:27:59.129 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:28:01.525 - Skipping start of home app because something else started
+Mon Dec 30 2019 10:28:02.598 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:28:02.598 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:28:03.142 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:28:03.142 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:28:08.819 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:28:08.819 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:28:08.823 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:28:08.823 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:28:13.671 - oculus: Prediction interval too high: 0.101081 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:28:16.547 - Closing pipe chrome (28828) because it was broken from the other end
+Mon Dec 30 2019 10:28:16.547 - Process chrome (28828) disconnected (Thread(0x000002101C5D9240/0x000)
+Mon Dec 30 2019 10:28:16.547 - AppInfoManager.ProcessQuit processid=28828 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:28:16.547 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 28828 has exited
+Mon Dec 30 2019 10:28:16.548 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:28:16.548 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 10:28:16.684 - Delaying SteamVR Home launch because system.generated.chrome.exe ran for only 18.019353 seconds
+Mon Dec 30 2019 10:28:16.868 - Closing pipe chrome (28828) because it was broken from the other end
+Mon Dec 30 2019 10:28:21.767 - 0 - entering standby
+Mon Dec 30 2019 10:28:26.688 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 10:28:28.723 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:28:28.723 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:28:28.723 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 10:28:28.723 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 10:28:28.734 - oculus: Prediction interval too high: 0.109055 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:33:16.764 - 1 - Setting standby flag (timeSinceHmdIdle=300.004036, timeSinceDeviceActive=662021.294457 (0x6056370deb7), timeout=300.000000
+Mon Dec 30 2019 10:33:16.764 - 2 - Setting standby flag (timeSinceHmdIdle=300.004036, timeSinceDeviceActive=662021.294457 (0x6056370deb7), timeout=300.000000
+Mon Dec 30 2019 10:33:16.764 - 1 - entering standby
+Mon Dec 30 2019 10:33:16.764 - 2 - entering standby
+Mon Dec 30 2019 10:36:07.050 - 0 - leaving standby
+Mon Dec 30 2019 10:36:07.050 - 0 - leaving standby
+Mon Dec 30 2019 10:36:07.154 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:36:07.154 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:36:08.448 - oculus: Prediction interval too high: 0.107476 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:36:08.449 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:36:08.449 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:36:09.085 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:36:09.085 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:36:10.755 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 10:36:10.769 - 1 - leaving standby
+Mon Dec 30 2019 10:36:10.783 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 10:36:10.798 - 2 - leaving standby
+Mon Dec 30 2019 10:36:20.259 - oculus: Prediction interval too high: 0.102751 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:36:27.112 - oculus: Prediction interval too high: 0.103154 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:36:31.182 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 10:36:31.192 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1612,47551030104761545,4420334624329980976,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=16218483001841378718 --mojo-platform-channel-handle=3236 /prefetch:8) 15372 
+Mon Dec 30 2019 10:36:31.193 - StartSceneApplicationTransitionFromProcess( 15372, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:36:31.193 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 10:36:31.193 - AppInfoManager.ProcessConnected BEGIN 15372 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:36:31.203 - SetApplicationPid appkey=system.generated.chrome.exe pid=15372, external transition
+Mon Dec 30 2019 10:36:31.203 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 15372
+Mon Dec 30 2019 10:36:31.203 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:36:31.204 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:36:31.207 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:36:31.207 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:36:31.207 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:36:31.207 - Processing message VRMsg_Connect from chrome (15372) took 0.0146 seconds
+Mon Dec 30 2019 10:36:33.674 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 10:36:33.674 - Process chrome (15372) forced to disconnect (Thread(0x000002101C4ADD30/0x000)
+Mon Dec 30 2019 10:36:33.674 - AppInfoManager.ProcessQuit processid=15372 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:36:33.674 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 15372 has exited
+Mon Dec 30 2019 10:36:33.674 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1612,47551030104761545,4420334624329980976,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=16218483001841378718 --mojo-platform-channel-handle=3236 /prefetch:8) 15372 
+Mon Dec 30 2019 10:36:33.675 - Unable to create property container PC_700003c0c because it already existed
+Mon Dec 30 2019 10:36:33.675 - Unable to create property container for chrome (15372). Maybe it's a reconnect?
+Mon Dec 30 2019 10:36:33.675 - StartSceneApplicationTransitionFromProcess( 15372, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:36:33.675 - AppInfoManager.ProcessConnected BEGIN 15372 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:36:33.688 - SetApplicationPid appkey=system.generated.chrome.exe pid=15372, external transition
+Mon Dec 30 2019 10:36:33.688 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 15372
+Mon Dec 30 2019 10:36:33.688 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:36:33.688 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:36:33.691 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:36:33.691 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:36:33.691 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:36:33.691 - Processing message VRMsg_Connect from chrome (15372) took 0.0168 seconds
+Mon Dec 30 2019 10:36:33.722 - Closing pipe chrome (15372) because it was broken from the other end
+Mon Dec 30 2019 10:36:33.722 - Process chrome (15372) disconnected (Thread(0x0000021016B980F0/0x000)
+Mon Dec 30 2019 10:36:33.722 - AppInfoManager.ProcessQuit processid=15372 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:36:33.722 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 15372 has exited
+Mon Dec 30 2019 10:36:33.760 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1612,47551030104761545,4420334624329980976,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=16218483001841378718 --mojo-platform-channel-handle=3236 /prefetch:8) 15372 
+Mon Dec 30 2019 10:36:33.760 - Unable to create property container PC_700003c0c because it already existed
+Mon Dec 30 2019 10:36:33.760 - Unable to create property container for chrome (15372). Maybe it's a reconnect?
+Mon Dec 30 2019 10:36:33.760 - StartSceneApplicationTransitionFromProcess( 15372, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:36:33.760 - AppInfoManager.ProcessConnected BEGIN 15372 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:36:33.773 - SetApplicationPid appkey=system.generated.chrome.exe pid=15372, external transition
+Mon Dec 30 2019 10:36:33.773 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 15372
+Mon Dec 30 2019 10:36:33.773 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:36:33.774 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:36:33.777 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:36:33.777 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:36:33.777 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:36:33.777 - Processing message VRMsg_Connect from chrome (15372) took 0.0179 seconds
+Mon Dec 30 2019 10:36:34.215 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 10:36:34.218 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:36:36.904 - oculus: Prediction interval too high: 0.100244 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:36:40.581 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:36:40.582 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:36:41.182 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:36:41.182 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:36:43.933 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:36:43.933 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:36:43.937 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:36:43.937 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:36:45.696 - oculus: Prediction interval too high: 0.101731 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:36:47.965 - Closing pipe chrome (15372) because it was broken from the other end
+Mon Dec 30 2019 10:36:47.965 - Process chrome (15372) disconnected (Thread(0x0000021019FE5550/0x000)
+Mon Dec 30 2019 10:36:47.965 - AppInfoManager.ProcessQuit processid=15372 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:36:47.965 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 15372 has exited
+Mon Dec 30 2019 10:36:47.966 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:36:47.972 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 10:36:48.156 - Delaying SteamVR Home launch because system.generated.chrome.exe ran for only 14.382279 seconds
+Mon Dec 30 2019 10:36:48.337 - Closing pipe chrome (15372) because it was broken from the other end
+Mon Dec 30 2019 10:36:58.159 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 10:37:03.362 - oculus: Prediction interval too high: 0.101006 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:37:10.681 - 0 - entering standby
+Mon Dec 30 2019 10:37:18.341 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:37:18.341 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:37:18.341 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 10:37:18.341 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 10:37:18.406 - oculus: Prediction interval too high: 0.101046 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:42:01.098 - 0 - leaving standby
+Mon Dec 30 2019 10:42:01.098 - 0 - leaving standby
+Mon Dec 30 2019 10:42:01.200 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:42:01.200 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:42:02.283 - oculus: Prediction interval too high: 0.100781 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:42:02.291 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 10:42:02.291 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 10:42:03.559 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 10:42:03.559 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 10:42:03.837 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 10:42:03.892 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 10:42:06.541 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 10:42:06.552 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1600,8635671820828274928,15131089201175825243,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=12350088346847086588 --mojo-platform-channel-handle=4640 /prefetch:8) 23256 
+Mon Dec 30 2019 10:42:06.552 - StartSceneApplicationTransitionFromProcess( 23256, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:42:06.552 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 10:42:06.553 - AppInfoManager.ProcessConnected BEGIN 23256 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:42:06.564 - SetApplicationPid appkey=system.generated.chrome.exe pid=23256, external transition
+Mon Dec 30 2019 10:42:06.564 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 23256
+Mon Dec 30 2019 10:42:06.564 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:42:06.564 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:42:06.566 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:42:06.567 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:42:06.567 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:42:06.567 - Processing message VRMsg_Connect from chrome (23256) took 0.0145 seconds
+Mon Dec 30 2019 10:42:08.640 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 10:42:08.640 - Process chrome (23256) forced to disconnect (Thread(0x000002101C5DD520/0x000)
+Mon Dec 30 2019 10:42:08.640 - AppInfoManager.ProcessQuit processid=23256 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:42:08.640 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 23256 has exited
+Mon Dec 30 2019 10:42:08.641 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1600,8635671820828274928,15131089201175825243,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=12350088346847086588 --mojo-platform-channel-handle=4640 /prefetch:8) 23256 
+Mon Dec 30 2019 10:42:08.641 - Unable to create property container PC_700005ad8 because it already existed
+Mon Dec 30 2019 10:42:08.641 - Unable to create property container for chrome (23256). Maybe it's a reconnect?
+Mon Dec 30 2019 10:42:08.641 - StartSceneApplicationTransitionFromProcess( 23256, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:42:08.641 - AppInfoManager.ProcessConnected BEGIN 23256 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:42:08.654 - SetApplicationPid appkey=system.generated.chrome.exe pid=23256, external transition
+Mon Dec 30 2019 10:42:08.654 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 23256
+Mon Dec 30 2019 10:42:08.654 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:42:08.655 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:42:08.659 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:42:08.659 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:42:08.659 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:42:08.659 - Processing message VRMsg_Connect from chrome (23256) took 0.0186 seconds
+Mon Dec 30 2019 10:42:08.688 - Closing pipe chrome (23256) because it was broken from the other end
+Mon Dec 30 2019 10:42:08.688 - Process chrome (23256) disconnected (Thread(0x000002101C5D8E50/0x000)
+Mon Dec 30 2019 10:42:08.688 - AppInfoManager.ProcessQuit processid=23256 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:42:08.688 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 23256 has exited
+Mon Dec 30 2019 10:42:08.725 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1600,8635671820828274928,15131089201175825243,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=12350088346847086588 --mojo-platform-channel-handle=4640 /prefetch:8) 23256 
+Mon Dec 30 2019 10:42:08.725 - Unable to create property container PC_700005ad8 because it already existed
+Mon Dec 30 2019 10:42:08.725 - Unable to create property container for chrome (23256). Maybe it's a reconnect?
+Mon Dec 30 2019 10:42:08.725 - StartSceneApplicationTransitionFromProcess( 23256, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 10:42:08.725 - AppInfoManager.ProcessConnected BEGIN 23256 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 10:42:08.742 - SetApplicationPid appkey=system.generated.chrome.exe pid=23256, external transition
+Mon Dec 30 2019 10:42:08.742 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 23256
+Mon Dec 30 2019 10:42:08.742 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 10:42:08.742 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 10:42:08.746 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 10:42:08.746 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 10:42:08.746 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 10:42:08.746 - Processing message VRMsg_Connect from chrome (23256) took 0.0213 seconds
+Mon Dec 30 2019 10:42:09.190 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 10:42:09.193 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:42:18.909 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:42:18.909 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:42:18.913 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:42:18.913 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 10:42:20.616 - oculus: Prediction interval too high: 0.101125 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:42:22.724 - Closing pipe chrome (23256) because it was broken from the other end
+Mon Dec 30 2019 10:42:22.725 - Process chrome (23256) disconnected (Thread(0x000002101C5D9360/0x000)
+Mon Dec 30 2019 10:42:22.725 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 10:42:22.725 - AppInfoManager.ProcessQuit processid=23256 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 10:42:22.725 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 23256 has exited
+Mon Dec 30 2019 10:42:22.725 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 10:42:22.912 - Delaying SteamVR Home launch because system.generated.chrome.exe ran for only 14.169825 seconds
+Mon Dec 30 2019 10:42:23.084 - Closing pipe chrome (23256) because it was broken from the other end
+Mon Dec 30 2019 10:42:24.358 - oculus: Prediction interval too high: 0.103180 s, clamping at 0.100000 s
+Mon Dec 30 2019 10:42:30.489 - 0 - entering standby
+Mon Dec 30 2019 10:42:32.913 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 10:47:25.491 - 1 - Setting standby flag (timeSinceHmdIdle=300.007312, timeSinceDeviceActive=662870.022016 (0x6075d526b03), timeout=300.000000
+Mon Dec 30 2019 10:47:25.491 - 2 - Setting standby flag (timeSinceHmdIdle=300.007312, timeSinceDeviceActive=662870.022016 (0x6075d526b03), timeout=300.000000
+Mon Dec 30 2019 10:47:25.491 - 1 - entering standby
+Mon Dec 30 2019 10:47:25.491 - 2 - entering standby
+Mon Dec 30 2019 11:06:24.690 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 11:06:24.701 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1612,12141831205780747005,18017756643658787333,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=10316250668748511457 --mojo-platform-channel-handle=3924 /prefetch:8) 28684 
+Mon Dec 30 2019 11:06:24.701 - StartSceneApplicationTransitionFromProcess( 28684, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:06:24.701 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 11:06:24.702 - AppInfoManager.ProcessConnected BEGIN 28684 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:06:24.711 - SetApplicationPid appkey=system.generated.chrome.exe pid=28684, external transition
+Mon Dec 30 2019 11:06:24.711 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 28684
+Mon Dec 30 2019 11:06:24.711 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:06:24.712 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:06:24.714 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:06:24.714 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:06:24.714 - 0 - leaving standby
+Mon Dec 30 2019 11:06:24.714 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:06:24.714 - Processing message VRMsg_Connect from chrome (28684) took 0.013 seconds
+Mon Dec 30 2019 11:06:26.845 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 11:06:26.845 - Process chrome (28684) forced to disconnect (Thread(0x000002101C5D9360/0x000)
+Mon Dec 30 2019 11:06:26.845 - AppInfoManager.ProcessQuit processid=28684 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:06:26.845 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 28684 has exited
+Mon Dec 30 2019 11:06:26.845 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1612,12141831205780747005,18017756643658787333,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=10316250668748511457 --mojo-platform-channel-handle=3924 /prefetch:8) 28684 
+Mon Dec 30 2019 11:06:26.845 - Unable to create property container PC_70000700c because it already existed
+Mon Dec 30 2019 11:06:26.845 - Unable to create property container for chrome (28684). Maybe it's a reconnect?
+Mon Dec 30 2019 11:06:26.845 - StartSceneApplicationTransitionFromProcess( 28684, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:06:26.845 - AppInfoManager.ProcessConnected BEGIN 28684 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:06:26.862 - SetApplicationPid appkey=system.generated.chrome.exe pid=28684, external transition
+Mon Dec 30 2019 11:06:26.862 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 28684
+Mon Dec 30 2019 11:06:26.862 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:06:26.862 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:06:26.864 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:06:26.864 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:06:26.864 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:06:26.864 - Processing message VRMsg_Connect from chrome (28684) took 0.0186 seconds
+Mon Dec 30 2019 11:06:26.893 - Closing pipe chrome (28684) because it was broken from the other end
+Mon Dec 30 2019 11:06:26.893 - Process chrome (28684) disconnected (Thread(0x0000021017949720/0x000)
+Mon Dec 30 2019 11:06:26.893 - AppInfoManager.ProcessQuit processid=28684 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:06:26.893 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 28684 has exited
+Mon Dec 30 2019 11:06:26.929 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1612,12141831205780747005,18017756643658787333,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=10316250668748511457 --mojo-platform-channel-handle=3924 /prefetch:8) 28684 
+Mon Dec 30 2019 11:06:26.929 - Unable to create property container PC_70000700c because it already existed
+Mon Dec 30 2019 11:06:26.929 - Unable to create property container for chrome (28684). Maybe it's a reconnect?
+Mon Dec 30 2019 11:06:26.929 - StartSceneApplicationTransitionFromProcess( 28684, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:06:26.929 - AppInfoManager.ProcessConnected BEGIN 28684 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:06:26.948 - SetApplicationPid appkey=system.generated.chrome.exe pid=28684, external transition
+Mon Dec 30 2019 11:06:26.948 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 28684
+Mon Dec 30 2019 11:06:26.948 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:06:26.948 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:06:26.956 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:06:26.957 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:06:26.957 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:06:26.957 - Processing message VRMsg_Connect from chrome (28684) took 0.0269 seconds
+Mon Dec 30 2019 11:06:27.601 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 11:06:27.612 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:06:30.920 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 11:06:30.920 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 11:06:31.338 - 1 - leaving standby
+Mon Dec 30 2019 11:06:31.338 - 2 - leaving standby
+Mon Dec 30 2019 11:06:31.338 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 11:06:31.338 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 11:06:37.129 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:06:37.129 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:06:37.138 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:06:37.138 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:06:47.136 - oculus: Prediction interval too high: 0.100761 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:06:48.833 - Closing pipe chrome (28684) because it was broken from the other end
+Mon Dec 30 2019 11:06:48.833 - Process chrome (28684) disconnected (Thread(0x0000021016B98DE0/0x000)
+Mon Dec 30 2019 11:06:48.833 - AppInfoManager.ProcessQuit processid=28684 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:06:48.833 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 28684 has exited
+Mon Dec 30 2019 11:06:48.834 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:06:48.834 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 11:06:49.010 - Starting SteamVR Home launch because system.generated.chrome.exe exited after 22.062276 seconds
+Mon Dec 30 2019 11:06:49.168 - Closing pipe chrome (28684) because it was broken from the other end
+Mon Dec 30 2019 11:06:55.326 - 0 - entering standby
+Mon Dec 30 2019 11:07:02.179 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 11:07:02.179 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 11:07:02.179 - oculus: Prediction interval too high: 0.101775 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:07:02.179 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 11:07:02.179 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 11:07:59.545 - 0 - leaving standby
+Mon Dec 30 2019 11:07:59.545 - 0 - leaving standby
+Mon Dec 30 2019 11:07:59.646 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 11:07:59.647 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 11:07:59.647 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 11:07:59.647 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 11:08:00.451 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 11:08:00.462 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,12602909035118500626,4088167785329213365,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=11238728835210985633 --mojo-platform-channel-handle=4496 /prefetch:8) 25364 
+Mon Dec 30 2019 11:08:00.462 - StartSceneApplicationTransitionFromProcess( 25364, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:08:00.462 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 11:08:00.462 - AppInfoManager.ProcessConnected BEGIN 25364 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:08:00.473 - SetApplicationPid appkey=system.generated.chrome.exe pid=25364, external transition
+Mon Dec 30 2019 11:08:00.473 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 25364
+Mon Dec 30 2019 11:08:00.473 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:08:00.473 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:08:00.477 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:08:00.477 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:08:00.477 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:08:00.477 - Processing message VRMsg_Connect from chrome (25364) took 0.0152 seconds
+Mon Dec 30 2019 11:08:02.626 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 11:08:02.626 - Process chrome (25364) forced to disconnect (Thread(0x000002101C5DD1C0/0x000)
+Mon Dec 30 2019 11:08:02.626 - AppInfoManager.ProcessQuit processid=25364 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:08:02.626 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 25364 has exited
+Mon Dec 30 2019 11:08:02.626 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,12602909035118500626,4088167785329213365,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=11238728835210985633 --mojo-platform-channel-handle=4496 /prefetch:8) 25364 
+Mon Dec 30 2019 11:08:02.626 - Unable to create property container PC_700006314 because it already existed
+Mon Dec 30 2019 11:08:02.626 - Unable to create property container for chrome (25364). Maybe it's a reconnect?
+Mon Dec 30 2019 11:08:02.626 - StartSceneApplicationTransitionFromProcess( 25364, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:08:02.626 - AppInfoManager.ProcessConnected BEGIN 25364 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:08:02.638 - SetApplicationPid appkey=system.generated.chrome.exe pid=25364, external transition
+Mon Dec 30 2019 11:08:02.638 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 25364
+Mon Dec 30 2019 11:08:02.638 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:08:02.638 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:08:02.644 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:08:02.644 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:08:02.644 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:08:02.646 - Processing message VRMsg_Connect from chrome (25364) took 0.0205 seconds
+Mon Dec 30 2019 11:08:02.677 - Closing pipe chrome (25364) because it was broken from the other end
+Mon Dec 30 2019 11:08:02.677 - Process chrome (25364) disconnected (Thread(0x000002101A15B380/0x000)
+Mon Dec 30 2019 11:08:02.677 - AppInfoManager.ProcessQuit processid=25364 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:08:02.677 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 25364 has exited
+Mon Dec 30 2019 11:08:02.711 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1624,12602909035118500626,4088167785329213365,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=11238728835210985633 --mojo-platform-channel-handle=4496 /prefetch:8) 25364 
+Mon Dec 30 2019 11:08:02.711 - Unable to create property container PC_700006314 because it already existed
+Mon Dec 30 2019 11:08:02.711 - Unable to create property container for chrome (25364). Maybe it's a reconnect?
+Mon Dec 30 2019 11:08:02.711 - StartSceneApplicationTransitionFromProcess( 25364, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:08:02.711 - AppInfoManager.ProcessConnected BEGIN 25364 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:08:02.727 - SetApplicationPid appkey=system.generated.chrome.exe pid=25364, external transition
+Mon Dec 30 2019 11:08:02.727 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 25364
+Mon Dec 30 2019 11:08:02.727 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:08:02.727 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:08:02.731 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:08:02.731 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:08:02.731 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:08:02.731 - Processing message VRMsg_Connect from chrome (25364) took 0.0197 seconds
+Mon Dec 30 2019 11:08:03.364 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 11:08:03.372 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:08:12.893 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:08:12.893 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:08:12.898 - Processing message VRMsg_CreateSwapTextureSet from chrome (25364) took 0.00542 seconds
+Mon Dec 30 2019 11:08:12.904 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:08:12.904 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:08:22.934 - oculus: Prediction interval too high: 0.101584 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:08:22.948 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 11:08:22.948 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 11:08:22.948 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 11:08:22.949 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 11:08:28.855 - 0 - entering standby
+Mon Dec 30 2019 11:08:45.630 - 0 - leaving standby
+Mon Dec 30 2019 11:08:45.727 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 11:08:45.728 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 11:08:45.728 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 11:08:45.728 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 11:08:46.423 - oculus: Prediction interval too high: 0.101916 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:08:48.110 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:08:48.110 - Closing pipe chrome (25364) because it was broken from the other end
+Mon Dec 30 2019 11:08:48.111 - Process chrome (25364) disconnected (Thread(0x000002101A15C100/0x000)
+Mon Dec 30 2019 11:08:48.112 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 11:08:48.112 - AppInfoManager.ProcessQuit processid=25364 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:08:48.112 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 25364 has exited
+Mon Dec 30 2019 11:08:48.268 - Starting SteamVR Home launch because system.generated.chrome.exe exited after 45.540236 seconds
+Mon Dec 30 2019 11:08:48.453 - Closing pipe chrome (25364) because it was broken from the other end
+Mon Dec 30 2019 11:08:56.263 - 0 - entering standby
+Mon Dec 30 2019 11:09:01.402 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 11:09:01.402 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 11:09:01.403 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 11:09:01.403 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 11:09:01.466 - oculus: Prediction interval too high: 0.108400 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:11:30.753 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 11:11:30.762 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1628,4980424887092464750,4856426295253273898,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18282512776467467520 --mojo-platform-channel-handle=3668 /prefetch:8) 26700 
+Mon Dec 30 2019 11:11:30.762 - StartSceneApplicationTransitionFromProcess( 26700, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:11:30.762 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 11:11:30.762 - AppInfoManager.ProcessConnected BEGIN 26700 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:11:30.771 - SetApplicationPid appkey=system.generated.chrome.exe pid=26700, external transition
+Mon Dec 30 2019 11:11:30.771 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 26700
+Mon Dec 30 2019 11:11:30.771 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:11:30.771 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:11:30.776 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:11:30.776 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:11:30.776 - 0 - leaving standby
+Mon Dec 30 2019 11:11:30.776 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:11:30.776 - Processing message VRMsg_Connect from chrome (26700) took 0.014 seconds
+Mon Dec 30 2019 11:11:34.577 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 11:11:34.577 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 11:11:34.578 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 11:11:34.578 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 11:11:35.373 - oculus: Prediction interval too high: 0.101659 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:11:35.386 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 11:11:35.386 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 11:11:35.386 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 11:11:35.386 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 11:11:36.728 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 11:11:36.728 - Process chrome (26700) forced to disconnect (Thread(0x000002101C4ADC10/0x000)
+Mon Dec 30 2019 11:11:36.728 - AppInfoManager.ProcessQuit processid=26700 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:11:36.728 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 26700 has exited
+Mon Dec 30 2019 11:11:36.728 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1628,4980424887092464750,4856426295253273898,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18282512776467467520 --mojo-platform-channel-handle=3668 /prefetch:8) 26700 
+Mon Dec 30 2019 11:11:36.728 - Unable to create property container PC_70000684c because it already existed
+Mon Dec 30 2019 11:11:36.728 - Unable to create property container for chrome (26700). Maybe it's a reconnect?
+Mon Dec 30 2019 11:11:36.728 - StartSceneApplicationTransitionFromProcess( 26700, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:11:36.728 - AppInfoManager.ProcessConnected BEGIN 26700 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:11:36.742 - SetApplicationPid appkey=system.generated.chrome.exe pid=26700, external transition
+Mon Dec 30 2019 11:11:36.742 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 26700
+Mon Dec 30 2019 11:11:36.742 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:11:36.742 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:11:36.746 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:11:36.746 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:11:36.746 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:11:36.746 - Processing message VRMsg_Connect from chrome (26700) took 0.0175 seconds
+Mon Dec 30 2019 11:11:37.030 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 11:11:37.030 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 11:11:37.031 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 11:11:37.031 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 11:11:40.202 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 11:11:40.202 - Process chrome (26700) forced to disconnect (Thread(0x0000021016B98210/0x000)
+Mon Dec 30 2019 11:11:40.202 - AppInfoManager.ProcessQuit processid=26700 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:11:40.202 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 26700 has exited
+Mon Dec 30 2019 11:11:40.202 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1628,4980424887092464750,4856426295253273898,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18282512776467467520 --mojo-platform-channel-handle=3668 /prefetch:8) 26700 
+Mon Dec 30 2019 11:11:40.202 - Unable to create property container PC_70000684c because it already existed
+Mon Dec 30 2019 11:11:40.202 - Unable to create property container for chrome (26700). Maybe it's a reconnect?
+Mon Dec 30 2019 11:11:40.202 - StartSceneApplicationTransitionFromProcess( 26700, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:11:40.202 - AppInfoManager.ProcessConnected BEGIN 26700 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:11:40.219 - SetApplicationPid appkey=system.generated.chrome.exe pid=26700, external transition
+Mon Dec 30 2019 11:11:40.219 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 26700
+Mon Dec 30 2019 11:11:40.219 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:11:40.219 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:11:40.222 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:11:40.222 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:11:40.222 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:11:40.222 - Processing message VRMsg_Connect from chrome (26700) took 0.02 seconds
+Mon Dec 30 2019 11:11:40.253 - Closing pipe chrome (26700) because it was broken from the other end
+Mon Dec 30 2019 11:11:40.253 - Process chrome (26700) disconnected (Thread(0x000002101C27FB30/0x000)
+Mon Dec 30 2019 11:11:40.253 - AppInfoManager.ProcessQuit processid=26700 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:11:40.253 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 26700 has exited
+Mon Dec 30 2019 11:11:40.287 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1628,4980424887092464750,4856426295253273898,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=18282512776467467520 --mojo-platform-channel-handle=3668 /prefetch:8) 26700 
+Mon Dec 30 2019 11:11:40.287 - Unable to create property container PC_70000684c because it already existed
+Mon Dec 30 2019 11:11:40.287 - Unable to create property container for chrome (26700). Maybe it's a reconnect?
+Mon Dec 30 2019 11:11:40.287 - StartSceneApplicationTransitionFromProcess( 26700, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:11:40.287 - AppInfoManager.ProcessConnected BEGIN 26700 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:11:40.304 - SetApplicationPid appkey=system.generated.chrome.exe pid=26700, external transition
+Mon Dec 30 2019 11:11:40.304 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 26700
+Mon Dec 30 2019 11:11:40.304 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:11:40.305 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:11:40.311 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:11:40.311 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:11:40.311 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:11:40.311 - Processing message VRMsg_Connect from chrome (26700) took 0.0242 seconds
+Mon Dec 30 2019 11:11:40.967 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 11:11:40.972 - Processing message VRMsg_CreateSwapTextureSet from chrome (26700) took 0.0051 seconds
+Mon Dec 30 2019 11:11:40.977 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:11:50.476 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:11:50.476 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:11:50.483 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:11:50.483 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:11:51.587 - oculus: Prediction interval too high: 0.100188 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:11:54.001 - Closing pipe chrome (26700) because it was broken from the other end
+Mon Dec 30 2019 11:11:54.001 - Process chrome (26700) disconnected (Thread(0x000002101853A370/0x000)
+Mon Dec 30 2019 11:11:54.001 - AppInfoManager.ProcessQuit processid=26700 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:11:54.001 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 26700 has exited
+Mon Dec 30 2019 11:11:54.002 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:11:54.002 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 11:11:54.202 - Delaying SteamVR Home launch because system.generated.chrome.exe ran for only 13.896920 seconds
+Mon Dec 30 2019 11:11:54.434 - Closing pipe chrome (26700) because it was broken from the other end
+Mon Dec 30 2019 11:11:54.434 - Closing pipe chrome (26700) because it was broken from the other end
+Mon Dec 30 2019 11:12:01.260 - 0 - entering standby
+Mon Dec 30 2019 11:12:04.204 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 11:12:06.602 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 11:12:06.602 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 11:12:06.602 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 11:12:06.602 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 11:12:06.644 - oculus: Prediction interval too high: 0.102363 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:16:54.728 - 0 - leaving standby
+Mon Dec 30 2019 11:16:54.830 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 11:16:54.830 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 11:16:56.203 - oculus: Prediction interval too high: 0.105869 s, clamping at 0.100000 s
+Mon Dec 30 2019 11:16:56.217 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 11:16:56.218 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 11:16:57.595 - oculus: IAD changed to 66.2mm
+Mon Dec 30 2019 11:16:57.596 - oculus: UpdateGeneratedState: IPD = 0.066227, IAD = 0.066227, screen_sep = 0.072199
+Mon Dec 30 2019 11:16:58.148 - CSharedResourceNamespaceServer sent namespace data: 19668
+Mon Dec 30 2019 11:16:58.159 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1616,11949907550776194516,12390477533895191403,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=5208678234507082228 --mojo-platform-channel-handle=3844 /prefetch:8) 25024 
+Mon Dec 30 2019 11:16:58.159 - StartSceneApplicationTransitionFromProcess( 25024, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:16:58.159 - Creating builtin app for C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene)
+Mon Dec 30 2019 11:16:58.159 - AppInfoManager.ProcessConnected BEGIN 25024 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:16:58.169 - SetApplicationPid appkey=system.generated.chrome.exe pid=25024, external transition
+Mon Dec 30 2019 11:16:58.170 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 25024
+Mon Dec 30 2019 11:16:58.170 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:16:58.170 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:16:58.172 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:16:58.172 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:16:58.172 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:16:58.172 - Processing message VRMsg_Connect from chrome (25024) took 0.0134 seconds
+Mon Dec 30 2019 11:16:59.250 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Dec 30 2019 11:16:59.293 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Dec 30 2019 11:17:00.547 - Old connection found for pid. Forcing it to disconnect before processing Msg_Connect
+Mon Dec 30 2019 11:17:00.547 - Process chrome (25024) forced to disconnect (Thread(0x000002101A15C070/0x000)
+Mon Dec 30 2019 11:17:00.547 - AppInfoManager.ProcessQuit processid=25024 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:17:00.547 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 25024 has exited
+Mon Dec 30 2019 11:17:00.547 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1616,11949907550776194516,12390477533895191403,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=5208678234507082228 --mojo-platform-channel-handle=3844 /prefetch:8) 25024 
+Mon Dec 30 2019 11:17:00.547 - Unable to create property container PC_7000061c0 because it already existed
+Mon Dec 30 2019 11:17:00.547 - Unable to create property container for chrome (25024). Maybe it's a reconnect?
+Mon Dec 30 2019 11:17:00.547 - StartSceneApplicationTransitionFromProcess( 25024, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:17:00.548 - AppInfoManager.ProcessConnected BEGIN 25024 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:17:00.564 - SetApplicationPid appkey=system.generated.chrome.exe pid=25024, external transition
+Mon Dec 30 2019 11:17:00.564 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 25024
+Mon Dec 30 2019 11:17:00.565 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:17:00.565 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:17:00.572 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:17:00.573 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:17:00.573 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:17:00.573 - Processing message VRMsg_Connect from chrome (25024) took 0.0252 seconds
+Mon Dec 30 2019 11:17:00.604 - Closing pipe chrome (25024) because it was broken from the other end
+Mon Dec 30 2019 11:17:00.604 - Process chrome (25024) disconnected (Thread(0x000002101A15BEC0/0x000)
+Mon Dec 30 2019 11:17:00.604 - AppInfoManager.ProcessQuit processid=25024 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:17:00.604 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 25024 has exited
+Mon Dec 30 2019 11:17:00.645 - New Connect message from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe (VRApplication_Scene) (Args: --type=utility --field-trial-handle=1616,11949907550776194516,12390477533895191403,131072 --enable-features=OpenVR,WebXR --disable-features=XRSandbox --lang=en-US --service-sandbox-type=xr_compositing --enable-audio-service-sandbox --service-request-channel-token=5208678234507082228 --mojo-platform-channel-handle=3844 /prefetch:8) 25024 
+Mon Dec 30 2019 11:17:00.645 - Unable to create property container PC_7000061c0 because it already existed
+Mon Dec 30 2019 11:17:00.645 - Unable to create property container for chrome (25024). Maybe it's a reconnect?
+Mon Dec 30 2019 11:17:00.645 - StartSceneApplicationTransitionFromProcess( 25024, C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe, )
+Mon Dec 30 2019 11:17:00.645 - AppInfoManager.ProcessConnected BEGIN 25024 C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 1 
+Mon Dec 30 2019 11:17:00.658 - SetApplicationPid appkey=system.generated.chrome.exe pid=25024, external transition
+Mon Dec 30 2019 11:17:00.658 - SetApplicationPid: Setting app system.generated.chrome.exe PID to 25024
+Mon Dec 30 2019 11:17:00.658 - AppInfoManager.ProcessConnected END
+Mon Dec 30 2019 11:17:00.658 - Enabling legacy input for system.generated.chrome.exe
+Mon Dec 30 2019 11:17:00.660 - system.generated.chrome.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Dec 30 2019 11:17:00.661 - system.generated.chrome.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Dec 30 2019 11:17:00.661 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Dec 30 2019 11:17:00.661 - Processing message VRMsg_Connect from chrome (25024) took 0.0154 seconds
+Mon Dec 30 2019 11:17:01.305 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Dec 30 2019 11:17:01.313 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:17:01.319 - Processing message VRMsg_CreateSwapTextureSet from chrome (25024) took 0.00619 seconds
+Mon Dec 30 2019 11:17:10.823 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:17:10.823 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:17:10.833 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:17:10.833 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Dec 30 2019 11:17:19.628 - Closing pipe chrome (25024) because it was broken from the other end
+Mon Dec 30 2019 11:17:19.628 - oculus: CliD3D11CompositorClient::release 4
+Mon Dec 30 2019 11:17:19.628 - Process chrome (25024) disconnected (Thread(0x0000021019FC97A0/0x000)
+Mon Dec 30 2019 11:17:19.628 - AppInfoManager.ProcessQuit processid=25024 eLaunchingApp=LaunchingApp_None
+Mon Dec 30 2019 11:17:19.628 - AppInfoManager.ProcessQuit: Clearing application system.generated.chrome.exe PID because 25024 has exited
+Mon Dec 30 2019 11:17:19.628 - oculus: CliD3D11CompositorClient::release 3
+Mon Dec 30 2019 11:17:19.806 - Delaying SteamVR Home launch because system.generated.chrome.exe ran for only 19.148347 seconds
+Mon Dec 30 2019 11:17:20.013 - Closing pipe chrome (25024) because it was broken from the other end
+Mon Dec 30 2019 11:17:24.996 - 0 - entering standby
+Mon Dec 30 2019 11:17:29.815 - Starting home app after 10.000000 seconds
+Mon Dec 30 2019 11:17:32.249 - oculus: IAD changed to 63.5mm
+Mon Dec 30 2019 11:17:32.249 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Dec 30 2019 11:17:32.249 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Dec 30 2019 11:17:32.249 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Dec 30 2019 11:17:32.313 - oculus: Prediction interval too high: 0.101491 s, clamping at 0.100000 s

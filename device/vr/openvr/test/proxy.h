@@ -23,6 +23,8 @@ public:
   ID3D11DeviceContext *context; */
   ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
+  ID3D11Texture2D *shTexLeftOld = nullptr;
+  ID3D11Texture2D *shTexRightOld = nullptr;
   ID3D11Texture2D *shTexLeft2 = nullptr;
   ID3D11Texture2D *shTexRight2 = nullptr;
   HANDLE hDevice = NULL;
@@ -38,6 +40,12 @@ public:
   GLuint shVaoId = 0;
   HANDLE shTexLeftHandle = 0;
   HANDLE shTexRightHandle = 0;
+  
+  HANDLE handleLeftLatched = nullptr;
+  HANDLE handleRightLatched = nullptr;
+  ID3D11Texture2D *texLeftLatched = nullptr;
+  ID3D11Texture2D *texRightLatched = nullptr;
+  
   GLFWwindow *subWindow = nullptr;
   
   PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp);

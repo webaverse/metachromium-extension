@@ -173,12 +173,19 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     GLuint &shTexInId = eEye == Eye_Left ? shTexInLeft : shTexInRight;
     HANDLE &shTexInObjectHandle = eEye == Eye_Left ? shTexInLeftObjectHandle : shTexInRightObjectHandle;
     HANDLE &shTexOutObjectHandle = eEye == Eye_Left ? shTexOutLeftObjectHandle : shTexOutRightObjectHandle;
-    if (!shTexIn) {
-      HANDLE sharedHandle = (HANDLE)pTexture->handle;
+    HANDLE sharedHandle = (HANDLE)pTexture->handle;
+    HANDLE &handleLatched = eEye == Eye_Left ? handleLeftLatched : handleRightLatched;
+    if (handleLatched != sharedHandle) {
       getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
+      HRESULT hr;
+      if (handleLatched) {
+        // XXX delete old resources
+        // hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
+      }
+      handleLatched = sharedHandle;
 
       ID3D11Resource *pD3DResource;
-      HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
+      hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
       
       if (SUCCEEDED(hr)) {
         hr = pD3DResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
@@ -200,7 +207,10 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       D3D11_TEXTURE2D_DESC desc;
       shTexIn->GetDesc(&desc);
       
-      getOut() << "get texture desc 2 " << (int)eEye << " " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.MiscFlags << std::endl;
+      getOut() << "get texture desc back " << (int)eEye << " " << desc.Width << " " << desc.Height << " " <<
+      pBounds->uMin << " " << pBounds->vMin << " " <<
+      pBounds->uMax << " " << pBounds->vMax << " " <<
+      std::endl;
 
       // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
 
@@ -358,12 +368,11 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         glActiveTexture(GL_TEXTURE0);
         glUniform1i(texLocation, 0);
         
-        glViewport(0, 0, desc.Width, desc.Height);
-        
         getOut() << "gl init error 8 " << glGetError() << std::endl;
 
         hDevice = wglDXOpenDeviceNV(device.Get());
       }
+      glViewport(0, 0, desc.Width, desc.Height);
       shTexInObjectHandle = wglDXRegisterObjectNV(hDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
       shTexOutObjectHandle = wglDXRegisterObjectNV(hDevice, shTexOut, shTexOutId, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
       
@@ -776,12 +785,20 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
   ID3D11Texture2D *&shTex = eEye == Eye_Left ? shTexLeft : shTexRight;
   HANDLE &sharedHandle = eEye == Eye_Left ? shTexLeftHandle : shTexRightHandle;
-  // ID3D11Texture2D *&shTex2 = eEye == Eye_Left ? shTexLeft2 : shTexRight2;
-  if (!shTex) {
+  ID3D11Texture2D *&textureLatched = eEye == Eye_Left ? texLeftLatched : texRightLatched;
+  if (textureLatched != tex) {
+    if (textureLatched) {
+      // XXX delete old resources
+    }
+    textureLatched = tex;
+
     D3D11_TEXTURE2D_DESC desc;
     tex->GetDesc(&desc);
     
-    getOut() << "get texture desc " << (int)eEye << " " << desc.Width << " " << desc.Height << std::endl;
+    getOut() << "get texture desc front " << (int)eEye << " " << (void *)tex << " " << desc.Width << " " << desc.Height << " " <<
+      pBounds->uMin << " " << pBounds->vMin << " " <<
+      pBounds->uMax << " " << pBounds->vMax << " " <<
+      std::endl;
 
     // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
     
