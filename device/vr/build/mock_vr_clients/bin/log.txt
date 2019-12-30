@@ -1,0 +1,63 @@
+--------------------------------------------------------------------------------
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+vr_init 22164
+proxy init
+create thread
+init 3
+init 6 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 00000260DBE3EA20
+core client init
+create interface IVRSystem_015
+core client cleanup
+get interface IVRClientCore_002
+proxy init
+init 3
+init 6 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 00000260E2DC2C40
+core client init
+create interface IVRSystem_015
+create interface IVRChaperone_003
+create interface IVRChaperoneSetup_005
+create interface IVRCompositor_020
+get texture desc front 0 00000260ED6B36E0 1552 1720 0 1 1 0 
+got shTex in 00000000C0003802
+get texture desc back 0 1552 1720 0 1 1 0 
+init gl 1
+init gl 2
+init gl 3
+init gl 4
+init gl 5
+init gl 6 00000260ED6D2A00
+gl init error 1 0
+gl init error 2 0
+gl init error 3 0
+gl init error 4 0
+gl init error 5 0
+gl init error 6 0
+gl init error 7 0
+gl init error 8 0
+gl init error 9 0
+get texture desc front 1 00000260ED6B65A0 1552 1720 0 1 1 0 
+got shTex in 0000000080003F02
+get texture desc back 1 1552 1720 0 1 1 0 
+gl init error 9 0
+create interface IVRCompositor_022
+create interface IVROverlay_019
+create interface FnTable:IVRInput_005
+create interface IVRInput_005
+create interface FnTable:IVRSystem_019
+create interface IVRSystem_019
+create interface FnTable:IVRCompositor_022
+create interface IVRCompositor_022
+create interface FnTable:IVROverlay_019
+create interface IVROverlay_019
+create interface FnTable:IVRScreenshots_001
+create interface IVRScreenshots_001
+create interface FnTable:IVRChaperone_003
+create interface IVRChaperone_003
+create interface FnTable:IVRRenderModels_006
+create interface IVRRenderModels_006
+core client cleanup
