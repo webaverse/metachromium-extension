@@ -7,6 +7,7 @@
 
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
+#include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/openvr/test/fnproxy.h"
 
 namespace vr {
@@ -24,8 +25,20 @@ public:
   ID3D11Texture2D *shTexRight = nullptr;
   ID3D11Texture2D *shTexLeft2 = nullptr;
   ID3D11Texture2D *shTexRight2 = nullptr;
+  HANDLE hDevice = NULL;
+  HANDLE shTexInLeftObjectHandle = NULL;
+  HANDLE shTexInRightObjectHandle = NULL;
+  HANDLE shTexOutLeftObjectHandle = NULL;
+  HANDLE shTexOutRightObjectHandle = NULL;
+  GLuint shFboLeft = 0;
+  GLuint shFboRight = 0;
+  GLuint shTexInLeft = 0;
+  GLuint shTexInRight = 0;
+  GLuint shFboId = 0;
+  GLuint shVaoId = 0;
   HANDLE shTexLeftHandle = 0;
   HANDLE shTexRightHandle = 0;
+  GLFWwindow *subWindow = nullptr;
   
   PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );

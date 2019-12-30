@@ -1,6 +1,5 @@
 // #include <chrono>
 #include "device/vr/openvr/test/proxy.h"
-#include "device/vr/openvr/test/glcontext.h"
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -48,6 +47,34 @@ char kIVRCompositor_SubmitExplicitTimingData[] = "IVRCompositor::SubmitExplicitT
 char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothingEnabled";
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
+
+const char *composeVsh = ""
+"#version 330\n\
+\n\
+in vec2 position;\n\
+in vec2 uv;\n\
+out vec2 vUv;\n\
+\n\
+void main() {\n\
+  vUv = uv;\n\
+  gl_Position = vec4(position.xy, 0., 1.);\n\
+}\n\
+";
+const char *composeFsh = ""
+"#version 330\n\
+\n\
+in vec2 vUv;\n\
+out vec4 fragColor;\n\
+uniform sampler2D tex;\n\
+// uniform  sampler2D depthTex;\n\
+\n\
+void main() {\n\
+  fragColor = texture(tex, vUv);\n\
+  // fragColor = vec4(vec3(0.0), 1.0);\n\
+  // fragColor.r += 0.1;\n\
+  // gl_FragDepth = texture(depthTex, vUv).r;\n\
+}\n\
+";
 
 PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp) : vrcompositor(vrcompositor), fnp(fnp) {
   fnp.reg<
@@ -140,15 +167,21 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       device = (ID3D11Device *)pDevice;
     }
 
-    ID3D11Texture2D *&shTex = eEye == Eye_Left ? shTexLeft : shTexRight;
-    if (!shTex) {
+    ID3D11Texture2D *&shTexIn = eEye == Eye_Left ? shTexLeft : shTexRight;
+    ID3D11Texture2D *&shTexOut = eEye == Eye_Left ? shTexLeft2 : shTexRight2;
+    GLuint &fbo = eEye == Eye_Left ? shFboLeft : shFboRight;
+    GLuint &shTexInId = eEye == Eye_Left ? shTexInLeft : shTexInRight;
+    HANDLE &shTexInObjectHandle = eEye == Eye_Left ? shTexInLeftObjectHandle : shTexInRightObjectHandle;
+    HANDLE &shTexOutObjectHandle = eEye == Eye_Left ? shTexOutLeftObjectHandle : shTexOutRightObjectHandle;
+    if (!shTexIn) {
       HANDLE sharedHandle = (HANDLE)pTexture->handle;
+      getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
 
       ID3D11Resource *pD3DResource;
       HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
       
       if (SUCCEEDED(hr)) {
-        hr = pD3DResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTex));
+        hr = pD3DResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
         
         if (SUCCEEDED(hr)) {
           // nothing
@@ -162,9 +195,218 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
         abort();
       }
+    // }
+    // if (!shTexOut) {
+      D3D11_TEXTURE2D_DESC desc;
+      shTexIn->GetDesc(&desc);
+      
+      getOut() << "get texture desc 2 " << (int)eEye << " " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.MiscFlags << std::endl;
+
+      // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
+
+      // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+
+      hr = device->CreateTexture2D(
+        &desc,
+        NULL,
+        &shTexOut
+      );
+    // }
+      if (!subWindow) {
+        subWindow = initGl();
+      }
+
+      // getOut() << "create shared 1" << std::endl;
+      GLuint textures[3];
+      glCreateTextures(GL_TEXTURE_2D, ARRAYSIZE(textures), textures);
+      shTexInId = textures[0];
+      GLuint shTexOutId = textures[1];
+      GLuint texDepthId = textures[2];
+      glBindTexture(GL_TEXTURE_2D, shTexOutId);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, desc.Width, desc.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+      glBindTexture(GL_TEXTURE_2D, texDepthId);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, desc.Width, desc.Height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+      glBindTexture(GL_TEXTURE_2D, 0);
+      glGenFramebuffers(1, &fbo);
+      glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+      glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shTexOutId, 0);
+      glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texDepthId, 0);
+      glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+      if (!hDevice) {
+        GLuint vao;
+        glGenVertexArrays(1, &vao);
+        glBindVertexArray(vao);
+        
+        getOut() << "gl init error 1 " << glGetError() << std::endl;
+
+        // vertex shader
+        GLuint composeVertex = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(composeVertex, 1, &composeVsh, NULL);
+        glCompileShader(composeVertex);
+        GLint success;
+        glGetShaderiv(composeVertex, GL_COMPILE_STATUS, &success);
+        if (!success) {
+          char infoLog[4096];
+          GLsizei length;
+          glGetShaderInfoLog(composeVertex, sizeof(infoLog), &length, infoLog);
+          infoLog[length] = '\0';
+          getOut() << "compose vertex shader compilation failed:\n" << infoLog << std::endl;
+          abort();
+        };
+
+        getOut() << "gl init error 2 " << glGetError() << std::endl;
+
+        // fragment shader
+        GLuint composeFragment = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(composeFragment, 1, &composeFsh, NULL);
+        glCompileShader(composeFragment);
+        glGetShaderiv(composeFragment, GL_COMPILE_STATUS, &success);
+        if (!success) {
+          char infoLog[4096];
+          GLsizei length;
+          glGetShaderInfoLog(composeFragment, sizeof(infoLog), &length, infoLog);
+          infoLog[length] = '\0';
+          getOut() << "compose fragment shader compilation failed:\n" << infoLog << std::endl;
+          abort();
+        };
+        
+        getOut() << "gl init error 3 " << glGetError() << std::endl;
+
+        // shader program
+        GLuint composeProgram = glCreateProgram();
+        glAttachShader(composeProgram, composeVertex);
+        glAttachShader(composeProgram, composeFragment);
+        glLinkProgram(composeProgram);
+        glGetProgramiv(composeProgram, GL_LINK_STATUS, &success);
+        if (!success) {
+          char infoLog[4096];
+          GLsizei length;
+          glGetShaderInfoLog(composeProgram, sizeof(infoLog), &length, infoLog);
+          infoLog[length] = '\0';
+          getOut() << "compose program linking failed\n" << infoLog << std::endl;
+          abort();
+        }
+        
+        getOut() << "gl init error 4 " << glGetError() << std::endl;
+
+        GLuint positionLocation = glGetAttribLocation(composeProgram, "position");
+        if (positionLocation == -1) {
+          getOut() << "compose program failed to get attrib location for 'position'" << std::endl;
+          abort();
+        }
+        GLuint uvLocation = glGetAttribLocation(composeProgram, "uv");
+        if (uvLocation == -1) {
+          getOut() << "compose program failed to get attrib location for 'uv'" << std::endl;
+          abort();
+        }
+        GLuint texLocation = glGetUniformLocation(composeProgram, "tex");
+        if (texLocation == -1) {
+          getOut() << "compose program failed to get uniform location for 'tex'" << std::endl;
+          abort();
+        }
+        /* GLuint depthTexLocation = glGetUniformLocation(composeProgram, "depthTex");
+        if (depthTexLocation == -1) {
+          getOut() << "compose program failed to get uniform location for 'depthTex'" << std::endl;
+          abort();
+        } */
+
+        getOut() << "gl init error 5 " << glGetError() << std::endl;
+
+        // delete the shaders as they're linked into our program now and no longer necessary
+        glDeleteShader(composeVertex);
+        glDeleteShader(composeFragment);
+
+        glUseProgram(composeProgram);
+
+        GLuint positionBuffer;
+        glGenBuffers(1, &positionBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+        static const float positions[] = {
+          -1.0f, 1.0f,
+          1.0f, 1.0f,
+          -1.0f, -1.0f,
+          1.0f, -1.0f,
+        };
+        glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(positionLocation);
+        glVertexAttribPointer(positionLocation, 2, GL_FLOAT, false, 0, 0);
+
+        getOut() << "gl init error 6 " << glGetError() << std::endl;
+
+        GLuint uvBuffer;
+        glGenBuffers(1, &uvBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+        static const float uvs[] = {
+          0.0f, 1.0f,
+          1.0f, 1.0f,
+          0.0f, 0.0f,
+          1.0f, 0.0f,
+        };
+        glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(uvLocation);
+        glVertexAttribPointer(uvLocation, 2, GL_FLOAT, false, 0, 0);
+
+        getOut() << "gl init error 7 " << glGetError() << std::endl;
+
+        GLuint indexBuffer;
+        glGenBuffers(1, &indexBuffer);
+        static const uint16_t indices[] = {0, 2, 1, 2, 3, 1};
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glUniform1i(texLocation, 0);
+        
+        glViewport(0, 0, desc.Width, desc.Height);
+        
+        getOut() << "gl init error 8 " << glGetError() << std::endl;
+
+        hDevice = wglDXOpenDeviceNV(device.Get());
+      }
+      shTexInObjectHandle = wglDXRegisterObjectNV(hDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+      shTexOutObjectHandle = wglDXRegisterObjectNV(hDevice, shTexOut, shTexOutId, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
+      
+      getOut() << "gl init error 9 " << glGetError() << std::endl;
     }
 
-    pTexture->handle = (void *)shTex;
+    HANDLE objects[] = {
+      shTexInObjectHandle,
+      shTexOutObjectHandle
+    };
+    bool lockOk = wglDXLockObjectsNV(hDevice, ARRAYSIZE(objects), objects);
+    if (lockOk) {
+      glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+      glBindTexture(GL_TEXTURE_2D, shTexInId);
+      glClearColor(0, 0, 0, 1);
+      glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+      // glFinish();
+      glDrawElements(
+        GL_TRIANGLES,
+        6,
+        GL_UNSIGNED_SHORT,
+        (void *)0
+      );
+      
+      auto error = glGetError();
+      if (error) {
+        getOut() << "gl render error " << error << std::endl;
+      }
+
+      bool unlockOk = wglDXUnlockObjectsNV(hDevice, ARRAYSIZE(objects), objects);
+      if (unlockOk) {
+        // nothing
+      } else {
+        getOut() << "texture unlocking failed" << std::endl;
+        abort();
+      }
+    } else {
+      getOut() << "texture locking failed" << std::endl;
+      abort();
+    }
+    // getOut() << "create shared 5" << std::endl;
+
+    pTexture->handle = (void *)shTexOut;
     return vrcompositor->Submit(eEye, pTexture, pBounds, submitFlags);
   });
   fnp.reg<
@@ -519,7 +761,6 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
   *pOutputGamePose = *std::get<2>(result).data();
   return std::get<0>(result);
 }
-GLFWwindow *subWindow = nullptr;
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
@@ -533,48 +774,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   }
   // getOut() << "get submit 3 " << context << std::endl;
 
-  /* if (!subWindow) {
-    subWindow = initGl();
-
-    ID3D11Texture2D *tex2 = nullptr;
-    D3D11_TEXTURE2D_DESC desc;
-    {    
-      tex->GetDesc(&desc);
-      // desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-      // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-      // desc.MiscFlags = 0;
-      getOut() << "get texture desc " << (int)eEye << " " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.MiscFlags << std::endl;
-
-      // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
-      HRESULT hr = device->CreateTexture2D(
-        &desc,
-        NULL,
-        &tex2
-      );
-    }
-
-    getOut() << "create shared 1" << std::endl;
-    HANDLE hDevice = wglDXOpenDeviceNV(device.Get());
-    getOut() << "create shared 2 " << (void *)hDevice << std::endl;
-    GLuint shTexId = 0;
-    glCreateTextures(GL_TEXTURE_2D, 1, &shTexId);
-    // glCreateRenderbuffers(1, &shTexId);
-    // glBindTexture(GL_TEXTURE_2D, shTexId);
-    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, desc.Width, desc.Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-    // glFinish();
-    getOut() << "create shared 3 " << shTexId << " " << (void *)tex2 << " " << GetLastError() << " " << (int)glGetError() << std::endl;
-    HANDLE shTexObjectHandle = wglDXRegisterObjectNV(hDevice, tex2, shTexId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
-    getOut() << "create shared 4 " << (void *)shTexObjectHandle << " " << GetLastError() << " " << (int)glGetError() << " " <<
-      ERROR_INVALID_HANDLE << " " <<
-      ERROR_INVALID_DATA << " " <<
-      ERROR_OPEN_FAILED << " " <<
-      std::endl;
-    bool lockOk = wglDXLockObjectsNV(hDevice, 1, &shTexObjectHandle);
-    getOut() << "create shared 5" << std::endl;
-    bool unlockOk = wglDXUnlockObjectsNV(hDevice, 1, &shTexObjectHandle);
-    getOut() << "sub window " << (void *)subWindow << " " << (void *)hDevice << " " << (void *)shTexId << " " << (void *)shTexObjectHandle << " " << lockOk << " " << unlockOk << std::endl;
-  } */
-
   ID3D11Texture2D *&shTex = eEye == Eye_Left ? shTexLeft : shTexRight;
   HANDLE &sharedHandle = eEye == Eye_Left ? shTexLeftHandle : shTexRightHandle;
   // ID3D11Texture2D *&shTex2 = eEye == Eye_Left ? shTexLeft2 : shTexRight2;
@@ -585,7 +784,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     getOut() << "get texture desc " << (int)eEye << " " << desc.Width << " " << desc.Height << std::endl;
 
     // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
-
+    
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
     HRESULT hr = device->CreateTexture2D(
