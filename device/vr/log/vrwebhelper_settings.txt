@@ -1,853 +1,1060 @@
-Mon Dec 23 2019 06:02:40.703 - //==============================================================================================
-Mon Dec 23 2019 06:02:40.703 - ================================================================================================
-Mon Dec 23 2019 06:02:40.703 - ================================================================================================
-Mon Dec 23 2019 06:02:40.703 - vrwebhelper.exe 1.9.15 startup with PID=2832, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 06:02:40.774 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 06:02:40.784 - Creating VRHML JS object
-Mon Dec 23 2019 06:02:43.862 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 03:23:55.695 - //==============================================================================================
+Sat Dec 28 2019 03:23:55.695 - ================================================================================================
+Sat Dec 28 2019 03:23:55.696 - ================================================================================================
+Sat Dec 28 2019 03:23:55.696 - vrwebhelper.exe 1.9.16 startup with PID=28620, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 03:23:55.830 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 03:23:55.842 - Creating VRHML JS object
+Sat Dec 28 2019 03:23:57.109 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 06:02:43.862 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:23:57.109 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 06:02:43.862 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 03:23:57.110 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 06:02:43.862 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:23:57.110 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 06:02:44.183 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:23:57.424 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 06:02:44.248 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:23:57.547 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 06:02:44.251 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:23:57.548 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 06:02:44.333 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 06:02:44.430 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
-| Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 06:02:44.628 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:23:57.820 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 06:02:44.727 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 06:02:44.931 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 06:02:45.235 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 06:02:45.337 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 06:05:46.894 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:05:46.894 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:05:46.894 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:07:10.370 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:07:10.370 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:07:10.370 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:12:34.410 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:12:34.505 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:12:34.505 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:13:16.097 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:13:16.097 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:13:16.097 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:46:07.128 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:46:07.128 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:46:07.128 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:46:57.874 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:46:57.976 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:46:57.976 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:48:48.153 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:48:48.153 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:48:48.153 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:49:12.221 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:49:12.221 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:49:12.221 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:50:31.367 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:50:31.470 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:50:31.470 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:56:03.062 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:56:03.159 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:56:03.159 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:56:22.095 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:56:22.095 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:56:22.095 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:57:24.720 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:57:24.824 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:57:24.824 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:57:47.280 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:57:47.378 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:57:47.378 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:58:58.672 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:58:58.776 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 06:58:58.776 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:00:00.602 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:00:00.602 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:00:00.603 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:02:07.379 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:02:07.379 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:02:07.380 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:03:09.406 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:03:09.406 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:03:09.407 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:04:31.678 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:04:31.678 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:04:31.678 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:06:16.201 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:06:16.201 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:06:16.201 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:11:38.034 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:11:38.137 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:11:38.137 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:17:08.129 - Closing context.
-Mon Dec 23 2019 07:20:02.081 - //==============================================================================================
-Mon Dec 23 2019 07:20:02.081 - ================================================================================================
-Mon Dec 23 2019 07:20:02.081 - ================================================================================================
-Mon Dec 23 2019 07:20:02.082 - vrwebhelper.exe 1.9.15 startup with PID=15540, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 07:20:02.181 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 07:20:02.194 - Creating VRHML JS object
-Mon Dec 23 2019 07:20:05.575 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 03:23:58.345 - Closing context.
+Sat Dec 28 2019 03:45:06.371 - //==============================================================================================
+Sat Dec 28 2019 03:45:06.371 - ================================================================================================
+Sat Dec 28 2019 03:45:06.371 - ================================================================================================
+Sat Dec 28 2019 03:45:06.371 - vrwebhelper.exe 1.9.16 startup with PID=22416, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 03:45:06.450 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 03:45:06.458 - Creating VRHML JS object
+Sat Dec 28 2019 03:45:07.728 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 07:20:05.575 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:07.728 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 07:20:05.575 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 03:45:07.728 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 07:20:05.575 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:07.728 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 07:20:05.895 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:08.047 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 07:20:05.992 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:08.149 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 07:20:05.992 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:08.149 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:20:06.602 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:09.717 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 03:45:09.818 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:20:06.602 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:20:06.623 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 07:20:06.709 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:20:06.710 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 03:45:09.819 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 07:20:06.733 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:09.943 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:20:06.778 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:09.977 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:20:06.851 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 03:45:10.079 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:21:28.023 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:21:28.023 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:21:28.024 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:21:30.662 - Closing context.
-Mon Dec 23 2019 07:23:02.037 - //==============================================================================================
-Mon Dec 23 2019 07:23:02.037 - ================================================================================================
-Mon Dec 23 2019 07:23:02.037 - ================================================================================================
-Mon Dec 23 2019 07:23:02.037 - vrwebhelper.exe 1.9.15 startup with PID=18440, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 07:23:02.127 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 07:23:02.149 - Creating VRHML JS object
-Mon Dec 23 2019 07:23:05.938 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 03:45:16.306 - Closing context.
+Sat Dec 28 2019 04:24:49.681 - //==============================================================================================
+Sat Dec 28 2019 04:24:49.681 - ================================================================================================
+Sat Dec 28 2019 04:24:49.681 - ================================================================================================
+Sat Dec 28 2019 04:24:49.681 - vrwebhelper.exe 1.9.16 startup with PID=21668, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 04:24:49.794 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 04:24:49.812 - Creating VRHML JS object
+Sat Dec 28 2019 04:24:50.883 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 07:23:05.938 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:50.884 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 07:23:05.938 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 04:24:50.884 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 07:23:05.938 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:50.884 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 07:23:06.266 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:51.200 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 07:23:06.469 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:51.301 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 07:23:06.484 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:51.301 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:23:06.527 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 07:23:06.609 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:51.997 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:23:06.757 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 04:24:53.217 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 04:24:53.396 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 07:23:06.769 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:53.405 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:23:06.769 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:53.406 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:23:06.769 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:24:53.465 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:23:33.704 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:23:33.704 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:23:33.704 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:23:47.583 - //==============================================================================================
-Mon Dec 23 2019 07:23:47.584 - ================================================================================================
-Mon Dec 23 2019 07:23:47.584 - ================================================================================================
-Mon Dec 23 2019 07:23:47.584 - vrwebhelper.exe 1.9.15 startup with PID=5968, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 07:23:47.677 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 07:23:47.678 - Creating VRHML JS object
-Mon Dec 23 2019 07:23:50.827 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 04:24:53.524 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 04:25:13.532 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Lost connection to host...
+Sat Dec 28 2019 04:25:13.532 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sat Dec 28 2019 04:25:13.534 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Lost connection to host...
+Sat Dec 28 2019 04:25:13.534 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sat Dec 28 2019 04:25:13.534 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket closed 
+Sat Dec 28 2019 04:25:13.534 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Lost connection to host...
+Sat Dec 28 2019 04:25:13.534 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 07:23:50.827 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Connecting vrsettings...
-Mon Dec 23 2019 07:23:50.827 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
-| Connecting vrmailbox input_state...
-Mon Dec 23 2019 07:23:50.827 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:25:13.534 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Lost connection to host...
+Sat Dec 28 2019 04:25:13.534 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 07:23:51.152 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Websocket connected
-Mon Dec 23 2019 07:23:51.190 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got vr settings schema
-Mon Dec 23 2019 07:23:51.190 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:23:51.370 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:23:51.465 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 07:23:51.565 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 04:25:13.535 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Lost connection to host...
+Sat Dec 28 2019 04:25:13.535 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 07:23:51.688 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:23:52.287 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:23:52.386 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:24:17.259 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:24:17.259 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:24:17.259 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:24:39.834 - //==============================================================================================
-Mon Dec 23 2019 07:24:39.835 - ================================================================================================
-Mon Dec 23 2019 07:24:39.835 - ================================================================================================
-Mon Dec 23 2019 07:24:39.835 - vrwebhelper.exe 1.9.15 startup with PID=8920, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 07:24:39.891 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 07:24:39.903 - Creating VRHML JS object
-Mon Dec 23 2019 07:24:43.715 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 04:25:13.679 - Closing context.
+Sat Dec 28 2019 04:33:19.906 - //==============================================================================================
+Sat Dec 28 2019 04:33:19.906 - ================================================================================================
+Sat Dec 28 2019 04:33:19.906 - ================================================================================================
+Sat Dec 28 2019 04:33:19.907 - vrwebhelper.exe 1.9.16 startup with PID=5644, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 04:33:19.989 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 04:33:19.996 - Creating VRHML JS object
+Sat Dec 28 2019 04:33:21.606 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 07:24:43.715 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:33:21.606 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 07:24:43.715 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 04:33:21.606 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 07:24:43.715 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 04:33:21.606 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 07:24:44.087 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Websocket connected
-Mon Dec 23 2019 07:24:44.249 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 07:24:44.313 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:24:44.313 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:24:44.313 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:24:44.313 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:24:44.414 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got vr settings schema
-Mon Dec 23 2019 07:24:44.649 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
-| Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 07:24:44.697 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:24:44.698 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:24:44.714 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:25:43.076 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:25:43.179 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:25:43.179 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 07:25:44.224 - Closing context.
-Mon Dec 23 2019 07:28:13.886 - //==============================================================================================
-Mon Dec 23 2019 07:28:13.886 - ================================================================================================
-Mon Dec 23 2019 07:28:13.886 - ================================================================================================
-Mon Dec 23 2019 07:28:13.886 - vrwebhelper.exe 1.9.15 startup with PID=11984, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 07:28:14.018 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 07:28:14.041 - Creating VRHML JS object
-Mon Dec 23 2019 07:28:18.782 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:05:03.954 - //==============================================================================================
+Sat Dec 28 2019 05:05:03.954 - ================================================================================================
+Sat Dec 28 2019 05:05:03.954 - ================================================================================================
+Sat Dec 28 2019 05:05:03.954 - vrwebhelper.exe 1.9.16 startup with PID=11268, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:05:04.034 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 05:05:04.049 - Creating VRHML JS object
+Sat Dec 28 2019 05:05:05.635 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 07:28:18.782 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:05:05.635 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 07:28:18.783 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:05:05.635 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 07:28:18.783 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:05:05.635 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 07:28:19.189 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:05:05.962 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 07:28:19.189 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:05:05.962 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 07:28:19.190 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:05:05.966 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 07:28:19.338 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 07:28:19.525 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
-| Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 07:28:19.551 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:28:19.551 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:28:19.618 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:28:19.658 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:28:40.999 - //==============================================================================================
-Mon Dec 23 2019 07:28:40.999 - ================================================================================================
-Mon Dec 23 2019 07:28:40.999 - ================================================================================================
-Mon Dec 23 2019 07:28:40.999 - vrwebhelper.exe 1.9.15 startup with PID=15732, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 07:28:41.086 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 07:28:41.096 - Creating VRHML JS object
-Mon Dec 23 2019 07:28:44.517 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:05:07.797 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 05:05:08.133 - Closing context.
+Sat Dec 28 2019 05:05:17.046 - //==============================================================================================
+Sat Dec 28 2019 05:05:17.046 - ================================================================================================
+Sat Dec 28 2019 05:05:17.046 - ================================================================================================
+Sat Dec 28 2019 05:05:17.046 - vrwebhelper.exe 1.9.16 startup with PID=12632, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:05:17.157 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 05:05:17.168 - Creating VRHML JS object
+Sat Dec 28 2019 05:05:18.833 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 07:28:44.517 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:05:18.833 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 07:28:44.517 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:05:18.833 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 07:28:44.517 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:05:18.833 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 07:28:44.864 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Websocket connected
-Mon Dec 23 2019 07:28:44.995 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 07:28:45.065 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got vr settings schema
-Mon Dec 23 2019 07:28:45.065 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
-| Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 07:28:45.068 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:28:45.068 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 07:28:45.156 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 08:09:56.014 - //==============================================================================================
-Mon Dec 23 2019 08:09:56.014 - ================================================================================================
-Mon Dec 23 2019 08:09:56.014 - ================================================================================================
-Mon Dec 23 2019 08:09:56.014 - vrwebhelper.exe 1.9.15 startup with PID=18180, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 08:09:56.078 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 08:09:56.089 - Creating VRHML JS object
-Mon Dec 23 2019 08:09:59.547 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:05:18.923 - Closing context.
+Sat Dec 28 2019 05:25:02.020 - //==============================================================================================
+Sat Dec 28 2019 05:25:02.020 - ================================================================================================
+Sat Dec 28 2019 05:25:02.020 - ================================================================================================
+Sat Dec 28 2019 05:25:02.020 - vrwebhelper.exe 1.9.16 startup with PID=1760, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:25:02.165 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 05:25:02.204 - Creating VRHML JS object
+Sat Dec 28 2019 05:25:03.661 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 08:09:59.547 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:25:03.661 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 08:09:59.547 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:25:03.661 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 08:09:59.547 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:25:03.661 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 08:09:59.952 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:25:03.993 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 08:10:00.066 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:25:04.046 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 08:10:00.066 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:25:04.046 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:10:00.086 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 08:10:00.236 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:25:05.263 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 05:25:05.369 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 08:10:32.081 - Closing context.
-Mon Dec 23 2019 08:10:43.111 - //==============================================================================================
-Mon Dec 23 2019 08:10:43.111 - ================================================================================================
-Mon Dec 23 2019 08:10:43.111 - ================================================================================================
-Mon Dec 23 2019 08:10:43.111 - vrwebhelper.exe 1.9.15 startup with PID=15964, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 08:10:43.211 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 08:10:43.225 - Creating VRHML JS object
-Mon Dec 23 2019 08:10:46.169 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:25:05.435 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:25:05.567 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:25:05.574 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:25:05.677 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:25:51.327 - Closing context.
+Sat Dec 28 2019 05:26:00.112 - //==============================================================================================
+Sat Dec 28 2019 05:26:00.113 - ================================================================================================
+Sat Dec 28 2019 05:26:00.113 - ================================================================================================
+Sat Dec 28 2019 05:26:00.113 - vrwebhelper.exe 1.9.16 startup with PID=20700, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:26:00.319 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 05:26:00.352 - Creating VRHML JS object
+Sat Dec 28 2019 05:26:01.208 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 08:10:46.169 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:01.208 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 08:10:46.169 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:26:01.208 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 08:10:46.169 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:01.209 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 08:10:46.495 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:01.456 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 08:10:46.563 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:01.545 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 08:10:46.563 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:01.545 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:10:46.564 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:10:46.564 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:10:46.564 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:10:46.564 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:10:46.733 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:02.438 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:10:46.971 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:03.889 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 05:26:04.022 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:10:47.055 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 08:10:47.153 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:26:04.022 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:26:04.022 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 08:10:47.350 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:04.114 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:10:47.450 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:26:04.164 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:12:38.409 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:12:38.510 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:12:38.511 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:17:33.668 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:17:33.668 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:17:33.668 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:30:23.296 - Closing context.
-Mon Dec 23 2019 08:30:31.586 - //==============================================================================================
-Mon Dec 23 2019 08:30:31.587 - ================================================================================================
-Mon Dec 23 2019 08:30:31.587 - ================================================================================================
-Mon Dec 23 2019 08:30:31.587 - vrwebhelper.exe 1.9.15 startup with PID=18656, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 08:30:31.662 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 08:30:31.676 - Creating VRHML JS object
-Mon Dec 23 2019 08:30:35.058 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:27:49.785 - Closing context.
+Sat Dec 28 2019 05:27:57.436 - //==============================================================================================
+Sat Dec 28 2019 05:27:57.436 - ================================================================================================
+Sat Dec 28 2019 05:27:57.436 - ================================================================================================
+Sat Dec 28 2019 05:27:57.436 - vrwebhelper.exe 1.9.16 startup with PID=7012, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:27:57.533 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 05:27:57.545 - Creating VRHML JS object
+Sat Dec 28 2019 05:27:58.807 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 08:30:35.058 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:27:58.807 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 08:30:35.058 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:27:58.807 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 08:30:35.058 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:27:58.807 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 08:30:35.386 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:27:59.150 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 08:30:35.474 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:30:35.474 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:30:35.474 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:30:35.481 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:27:59.176 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 08:30:35.481 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:27:59.177 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:30:35.499 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 08:30:35.635 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:27:59.465 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:28:00.309 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 05:28:00.421 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 08:30:35.739 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:28:00.430 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:30:35.739 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:28:00.430 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:31:20.729 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:31:20.729 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:31:20.729 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:32:30.818 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:32:30.915 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:32:30.915 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:33:39.893 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:33:39.996 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:33:39.996 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:34:39.635 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:34:39.635 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:34:39.635 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:36:30.016 - Closing context.
-Mon Dec 23 2019 08:36:41.560 - //==============================================================================================
-Mon Dec 23 2019 08:36:41.560 - ================================================================================================
-Mon Dec 23 2019 08:36:41.560 - ================================================================================================
-Mon Dec 23 2019 08:36:41.560 - vrwebhelper.exe 1.9.15 startup with PID=17180, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 08:36:41.648 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 08:36:41.664 - Creating VRHML JS object
-Mon Dec 23 2019 08:36:45.369 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:28:00.608 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:29:10.638 - Closing context.
+Sat Dec 28 2019 05:32:31.610 - //==============================================================================================
+Sat Dec 28 2019 05:32:31.610 - ================================================================================================
+Sat Dec 28 2019 05:32:31.610 - ================================================================================================
+Sat Dec 28 2019 05:32:31.611 - vrwebhelper.exe 1.9.16 startup with PID=356, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:32:31.768 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 05:32:31.781 - Creating VRHML JS object
+Sat Dec 28 2019 05:32:32.411 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 08:36:45.369 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:32:32.411 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 08:36:45.369 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:32:32.411 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 08:36:45.369 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:32:32.411 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 08:36:45.722 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Websocket connected
-Mon Dec 23 2019 08:36:45.838 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 08:36:45.892 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:32:32.760 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 08:36:45.892 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
-| Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 08:36:45.895 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:32:32.760 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 08:37:15.286 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:37:15.286 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:37:15.286 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:38:39.066 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:38:39.066 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:38:39.066 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:43:33.808 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:43:33.904 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 08:43:33.904 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:13:13.538 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:13:13.538 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:13:13.538 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:15:40.250 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:15:40.346 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:15:40.346 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:18:02.935 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:18:03.034 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:18:03.034 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:50:14.789 - Closing context.
-Mon Dec 23 2019 09:50:22.281 - //==============================================================================================
-Mon Dec 23 2019 09:50:22.281 - ================================================================================================
-Mon Dec 23 2019 09:50:22.281 - ================================================================================================
-Mon Dec 23 2019 09:50:22.281 - vrwebhelper.exe 1.9.15 startup with PID=10144, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 09:50:22.350 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 09:50:22.356 - Creating VRHML JS object
-Mon Dec 23 2019 09:50:25.751 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:32:32.760 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 05:32:33.635 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:32:35.004 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 05:32:35.300 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sat Dec 28 2019 05:32:35.308 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:32:35.308 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:32:35.308 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:32:49.201 - Closing context.
+Sat Dec 28 2019 05:35:59.385 - //==============================================================================================
+Sat Dec 28 2019 05:35:59.385 - ================================================================================================
+Sat Dec 28 2019 05:35:59.385 - ================================================================================================
+Sat Dec 28 2019 05:35:59.385 - vrwebhelper.exe 1.9.16 startup with PID=12668, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:35:59.503 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 05:35:59.520 - Creating VRHML JS object
+Sat Dec 28 2019 05:36:00.472 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 09:50:25.751 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:36:00.472 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 09:50:25.751 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:36:00.472 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 09:50:25.751 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:36:00.472 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 09:50:26.064 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:36:00.787 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 09:50:26.144 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:50:26.144 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:50:26.144 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:50:26.144 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| OnBindingLoadFailed: openvr.tool.steamvr_environments rift #input_binding_load_failed_no_url
-Mon Dec 23 2019 09:50:26.179 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:36:00.860 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 09:50:26.221 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:36:00.860 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 09:50:26.246 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 09:50:26.581 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:36:01.766 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:36:02.688 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 05:36:02.801 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 09:50:26.600 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:36:02.870 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 09:50:26.602 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:36:02.994 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 09:51:21.518 - Closing context.
-Mon Dec 23 2019 09:51:30.285 - //==============================================================================================
-Mon Dec 23 2019 09:51:30.285 - ================================================================================================
-Mon Dec 23 2019 09:51:30.285 - ================================================================================================
-Mon Dec 23 2019 09:51:30.285 - vrwebhelper.exe 1.9.15 startup with PID=400, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 09:51:30.363 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 09:51:30.365 - Creating VRHML JS object
-Mon Dec 23 2019 09:51:33.961 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:36:02.994 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:36:03.095 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:39:22.970 - Closing context.
+Sat Dec 28 2019 05:48:18.905 - //==============================================================================================
+Sat Dec 28 2019 05:48:18.905 - ================================================================================================
+Sat Dec 28 2019 05:48:18.905 - ================================================================================================
+Sat Dec 28 2019 05:48:18.905 - vrwebhelper.exe 1.9.16 startup with PID=12312, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 05:48:19.005 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 05:48:19.051 - Creating VRHML JS object
+Sat Dec 28 2019 05:48:20.363 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 09:51:33.962 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:48:20.363 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 09:51:33.962 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:48:20.363 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 09:51:33.962 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:48:20.363 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 09:51:34.285 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:48:20.685 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 09:51:34.379 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:48:20.777 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 09:51:34.379 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:48:20.777 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 09:51:34.396 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 09:51:34.474 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:48:21.064 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:48:22.240 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 05:48:22.345 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 09:51:34.564 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:48:22.411 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 09:51:34.656 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 05:48:22.523 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 18:26:35.392 - //==============================================================================================
-Mon Dec 23 2019 18:26:35.392 - ================================================================================================
-Mon Dec 23 2019 18:26:35.392 - ================================================================================================
-Mon Dec 23 2019 18:26:35.392 - vrwebhelper.exe 1.9.15 startup with PID=20912, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 18:26:35.494 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 18:26:35.506 - Creating VRHML JS object
-Mon Dec 23 2019 18:26:39.158 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 05:48:22.614 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 05:48:34.936 - Closing context.
+Sat Dec 28 2019 07:45:59.483 - //==============================================================================================
+Sat Dec 28 2019 07:45:59.483 - ================================================================================================
+Sat Dec 28 2019 07:45:59.483 - ================================================================================================
+Sat Dec 28 2019 07:45:59.484 - vrwebhelper.exe 1.9.16 startup with PID=9680, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 07:45:59.570 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 07:45:59.626 - Creating VRHML JS object
+Sat Dec 28 2019 07:46:00.451 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 18:26:39.158 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:46:00.451 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 18:26:39.158 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:46:00.451 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 18:26:39.158 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:46:00.451 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 18:26:39.481 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:46:00.772 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 18:26:39.645 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 18:26:39.757 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:46:00.825 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 18:26:39.779 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:46:00.825 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 18:26:39.908 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:46:01.808 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:46:03.127 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 07:46:03.317 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 18:26:39.918 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:46:03.461 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 18:26:39.918 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:46:03.470 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 18:26:39.989 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:46:03.470 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 19:00:37.970 - Closing context.
-Mon Dec 23 2019 19:00:48.462 - //==============================================================================================
-Mon Dec 23 2019 19:00:48.462 - ================================================================================================
-Mon Dec 23 2019 19:00:48.462 - ================================================================================================
-Mon Dec 23 2019 19:00:48.462 - vrwebhelper.exe 1.9.15 startup with PID=21292, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 19:00:48.544 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 19:00:48.565 - Creating VRHML JS object
-Mon Dec 23 2019 19:00:52.251 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:46:07.712 - Closing context.
+Sat Dec 28 2019 07:47:01.974 - //==============================================================================================
+Sat Dec 28 2019 07:47:01.974 - ================================================================================================
+Sat Dec 28 2019 07:47:01.974 - ================================================================================================
+Sat Dec 28 2019 07:47:01.974 - vrwebhelper.exe 1.9.16 startup with PID=27484, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 07:47:02.055 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 07:47:02.079 - Creating VRHML JS object
+Sat Dec 28 2019 07:47:03.322 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 19:00:52.251 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:03.322 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 19:00:52.251 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:47:03.322 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 19:00:52.251 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:03.322 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 19:00:52.642 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Websocket connected
-Mon Dec 23 2019 19:00:52.753 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 19:00:52.792 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:03.633 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 19:00:52.792 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
-| Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 19:00:52.794 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:03.635 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 19:01:14.166 - Closing context.
-Mon Dec 23 2019 19:01:23.385 - //==============================================================================================
-Mon Dec 23 2019 19:01:23.385 - ================================================================================================
-Mon Dec 23 2019 19:01:23.385 - ================================================================================================
-Mon Dec 23 2019 19:01:23.385 - vrwebhelper.exe 1.9.15 startup with PID=2936, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 19:01:23.462 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 19:01:23.475 - Creating VRHML JS object
-Mon Dec 23 2019 19:01:27.117 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:47:03.635 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 07:47:04.034 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:47:05.173 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 07:47:05.381 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sat Dec 28 2019 07:47:05.439 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:47:05.439 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:47:05.439 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:47:05.492 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:47:10.140 - Closing context.
+Sat Dec 28 2019 07:47:27.773 - //==============================================================================================
+Sat Dec 28 2019 07:47:27.773 - ================================================================================================
+Sat Dec 28 2019 07:47:27.773 - ================================================================================================
+Sat Dec 28 2019 07:47:27.773 - vrwebhelper.exe 1.9.16 startup with PID=28160, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 07:47:27.873 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 07:47:27.891 - Creating VRHML JS object
+Sat Dec 28 2019 07:47:29.596 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 19:01:27.117 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:29.596 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 19:01:27.117 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:47:29.596 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 19:01:27.117 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:29.596 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 19:01:27.434 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Websocket connected
-Mon Dec 23 2019 19:01:27.545 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 19:01:27.586 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:29.922 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 19:01:27.586 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:47:29.929 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:47:29.929 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 07:47:30.945 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 07:47:31.056 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 19:01:27.589 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:31.268 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 19:01:27.644 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:47:31.268 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 19:40:00.377 - Closing context.
-Mon Dec 23 2019 19:40:09.124 - //==============================================================================================
-Mon Dec 23 2019 19:40:09.124 - ================================================================================================
-Mon Dec 23 2019 19:40:09.124 - ================================================================================================
-Mon Dec 23 2019 19:40:09.124 - vrwebhelper.exe 1.9.15 startup with PID=18364, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 19:40:09.190 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 19:40:09.200 - Creating VRHML JS object
-Mon Dec 23 2019 19:40:12.417 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:47:31.349 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:48:26.838 - Closing context.
+Sat Dec 28 2019 07:59:28.909 - //==============================================================================================
+Sat Dec 28 2019 07:59:28.909 - ================================================================================================
+Sat Dec 28 2019 07:59:28.910 - ================================================================================================
+Sat Dec 28 2019 07:59:28.910 - vrwebhelper.exe 1.9.16 startup with PID=18776, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 07:59:28.984 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 07:59:28.990 - Creating VRHML JS object
+Sat Dec 28 2019 07:59:30.283 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 19:40:12.417 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:59:30.283 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 19:40:12.417 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:59:30.284 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 19:40:12.417 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:59:30.284 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 19:40:12.781 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:59:30.602 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 19:40:12.880 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:59:30.656 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 19:40:12.884 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:59:30.656 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 19:40:12.912 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 19:40:13.089 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:59:31.367 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:59:32.373 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 07:59:32.472 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 19:40:13.136 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 07:59:32.481 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 22:39:30.068 - Closing context.
-Mon Dec 23 2019 22:39:38.529 - //==============================================================================================
-Mon Dec 23 2019 22:39:38.529 - ================================================================================================
-Mon Dec 23 2019 22:39:38.529 - ================================================================================================
-Mon Dec 23 2019 22:39:38.529 - vrwebhelper.exe 1.9.15 startup with PID=23072, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 22:39:38.608 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 22:39:38.623 - Creating VRHML JS object
-Mon Dec 23 2019 22:39:42.012 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 07:59:32.483 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:59:32.667 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:59:32.770 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 07:59:43.554 - Closing context.
+Sat Dec 28 2019 08:16:09.050 - //==============================================================================================
+Sat Dec 28 2019 08:16:09.050 - ================================================================================================
+Sat Dec 28 2019 08:16:09.050 - ================================================================================================
+Sat Dec 28 2019 08:16:09.050 - vrwebhelper.exe 1.9.16 startup with PID=2928, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 08:16:09.115 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 08:16:09.121 - Creating VRHML JS object
+Sat Dec 28 2019 08:16:10.726 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 22:39:42.012 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:16:10.726 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 22:39:42.013 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:16:10.727 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 22:39:42.013 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:16:10.727 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 22:39:42.339 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:16:11.048 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 22:39:42.369 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:16:11.177 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 22:39:42.369 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:16:11.178 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 22:39:42.450 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 22:39:42.619 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Mon Dec 23 2019 22:39:42.639 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 22:39:42.832 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:16:12.012 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 08:16:12.119 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 22:39:43.057 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:16:12.168 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 22:39:43.074 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:16:12.334 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 22:39:43.174 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:16:12.390 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 22:40:36.582 - Closing context.
-Mon Dec 23 2019 22:40:45.618 - //==============================================================================================
-Mon Dec 23 2019 22:40:45.618 - ================================================================================================
-Mon Dec 23 2019 22:40:45.618 - ================================================================================================
-Mon Dec 23 2019 22:40:45.618 - vrwebhelper.exe 1.9.15 startup with PID=21144, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 23 2019 22:40:45.699 - Browser context created for browser "settings" (overlay key: "system.settings")
-Mon Dec 23 2019 22:40:45.708 - Creating VRHML JS object
-Mon Dec 23 2019 22:40:49.179 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:16:20.298 - Closing context.
+Sat Dec 28 2019 08:17:38.913 - //==============================================================================================
+Sat Dec 28 2019 08:17:38.913 - ================================================================================================
+Sat Dec 28 2019 08:17:38.913 - ================================================================================================
+Sat Dec 28 2019 08:17:38.913 - vrwebhelper.exe 1.9.16 startup with PID=22244, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 08:17:39.062 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 08:17:39.080 - Creating VRHML JS object
+Sat Dec 28 2019 08:17:40.142 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Mon Dec 23 2019 22:40:49.180 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:17:40.142 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Mon Dec 23 2019 22:40:49.180 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:17:40.142 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Mon Dec 23 2019 22:40:49.180 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:17:40.142 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Mon Dec 23 2019 22:40:49.501 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:17:40.461 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Mon Dec 23 2019 22:40:49.616 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:17:40.528 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Mon Dec 23 2019 22:40:49.616 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:17:40.529 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 22:40:49.655 - Registering to receive audio changes because of callback
-Mon Dec 23 2019 22:40:49.846 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:17:41.005 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 08:17:42.349 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 08:17:42.455 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Mon Dec 23 2019 22:40:50.093 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:17:42.467 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 22:40:50.093 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:17:42.468 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Mon Dec 23 2019 22:40:50.093 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:17:42.657 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Tue Dec 24 2019 00:42:09.776 - //==============================================================================================
-Tue Dec 24 2019 00:42:09.776 - ================================================================================================
-Tue Dec 24 2019 00:42:09.776 - ================================================================================================
-Tue Dec 24 2019 00:42:09.776 - vrwebhelper.exe 1.9.15 startup with PID=9852, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 24 2019 00:42:09.858 - Browser context created for browser "settings" (overlay key: "system.settings")
-Tue Dec 24 2019 00:42:09.863 - Creating VRHML JS object
-Tue Dec 24 2019 00:42:13.183 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:17:49.494 - Closing context.
+Sat Dec 28 2019 08:19:07.890 - //==============================================================================================
+Sat Dec 28 2019 08:19:07.890 - ================================================================================================
+Sat Dec 28 2019 08:19:07.890 - ================================================================================================
+Sat Dec 28 2019 08:19:07.891 - vrwebhelper.exe 1.9.16 startup with PID=13952, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 08:19:07.991 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 08:19:08.004 - Creating VRHML JS object
+Sat Dec 28 2019 08:19:09.656 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Tue Dec 24 2019 00:42:13.184 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:19:09.656 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Tue Dec 24 2019 00:42:13.184 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:19:09.656 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Tue Dec 24 2019 00:42:13.184 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:19:09.656 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Tue Dec 24 2019 00:42:13.509 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Websocket connected
-Tue Dec 24 2019 00:42:13.576 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:19:09.994 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got vr settings schema
-Tue Dec 24 2019 00:42:13.576 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:19:10.002 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Tue Dec 24 2019 00:42:13.595 - Registering to receive audio changes because of callback
-Tue Dec 24 2019 00:42:13.684 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:19:10.003 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 08:19:10.821 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 08:19:10.928 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Tue Dec 24 2019 00:42:13.728 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:19:11.035 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Tue Dec 24 2019 00:42:13.732 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:19:11.038 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Tue Dec 24 2019 00:47:36.493 - Closing context.
-Tue Dec 24 2019 00:47:46.190 - //==============================================================================================
-Tue Dec 24 2019 00:47:46.190 - ================================================================================================
-Tue Dec 24 2019 00:47:46.190 - ================================================================================================
-Tue Dec 24 2019 00:47:46.190 - vrwebhelper.exe 1.9.15 startup with PID=17636, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 24 2019 00:47:46.273 - Browser context created for browser "settings" (overlay key: "system.settings")
-Tue Dec 24 2019 00:47:46.283 - Creating VRHML JS object
-Tue Dec 24 2019 00:47:50.372 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:19:11.143 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 08:19:11.201 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 08:19:14.736 - Closing context.
+Sat Dec 28 2019 08:38:52.176 - //==============================================================================================
+Sat Dec 28 2019 08:38:52.176 - ================================================================================================
+Sat Dec 28 2019 08:38:52.176 - ================================================================================================
+Sat Dec 28 2019 08:38:52.176 - vrwebhelper.exe 1.9.16 startup with PID=15452, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 08:38:52.249 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 08:38:52.251 - Creating VRHML JS object
+Sat Dec 28 2019 08:38:53.849 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings/overlay...
-Tue Dec 24 2019 00:47:50.373 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:38:53.850 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsettings...
-Tue Dec 24 2019 00:47:50.373 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:38:53.850 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox input_state...
-Tue Dec 24 2019 00:47:50.373 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:38:53.850 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Connecting vrsystem...
-Tue Dec 24 2019 00:47:50.707 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got vr settings schema
-Tue Dec 24 2019 00:47:50.707 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
-| Got audio devices
-Tue Dec 24 2019 00:47:50.715 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:38:54.192 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Websocket connected
-Tue Dec 24 2019 00:47:50.803 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:38:54.277 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sat Dec 28 2019 08:38:54.277 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Tue Dec 24 2019 00:47:50.827 - Registering to receive audio changes because of callback
-Tue Dec 24 2019 00:47:50.940 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+Sat Dec 28 2019 08:38:55.468 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 08:38:55.617 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
 | Connecting vrmailbox settings_controller_page...
-Tue Dec 24 2019 00:47:50.987 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:38:55.730 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
-Tue Dec 24 2019 00:47:51.302 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+Sat Dec 28 2019 08:38:55.730 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
 | Got audio devices
+Sat Dec 28 2019 08:38:55.858 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 10:56:06.721 - Closing context.
+Sat Dec 28 2019 11:09:55.703 - //==============================================================================================
+Sat Dec 28 2019 11:09:55.703 - ================================================================================================
+Sat Dec 28 2019 11:09:55.703 - ================================================================================================
+Sat Dec 28 2019 11:09:55.703 - vrwebhelper.exe 1.9.16 startup with PID=2832, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:09:55.858 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 11:09:55.877 - Creating VRHML JS object
+Sat Dec 28 2019 11:09:57.463 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sat Dec 28 2019 11:09:57.463 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sat Dec 28 2019 11:09:57.463 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sat Dec 28 2019 11:09:57.463 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sat Dec 28 2019 11:09:57.782 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 11:09:57.886 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sat Dec 28 2019 11:09:57.886 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:09:58.684 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:09:59.275 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:09:59.304 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 11:09:59.645 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sat Dec 28 2019 11:09:59.705 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:16:33.710 - //==============================================================================================
+Sat Dec 28 2019 11:16:33.710 - ================================================================================================
+Sat Dec 28 2019 11:16:33.710 - ================================================================================================
+Sat Dec 28 2019 11:16:33.710 - vrwebhelper.exe 1.9.16 startup with PID=5848, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:16:33.784 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 11:16:33.868 - Creating VRHML JS object
+Sat Dec 28 2019 11:16:35.215 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sat Dec 28 2019 11:16:35.215 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sat Dec 28 2019 11:16:35.215 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sat Dec 28 2019 11:16:35.215 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sat Dec 28 2019 11:16:35.582 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 11:16:35.699 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sat Dec 28 2019 11:16:35.699 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:16:37.477 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 11:16:37.585 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:16:37.586 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sat Dec 28 2019 11:16:37.713 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:16:37.838 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:16:54.217 - Closing context.
+Sat Dec 28 2019 11:17:37.667 - //==============================================================================================
+Sat Dec 28 2019 11:17:37.667 - ================================================================================================
+Sat Dec 28 2019 11:17:37.668 - ================================================================================================
+Sat Dec 28 2019 11:17:37.668 - vrwebhelper.exe 1.9.16 startup with PID=26264, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:17:38.325 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 11:17:38.511 - Creating VRHML JS object
+Sat Dec 28 2019 11:17:39.573 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sat Dec 28 2019 11:17:39.574 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sat Dec 28 2019 11:17:39.574 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sat Dec 28 2019 11:17:39.574 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sat Dec 28 2019 11:17:39.943 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 11:17:39.970 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sat Dec 28 2019 11:17:39.971 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:17:41.083 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:17:41.292 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 11:17:41.504 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sat Dec 28 2019 11:17:41.583 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:17:41.691 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:17:41.790 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:18:01.353 - Closing context.
+Sat Dec 28 2019 11:18:20.136 - //==============================================================================================
+Sat Dec 28 2019 11:18:20.136 - ================================================================================================
+Sat Dec 28 2019 11:18:20.137 - ================================================================================================
+Sat Dec 28 2019 11:18:20.137 - vrwebhelper.exe 1.9.16 startup with PID=12360, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:18:20.315 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 11:18:20.320 - Creating VRHML JS object
+Sat Dec 28 2019 11:18:21.372 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sat Dec 28 2019 11:18:21.372 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sat Dec 28 2019 11:18:21.372 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sat Dec 28 2019 11:18:21.372 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sat Dec 28 2019 11:18:21.691 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sat Dec 28 2019 11:18:21.691 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:18:21.692 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 11:18:22.199 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:18:23.551 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 11:18:23.873 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:18:23.873 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:18:23.874 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sat Dec 28 2019 11:18:23.940 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:31:51.293 - //==============================================================================================
+Sat Dec 28 2019 11:31:51.293 - ================================================================================================
+Sat Dec 28 2019 11:31:51.293 - ================================================================================================
+Sat Dec 28 2019 11:31:51.293 - vrwebhelper.exe 1.9.16 startup with PID=16416, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:31:51.353 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 11:31:51.360 - Creating VRHML JS object
+Sat Dec 28 2019 11:31:52.794 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sat Dec 28 2019 11:31:52.794 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sat Dec 28 2019 11:31:52.794 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sat Dec 28 2019 11:31:52.794 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sat Dec 28 2019 11:31:53.128 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 11:31:53.196 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sat Dec 28 2019 11:31:53.196 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:31:53.870 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 11:31:53.970 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sat Dec 28 2019 11:31:54.027 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:31:54.149 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:31:54.201 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:31:54.302 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:32:27.668 - Closing context.
+Sat Dec 28 2019 11:33:24.270 - //==============================================================================================
+Sat Dec 28 2019 11:33:24.270 - ================================================================================================
+Sat Dec 28 2019 11:33:24.270 - ================================================================================================
+Sat Dec 28 2019 11:33:24.270 - vrwebhelper.exe 1.9.16 startup with PID=11076, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Dec 28 2019 11:33:24.367 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sat Dec 28 2019 11:33:24.393 - Creating VRHML JS object
+Sat Dec 28 2019 11:33:25.878 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sat Dec 28 2019 11:33:25.879 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sat Dec 28 2019 11:33:25.879 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sat Dec 28 2019 11:33:25.879 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sat Dec 28 2019 11:33:26.208 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sat Dec 28 2019 11:33:26.300 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sat Dec 28 2019 11:33:26.300 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:33:27.438 - Registering to receive audio changes because of callback
+Sat Dec 28 2019 11:33:27.532 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sat Dec 28 2019 11:33:27.737 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:33:27.807 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 11:33:27.908 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sat Dec 28 2019 20:54:31.031 - Closing context.
+Sun Dec 29 2019 06:55:06.094 - //==============================================================================================
+Sun Dec 29 2019 06:55:06.094 - ================================================================================================
+Sun Dec 29 2019 06:55:06.094 - ================================================================================================
+Sun Dec 29 2019 06:55:06.094 - vrwebhelper.exe 1.9.16 startup with PID=2292, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 06:55:06.200 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 06:55:06.218 - Creating VRHML JS object
+Sun Dec 29 2019 06:55:10.657 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 06:55:10.657 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 06:55:10.657 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 06:55:10.657 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 06:55:10.970 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 06:55:11.010 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 06:55:11.010 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 06:55:11.100 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 06:55:11.270 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 06:55:11.299 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 06:55:11.905 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 06:55:12.114 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 06:55:12.215 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 07:17:17.086 - Closing context.
+Sun Dec 29 2019 07:17:25.830 - //==============================================================================================
+Sun Dec 29 2019 07:17:25.831 - ================================================================================================
+Sun Dec 29 2019 07:17:25.831 - ================================================================================================
+Sun Dec 29 2019 07:17:25.831 - vrwebhelper.exe 1.9.16 startup with PID=24048, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 07:17:25.896 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 07:17:25.904 - Creating VRHML JS object
+Sun Dec 29 2019 07:17:30.372 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 07:17:30.372 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 07:17:30.372 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 07:17:30.373 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 07:17:30.712 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 07:17:30.712 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 07:17:30.716 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 07:17:30.850 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 07:17:30.990 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 09:08:30.105 - Closing context.
+Sun Dec 29 2019 09:08:38.145 - //==============================================================================================
+Sun Dec 29 2019 09:08:38.145 - ================================================================================================
+Sun Dec 29 2019 09:08:38.145 - ================================================================================================
+Sun Dec 29 2019 09:08:38.145 - vrwebhelper.exe 1.9.16 startup with PID=27956, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 09:08:38.269 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 09:08:38.284 - Creating VRHML JS object
+Sun Dec 29 2019 09:08:42.177 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 09:08:42.177 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 09:08:42.177 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 09:08:42.177 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 09:08:42.499 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 09:08:42.565 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 09:08:42.565 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:08:42.838 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 09:08:42.939 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 09:08:43.001 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:08:43.072 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:08:43.174 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:10:42.871 - Closing context.
+Sun Dec 29 2019 09:11:55.166 - //==============================================================================================
+Sun Dec 29 2019 09:11:55.166 - ================================================================================================
+Sun Dec 29 2019 09:11:55.167 - ================================================================================================
+Sun Dec 29 2019 09:11:55.167 - vrwebhelper.exe 1.9.16 startup with PID=19376, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 09:11:55.249 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 09:11:55.270 - Creating VRHML JS object
+Sun Dec 29 2019 09:11:59.905 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 09:11:59.905 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 09:11:59.905 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 09:11:59.905 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 09:12:00.205 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 09:12:00.380 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 09:12:00.491 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 09:12:00.491 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 09:12:00.498 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:16:06.915 - Closing context.
+Sun Dec 29 2019 09:16:28.422 - //==============================================================================================
+Sun Dec 29 2019 09:16:28.422 - ================================================================================================
+Sun Dec 29 2019 09:16:28.422 - ================================================================================================
+Sun Dec 29 2019 09:16:28.422 - vrwebhelper.exe 1.9.16 startup with PID=29384, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 09:16:28.551 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 09:16:28.569 - Creating VRHML JS object
+Sun Dec 29 2019 09:16:32.398 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 09:16:32.398 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 09:16:32.398 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 09:16:32.398 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 09:16:32.721 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 09:16:32.722 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:16:32.722 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 09:16:32.916 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:16:32.953 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 09:16:33.241 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 09:16:33.422 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:16:33.422 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:20:51.506 - Closing context.
+Sun Dec 29 2019 09:26:21.377 - //==============================================================================================
+Sun Dec 29 2019 09:26:21.377 - ================================================================================================
+Sun Dec 29 2019 09:26:21.377 - ================================================================================================
+Sun Dec 29 2019 09:26:21.377 - vrwebhelper.exe 1.9.16 startup with PID=22972, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 09:26:21.555 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 09:26:21.568 - Creating VRHML JS object
+Sun Dec 29 2019 09:26:25.387 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 09:26:25.387 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 09:26:25.387 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 09:26:25.388 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 09:26:25.701 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 09:26:25.744 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 09:26:25.744 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:26:25.947 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:26:25.964 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 09:26:26.047 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 09:26:26.152 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:26:26.246 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 09:26:26.347 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 16:46:01.814 - Closing context.
+Sun Dec 29 2019 21:14:07.536 - //==============================================================================================
+Sun Dec 29 2019 21:14:07.536 - ================================================================================================
+Sun Dec 29 2019 21:14:07.536 - ================================================================================================
+Sun Dec 29 2019 21:14:07.536 - vrwebhelper.exe 1.9.16 startup with PID=28516, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 21:14:07.628 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 21:14:07.651 - Creating VRHML JS object
+Sun Dec 29 2019 21:14:12.247 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 21:14:12.247 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 21:14:12.247 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 21:14:12.247 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 21:14:12.587 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 21:14:12.587 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:12.588 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 21:14:12.681 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 21:14:12.839 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 21:14:12.915 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:12.935 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:13.013 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:31.791 - Closing context.
+Sun Dec 29 2019 21:14:40.194 - //==============================================================================================
+Sun Dec 29 2019 21:14:40.195 - ================================================================================================
+Sun Dec 29 2019 21:14:40.195 - ================================================================================================
+Sun Dec 29 2019 21:14:40.195 - vrwebhelper.exe 1.9.16 startup with PID=20616, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 21:14:40.267 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 21:14:40.282 - Creating VRHML JS object
+Sun Dec 29 2019 21:14:43.478 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 21:14:43.478 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 21:14:43.478 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 21:14:43.478 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 21:14:43.802 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 21:14:43.913 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 21:14:43.913 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:44.024 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 21:14:44.139 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 21:14:44.400 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:44.400 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:44.799 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:45.000 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:45.101 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:14:45.305 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:15:05.938 - Closing context.
+Sun Dec 29 2019 21:15:14.672 - //==============================================================================================
+Sun Dec 29 2019 21:15:14.672 - ================================================================================================
+Sun Dec 29 2019 21:15:14.672 - ================================================================================================
+Sun Dec 29 2019 21:15:14.672 - vrwebhelper.exe 1.9.16 startup with PID=8504, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 21:15:14.745 - Browser context created for browser "settings" (overlay key: "system.settings")
+Sun Dec 29 2019 21:15:14.751 - Creating VRHML JS object
+Sun Dec 29 2019 21:15:18.613 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings/overlay...
+Sun Dec 29 2019 21:15:18.613 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsettings...
+Sun Dec 29 2019 21:15:18.613 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox input_state...
+Sun Dec 29 2019 21:15:18.613 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Connecting vrsystem...
+Sun Dec 29 2019 21:15:18.933 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Websocket connected
+Sun Dec 29 2019 21:15:18.997 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got vr settings schema
+Sun Dec 29 2019 21:15:18.997 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 21:15:19.016 - Registering to receive audio changes because of callback
+Sun Dec 29 2019 21:15:19.110 - Console message (Info) from http://localhost:27062/dashboard/settings.js?v=c3ee9fc7bfdb0d4e1ef8:17:
+| Connecting vrmailbox settings_controller_page...
+Sun Dec 29 2019 21:15:19.231 - Console message (Info) from http://localhost:27062/dashboard/vrwebui_shared.js?v=9aff22a9aa4822d4016b:5:
+| Got audio devices
+Sun Dec 29 2019 22:46:38.845 - Closing context.
