@@ -50,6 +50,12 @@ std::ostream &getOut() {
   }
   return out;
 }
+constexpr bool tracing = true;
+void TRACE(const char *module, const std::function<void()> &fn) {
+  if (tracing) {
+    fn();
+  }
+}
 
 void wrapExternalOpenVr(std::function<void()> &&fn) {
   std::vector<char> buf(4096);

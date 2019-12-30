@@ -842,3 +842,380 @@ Sun Dec 29 2019 22:46:39.678 - Listener thread ending
 Sun Dec 29 2019 22:46:39.737 - Process vrmonitor (21044) disconnected (Thread(0x0000021EF83F4230/0x000)
 Sun Dec 29 2019 22:46:39.737 - Ignoring LostPipeConnection from vrmonitor (21044) because compositor is shutting down
 Sun Dec 29 2019 22:46:39.739 - Cleaning up
+Mon Dec 30 2019 09:05:32.987 - //==============================================================================================
+Mon Dec 30 2019 09:05:32.987 - ================================================================================================
+Mon Dec 30 2019 09:05:32.987 - ================================================================================================
+Mon Dec 30 2019 09:05:32.987 - vrcompositor.exe 1.9.16 startup with PID=8724, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Mon Dec 30 2019 09:05:32.987 - VR compositor 1.9.16 (v1576990468) starting up
+Mon Dec 30 2019 09:05:33.096 - CSharedResourceNamespaceClient::Init(): received namespace data 19668
+Mon Dec 30 2019 09:05:33.114 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Mon Dec 30 2019 09:05:33.114 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Mon Dec 30 2019 09:05:33.115 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Mon Dec 30 2019 09:05:33.116 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Mon Dec 30 2019 09:05:33.117 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Mon Dec 30 2019 09:05:33.126 - Events created
+Mon Dec 30 2019 09:05:33.163 - Found bad mirror window settings: 
+Mon Dec 30 2019 09:05:33.215 - CGraphicsDevice Init...
+Mon Dec 30 2019 09:05:33.215 - Headset is using driver direct mode
+Mon Dec 30 2019 09:05:34.108 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Mon Dec 30 2019 09:05:34.108 - ****************************************** Begin GPU speed ******************************************
+Mon Dec 30 2019 09:05:34.315 - MeasureGpuMegaPixelsPerSecond(): Returning 289 MP/sec. Total CPU time 0.21 seconds.
+Mon Dec 30 2019 09:05:34.329 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Mon Dec 30 2019 09:05:34.331 - GPU speed from average of 6 median samples: 288
+Mon Dec 30 2019 09:05:34.332 - ******************************************* End GPU speed *******************************************
+Mon Dec 30 2019 09:05:34.332 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Mon Dec 30 2019 09:05:34.332 - GPU speed being set at first generation HMD resolution 382 MP/sec
+Mon Dec 30 2019 09:05:34.332 - Raw ideal render target scale = 0.73
+Mon Dec 30 2019 09:05:34.333 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
+Mon Dec 30 2019 09:05:34.333 - Loading fonts/debug.spritefont
+Mon Dec 30 2019 09:05:34.342 - Creating samplers
+Mon Dec 30 2019 09:05:34.342 - Creating util resources
+Mon Dec 30 2019 09:05:34.347 - Creating/Updating distortion surfaces
+Mon Dec 30 2019 09:05:34.550 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Mon Dec 30 2019 09:05:34.747 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Mon Dec 30 2019 09:05:34.749 - Creating constant buffers
+Mon Dec 30 2019 09:05:34.750 - Creating layer texture (w=1552,h=1720)
+Mon Dec 30 2019 09:05:35.445 - Loading MC resources
+Mon Dec 30 2019 09:05:35.445 - Initializing timing resources
+Mon Dec 30 2019 09:05:35.445 - Initializing camera
+Mon Dec 30 2019 09:05:35.445 - Done initializing CGraphicsDevice resources
+Mon Dec 30 2019 09:05:35.446 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Mon Dec 30 2019 09:05:35.461 - Distort initialized
+Mon Dec 30 2019 09:05:35.474 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Mon Dec 30 2019 09:05:35.475 - Set thread 0000000000000674 priority to: 15
+Mon Dec 30 2019 09:05:35.476 - Compositor render thread started
+Mon Dec 30 2019 09:05:35.476 - Set thread 0000000000000650 priority to: 15
+Mon Dec 30 2019 09:05:35.476 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29484
+Mon Dec 30 2019 09:05:35.478 - Startup Complete (2.380827 seconds)
+Mon Dec 30 2019 09:05:35.489 - Found 103 quads for Collision Bounds
+Mon Dec 30 2019 09:05:35.490 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Mon Dec 30 2019 09:05:35.490 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Mon Dec 30 2019 09:05:35.491 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Mon Dec 30 2019 09:05:35.492 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Mon Dec 30 2019 09:05:35.502 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Mon Dec 30 2019 09:05:36.040 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 17512
+Mon Dec 30 2019 09:05:36.974 - Closing pipe SpacePirateVR (29484) because it was broken from the other end
+Mon Dec 30 2019 09:05:36.974 - Process SpacePirateVR (29484) disconnected (Thread(0x00000294D88E4A50/0x000)
+Mon Dec 30 2019 09:05:36.974 - Lost pipe connection from SpacePirateVR (29484)
+Mon Dec 30 2019 09:05:37.480 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 21556
+Mon Dec 30 2019 09:05:37.651 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8344
+Mon Dec 30 2019 09:05:39.499 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15868
+Mon Dec 30 2019 09:05:39.501 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10500
+Mon Dec 30 2019 09:05:39.516 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17096
+Mon Dec 30 2019 09:05:39.518 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 27920
+Mon Dec 30 2019 09:05:39.535 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 19036
+Mon Dec 30 2019 09:05:39.579 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17148
+Mon Dec 30 2019 09:05:39.822 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24924
+Mon Dec 30 2019 09:05:39.844 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8324
+Mon Dec 30 2019 09:05:39.866 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 6596
+Mon Dec 30 2019 09:05:39.984 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 27852
+Mon Dec 30 2019 09:05:40.111 - External connection from C:\Program Files (x86)\Steam\Steam.exe 27996
+Mon Dec 30 2019 09:05:42.249 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 29484
+Mon Dec 30 2019 09:05:49.620 - Screenshot: HookScreenshot, 1 types
+Mon Dec 30 2019 09:05:51.529 - Screenshot: HookScreenshot, 1 types
+Mon Dec 30 2019 09:05:52.238 - Closing pipe SpacePirateVR (29484) because it was broken from the other end
+Mon Dec 30 2019 09:05:52.238 - Process SpacePirateVR (29484) disconnected (Thread(0x00000294D8718A40/0x000)
+Mon Dec 30 2019 09:05:52.238 - Lost pipe connection from SpacePirateVR (29484)
+Mon Dec 30 2019 09:05:52.238 - ######################################################################
+Mon Dec 30 2019 09:05:52.238 - Cumulative stats for pid: 29484
+Mon Dec 30 2019 09:05:52.238 - Total..................  2601 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:05:52.238 - Startup................   227 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:05:52.238 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:05:52.238 - Timed out.  1 total....  2274 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:05:52.238 - ######################################################################
+Mon Dec 30 2019 09:05:52.238 - Total dropped frames: 0
+Mon Dec 30 2019 09:07:09.792 - Processing message Unknown VRMsgType (0) from vrwebhelper (19036) took 0.00859 seconds
+Mon Dec 30 2019 09:08:10.266 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe 4136
+Mon Dec 30 2019 09:08:11.236 - Closing pipe Blocks (4136) because it was broken from the other end
+Mon Dec 30 2019 09:08:11.236 - Process Blocks (4136) disconnected (Thread(0x00000294D8AE4FF0/0x000)
+Mon Dec 30 2019 09:08:11.236 - Lost pipe connection from Blocks (4136)
+Mon Dec 30 2019 09:08:12.687 - External connection from C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe 4136
+Mon Dec 30 2019 09:08:14.051 - Screenshot: HookScreenshot, 1 types
+Mon Dec 30 2019 09:09:11.934 - Closing pipe Blocks (4136) because it was broken from the other end
+Mon Dec 30 2019 09:09:11.934 - Process Blocks (4136) disconnected (Thread(0x00000294D8AE4B70/0x000)
+Mon Dec 30 2019 09:09:11.934 - Lost pipe connection from Blocks (4136)
+Mon Dec 30 2019 09:09:11.934 - ######################################################################
+Mon Dec 30 2019 09:09:11.934 - Cumulative stats for pid: 4136
+Mon Dec 30 2019 09:09:11.934 - Total..................  3742 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:09:11.934 - Startup................  1209 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:09:11.934 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:09:11.934 - Timed out.  1 total....     1 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:09:11.934 - ######################################################################
+Mon Dec 30 2019 09:09:11.934 - Total dropped frames: 0
+Mon Dec 30 2019 09:29:33.924 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 9524
+Mon Dec 30 2019 09:30:04.542 - Closing pipe chrome (9524) because it was broken from the other end
+Mon Dec 30 2019 09:30:04.543 - Process chrome (9524) disconnected (Thread(0x00000294D8A4D860/0x000)
+Mon Dec 30 2019 09:30:04.543 - Lost pipe connection from chrome (9524)
+Mon Dec 30 2019 09:30:04.599 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 9524
+Mon Dec 30 2019 09:30:09.784 - Found 103 quads for Collision Bounds
+Mon Dec 30 2019 09:30:09.784 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Mon Dec 30 2019 09:30:09.784 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Mon Dec 30 2019 09:30:09.784 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Mon Dec 30 2019 09:30:09.785 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Mon Dec 30 2019 09:30:09.786 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Mon Dec 30 2019 09:30:36.969 - Closing pipe chrome (9524) because it was broken from the other end
+Mon Dec 30 2019 09:30:36.969 - Process chrome (9524) disconnected (Thread(0x00000294D894A740/0x000)
+Mon Dec 30 2019 09:30:36.969 - Lost pipe connection from chrome (9524)
+Mon Dec 30 2019 09:30:36.969 - ######################################################################
+Mon Dec 30 2019 09:30:36.969 - Cumulative stats for pid: 9524
+Mon Dec 30 2019 09:30:36.969 - Total..................  2266 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:30:36.969 - Startup................    87 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:30:36.969 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:30:36.969 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:30:36.969 - ######################################################################
+Mon Dec 30 2019 09:30:36.969 - Total dropped frames: 0
+Mon Dec 30 2019 09:30:37.086 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 9524
+Mon Dec 30 2019 09:31:00.465 - Closing pipe chrome (9524) because it was broken from the other end
+Mon Dec 30 2019 09:31:00.465 - Process chrome (9524) disconnected (Thread(0x00000294D8ADE6B0/0x000)
+Mon Dec 30 2019 09:31:00.465 - Lost pipe connection from chrome (9524)
+Mon Dec 30 2019 09:31:00.518 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 9524
+Mon Dec 30 2019 09:32:14.352 - Closing pipe chrome (9524) because it was broken from the other end
+Mon Dec 30 2019 09:32:14.352 - Process chrome (9524) disconnected (Thread(0x00000294D88E4C90/0x000)
+Mon Dec 30 2019 09:32:14.352 - Lost pipe connection from chrome (9524)
+Mon Dec 30 2019 09:32:22.518 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 26540
+Mon Dec 30 2019 09:32:22.543 - Closing pipe chrome (26540) because it was broken from the other end
+Mon Dec 30 2019 09:32:22.543 - Process chrome (26540) disconnected (Thread(0x00000294D894A740/0x000)
+Mon Dec 30 2019 09:32:22.543 - Lost pipe connection from chrome (26540)
+Mon Dec 30 2019 09:32:22.677 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 26540
+Mon Dec 30 2019 09:32:40.916 - Closing pipe chrome (26540) because it was broken from the other end
+Mon Dec 30 2019 09:32:40.916 - Process chrome (26540) disconnected (Thread(0x00000294D870E9C0/0x000)
+Mon Dec 30 2019 09:32:40.916 - Lost pipe connection from chrome (26540)
+Mon Dec 30 2019 09:32:40.916 - ######################################################################
+Mon Dec 30 2019 09:32:40.916 - Cumulative stats for pid: 26540
+Mon Dec 30 2019 09:32:40.916 - Total..................  1285 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:32:40.916 - Startup................    69 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:32:40.916 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:32:40.916 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:32:40.917 - ######################################################################
+Mon Dec 30 2019 09:32:40.917 - Total dropped frames: 0
+Mon Dec 30 2019 09:53:47.050 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 15196
+Mon Dec 30 2019 09:53:49.573 - Closing pipe chrome (15196) because it was broken from the other end
+Mon Dec 30 2019 09:53:49.573 - Process chrome (15196) disconnected (Thread(0x00000294D870F500/0x000)
+Mon Dec 30 2019 09:53:49.573 - Lost pipe connection from chrome (15196)
+Mon Dec 30 2019 09:53:49.652 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 15196
+Mon Dec 30 2019 09:54:32.309 - Closing pipe chrome (15196) because it was broken from the other end
+Mon Dec 30 2019 09:54:32.309 - Process chrome (15196) disconnected (Thread(0x00000294D8AE4C90/0x000)
+Mon Dec 30 2019 09:54:32.309 - Lost pipe connection from chrome (15196)
+Mon Dec 30 2019 09:54:32.309 - ######################################################################
+Mon Dec 30 2019 09:54:32.309 - Cumulative stats for pid: 15196
+Mon Dec 30 2019 09:54:32.309 - Total..................  3025 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:54:32.309 - Startup................    81 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:54:32.310 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:54:32.310 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 09:54:32.310 - ######################################################################
+Mon Dec 30 2019 09:54:32.310 - Total dropped frames: 0
+Mon Dec 30 2019 10:07:32.997 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 29020
+Mon Dec 30 2019 10:07:53.297 - Closing pipe chrome (29020) because it was broken from the other end
+Mon Dec 30 2019 10:07:53.297 - Process chrome (29020) disconnected (Thread(0x00000294D8AE4F60/0x000)
+Mon Dec 30 2019 10:07:53.297 - Lost pipe connection from chrome (29020)
+Mon Dec 30 2019 10:07:53.363 - External connection from C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe 29020
+Mon Dec 30 2019 10:09:48.591 - Closing pipe chrome (29020) because it was broken from the other end
+Mon Dec 30 2019 10:09:48.591 - Process chrome (29020) disconnected (Thread(0x00000294D870F500/0x000)
+Mon Dec 30 2019 10:09:48.591 - Lost pipe connection from chrome (29020)
+Mon Dec 30 2019 10:09:48.591 - ######################################################################
+Mon Dec 30 2019 10:09:48.592 - Cumulative stats for pid: 29020
+Mon Dec 30 2019 10:09:48.592 - Total..................  8237 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 10:09:48.592 - Startup................    81 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 10:09:48.592 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 10:09:48.592 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
+Mon Dec 30 2019 10:09:48.592 - ######################################################################
+Mon Dec 30 2019 10:09:48.592 - Total dropped frames: 1
