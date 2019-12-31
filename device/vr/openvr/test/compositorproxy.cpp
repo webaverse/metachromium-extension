@@ -372,6 +372,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       glGenFramebuffers(1, &fbo);
       glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     }
+
+    return 0;
   });
   fnp.reg<
     kIVRCompositor_QueueSubmit,
@@ -425,7 +427,13 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       
       // getOut() << "gl init error 9 " << glGetError() << std::endl;
     }
-    
+
+    return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_Submit,
+    EVRCompositorError
+  >([=]() {
     HANDLE objects[] = {
       shTexInInteropHandle,
       shTexOutInteropHandle
@@ -454,7 +462,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       for (size_t i = 0; i < MAX_LAYERS; i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         glUniform1i(texLocations[i], i);
-        if (i < numTexIns)
+        if (i < numTexIns) {
           glBindTexture(GL_TEXTURE_2D, shTexIns[i]);
           glUniform1f(hasTexLocations[i], 1.0f);
         } else {
@@ -517,13 +525,11 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "gl submit 4 " << glGetError() << std::endl;
       vrcompositor->Submit(Eye_Right, &rightTexture, &rightBounds, EVRSubmitFlags::Submit_Default);
 
-      shTexIns.clear();
+      // shTexIns.clear();
 
       // getOut() << "gl submit 5 " << glGetError() << std::endl;
-      return VRCompositorError_None;
-    } else {
-      return VRCompositorError_None;
     }
+    return VRCompositorError_None;
   });
   fnp.reg<
     kIVRCompositor_ClearLastSubmittedFrame,
@@ -893,9 +899,23 @@ void PVRCompositor::PrepareSubmit() {
 void PVRCompositor::QueueSubmit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
-  ID3D11Texture2D *&shTex = eEye == Eye_Left ? shTexLeft : shTexRight;
-  HANDLE &sharedHandle = eEye == Eye_Left ? shTexLeftHandle : shTexRightHandle;
-  ID3D11Texture2D *&textureLatched = eEye == Eye_Left ? texLeftLatched : texRightLatched;
+  auto key = std::pair<size_t, EVREye>(fnp.callbackId, eEye);
+  auto iter = inTexIndices.find(key);
+  size_t index;
+  if (iter != inTexIndices.end()) {
+    index = iter->second;
+  } else {
+    index = inDxTexs.size();
+    inTexIndices[key] = index;
+    iter = inTexIndices.find(key);
+
+    inDxTexs.resize(index+1, NULL);
+    inShDxTexs.resize(index+1, NULL);
+    inShDxShareHandles.resize(index+1, NULL);
+  }
+  ID3D11Texture2D *&shTex = inDxTexs[index];
+  HANDLE &sharedHandle = inShDxTexs[index];
+  ID3D11Texture2D *&textureLatched = inShDxShareHandles[index];
   if (textureLatched != tex) {
     if (textureLatched) {
       // XXX delete old resources

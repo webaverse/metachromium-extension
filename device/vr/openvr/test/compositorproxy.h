@@ -27,15 +27,18 @@ public:
   bool rightEye = false;
   std::vector<GLuint> texLocations;
   std::vector<GLuint> hasTexLocations;
-  std::vector<GLuint> shTexIns;
 
   // input front
-  ID3D11Texture2D *shTexLeft = nullptr;
+  std::map<std::pair<size_t, EVREye>, size_t> inTexIndices;
+  std::vector<ID3D11Texture2D *> inDxTexs;
+  std::vector<ID3D11Texture2D *> inShDxTexs;
+  std::vector<HANDLE> inShDxShareHandles;
+  /* ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
   HANDLE shTexRightHandle = 0;
   ID3D11Texture2D *texLeftLatched = nullptr;
-  ID3D11Texture2D *texRightLatched = nullptr;
+  ID3D11Texture2D *texRightLatched = nullptr; */
 
   // input  back
   HANDLE shTexInLeftInteropHandle = NULL;
