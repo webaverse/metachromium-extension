@@ -29,7 +29,7 @@ public:
   std::vector<GLuint> hasTexLocations;
 
   // input front
-  std::map<std::pair<size_t, EVREye>, size_t> inTexIndices;
+  std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<ID3D11Texture2D *> inDxTexLatcheds;
@@ -41,6 +41,7 @@ public:
   ID3D11Texture2D *texRightLatched = nullptr; */
 
   // input back
+  std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
   std::vector<GLuint> inBackTexs;
   std::vector<HANDLE> inBackInteropHandles;
   std::vector<HANDLE> inBackHandleLatches;

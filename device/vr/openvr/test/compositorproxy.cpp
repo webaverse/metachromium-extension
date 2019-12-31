@@ -91,6 +91,10 @@ void main() {\n\
 }\n\
 ";
 constexpr size_t MAX_LAYERS = 2;
+const EVREye EYES[] = {
+  Eye_Left,
+  Eye_Right,
+};
 
 PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp) : vrcompositor(vrcompositor), fnp(fnp) {
   fnp.reg<
@@ -364,10 +368,13 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
       
-      glActiveTexture(GL_TEXTURE0);
+      /* glActiveTexture(GL_TEXTURE0);
       glUniform1i(tex1Location, 0);
       glActiveTexture(GL_TEXTURE0);
-      glUniform1i(tex2Location, 1);
+      glUniform1i(tex2Location, 1); */
+      for (size_t i = 0; i < MAX_LAYERS; i++) {
+        glUniform1i(texLocations[i], i);
+      }
       
       glGenFramebuffers(1, &fbo);
       glBindFramebuffer(GL_FRAMEBUFFER, fbo);
@@ -388,14 +395,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteCallbackId, eEye);
-    auto iter = inTexIndices.find(key);
+    auto iter = inBackIndices.find(key);
     size_t index;
-    if (iter != inTexIndices.end()) {
+    if (iter != inBackIndices.end()) {
       index = iter->second;
     } else {
       index = inBackTexs.size();
-      inTexIndices[key] = index;
-      iter = inTexIndices.find(key);
+      inBackIndices[key] = index;
+      iter = inBackIndices.find(key);
 
       inBackTexs.resize(index+1, NULL);
       inBackInteropHandles.resize(index+1, NULL);
@@ -409,6 +416,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     if (handleLatched != sharedHandle) {
       getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
       if (handleLatched) {
+        glDeleteTextures(1, &shTexInId);
         // XXX delete old resources
         // hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
       }
@@ -447,57 +455,79 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_Submit,
     EVRCompositorError
   >([=]() {
-    HANDLE objects[] = {
-      shTexInInteropHandle,
-      shTexOutInteropHandle
-    };
-    // getOut() << "gl init error 10 " << (void *)hInteropDevice << " " << (void *)shTexInInteropHandle << " " << (void *)shTexOutInteropHandle << " " << glGetError() << std::endl;
-    bool lockOk = wglDXLockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);
+    std::vector<HANDLE> objects;
+    objects.reserve(inBackIndices.size() + 1);
+    for (auto iter : inBackIndices) {
+      size_t &index = iter->second;
+      HANDLE &h = inBackInteropHandles[index];
+      objects.push_back(h);
+    }
+    objects.push_back(shTexOutInteropHandle);
+
+    bool lockOk = wglDXLockObjectsNV(hInteropDevice, objects.size(), objects.data());
     // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
     if (lockOk) {
-      glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-      glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shTexOutId, 0);
-      glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texDepthId, 0);
-      // auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-      
-      // getOut() << "gl init error 12 " << status << " " << glGetError() << std::endl;
+      for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
+        EVREye eye = EYES[iEye];
 
-      if (eEye == Eye_Left) {
-        glViewport(0, 0, width/2, height);
-      } else {
-        glViewport(width/2, 0, width/2, height);
-      }
-      // glClearColor(0, 0, 0, 0);
-      // getOut() << "gl init error 13 " << glGetError() << std::endl;
-      // glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
-      // getOut() << "gl init error 14 " << glGetError() << std::endl;
-      size_t numTexIns = shTexIns.size();
-      for (size_t i = 0; i < MAX_LAYERS; i++) {
-        glActiveTexture(GL_TEXTURE0 + i);
-        glUniform1i(texLocations[i], i);
-        if (i < numTexIns) {
-          glBindTexture(GL_TEXTURE_2D, shTexIns[i]);
-          glUniform1f(hasTexLocations[i], 1.0f);
-        } else {
+        size_t numLayers = 0;
+        for (auto iter : inBackIndices) {
+          EVREye &e = iter->first.first;
+          if (e === eye) {
+            size_t &index = iter->second;
+
+            glActiveTexture(GL_TEXTURE0 + numLayers);
+            glBindTexture(GL_TEXTURE_2D, inBackTexs[index]);
+            glUniform1f(hasTexLocations[numLayers], 1.0f);
+
+            numLayers++;
+            if (numLayers >= MAX_LAYERS) {
+              break;
+            }
+          }
+        }
+        for (size_t i = numLayers; i < MAX_LAYERS; i++) {
+          glActiveTexture(GL_TEXTURE0 + i);
           glBindTexture(GL_TEXTURE_2D, 0);
           glUniform1f(hasTexLocations[i], 0.0f);
         }
-      }
-      // getOut() << "gl init error 15 " << glGetError() << std::endl;
-      glDrawElements(
-        GL_TRIANGLES,
-        6,
-        GL_UNSIGNED_SHORT,
-        (void *)0
-      );
-      // getOut() << "gl init error 16 " << glGetError() << std::endl;
-      
-      /* auto error = glGetError();
-      if (error) {
-        getOut() << "gl render error " << error << std::endl;
-      } */
 
-      bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);
+        // glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shTexOutId, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texDepthId, 0);
+        // auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+        glViewport(
+          eEye == Eye_Left ? 0 : width/2,
+          0,
+          width/2,
+          height
+        );
+        // glClearColor(0, 0, 0, 0);
+        // glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+        glDrawElements(
+          GL_TRIANGLES,
+          6,
+          GL_UNSIGNED_SHORT,
+          (void *)0
+        );
+        // getOut() << "gl init error 16 " << glGetError() << std::endl;
+
+        // getOut() << "gl submit 1 " << glGetError() << std::endl;
+        // pTexture->handle = (void *)shTexOut;
+        Texture_t texture{
+          (void *)shTexOut,
+          TextureType_DirectX,
+          ColorSpace_Auto
+        };
+        VRTextureBounds_t bounds{
+          eye == Eye_Left ? 0.0f : 0.5f, 0.0f,
+          eye == Eye_Left ? 0.5f : 1.0f, 1.0f
+        };
+        // getOut() << "gl submit 2 " << glGetError() << std::endl;
+        vrcompositor->Submit(eye, &texture, &bounds, EVRSubmitFlags::Submit_Default);
+      }
+      bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, objects.size(), objects.data());
       if (unlockOk) {
         // nothing
       } else {
@@ -507,40 +537,6 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     } else {
       getOut() << "texture locking failed" << std::endl;
       abort();
-    }
-
-    bool localRightEye = rightEye;
-    rightEye = !rightEye;
-    if (localRightEye) {
-      // getOut() << "gl submit 1 " << glGetError() << std::endl;
-      // pTexture->handle = (void *)shTexOut;
-      Texture_t leftTexture{
-        (void *)shTexOut,
-        TextureType_DirectX,
-        ColorSpace_Auto
-      };
-      VRTextureBounds_t leftBounds{
-        0, 0,
-        0.5, 1
-      };
-      // getOut() << "gl submit 2 " << glGetError() << std::endl;
-      vrcompositor->Submit(Eye_Left, &leftTexture, &leftBounds, EVRSubmitFlags::Submit_Default);
-      // getOut() << "gl submit 3 " << glGetError() << std::endl;
-      Texture_t rightTexture{
-        (void *)shTexOut,
-        TextureType_DirectX,
-        ColorSpace_Auto
-      };
-      VRTextureBounds_t rightBounds{
-        0.5, 0,
-        1, 1
-      };
-      // getOut() << "gl submit 4 " << glGetError() << std::endl;
-      vrcompositor->Submit(Eye_Right, &rightTexture, &rightBounds, EVRSubmitFlags::Submit_Default);
-
-      // shTexIns.clear();
-
-      // getOut() << "gl submit 5 " << glGetError() << std::endl;
     }
     return VRCompositorError_None;
   });
@@ -913,14 +909,14 @@ void PVRCompositor::QueueSubmit( EVREye eEye, const Texture_t *pTexture, const V
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
   auto key = std::pair<size_t, EVREye>(fnp.callbackId, eEye);
-  auto iter = inTexIndices.find(key);
+  auto iter = inFrontIndices.find(key);
   size_t index;
-  if (iter != inTexIndices.end()) {
+  if (iter != inFrontIndices.end()) {
     index = iter->second;
   } else {
     index = inDxTexs.size();
-    inTexIndices[key] = index;
-    iter = inTexIndices.find(key);
+    inFrontIndices[key] = index;
+    iter = inFrontIndices.find(key);
 
     inDxTexs.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
