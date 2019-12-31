@@ -70,19 +70,19 @@ in vec2 vUv;\n\
 out vec4 fragColor;\n\
 uniform sampler2D tex1;\n\
 uniform sampler2D tex2;\n\
-uniform float haxTex1;\n\
-uniform float haxTex2;\n\
+uniform float hasTex1;\n\
+uniform float hasTex2;\n\
 // uniform  sampler2D depthTex;\n\
 \n\
 void main() {\n\
   fragColor = vec4(0.0);\n\
   if (hasTex1 > 0.0) {\n\
-    float c = texture(tex1, vUv);\n\
-    fragColor += vec4(c.rgba*c.a, c.a);\n\
+    vec4 c = texture(tex1, vUv);\n\
+    fragColor += vec4(c.rgb*c.a, c.a);\n\
   }\n\
   if (hasTex2 > 0.0) {\n\
-    float c = texture(tex2, vUv);\n\
-    fragColor += vec4(c.rgba*c.a, c.a);\n\
+    vec4 c = texture(tex2, vUv);\n\
+    fragColor += vec4(c.rgb*c.a, c.a);\n\
   }\n\
   // if (fragColor.a < 0.5) discard;\n\
   // fragColor = vec4(vec3(0.0), 1.0);\n\
@@ -176,14 +176,24 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     int,
     uintptr_t
   >([=](uintptr_t pDevice) {
+    // getOut() << "prepare submit server 1" << std::endl;
+    
     if (!device) {
+      // getOut() << "prepare submit server 2 " << (void *)pDevice << std::endl;
+      
       device = (ID3D11Device *)pDevice;
+      
+      // getOut() << "prepare submit server 3" << std::endl;
 
       subWindow = initGl();
+      
+      // getOut() << "prepare submit server 4 " << (void *)device.Get() << std::endl;
       
       // getOut() << "gl init 1 " << (void *)subWindow << " " << (void *)device.Get() << " " << glGetError() << std::endl;
 
       hInteropDevice = wglDXOpenDeviceNV(device.Get());
+      
+      // getOut() << "prepare submit server 5" << std::endl;
 
       // getOut() << "gl init 2 " << (void *)hInteropDevice << " " << glGetError() << std::endl;
       
@@ -191,12 +201,16 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       glGenVertexArrays(1, &vao);
       glBindVertexArray(vao);
       
+      // getOut() << "prepare submit server 6" << std::endl;
+      
       // getOut() << "gl init 3 " << glGetError() << std::endl;
 
       GLuint textures[2];
       glCreateTextures(GL_TEXTURE_2D, ARRAYSIZE(textures), textures);
       shTexOutId = textures[0];
       texDepthId = textures[1];
+      
+      // getOut() << "prepare submit server 7" << std::endl;
 
       // getOut() << "gl init 4 " << glGetError() << std::endl;
 
@@ -207,6 +221,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       width *= 2;
       glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
       glBindTexture(GL_TEXTURE_2D, 0);
+      
+      // getOut() << "prepare submit server 8" << std::endl;
       
       // getOut() << "gl init 5 " << glGetError() << std::endl;
       
@@ -235,6 +251,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       );
       shTexOutInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexOut, shTexOutId, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
       
+      // getOut() << "prepare submit server 9" << std::endl;
+      
       /* if (!shTexOutInteropHandle) {
         getOut() << "gl init error 1 " << (void *)shTexOutInteropHandle << " " << (void *)hr << " " << (void *)shTexOut << " " << (void *)shTexOutId << " " << glGetError() << std::endl;
         abort();
@@ -254,6 +272,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         getOut() << "compose vertex shader compilation failed:\n" << infoLog << std::endl;
         abort();
       };
+      
+      // getOut() << "prepare submit server 10" << std::endl;
 
       // getOut() << "gl init error 2 " << glGetError() << std::endl;
 
@@ -270,6 +290,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         getOut() << "compose fragment shader compilation failed:\n" << infoLog << std::endl;
         abort();
       };
+      
+      // getOut() << "prepare submit server 11" << std::endl;
       
       // getOut() << "gl init error 3 " << glGetError() << std::endl;
 
@@ -288,6 +310,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       }
       
+      // getOut() << "prepare submit server 12" << std::endl;
+      
       // getOut() << "gl init error 4 " << glGetError() << std::endl;
 
       GLuint positionLocation = glGetAttribLocation(composeProgram, "position");
@@ -295,22 +319,28 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         getOut() << "compose program failed to get attrib location for 'position'" << std::endl;
         abort();
       }
+      // getOut() << "prepare submit server 13" << std::endl;
       GLuint uvLocation = glGetAttribLocation(composeProgram, "uv");
       if (uvLocation == -1) {
         getOut() << "compose program failed to get attrib location for 'uv'" << std::endl;
         abort();
       }
+      // getOut() << "prepare submit server 14" << std::endl;
+      texLocations.resize(MAX_LAYERS);
+      hasTexLocations.resize(MAX_LAYERS);
       for (size_t i = 0; i < MAX_LAYERS; i++) {
-        std::string texString = std::string("tex") + std::to_string(i);
+        std::string texString = std::string("tex") + std::to_string(i+1);
         GLuint texLocation = glGetUniformLocation(composeProgram, texString.c_str());
+        // getOut() << "get location 1  " << texString << " " << texLocation << std::endl;
         if (texLocation != -1) {
           texLocations[i] = texLocation;
         } else {
           getOut() << "compose program failed to get uniform location for '" << texString << "'" << std::endl;
           abort();
         }
-        std::string hasTexString = std::string("hasTex") + std::to_string(i);
+        std::string hasTexString = std::string("hasTex") + std::to_string(i+1);
         GLuint hasTexLocation = glGetUniformLocation(composeProgram, hasTexString.c_str());
+        // getOut() << "get location 2 " << hasTexString << " " << hasTexLocation << std::endl;
         if (hasTexLocation != -1) {
           hasTexLocations[i] = hasTexLocation;
         } else {
@@ -318,6 +348,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
           abort();
         }
       }
+      // getOut() << "prepare submit server 15" << std::endl;
       /* GLuint depthTexLocation = glGetUniformLocation(composeProgram, "depthTex");
       if (depthTexLocation == -1) {
         getOut() << "compose program failed to get uniform location for 'depthTex'" << std::endl;
@@ -378,7 +409,11 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       
       glGenFramebuffers(1, &fbo);
       glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+      
+      // getOut() << "prepare submit server 16" << std::endl;
     }
+    
+    // getOut() << "prepare submit server 20" << std::endl;
 
     return 0;
   });
@@ -393,6 +428,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
+    
+    // getOut() << "submit server 1" << std::endl;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteCallbackId, eEye);
     auto iter = inBackIndices.find(key);
@@ -408,22 +445,30 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       inBackInteropHandles.resize(index+1, NULL);
       inBackHandleLatches.resize(index+1, NULL);
     }
+    
+    // getOut() << "submit server 2" << std::endl;
 
     GLuint &shTexInId = inBackTexs[index]; // gl texture
     HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
 
+    // getOut() << "submit server 3" << std::endl;
+
     if (handleLatched != sharedHandle) {
-      getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
+      // getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
       if (handleLatched) {
-        glDeleteTextures(1, &shTexInId);
+        // glDeleteTextures(1, &shTexInId);
         // XXX delete old resources
         // hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
       }
       handleLatched = sharedHandle;
 
+      // getOut() << "submit server 4" << std::endl;
+
       ID3D11Resource *pD3DResource;
       HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
+
+      // getOut() << "submit server 5" << std::endl;
 
       ID3D11Texture2D *shTexIn;
       if (SUCCEEDED(hr)) {
@@ -439,15 +484,20 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
         abort();
       }
-    // }
+    
+      // getOut() << "submit server 6" << std::endl;
 
       glCreateTextures(GL_TEXTURE_2D, 1, &shTexInId);
       shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
       shTexIn->Release();
       pD3DResource->Release();
-      
+
+      // getOut() << "submit server 7" << std::endl;
+
       // getOut() << "gl init error 9 " << glGetError() << std::endl;
     }
+    
+    // getOut() << "submit server 8" << std::endl;
 
     return VRCompositorError_None;
   });
@@ -455,6 +505,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_FlushSubmit,
     int
   >([=]() {
+    // getOut() << "flush submit server 1" << std::endl;
+
     std::vector<HANDLE> objects;
     objects.reserve(inBackIndices.size() + 1);
     for (auto iter : inBackIndices) {
@@ -463,12 +515,16 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       objects.push_back(h);
     }
     objects.push_back(shTexOutInteropHandle);
+    
+    // getOut() << "flush submit server 2" << std::endl;
 
     bool lockOk = wglDXLockObjectsNV(hInteropDevice, objects.size(), objects.data());
     // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
     if (lockOk) {
       for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
         EVREye eye = EYES[iEye];
+        
+        // getOut() << "flush submit server 3 " << (int)eye << std::endl;
 
         size_t numLayers = 0;
         for (auto iter : inBackIndices) {
@@ -486,11 +542,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
             }
           }
         }
+        // getOut() << "flush submit server 4 " << (int)eye << std::endl;
         for (size_t i = numLayers; i < MAX_LAYERS; i++) {
           glActiveTexture(GL_TEXTURE0 + i);
           glBindTexture(GL_TEXTURE_2D, 0);
           glUniform1f(hasTexLocations[i], 0.0f);
         }
+        
+        // getOut() << "flush submit server 5 " << (int)eye << std::endl;
 
         // glBindFramebuffer(GL_FRAMEBUFFER, fbo);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shTexOutId, 0);
@@ -513,6 +572,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         );
         // getOut() << "gl init error 16 " << glGetError() << std::endl;
 
+        // getOut() << "flush submit server 6 " << (int)eye << std::endl;
+
         // getOut() << "gl submit 1 " << glGetError() << std::endl;
         // pTexture->handle = (void *)shTexOut;
         Texture_t texture{
@@ -524,11 +585,17 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
           eye == Eye_Left ? 0.0f : 0.5f, 0.0f,
           eye == Eye_Left ? 0.5f : 1.0f, 1.0f
         };
+        // getOut() << "flush submit server 7 " << (int)eye << std::endl;
         // getOut() << "gl submit 2 " << glGetError() << std::endl;
         vrcompositor->Submit(eye, &texture, &bounds, EVRSubmitFlags::Submit_Default);
+        // getOut() << "flush submit server 8" << std::endl;
       }
+      // getOut() << "flush submit server 9" << std::endl;
       bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, objects.size(), objects.data());
+      // getOut() << "flush submit server 9 " << unlockOk << std::endl;
       if (unlockOk) {
+        // getOut() << "flush submit server 10" << std::endl;
+        vrcompositor->PostPresentHandoff();
         // nothing
       } else {
         getOut() << "texture unlocking failed" << std::endl;
@@ -538,6 +605,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       getOut() << "texture locking failed" << std::endl;
       abort();
     }
+    // getOut() << "flush submit server 11" << std::endl;
     return 0;
   });
   fnp.reg<
@@ -895,20 +963,29 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
 void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
   
+  // getOut() << "prepare submit client 1" << std::endl;
+  
   if (!device) {
     tex->GetDevice(&device);
   }
+  // getOut() << "prepare submit client 2" << std::endl;
   if (!context) {
     device->GetImmediateContext(&context);
   }
+  
+  // getOut() << "prepare submit client 3" << std::endl;
 
   fnp.call<
     kIVRCompositor_PrepareSubmit,
-    int
-  >();
+    int,
+    uintptr_t
+  >((uintptr_t)device.Get());
+  // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
+
+  // getOut() << "submit client 1" << std::endl;
 
   auto key = std::pair<size_t, EVREye>(fnp.callbackId, eEye);
   auto iter = inFrontIndices.find(key);
@@ -924,16 +1001,22 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     inShDxShareHandles.resize(index+1, NULL);
     inDxTexLatches.resize(index+1, NULL);
   }
+  
+  // getOut() << "submit client 2" << std::endl;
 
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
   ID3D11Texture2D *&textureLatched = inDxTexLatches[index]; // remembered attachemnt
+  
+  // getOut() << "submit client 3" << std::endl;
 
   if (textureLatched != tex) {
     if (textureLatched) {
       // XXX delete old resources
     }
     textureLatched = tex;
+    
+    // getOut() << "submit client 4" << std::endl;
 
     D3D11_TEXTURE2D_DESC desc;
     tex->GetDesc(&desc);
@@ -955,13 +1038,15 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
+    // getOut() << "submit client 5" << std::endl;
+
     HRESULT hr = device->CreateTexture2D(
       &desc,
       NULL,
       &shTex
     );
-    
-    // getOut() << "get submit 5" << std::endl;
+
+    // getOut() << "submit client 6" << std::endl;
 
     if (SUCCEEDED(hr)) {
       // getOut() << "get submit 6" << std::endl;
@@ -972,14 +1057,14 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
 
       if (SUCCEEDED(hr)) {
-        // getOut() << "get submit 7" << std::endl;
-        // getOut() << "succ 1 " << (void *)pDXGIResource << std::endl;
+        // getOut() << "submit client 7" << std::endl;
         hr = pDXGIResource->GetSharedHandle(&sharedHandle);
+        // getOut() << "submit client 8" << std::endl;
         // hr = pDXGIResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ, L"Local\\lol", &sharedHandle);
 
         // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
         if (SUCCEEDED(hr)) {
-          // getOut() << "get submit 8" << std::endl;
+          // getOut() << "submit client 9" << std::endl;
           // nothing
         } else {
           // getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
@@ -993,9 +1078,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
     }
+    
+    // getOut() << "submit client 10" << std::endl;
   }
 
-  // getOut() << "bounds " << pBounds->uMin << " " << pBounds->uMax << " " << pBounds->vMin << " " << pBounds->vMax << std::endl;
+  // getOut() << "submit client 11" << std::endl;
 
   /* uint32_t width = 1552;
   uint32_t height = 1552;
@@ -1009,8 +1096,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   context->CopySubresourceRegion(shTex, 0, pBounds->uMin, pBounds->vMax, 0, tex, 0, &srcBox); */
   context->CopyResource(shTex, tex);
 
-  // getOut() << "get submit 9 " << (void *)shTex << std::endl;
-  
+  // getOut() << "submit client 12" << std::endl;
+
   /* Texture_t t{
     (void *)sharedHandle,
     pTexture->eType,
@@ -1026,15 +1113,17 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   };
   managed_binary<VRTextureBounds_t> bounds(1);
   *bounds.data() = *pBounds;
+
+  // getOut() << "submit client 13" << std::endl;
+
   return fnp.call<
     kIVRCompositor_Submit,
     EVRCompositorError,
     EVREye,
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
-    EVRSubmitFlags,
-    uintptr_t
-  >(eEye, std::move(sharedTexture), std::move(bounds), nSubmitFlags, (uintptr_t)device.Get());
+    EVRSubmitFlags
+  >(eEye, std::move(sharedTexture), std::move(bounds), nSubmitFlags);
 }
 void PVRCompositor::FlushSubmit() {
   fnp.call<

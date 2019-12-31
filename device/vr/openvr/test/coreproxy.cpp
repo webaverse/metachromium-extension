@@ -42,6 +42,8 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
   >([=]() {
     size_t id = fnp.remoteCallbackId;
     
+    // getOut() << "pre wait 1" << std::endl;
+    
     {
       auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), id);
       if (iter == waitSemsOrder.end()) {
@@ -56,11 +58,15 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
         // getOut() << "wait sems order new size " << waitSemsOrder.size() << std::endl;
       }
     }
+    
+    // getOut() << "pre wait 2" << std::endl;
 
     size_t nextSemId = id | WAIT_MASK;
     auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), id);
     // getOut() << "iter distance " << id << " " << waitSemsOrder.size() << " " << (iter != waitSemsOrder.end()) << " " << std::distance(waitSemsOrder.begin(), iter) << std::endl;
     bool doRealWait = std::distance(waitSemsOrder.begin(), iter) == 0;
+
+    // getOut() << "pre wait 3" << std::endl;
 
     return std::tuple<size_t, bool>(
       nextSemId,

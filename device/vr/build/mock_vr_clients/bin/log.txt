@@ -1,13 +1,13 @@
 --------------------------------------------------------------------------------
 init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
 get interface IVRClientCore_002
-vr_init 21368
+vr_init 9316
 proxy init
 create thread
 init 3
 init 6 IVRClientCore_002
 create interface IVRClientCore_002
-init 7 IVRClientCore_002 00000154EA578F30
+init 7 IVRClientCore_002 000002980AB0FE30
 create interface IVRSystem_015
 core client cleanup
 get interface IVRClientCore_002
@@ -15,21 +15,19 @@ proxy init
 init 3
 init 6 IVRClientCore_002
 create interface IVRClientCore_002
-init 7 IVRClientCore_002 00000154FE9A0D90
+init 7 IVRClientCore_002 000002981C1DE6C0
 create interface IVRSystem_015
 create interface IVRChaperone_003
 create interface IVRChaperoneSetup_005
 create interface IVRCompositor_020
-get texture desc front 0 00000154FE9EC660 1552 1720 1 27 1 0 40 0 
 init gl 1
 init gl 2
 init gl 3
 init gl 4
 init gl 5
-init gl 6 00000154FEC6CBF0
-got shTex in 00000000C0002D42
-get texture desc front 1 00000154FE9ED420 1552 1720 1 27 1 0 40 0 
-got shTex in 0000000040006102
+init gl 6 000002981C04D530
+get texture desc front 0 000002981C1E09E0 1552 1720 1 27 1 0 40 0 
+get texture desc front 1 000002981C1DF120 1552 1720 1 27 1 0 40 0 
 create interface IVRCompositor_022
 create interface IVROverlay_019
 create interface FnTable:IVRInput_005
