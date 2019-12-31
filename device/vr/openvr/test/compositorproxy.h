@@ -24,15 +24,15 @@ public:
   HANDLE hInteropDevice = NULL;
   uint32_t width;
   uint32_t height;
-  bool rightEye = false;
+  // bool rightEye = false;
   std::vector<GLuint> texLocations;
   std::vector<GLuint> hasTexLocations;
 
   // input front
   std::map<std::pair<size_t, EVREye>, size_t> inTexIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
-  std::vector<ID3D11Texture2D *> inShDxTexs;
   std::vector<HANDLE> inShDxShareHandles;
+  std::vector<ID3D11Texture2D *> inDxTexLatcheds;
   /* ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
@@ -40,11 +40,14 @@ public:
   ID3D11Texture2D *texLeftLatched = nullptr;
   ID3D11Texture2D *texRightLatched = nullptr; */
 
-  // input  back
-  HANDLE shTexInLeftInteropHandle = NULL;
+  // input back
+  std::vector<GLuint> inBackTexs;
+  std::vector<HANDLE> inBackInteropHandles;
+  std::vector<HANDLE> inBackHandleLatches;
+  /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;
-  HANDLE handleRightLatched = nullptr;
+  HANDLE handleRightLatched = nullptr; */
 
   // output
   GLuint fbo = 0;

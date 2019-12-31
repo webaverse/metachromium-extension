@@ -385,13 +385,26 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   >([=](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
-    
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
 
-    // size_t id = fnp.remoteCallbackId;
-    HANDLE &handleLatched = eEye == Eye_Left ? handleLeftLatched : handleRightLatched;
-    GLuint &shTexInId = eEye == Eye_Left ? shTexInLeft : shTexInRight; // gl texture
-    HANDLE &shTexInInteropHandle = eEye == Eye_Left ? shTexInLeftInteropHandle : shTexInRightInteropHandle; // interop texture handle
+    auto key = std::pair<size_t, EVREye>(fnp.remoteCallbackId, eEye);
+    auto iter = inTexIndices.find(key);
+    size_t index;
+    if (iter != inTexIndices.end()) {
+      index = iter->second;
+    } else {
+      index = inBackTexs.size();
+      inTexIndices[key] = index;
+      iter = inTexIndices.find(key);
+
+      inBackTexs.resize(index+1, NULL);
+      inBackInteropHandles.resize(index+1, NULL);
+      inBackHandleLatches.resize(index+1, NULL);
+    }
+
+    GLuint &shTexInId = inBackTexs[index]; // gl texture
+    HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
+    HANDLE &handleLatched = eEye == inBackHandleLatches[index]; // remembered attachemnt
 
     if (handleLatched != sharedHandle) {
       getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
@@ -910,12 +923,14 @@ void PVRCompositor::QueueSubmit( EVREye eEye, const Texture_t *pTexture, const V
     iter = inTexIndices.find(key);
 
     inDxTexs.resize(index+1, NULL);
-    inShDxTexs.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
+    inDxTexLatches.resize(index+1, NULL);
   }
-  ID3D11Texture2D *&shTex = inDxTexs[index];
-  HANDLE &sharedHandle = inShDxTexs[index];
-  ID3D11Texture2D *&textureLatched = inShDxShareHandles[index];
+
+  ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
+  HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
+  ID3D11Texture2D *&textureLatched = inDxTexLatches[index]; // remembered attachemnt
+
   if (textureLatched != tex) {
     if (textureLatched) {
       // XXX delete old resources
