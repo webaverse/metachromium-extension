@@ -17,6 +17,7 @@ class Mutex {
 public:
   HANDLE h;
   Mutex(const char *name);
+  ~Mutex();
   void lock();
   void unlock();
 };
@@ -25,6 +26,7 @@ class Semaphore {
 public:
   HANDLE h;
   Semaphore(const char *name);
+  ~Semaphore();
   void lock();
   void unlock();
 };

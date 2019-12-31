@@ -121,10 +121,13 @@ ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const V
   // getOut() << "submit 1 " << (void *)GetCurrentThreadId() << std::endl;
   bool doRealSubmit;
   g_pvrclientcore->PreSubmit(&doRealSubmit);
-  auto result = doRealSubmit ?
-    g_pvrcompositor->Submit(eye, texture, bounds, submitFlags)
-  :
-    vr::VRCompositorError_None;
+  VRCompositorError result;
+  if (doRealSubmit) {
+    result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
+    g_pvrcompositor->PostPresentHandoff();
+  } else {
+    result = vr::VRCompositorError_None;
+  }
   g_pvrclientcore->PostSubmit();
 	return result;
   // getOut() << "submit 2 " << texture->eType << " " << texture->eColorSpace << std::endl;
@@ -134,7 +137,7 @@ void BaseCompositor::ClearLastSubmittedFrame() {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ClearLastSubmittedFrame" << std::endl; });
 	// At this point we should show the loading screen and show Guardian, and undo this when the
 	// next frame comes along. TODO implement since it would improve loading screens, but it's certainly not critical
-  return g_pvrcompositor->ClearLastSubmittedFrame();
+  g_pvrcompositor->ClearLastSubmittedFrame();
 }
 
 void BaseCompositor::PostPresentHandoff() {
@@ -149,8 +152,8 @@ void BaseCompositor::PostPresentHandoff() {
 	//
 	// TODO: use ovr_EndFrame and co instead of ovr_SubmitFrame for better performance, not just here but in all cases
 	//  that way we can call ovr_WaitToBeginFrame in WaitGetPoses to mimick SteamVR.
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::PostPresentHandoff" << std::endl; });
-  return g_pvrcompositor->PostPresentHandoff();
+  // TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::PostPresentHandoff" << std::endl; });
+  // g_pvrcompositor->PostPresentHandoff();
 }
 
 bool BaseCompositor::GetFrameTiming(vr::Compositor_FrameTiming * pTiming, uint32_t unFramesAgo) {

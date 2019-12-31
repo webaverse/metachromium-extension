@@ -15,16 +15,16 @@ class PVRClientCore {
 public:
   FnProxy &fnp;
 
-  Mutex mut;
-  std::map<size_t, Semaphore> waitSems;
-  std::vector<Semaphore *> waitSemsOrder;
-  std::map<size_t, Semaphore> submitSems;
-  std::vector<Semaphore *> submitSemsOrder;
+  // Mutex mut;
+  std::vector<size_t> waitSemsOrder;
+  std::vector<size_t> submitSemsOrder;
+  std::map<size_t, Semaphore> localSems;
   bool rightEye;
 
   PVRClientCore(FnProxy &fnp);
   EVRInitError Init(EVRApplicationType eApplicationType, const char *pStartupInfo);
 	void Cleanup();
+  Semaphore *getLocalSemaphore(size_t id);
     
   void PreWaitGetPoses(bool *doRealWait);
   void PostWaitGetPoses();

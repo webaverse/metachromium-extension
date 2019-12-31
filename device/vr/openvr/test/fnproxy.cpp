@@ -11,6 +11,9 @@ Mutex::Mutex(const char *name) {
     // abort();
   }
 }
+Mutex::~Mutex() {
+  // CloseHandle(h);
+}
 void Mutex::lock() {
   // getOut() << "mutex lock 1" << std::endl;
   auto r = WaitForSingleObject(
@@ -36,6 +39,9 @@ Semaphore::Semaphore(const char *name) {
     getOut() << "semaphore error " << GetLastError() << std::endl;
     // abort();
   }
+}
+Semaphore::~Semaphore() {
+  // CloseHandle(h);
 }
 void Semaphore::lock() {
   // getOut() << "sempaphore lock 1" << std::endl;
