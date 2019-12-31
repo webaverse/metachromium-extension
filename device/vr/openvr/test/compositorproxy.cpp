@@ -8,6 +8,8 @@ char kIVRCompositor_GetTrackingSpace[] = "IVRCompositor::GetTrackingSpace";
 char kIVRCompositor_WaitGetPoses[] = "IVRCompositor::WaitGetPoses";
 char kIVRCompositor_GetLastPoses[] = "IVRCompositor::GetLastPoses";
 char kIVRCompositor_GetLastPoseForTrackedDeviceIndex[] = "IVRCompositor::GetLastPoseForTrackedDeviceIndex";
+char kIVRCompositor_PrepareSubmit[] = "IVRCompositor::PrepareSubmit";
+char kIVRCompositor_QueueSubmit[] = "IVRCompositor::QueueSubmit";
 char kIVRCompositor_Submit[] = "IVRCompositor::Submit";
 char kIVRCompositor_ClearLastSubmittedFrame[] = "IVRCompositor::ClearLastSubmittedFrame";
 char kIVRCompositor_PostPresentHandoff[] = "IVRCompositor::PostPresentHandoff";
@@ -66,17 +68,29 @@ const char *composeFsh = ""
 \n\
 in vec2 vUv;\n\
 out vec4 fragColor;\n\
-uniform sampler2D tex;\n\
+uniform sampler2D tex1;\n\
+uniform sampler2D tex2;\n\
+uniform float haxTex1;\n\
+uniform float haxTex2;\n\
 // uniform  sampler2D depthTex;\n\
 \n\
 void main() {\n\
-  fragColor = texture(tex, vUv);\n\
+  fragColor = vec4(0.0);\n\
+  if (hasTex1 > 0.0) {\n\
+    float c = texture(tex1, vUv);\n\
+    fragColor += vec4(c.rgba*c.a, c.a);\n\
+  }\n\
+  if (hasTex2 > 0.0) {\n\
+    float c = texture(tex2, vUv);\n\
+    fragColor += vec4(c.rgba*c.a, c.a);\n\
+  }\n\
   // if (fragColor.a < 0.5) discard;\n\
   // fragColor = vec4(vec3(0.0), 1.0);\n\
   // fragColor.r += 0.1;\n\
   // gl_FragDepth = texture(depthTex, vUv).r;\n\
 }\n\
 ";
+constexpr size_t MAX_LAYERS = 2;
 
 PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp) : vrcompositor(vrcompositor), fnp(fnp) {
   fnp.reg<
@@ -154,37 +168,20 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     );
   });
   fnp.reg<
-    kIVRCompositor_Submit,
-    EVRCompositorError,
-    EVREye,
-    managed_binary<Texture_t>,
-    managed_binary<VRTextureBounds_t>,
-    EVRSubmitFlags,
+    kIVRCompositor_PrepareSubmit,
+    int,
     uintptr_t
-  >([=](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags, uintptr_t pDevice) {
-    Texture_t *pTexture = sharedTexture.data();
-    VRTextureBounds_t *pBounds = bounds.data();
-
+  >([=](uintptr_t pDevice) {
     if (!device) {
       device = (ID3D11Device *)pDevice;
-    }
-    
-    HANDLE sharedHandle = (HANDLE)pTexture->handle;
 
-    // size_t id = fnp.remoteCallbackId;
-    HANDLE &handleLatched = eEye == Eye_Left ? handleLeftLatched : handleRightLatched;
-    GLuint &shTexInId = eEye == Eye_Left ? shTexInLeft : shTexInRight; // gl texture
-    HANDLE &shTexInInteropHandle = eEye == Eye_Left ? shTexInLeftInteropHandle : shTexInRightInteropHandle; // interop texture handle
-
-    HRESULT hr;
-    if (!subWindow) {
       subWindow = initGl();
       
       // getOut() << "gl init 1 " << (void *)subWindow << " " << (void *)device.Get() << " " << glGetError() << std::endl;
 
-      hDevice = wglDXOpenDeviceNV(device.Get());
+      hInteropDevice = wglDXOpenDeviceNV(device.Get());
 
-      // getOut() << "gl init 2 " << (void *)hDevice << " " << glGetError() << std::endl;
+      // getOut() << "gl init 2 " << (void *)hInteropDevice << " " << glGetError() << std::endl;
       
       GLuint vao;
       glGenVertexArrays(1, &vao);
@@ -227,12 +224,12 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         pBounds->uMin << " " << pBounds->vMin << " " <<
         pBounds->uMax << " " << pBounds->vMax << " " <<
         std::endl; */
-      hr = device->CreateTexture2D(
+      HRESULT hr = device->CreateTexture2D(
         &desc,
         NULL,
         &shTexOut
       );
-      shTexOutInteropHandle = wglDXRegisterObjectNV(hDevice, shTexOut, shTexOutId, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
+      shTexOutInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexOut, shTexOutId, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
       
       /* if (!shTexOutInteropHandle) {
         getOut() << "gl init error 1 " << (void *)shTexOutInteropHandle << " " << (void *)hr << " " << (void *)shTexOut << " " << (void *)shTexOutId << " " << glGetError() << std::endl;
@@ -299,10 +296,23 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         getOut() << "compose program failed to get attrib location for 'uv'" << std::endl;
         abort();
       }
-      GLuint texLocation = glGetUniformLocation(composeProgram, "tex");
-      if (texLocation == -1) {
-        getOut() << "compose program failed to get uniform location for 'tex'" << std::endl;
-        abort();
+      for (size_t i = 0; i < NUM_LAYERS; i++) {
+        std::string texString = std::string("tex") + std::to_string(i);
+        GLuint texLocation = glGetUniformLocation(composeProgram, texString.to_cstr());
+        if (texLocation != -1) {
+          texLocations[i] = texLocation;
+        } else {
+          getOut() << "compose program failed to get uniform location for '" << texString << "'" << std::endl;
+          abort();
+        }
+        std::string hasTexString = std::string("hasTex") + std::to_string(i);
+        GLuint hasTexLocation = glGetUniformLocation(composeProgram, hasTexString.to_cstr());
+        if (hasTexLocation != -1) {
+          hasTexLocations[i] = hasTexLocation;
+        } else {
+          getOut() << "compose program failed to get uniform location for '" << hasTexString << "'" << std::endl;
+          abort();
+        }
       }
       /* GLuint depthTexLocation = glGetUniformLocation(composeProgram, "depthTex");
       if (depthTexLocation == -1) {
@@ -355,11 +365,31 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
       
       glActiveTexture(GL_TEXTURE0);
-      glUniform1i(texLocation, 0);
+      glUniform1i(tex1Location, 0);
+      glActiveTexture(GL_TEXTURE0);
+      glUniform1i(tex2Location, 1);
       
       glGenFramebuffers(1, &fbo);
       glBindFramebuffer(GL_FRAMEBUFFER, fbo);
     }
+  });
+  fnp.reg<
+    kIVRCompositor_QueueSubmit,
+    EVRCompositorError,
+    EVREye,
+    managed_binary<Texture_t>,
+    managed_binary<VRTextureBounds_t>,
+    EVRSubmitFlags
+  >([=](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
+    Texture_t *pTexture = sharedTexture.data();
+    VRTextureBounds_t *pBounds = bounds.data();
+    
+    HANDLE sharedHandle = (HANDLE)pTexture->handle;
+
+    // size_t id = fnp.remoteCallbackId;
+    HANDLE &handleLatched = eEye == Eye_Left ? handleLeftLatched : handleRightLatched;
+    GLuint &shTexInId = eEye == Eye_Left ? shTexInLeft : shTexInRight; // gl texture
+    HANDLE &shTexInInteropHandle = eEye == Eye_Left ? shTexInLeftInteropHandle : shTexInRightInteropHandle; // interop texture handle
 
     if (handleLatched != sharedHandle) {
       getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
@@ -389,7 +419,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     // }
 
       glCreateTextures(GL_TEXTURE_2D, 1, &shTexInId);
-      shTexInInteropHandle = wglDXRegisterObjectNV(hDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+      shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
       shTexIn->Release();
       pD3DResource->Release();
       
@@ -400,14 +430,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       shTexInInteropHandle,
       shTexOutInteropHandle
     };
-    // getOut() << "gl init error 10 " << (void *)hDevice << " " << (void *)shTexInInteropHandle << " " << (void *)shTexOutInteropHandle << " " << glGetError() << std::endl;
-    bool lockOk = wglDXLockObjectsNV(hDevice, ARRAYSIZE(objects), objects);
+    // getOut() << "gl init error 10 " << (void *)hInteropDevice << " " << (void *)shTexInInteropHandle << " " << (void *)shTexOutInteropHandle << " " << glGetError() << std::endl;
+    bool lockOk = wglDXLockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);
     // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
     if (lockOk) {
       glBindFramebuffer(GL_FRAMEBUFFER, fbo);
       glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shTexOutId, 0);
       glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texDepthId, 0);
-      auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+      // auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
       
       // getOut() << "gl init error 12 " << status << " " << glGetError() << std::endl;
 
@@ -420,7 +450,18 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "gl init error 13 " << glGetError() << std::endl;
       // glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
       // getOut() << "gl init error 14 " << glGetError() << std::endl;
-      glBindTexture(GL_TEXTURE_2D, shTexInId);
+      size_t numTexIns = shTexIns.size();
+      for (size_t i = 0; i < MAX_LAYERS; i++) {
+        glActiveTexture(GL_TEXTURE0 + i);
+        glUniform1i(texLocations[i], i);
+        if (i < numTexIns)
+          glBindTexture(GL_TEXTURE_2D, shTexIns[i]);
+          glUniform1f(hasTexLocations[i], 1.0f);
+        } else {
+          glBindTexture(GL_TEXTURE_2D, 0);
+          glUniform1f(hasTexLocations[i], 0.0f);
+        }
+      }
       // getOut() << "gl init error 15 " << glGetError() << std::endl;
       glDrawElements(
         GL_TRIANGLES,
@@ -435,7 +476,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         getOut() << "gl render error " << error << std::endl;
       } */
 
-      bool unlockOk = wglDXUnlockObjectsNV(hDevice, ARRAYSIZE(objects), objects);
+      bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);
       if (unlockOk) {
         // nothing
       } else {
@@ -454,8 +495,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // pTexture->handle = (void *)shTexOut;
       Texture_t leftTexture{
         (void *)shTexOut,
-        pTexture->eType,
-        pTexture->eColorSpace
+        TextureType_DirectX,
+        ColorSpace_Auto
       };
       VRTextureBounds_t leftBounds{
         0, 0,
@@ -466,8 +507,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "gl submit 3 " << glGetError() << std::endl;
       Texture_t rightTexture{
         (void *)shTexOut,
-        pTexture->eType,
-        pTexture->eColorSpace
+        TextureType_DirectX,
+        ColorSpace_Auto
       };
       VRTextureBounds_t rightBounds{
         0.5, 0,
@@ -475,6 +516,9 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       };
       // getOut() << "gl submit 4 " << glGetError() << std::endl;
       vrcompositor->Submit(Eye_Right, &rightTexture, &rightBounds, EVRSubmitFlags::Submit_Default);
+
+      shTexIns.clear();
+
       // getOut() << "gl submit 5 " << glGetError() << std::endl;
       return VRCompositorError_None;
     } else {
@@ -833,18 +877,21 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
   *pOutputGamePose = *std::get<2>(result).data();
   return std::get<0>(result);
 }
-EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-
-  // getOut() << "get submit 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
+void PVRCompositor::PrepareSubmit() {
   if (!device) {
     tex->GetDevice(&device);
   }
-  // getOut() << "get submit 2 " << device << std::endl;
   if (!context) {
     device->GetImmediateContext(&context);
   }
-  // getOut() << "get submit 3 " << context << std::endl;
+
+  fnp.call<
+    kIVRCompositor_PrepareSubmit,
+    int
+  >();
+}
+void PVRCompositor::QueueSubmit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
+  ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
   ID3D11Texture2D *&shTex = eEye == Eye_Left ? shTexLeft : shTexRight;
   HANDLE &sharedHandle = eEye == Eye_Left ? shTexLeftHandle : shTexRightHandle;
@@ -866,8 +913,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       desc.Usage << " " <<
       desc.BindFlags << " " <<
       desc.MiscFlags << " " <<
-      /* pBounds->uMin << " " << pBounds->vMin << " " <<
-      pBounds->uMax << " " << pBounds->vMax << " " << */
+      // pBounds->uMin << " " << pBounds->vMin << " " <<
+      // pBounds->uMax << " " << pBounds->vMax << " " <<
       std::endl;
 
     // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
@@ -913,27 +960,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
     }
-    
-    /* if (!shTex2) {
-      ID3D11Resource *pD3DResource;
-      HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
-      
-      if (SUCCEEDED(hr)) {
-        hr = pD3DResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTex2));
-        
-        if (SUCCEEDED(hr)) {
-          // nothing
-        } else {
-          getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
-          abort();
-        }
-
-        pD3DResource->Release();
-      } else {
-        getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
-        abort();
-      }
-    } */
   }
 
   // getOut() << "bounds " << pBounds->uMin << " " << pBounds->uMax << " " << pBounds->vMin << " " << pBounds->vMax << std::endl;
@@ -967,8 +993,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   };
   managed_binary<VRTextureBounds_t> bounds(1);
   *bounds.data() = *pBounds;
-  return fnp.call<
-    kIVRCompositor_Submit,
+  fnp.call<
+    kIVRCompositor_QueueSubmit,
     EVRCompositorError,
     EVREye,
     managed_binary<Texture_t>,
@@ -976,6 +1002,12 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EVRSubmitFlags,
     uintptr_t
   >(eEye, std::move(sharedTexture), std::move(bounds), nSubmitFlags, (uintptr_t)device.Get());
+}
+EVRCompositorError PVRCompositor::Submit() {
+  fnp.call<
+    kIVRCompositor_Submit,
+    int
+  >();
 }
 void PVRCompositor::ClearLastSubmittedFrame() {
   fnp.call<

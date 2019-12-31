@@ -121,15 +121,17 @@ ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const V
   // getOut() << "submit 1 " << (void *)GetCurrentThreadId() << std::endl;
   bool doRealSubmit;
   g_pvrclientcore->PreSubmit(&doRealSubmit);
+  g_pvrclientcore->PrepareSubmit();
+  g_pvrcompositor->QueueSubmit(eye, texture, bounds, submitFlags);
   VRCompositorError result;
   if (doRealSubmit) {
-    result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
+    result = g_pvrcompositor->Submit();
     g_pvrcompositor->PostPresentHandoff();
   } else {
     result = vr::VRCompositorError_None;
   }
   g_pvrclientcore->PostSubmit();
-	return result;
+	return vr::;
   // getOut() << "submit 2 " << texture->eType << " " << texture->eColorSpace << std::endl;
 }
 

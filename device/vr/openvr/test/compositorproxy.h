@@ -16,37 +16,39 @@ public:
   IVRSystem *vrsystem;
   IVRCompositor *vrcompositor;
   FnProxy &fnp;
-  
+
+  // main
   Microsoft::WRL::ComPtr<ID3D11Device> device;
   Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+  GLFWwindow *subWindow = nullptr;
+  HANDLE hInteropDevice = NULL;
+  uint32_t width;
+  uint32_t height;
+  bool rightEye = false;
+  std::vector<GLuint> texLocations;
+  std::vector<GLuint> hasTexLocations;
+  std::vector<GLuint> shTexIns;
 
+  // input front
   ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
   HANDLE shTexRightHandle = 0;
+  ID3D11Texture2D *texLeftLatched = nullptr;
+  ID3D11Texture2D *texRightLatched = nullptr;
 
-  ID3D11Texture2D *shTexOut = nullptr;
+  // input  back
   HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
-  // HANDLE shTexOutLeftInteropHandle = NULL;
-  // HANDLE shTexOutRightInteropHandle = NULL;
-  HANDLE shTexOutInteropHandle = NULL;
+  HANDLE handleLeftLatched = nullptr;
+  HANDLE handleRightLatched = nullptr;
+
+  // output
   GLuint fbo = 0;
   GLuint shTexOutId;
   GLuint texDepthId;
-  GLuint shTexInLeft = 0;
-  GLuint shTexInRight = 0;
-
-  HANDLE handleLeftLatched = nullptr;
-  HANDLE handleRightLatched = nullptr;
-  ID3D11Texture2D *texLeftLatched = nullptr;
-  ID3D11Texture2D *texRightLatched = nullptr;
-  
-  GLFWwindow *subWindow = nullptr;
-  HANDLE hDevice = NULL;
-  uint32_t width;
-  uint32_t height;
-  bool rightEye = false;
+  ID3D11Texture2D *shTexOut = nullptr;
+  HANDLE shTexOutInteropHandle = NULL;
 
   PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
@@ -56,7 +58,9 @@ public:
 	virtual EVRCompositorError GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
 		  VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount );
 	virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose );
-	virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
+	virtual void PrepareSubmit();
+  virtual void QueueSubmit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
+  virtual EVRCompositorError Submit();
 	virtual void ClearLastSubmittedFrame();
 	virtual void PostPresentHandoff();
 	virtual bool GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo = 0 );
