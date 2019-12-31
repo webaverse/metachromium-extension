@@ -28,7 +28,7 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
     EVRInitError,
     EVRApplicationType
   >([=](EVRApplicationType eApplicationType) {
-    // getOut() << "handle client init" << std::endl;
+    // getOut() << "handle client core init" << std::endl;
     // XXX
     return VRInitError_None;
   });
@@ -43,8 +43,10 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
   // getOut() << "init client core 3" << std::endl;
 }
 EVRInitError PVRClientCore::Init(EVRApplicationType eApplicationType, const char *pStartupInfo) {
-  // getOut() << "submit client core init" << std::endl;
-  return fnp.call<kIVRClientCore_Init, EVRInitError, EVRApplicationType>(eApplicationType);
+  // getOut() << "client core init 1 " << fnp.fns.size() << std::endl;
+  auto result = fnp.call<kIVRClientCore_Init, EVRInitError, EVRApplicationType>(eApplicationType);
+  // getOut() << "client core init 2" << std::endl;
+  return result;
 }
 void PVRClientCore::Cleanup() {
   fnp.call<kIVRClientCore_Cleanup, int>();

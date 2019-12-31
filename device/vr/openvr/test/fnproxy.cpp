@@ -105,10 +105,10 @@ FnProxy::FnProxy() :
   // outSem((std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(id)).c_str()),
   dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", FnProxy::BUF_SIZE + sizeof(unsigned char *)*2)),
   dataResult((unsigned char *)allocateShared("Local\\OpenVrProxyResult", FnProxy::BUF_SIZE + sizeof(unsigned char *)*2)),
-  readArg(callbackId, dataArg + sizeof(unsigned char *)*2, *((unsigned char **)dataArg), *((unsigned char **)(dataArg + sizeof(unsigned char *))), FnProxy::BUF_SIZE),
-  writeArg(callbackId, dataArg + sizeof(unsigned char *)*2, *((unsigned char **)dataArg), *((unsigned char **)(dataArg + sizeof(unsigned char *))), FnProxy::BUF_SIZE),
-  readResult(callbackId, dataResult + sizeof(unsigned char *)*2, *((unsigned char **)dataResult), *((unsigned char **)(dataResult + sizeof(unsigned char *))), FnProxy::BUF_SIZE),
-  writeResult(callbackId, dataResult + sizeof(unsigned char *)*2, *((unsigned char **)dataResult), *((unsigned char **)(dataResult + sizeof(unsigned char *))), FnProxy::BUF_SIZE)
+  readArg(callbackId, dataArg + sizeof(uintptr_t)*2, *((uintptr_t *)dataArg), *((uintptr_t *)(dataArg + sizeof(uintptr_t))), FnProxy::BUF_SIZE),
+  writeArg(callbackId, dataArg + sizeof(uintptr_t)*2, *((uintptr_t *)dataArg), *((uintptr_t *)(dataArg + sizeof(uintptr_t))), FnProxy::BUF_SIZE),
+  readResult(callbackId, dataResult + sizeof(uintptr_t)*2, *((uintptr_t *)dataResult), *((uintptr_t *)(dataResult + sizeof(uintptr_t))), FnProxy::BUF_SIZE),
+  writeResult(callbackId, dataResult + sizeof(uintptr_t)*2, *((uintptr_t *)dataResult), *((uintptr_t *)(dataResult + sizeof(uintptr_t))), FnProxy::BUF_SIZE)
   {
     // getOut() << "fn proxy init" << std::endl;
     // getOut() << "fn proxy init " << callbackId << " " << (std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(callbackId)) << std::endl;
@@ -138,12 +138,12 @@ void FnProxy::handle() {
     // getOut() << "read arg 2 " << name << std::endl;
   // }
   
-  /* if (name.size() == 0) {
+  if (name.size() == 0) {
     getOut() << "fn proxy handle 2 " << remoteCallbackId << " " << name.size() << " " << name << " " << fns.size() << " " << (fns.find(name) != fns.end()) << std::endl;
+    for (auto iter : fns) {
+      getOut() << iter.first << std::endl;
+    }
   }
-  for (auto iter : fns) {
-    getOut() << iter.first << std::endl;
-  } */
   
   // getOut() << "read arg 3 " << name << std::endl;
   std::function<void()> &f = fns.find(name)->second;

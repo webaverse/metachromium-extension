@@ -24,11 +24,13 @@ using namespace vr;
 }; */
 
 EVRInitError BaseClientCore::Init(vr::EVRApplicationType eApplicationType, const char * pStartupInfo) {
-  getOut() << "core client init" << std::endl;
+  // getOut() << "core client init 1" << std::endl;
 	// EVRInitError err;
 	// VR_InitInternal2(&err, eApplicationType, pStartupInfo);
   // return VRInitError_None;
-  return vr::g_pvrclientcore->Init(eApplicationType, pStartupInfo);
+  auto result = vr::g_pvrclientcore->Init(eApplicationType, pStartupInfo);
+  // getOut() << "core client init 2" << std::endl;
+  return result;
 }
 
 void BaseClientCore::Cleanup() {
