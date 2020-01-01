@@ -30,6 +30,7 @@ SET(src
   openvr/test/glcontext.cpp
   openvr/test/serializer.cpp
   openvr/test/coreproxy.cpp
+  openvr/test/systemproxy.cpp
   openvr/test/compositorproxy.cpp
   openvr/test/fnproxy.cpp
   # openvr/test/test_helper.cc

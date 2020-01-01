@@ -9,8 +9,8 @@ using namespace vr;
 class BaseSystem {
 	// Copied from IVRSystem, because MSVC made me.
 
-private:
-	/* struct event_info_t {
+/* private:
+	 struct event_info_t {
 		TrackedDevicePose_t pose = { 0 };
 		VREvent_t ev = { 0 };
 
@@ -372,7 +372,7 @@ public:
 	* presence information is provided by other APIs. */
 	virtual const char *GetRuntimeVersion();
 
-public:
+// public:
 	// Legacy methods
 
 	virtual DistortionCoordinates_t ComputeDistortion(EVREye eEye, float fU, float fV);

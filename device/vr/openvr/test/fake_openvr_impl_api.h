@@ -29,6 +29,7 @@ namespace vr {
   extern IVRInput *g_vrinput;
 
   extern PVRClientCore *g_pvrclientcore;
+  extern PVRSystem *g_pvrsystem;
   extern PVRCompositor *g_pvrcompositor;
 }
 
