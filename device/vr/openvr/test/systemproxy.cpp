@@ -414,6 +414,66 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem)(vrs
     auto result = vrsystem->GetControllerStateWithPose(unControllerDeviceIndex, &state, unControllerStateSize, &pose);
     return std::tuple<bool, vr::VRControllerState_t, TrackedDevicePose_t>(result, state, pose);
   });
+  fnp.reg<
+    kIVRSystem_TriggerHapticPulse,
+    int,
+    vr::TrackedDeviceIndex_t,
+    uint32_t,
+    unsigned short
+  >([=](vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec) {
+    vrsystem->TriggerHapticPulse(unControllerDeviceIndex, unAxisId, usDurationMicroSec);
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_GetButtonIdNameFromEnum,
+    int
+  >([=]() {
+    getOut() << "GetButtonIdNameFromEnum abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_GetControllerAxisTypeNameFromEnum,
+    int
+  >([=]() {
+    getOut() << "GetControllerAxisTypeNameFromEnum abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_CaptureInputFocus,
+    bool
+  >([=]() {
+    return vrsystem->CaptureInputFocus();
+  });
+  fnp.reg<
+    kIVRSystem_ReleaseInputFocus,
+    int
+  >([=]() {
+    vrsystem->ReleaseInputFocus();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_IsInputFocusCapturedByAnotherProcess,
+    bool
+  >([=]() {
+    return vrsystem->IsInputFocusCapturedByAnotherProcess();
+  });
+  fnp.reg<
+    kIVRSystem_DriverDebugRequest,
+    int
+  >([=]() {
+    getOut() << "DriverDebugRequest abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_PerformFirmwareUpdate,
+    vr::EVRFirmwareError,
+    vr::TrackedDeviceIndex_t
+  >([=](vr::TrackedDeviceIndex_t unDeviceIndex) {
+    return vrsystem->PerformFirmwareUpdate(unDeviceIndex);
+  });
 }
 void PVRSystem::GetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight) {
   auto result = fnp.call<kIVRSystem_GetRecommendedRenderTargetSize, std::tuple<uint32_t, uint32_t>>();
@@ -743,28 +803,53 @@ bool PVRSystem::GetControllerStateWithPose(ETrackingUniverseOrigin eOrigin, vr::
   return std::get<0>(result);
 }
 void PVRSystem::TriggerHapticPulse(vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec) {
-  // XXX
+  fnp.call<
+    kIVRSystem_TriggerHapticPulse,
+    int,
+    vr::TrackedDeviceIndex_t,
+    uint32_t,
+    unsigned short
+  >(unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 const char *PVRSystem::GetButtonIdNameFromEnum(EVRButtonId eButtonId) {
-  // XXX
+  getOut() << "GetButtonIdNameFromEnum abort" << std::endl;
+  abort();
+  return 0;
 }
 const char *PVRSystem::GetControllerAxisTypeNameFromEnum(EVRControllerAxisType eAxisType) {
-  // XXX
+  getOut() << "GetControllerAxisTypeNameFromEnum abort" << std::endl;
+  abort();
+  return 0;
 }
 bool PVRSystem::CaptureInputFocus() {
-  // XXX
+  return fnp.call<
+    kIVRSystem_CaptureInputFocus,
+    bool
+  >();
 }
 void PVRSystem::ReleaseInputFocus() {
-  // XXX
+  fnp.call<
+    kIVRSystem_ReleaseInputFocus,
+    int
+  >();
 }
 bool PVRSystem::IsInputFocusCapturedByAnotherProcess() {
-  // XXX
+  return fnp.call<
+    kIVRSystem_IsInputFocusCapturedByAnotherProcess,
+    bool
+  >();
 }
 uint32_t PVRSystem::DriverDebugRequest(vr::TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize) {
-  // XXX
+  getOut() << "DriverDebugRequest abort" << std::endl;
+  abort();
+  return 0;
 }
 vr::EVRFirmwareError PVRSystem::PerformFirmwareUpdate(vr::TrackedDeviceIndex_t unDeviceIndex) {
-  // XXX
+  return fnp.call<
+    kIVRSystem_PerformFirmwareUpdate,
+    vr::EVRFirmwareError,
+    vr::TrackedDeviceIndex_t
+  >(unDeviceIndex);
 }
 void PVRSystem::AcknowledgeQuit_Exiting() {
   // XXX
