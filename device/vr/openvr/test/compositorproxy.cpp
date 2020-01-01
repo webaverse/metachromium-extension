@@ -441,7 +441,6 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   >([=](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
-    HANDLE sharedHandle = (HANDLE)pTexture->handle;
     
     // getOut() << "submit server 1" << std::endl;
 
@@ -462,6 +461,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     
     // getOut() << "submit server 2" << std::endl;
 
+    HANDLE sharedHandle = (HANDLE)pTexture->handle;
     GLuint &shTexInId = inBackTexs[index]; // gl texture
     HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
@@ -972,15 +972,68 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
 }
 void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-  
+
   // getOut() << "prepare submit client 1" << std::endl;
-  
-  if (!device) {
-    tex->GetDevice(&device);
-  }
-  // getOut() << "prepare submit client 2" << std::endl;
-  if (!context) {
-    device->GetImmediateContext(&context);
+
+  if (pTexture->eType == ETextureType::TextureType_DirectX) {
+    if (!device) {
+      tex->GetDevice(&device);
+    }
+    // getOut() << "prepare submit client 2" << std::endl;
+    if (!context) {
+      device->GetImmediateContext(&context);
+    }
+  } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
+    int32_t adapterIndex;
+    g_vrsystem->GetDXGIOutputInfo(&adapterIndex);
+    if (adapterIndex == -1) {
+      adapterIndex = 0;
+    }
+
+    Microsoft::WRL::ComPtr<IDXGIFactory1> dxgi_factory;
+    Microsoft::WRL::ComPtr<IDXGIAdapter> adapter;
+    HRESULT hr = CreateDXGIFactory1(&dxgi_factory);
+    dxgi_factory->EnumAdapters(adapterIndex, &adapter);
+
+    // Microsoft::WRL::ComPtr<ID3D11Device> device;
+    // Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+    D3D11CreateDevice(
+      adapter.Get(), // pAdapter
+      D3D_DRIVER_TYPE_HARDWARE, // DriverType
+      NULL, // Software
+      0, // Flags
+      NULL, // pFeatureLevels
+      0, // FeatureLevels
+      D3D11_SDK_VERSION, // SDKVersion
+      &device, // ppDevice
+      D3D_FEATURE_LEVEL       *pFeatureLevel,
+      &context // ppImmediateContext
+    );
+
+    /* scd.BufferCount = 1;                                    // one back buffer
+    scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
+    scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
+    scd.OutputWindow = hWnd;                                // the window to be used
+    scd.SampleDesc.Count = 4;                               // how many multisamples
+    scd.Windowed = TRUE;                                    // windowed/full-screen mode
+
+    HRESULT D3D11CreateDeviceAndSwapChain(
+      &adapter, // pAdapter
+      D3D_DRIVER_TYPE_HARDWARE, // DriverType
+      NULL, // Software
+      0, // Flags
+      NULL, // pFeatureLevels
+      0, // FeatureLevels
+      D3D11_SDK_VERSION, // SDKVersion
+      0, // pSwapChainDesc
+      IDXGISwapChain             **ppSwapChain,
+      ID3D11Device               **ppDevice,
+      D3D_FEATURE_LEVEL          *pFeatureLevel,
+      ID3D11DeviceContext        **ppImmediateContext
+    ); */
+  } else {
+    getOut() << "unknown texture type: " << (void *)pTexture->eType << std::endl;
+    abort();
   }
   
   // getOut() << "prepare submit client 3" << std::endl;
@@ -993,7 +1046,6 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
   // getOut() << "submit client 1" << std::endl;
 
@@ -1009,29 +1061,60 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
     inDxTexs.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
-    inDxTexLatches.resize(index+1, NULL);
+    inTexLatches.resize(index+1, NULL);
+    interopTexs.resize(index+1, NULL);
+    inReadInteropHandles.resize(index+1, NULL);
   }
   
   // getOut() << "submit client 2" << std::endl;
 
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
-  ID3D11Texture2D *&textureLatched = inDxTexLatches[index]; // remembered attachemnt
-  
-  // getOut() << "submit client 3" << std::endl;
-
-  if (textureLatched != tex) {
+  uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
+  if (textureLatched != (uintptr_t)pTexture->handle) {
     if (textureLatched) {
       // XXX delete old resources
     }
-    textureLatched = tex;
-    
-    // getOut() << "submit client 4" << std::endl;
+    textureLatched = (uintptr_t)pTexture->handle;
 
-    D3D11_TEXTURE2D_DESC desc;
-    tex->GetDesc(&desc);
-    
-    getOut() << "get texture desc front " << (int)eEye << " " <<
+    // compute rexture params
+    D3D11_TEXTURE2D_DESC desc{};
+    if (pTexture->eType == ETextureType::TextureType_DirectX) {
+      ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
+      
+      // getOut() << "submit client 3" << std::endl;
+
+      // getOut() << "submit client 4" << std::endl;
+
+      tex->GetDesc(&desc);
+    } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
+      GLuint tex = (GLuint)pTexture->handle;
+
+      glBindTexture(GL_TEXTURE_2D, tex);
+      GLint width, height;
+      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WIDTH, &width);
+      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_HEIGHT, &height);
+      glBindTexture(GL_TEXTURE_2D, 0);
+
+      desc.Width = width;
+      desc.Height = height;
+      desc.ArraySize = 1;
+      desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      // desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
+      desc.SampleDesc.Count = 1;
+      desc.Usage = D3D11_USAGE_DEFAULT;
+      // desc.BindFlags = D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET;
+      // desc.BindFlags = 40; // D3D11_BIND_DEPTH_STENCIL
+      desc.BindFlags = 0; // D3D11_BIND_DEPTH_STENCIL
+      desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+
+      // XXX need to add the interop handle
+    } else {
+      getOut() << "unknown texture type: " << (void *)pTexture->eType << std::endl;
+      abort();
+    }
+
+    /* getOut() << "get texture desc front " << (int)eEye << " " <<
       (void *)tex << " " << desc.Width << " " << desc.Height << " " <<
       desc.ArraySize << " " <<
       desc.Format << " " <<
@@ -1041,7 +1124,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       desc.MiscFlags << " " <<
       // pBounds->uMin << " " << pBounds->vMin << " " <<
       // pBounds->uMax << " " << pBounds->vMax << " " <<
-      std::endl;
+      std::endl; */
 
     // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
     
@@ -1056,42 +1139,52 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       &shTex
     );
 
-    // getOut() << "submit client 6" << std::endl;
-
     if (SUCCEEDED(hr)) {
       // getOut() << "get submit 6" << std::endl;
-      
-      IDXGIResource *pDXGIResource;
-      hr = shTex->QueryInterface(__uuidof(IDXGIResource), (void **)&pDXGIResource);
-      // IDXGIResource1 *pDXGIResource;
-      // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
-
-      if (SUCCEEDED(hr)) {
-        // getOut() << "submit client 7" << std::endl;
-        hr = pDXGIResource->GetSharedHandle(&sharedHandle);
-        // getOut() << "submit client 8" << std::endl;
-        // hr = pDXGIResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ, L"Local\\lol", &sharedHandle);
-
-        // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
-        if (SUCCEEDED(hr)) {
-          // getOut() << "submit client 9" << std::endl;
-          pDXGIResource->Release();
-          // nothing
-        } else {
-          // getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
-          abort();
-        }
-      } else {
-        // getOut() << "failed to get shared texture: " << (void *)hr << std::endl;
-        abort();
-      }
     } else {
       // getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
     }
-    
-    // getOut() << "submit client 10" << std::endl;
+
+    // get gl interop for copying
+    if (pTexture->eType == ETextureType::TextureType_OpenGL) {
+      GLuint &interopTex = interopTexs[index];
+      HANDLE &readInteropHandle = inReadInteropHandles[index];
+
+      glCreateTextures(1, &interopTex);
+      readInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTex, interopTex, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
+    }
+
+    // getOut() << "submit client 6" << std::endl;
+
+    // get share handle
+    IDXGIResource *pDXGIResource;
+    hr = shTex->QueryInterface(__uuidof(IDXGIResource), (void **)&pDXGIResource);
+    // IDXGIResource1 *pDXGIResource;
+    // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
+
+    if (SUCCEEDED(hr)) {
+      // getOut() << "submit client 7" << std::endl;
+      hr = pDXGIResource->GetSharedHandle(&sharedHandle);
+      // getOut() << "submit client 8" << std::endl;
+      // hr = pDXGIResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ, L"Local\\lol", &sharedHandle);
+
+      // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+      if (SUCCEEDED(hr)) {
+        // getOut() << "submit client 9" << std::endl;
+        pDXGIResource->Release();
+        // nothing
+      } else {
+        // getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
+        abort();
+      }
+    } else {
+      // getOut() << "failed to get shared texture: " << (void *)hr << std::endl;
+      abort();
+    }
   }
+  
+  // getOut() << "submit client 10" << std::endl;
 
   // getOut() << "submit client 11" << std::endl;
 
@@ -1105,7 +1198,68 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   srcBox.front = 0;
   srcBox.back = 1;
   context->CopySubresourceRegion(shTex, 0, pBounds->uMin, pBounds->vMax, 0, tex, 0, &srcBox); */
-  context->CopyResource(shTex, tex);
+  if (pTexture->eType == ETextureType::TextureType_DirectX) {
+    context->CopyResource(shTex, tex);
+  } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
+    GLuint readTex = (GLuint)pTexture->handle;
+    GLuint &interopTex = interopTexs[index];
+    HANDLE &readInteropHandle = inReadInteropHandles[index];
+
+    HANDLE objects[] = {
+      readInteropHandle
+    };
+    bool lockOk = wglDXLockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);
+    // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
+    if (lockOk) {
+      GLint oldReadFbo;
+      glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &oldReadFbo);
+      GLint oldReadBuffer;
+      glGetIntegerv(GL_READ_BUFFER, &oldReadBuffer);
+
+      glBindTexture(GL_TEXTURE_2D, readTex);
+      GLint width, height;
+      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WIDTH, &width);
+      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_HEIGHT, &height);
+
+      GLuint readFbo;
+      glGenFramebuffers(1, &readFbo);
+      glBindFramebuffer(GL_READ_FRAMEBUFFER, readFbo);
+      glFramebufferTexture2D(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, readTex, 0);
+      glReadBuffer(GL_COLOR_ATTACHMENT0);
+
+      glBindTexture(GL_TEXTURE_2D, interopTex);
+
+      glCopyTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        GL_RGBA8,
+        0,
+        0,
+        width,
+        height,
+        0
+      );
+
+      glBindTexture(GL_TEXTURE_2D, 0);
+      glBindFramebuffer(GL_READ_FRAMEBUFFER, oldReadFbo);
+      glReadBuffer(GL_READ_BUFFER, oldReadBuffer);
+      glDeleteFramebuffers(1, &readFbo);
+
+      bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);
+      if (unlockOk) {
+        // nothing
+      } else {
+        getOut() << "texture unlocking failed" << std::endl;
+        abort();
+      }
+    } else {
+      getOut() << "texture locking failed" << std::endl;
+      abort();
+    }
+  } else {
+    getOut() << "unknown texture type: " << (void *)pTexture->eType << std::endl;
+    abort();
+  }
 
   // getOut() << "submit client 12" << std::endl;
 

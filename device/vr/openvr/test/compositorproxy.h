@@ -32,7 +32,9 @@ public:
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
   std::vector<HANDLE> inShDxShareHandles;
-  std::vector<ID3D11Texture2D *> inDxTexLatches;
+  std::vector<uintptr_t> inTexLatches;
+  std::vector<GLuint> interopTexs;
+  std::vector<HANDLE> inReadInteropHandles;
   /* ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
