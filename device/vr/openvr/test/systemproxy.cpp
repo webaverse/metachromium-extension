@@ -325,6 +325,66 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem)(vrs
       error
     );
   });
+  fnp.reg<
+    kIVRSystem_GetPropErrorNameFromEnum,
+    int
+  >([=]() { // XXX
+    getOut() << "GetPropErrorNameFromEnum" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_IsInputAvailable,
+    bool
+  >([=]() {
+    return vrsystem->IsInputAvailable();
+  });
+  fnp.reg<
+    kIVRSystem_IsSteamVRDrawingControllers,
+    bool
+  >([=]() {
+    return vrsystem->IsSteamVRDrawingControllers();
+  });
+  fnp.reg<
+    kIVRSystem_ShouldApplicationPause,
+    bool
+  >([=]() {
+    return vrsystem->ShouldApplicationPause();
+  });
+  fnp.reg<
+    kIVRSystem_ShouldApplicationReduceRenderingWork,
+    bool
+  >([=]() {
+    return vrsystem->ShouldApplicationReduceRenderingWork();
+  });
+  fnp.reg<
+    kIVRSystem_PollNextEvent,
+    std::tuple<bool, VREvent_t>,
+    uint32_t
+  >([=](uint32_t uncbVREvent) {
+    VREvent_t event;
+    auto result = vrsystem->PollNextEvent(&event, uncbVREvent);
+    return std::tuple<bool, VREvent_t>(result, event);
+  });
+  fnp.reg<
+    kIVRSystem_PollNextEventWithPose,
+    std::tuple<bool, VREvent_t, vr::TrackedDevicePose_t>,
+    ETrackingUniverseOrigin,
+    uint32_t
+  >([=](ETrackingUniverseOrigin eOrigin, uint32_t uncbVREvent) {
+    VREvent_t event;
+    vr::TrackedDevicePose_t pose;
+    auto result = vrsystem->PollNextEventWithPose(eOrigin, &event, uncbVREvent, &pose);
+    return std::tuple<bool, VREvent_t, vr::TrackedDevicePose_t>(result, event, pose);
+  });
+  fnp.reg<
+    kIVRSystem_GetEventTypeNameFromEnum,
+    int
+  >([=](ETrackingUniverseOrigin eOrigin, uint32_t uncbVREvent) {
+    getOut() << "GetPropErrorNameFromEnum" << std::endl;
+    abort();
+    return 0;
+  });
 }
 void PVRSystem::GetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight) {
   auto result = fnp.call<kIVRSystem_GetRecommendedRenderTargetSize, std::tuple<uint32_t, uint32_t>>();
@@ -572,28 +632,59 @@ uint32_t PVRSystem::GetStringTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDe
   return std::get<0>(result);
 }
 const char *PVRSystem::GetPropErrorNameFromEnum(ETrackedPropertyError error) {
-  // XXX
+  return fnp.call<
+    kIVRSystem_GetPropErrorNameFromEnum,
+    int
+  >();
 }
 bool PVRSystem::IsInputAvailable() {
-  // XXX
+  return fnp.call<
+    kIVRSystem_IsInputAvailable,
+    bool
+  >();
 }
 bool PVRSystem::IsSteamVRDrawingControllers() {
-  // XXX
+  return fnp.call<
+    kIVRSystem_IsSteamVRDrawingControllers,
+    bool
+  >();
 }
 bool PVRSystem::ShouldApplicationPause() {
-  // XXX
+  return fnp.call<
+    kIVRSystem_ShouldApplicationPause,
+    bool
+  >();
 }
 bool PVRSystem::ShouldApplicationReduceRenderingWork() {
-  // XXX
+  return fnp.call<
+    kIVRSystem_ShouldApplicationReduceRenderingWork,
+    bool
+  >();
 }
 bool PVRSystem::PollNextEvent(VREvent_t *pEvent, uint32_t uncbVREvent) {
-  // XXX
+  auto result = fnp.call<
+    kIVRSystem_PollNextEvent,
+    std::tuple<bool, VREvent_t>,
+    uint32_t
+  >(uncbVREvent);
+  *pEvent = std::get<1>(result);
+  return std::get<0>(result);
 }
 bool PVRSystem::PollNextEventWithPose(ETrackingUniverseOrigin eOrigin, VREvent_t *pEvent, uint32_t uncbVREvent, vr::TrackedDevicePose_t *pTrackedDevicePose) {
-  // XXX
+  auto result = fnp.call<
+    kIVRSystem_PollNextEventWithPose,
+    std::tuple<bool, VREvent_t, vr::TrackedDevicePose_t>,
+    ETrackingUniverseOrigin,
+    uint32_t
+  >(eOrigin, uncbVREvent);
+  *pEvent = std::get<1>(result);
+  *pTrackedDevicePose = std::get<2>(result);
+  return std::get<0>(result);
 }
 const char *PVRSystem::GetEventTypeNameFromEnum(EVREventType eType) {
-  // XXX
+  getOut() << "GetEventTypeNameFromEnum abort" << std::endl;
+  abort();
+  return 0;
 }
 HiddenAreaMesh_t PVRSystem::GetHiddenAreaMesh(EVREye eEye, EHiddenAreaMeshType type = k_eHiddenAreaMesh_Standard) {
   // XXX
