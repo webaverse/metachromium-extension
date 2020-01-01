@@ -81,6 +81,7 @@ ADD_EXECUTABLE(process ${src} openvr/test/process.cpp)
 target_link_libraries(process dxgi.lib d3d11.lib opengl32.lib glew32.lib glfw3.lib)
 set_property(TARGET process PROPERTY CXX_STANDARD 17)
 set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
+target_compile_definitions(process PRIVATE IS_PROCESS=1)
 
 # ADD_EXECUTABLE(process2 openvr/test/serializer.cpp openvr/test/process2.cpp openvr/test/fnproxy.cpp)
 # set_property(TARGET process2 PROPERTY CXX_STANDARD 17)

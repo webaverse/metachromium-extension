@@ -62,20 +62,18 @@ void * BaseClientCore::GetGenericInterface(const char * pchNameAndVersion, EVRIn
 }
 
 bool BaseClientCore::BIsHmdPresent() {
-  // return true;
-	auto result = VR_IsHmdPresent();
-  // getOut() << "is hmd present " << result << std::endl;
-  return result;
+  return true;
+	// return VR_IsHmdPresent();
 }
 
 const char * BaseClientCore::GetEnglishStringForHmdError(vr::EVRInitError eError) {
   // getOut() << "get error string " << (int)eError << std::endl;
-  // return "error";
-	return VR_GetVRInitErrorAsEnglishDescription(eError);
+  return "error";
+	// return VR_GetVRInitErrorAsEnglishDescription(eError);
 }
 
 const char * BaseClientCore::GetIDForVRInitError(vr::EVRInitError eError) {
   // getOut() << "get id string " << (int)eError << std::endl;
-  // return "error";
-	return VR_GetVRInitErrorAsSymbol(eError);
+  return "error";
+	// return VR_GetVRInitErrorAsSymbol(eError);
 }
