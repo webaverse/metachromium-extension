@@ -385,6 +385,35 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem)(vrs
     abort();
     return 0;
   });
+  fnp.reg<
+    kIVRSystem_GetHiddenAreaMesh,
+    int
+  >([=](ETrackingUniverseOrigin eOrigin, uint32_t uncbVREvent) {
+    getOut() << "GetHiddenAreaMesh" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_GetControllerState,
+    std::tuple<bool, vr::VRControllerState_t>,
+    vr::TrackedDeviceIndex_t,
+    uint32_t
+  >([=](vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unControllerStateSize) {
+    vr::VRControllerState_t state;
+    auto result = vrsystem->GetControllerState(unControllerDeviceIndex, &state, unControllerStateSize);
+    return std::tuple<bool, vr::VRControllerState_t>(result, state);
+  });
+  fnp.reg<
+    kIVRSystem_GetControllerStateWithPose,
+    std::tuple<bool, vr::VRControllerState_t, TrackedDevicePose_t>,
+    vr::TrackedDeviceIndex_t,
+    uint32_t
+  >([=](vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unControllerStateSize) {
+    vr::VRControllerState_t state;
+    TrackedDevicePose_t pose;
+    auto result = vrsystem->GetControllerStateWithPose(unControllerDeviceIndex, &state, unControllerStateSize, &pose);
+    return std::tuple<bool, vr::VRControllerState_t, TrackedDevicePose_t>(result, state, pose);
+  });
 }
 void PVRSystem::GetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight) {
   auto result = fnp.call<kIVRSystem_GetRecommendedRenderTargetSize, std::tuple<uint32_t, uint32_t>>();
@@ -687,13 +716,31 @@ const char *PVRSystem::GetEventTypeNameFromEnum(EVREventType eType) {
   return 0;
 }
 HiddenAreaMesh_t PVRSystem::GetHiddenAreaMesh(EVREye eEye, EHiddenAreaMeshType type = k_eHiddenAreaMesh_Standard) {
-  // XXX
+  getOut() << "GetHiddenAreaMesh abort" << std::endl;
+  abort();
+  return 0;
 }
 bool PVRSystem::GetControllerState(vr::TrackedDeviceIndex_t unControllerDeviceIndex, vr::VRControllerState_t *pControllerState, uint32_t unControllerStateSize) {
-  // XXX
+  auto result = fnp.call<
+    kIVRSystem_GetControllerState,
+    std::tuple<bool, vr::VRControllerState_t>,
+    vr::TrackedDeviceIndex_t,
+    uint32_t
+  >(unControllerDeviceIndex, unControllerStateSize);
+  *pControllerState = std::get<1>(result);
+  return std::get<0>(result);
 }
 bool PVRSystem::GetControllerStateWithPose(ETrackingUniverseOrigin eOrigin, vr::TrackedDeviceIndex_t unControllerDeviceIndex, vr::VRControllerState_t *pControllerState, uint32_t unControllerStateSize, TrackedDevicePose_t *pTrackedDevicePose) {
-  // XXX
+  auto result = fnp.call<
+    kIVRSystem_GetControllerStateWithPose,
+    std::tuple<bool, vr::VRControllerState_t, TrackedDevicePose_t>,
+    ETrackingUniverseOrigin,
+    vr::TrackedDeviceIndex_t,
+    uint32_t
+  >(eOrigin, unControllerDeviceIndex, unControllerStateSize);
+  *pControllerState = std::get<1>(result);
+  *pTrackedDevicePose = std::get<2>(result);
+  return std::get<0>(result);
 }
 void PVRSystem::TriggerHapticPulse(vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec) {
   // XXX
