@@ -205,7 +205,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "gl init 3 " << glGetError() << std::endl;
 
       GLuint textures[4];
-      glCreateTextures(GL_TEXTURE_2D, ARRAYSIZE(textures), textures);
+      glGenTextures(ARRAYSIZE(textures), textures);
       shTexOutIds.resize(2);
       shTexOutIds[0] = textures[0];
       shTexOutIds[1] = textures[1];
@@ -501,7 +501,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     
       // getOut() << "submit server 6" << std::endl;
 
-      glCreateTextures(GL_TEXTURE_2D, 1, &shTexInId);
+      glGenTextures(1, &shTexInId);
       shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
       shTexIn->Release();
       pD3DResource->Release();
@@ -1151,7 +1151,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       GLuint &interopTex = interopTexs[index];
       HANDLE &readInteropHandle = inReadInteropHandles[index];
 
-      glCreateTextures(1, &interopTex);
+      glGenTextures(1, &interopTex);
       readInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTex, interopTex, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
     }
 
