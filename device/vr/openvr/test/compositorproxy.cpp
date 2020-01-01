@@ -75,7 +75,6 @@ uniform float hasTex2;\n\
 // uniform  sampler2D depthTex;\n\
 \n\
 void main() {\n\
-  fragColor = vec4(0.0);\n\
   if (hasTex1 > 0.0) {\n\
     vec4 c = texture(tex1, vUv);\n\
     fragColor += vec4(c.rgb*c.a, c.a);\n\
@@ -205,20 +204,25 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       
       // getOut() << "gl init 3 " << glGetError() << std::endl;
 
-      GLuint textures[2];
+      GLuint textures[4];
       glCreateTextures(GL_TEXTURE_2D, ARRAYSIZE(textures), textures);
-      shTexOutId = textures[0];
-      texDepthId = textures[1];
+      shTexOutIds.resize(2);
+      shTexOutIds[0] = textures[0];
+      shTexOutIds[1] = textures[1];
+      texDepthIds.resize(2);
+      texDepthIds[0] = textures[2];
+      texDepthIds[1] = textures[3];
       
       // getOut() << "prepare submit server 7" << std::endl;
 
       // getOut() << "gl init 4 " << glGetError() << std::endl;
 
-      glBindTexture(GL_TEXTURE_2D, shTexOutId);
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-      glBindTexture(GL_TEXTURE_2D, texDepthId);
+      // glBindTexture(GL_TEXTURE_2D, shTexOutId);
+      // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
       g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
-      width *= 2;
+      glBindTexture(GL_TEXTURE_2D, texDepthIds[0]);
+      glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+      glBindTexture(GL_TEXTURE_2D, texDepthIds[1]);
       glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
       glBindTexture(GL_TEXTURE_2D, 0);
       
@@ -237,19 +241,23 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // desc.BindFlags = D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET;
       // desc.BindFlags = 40; // D3D11_BIND_DEPTH_STENCIL
       desc.BindFlags = 0; // D3D11_BIND_DEPTH_STENCIL
-      desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+      // desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
       // desc.MiscFlags = 0; 
       // getOut() << "gl init 6 " << width << " " << height << " " << (void *)device.Get() << " " << glGetError() << std::endl;
       /* getOut() << "get texture desc back " << (int)eEye << " " << desc.Width << " " << desc.Height << " " <<
         pBounds->uMin << " " << pBounds->vMin << " " <<
         pBounds->uMax << " " << pBounds->vMax << " " <<
         std::endl; */
-      HRESULT hr = device->CreateTexture2D(
-        &desc,
-        NULL,
-        &shTexOut
-      );
-      shTexOutInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexOut, shTexOutId, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
+      shTexOuts.resize(2);
+      shTexOutInteropHandles.resize(2);
+      for (int i = 0; i < 2; i++) {
+        HRESULT hr = device->CreateTexture2D(
+          &desc,
+          NULL,
+          &shTexOuts[i]
+        );
+        shTexOutInteropHandles[i] = wglDXRegisterObjectNV(hInteropDevice, shTexOuts[i], shTexOutIds[i], GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
+      }
       
       // getOut() << "prepare submit server 9" << std::endl;
       
@@ -404,11 +412,17 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       glActiveTexture(GL_TEXTURE0);
       glUniform1i(tex2Location, 1); */
       for (size_t i = 0; i < MAX_LAYERS; i++) {
-        glUniform1i(texLocations[i], i);
+        if (texLocations[i] != -1) {
+          glUniform1i(texLocations[i], i);
+        }
       }
-      
-      glGenFramebuffers(1, &fbo);
-      glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+      fbos.resize(2);
+      glGenFramebuffers(fbos.size(), fbos.data());
+
+      glViewport(0, 0, width, height);      
+      // glEnable(GL_SCISSOR_TEST);
+      glClearColor(0, 0, 0, 0);
       
       // getOut() << "prepare submit server 16" << std::endl;
     }
@@ -439,7 +453,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     } else {
       index = inBackTexs.size();
       inBackIndices[key] = index;
-      iter = inBackIndices.find(key);
+      // iter = inBackIndices.find(key);
 
       inBackTexs.resize(index+1, NULL);
       inBackInteropHandles.resize(index+1, NULL);
@@ -503,100 +517,94 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_FlushSubmit,
-    int
-  >([=]() {
+    int,
+    EVREye
+  >([=](EVREye eEye) {
     // getOut() << "flush submit server 1" << std::endl;
-
-    std::vector<HANDLE> objects;
-    objects.reserve(inBackIndices.size() + 1);
-    for (auto iter : inBackIndices) {
-      size_t &index = iter.second;
-      HANDLE &h = inBackInteropHandles[index];
-      objects.push_back(h);
-    }
-    objects.push_back(shTexOutInteropHandle);
     
     // getOut() << "flush submit server 2" << std::endl;
-
+    
+    int iEye = (int)eEye;
+      
+    std::vector<HANDLE> objects;
+    objects.reserve(inBackIndices.size()/2 + 1);
+    for (auto iter : inBackIndices) {
+      EVREye e = iter.first.second;
+      if (e == eEye) {
+        size_t index = iter.second;
+        HANDLE h = inBackInteropHandles[index];
+        objects.push_back(h);
+      }
+    }
+    objects.push_back(shTexOutInteropHandles[iEye]);
+    
     bool lockOk = wglDXLockObjectsNV(hInteropDevice, objects.size(), objects.data());
     // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
     if (lockOk) {
-      for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
-        EVREye eye = EYES[iEye];
-        
-        // getOut() << "flush submit server 3 " << (int)eye << std::endl;
+      // getOut() << "flush submit server 3 " << (int)eye << std::endl;
 
-        size_t numLayers = 0;
-        for (auto iter : inBackIndices) {
-          EVREye e = iter.first.second;
-          if (e == eye) {
-            size_t &index = iter.second;
+      size_t numLayers = 0;
+      for (auto iter : inBackIndices) {
+        EVREye e = iter.first.second;
+        if (e == eEye) {
+          size_t &index = iter.second;
 
-            glActiveTexture(GL_TEXTURE0 + numLayers);
-            glBindTexture(GL_TEXTURE_2D, inBackTexs[index]);
-            glUniform1f(hasTexLocations[numLayers], 1.0f);
+          glActiveTexture(GL_TEXTURE0 + numLayers);
+          glBindTexture(GL_TEXTURE_2D, inBackTexs[index]);
+          glUniform1f(hasTexLocations[numLayers], 1.0f);
 
-            numLayers++;
-            if (numLayers >= MAX_LAYERS) {
-              break;
-            }
+          numLayers++;
+          if (numLayers >= MAX_LAYERS) {
+            break;
           }
         }
-        // getOut() << "flush submit server 4 " << (int)eye << std::endl;
-        for (size_t i = numLayers; i < MAX_LAYERS; i++) {
-          glActiveTexture(GL_TEXTURE0 + i);
-          glBindTexture(GL_TEXTURE_2D, 0);
-          glUniform1f(hasTexLocations[i], 0.0f);
-        }
-        
-        // getOut() << "flush submit server 5 " << (int)eye << std::endl;
-
-        // glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shTexOutId, 0);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texDepthId, 0);
-        // auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-
-        glViewport(
-          eye == Eye_Left ? 0 : width/2,
-          0,
-          width/2,
-          height
-        );
-        // glClearColor(0, 0, 0, 0);
-        // glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
-        glDrawElements(
-          GL_TRIANGLES,
-          6,
-          GL_UNSIGNED_SHORT,
-          (void *)0
-        );
-        // getOut() << "gl init error 16 " << glGetError() << std::endl;
-
-        // getOut() << "flush submit server 6 " << (int)eye << std::endl;
-
-        // getOut() << "gl submit 1 " << glGetError() << std::endl;
-        // pTexture->handle = (void *)shTexOut;
-        Texture_t texture{
-          (void *)shTexOut,
-          TextureType_DirectX,
-          ColorSpace_Auto
-        };
-        VRTextureBounds_t bounds{
-          eye == Eye_Left ? 0.0f : 0.5f, 0.0f,
-          eye == Eye_Left ? 0.5f : 1.0f, 1.0f
-        };
-        // getOut() << "flush submit server 7 " << (int)eye << std::endl;
-        // getOut() << "gl submit 2 " << glGetError() << std::endl;
-        vrcompositor->Submit(eye, &texture, &bounds, EVRSubmitFlags::Submit_Default);
-        // getOut() << "flush submit server 8" << std::endl;
       }
+      // getOut() << "flush submit server 4 " << (int)eye << std::endl;
+      for (size_t i = numLayers; i < MAX_LAYERS; i++) {
+        // glActiveTexture(GL_TEXTURE0 + i);
+        // glBindTexture(GL_TEXTURE_2D, 0);
+        glUniform1f(hasTexLocations[i], 0.0f);
+      }
+      
+      // getOut() << "flush submit server 5 " << (int)eye << std::endl;
+
+      glBindFramebuffer(GL_FRAMEBUFFER, fbos[iEye]);
+      glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shTexOutIds[iEye], 0);
+      glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texDepthIds[iEye], 0);
+      // auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+      glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+      glDrawElements(
+        GL_TRIANGLES,
+        6,
+        GL_UNSIGNED_SHORT,
+        (void *)0
+      );
+      // getOut() << "gl init error 16 " << glGetError() << std::endl;
+
+      // getOut() << "flush submit server 6 " << (int)eye << std::endl;
+
+      // getOut() << "gl submit 1 " << glGetError() << std::endl;
+      // pTexture->handle = (void *)shTexOut;
+      // getOut() << "flush submit server 8" << std::endl;
       // getOut() << "flush submit server 9" << std::endl;
       bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, objects.size(), objects.data());
       // getOut() << "flush submit server 9 " << unlockOk << std::endl;
       if (unlockOk) {
-        // getOut() << "flush submit server 10" << std::endl;
-        vrcompositor->PostPresentHandoff();
         // nothing
+        // EVREye eye = EYES[iEye];
+        Texture_t texture{
+          (void *)shTexOuts[iEye],
+          TextureType_DirectX,
+          ColorSpace_Auto
+        };
+        VRTextureBounds_t bounds{
+          0.0f, 0.0f,
+          1.0f, 1.0f
+        };
+        // getOut() << "flush submit server 7 " << (int)eye << std::endl;
+        // getOut() << "gl submit 2 " << glGetError() << std::endl;
+        vrcompositor->Submit(eEye, &texture, &bounds, EVRSubmitFlags::Submit_Default);
       } else {
         getOut() << "texture unlocking failed" << std::endl;
         abort();
@@ -605,6 +613,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       getOut() << "texture locking failed" << std::endl;
       abort();
     }
+    // vrcompositor->PostPresentHandoff();
+    
     // getOut() << "flush submit server 11" << std::endl;
     return 0;
   });
@@ -995,7 +1005,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   } else {
     index = inDxTexs.size();
     inFrontIndices[key] = index;
-    iter = inFrontIndices.find(key);
+    // iter = inFrontIndices.find(key);
 
     inDxTexs.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
@@ -1065,6 +1075,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
         if (SUCCEEDED(hr)) {
           // getOut() << "submit client 9" << std::endl;
+          pDXGIResource->Release();
           // nothing
         } else {
           // getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
@@ -1125,11 +1136,12 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EVRSubmitFlags
   >(eEye, std::move(sharedTexture), std::move(bounds), nSubmitFlags);
 }
-void PVRCompositor::FlushSubmit() {
+void PVRCompositor::FlushSubmit(EVREye eEye) {
   fnp.call<
     kIVRCompositor_FlushSubmit,
-    int
-  >();
+    int,
+    EVREye
+  >(eEye);
 }
 void PVRCompositor::ClearLastSubmittedFrame() {
   fnp.call<

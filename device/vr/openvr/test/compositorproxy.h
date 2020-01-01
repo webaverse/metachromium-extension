@@ -51,11 +51,11 @@ public:
   HANDLE handleRightLatched = nullptr; */
 
   // output
-  GLuint fbo = 0;
-  GLuint shTexOutId;
-  GLuint texDepthId;
-  ID3D11Texture2D *shTexOut = nullptr;
-  HANDLE shTexOutInteropHandle = NULL;
+  std::vector<GLuint> fbos;
+  std::vector<GLuint> shTexOutIds;
+  std::vector<GLuint> texDepthIds;
+  std::vector<ID3D11Texture2D *> shTexOuts;
+  std::vector<HANDLE> shTexOutInteropHandles;
 
   PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
@@ -67,7 +67,7 @@ public:
 	virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose );
 	virtual void PrepareSubmit(const Texture_t *pTexture);
   virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
-  virtual void FlushSubmit();
+  virtual void FlushSubmit(EVREye eEye);
 	virtual void ClearLastSubmittedFrame();
 	virtual void PostPresentHandoff();
 	virtual bool GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo = 0 );

@@ -1,512 +1,447 @@
-Tue Dec 31 2019 18:28:16.970 - //==============================================================================================
-Tue Dec 31 2019 18:28:16.970 - ================================================================================================
-Tue Dec 31 2019 18:28:16.970 - ================================================================================================
-Tue Dec 31 2019 18:28:16.970 - vrserver.exe 1.9.16 startup with PID=3108, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 18:28:16.973 - CSharedResourceNamespaceServer starting up
-Tue Dec 31 2019 18:28:16.974 - Failed to set thread priority: invalid priority 5
-Tue Dec 31 2019 18:28:16.974 - CSharedResourceNamespaceClient::Init(): failed connect
-Tue Dec 31 2019 18:28:16.974 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
-Tue Dec 31 2019 18:28:16.974 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Tue Dec 31 2019 18:28:17.037 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:17.080 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:17.080 - CSharedResourceNamespaceClient::Init(): received namespace data 3108
-Tue Dec 31 2019 18:28:17.080 - Self queried namespace: 3108
-Tue Dec 31 2019 18:28:17.081 - VR server 1.9.16 (v1576990468) starting up with config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
-Tue Dec 31 2019 18:28:17.081 - VRServer will wait for VRMonitor before exiting
-Tue Dec 31 2019 18:28:17.088 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Tue Dec 31 2019 18:28:17.089 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Tue Dec 31 2019 18:28:17.089 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Tue Dec 31 2019 18:28:17.090 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Tue Dec 31 2019 18:28:17.090 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Tue Dec 31 2019 18:28:17.097 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Tue Dec 31 2019 18:28:17.097 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Tue Dec 31 2019 18:28:17.098 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Tue Dec 31 2019 18:28:17.098 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Tue Dec 31 2019 18:28:17.099 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Tue Dec 31 2019 18:28:17.129 - Adding controller type vive_controller
-Tue Dec 31 2019 18:28:17.130 - Adding controller type oculus_touch
-Tue Dec 31 2019 18:28:17.131 - Adding controller type knuckles
-Tue Dec 31 2019 18:28:17.144 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Tue Dec 31 2019 18:28:17.144 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Tue Dec 31 2019 18:28:17.145 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Tue Dec 31 2019 18:28:17.146 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Tue Dec 31 2019 18:28:17.147 - Web language is english
-Tue Dec 31 2019 18:28:17.147 - [Web] Starting web server on port 27062
-Tue Dec 31 2019 18:28:17.153 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe (VRApplication_Bootstrapper) (Args: -startupreason steamvr_restart) 16720 
-Tue Dec 31 2019 18:28:17.153 - AppInfoManager.ProcessConnected BEGIN 16720 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe 7 steam.overlay.250820
-Tue Dec 31 2019 18:28:17.163 - SetApplicationPid appkey=openvr.component.vrstartup pid=16720, external transition
-Tue Dec 31 2019 18:28:17.163 - SetApplicationPid: Setting app openvr.component.vrstartup PID to 16720
-Tue Dec 31 2019 18:28:17.163 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:17.172 - lighthouse: version 1.9.16
-Tue Dec 31 2019 18:28:17.172 - lighthouse: Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Tue Dec 31 2019 18:28:17.173 - lighthouse: Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Tue Dec 31 2019 18:28:17.174 - lighthouse: Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Tue Dec 31 2019 18:28:17.174 - lighthouse: Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Tue Dec 31 2019 18:28:17.180 - lighthouse: Attached HID Devices:
-Tue Dec 31 2019 18:28:17.180 - lighthouse:     No devices
-Tue Dec 31 2019 18:28:17.180 -   driver lighthouse implements interfaces IVRSettings_003 ITrackedDeviceServerDriver_005 IVRDisplayComponent_002 IVRDriverDirectModeComponent_005 IVRCameraComponent_003 IServerTrackedDeviceProvider_004 IVRWatchdogProvider_001 IVRVirtualDisplay_002 IVRDriverManager_001 IVRResources_001 IVRCompositorPluginProvider_001 
-Tue Dec 31 2019 18:28:17.180 - Loaded server driver lighthouse (IServerTrackedDeviceProvider_004) from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\bin\win64\driver_lighthouse.dll
-Tue Dec 31 2019 18:28:17.180 - Driver lighthouse has no suitable devices.
-Tue Dec 31 2019 18:28:17.182 - oculus: version 1.9.16
-Tue Dec 31 2019 18:28:17.247 - oculus: [CAPI] LibOVR module is located at C:\Program Files\Oculus\Support\oculus-runtime\LibOVRRT64_1.dll
-Tue Dec 31 2019 18:28:17.282 - AUDIO: Refreshing audio devices
-Tue Dec 31 2019 18:28:17.327 - oculus: Connected to the server running version (prod = 1).1.44.0(build = 340274) feature version = 0. Client runs version (prod = 1).1.44.0(build = 0) feature version = 0
-Tue Dec 31 2019 18:28:17.329 - oculus: [HMDState] Using default profile default
-Tue Dec 31 2019 18:28:17.329 - oculus: IAD changed to 66.2mm
-Tue Dec 31 2019 18:28:17.329 - oculus: UpdateGeneratedState: IPD = 0.0662148, IAD = 0.0662148, screen_sep = 0.0721868
-Tue Dec 31 2019 18:28:17.329 - oculus: Creating factory
-Tue Dec 31 2019 18:28:17.332 - AUDIO: Detected 18 playback and 16 record devices
-Tue Dec 31 2019 18:28:17.487 - oculus: Initialized Oculus device 1PASH9AFEV9173
-Tue Dec 31 2019 18:28:17.487 - Driver 'oculus' started activation of tracked device with serial number '1PASH9AFEV9173'
-Tue Dec 31 2019 18:28:17.487 -   driver oculus implements interfaces IVRSettings_003 ITrackedDeviceServerDriver_005 IVRDisplayComponent_002 IVRDriverDirectModeComponent_005 IVRCameraComponent_003 IServerTrackedDeviceProvider_004 IVRWatchdogProvider_001 IVRVirtualDisplay_002 IVRDriverManager_001 IVRResources_001 IVRCompositorPluginProvider_001 
-Tue Dec 31 2019 18:28:17.487 - Loaded server driver oculus (IServerTrackedDeviceProvider_004) from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\oculus\bin\win64\driver_oculus.dll
-Tue Dec 31 2019 18:28:17.487 - oculus: Forcing chaperone update
-Tue Dec 31 2019 18:28:17.487 - oculus: Prediction interval too high: 1361.462562 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:28:17.499 - oculus: Chaperone updated with universe ID -929691017
-Tue Dec 31 2019 18:28:17.499 - oculus: Default audio playback device: {0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Tue Dec 31 2019 18:28:17.500 - oculus: Default audio recording device: {0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
-Tue Dec 31 2019 18:28:17.500 - Active HMD set to oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:17.500 - Using display adapter luid: 50815
-Tue Dec 31 2019 18:28:17.501 - Initialized EyeToHead Left Translation -0.031500 0.000000 0.000000 
-Tue Dec 31 2019 18:28:17.501 - Initialized EyeToHead Right Translation 0.031500 0.000000 0.000000 
-Tue Dec 31 2019 18:28:17.501 - Set thread 0000000000000BC8 priority to: 15
-Tue Dec 31 2019 18:28:17.501 - DXGI thread failed to get SDL display index
-Tue Dec 31 2019 18:28:17.501 - Adding controller type rift
-Tue Dec 31 2019 18:28:17.502 - Driver 'oculus' finished adding tracked device with serial number '1PASH9AFEV9173'
-Tue Dec 31 2019 18:28:17.505 -   driver gamepad implements interfaces IVRSettings_003 ITrackedDeviceServerDriver_005 IVRDisplayComponent_002 IVRDriverDirectModeComponent_005 IVRCameraComponent_003 IServerTrackedDeviceProvider_004 IVRWatchdogProvider_001 IVRVirtualDisplay_002 IVRDriverManager_001 IVRResources_001 IVRCompositorPluginProvider_001 
-Tue Dec 31 2019 18:28:17.505 - Loaded server driver gamepad (IServerTrackedDeviceProvider_004) from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\gamepad\bin\win64\driver_gamepad.dll
-Tue Dec 31 2019 18:28:17.505 - Processing message VRMsg_Connect from vrstartup (16720) took 0.352 seconds
-Tue Dec 31 2019 18:28:17.621 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:17.632 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe (VRApplication_Background) (Args: ) 18252 
-Tue Dec 31 2019 18:28:17.632 - AppInfoManager.ProcessConnected BEGIN 18252 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 3 openvr.component.vrcompositor
-Tue Dec 31 2019 18:28:17.640 - SetApplicationPid appkey=openvr.component.vrcompositor pid=18252, external transition
-Tue Dec 31 2019 18:28:17.640 - SetApplicationPid: Setting app openvr.component.vrcompositor PID to 18252
-Tue Dec 31 2019 18:28:17.640 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:17.642 - openvr.component.vrcompositor (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/resources/config/vrcompositor_bindings_generic_hmd.json
-Tue Dec 31 2019 18:28:17.642 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:17.642 - Processing message VRMsg_Connect from vrcompositor (18252) took 0.0102 seconds
-Tue Dec 31 2019 18:28:17.664 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:17.718 - [Steam] Steam INIT.
-Tue Dec 31 2019 18:28:18.704 - [Settings] Save Json Settings to C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Tue Dec 31 2019 18:28:18.872 - oculus: CliD3D11CompositorClient::initialize 1
-Tue Dec 31 2019 18:28:18.873 - oculus: Creating KMTHandle 0xcae3dcd0
-Tue Dec 31 2019 18:28:19.455 - oculus: Creating KMTHandle 0xcae3e450
-Tue Dec 31 2019 18:28:19.456 - oculus: KMTHandle::Create hDevice=0x40000a40
-Tue Dec 31 2019 18:28:19.456 - oculus: KMTHandle::Create hContexts[0] = 1073745472
-Tue Dec 31 2019 18:28:19.456 - oculus: KMTHandle::Create hContexts[1] = 1073745792
-Tue Dec 31 2019 18:28:19.456 - oculus: CliD3D11CompositorClient initialized
-Tue Dec 31 2019 18:28:19.460 - Processing message VRMsg_CreateSwapTextureSet from vrcompositor (18252) took 0.588 seconds
-Tue Dec 31 2019 18:28:19.460 - oculus: CliD3D11CompositorClient::addD3DRef 2
-Tue Dec 31 2019 18:28:19.510 - oculus: Detected new Oculus Touch controller: 0/1
-Tue Dec 31 2019 18:28:19.510 - Driver 'oculus' started activation of tracked device with serial number '1PASH9AFEV9173_Controller_Left'
-Tue Dec 31 2019 18:28:19.510 - oculus: Detected new Oculus Touch controller: 1/2
-Tue Dec 31 2019 18:28:19.510 - Driver 'oculus' started activation of tracked device with serial number '1PASH9AFEV9173_Controller_Right'
-Tue Dec 31 2019 18:28:19.514 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
-Tue Dec 31 2019 18:28:19.522 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
-Tue Dec 31 2019 18:28:19.522 - RendermodelManager: name=base inputRouting=0 filename=
-Tue Dec 31 2019 18:28:19.522 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Tue Dec 31 2019 18:28:19.522 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Tue Dec 31 2019 18:28:19.522 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Tue Dec 31 2019 18:28:19.522 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
-Tue Dec 31 2019 18:28:19.522 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
-Tue Dec 31 2019 18:28:19.522 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Tue Dec 31 2019 18:28:19.523 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Tue Dec 31 2019 18:28:19.523 - RendermodelManager: name=tip inputRouting=0 filename=
-Tue Dec 31 2019 18:28:19.523 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Tue Dec 31 2019 18:28:19.523 - Driver 'oculus' finished adding tracked device with serial number '1PASH9AFEV9173_Controller_Left'
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=base inputRouting=0 filename=
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=body inputRouting=0 filename=body.obj
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=tip inputRouting=0 filename=
-Tue Dec 31 2019 18:28:19.527 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
-Tue Dec 31 2019 18:28:19.527 - Driver 'oculus' finished adding tracked device with serial number '1PASH9AFEV9173_Controller_Right'
-Tue Dec 31 2019 18:28:19.529 - openvr.component.vrcompositor (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/vrcompositor_bindings_touch.json
-Tue Dec 31 2019 18:28:19.529 - openvr.component.vrcompositor (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/resources/config/vrcompositor_bindings_generic_hmd.json
-Tue Dec 31 2019 18:28:19.535 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
-Tue Dec 31 2019 18:28:19.535 - openvr.component.vrcompositor (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/vrcompositor_bindings_touch.json
-Tue Dec 31 2019 18:28:19.535 - openvr.component.vrcompositor (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/resources/config/vrcompositor_bindings_generic_hmd.json
-Tue Dec 31 2019 18:28:19.543 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Tue Dec 31 2019 18:28:19.550 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
-Tue Dec 31 2019 18:28:19.638 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:19.639 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:19.649 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe (VRApplication_Overlay) (Args: ) 736 
-Tue Dec 31 2019 18:28:19.649 - AppInfoManager.ProcessConnected BEGIN 736 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 2 steam.overlay.250820
-Tue Dec 31 2019 18:28:19.662 - SetApplicationPid appkey=openvr.component.vrdashboard pid=736, external transition
-Tue Dec 31 2019 18:28:19.662 - SetApplicationPid: Setting app openvr.component.vrdashboard PID to 736
-Tue Dec 31 2019 18:28:19.662 - VRDashboard watchdog enabled for pid:736
-Tue Dec 31 2019 18:28:19.662 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:19.663 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:19.663 - Processing message VRMsg_Connect from vrdashboard (736) took 0.0145 seconds
-Tue Dec 31 2019 18:28:19.663 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: ) 4060 
-Tue Dec 31 2019 18:28:19.663 - AppInfoManager.ProcessConnected BEGIN 4060 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:19.676 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=4060, external transition
-Tue Dec 31 2019 18:28:19.676 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 4060
-Tue Dec 31 2019 18:28:19.676 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:19.676 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:19.676 - Processing message VRMsg_Connect from vrwebhelper (4060) took 0.0269 seconds
-Tue Dec 31 2019 18:28:19.765 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:20.058 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:20.070 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe (VRApplication_VRMonitor) (Args: -nokillprocess -startupappid 250820 -startupreason steamvr_restart -startupapptype 7) 12076 
-Tue Dec 31 2019 18:28:20.071 - AppInfoManager.ProcessConnected BEGIN 12076 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 5 steam.overlay.250820
-Tue Dec 31 2019 18:28:20.084 - SetApplicationPid appkey=openvr.component.vrmonitor pid=12076, external transition
-Tue Dec 31 2019 18:28:20.084 - SetApplicationPid: Setting app openvr.component.vrmonitor PID to 12076
-Tue Dec 31 2019 18:28:20.084 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:20.084 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:20.084 - Processing message VRMsg_Connect from vrmonitor (12076) took 0.0134 seconds
-Tue Dec 31 2019 18:28:20.540 - Closing pipe vrstartup (16720) because it was broken from the other end
-Tue Dec 31 2019 18:28:20.540 - Process vrstartup (16720) disconnected (Thread(0x0000019CC77A90B0/0x000)
-Tue Dec 31 2019 18:28:20.540 - AppInfoManager.ProcessQuit processid=16720 eLaunchingApp=LaunchingApp_None
-Tue Dec 31 2019 18:28:20.540 - AppInfoManager.ProcessQuit: Clearing application openvr.component.vrstartup PID because 16720 has exited
-Tue Dec 31 2019 18:28:21.039 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.159 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.159 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.171 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.171 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.193 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.193 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.204 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.204 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.205 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=17824359272101675224 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17824359272101675224 --renderer-client-id=7 --mojo-platform-channel-handle=2976 /prefetch:1) 8472 
-Tue Dec 31 2019 18:28:22.205 - AppInfoManager.ProcessConnected BEGIN 8472 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.222 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=8472, external transition
-Tue Dec 31 2019 18:28:22.222 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 8472
-Tue Dec 31 2019 18:28:22.222 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.223 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.223 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=3312004729604395073 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=3312004729604395073 --renderer-client-id=11 --mojo-platform-channel-handle=3160 /prefetch:1) 7156 
-Tue Dec 31 2019 18:28:22.223 - AppInfoManager.ProcessConnected BEGIN 7156 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.223 - Processing message VRMsg_Connect from vrwebhelper (8472) took 0.0186 seconds
-Tue Dec 31 2019 18:28:22.226 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.235 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=7156, external transition
-Tue Dec 31 2019 18:28:22.235 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 7156
-Tue Dec 31 2019 18:28:22.235 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.236 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.236 - Processing message VRMsg_Connect from vrwebhelper (7156) took 0.0191 seconds
-Tue Dec 31 2019 18:28:22.236 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=17254957401682606027 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17254957401682606027 --renderer-client-id=12 --mojo-platform-channel-handle=3548 /prefetch:1) 17344 
-Tue Dec 31 2019 18:28:22.236 - AppInfoManager.ProcessConnected BEGIN 17344 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.243 - SetApplicationPid appkey=system.messageoverlay pid=8472, external transition
-Tue Dec 31 2019 18:28:22.243 - Enabling legacy input for system.messageoverlay
-Tue Dec 31 2019 18:28:22.247 - system.messageoverlay (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:28:22.247 - system.messageoverlay (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:28:22.248 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=17344, external transition
-Tue Dec 31 2019 18:28:22.248 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 17344
-Tue Dec 31 2019 18:28:22.248 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.248 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.248 - Processing message VRMsg_Connect from vrwebhelper (17344) took 0.0276 seconds
-Tue Dec 31 2019 18:28:22.248 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=17408886551130434867 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=17408886551130434867 --renderer-client-id=3 --mojo-platform-channel-handle=2784 /prefetch:1) 22080 
-Tue Dec 31 2019 18:28:22.248 - AppInfoManager.ProcessConnected BEGIN 22080 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.260 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=22080, external transition
-Tue Dec 31 2019 18:28:22.260 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 22080
-Tue Dec 31 2019 18:28:22.260 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.260 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.260 - Processing message VRMsg_Connect from vrwebhelper (22080) took 0.0289 seconds
-Tue Dec 31 2019 18:28:22.265 - SetApplicationPid appkey=system.vrwebhelper.systemui pid=17344, external transition
-Tue Dec 31 2019 18:28:22.266 - Enabling legacy input for system.vrwebhelper.systemui
-Tue Dec 31 2019 18:28:22.269 - system.vrwebhelper.systemui (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:28:22.269 - system.vrwebhelper.systemui (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:28:22.279 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.310 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.310 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.317 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=15368530332717049519 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=15368530332717049519 --renderer-client-id=5 --mojo-platform-channel-handle=2896 /prefetch:1) 10464 
-Tue Dec 31 2019 18:28:22.317 - AppInfoManager.ProcessConnected BEGIN 10464 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.330 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=10464, external transition
-Tue Dec 31 2019 18:28:22.330 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 10464
-Tue Dec 31 2019 18:28:22.330 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.331 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.331 - Processing message VRMsg_Connect from vrwebhelper (10464) took 0.0136 seconds
-Tue Dec 31 2019 18:28:22.331 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=9412587180937755012 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9412587180937755012 --renderer-client-id=9 --mojo-platform-channel-handle=3068 /prefetch:1) 3448 
-Tue Dec 31 2019 18:28:22.331 - AppInfoManager.ProcessConnected BEGIN 3448 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.343 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=3448, external transition
-Tue Dec 31 2019 18:28:22.343 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 3448
-Tue Dec 31 2019 18:28:22.343 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.343 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.343 - Processing message VRMsg_Connect from vrwebhelper (3448) took 0.0256 seconds
-Tue Dec 31 2019 18:28:22.351 - SetApplicationPid appkey=system.vrwebhelper.controllerbinding pid=10464, external transition
-Tue Dec 31 2019 18:28:22.351 - Enabling legacy input for system.vrwebhelper.controllerbinding
-Tue Dec 31 2019 18:28:22.354 - system.vrwebhelper.controllerbinding (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:28:22.354 - system.vrwebhelper.controllerbinding (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:28:22.362 - SetApplicationPid appkey=system.vrwebhelper.progressindicator pid=3448, external transition
-Tue Dec 31 2019 18:28:22.404 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.412 - New Connect message from C:\Program Files (x86)\Steam\Steam.exe (VRApplication_Overlay) (Args: ) 27996 
-Tue Dec 31 2019 18:28:22.412 - AppInfoManager.ProcessConnected BEGIN 27996 C:\Program Files (x86)\Steam\Steam.exe 2 
-Tue Dec 31 2019 18:28:22.424 - Creating builtin app for C:\Program Files (x86)\Steam\Steam.exe (VRApplication_Overlay)
-Tue Dec 31 2019 18:28:22.424 - SetApplicationPid appkey=system.generated.steam.exe pid=27996, external transition
-Tue Dec 31 2019 18:28:22.424 - SetApplicationPid: Setting app system.generated.steam.exe PID to 27996
-Tue Dec 31 2019 18:28:22.424 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.425 - Enabling legacy input for system.generated.steam.exe
-Tue Dec 31 2019 18:28:22.428 - system.generated.steam.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:28:22.428 - system.generated.steam.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:28:22.428 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.428 - Processing message VRMsg_Connect from Steam (27996) took 0.0154 seconds
-Tue Dec 31 2019 18:28:22.458 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.471 - Adding application manifest path: C:\Program Files (x86)\Steam\config\steamapps.vrmanifest
-Tue Dec 31 2019 18:28:22.480 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.481 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.497 - Processing message VRMsg_AddApplicationManifest from Steam (27996) took 0.026 seconds
-Tue Dec 31 2019 18:28:22.502 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.509 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=8403280453565489546 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=8403280453565489546 --renderer-client-id=4 --mojo-platform-channel-handle=2832 /prefetch:1) 3100 
-Tue Dec 31 2019 18:28:22.509 - AppInfoManager.ProcessConnected BEGIN 3100 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.513 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.513 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.535 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.539 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=3100, external transition
-Tue Dec 31 2019 18:28:22.540 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 3100
-Tue Dec 31 2019 18:28:22.540 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.540 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.540 - Processing message VRMsg_Connect from vrwebhelper (3100) took 0.0316 seconds
-Tue Dec 31 2019 18:28:22.540 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=13886193908133180582 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=13886193908133180582 --renderer-client-id=6 --mojo-platform-channel-handle=2956 /prefetch:1) 3684 
-Tue Dec 31 2019 18:28:22.541 - AppInfoManager.ProcessConnected BEGIN 3684 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.556 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=3684, external transition
-Tue Dec 31 2019 18:28:22.556 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 3684
-Tue Dec 31 2019 18:28:22.556 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.557 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.557 - Processing message VRMsg_Connect from vrwebhelper (3684) took 0.0353 seconds
-Tue Dec 31 2019 18:28:22.557 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=18105819104518023487 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=18105819104518023487 --renderer-client-id=8 --mojo-platform-channel-handle=3016 /prefetch:1) 24968 
-Tue Dec 31 2019 18:28:22.557 - AppInfoManager.ProcessConnected BEGIN 24968 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.564 - SetApplicationPid appkey=system.vrwebhelper.bindingcallouts pid=3100, external transition
-Tue Dec 31 2019 18:28:22.564 - Enabling legacy input for system.vrwebhelper.bindingcallouts
-Tue Dec 31 2019 18:28:22.567 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:28:22.568 - system.vrwebhelper.bindingcallouts (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:28:22.568 - system.vrwebhelper.bindingcallouts (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:28:22.575 - SetApplicationPid appkey=system.keyboard pid=3684, external transition
-Tue Dec 31 2019 18:28:22.577 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=24968, external transition
-Tue Dec 31 2019 18:28:22.577 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 24968
-Tue Dec 31 2019 18:28:22.577 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.577 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.577 - Processing message VRMsg_Connect from vrwebhelper (24968) took 0.0554 seconds
-Tue Dec 31 2019 18:28:22.577 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1700,14331499966009569678,10011355868789980,131072 --service-pipe-token=334494441862403677 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=334494441862403677 --renderer-client-id=10 --mojo-platform-channel-handle=3076 /prefetch:1) 14112 
-Tue Dec 31 2019 18:28:22.578 - AppInfoManager.ProcessConnected BEGIN 14112 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
-Tue Dec 31 2019 18:28:22.591 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=14112, external transition
-Tue Dec 31 2019 18:28:22.591 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 14112
-Tue Dec 31 2019 18:28:22.591 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:28:22.591 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:28:22.591 - Processing message VRMsg_Connect from vrwebhelper (14112) took 0.0143 seconds
-Tue Dec 31 2019 18:28:22.607 - SetApplicationPid appkey=system.toast pid=24968, external transition
-Tue Dec 31 2019 18:28:22.607 - Enabling legacy input for system.toast
-Tue Dec 31 2019 18:28:22.608 - SetApplicationPid appkey=system.settings pid=14112, external transition
-Tue Dec 31 2019 18:28:22.611 - system.toast (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:28:22.611 - system.toast (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:28:32.532 - 0 - entering standby
-Tue Dec 31 2019 18:29:05.671 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:29:05.682 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 14952 
-Tue Dec 31 2019 18:29:05.682 - StartSceneApplicationTransitionFromProcess( 14952, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
-Tue Dec 31 2019 18:29:05.682 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
-Tue Dec 31 2019 18:29:05.682 - AppInfoManager.ProcessConnected BEGIN 14952 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
-Tue Dec 31 2019 18:29:05.694 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=14952, external transition
-Tue Dec 31 2019 18:29:05.694 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 14952
-Tue Dec 31 2019 18:29:05.694 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:29:05.694 - Enabling legacy input for system.generated.spacepiratevr.exe
-Tue Dec 31 2019 18:29:05.696 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:29:05.696 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:29:05.696 - 0 - leaving standby
-Tue Dec 31 2019 18:29:05.696 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:29:05.696 - Processing message VRMsg_Connect from SpacePirateVR (14952) took 0.0148 seconds
-Tue Dec 31 2019 18:29:07.791 - oculus: CliD3D11CompositorClient::addD3DRef 3
-Tue Dec 31 2019 18:29:07.796 - oculus: CliD3D11CompositorClient::addD3DRef 4
-Tue Dec 31 2019 18:29:09.320 - oculus: IAD changed to 63.5mm
-Tue Dec 31 2019 18:29:09.320 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
-Tue Dec 31 2019 18:29:09.681 - oculus: IAD data invalid, setting to default
-Tue Dec 31 2019 18:29:09.854 - oculus: IAD changed to 66.2mm
-Tue Dec 31 2019 18:29:09.854 - oculus: UpdateGeneratedState: IPD = 0.0662148, IAD = 0.0662148, screen_sep = 0.0721868
-Tue Dec 31 2019 18:29:13.018 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
-Tue Dec 31 2019 18:29:13.021 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:29:13.021 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:29:13.021 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:29:13.021 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:29:13.047 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:29:13.047 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:29:13.049 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:29:13.049 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:29:54.781 - oculus: Prediction interval too high: 0.100970 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:30:00.437 - Starting SteamVR Home launch because system.generated.spacepiratevr.exe exited after 54.743260 seconds
-Tue Dec 31 2019 18:30:00.769 - Closing pipe SpacePirateVR (14952) because it was broken from the other end
-Tue Dec 31 2019 18:30:00.769 - Process SpacePirateVR (14952) disconnected (Thread(0x0000019CD4021A00/0x000)
-Tue Dec 31 2019 18:30:00.769 - AppInfoManager.ProcessQuit processid=14952 eLaunchingApp=LaunchingApp_None
-Tue Dec 31 2019 18:30:00.769 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 14952 has exited
-Tue Dec 31 2019 18:30:00.844 - oculus: CliD3D11CompositorClient::release 4
-Tue Dec 31 2019 18:30:00.844 - oculus: CliD3D11CompositorClient::release 3
-Tue Dec 31 2019 18:30:05.775 - 0 - entering standby
-Tue Dec 31 2019 18:30:09.716 - oculus: IAD changed to 63.5mm
-Tue Dec 31 2019 18:30:09.716 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
-Tue Dec 31 2019 18:30:09.716 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
-Tue Dec 31 2019 18:30:09.716 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
-Tue Dec 31 2019 18:30:09.812 - oculus: Prediction interval too high: 0.105818 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:33:29.963 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:33:29.970 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 25736 
-Tue Dec 31 2019 18:33:29.970 - StartSceneApplicationTransitionFromProcess( 25736, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
-Tue Dec 31 2019 18:33:29.970 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
-Tue Dec 31 2019 18:33:29.970 - AppInfoManager.ProcessConnected BEGIN 25736 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
-Tue Dec 31 2019 18:33:29.980 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=25736, external transition
-Tue Dec 31 2019 18:33:29.980 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 25736
-Tue Dec 31 2019 18:33:29.980 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:33:29.980 - Enabling legacy input for system.generated.spacepiratevr.exe
-Tue Dec 31 2019 18:33:29.982 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:33:29.982 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:33:29.982 - 0 - leaving standby
-Tue Dec 31 2019 18:33:29.983 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:33:29.983 - Processing message VRMsg_Connect from SpacePirateVR (25736) took 0.0126 seconds
-Tue Dec 31 2019 18:33:32.225 - oculus: CliD3D11CompositorClient::addD3DRef 3
-Tue Dec 31 2019 18:33:32.227 - oculus: CliD3D11CompositorClient::addD3DRef 4
-Tue Dec 31 2019 18:33:36.490 - oculus: IAD changed to 66.3mm
-Tue Dec 31 2019 18:33:36.490 - oculus: UpdateGeneratedState: IPD = 0.0663445, IAD = 0.0663445, screen_sep = 0.0723165
-Tue Dec 31 2019 18:33:37.174 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
-Tue Dec 31 2019 18:33:37.227 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
-Tue Dec 31 2019 18:33:37.904 - oculus: Prediction interval too high: 0.102212 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:33:37.912 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
-Tue Dec 31 2019 18:33:37.912 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
-Tue Dec 31 2019 18:33:37.913 - oculus: IAD changed to 63.5mm
-Tue Dec 31 2019 18:33:37.913 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
-Tue Dec 31 2019 18:33:38.822 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
-Tue Dec 31 2019 18:33:38.823 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:33:38.823 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:33:38.823 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:33:38.823 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:33:38.892 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:33:38.892 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:33:38.895 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:33:38.896 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:33:39.591 - oculus: IAD changed to 66.3mm
-Tue Dec 31 2019 18:33:39.591 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
-Tue Dec 31 2019 18:33:39.591 - oculus: UpdateGeneratedState: IPD = 0.0663445, IAD = 0.0663445, screen_sep = 0.0723165
-Tue Dec 31 2019 18:33:39.591 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
-Tue Dec 31 2019 18:34:09.763 - oculus: Prediction interval too high: 0.105256 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:34:15.495 - Starting SteamVR Home launch because system.generated.spacepiratevr.exe exited after 45.514712 seconds
-Tue Dec 31 2019 18:34:15.744 - Closing pipe SpacePirateVR (25736) because it was broken from the other end
-Tue Dec 31 2019 18:34:15.744 - Process SpacePirateVR (25736) disconnected (Thread(0x0000019CD44A8E10/0x000)
-Tue Dec 31 2019 18:34:15.744 - oculus: CliD3D11CompositorClient::release 4
-Tue Dec 31 2019 18:34:15.744 - AppInfoManager.ProcessQuit processid=25736 eLaunchingApp=LaunchingApp_None
-Tue Dec 31 2019 18:34:15.744 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 25736 has exited
-Tue Dec 31 2019 18:34:15.744 - oculus: CliD3D11CompositorClient::release 3
-Tue Dec 31 2019 18:34:24.712 - oculus: IAD changed to 63.5mm
-Tue Dec 31 2019 18:34:24.712 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
-Tue Dec 31 2019 18:34:24.712 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
-Tue Dec 31 2019 18:34:24.712 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
-Tue Dec 31 2019 18:34:24.796 - oculus: Prediction interval too high: 0.101717 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:34:29.771 - 0 - entering standby
-Tue Dec 31 2019 18:37:32.026 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:37:32.037 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 28048 
-Tue Dec 31 2019 18:37:32.037 - StartSceneApplicationTransitionFromProcess( 28048, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
-Tue Dec 31 2019 18:37:32.038 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
-Tue Dec 31 2019 18:37:32.038 - AppInfoManager.ProcessConnected BEGIN 28048 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
-Tue Dec 31 2019 18:37:32.046 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=28048, external transition
-Tue Dec 31 2019 18:37:32.046 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 28048
-Tue Dec 31 2019 18:37:32.046 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:37:32.046 - Enabling legacy input for system.generated.spacepiratevr.exe
-Tue Dec 31 2019 18:37:32.048 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:37:32.048 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:37:32.048 - 0 - leaving standby
-Tue Dec 31 2019 18:37:32.048 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:37:32.048 - Processing message VRMsg_Connect from SpacePirateVR (28048) took 0.0117 seconds
-Tue Dec 31 2019 18:37:34.048 - oculus: CliD3D11CompositorClient::addD3DRef 3
-Tue Dec 31 2019 18:37:34.053 - oculus: CliD3D11CompositorClient::addD3DRef 4
-Tue Dec 31 2019 18:37:40.236 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
-Tue Dec 31 2019 18:37:40.237 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:37:40.237 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:37:40.237 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:37:40.237 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:37:40.266 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:37:40.266 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:37:40.269 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:37:40.270 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:37:42.348 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
-Tue Dec 31 2019 18:37:42.348 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
-Tue Dec 31 2019 18:37:42.349 - oculus: IAD changed to 66.3mm
-Tue Dec 31 2019 18:37:42.349 - oculus: UpdateGeneratedState: IPD = 0.0663421, IAD = 0.0663421, screen_sep = 0.0723141
-Tue Dec 31 2019 18:38:02.963 - oculus: Prediction interval too high: 0.100087 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:38:07.368 - Starting SteamVR Home launch because system.generated.spacepiratevr.exe exited after 35.322450 seconds
-Tue Dec 31 2019 18:38:07.663 - Closing pipe SpacePirateVR (28048) because it was broken from the other end
-Tue Dec 31 2019 18:38:07.663 - Process SpacePirateVR (28048) disconnected (Thread(0x0000019CD44A8B40/0x000)
-Tue Dec 31 2019 18:38:07.665 - AppInfoManager.ProcessQuit processid=28048 eLaunchingApp=LaunchingApp_None
-Tue Dec 31 2019 18:38:07.665 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 28048 has exited
-Tue Dec 31 2019 18:38:07.885 - oculus: CliD3D11CompositorClient::release 4
-Tue Dec 31 2019 18:38:07.885 - oculus: CliD3D11CompositorClient::release 3
-Tue Dec 31 2019 18:38:16.705 - 0 - entering standby
-Tue Dec 31 2019 18:38:18.017 - oculus: IAD changed to 63.5mm
-Tue Dec 31 2019 18:38:18.017 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
-Tue Dec 31 2019 18:38:18.017 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
-Tue Dec 31 2019 18:38:18.017 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
-Tue Dec 31 2019 18:38:18.028 - oculus: Prediction interval too high: 0.107513 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:38:53.639 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:38:53.649 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 15816 
-Tue Dec 31 2019 18:38:53.649 - StartSceneApplicationTransitionFromProcess( 15816, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
-Tue Dec 31 2019 18:38:53.649 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
-Tue Dec 31 2019 18:38:53.649 - AppInfoManager.ProcessConnected BEGIN 15816 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
-Tue Dec 31 2019 18:38:53.663 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=15816, external transition
-Tue Dec 31 2019 18:38:53.663 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 15816
-Tue Dec 31 2019 18:38:53.663 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:38:53.664 - Enabling legacy input for system.generated.spacepiratevr.exe
-Tue Dec 31 2019 18:38:53.666 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:38:53.666 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:38:53.666 - 0 - leaving standby
-Tue Dec 31 2019 18:38:53.666 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:38:53.667 - Processing message VRMsg_Connect from SpacePirateVR (15816) took 0.0171 seconds
-Tue Dec 31 2019 18:38:55.695 - oculus: CliD3D11CompositorClient::addD3DRef 3
-Tue Dec 31 2019 18:38:55.699 - oculus: CliD3D11CompositorClient::addD3DRef 4
-Tue Dec 31 2019 18:38:56.945 - oculus: IAD changed to 66.3mm
-Tue Dec 31 2019 18:38:56.945 - oculus: UpdateGeneratedState: IPD = 0.0663421, IAD = 0.0663421, screen_sep = 0.0723141
-Tue Dec 31 2019 18:38:56.945 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
-Tue Dec 31 2019 18:38:56.945 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
-Tue Dec 31 2019 18:39:00.965 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
-Tue Dec 31 2019 18:39:00.967 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:39:00.967 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:39:00.967 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:39:00.967 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:39:01.003 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:39:01.004 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:39:01.007 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:39:01.007 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:39:45.841 - oculus: Prediction interval too high: 0.106538 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:39:50.917 - Starting SteamVR Home launch because system.generated.spacepiratevr.exe exited after 57.254121 seconds
-Tue Dec 31 2019 18:39:51.324 - Closing pipe SpacePirateVR (15816) because it was broken from the other end
-Tue Dec 31 2019 18:39:51.324 - Process SpacePirateVR (15816) disconnected (Thread(0x0000019CD44A9B00/0x000)
-Tue Dec 31 2019 18:39:51.325 - AppInfoManager.ProcessQuit processid=15816 eLaunchingApp=LaunchingApp_None
-Tue Dec 31 2019 18:39:51.325 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 15816 has exited
-Tue Dec 31 2019 18:39:51.467 - oculus: CliD3D11CompositorClient::release 4
-Tue Dec 31 2019 18:39:51.467 - oculus: CliD3D11CompositorClient::release 3
-Tue Dec 31 2019 18:39:56.662 - 0 - entering standby
-Tue Dec 31 2019 18:40:00.809 - oculus: IAD changed to 63.5mm
-Tue Dec 31 2019 18:40:00.809 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
-Tue Dec 31 2019 18:40:00.809 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
-Tue Dec 31 2019 18:40:00.809 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
-Tue Dec 31 2019 18:40:00.884 - oculus: Prediction interval too high: 0.100573 s, clamping at 0.100000 s
-Tue Dec 31 2019 18:40:09.983 - CSharedResourceNamespaceServer sent namespace data: 3108
-Tue Dec 31 2019 18:40:09.994 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 13460 
-Tue Dec 31 2019 18:40:09.995 - StartSceneApplicationTransitionFromProcess( 13460, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
-Tue Dec 31 2019 18:40:09.995 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
-Tue Dec 31 2019 18:40:09.995 - AppInfoManager.ProcessConnected BEGIN 13460 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
-Tue Dec 31 2019 18:40:10.003 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=13460, external transition
-Tue Dec 31 2019 18:40:10.003 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 13460
-Tue Dec 31 2019 18:40:10.004 - AppInfoManager.ProcessConnected END
-Tue Dec 31 2019 18:40:10.004 - Enabling legacy input for system.generated.spacepiratevr.exe
-Tue Dec 31 2019 18:40:10.012 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
-Tue Dec 31 2019 18:40:10.012 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
-Tue Dec 31 2019 18:40:10.012 - 0 - leaving standby
-Tue Dec 31 2019 18:40:10.012 - Using existing HMD oculus.1PASH9AFEV9173
-Tue Dec 31 2019 18:40:10.012 - Processing message VRMsg_Connect from SpacePirateVR (13460) took 0.018 seconds
-Tue Dec 31 2019 18:40:13.918 - oculus: CliD3D11CompositorClient::addD3DRef 3
-Tue Dec 31 2019 18:40:13.921 - oculus: CliD3D11CompositorClient::addD3DRef 4
-Tue Dec 31 2019 18:40:15.138 - 0 - entering standby
-Tue Dec 31 2019 18:40:20.453 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
-Tue Dec 31 2019 18:40:20.455 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:40:20.455 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:40:20.455 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
-Tue Dec 31 2019 18:40:20.455 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
-Tue Dec 31 2019 18:40:20.507 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:40:20.508 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:40:20.512 - Unknown action set /actions/buggy
-Tue Dec 31 2019 18:40:20.512 - Unknown action set /actions/platformer
-Tue Dec 31 2019 18:40:29.110 - Delaying SteamVR Home launch because system.generated.spacepiratevr.exe ran for only 19.106327 seconds
-Tue Dec 31 2019 18:40:29.512 - Closing pipe SpacePirateVR (13460) because it was broken from the other end
-Tue Dec 31 2019 18:40:29.512 - Process SpacePirateVR (13460) disconnected (Thread(0x0000019CD44A9D40/0x000)
-Tue Dec 31 2019 18:40:29.512 - 0 - leaving standby
-Tue Dec 31 2019 18:40:29.514 - AppInfoManager.ProcessQuit processid=13460 eLaunchingApp=LaunchingApp_None
-Tue Dec 31 2019 18:40:29.514 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 13460 has exited
-Tue Dec 31 2019 18:40:29.514 - oculus: CliD3D11CompositorClient::release 4
-Tue Dec 31 2019 18:40:29.514 - oculus: CliD3D11CompositorClient::release 3
-Tue Dec 31 2019 18:40:34.574 - 0 - entering standby
-Tue Dec 31 2019 18:40:39.118 - Starting home app after 10.000000 seconds
+Tue Dec 31 2019 20:03:22.211 - //==============================================================================================
+Tue Dec 31 2019 20:03:22.211 - ================================================================================================
+Tue Dec 31 2019 20:03:22.211 - ================================================================================================
+Tue Dec 31 2019 20:03:22.211 - vrserver.exe 1.9.16 startup with PID=20780, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 20:03:22.214 - CSharedResourceNamespaceServer starting up
+Tue Dec 31 2019 20:03:22.214 - Failed to set thread priority: invalid priority 5
+Tue Dec 31 2019 20:03:22.215 - CSharedResourceNamespaceClient::Init(): failed connect
+Tue Dec 31 2019 20:03:22.215 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Tue Dec 31 2019 20:03:22.215 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Tue Dec 31 2019 20:03:22.279 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:22.323 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:22.323 - CSharedResourceNamespaceClient::Init(): received namespace data 20780
+Tue Dec 31 2019 20:03:22.323 - Self queried namespace: 20780
+Tue Dec 31 2019 20:03:22.323 - VR server 1.9.16 (v1576990468) starting up with config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
+Tue Dec 31 2019 20:03:22.323 - VRServer will wait for VRMonitor before exiting
+Tue Dec 31 2019 20:03:22.330 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:22.330 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:22.330 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:22.331 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:22.332 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 20:03:22.337 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:22.338 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:22.338 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:22.339 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:22.340 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 20:03:22.364 - Adding controller type vive_controller
+Tue Dec 31 2019 20:03:22.365 - Adding controller type oculus_touch
+Tue Dec 31 2019 20:03:22.366 - Adding controller type knuckles
+Tue Dec 31 2019 20:03:22.375 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
+Tue Dec 31 2019 20:03:22.376 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
+Tue Dec 31 2019 20:03:22.376 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
+Tue Dec 31 2019 20:03:22.376 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
+Tue Dec 31 2019 20:03:22.377 - Web language is english
+Tue Dec 31 2019 20:03:22.377 - [Web] Starting web server on port 27062
+Tue Dec 31 2019 20:03:22.380 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe (VRApplication_Bootstrapper) (Args: -startupreason steamvr_restart) 26792 
+Tue Dec 31 2019 20:03:22.381 - AppInfoManager.ProcessConnected BEGIN 26792 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe 7 steam.overlay.250820
+Tue Dec 31 2019 20:03:22.389 - SetApplicationPid appkey=openvr.component.vrstartup pid=26792, external transition
+Tue Dec 31 2019 20:03:22.389 - SetApplicationPid: Setting app openvr.component.vrstartup PID to 26792
+Tue Dec 31 2019 20:03:22.389 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:22.396 - lighthouse: version 1.9.16
+Tue Dec 31 2019 20:03:22.396 - lighthouse: Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
+Tue Dec 31 2019 20:03:22.397 - lighthouse: Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
+Tue Dec 31 2019 20:03:22.397 - lighthouse: Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
+Tue Dec 31 2019 20:03:22.397 - lighthouse: Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
+Tue Dec 31 2019 20:03:22.401 - lighthouse: Attached HID Devices:
+Tue Dec 31 2019 20:03:22.401 - lighthouse:     No devices
+Tue Dec 31 2019 20:03:22.401 -   driver lighthouse implements interfaces IVRSettings_003 ITrackedDeviceServerDriver_005 IVRDisplayComponent_002 IVRDriverDirectModeComponent_005 IVRCameraComponent_003 IServerTrackedDeviceProvider_004 IVRWatchdogProvider_001 IVRVirtualDisplay_002 IVRDriverManager_001 IVRResources_001 IVRCompositorPluginProvider_001 
+Tue Dec 31 2019 20:03:22.401 - Loaded server driver lighthouse (IServerTrackedDeviceProvider_004) from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\bin\win64\driver_lighthouse.dll
+Tue Dec 31 2019 20:03:22.401 - Driver lighthouse has no suitable devices.
+Tue Dec 31 2019 20:03:22.403 - oculus: version 1.9.16
+Tue Dec 31 2019 20:03:22.460 - oculus: [CAPI] LibOVR module is located at C:\Program Files\Oculus\Support\oculus-runtime\LibOVRRT64_1.dll
+Tue Dec 31 2019 20:03:22.508 - AUDIO: Refreshing audio devices
+Tue Dec 31 2019 20:03:22.531 - oculus: Connected to the server running version (prod = 1).1.44.0(build = 340274) feature version = 0. Client runs version (prod = 1).1.44.0(build = 0) feature version = 0
+Tue Dec 31 2019 20:03:22.532 - oculus: [HMDState] Using default profile default
+Tue Dec 31 2019 20:03:22.532 - oculus: IAD changed to 66.7mm
+Tue Dec 31 2019 20:03:22.532 - oculus: UpdateGeneratedState: IPD = 0.0667414, IAD = 0.0667414, screen_sep = 0.0727134
+Tue Dec 31 2019 20:03:22.532 - oculus: Creating factory
+Tue Dec 31 2019 20:03:22.552 - AUDIO: Detected 18 playback and 16 record devices
+Tue Dec 31 2019 20:03:22.658 - oculus: Initialized Oculus device 1PASH9AFEV9173
+Tue Dec 31 2019 20:03:22.658 - Driver 'oculus' started activation of tracked device with serial number '1PASH9AFEV9173'
+Tue Dec 31 2019 20:03:22.658 -   driver oculus implements interfaces IVRSettings_003 ITrackedDeviceServerDriver_005 IVRDisplayComponent_002 IVRDriverDirectModeComponent_005 IVRCameraComponent_003 IServerTrackedDeviceProvider_004 IVRWatchdogProvider_001 IVRVirtualDisplay_002 IVRDriverManager_001 IVRResources_001 IVRCompositorPluginProvider_001 
+Tue Dec 31 2019 20:03:22.658 - Loaded server driver oculus (IServerTrackedDeviceProvider_004) from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\oculus\bin\win64\driver_oculus.dll
+Tue Dec 31 2019 20:03:22.659 - oculus: Forcing chaperone update
+Tue Dec 31 2019 20:03:22.659 - oculus: Prediction interval too high: 17.093238 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:03:22.665 - oculus: Chaperone updated with universe ID -929691017
+Tue Dec 31 2019 20:03:22.665 - oculus: Default audio playback device: {0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
+Tue Dec 31 2019 20:03:22.665 - oculus: Default audio recording device: {0.0.1.00000000}.{bd89f351-b2da-4513-9e27-9eae9f31ce0c}
+Tue Dec 31 2019 20:03:22.666 - Active HMD set to oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:22.666 - Using display adapter luid: 50815
+Tue Dec 31 2019 20:03:22.666 - Initialized EyeToHead Left Translation -0.031500 0.000000 0.000000 
+Tue Dec 31 2019 20:03:22.666 - Initialized EyeToHead Right Translation 0.031500 0.000000 0.000000 
+Tue Dec 31 2019 20:03:22.666 - Set thread 0000000000000BB0 priority to: 15
+Tue Dec 31 2019 20:03:22.667 - DXGI thread failed to get SDL display index
+Tue Dec 31 2019 20:03:22.667 - Adding controller type rift
+Tue Dec 31 2019 20:03:22.668 - Driver 'oculus' finished adding tracked device with serial number '1PASH9AFEV9173'
+Tue Dec 31 2019 20:03:22.670 -   driver gamepad implements interfaces IVRSettings_003 ITrackedDeviceServerDriver_005 IVRDisplayComponent_002 IVRDriverDirectModeComponent_005 IVRCameraComponent_003 IServerTrackedDeviceProvider_004 IVRWatchdogProvider_001 IVRVirtualDisplay_002 IVRDriverManager_001 IVRResources_001 IVRCompositorPluginProvider_001 
+Tue Dec 31 2019 20:03:22.670 - Loaded server driver gamepad (IServerTrackedDeviceProvider_004) from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\gamepad\bin\win64\driver_gamepad.dll
+Tue Dec 31 2019 20:03:22.670 - Processing message VRMsg_Connect from vrstartup (26792) took 0.29 seconds
+Tue Dec 31 2019 20:03:22.752 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:22.757 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe (VRApplication_Background) (Args: ) 20976 
+Tue Dec 31 2019 20:03:22.757 - AppInfoManager.ProcessConnected BEGIN 20976 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 3 openvr.component.vrcompositor
+Tue Dec 31 2019 20:03:22.765 - SetApplicationPid appkey=openvr.component.vrcompositor pid=20976, external transition
+Tue Dec 31 2019 20:03:22.765 - SetApplicationPid: Setting app openvr.component.vrcompositor PID to 20976
+Tue Dec 31 2019 20:03:22.765 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:22.767 - openvr.component.vrcompositor (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/resources/config/vrcompositor_bindings_generic_hmd.json
+Tue Dec 31 2019 20:03:22.767 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:22.767 - Processing message VRMsg_Connect from vrcompositor (20976) took 0.0098 seconds
+Tue Dec 31 2019 20:03:22.784 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:22.949 - [Steam] Steam INIT.
+Tue Dec 31 2019 20:03:23.419 - [Settings] Save Json Settings to C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 20:03:23.488 - oculus: CliD3D11CompositorClient::initialize 1
+Tue Dec 31 2019 20:03:23.489 - oculus: Creating KMTHandle 0x5e6b50f0
+Tue Dec 31 2019 20:03:24.061 - oculus: Creating KMTHandle 0x5e8ec900
+Tue Dec 31 2019 20:03:24.061 - oculus: KMTHandle::Create hDevice=0x40000a40
+Tue Dec 31 2019 20:03:24.061 - oculus: KMTHandle::Create hContexts[0] = 1073745472
+Tue Dec 31 2019 20:03:24.061 - oculus: KMTHandle::Create hContexts[1] = 1073745792
+Tue Dec 31 2019 20:03:24.061 - oculus: CliD3D11CompositorClient initialized
+Tue Dec 31 2019 20:03:24.066 - Processing message VRMsg_CreateSwapTextureSet from vrcompositor (20976) took 0.577 seconds
+Tue Dec 31 2019 20:03:24.066 - oculus: CliD3D11CompositorClient::addD3DRef 2
+Tue Dec 31 2019 20:03:24.137 - oculus: Detected new Oculus Touch controller: 0/1
+Tue Dec 31 2019 20:03:24.137 - Driver 'oculus' started activation of tracked device with serial number '1PASH9AFEV9173_Controller_Left'
+Tue Dec 31 2019 20:03:24.137 - oculus: Detected new Oculus Touch controller: 1/2
+Tue Dec 31 2019 20:03:24.137 - Driver 'oculus' started activation of tracked device with serial number '1PASH9AFEV9173_Controller_Right'
+Tue Dec 31 2019 20:03:24.141 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=base inputRouting=0 filename=
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=tip inputRouting=0 filename=
+Tue Dec 31 2019 20:03:24.159 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Tue Dec 31 2019 20:03:24.159 - Driver 'oculus' finished adding tracked device with serial number '1PASH9AFEV9173_Controller_Left'
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=base inputRouting=0 filename=
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=tip inputRouting=0 filename=
+Tue Dec 31 2019 20:03:24.163 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Tue Dec 31 2019 20:03:24.163 - Driver 'oculus' finished adding tracked device with serial number '1PASH9AFEV9173_Controller_Right'
+Tue Dec 31 2019 20:03:24.166 - openvr.component.vrcompositor (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/vrcompositor_bindings_touch.json
+Tue Dec 31 2019 20:03:24.166 - openvr.component.vrcompositor (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/resources/config/vrcompositor_bindings_generic_hmd.json
+Tue Dec 31 2019 20:03:24.168 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Tue Dec 31 2019 20:03:24.275 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:24.276 - Controller (/user/hand/left/input/system) not available for input to chord, ignoring chord
+Tue Dec 31 2019 20:03:24.283 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe (VRApplication_Overlay) (Args: ) 26692 
+Tue Dec 31 2019 20:03:24.284 - AppInfoManager.ProcessConnected BEGIN 26692 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 2 steam.overlay.250820
+Tue Dec 31 2019 20:03:24.315 - SetApplicationPid appkey=openvr.component.vrdashboard pid=26692, external transition
+Tue Dec 31 2019 20:03:24.315 - SetApplicationPid: Setting app openvr.component.vrdashboard PID to 26692
+Tue Dec 31 2019 20:03:24.315 - VRDashboard watchdog enabled for pid:26692
+Tue Dec 31 2019 20:03:24.315 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:24.316 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:24.316 - Processing message VRMsg_Connect from vrdashboard (26692) took 0.0325 seconds
+Tue Dec 31 2019 20:03:24.320 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:24.329 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: ) 26912 
+Tue Dec 31 2019 20:03:24.329 - AppInfoManager.ProcessConnected BEGIN 26912 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:24.352 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=26912, external transition
+Tue Dec 31 2019 20:03:24.352 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 26912
+Tue Dec 31 2019 20:03:24.352 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:24.352 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:24.352 - Processing message VRMsg_Connect from vrwebhelper (26912) took 0.0242 seconds
+Tue Dec 31 2019 20:03:24.462 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:24.771 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:24.777 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe (VRApplication_VRMonitor) (Args: -nokillprocess -startupappid 250820 -startupreason steamvr_restart -startupapptype 7) 9008 
+Tue Dec 31 2019 20:03:24.777 - AppInfoManager.ProcessConnected BEGIN 9008 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 5 steam.overlay.250820
+Tue Dec 31 2019 20:03:24.788 - SetApplicationPid appkey=openvr.component.vrmonitor pid=9008, external transition
+Tue Dec 31 2019 20:03:24.788 - SetApplicationPid: Setting app openvr.component.vrmonitor PID to 9008
+Tue Dec 31 2019 20:03:24.788 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:24.789 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:24.789 - Processing message VRMsg_Connect from vrmonitor (9008) took 0.0113 seconds
+Tue Dec 31 2019 20:03:25.179 - Closing pipe vrstartup (26792) because it was broken from the other end
+Tue Dec 31 2019 20:03:25.179 - Process vrstartup (26792) disconnected (Thread(0x000001F85B252C00/0x000)
+Tue Dec 31 2019 20:03:25.179 - AppInfoManager.ProcessQuit processid=26792 eLaunchingApp=LaunchingApp_None
+Tue Dec 31 2019 20:03:25.179 - AppInfoManager.ProcessQuit: Clearing application openvr.component.vrstartup PID because 26792 has exited
+Tue Dec 31 2019 20:03:25.891 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.177 - openvr.component.vrcompositor (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/vrcompositor_bindings_touch.json
+Tue Dec 31 2019 20:03:26.177 - openvr.component.vrcompositor (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/resources/config/vrcompositor_bindings_generic_hmd.json
+Tue Dec 31 2019 20:03:26.264 - Couldn't find action /actions/system/in/showpowermenu. Ignoring it.
+Tue Dec 31 2019 20:03:26.824 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.825 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.837 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.837 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.859 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.868 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=12576062907106228580 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=12576062907106228580 --renderer-client-id=9 --mojo-platform-channel-handle=3032 /prefetch:1) 8184 
+Tue Dec 31 2019 20:03:26.868 - AppInfoManager.ProcessConnected BEGIN 8184 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:26.869 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.869 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.881 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.890 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=8184, external transition
+Tue Dec 31 2019 20:03:26.890 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 8184
+Tue Dec 31 2019 20:03:26.890 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:26.891 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:26.891 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=14153095422767020948 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=14153095422767020948 --renderer-client-id=6 --mojo-platform-channel-handle=2936 /prefetch:1) 15720 
+Tue Dec 31 2019 20:03:26.891 - AppInfoManager.ProcessConnected BEGIN 15720 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:26.892 - Processing message VRMsg_Connect from vrwebhelper (8184) took 0.023 seconds
+Tue Dec 31 2019 20:03:26.902 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=15720, external transition
+Tue Dec 31 2019 20:03:26.902 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 15720
+Tue Dec 31 2019 20:03:26.902 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:26.902 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:26.902 - Processing message VRMsg_Connect from vrwebhelper (15720) took 0.0232 seconds
+Tue Dec 31 2019 20:03:26.902 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=8819293078978271814 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=8819293078978271814 --renderer-client-id=7 --mojo-platform-channel-handle=2984 /prefetch:1) 24092 
+Tue Dec 31 2019 20:03:26.903 - AppInfoManager.ProcessConnected BEGIN 24092 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:26.912 - SetApplicationPid appkey=system.vrwebhelper.progressindicator pid=8184, external transition
+Tue Dec 31 2019 20:03:26.912 - Enabling legacy input for system.vrwebhelper.progressindicator
+Tue Dec 31 2019 20:03:26.914 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=24092, external transition
+Tue Dec 31 2019 20:03:26.914 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 24092
+Tue Dec 31 2019 20:03:26.914 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:26.915 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:26.915 - Processing message VRMsg_Connect from vrwebhelper (24092) took 0.0342 seconds
+Tue Dec 31 2019 20:03:26.915 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=10329764604074723425 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=10329764604074723425 --renderer-client-id=8 --mojo-platform-channel-handle=3020 /prefetch:1) 28292 
+Tue Dec 31 2019 20:03:26.915 - AppInfoManager.ProcessConnected BEGIN 28292 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:26.915 - system.vrwebhelper.progressindicator (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:03:26.915 - system.vrwebhelper.progressindicator (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:03:26.927 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=28292, external transition
+Tue Dec 31 2019 20:03:26.927 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 28292
+Tue Dec 31 2019 20:03:26.927 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:26.927 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:26.927 - Processing message VRMsg_Connect from vrwebhelper (28292) took 0.0316 seconds
+Tue Dec 31 2019 20:03:26.928 - SetApplicationPid appkey=system.keyboard pid=15720, external transition
+Tue Dec 31 2019 20:03:26.929 - Enabling legacy input for system.keyboard
+Tue Dec 31 2019 20:03:26.932 - system.keyboard (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:03:26.932 - system.keyboard (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:03:26.935 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.941 - SetApplicationPid appkey=system.messageoverlay pid=24092, external transition
+Tue Dec 31 2019 20:03:26.941 - Enabling legacy input for system.messageoverlay
+Tue Dec 31 2019 20:03:26.944 - system.messageoverlay (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:03:26.944 - system.messageoverlay (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:03:26.950 - SetApplicationPid appkey=system.toast pid=28292, external transition
+Tue Dec 31 2019 20:03:26.967 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:26.971 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=11587875370568260583 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=11587875370568260583 --renderer-client-id=3 --mojo-platform-channel-handle=2728 /prefetch:1) 10712 
+Tue Dec 31 2019 20:03:26.971 - AppInfoManager.ProcessConnected BEGIN 10712 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:26.983 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=10712, external transition
+Tue Dec 31 2019 20:03:26.983 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 10712
+Tue Dec 31 2019 20:03:26.983 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:26.983 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:26.983 - Processing message VRMsg_Connect from vrwebhelper (10712) took 0.0129 seconds
+Tue Dec 31 2019 20:03:27.031 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.064 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.067 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=885780172134821705 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=885780172134821705 --renderer-client-id=4 --mojo-platform-channel-handle=2888 /prefetch:1) 4084 
+Tue Dec 31 2019 20:03:27.067 - AppInfoManager.ProcessConnected BEGIN 4084 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:27.078 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=4084, external transition
+Tue Dec 31 2019 20:03:27.078 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 4084
+Tue Dec 31 2019 20:03:27.078 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:27.078 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:27.078 - Processing message VRMsg_Connect from vrwebhelper (4084) took 0.0108 seconds
+Tue Dec 31 2019 20:03:27.102 - SetApplicationPid appkey=system.vrwebhelper.bindingcallouts pid=4084, external transition
+Tue Dec 31 2019 20:03:27.128 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.128 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.166 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.166 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.177 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.177 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=7327602260272618243 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=7327602260272618243 --renderer-client-id=12 --mojo-platform-channel-handle=3312 /prefetch:1) 20344 
+Tue Dec 31 2019 20:03:27.177 - AppInfoManager.ProcessConnected BEGIN 20344 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:27.194 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=20344, external transition
+Tue Dec 31 2019 20:03:27.194 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 20344
+Tue Dec 31 2019 20:03:27.195 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:27.195 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:27.195 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=8980619451775719958 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=8980619451775719958 --renderer-client-id=5 --mojo-platform-channel-handle=2860 /prefetch:1) 24600 
+Tue Dec 31 2019 20:03:27.195 - AppInfoManager.ProcessConnected BEGIN 24600 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:27.195 - Processing message VRMsg_Connect from vrwebhelper (20344) took 0.0186 seconds
+Tue Dec 31 2019 20:03:27.198 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.208 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=24600, external transition
+Tue Dec 31 2019 20:03:27.208 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 24600
+Tue Dec 31 2019 20:03:27.208 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:27.208 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:27.208 - Processing message VRMsg_Connect from vrwebhelper (24600) took 0.0285 seconds
+Tue Dec 31 2019 20:03:27.208 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=9776956379804885607 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=9776956379804885607 --renderer-client-id=10 --mojo-platform-channel-handle=3096 /prefetch:1) 9308 
+Tue Dec 31 2019 20:03:27.208 - AppInfoManager.ProcessConnected BEGIN 9308 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:27.223 - SetApplicationPid appkey=system.vrwebhelper.systemui pid=20344, external transition
+Tue Dec 31 2019 20:03:27.223 - Enabling legacy input for system.vrwebhelper.systemui
+Tue Dec 31 2019 20:03:27.228 - system.vrwebhelper.systemui (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:03:27.228 - system.vrwebhelper.systemui (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:03:27.229 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=9308, external transition
+Tue Dec 31 2019 20:03:27.229 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 9308
+Tue Dec 31 2019 20:03:27.229 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:27.229 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:27.229 - Processing message VRMsg_Connect from vrwebhelper (9308) took 0.0267 seconds
+Tue Dec 31 2019 20:03:27.233 - SetApplicationPid appkey=system.vrwebhelper.controllerbinding pid=24600, external transition
+Tue Dec 31 2019 20:03:27.233 - Enabling legacy input for system.vrwebhelper.controllerbinding
+Tue Dec 31 2019 20:03:27.236 - system.vrwebhelper.controllerbinding (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:03:27.236 - system.vrwebhelper.controllerbinding (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:03:27.252 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.254 - SetApplicationPid appkey=system.settings pid=9308, external transition
+Tue Dec 31 2019 20:03:27.257 - New Connect message from C:\Program Files (x86)\Steam\Steam.exe (VRApplication_Overlay) (Args: ) 27996 
+Tue Dec 31 2019 20:03:27.257 - AppInfoManager.ProcessConnected BEGIN 27996 C:\Program Files (x86)\Steam\Steam.exe 2 
+Tue Dec 31 2019 20:03:27.268 - Creating builtin app for C:\Program Files (x86)\Steam\Steam.exe (VRApplication_Overlay)
+Tue Dec 31 2019 20:03:27.268 - SetApplicationPid appkey=system.generated.steam.exe pid=27996, external transition
+Tue Dec 31 2019 20:03:27.268 - SetApplicationPid: Setting app system.generated.steam.exe PID to 27996
+Tue Dec 31 2019 20:03:27.268 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:27.268 - Enabling legacy input for system.generated.steam.exe
+Tue Dec 31 2019 20:03:27.270 - system.generated.steam.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:03:27.270 - system.generated.steam.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:03:27.270 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:27.270 - Processing message VRMsg_Connect from Steam (27996) took 0.0135 seconds
+Tue Dec 31 2019 20:03:27.273 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.306 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:27.310 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe (VRApplication_WebHelper) (Args: --type=renderer --no-sandbox --autoplay-policy=no-user-gesture-required --enable-experimental-web-platform-features --field-trial-handle=1636,6258534192157281257,61320717538268941,131072 --service-pipe-token=15134035476013661860 --enable-blink-features=ResizeObserver --lang=en-US --log-file=C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\debug.log --log-severity=disable --product-version=SteamVR HTML --disable-spell-checking --device-scale-factor=2.5 --num-raster-threads=4 --enable-main-frame-before-activation --service-request-channel-token=15134035476013661860 --renderer-client-id=11 --mojo-platform-channel-handle=3140 /prefetch:1) 19264 
+Tue Dec 31 2019 20:03:27.310 - AppInfoManager.ProcessConnected BEGIN 19264 C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8 steam.overlay.250820
+Tue Dec 31 2019 20:03:27.311 - Adding application manifest path: C:\Program Files (x86)\Steam\config\steamapps.vrmanifest
+Tue Dec 31 2019 20:03:27.325 - Processing message VRMsg_AddApplicationManifest from Steam (27996) took 0.0134 seconds
+Tue Dec 31 2019 20:03:27.327 - SetApplicationPid appkey=openvr.component.vrwebhelper pid=19264, external transition
+Tue Dec 31 2019 20:03:27.327 - SetApplicationPid: Setting app openvr.component.vrwebhelper PID to 19264
+Tue Dec 31 2019 20:03:27.327 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:27.327 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:27.327 - Processing message VRMsg_Connect from vrwebhelper (19264) took 0.0169 seconds
+Tue Dec 31 2019 20:03:29.894 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:03:29.932 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 16272 
+Tue Dec 31 2019 20:03:29.933 - StartSceneApplicationTransitionFromProcess( 16272, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Tue Dec 31 2019 20:03:29.933 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Tue Dec 31 2019 20:03:29.933 - AppInfoManager.ProcessConnected BEGIN 16272 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Tue Dec 31 2019 20:03:29.964 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=16272, external transition
+Tue Dec 31 2019 20:03:29.964 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 16272
+Tue Dec 31 2019 20:03:29.964 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:03:29.964 - Enabling legacy input for system.generated.spacepiratevr.exe
+Tue Dec 31 2019 20:03:29.968 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:03:29.968 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:03:29.968 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:03:29.968 - Processing message VRMsg_Connect from SpacePirateVR (16272) took 0.0357 seconds
+Tue Dec 31 2019 20:03:32.459 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Tue Dec 31 2019 20:03:32.467 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Tue Dec 31 2019 20:03:32.472 - Processing message VRMsg_CreateSwapTextureSet from SpacePirateVR (16272) took 0.00567 seconds
+Tue Dec 31 2019 20:03:34.002 - oculus: IAD changed to 63.5mm
+Tue Dec 31 2019 20:03:34.002 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Tue Dec 31 2019 20:03:34.324 - oculus: IAD data invalid, setting to default
+Tue Dec 31 2019 20:03:34.427 - oculus: IAD changed to 66.6mm
+Tue Dec 31 2019 20:03:34.427 - oculus: UpdateGeneratedState: IPD = 0.0666362, IAD = 0.0666362, screen_sep = 0.0726082
+Tue Dec 31 2019 20:03:38.486 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Tue Dec 31 2019 20:03:38.489 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Tue Dec 31 2019 20:03:38.489 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Tue Dec 31 2019 20:03:38.489 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Tue Dec 31 2019 20:03:38.489 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Tue Dec 31 2019 20:03:38.550 - Unknown action set /actions/buggy
+Tue Dec 31 2019 20:03:38.551 - Unknown action set /actions/platformer
+Tue Dec 31 2019 20:03:38.554 - Unknown action set /actions/buggy
+Tue Dec 31 2019 20:03:38.555 - Unknown action set /actions/platformer
+Tue Dec 31 2019 20:04:13.855 - oculus: Prediction interval too high: 0.101929 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:04:17.845 - oculus: IAD changed to 63.5mm
+Tue Dec 31 2019 20:04:17.845 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Tue Dec 31 2019 20:04:18.472 - oculus: IAD changed to 66.6mm
+Tue Dec 31 2019 20:04:18.472 - oculus: UpdateGeneratedState: IPD = 0.0666361, IAD = 0.0666361, screen_sep = 0.0726081
+Tue Dec 31 2019 20:04:18.499 - oculus: Prediction interval too high: 0.107929 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:04:18.570 - oculus: IAD changed to 63.5mm
+Tue Dec 31 2019 20:04:18.570 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Tue Dec 31 2019 20:04:18.570 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Tue Dec 31 2019 20:04:18.570 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Tue Dec 31 2019 20:04:18.806 - oculus: IAD changed to 66.6mm
+Tue Dec 31 2019 20:04:18.806 - oculus: UpdateGeneratedState: IPD = 0.0666361, IAD = 0.0666361, screen_sep = 0.0726081
+Tue Dec 31 2019 20:04:18.806 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Tue Dec 31 2019 20:04:18.806 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Tue Dec 31 2019 20:04:29.325 - oculus: Prediction interval too high: 0.104356 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:04:32.912 - oculus: IAD changed to 63.5mm
+Tue Dec 31 2019 20:04:32.912 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Tue Dec 31 2019 20:04:33.451 - oculus: IAD changed to 66.6mm
+Tue Dec 31 2019 20:04:33.451 - oculus: UpdateGeneratedState: IPD = 0.0666362, IAD = 0.0666362, screen_sep = 0.0726082
+Tue Dec 31 2019 20:05:36.236 - oculus: Prediction interval too high: 0.102910 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:05:40.533 - oculus: IAD changed to 63.5mm
+Tue Dec 31 2019 20:05:40.533 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Tue Dec 31 2019 20:05:41.150 - oculus: IAD changed to 66.6mm
+Tue Dec 31 2019 20:05:41.152 - oculus: UpdateGeneratedState: IPD = 0.0666362, IAD = 0.0666362, screen_sep = 0.0726082
+Tue Dec 31 2019 20:06:17.858 - oculus: Prediction interval too high: 0.101475 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:06:27.358 - Starting SteamVR Home launch because system.generated.spacepiratevr.exe exited after 177.393913 seconds
+Tue Dec 31 2019 20:06:27.653 - Closing pipe SpacePirateVR (16272) because it was broken from the other end
+Tue Dec 31 2019 20:06:27.653 - Process SpacePirateVR (16272) disconnected (Thread(0x000001F85C9D7980/0x000)
+Tue Dec 31 2019 20:06:27.653 - oculus: CliD3D11CompositorClient::release 4
+Tue Dec 31 2019 20:06:27.653 - AppInfoManager.ProcessQuit processid=16272 eLaunchingApp=LaunchingApp_None
+Tue Dec 31 2019 20:06:27.653 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 16272 has exited
+Tue Dec 31 2019 20:06:27.653 - oculus: CliD3D11CompositorClient::release 3
+Tue Dec 31 2019 20:06:32.817 - oculus: IAD changed to 63.5mm
+Tue Dec 31 2019 20:06:32.817 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Tue Dec 31 2019 20:06:32.817 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Tue Dec 31 2019 20:06:32.817 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Tue Dec 31 2019 20:06:32.917 - oculus: Prediction interval too high: 0.108438 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:06:38.802 - 0 - entering standby
+Tue Dec 31 2019 20:09:31.301 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:09:31.311 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 13408 
+Tue Dec 31 2019 20:09:31.312 - StartSceneApplicationTransitionFromProcess( 13408, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Tue Dec 31 2019 20:09:31.312 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Tue Dec 31 2019 20:09:31.312 - AppInfoManager.ProcessConnected BEGIN 13408 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Tue Dec 31 2019 20:09:31.321 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=13408, external transition
+Tue Dec 31 2019 20:09:31.321 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 13408
+Tue Dec 31 2019 20:09:31.321 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:09:31.321 - Enabling legacy input for system.generated.spacepiratevr.exe
+Tue Dec 31 2019 20:09:31.323 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:09:31.323 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:09:31.323 - 0 - leaving standby
+Tue Dec 31 2019 20:09:31.323 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:09:31.323 - Processing message VRMsg_Connect from SpacePirateVR (13408) took 0.0114 seconds
+Tue Dec 31 2019 20:09:33.365 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Tue Dec 31 2019 20:09:33.371 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Tue Dec 31 2019 20:09:39.505 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Tue Dec 31 2019 20:09:39.507 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Tue Dec 31 2019 20:09:39.507 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Tue Dec 31 2019 20:09:39.507 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Tue Dec 31 2019 20:09:39.507 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Tue Dec 31 2019 20:09:39.563 - Unknown action set /actions/buggy
+Tue Dec 31 2019 20:09:39.564 - Unknown action set /actions/platformer
+Tue Dec 31 2019 20:09:39.566 - Unknown action set /actions/buggy
+Tue Dec 31 2019 20:09:39.567 - Unknown action set /actions/platformer
+Tue Dec 31 2019 20:09:40.917 - oculus: IAD changed to 66.6mm
+Tue Dec 31 2019 20:09:40.917 - oculus: UpdateGeneratedState: IPD = 0.0666362, IAD = 0.0666362, screen_sep = 0.0726082
+Tue Dec 31 2019 20:09:41.023 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Tue Dec 31 2019 20:09:41.088 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Tue Dec 31 2019 20:09:42.083 - oculus: Prediction interval too high: 0.102287 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:09:42.098 - oculus: IAD changed to 63.5mm
+Tue Dec 31 2019 20:09:42.098 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Tue Dec 31 2019 20:09:42.098 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Tue Dec 31 2019 20:09:42.098 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Tue Dec 31 2019 20:09:46.318 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Tue Dec 31 2019 20:09:46.318 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Tue Dec 31 2019 20:09:46.318 - oculus: IAD changed to 66.6mm
+Tue Dec 31 2019 20:09:46.318 - oculus: UpdateGeneratedState: IPD = 0.0666362, IAD = 0.0666362, screen_sep = 0.0726082
+Tue Dec 31 2019 20:10:26.596 - oculus: Prediction interval too high: 0.106546 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:10:33.314 - Starting SteamVR Home launch because system.generated.spacepiratevr.exe exited after 61.992809 seconds
+Tue Dec 31 2019 20:10:33.578 - Closing pipe SpacePirateVR (13408) because it was broken from the other end
+Tue Dec 31 2019 20:10:33.578 - Process SpacePirateVR (13408) disconnected (Thread(0x000001F85C9D6270/0x000)
+Tue Dec 31 2019 20:10:33.578 - oculus: CliD3D11CompositorClient::release 4
+Tue Dec 31 2019 20:10:33.578 - AppInfoManager.ProcessQuit processid=13408 eLaunchingApp=LaunchingApp_None
+Tue Dec 31 2019 20:10:33.578 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 13408 has exited
+Tue Dec 31 2019 20:10:33.578 - oculus: CliD3D11CompositorClient::release 3
+Tue Dec 31 2019 20:10:38.620 - 0 - entering standby
+Tue Dec 31 2019 20:10:49.702 - CSharedResourceNamespaceServer sent namespace data: 20780
+Tue Dec 31 2019 20:10:49.713 - New Connect message from C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene) (Args: ) 17584 
+Tue Dec 31 2019 20:10:49.713 - StartSceneApplicationTransitionFromProcess( 17584, C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe, )
+Tue Dec 31 2019 20:10:49.713 - Creating builtin app for C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe (VRApplication_Scene)
+Tue Dec 31 2019 20:10:49.713 - AppInfoManager.ProcessConnected BEGIN 17584 C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1 
+Tue Dec 31 2019 20:10:49.722 - SetApplicationPid appkey=system.generated.spacepiratevr.exe pid=17584, external transition
+Tue Dec 31 2019 20:10:49.722 - SetApplicationPid: Setting app system.generated.spacepiratevr.exe PID to 17584
+Tue Dec 31 2019 20:10:49.722 - AppInfoManager.ProcessConnected END
+Tue Dec 31 2019 20:10:49.722 - Enabling legacy input for system.generated.spacepiratevr.exe
+Tue Dec 31 2019 20:10:49.724 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Tue Dec 31 2019 20:10:49.724 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Tue Dec 31 2019 20:10:49.724 - 0 - leaving standby
+Tue Dec 31 2019 20:10:49.725 - Using existing HMD oculus.1PASH9AFEV9173
+Tue Dec 31 2019 20:10:49.725 - Processing message VRMsg_Connect from SpacePirateVR (17584) took 0.012 seconds
+Tue Dec 31 2019 20:10:51.770 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Tue Dec 31 2019 20:10:51.777 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Tue Dec 31 2019 20:10:57.172 - oculus: IAD changed to 63.5mm
+Tue Dec 31 2019 20:10:57.172 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Tue Dec 31 2019 20:10:57.646 - oculus: Prediction interval too high: 0.104237 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:10:57.660 - oculus: IAD changed to 66.7mm
+Tue Dec 31 2019 20:10:57.660 - oculus: UpdateGeneratedState: IPD = 0.0666715, IAD = 0.0666715, screen_sep = 0.0726435
+Tue Dec 31 2019 20:10:58.201 - Remembering SetActionManifestPath call from system.generated.spacepiratevr.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Tue Dec 31 2019 20:10:58.202 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Tue Dec 31 2019 20:10:58.202 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Tue Dec 31 2019 20:10:58.202 - system.generated.spacepiratevr.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Tue Dec 31 2019 20:10:58.202 - system.generated.spacepiratevr.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Tue Dec 31 2019 20:10:58.298 - Unknown action set /actions/buggy
+Tue Dec 31 2019 20:10:58.299 - Unknown action set /actions/platformer
+Tue Dec 31 2019 20:10:58.301 - Unknown action set /actions/buggy
+Tue Dec 31 2019 20:10:58.302 - Unknown action set /actions/platformer
+Tue Dec 31 2019 20:12:31.322 - oculus: Prediction interval too high: 0.102984 s, clamping at 0.100000 s
+Tue Dec 31 2019 20:12:37.571 - Starting SteamVR Home launch because system.generated.spacepiratevr.exe exited after 107.848713 seconds
+Tue Dec 31 2019 20:12:37.857 - Closing pipe SpacePirateVR (17584) because it was broken from the other end
+Tue Dec 31 2019 20:12:37.857 - Process SpacePirateVR (17584) disconnected (Thread(0x000001F85C9D7080/0x000)
+Tue Dec 31 2019 20:12:37.857 - oculus: CliD3D11CompositorClient::release 4
+Tue Dec 31 2019 20:12:37.857 - AppInfoManager.ProcessQuit processid=17584 eLaunchingApp=LaunchingApp_None
+Tue Dec 31 2019 20:12:37.857 - AppInfoManager.ProcessQuit: Clearing application system.generated.spacepiratevr.exe PID because 17584 has exited
+Tue Dec 31 2019 20:12:37.857 - oculus: CliD3D11CompositorClient::release 3
+Tue Dec 31 2019 20:12:42.867 - 0 - entering standby
