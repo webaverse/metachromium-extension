@@ -1,6 +1,8 @@
 #ifndef _openvr_coreproxy_h_
 #define _openvr_coreproxy_h_
 
+#include <deque>
+
 #include <D3D11_1.h>
 #include <DXGI1_4.h>
 #include <wrl.h>
@@ -17,9 +19,9 @@ public:
 
   // Mutex mut;
   std::vector<size_t> waitSemsOrder;
-  std::vector<size_t> submitSemsOrder;
+  std::deque<size_t> submitSemsOrder;
   std::map<size_t, Semaphore> localSems;
-  bool rightEye;
+  // bool rightEye;
 
   PVRClientCore(FnProxy &fnp);
   EVRInitError Init(EVRApplicationType eApplicationType, const char *pStartupInfo);

@@ -1,0 +1,47 @@
+--------------------------------------------------------------------------------
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+vr_init 28896
+proxy init
+create thread
+init 3
+init 6 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 000002098BCD43D0
+create interface IVRSystem_015
+core client cleanup
+get interface IVRClientCore_002
+proxy init
+init 3
+init 6 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 00000209A2205890
+create interface IVRSystem_015
+create interface IVRChaperone_003
+create interface IVRChaperoneSetup_005
+create interface IVRCompositor_020
+init gl 1
+init gl 2
+init gl 3
+init gl 4
+init gl 5
+init gl 6 0000020997A90C00
+get texture desc front 0 00000209A2460B60 1552 1720 1 27 1 0 40 0 
+get texture desc front 1 00000209A2462C60 1552 1720 1 27 1 0 40 0 
+create interface IVRCompositor_022
+create interface IVROverlay_019
+create interface FnTable:IVRInput_005
+create interface IVRInput_005
+create interface FnTable:IVRSystem_019
+create interface IVRSystem_019
+create interface FnTable:IVRCompositor_022
+create interface IVRCompositor_022
+create interface FnTable:IVROverlay_019
+create interface IVROverlay_019
+create interface FnTable:IVRScreenshots_001
+create interface IVRScreenshots_001
+create interface FnTable:IVRChaperone_003
+create interface IVRChaperone_003
+create interface FnTable:IVRRenderModels_006
+create interface IVRRenderModels_006
+core client cleanup
