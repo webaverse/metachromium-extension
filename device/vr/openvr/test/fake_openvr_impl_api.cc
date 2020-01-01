@@ -86,6 +86,7 @@ IVRApplications *vr::g_vrapplications = nullptr;
 IVRInput *g_vrinput = nullptr;
 
 PVRClientCore *g_pvrclientcore = nullptr;
+PVRSystem *g_pvrsystem = nullptr;
 PVRCompositor *g_pvrcompositor = nullptr;
 }
 
