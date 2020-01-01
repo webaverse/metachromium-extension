@@ -77,9 +77,10 @@ target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib opengl32.lib glew32.lib gl
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
 
-# ADD_EXECUTABLE(process openvr/test/serializer.cpp openvr/test/process.cpp openvr/test/fnproxy.cpp)
-# set_property(TARGET process PROPERTY CXX_STANDARD 17)
-# set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
+ADD_EXECUTABLE(process ${src} openvr/test/process.cpp)
+target_link_libraries(process dxgi.lib d3d11.lib opengl32.lib glew32.lib glfw3.lib)
+set_property(TARGET process PROPERTY CXX_STANDARD 17)
+set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
 
 # ADD_EXECUTABLE(process2 openvr/test/serializer.cpp openvr/test/process2.cpp openvr/test/fnproxy.cpp)
 # set_property(TARGET process2 PROPERTY CXX_STANDARD 17)
