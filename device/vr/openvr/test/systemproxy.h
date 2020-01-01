@@ -68,10 +68,10 @@ public:
   virtual void AcknowledgeQuit_UserPrompt();
   virtual uint32_t GetAppContainerFilePaths(VR_OUT_STRING() char *pchBuffer, uint32_t unBufferSize);
   virtual const char *GetRuntimeVersion();
-  virtual DistortionCoordinates_t ComputeDistortion(EVREye eEye, float fU, float fV);
+  /* virtual DistortionCoordinates_t ComputeDistortion(EVREye eEye, float fU, float fV);
   virtual HmdMatrix44_t GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention convention);
   virtual void PerformanceTestEnableCapture(bool bEnable);
-  virtual void PerformanceTestReportFidelityLevelChange(int nFidelityLevel);
+  virtual void PerformanceTestReportFidelityLevelChange(int nFidelityLevel); */
 };
 }
 

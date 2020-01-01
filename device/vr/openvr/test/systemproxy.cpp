@@ -474,6 +474,36 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem)(vrs
   >([=](vr::TrackedDeviceIndex_t unDeviceIndex) {
     return vrsystem->PerformFirmwareUpdate(unDeviceIndex);
   });
+  fnp.reg<
+    kIVRSystem_AcknowledgeQuit_Exiting,
+    int
+  >([=]() {
+    vrsystem->AcknowledgeQuit_Exiting();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_AcknowledgeQuit_UserPrompt,
+    int
+  >([=]() {
+    vrsystem->AcknowledgeQuit_UserPrompt();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_GetAppContainerFilePaths,
+    int
+  >([=]() {
+    getOut() << "GetAppContainerFilePaths abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVRSystem_GetRuntimeVersion,
+    int
+  >([=]() {
+    getOut() << "GetRuntimeVersion abort" << std::endl;
+    abort();
+    return 0;
+  });
 }
 void PVRSystem::GetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight) {
   auto result = fnp.call<kIVRSystem_GetRecommendedRenderTargetSize, std::tuple<uint32_t, uint32_t>>();
@@ -852,18 +882,28 @@ vr::EVRFirmwareError PVRSystem::PerformFirmwareUpdate(vr::TrackedDeviceIndex_t u
   >(unDeviceIndex);
 }
 void PVRSystem::AcknowledgeQuit_Exiting() {
-  // XXX
+  fnp.call<
+    kIVRSystem_AcknowledgeQuit_Exiting,
+    int
+  >();
 }
 void PVRSystem::AcknowledgeQuit_UserPrompt() {
-  // XXX
+  fnp.call<
+    kIVRSystem_AcknowledgeQuit_UserPrompt,
+    int
+  >();
 }
 uint32_t PVRSystem::GetAppContainerFilePaths(VR_OUT_STRING() char *pchBuffer, uint32_t unBufferSize) {
-  // XXX
+  getOut() << "GetAppContainerFilePaths abort" << std::endl;
+  abort();
+  return 0;
 }
 const char *PVRSystem::GetRuntimeVersion() {
-  // XXX
+  getOut() << "GetRuntimeVersion abort" << std::endl;
+  abort();
+  return 0;
 }
-DistortionCoordinates_t PVRSystem::ComputeDistortion(EVREye eEye, float fU, float fV) {
+/* DistortionCoordinates_t PVRSystem::ComputeDistortion(EVREye eEye, float fU, float fV) {
   // XXX
 }
 HmdMatrix44_t PVRSystem::GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention convention) {
@@ -874,5 +914,5 @@ void PVRSystem::PerformanceTestEnableCapture(bool bEnable) {
 }
 void PVRSystem::PerformanceTestReportFidelityLevelChange(int nFidelityLevel) {
   // XXX
-}
+} */
 }

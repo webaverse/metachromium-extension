@@ -375,8 +375,8 @@ public:
 // public:
 	// Legacy methods
 
-	virtual DistortionCoordinates_t ComputeDistortion(EVREye eEye, float fU, float fV);
-	virtual HmdMatrix44_t GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention convention);
+	// virtual DistortionCoordinates_t ComputeDistortion(EVREye eEye, float fU, float fV);
+	// virtual HmdMatrix44_t GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention convention);
 
 	// ------------------------------------
 	// Performance Test methods
@@ -384,9 +384,9 @@ public:
 
 	/** Performance Testing applications can call this to enable/disable when frame timing data should be
 	* captured for the Perf Test Report. */
-	virtual void PerformanceTestEnableCapture(bool bEnable);
+	// virtual void PerformanceTestEnableCapture(bool bEnable);
 
 	/** Performance Testing applications can call this to note on the Perf Test Report when they've shifted
 	* their fidelity to a new mode. */
-	virtual void PerformanceTestReportFidelityLevelChange(int nFidelityLevel);
+	// virtual void PerformanceTestReportFidelityLevelChange(int nFidelityLevel);
 };

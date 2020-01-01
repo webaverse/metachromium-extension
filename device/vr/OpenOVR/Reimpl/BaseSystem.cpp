@@ -308,7 +308,7 @@ const char *BaseSystem::GetRuntimeVersion() {
 	return g_vrsystem->GetRuntimeVersion();
 }
 
-DistortionCoordinates_t BaseSystem::ComputeDistortion(EVREye eEye, float fU, float fV) {
+/* DistortionCoordinates_t BaseSystem::ComputeDistortion(EVREye eEye, float fU, float fV) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::ComputeDistortion" << std::endl; });
   DistortionCoordinates_t result;
 	g_vrsystem->ComputeDistortion(eEye, fU, fV, &result);
@@ -330,7 +330,7 @@ void BaseSystem::PerformanceTestReportFidelityLevelChange(int nFidelityLevel) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::PerformanceTestReportFidelityLevelChange" << std::endl; });
   getOut() << "abort BaseSystem::PerformanceTestReportFidelityLevelChange" << std::endl; abort();
 	// return g_vrsystem->PerformanceTestReportFidelityLevelChange(nFidelityLevel);
-}
+} */
 
 void BaseSystem::ResetSeatedZeroPose() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::ResetSeatedZeroPose" << std::endl; });
