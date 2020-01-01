@@ -61,7 +61,17 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
     
     // getOut() << "pre wait 2" << std::endl;
 
-    size_t nextSemId = id | WAIT_MASK;
+    bool foundPendingSubmit = false;
+    std::remove_if(submitSemsOrder.begin(), submitSemsOrder.end(), [&](size_t id2) {
+      if (id == id2) {
+        foundPendingSubmit = true;
+        return true;
+      } else {
+        return false;
+      }
+    });
+
+    size_t nextSemId = !foundPendingSubmit ? (id | WAIT_MASK) : 0;
     auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), id);
     // getOut() << "iter distance " << id << " " << waitSemsOrder.size() << " " << (iter != waitSemsOrder.end()) << " " << std::distance(waitSemsOrder.begin(), iter) << std::endl;
     bool doRealWait = std::distance(waitSemsOrder.begin(), iter) == 0;
@@ -158,10 +168,12 @@ void PVRClientCore::PreWaitGetPoses(bool *doRealWait) {
   size_t id = std::get<0>(result);
   *doRealWait = std::get<1>(result);
 
-  Semaphore *sem = getLocalSemaphore(id);
-  // getOut() << "PreWaitGetPoses 2 " << id << " " << *doRealWait << std::endl;
-  sem->lock();
-  // getOut() << "PreWaitGetPoses 3 " << *doRealWait << std::endl;
+  if (id != 0) {
+    Semaphore *sem = getLocalSemaphore(id);
+    // getOut() << "PreWaitGetPoses 2 " << id << " " << *doRealWait << std::endl;
+    sem->lock();
+    // getOut() << "PreWaitGetPoses 3 " << *doRealWait << std::endl;
+  }
 }
 void PVRClientCore::PostWaitGetPoses() {
   // getOut() << "PostWaitGetPoses 1" << std::endl;
@@ -181,11 +193,14 @@ void PVRClientCore::PreSubmit(bool *doRealSubmit) {
 
   size_t id = std::get<0>(result);
   *doRealSubmit = std::get<1>(result);
-  Semaphore *nextSem = getLocalSemaphore(id);
+  
+  if (id != 0) {
+    Semaphore *nextSem = getLocalSemaphore(id);
 
-  // getOut() << "PreSubmit 2 " << fnp.callbackId << " " << localSems.size() << " " << id << " " << (id &~(WAIT_MASK|SUBMIT_MASK)) << " " << !!(id & WAIT_MASK) << " " << !!(id & SUBMIT_MASK) << " " << *doRealSubmit << std::endl;
-  nextSem->lock();
-  // getOut() << "PreSubmit 3" << std::endl;
+    // getOut() << "PreSubmit 2 " << fnp.callbackId << " " << localSems.size() << " " << id << " " << (id &~(WAIT_MASK|SUBMIT_MASK)) << " " << !!(id & WAIT_MASK) << " " << !!(id & SUBMIT_MASK) << " " << *doRealSubmit << std::endl;
+    nextSem->lock();
+    // getOut() << "PreSubmit 3" << std::endl;
+  }
 }
 void PVRClientCore::PostSubmit() {
   // getOut() << "PostSubmit 1" << std::endl;

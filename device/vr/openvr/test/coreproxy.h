@@ -2,6 +2,7 @@
 #define _openvr_coreproxy_h_
 
 #include <deque>
+#include <algorithm>
 
 #include <D3D11_1.h>
 #include <DXGI1_4.h>

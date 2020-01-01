@@ -49,8 +49,8 @@ std::ostream &getOut() {
   }
   return out;
 }
-// constexpr bool tracing = true;
-constexpr bool tracing = false;
+constexpr bool tracing = true;
+// constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {
   if (tracing) {
     fn();
