@@ -9,8 +9,10 @@ GLFWwindow *initGl() {
     if (result) {
       // nothing
     } else {
-      getOut() << "failed to initialize glew: " << (void *)result << std::endl;
-      abort();
+      const char *errorString;
+      glfwGetError(&errorString);
+      getOut() << "failed to initialize glfw: " << (void *)result << " " << errorString << std::endl;
+      // abort();
     }
     getOut() << "init gl 3" << std::endl;
 
@@ -29,15 +31,16 @@ GLFWwindow *initGl() {
     );
     getOut() << "init gl 4" << std::endl;
     glfwMakeContextCurrent(window);
-    getOut() << "init gl 5" << std::endl;
+    getOut() << "init gl 5 " << (void *)window << std::endl;
 
     glewExperimental = true;
     auto result2 = glewInit();
     if (result2 == GLEW_OK) {
       // nothing
     } else {
-      getOut() << "failed to initialize glew: " << (void *)result << std::endl;
-      abort();
+      const GLubyte *errorString = glewGetErrorString(result2);
+      getOut() << "failed to initialize glew: " << (void *)result2 << " " << errorString << std::endl;
+      // abort();
     }
     getOut() << "init gl 6 " << (void *)window << std::endl;
     return window;

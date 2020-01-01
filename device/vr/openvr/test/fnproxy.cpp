@@ -145,10 +145,11 @@ void FnProxy::handle() {
   // }
   
   if (name.size() == 0) {
-    getOut() << "fn proxy handle 2 " << remoteCallbackId << " " << name.size() << " " << name << " " << fns.size() << " " << (fns.find(name) != fns.end()) << std::endl;
+    getOut() << "error: got blank function name " << remoteCallbackId << " " << name.size() << " " << name << " " << fns.size() << " " << (fns.find(name) != fns.end()) << std::endl;
     for (auto iter : fns) {
       getOut() << iter.first << std::endl;
     }
+    abort();
   }
   
   // getOut() << "read arg 3 " << name << std::endl;

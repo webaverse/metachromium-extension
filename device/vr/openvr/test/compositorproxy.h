@@ -16,37 +16,48 @@ public:
   IVRSystem *vrsystem;
   IVRCompositor *vrcompositor;
   FnProxy &fnp;
-  
+
+  // main
   Microsoft::WRL::ComPtr<ID3D11Device> device;
   Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+  GLFWwindow *subWindow = nullptr;
+  HANDLE hInteropDevice = NULL;
+  uint32_t width;
+  uint32_t height;
+  // bool rightEye = false;
+  std::vector<GLuint> texLocations;
+  std::vector<GLuint> hasTexLocations;
 
-  ID3D11Texture2D *shTexLeft = nullptr;
+  // input front
+  std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
+  std::vector<ID3D11Texture2D *> inDxTexs;
+  std::vector<HANDLE> inShDxShareHandles;
+  std::vector<uintptr_t> inTexLatches;
+  std::vector<GLuint> interopTexs;
+  std::vector<HANDLE> inReadInteropHandles;
+  /* ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
   HANDLE shTexRightHandle = 0;
-
-  ID3D11Texture2D *shTexOut = nullptr;
-  HANDLE shTexInLeftInteropHandle = NULL;
-  HANDLE shTexInRightInteropHandle = NULL;
-  // HANDLE shTexOutLeftInteropHandle = NULL;
-  // HANDLE shTexOutRightInteropHandle = NULL;
-  HANDLE shTexOutInteropHandle = NULL;
-  GLuint fbo = 0;
-  GLuint shTexOutId;
-  GLuint texDepthId;
-  GLuint shTexInLeft = 0;
-  GLuint shTexInRight = 0;
-
-  HANDLE handleLeftLatched = nullptr;
-  HANDLE handleRightLatched = nullptr;
   ID3D11Texture2D *texLeftLatched = nullptr;
-  ID3D11Texture2D *texRightLatched = nullptr;
-  
-  GLFWwindow *subWindow = nullptr;
-  HANDLE hDevice = NULL;
-  uint32_t width;
-  uint32_t height;
-  bool rightEye = false;
+  ID3D11Texture2D *texRightLatched = nullptr; */
+
+  // input back
+  std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
+  std::vector<GLuint> inBackTexs;
+  std::vector<HANDLE> inBackInteropHandles;
+  std::vector<HANDLE> inBackHandleLatches;
+  /* HANDLE shTexInLeftInteropHandle = NULL;
+  HANDLE shTexInRightInteropHandle = NULL;
+  HANDLE handleLeftLatched = nullptr;
+  HANDLE handleRightLatched = nullptr; */
+
+  // output
+  std::vector<GLuint> fbos;
+  std::vector<GLuint> shTexOutIds;
+  std::vector<GLuint> texDepthIds;
+  std::vector<ID3D11Texture2D *> shTexOuts;
+  std::vector<HANDLE> shTexOutInteropHandles;
 
   PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
@@ -56,7 +67,9 @@ public:
 	virtual EVRCompositorError GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
 		  VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount );
 	virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose );
-	virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
+	virtual void PrepareSubmit(const Texture_t *pTexture);
+  virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
+  virtual void FlushSubmit(EVREye eEye);
 	virtual void ClearLastSubmittedFrame();
 	virtual void PostPresentHandoff();
 	virtual bool GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo = 0 );
