@@ -60,13 +60,13 @@ public:
   virtual void TriggerHapticPulse(vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec);
   virtual const char *GetButtonIdNameFromEnum(EVRButtonId eButtonId);
   virtual const char *GetControllerAxisTypeNameFromEnum(EVRControllerAxisType eAxisType);
-  virtual bool CaptureInputFocus();
-  virtual void ReleaseInputFocus();
-  virtual bool IsInputFocusCapturedByAnotherProcess();
+  // virtual bool CaptureInputFocus();
+  // virtual void ReleaseInputFocus();
+  // virtual bool IsInputFocusCapturedByAnotherProcess();
   virtual uint32_t DriverDebugRequest(vr::TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize);
   virtual vr::EVRFirmwareError PerformFirmwareUpdate(vr::TrackedDeviceIndex_t unDeviceIndex);
   virtual void AcknowledgeQuit_Exiting();
-  virtual void AcknowledgeQuit_UserPrompt();
+  // virtual void AcknowledgeQuit_UserPrompt();
   virtual uint32_t GetAppContainerFilePaths(VR_OUT_STRING() char *pchBuffer, uint32_t unBufferSize);
   virtual const char *GetRuntimeVersion();
   /* virtual DistortionCoordinates_t ComputeDistortion(EVREye eEye, float fU, float fV);

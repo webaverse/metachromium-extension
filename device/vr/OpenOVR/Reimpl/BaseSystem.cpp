@@ -258,17 +258,22 @@ const char * BaseSystem::GetControllerAxisTypeNameFromEnum(EVRControllerAxisType
 
 bool BaseSystem::CaptureInputFocus() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::CaptureInputFocus" << std::endl; });
-	return g_pvrsystem->CaptureInputFocus();
+  getOut() << "abort BaseSystem::CaptureInputFocus" << std::endl; abort();
+  return false;
+	// return g_pvrsystem->CaptureInputFocus();
 }
 
 void BaseSystem::ReleaseInputFocus() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::ReleaseInputFocus" << std::endl; });
-	return g_pvrsystem->ReleaseInputFocus();
+  getOut() << "abort BaseSystem::ReleaseInputFocus" << std::endl; abort();
+	// return g_pvrsystem->ReleaseInputFocus();
 }
 
 bool BaseSystem::IsInputFocusCapturedByAnotherProcess() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::IsInputFocusCapturedByAnotherProcess" << std::endl; });
-	return g_pvrsystem->IsInputFocusCapturedByAnotherProcess();
+  getOut() << "abort BaseSystem::ReleaseInputFocus" << std::endl; abort();
+  return false;
+	// return g_pvrsystem->IsInputFocusCapturedByAnotherProcess();
 }
 
 uint32_t BaseSystem::DriverDebugRequest(vr::TrackedDeviceIndex_t unDeviceIndex, const char * pchRequest, char * pchResponseBuffer, uint32_t unResponseBufferSize) {
@@ -288,7 +293,8 @@ void BaseSystem::AcknowledgeQuit_Exiting() {
 
 void BaseSystem::AcknowledgeQuit_UserPrompt() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::AcknowledgeQuit_UserPrompt" << std::endl; });
-	return g_pvrsystem->AcknowledgeQuit_UserPrompt();
+  getOut() << "abort BaseSystem::AcknowledgeQuit_UserPrompt" << std::endl; abort();
+	// return g_pvrsystem->AcknowledgeQuit_UserPrompt();
 }
 
 uint32_t BaseSystem::GetAppContainerFilePaths(VR_OUT_STRING() char *pchBuffer, uint32_t unBufferSize) {

@@ -46,13 +46,13 @@ char kIVRSystem_GetControllerStateWithPose[] = "IVRSystem::GetControllerStateWit
 char kIVRSystem_TriggerHapticPulse[] = "IVRSystem::TriggerHapticPulse";
 char kIVRSystem_GetButtonIdNameFromEnum[] = "IVRSystem::GetButtonIdNameFromEnum";
 char kIVRSystem_GetControllerAxisTypeNameFromEnum[] = "IVRSystem::GetControllerAxisTypeNameFromEnum";
-char kIVRSystem_CaptureInputFocus[] = "IVRSystem::CaptureInputFocus";
-char kIVRSystem_ReleaseInputFocus[] = "IVRSystem::ReleaseInputFocus";
-char kIVRSystem_IsInputFocusCapturedByAnotherProcess[] = "IVRSystem::IsInputFocusCapturedByAnotherProcess";
+// char kIVRSystem_CaptureInputFocus[] = "IVRSystem::CaptureInputFocus";
+// char kIVRSystem_ReleaseInputFocus[] = "IVRSystem::ReleaseInputFocus";
+// char kIVRSystem_IsInputFocusCapturedByAnotherProcess[] = "IVRSystem::IsInputFocusCapturedByAnotherProcess";
 char kIVRSystem_DriverDebugRequest[] = "IVRSystem::DriverDebugRequest";
 char kIVRSystem_PerformFirmwareUpdate[] = "IVRSystem::PerformFirmwareUpdate";
 char kIVRSystem_AcknowledgeQuit_Exiting[] = "IVRSystem::AcknowledgeQuit_Exiting";
-char kIVRSystem_AcknowledgeQuit_UserPrompt[] = "IVRSystem::AcknowledgeQuit_UserPrompt";
+// char kIVRSystem_AcknowledgeQuit_UserPrompt[] = "IVRSystem::AcknowledgeQuit_UserPrompt";
 char kIVRSystem_GetAppContainerFilePaths[] = "IVRSystem::GetAppContainerFilePaths";
 char kIVRSystem_GetRuntimeVersion[] = "IVRSystem::GetRuntimeVersion";
 /* char kIVRSystem_ComputeDistortion[] = "IVRSystem::ComputeDistortion";
@@ -80,22 +80,23 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
   });
   fnp.reg<
     kIVRSystem_GetProjectionRaw,
-    std:tuple<float, float, float, float>,
+    std::tuple<float, float, float, float>,
     EVREye
   >([=](EVREye eEye) {
     float left, right, top, bottom;
     vrsystem->GetProjectionRaw(eEye, &left, &right, &top, &bottom);
-    return std:tuple<float, float, float, float>(left, right, top, bottom);
+    return std::tuple<float, float, float, float>(left, right, top, bottom);
   });
   fnp.reg<
     kIVRSystem_ComputeDistortion,
     std::tuple<bool, DistortionCoordinates_t>,
+    EVREye,
     float,
     float
-  >([=](EVREye eEye, float fU, fV) {
+  >([=](EVREye eEye, float fU, float fV) {
     DistortionCoordinates_t distCoords;
-    auto result = vrsystem->ComputeDistortion(eEye, &distCoords);
-    return std:tuple<bool, DistortionCoordinates_t>(result, distCoords);
+    auto result = vrsystem->ComputeDistortion(eEye, fU, fV, &distCoords);
+    return std::tuple<bool, DistortionCoordinates_t>(result, distCoords);
   });
   fnp.reg<
     kIVRSystem_GetEyeToHeadTransform,
@@ -108,8 +109,9 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     kIVRSystem_GetTimeSinceLastVsync,
     std::tuple<bool, float, uint64_t>
   >([=]() {
-    float fSecondsSinceLastVsync, ulFrameCounter;
-    auto result = vrsystem->GetTimeSinceLastVsync(eEye, &fSecondsSinceLastVsync, &ulFrameCounter);
+    float fSecondsSinceLastVsync;
+    uint64_t ulFrameCounter;
+    auto result = vrsystem->GetTimeSinceLastVsync(&fSecondsSinceLastVsync, &ulFrameCounter);
     return std::tuple<bool, float, uint64_t>(result, fSecondsSinceLastVsync, ulFrameCounter);
   });
   fnp.reg<
@@ -138,7 +140,7 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     kIVRSystem_IsDisplayOnDesktop,
     bool
   >([=]() {
-    return vrsystem->kIVRSystem_IsDisplayOnDesktop();
+    return vrsystem->IsDisplayOnDesktop();
   });
   fnp.reg<
     kIVRSystem_SetDisplayVisibility,
@@ -229,7 +231,7 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
   });
   fnp.reg<
     kIVRSystem_GetTrackedDeviceClass,
-    vr::ETrackedControllerRole,
+    vr::ETrackedDeviceClass,
     vr::TrackedDeviceIndex_t
   >([=](vr::TrackedDeviceIndex_t unDeviceIndex) {
     return vrsystem->GetTrackedDeviceClass(unDeviceIndex);
@@ -298,11 +300,11 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     ETrackedDeviceProperty,
     PropertyTypeTag_t,
     uint32_t
-  >([=](vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedDeviceProperty propType, uint32_t unBufferSize) {
+  >([=](vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, uint32_t unBufferSize) {
     managed_binary<unsigned char> buffer(unBufferSize);
     ETrackedPropertyError error;
     auto numBytes = vrsystem->GetArrayTrackedDeviceProperty(unDeviceIndex, prop, propType, buffer.data(), unBufferSize, &error);
-    return std::tuple<HmdMatrix34_t, ETrackedPropertyError>(
+    return std::tuple<uint32_t, managed_binary<unsigned char>, ETrackedPropertyError>(
       numBytes,
       std::move(buffer),
       error
@@ -318,7 +320,7 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     managed_binary<char> buffer(unBufferSize);
     ETrackedPropertyError error;
     auto numBytes = vrsystem->GetStringTrackedDeviceProperty(unDeviceIndex, prop, buffer.data(), unBufferSize, &error);
-    return std::tuple<HmdMatrix34_t, ETrackedPropertyError>(
+    return std::tuple<uint32_t, managed_binary<char>, ETrackedPropertyError>(
       numBytes,
       std::move(buffer),
       error
@@ -379,7 +381,7 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
   fnp.reg<
     kIVRSystem_GetEventTypeNameFromEnum,
     int
-  >([=](ETrackingUniverseOrigin eOrigin, uint32_t uncbVREvent) {
+  >([=]() {
     getOut() << "GetPropErrorNameFromEnum" << std::endl;
     abort();
     return 0;
@@ -387,7 +389,7 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
   fnp.reg<
     kIVRSystem_GetHiddenAreaMesh,
     int
-  >([=](ETrackingUniverseOrigin eOrigin, uint32_t uncbVREvent) {
+  >([=]() {
     getOut() << "GetHiddenAreaMesh" << std::endl;
     abort();
     return 0;
@@ -405,12 +407,13 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
   fnp.reg<
     kIVRSystem_GetControllerStateWithPose,
     std::tuple<bool, vr::VRControllerState_t, TrackedDevicePose_t>,
+    ETrackingUniverseOrigin,
     vr::TrackedDeviceIndex_t,
     uint32_t
-  >([=](vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unControllerStateSize) {
+  >([=](ETrackingUniverseOrigin eOrigin, vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unControllerStateSize) {
     vr::VRControllerState_t state;
     TrackedDevicePose_t pose;
-    auto result = vrsystem->GetControllerStateWithPose(unControllerDeviceIndex, &state, unControllerStateSize, &pose);
+    auto result = vrsystem->GetControllerStateWithPose(eOrigin, unControllerDeviceIndex, &state, unControllerStateSize, &pose);
     return std::tuple<bool, vr::VRControllerState_t, TrackedDevicePose_t>(result, state, pose);
   });
   fnp.reg<
@@ -439,7 +442,7 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     abort();
     return 0;
   });
-  fnp.reg<
+  /* fnp.reg<
     kIVRSystem_CaptureInputFocus,
     bool
   >([=]() {
@@ -457,7 +460,7 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     bool
   >([=]() {
     return vrsystem->IsInputFocusCapturedByAnotherProcess();
-  });
+  }); */
   fnp.reg<
     kIVRSystem_DriverDebugRequest,
     int
@@ -480,13 +483,13 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     vrsystem->AcknowledgeQuit_Exiting();
     return 0;
   });
-  fnp.reg<
+  /* fnp.reg<
     kIVRSystem_AcknowledgeQuit_UserPrompt,
     int
   >([=]() {
     vrsystem->AcknowledgeQuit_UserPrompt();
     return 0;
-  });
+  }); */
   fnp.reg<
     kIVRSystem_GetAppContainerFilePaths,
     int
@@ -521,7 +524,7 @@ HmdMatrix44_t PVRSystem::GetProjectionMatrix(EVREye eEye, float fNearZ, float fF
 void PVRSystem::GetProjectionRaw(EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom) {
   auto result = fnp.call<
     kIVRSystem_GetProjectionRaw,
-    std:tuple<float, float, float, float>,
+    std::tuple<float, float, float, float>,
     EVREye
   >(eEye);
   *pfLeft = std::get<0>(result);
@@ -551,7 +554,7 @@ bool PVRSystem::GetTimeSinceLastVsync(float *pfSecondsSinceLastVsync, uint64_t *
   auto result = fnp.call<
     kIVRSystem_GetTimeSinceLastVsync,
     std::tuple<bool, float, uint64_t>
-  >(eEye);
+  >();
   *pfSecondsSinceLastVsync = std::get<1>(result);
   *pulFrameCounter = std::get<2>(result);
   return std::get<0>(result);
@@ -569,13 +572,13 @@ void PVRSystem::GetDXGIOutputInfo(int32_t *pnAdapterIndex) {
   >();
   *pnAdapterIndex = result;
 }
-void PVRSystem::GetOutputDevice(uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance = nullptr) {
+void PVRSystem::GetOutputDevice(uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance) {
   getOut() << "GetOutputDevice abort" << std::endl;
   abort();
-  return fnp.call<
+  /* fnp.call<
     kIVRSystem_GetOutputDevice,
     int
-  >();
+  >(); */
 }
 bool PVRSystem::IsDisplayOnDesktop() {
   return fnp.call<
@@ -598,12 +601,11 @@ void PVRSystem::GetDeviceToAbsoluteTrackingPose(ETrackingUniverseOrigin eOrigin,
     float,
     uint32_t
   >(eOrigin, fPredictedSecondsToPhotonsFromNow, unTrackedDevicePoseArrayCount);
-  memcopy(pTrackedDevicePoseArray, result.data(), result.size() * sizeof(TrackedDevicePose_t));
+  memcpy(pTrackedDevicePoseArray, result.data(), result.size() * sizeof(TrackedDevicePose_t));
 }
 void PVRSystem::ResetSeatedZeroPose() {
   fnp.call<
     kIVRSystem_ResetSeatedZeroPose,
-    managed_binary<TrackedDevicePose_t>,
     int
   >();
 }
@@ -619,7 +621,7 @@ HmdMatrix34_t PVRSystem::GetRawZeroPoseToStandingAbsoluteTrackingPose() {
     HmdMatrix34_t
   >();
 }
-uint32_t PVRSystem::GetSortedTrackedDeviceIndicesOfClass(ETrackedDeviceClass eTrackedDeviceClass, VR_ARRAY_COUNT(unTrackedDeviceIndexArrayCount) vr::TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, vr::TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex = k_unTrackedDeviceIndex_Hmd) {
+uint32_t PVRSystem::GetSortedTrackedDeviceIndicesOfClass(ETrackedDeviceClass eTrackedDeviceClass, VR_ARRAY_COUNT(unTrackedDeviceIndexArrayCount) vr::TrackedDeviceIndex_t *punTrackedDeviceIndexArray, uint32_t unTrackedDeviceIndexArrayCount, vr::TrackedDeviceIndex_t unRelativeToTrackedDeviceIndex) {
   auto result = fnp.call<
     kIVRSystem_GetSortedTrackedDeviceIndicesOfClass,
     std::tuple<int32_t, managed_binary<vr::TrackedDeviceIndex_t>>,
@@ -635,7 +637,7 @@ EDeviceActivityLevel PVRSystem::GetTrackedDeviceActivityLevel(vr::TrackedDeviceI
     kIVRSystem_GetTrackedDeviceActivityLevel,
     EDeviceActivityLevel,
     vr::TrackedDeviceIndex_t
-  >();
+  >(unDeviceId);
 }
 void PVRSystem::ApplyTransform(TrackedDevicePose_t *pOutputPose, const TrackedDevicePose_t *pTrackedDevicePose, const HmdMatrix34_t *pTransform) {
   auto result = fnp.call<
@@ -724,7 +726,7 @@ HmdMatrix34_t PVRSystem::GetMatrix34TrackedDeviceProperty(vr::TrackedDeviceIndex
   *pErrorL = std::get<1>(result);
   return std::get<0>(result);
 }
-uint32_t PVRSystem::GetArrayTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pError) {
+uint32_t PVRSystem::GetArrayTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pErrorL) {
   auto result = fnp.call<
     kIVRSystem_GetArrayTrackedDeviceProperty,
     std::tuple<uint32_t, managed_binary<unsigned char>, ETrackedPropertyError>,
@@ -734,7 +736,7 @@ uint32_t PVRSystem::GetArrayTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDev
     uint32_t
   >(unDeviceIndex, prop, propType, unBufferSize);
   memcpy(pBuffer, std::get<1>(result).data(), std::get<1>(result).size());
-  *pError = std::get<2>(result);
+  *pErrorL = std::get<2>(result);
   return std::get<0>(result);
 }
 uint32_t PVRSystem::GetStringTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, VR_OUT_STRING() char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pErrorL) {
@@ -746,14 +748,17 @@ uint32_t PVRSystem::GetStringTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDe
     uint32_t
   >(unDeviceIndex, prop, unBufferSize);
   memcpy(pchValue, std::get<1>(result).data(), std::get<1>(result).size());
-  *pError = std::get<2>(result);
+  *pErrorL = std::get<2>(result);
   return std::get<0>(result);
 }
 const char *PVRSystem::GetPropErrorNameFromEnum(ETrackedPropertyError error) {
-  return fnp.call<
+  getOut() << "GetPropErrorNameFromEnum" << std::endl;
+  abort();
+  return "";
+  /* return fnp.call<
     kIVRSystem_GetPropErrorNameFromEnum,
     int
-  >();
+  >(); */
 }
 bool PVRSystem::IsInputAvailable() {
   return fnp.call<
@@ -802,12 +807,12 @@ bool PVRSystem::PollNextEventWithPose(ETrackingUniverseOrigin eOrigin, VREvent_t
 const char *PVRSystem::GetEventTypeNameFromEnum(EVREventType eType) {
   getOut() << "GetEventTypeNameFromEnum abort" << std::endl;
   abort();
-  return 0;
+  return "";
 }
-HiddenAreaMesh_t PVRSystem::GetHiddenAreaMesh(EVREye eEye, EHiddenAreaMeshType type = k_eHiddenAreaMesh_Standard) {
+HiddenAreaMesh_t PVRSystem::GetHiddenAreaMesh(EVREye eEye, EHiddenAreaMeshType type) {
   getOut() << "GetHiddenAreaMesh abort" << std::endl;
   abort();
-  return 0;
+  return HiddenAreaMesh_t{};
 }
 bool PVRSystem::GetControllerState(vr::TrackedDeviceIndex_t unControllerDeviceIndex, vr::VRControllerState_t *pControllerState, uint32_t unControllerStateSize) {
   auto result = fnp.call<
@@ -850,7 +855,7 @@ const char *PVRSystem::GetControllerAxisTypeNameFromEnum(EVRControllerAxisType e
   abort();
   return 0;
 }
-bool PVRSystem::CaptureInputFocus() {
+/* bool PVRSystem::CaptureInputFocus() {
   return fnp.call<
     kIVRSystem_CaptureInputFocus,
     bool
@@ -867,7 +872,7 @@ bool PVRSystem::IsInputFocusCapturedByAnotherProcess() {
     kIVRSystem_IsInputFocusCapturedByAnotherProcess,
     bool
   >();
-}
+} */
 uint32_t PVRSystem::DriverDebugRequest(vr::TrackedDeviceIndex_t unDeviceIndex, const char *pchRequest, char *pchResponseBuffer, uint32_t unResponseBufferSize) {
   getOut() << "DriverDebugRequest abort" << std::endl;
   abort();
@@ -886,12 +891,12 @@ void PVRSystem::AcknowledgeQuit_Exiting() {
     int
   >();
 }
-void PVRSystem::AcknowledgeQuit_UserPrompt() {
+/* void PVRSystem::AcknowledgeQuit_UserPrompt() {
   fnp.call<
     kIVRSystem_AcknowledgeQuit_UserPrompt,
     int
   >();
-}
+} */
 uint32_t PVRSystem::GetAppContainerFilePaths(VR_OUT_STRING() char *pchBuffer, uint32_t unBufferSize) {
   getOut() << "GetAppContainerFilePaths abort" << std::endl;
   abort();
