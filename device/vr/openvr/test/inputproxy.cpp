@@ -86,7 +86,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   >([=](uint32_t unSizeOfVRSelectedActionSet_t, uint32_t unSetCount) {
     managed_binary<vr::VRActiveActionSet_t> actionSets(unSetCount);
     auto result = vrinput->UpdateActionState(actionSets.data(), unSizeOfVRSelectedActionSet_t, unSetCount);
-    return std::tuple<vr::EVRInputError, managed_binary<vr::VRActiveActionSet_t>>(
+    return std::tuple<vr::EVRInputError, managed_binary<vr::VRActiveActionSet_t>(
       result,
       std::move(actionSets)
     );
@@ -100,7 +100,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   >([=](VRActionHandle_t action, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
     vr::InputDigitalActionData_t actionData;
     auto result = vrinput->GetDigitalActionData(action, &actionData, unActionDataSize, ulRestrictToDevice);
-    return std::tuple<vr::EVRInputError, vr::InputDigitalActionData_t>>(
+    return std::tuple<vr::EVRInputError, vr::InputDigitalActionData_t>(
       result,
       actionData
     );
@@ -114,7 +114,23 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   >([=](VRActionHandle_t action, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
     vr::InputAnalogActionData_t actionData;
     auto result = vrinput->GetAnalogActionData(action, &actionData, unActionDataSize, ulRestrictToDevice);
-    return std::tuple<vr::EVRInputError, vr::InputAnalogActionData_t>>(
+    return std::tuple<vr::EVRInputError, vr::InputAnalogActionData_t>(
+      result,
+      actionData
+    );
+  });
+  fnp.reg<
+    kIVRInput_GetPoseActionData,
+    std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
+    vr::VRActionHandle_t,
+    vr::ETrackingUniverseOrigin,
+    float,
+    uint32_t,
+    vr::VRInputValueHandle_t
+  >([=](VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
+    vr::InputPoseActionData_t actionData;
+    auto result = vrinput->GetPoseActionData(action, &actionData, unActionDataSize, ulRestrictToDevice);
+    return std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>(
       result,
       actionData
     );
@@ -175,7 +191,7 @@ vr::EVRInputError PVRInput::UpdateActionState(VR_ARRAY_COUNT(unSetCount) vr::VRA
 vr::EVRInputError PVRInput::GetDigitalActionData(vr::VRActionHandle_t action, vr::InputDigitalActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
   auto result = fnp.call<
     kIVRInput_GetDigitalActionData,
-    std::tuple<vr::EVRInputError, managed_binary<vr::InputDigitalActionData_t>>,
+    std::tuple<vr::EVRInputError, vr::InputDigitalActionData_t>,
     vr::VRActionHandle_t,
     uint32_t,
     vr::VRInputValueHandle_t
@@ -186,7 +202,7 @@ vr::EVRInputError PVRInput::GetDigitalActionData(vr::VRActionHandle_t action, vr
 vr::EVRInputError PVRInput::GetAnalogActionData(vr::VRActionHandle_t action, vr::InputAnalogActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
   auto result = fnp.call<
     kIVRInput_GetAnalogActionData,
-    std::tuple<vr::EVRInputError, managed_binary<vr::InputAnalogActionData_t>>,
+    std::tuple<vr::EVRInputError, vr::InputAnalogActionData_t>,
     vr::VRActionHandle_t,
     uint32_t,
     vr::VRInputValueHandle_t
@@ -194,7 +210,19 @@ vr::EVRInputError PVRInput::GetAnalogActionData(vr::VRActionHandle_t action, vr:
   memcpy(pActionData, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(InputAnalogActionData_t));
   return std::get<0>(result);
 }
-vr::EVRInputError PVRInput::GetPoseActionData(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice);
+vr::EVRInputError PVRInput::GetPoseActionData(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
+  auto result = fnp.call<
+    kIVRInput_GetPoseActionData,
+    std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
+    vr::VRActionHandle_t,
+    vr::ETrackingUniverseOrigin,
+    float,
+    uint32_t,
+    vr::VRInputValueHandle_t
+  >(action, eOrigin, fPredictedSecondsFromNow, unActionDataSize, ulRestrictToDevice);
+  *pActionData = std::get<1>(result);
+  return std::get<0>(result);
+}
 vr::EVRInputError PVRInput::GetPoseActionDataRelativeToNow(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice);
 vr::EVRInputError PVRInput::GetPoseActionDataForNextFrame(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice);
 vr::EVRInputError PVRInput::GetSkeletalActionData(vr::VRActionHandle_t action, vr::InputSkeletalActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice);
