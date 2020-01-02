@@ -191,6 +191,34 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
       boneCount
     );
   });
+  fnp.reg<
+    kIVRInput_GetBoneHierarchy,
+    std::tuple<vr::EVRInputError, managed_binary<vr::BoneIndex_t>>,
+    vr::VRActionHandle_t,
+    uint32_t
+  >([=](vr::VRActionHandle_t action, uint32_t unIndexArayCount) {
+    uint32_t boneCount;
+    managed_binary<vr::BoneIndex_t> parentIndices(unIndexArayCount);
+    auto result = vrinput->GetBoneHierarchy(action, parentIndices.data(), unIndexArayCount);
+    return std::tuple<vr::EVRInputError, managed_binary<vr::BoneIndex_t>>(
+      result,
+      std::move(parentIndices)
+    );
+  });
+  fnp.reg<
+    kIVRInput_GetBoneName,
+    std::tuple<vr::EVRInputError, managed_binary<char>>,
+    vr::VRActionHandle_t,
+    vr::BoneIndex_t,
+    uint32_t
+  >([=](vr::VRActionHandle_t action, vr::BoneIndex_t nBoneIndex, uint32_t unNameBufferSize) {
+    managed_binary<char> boneName(unNameBufferSize);
+    auto result = vrinput->GetBoneName(action, nBoneIndex, boneName.data(), unNameBufferSize);
+    return std::tuple<vr::EVRInputError, managed_binary<char>>(
+      result,
+      std::move(boneName)
+    );
+  });
 }
 vr::EVRInputError PVRInput::SetActionManifestPath(const char *pchActionManifestPath) {
   managed_binary<char> actionManifestPath(strlen(pchActionManifestPath) + 1);
@@ -326,8 +354,27 @@ vr::EVRInputError PVRInput::GetBoneCount(vr::VRActionHandle_t action, uint32_t* 
   *pBoneCount = std::get<1>(result);
   return std::get<0>(result);
 }
-vr::EVRInputError PVRInput::GetBoneHierarchy(vr::VRActionHandle_t action, VR_ARRAY_COUNT(unIndexArayCount) vr::BoneIndex_t* pParentIndices, uint32_t unIndexArayCount);
-vr::EVRInputError PVRInput::GetBoneName(vr::VRActionHandle_t action, vr::BoneIndex_t nBoneIndex, VR_OUT_STRING() char* pchBoneName, uint32_t unNameBufferSize);
+vr::EVRInputError PVRInput::GetBoneHierarchy(vr::VRActionHandle_t action, VR_ARRAY_COUNT(unIndexArayCount) vr::BoneIndex_t* pParentIndices, uint32_t unIndexArayCount) {
+  auto result = fnp.call<
+    kIVRInput_GetBoneHierarchy,
+    std::tuple<vr::EVRInputError, managed_binary<vr::BoneIndex_t>>,
+    vr::VRActionHandle_t,
+    uint32_t
+  >(action, unIndexArayCount);
+  memcpy(pParentIndices, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(vr::BoneIndex_t));
+  return std::get<0>(result);
+}
+vr::EVRInputError PVRInput::GetBoneName(vr::VRActionHandle_t action, vr::BoneIndex_t nBoneIndex, VR_OUT_STRING() char* pchBoneName, uint32_t unNameBufferSize) {
+  auto result = fnp.call<
+    kIVRInput_GetBoneName,
+    std::tuple<vr::EVRInputError, managed_binary<char>>,
+    vr::VRActionHandle_t,
+    vr::BoneIndex_t,
+    uint32_t
+  >(action, nBoneIndex, unNameBufferSize);
+  memcpy(pchBoneName, std::get<1>(result).data(), std::get<1>(result).size());
+  return std::get<0>(result);
+}
 vr::EVRInputError PVRInput::GetSkeletalReferenceTransforms(vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalReferencePose eReferencePose, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount);
 vr::EVRInputError PVRInput::GetSkeletalTrackingLevel(vr::VRActionHandle_t action, vr::EVRSkeletalTrackingLevel* pSkeletalTrackingLevel);
 vr::EVRInputError PVRInput::GetSkeletalBoneData(vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalMotionRange eMotionRange, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount, vr::VRInputValueHandle_t ulRestrictToDevice);
