@@ -380,14 +380,20 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   >([=](vr::VRActionSetHandle_t actionSetHandle, vr::VRActionHandle_t ulActionHandle) {
     return vrinput->ShowActionOrigins(actionSetHandle, ulActionHandle);
   });
-
-
-
-
-
-
-
-
+  fnp.reg<
+    kIVRInput_ShowBindingsForActionSet,
+    std::tuple<vr::EVRInputError, managed_binary<vr::VRActiveActionSet_t>>,
+    uint32_t,
+    uint32_t,
+    vr::VRInputValueHandle_t
+  >([=](uint32_t unSizeOfVRSelectedActionSet_t, uint32_t unSetCount, vr::VRInputValueHandle_t originToHighlight) {
+    managed_binary<vr::VRActiveActionSet_t> sets(unSetCount);
+    auto result = vrinput->ShowActionOrigins(sets.data(), unSizeOfVRSelectedActionSet_t, unSetCount, originToHighlight);
+    return std::tuple<vr::EVRInputError, InputOriginInfo_t>(
+      result,
+      std::move(sets)
+    );
+  });
 }
 vr::EVRInputError PVRInput::SetActionManifestPath(const char *pchActionManifestPath) {
   managed_binary<char> actionManifestPath(strlen(pchActionManifestPath) + 1);
@@ -693,7 +699,15 @@ vr::EVRInputError PVRInput::ShowActionOrigins(vr::VRActionSetHandle_t actionSetH
   >(actionSetHandle, ulActionHandle);
 }
 vr::EVRInputError PVRInput::ShowBindingsForActionSet(VR_ARRAY_COUNT(unSetCount) vr::VRActiveActionSet_t *pSets, uint32_t unSizeOfVRSelectedActionSet_t, uint32_t unSetCount, vr::VRInputValueHandle_t originToHighlight) {
-
+  auto result = fnp.call<
+    kIVRInput_ShowBindingsForActionSet,
+    std::tuple<vr::EVRInputError, managed_binary<vr::VRActiveActionSet_t>>,
+    uint32_t,
+    uint32_t,
+    vr::VRInputValueHandle_t
+  >(actionSetHandle, ulActionHandle);
+  memcpy(pSets, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(vr::VRActiveActionSet_t));
+  return std::get<0>(result);
 }
 bool PVRInput::IsUsingLegacyInput() {
   getOut() << "IsUsingLegacyInput" << std::endl;
