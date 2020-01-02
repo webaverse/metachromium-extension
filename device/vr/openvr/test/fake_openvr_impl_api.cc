@@ -49,8 +49,8 @@ std::ostream &getOut() {
   }
   return out;
 }
-constexpr bool tracing = true;
-// constexpr bool tracing = false;
+// constexpr bool tracing = true;
+constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {
   if (tracing) {
     fn();
@@ -81,6 +81,7 @@ IVRApplications *vr::g_vrapplications = nullptr;
 IVRInput *g_vrinput = nullptr;
 
 PVRClientCore *g_pvrclientcore = nullptr;
+PVRSystem *g_pvrsystem = nullptr;
 PVRCompositor *g_pvrcompositor = nullptr;
 
 }  // namespace vr
@@ -179,6 +180,7 @@ extern "C" {
 
         FnProxy *fnp = new FnProxy();
         vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
+        vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
         vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
       }
 
@@ -190,6 +192,7 @@ extern "C" {
         std::thread t([=]() {
           FnProxy fnp;
           vr::PVRClientCore clientcore(fnp);
+          vr::PVRSystem system(vr::g_vrsystem, fnp);
           vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
           for (;;) {
             fnp.handle();

@@ -116,7 +116,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     uint32_t,
     uint32_t
   >([=](uint32_t unRenderPoseArrayCount, uint32_t unGamePoseArrayCount) {
-    getOut() << "waitgetposes 1" << std::endl;
+    // getOut() << "waitgetposes 1" << std::endl;
     managed_binary<TrackedDevicePose_t> renderPoseArray(unRenderPoseArrayCount);
     managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
     // getOut() << "handle poses 2" << std::endl;
@@ -932,7 +932,7 @@ ETrackingUniverseOrigin PVRCompositor::GetTrackingSpace() {
 }
 EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
     VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
-  getOut() << "wait get poses client 1" << std::endl;
+  // getOut() << "wait get poses client 1" << std::endl;
   auto result = fnp.call<
     kIVRCompositor_WaitGetPoses,
     std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
@@ -973,10 +973,10 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
   return std::get<0>(result);
 }
 void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
-  getOut() << "prepare submit client 1" << std::endl;
+  // getOut() << "prepare submit client 1" << std::endl;
 
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
-    getOut() << "prepare submit client 2.1" << std::endl;
+    // getOut() << "prepare submit client 2.1" << std::endl;
     if (!device) {
       ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
       tex->GetDevice(&device);
@@ -986,7 +986,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       device->GetImmediateContext(&context);
     }
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
-    getOut() << "prepare submit client 2.2" << std::endl;
+    // getOut() << "prepare submit client 2.2" << std::endl;
     int32_t adapterIndex;
     g_vrsystem->GetDXGIOutputInfo(&adapterIndex);
     if (adapterIndex == -1) {
@@ -1039,7 +1039,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
     abort();
   }
   
-  getOut() << "prepare submit client 3" << std::endl;
+  // getOut() << "prepare submit client 3" << std::endl;
 
   fnp.call<
     kIVRCompositor_PrepareSubmit,
@@ -1047,11 +1047,10 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
     ETextureType,
     uintptr_t
   >(pTexture->eType, (uintptr_t)device.Get());
-  getOut() << "prepare submit client 4" << std::endl;
+  // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-
-  getOut() << "submit client 1" << std::endl;
+  // getOut() << "submit client 1" << std::endl;
 
   auto key = std::pair<size_t, EVREye>(fnp.callbackId, eEye);
   auto iter = inFrontIndices.find(key);
@@ -1188,7 +1187,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     }
   }
   
-  getOut() << "submit client 10" << std::endl;
+  // getOut() << "submit client 10" << std::endl;
 
   // getOut() << "submit client 11" << std::endl;
 
@@ -1266,7 +1265,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     abort();
   }
 
-  getOut() << "submit client 12" << std::endl;
+  // getOut() << "submit client 12" << std::endl;
   
   managed_binary<Texture_t> sharedTexture(1);
   *sharedTexture.data() = Texture_t{
@@ -1277,7 +1276,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   managed_binary<VRTextureBounds_t> bounds(1);
   *bounds.data() = *pBounds;
 
-  getOut() << "submit client 13" << std::endl;
+  // getOut() << "submit client 13" << std::endl;
 
   return fnp.call<
     kIVRCompositor_Submit,

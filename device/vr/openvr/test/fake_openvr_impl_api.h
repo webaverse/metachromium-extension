@@ -3,10 +3,12 @@
 
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/coreproxy.h"
+#include "device/vr/openvr/test/systemproxy.h"
 #include "device/vr/openvr/test/compositorproxy.h"
 
 #include <functional>
 
+extern std::string dllDir;
 extern void *shMem;
 extern size_t *pBooted;
 // extern GLFWwindow **ppWindow;
@@ -28,6 +30,7 @@ namespace vr {
   extern IVRInput *g_vrinput;
 
   extern PVRClientCore *g_pvrclientcore;
+  extern PVRSystem *g_pvrsystem;
   extern PVRCompositor *g_pvrcompositor;
 }
 
