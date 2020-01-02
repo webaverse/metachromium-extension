@@ -95,7 +95,7 @@ const EVREye EYES[] = {
   Eye_Right,
 };
 
-PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp) : vrcompositor(vrcompositor), fnp(fnp) {
+PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp) : vrsystem(vrsystem), vrcompositor(vrcompositor), fnp(fnp) {
   fnp.reg<
     kIVRCompositor_SetTrackingSpace,
     int,
