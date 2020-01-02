@@ -57,7 +57,7 @@ ETrackingUniverseOrigin BaseCompositor::GetTrackingSpace() {
 ovr_enum_t BaseCompositor::WaitGetPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::WaitGetPoses" << std::endl; });
-  getOut() << "base wait get poses 1" << std::endl;
+  // getOut() << "base wait get poses 1" << std::endl;
   bool doRealWait;
   g_pvrclientcore->PreWaitGetPoses(&doRealWait);
   auto result = doRealWait ?

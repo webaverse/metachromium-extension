@@ -105,6 +105,7 @@ extern "C" {
     if (!vr::g_pvrclientcore) {
       FnProxy *fnp = new FnProxy();
       vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
+      vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
       vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
     }
 
@@ -136,9 +137,9 @@ extern "C" {
     }
 
     // result = vr::VRInitError_None;
-    getOut() << "init 3" << std::endl;
+    getOut() << "init 3 " << interface_name << std::endl;
 
-    getOut() << "init 6 " << interface_name << std::endl;
+    // getOut() << "init 6 " << interface_name << std::endl;
     void *iface = CreateInterfaceByName(interface_name);
     getOut() << "init 7 " << interface_name << " " << iface << std::endl;
     return iface;

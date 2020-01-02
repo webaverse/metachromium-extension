@@ -152,13 +152,13 @@ void FnProxy::handle() {
     abort();
   }
   
-  // getOut() << "read arg 3 " << name << std::endl;
+  // getOut() << "handle 1 " << name << std::endl;
+  
   std::function<void()> &f = fns.find(name)->second;
-  // getOut() << "read arg 4 " << name << std::endl;
-  f();
-  // getOut() << "read arg 5 " << name << std::endl;
 
-  // getOut() << "fn proxy handle 3" << std::endl;
+  f();
+
+  // getOut() << "handle 2 " << name << std::endl;
 
   std::map<size_t, Semaphore>::iterator iter = outSems.find(remoteCallbackId);
   if (iter == outSems.end()) {

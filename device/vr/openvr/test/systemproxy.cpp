@@ -388,11 +388,19 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
   });
   fnp.reg<
     kIVRSystem_GetHiddenAreaMesh,
-    int
-  >([=]() {
-    getOut() << "GetHiddenAreaMesh" << std::endl;
-    abort();
-    return 0;
+    std::tuple<managed_binary<HmdVector2_t>, uint32_t>,
+    EVREye,
+    EHiddenAreaMeshType
+  >([=](EVREye eEye, EHiddenAreaMeshType type) {
+    HiddenAreaMesh_t hiddenAreaMesh = vrsystem->GetHiddenAreaMesh(eEye, type);
+    const HmdVector2_t *pVertexData = hiddenAreaMesh.pVertexData;
+    uint32_t unTriangleCount = hiddenAreaMesh.unTriangleCount;
+    managed_binary<HmdVector2_t> vertexData(unTriangleCount*3);
+    memcpy(vertexData.data(), pVertexData, sizeof(HmdVector2_t) * unTriangleCount*3);
+    return std::tuple<managed_binary<HmdVector2_t>, uint32_t>(
+      std::move(vertexData),
+      unTriangleCount
+    );
   });
   fnp.reg<
     kIVRSystem_GetControllerState,
@@ -683,7 +691,9 @@ bool PVRSystem::GetBoolTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIn
     vr::TrackedDeviceIndex_t,
     ETrackedDeviceProperty
   >(unDeviceIndex, prop);
-  *pErrorL = std::get<1>(result);
+  if (pErrorL) {
+    *pErrorL = std::get<1>(result);
+  }
   return std::get<0>(result);
 }
 float PVRSystem::GetFloatTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pErrorL) {
@@ -693,7 +703,9 @@ float PVRSystem::GetFloatTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDevice
     vr::TrackedDeviceIndex_t,
     ETrackedDeviceProperty
   >(unDeviceIndex, prop);
-  *pErrorL = std::get<1>(result);
+  if (pErrorL) {
+    *pErrorL = std::get<1>(result);
+  }
   return std::get<0>(result);
 }
 int32_t PVRSystem::GetInt32TrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pErrorL) {
@@ -703,7 +715,9 @@ int32_t PVRSystem::GetInt32TrackedDeviceProperty(vr::TrackedDeviceIndex_t unDevi
     vr::TrackedDeviceIndex_t,
     ETrackedDeviceProperty
   >(unDeviceIndex, prop);
-  *pErrorL = std::get<1>(result);
+  if (pErrorL) {
+    *pErrorL = std::get<1>(result);
+  }
   return std::get<0>(result);
 }
 uint64_t PVRSystem::GetUint64TrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pErrorL) {
@@ -723,7 +737,9 @@ HmdMatrix34_t PVRSystem::GetMatrix34TrackedDeviceProperty(vr::TrackedDeviceIndex
     vr::TrackedDeviceIndex_t,
     ETrackedDeviceProperty
   >(unDeviceIndex, prop);
-  *pErrorL = std::get<1>(result);
+  if (pErrorL) {
+    *pErrorL = std::get<1>(result);
+  }
   return std::get<0>(result);
 }
 uint32_t PVRSystem::GetArrayTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, PropertyTypeTag_t propType, void *pBuffer, uint32_t unBufferSize, ETrackedPropertyError *pErrorL) {
@@ -736,7 +752,9 @@ uint32_t PVRSystem::GetArrayTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDev
     uint32_t
   >(unDeviceIndex, prop, propType, unBufferSize);
   memcpy(pBuffer, std::get<1>(result).data(), std::get<1>(result).size());
-  *pErrorL = std::get<2>(result);
+  if (pErrorL) {
+    *pErrorL = std::get<2>(result);
+  }
   return std::get<0>(result);
 }
 uint32_t PVRSystem::GetStringTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, VR_OUT_STRING() char *pchValue, uint32_t unBufferSize, ETrackedPropertyError *pErrorL) {
@@ -748,7 +766,9 @@ uint32_t PVRSystem::GetStringTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDe
     uint32_t
   >(unDeviceIndex, prop, unBufferSize);
   memcpy(pchValue, std::get<1>(result).data(), std::get<1>(result).size());
-  *pErrorL = std::get<2>(result);
+  if (pErrorL) {
+    *pErrorL = std::get<2>(result);
+  }
   return std::get<0>(result);
 }
 const char *PVRSystem::GetPropErrorNameFromEnum(ETrackedPropertyError error) {
@@ -810,9 +830,19 @@ const char *PVRSystem::GetEventTypeNameFromEnum(EVREventType eType) {
   return "";
 }
 HiddenAreaMesh_t PVRSystem::GetHiddenAreaMesh(EVREye eEye, EHiddenAreaMeshType type) {
-  getOut() << "GetHiddenAreaMesh abort" << std::endl;
-  abort();
-  return HiddenAreaMesh_t{};
+  auto result = fnp.call<
+    kIVRSystem_GetHiddenAreaMesh,
+    std::tuple<managed_binary<HmdVector2_t>, uint32_t>,
+    EVREye,
+    EHiddenAreaMeshType
+  >(eEye, type);
+  uint32_t unTriangleCount = std::get<1>(result);
+  HmdVector2_t *pVertexData = new HmdVector2_t[unTriangleCount*3];
+  memcpy(pVertexData, std::get<0>(result).data(), sizeof(HmdVector2_t) * unTriangleCount*3);
+  return HiddenAreaMesh_t{
+    pVertexData,
+    unTriangleCount
+  };
 }
 bool PVRSystem::GetControllerState(vr::TrackedDeviceIndex_t unControllerDeviceIndex, vr::VRControllerState_t *pControllerState, uint32_t unControllerStateSize) {
   auto result = fnp.call<

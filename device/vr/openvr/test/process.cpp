@@ -129,11 +129,12 @@ int main() {
 
   FnProxy fnp;
   vr::PVRClientCore clientcore(fnp);
+  vr::PVRSystem system(vr::g_vrsystem, fnp);
   vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
   getOut() << "start loop" << std::endl;
   for (;;) {
     fnp.handle();
-    getOut() << "handled" << std::endl;
+    // getOut() << "handled" << std::endl;
   }
   
   getOut() << "process exit" << std::endl;
