@@ -5,14 +5,14 @@
 namespace vr {
 char kIVRInput_SetActionManifestPath[] = "Input::SetActionManifestPath";
 char kIVRInput_GetActionSetHandle[] = "Input::GetActionSetHandle";
+char kIVRInput_GetActionHandle[] = "Input::GetActionHandle";
 char kIVRInput_GetInputSourceHandle[] = "Input::GetInputSourceHandle";
 char kIVRInput_UpdateActionState[] = "Input::UpdateActionState";
 char kIVRInput_GetDigitalActionData[] = "Input::GetDigitalActionData";
 char kIVRInput_GetAnalogActionData[] = "Input::GetAnalogActionData";
-char kIVRInput_GetPoseActionData[] = "Input::GetPoseActionData";
+// char kIVRInput_GetPoseActionData[] = "Input::GetPoseActionData";
 char kIVRInput_GetPoseActionDataRelativeToNow[] = "Input::GetPoseActionDataRelativeToNow";
 char kIVRInput_GetPoseActionDataForNextFrame[] = "Input::GetPoseActionDataForNextFrame";
-char kIVRInput_GetSkeletalActionData[] = "Input::GetSkeletalActionData";
 char kIVRInput_GetSkeletalActionData[] = "Input::GetSkeletalActionData";
 char kIVRInput_GetBoneCount[] = "Input::GetBoneCount";
 char kIVRInput_GetBoneHierarchy[] = "Input::GetBoneHierarchy";
@@ -31,10 +31,11 @@ char kIVRInput_GetActionBindingInfo[] = "Input::GetActionBindingInfo";
 char kIVRInput_ShowActionOrigins[] = "Input::ShowActionOrigins";
 char kIVRInput_ShowBindingsForActionSet[] = "Input::ShowBindingsForActionSet";
 char kIVRInput_IsUsingLegacyInput[] = "Input::IsUsingLegacyInput";
+char kIVRInput_OpenBindingUI[] = "Input::OpenBindingUI";
 
 PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp) {
   fnp.reg<
-    kIVRCompositor_SetActionManifestPath,
+    kIVRInput_SetActionManifestPath,
     vr::EVRInputError,
     managed_binary<char>
   >([=](managed_binary<char> actionManifestPath) {
@@ -84,7 +85,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   >([=](uint32_t unSizeOfVRSelectedActionSet_t, uint32_t unSetCount) {
     managed_binary<vr::VRActiveActionSet_t> actionSets(unSetCount);
     auto result = vrinput->UpdateActionState(actionSets.data(), unSizeOfVRSelectedActionSet_t, unSetCount);
-    return std::tuple<vr::EVRInputError, managed_binary<vr::VRActiveActionSet_t>(
+    return std::tuple<vr::EVRInputError, managed_binary<vr::VRActiveActionSet_t>>(
       result,
       std::move(actionSets)
     );
@@ -117,7 +118,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
       actionData
     );
   });
-  fnp.reg<
+  /* fnp.reg<
     kIVRInput_GetPoseActionData,
     std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
     vr::VRActionHandle_t,
@@ -132,7 +133,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
       result,
       actionData
     );
-  });
+  }); */
   fnp.reg<
     kIVRInput_GetPoseActionDataRelativeToNow,
     std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
@@ -143,7 +144,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     vr::VRInputValueHandle_t
   >([=](VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
     vr::InputPoseActionData_t actionData;
-    auto result = vrinput->GetPoseActionDataRelativeToNow(action, &actionData, unActionDataSize, ulRestrictToDevice);
+    auto result = vrinput->GetPoseActionDataRelativeToNow(action, eOrigin, fPredictedSecondsFromNow, &actionData, unActionDataSize, ulRestrictToDevice);
     return std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>(
       result,
       actionData
@@ -195,7 +196,6 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     vr::VRActionHandle_t,
     uint32_t
   >([=](vr::VRActionHandle_t action, uint32_t unIndexArayCount) {
-    uint32_t boneCount;
     managed_binary<vr::BoneIndex_t> parentIndices(unIndexArayCount);
     auto result = vrinput->GetBoneHierarchy(action, parentIndices.data(), unIndexArayCount);
     return std::tuple<vr::EVRInputError, managed_binary<vr::BoneIndex_t>>(
@@ -234,10 +234,11 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   });
   fnp.reg<
     kIVRInput_GetSkeletalTrackingLevel,
-    std::tuple<vr::EVRInputError, EVRSkeletalTrackingLevel>
-  >([=]() {
+    std::tuple<vr::EVRInputError, EVRSkeletalTrackingLevel>,
+    vr::VRActionHandle_t
+  >([=](vr::VRActionHandle_t action) {
     EVRSkeletalTrackingLevel skeletalTrackingLevel;
-    auto result = vrinput->GetSkeletalTrackingLevel(&skeletalTrackingLevel);
+    auto result = vrinput->GetSkeletalTrackingLevel(action, &skeletalTrackingLevel);
     return std::tuple<vr::EVRInputError, EVRSkeletalTrackingLevel>(
       result,
       skeletalTrackingLevel
@@ -249,11 +250,10 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     vr::VRActionHandle_t,
     vr::EVRSkeletalTransformSpace,
     vr::EVRSkeletalMotionRange,
-    uint32_t,
-    vr::VRInputValueHandle_t
-  >([=](vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalMotionRange eMotionRange, uint32_t unTransformArrayCount, vr::VRInputValueHandle_t ulRestrictToDevice) {
+    uint32_t
+  >([=](vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalMotionRange eMotionRange, uint32_t unTransformArrayCount) {
     managed_binary<VRBoneTransform_t> transformArray(unTransformArrayCount);
-    auto result = vrinput->GetSkeletalBoneData(action, eTransformSpace, eMotionRange, transformArray.data(), unTransformArrayCount, ulRestrictToDevice);
+    auto result = vrinput->GetSkeletalBoneData(action, eTransformSpace, eMotionRange, transformArray.data(), unTransformArrayCount);
     return std::tuple<vr::EVRInputError, managed_binary<VRBoneTransform_t>>(
       result,
       std::move(transformArray)
@@ -266,7 +266,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     vr::EVRSummaryType
   >([=](vr::VRActionHandle_t action, vr::EVRSummaryType eSummaryType) {
     VRSkeletalSummaryData_t skeletalSummaryData;
-    auto result = vrinput->GetSkeletalBoneData(action, eSummaryType, &skeletalSummaryData);
+    auto result = vrinput->GetSkeletalSummaryData(action, eSummaryType, &skeletalSummaryData);
     return std::tuple<vr::EVRInputError, VRSkeletalSummaryData_t>(
       result,
       skeletalSummaryData
@@ -276,13 +276,12 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     kIVRInput_GetSkeletalBoneDataCompressed,
     std::tuple<vr::EVRInputError, managed_binary<unsigned char>, uint32_t>,
     VRActionHandle_t,
-    vr::EVRSkeletalTransformSpace,
     EVRSkeletalMotionRange,
     uint32_t
-  >([=](vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalMotionRange eMotionRange, uint32_t unCompressedSize) {
+  >([=](vr::VRActionHandle_t action, vr::EVRSkeletalMotionRange eMotionRange, uint32_t unCompressedSize) {
     managed_binary<unsigned char> compressedData(unCompressedSize);
     uint32_t unRequiredCompressedSize;
-    auto result = vrinput->GetSkeletalBoneDataCompressed(action, eTransformSpace, eMotionRange, compressedData.data(), unCompressedSize, &unRequiredCompressedSize);
+    auto result = vrinput->GetSkeletalBoneDataCompressed(action, eMotionRange, compressedData.data(), unCompressedSize, &unRequiredCompressedSize);
     return std::tuple<vr::EVRInputError, managed_binary<unsigned char>, uint32_t>(
       result,
       std::move(compressedData),
@@ -292,12 +291,12 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   fnp.reg<
     kIVRInput_DecompressSkeletalBoneData,
     std::tuple<vr::EVRInputError, managed_binary<vr::VRBoneTransform_t>>,
-    std::managed_binary<unsigned char>,
+    managed_binary<unsigned char>,
     uint32_t,
     vr::EVRSkeletalTransformSpace,
     uint32_t
-  >([=](std::managed_binary<unsigned char> compressedBuffer, uint32_t unCompressedBufferSize, vr::EVRSkeletalTransformSpace eTransformSpace, uint32_t unTransformArrayCount) {
-    managed_binary<unsigned char> transformArray(unTransformArrayCount);
+  >([=](managed_binary<unsigned char> compressedBuffer, uint32_t unCompressedBufferSize, vr::EVRSkeletalTransformSpace eTransformSpace, uint32_t unTransformArrayCount) {
+    managed_binary<vr::VRBoneTransform_t> transformArray(unTransformArrayCount);
     auto result = vrinput->DecompressSkeletalBoneData(compressedBuffer.data(), unCompressedBufferSize, eTransformSpace, transformArray.data(), unTransformArrayCount);
     return std::tuple<vr::EVRInputError, managed_binary<vr::VRBoneTransform_t>>(
       result,
@@ -308,6 +307,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     kIVRInput_TriggerHapticVibrationAction,
     vr::EVRInputError,
     vr::VRActionHandle_t,
+    float,
     float,
     float,
     float,
@@ -324,7 +324,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   >([=](vr::VRActionSetHandle_t actionSetHandle, vr::VRActionHandle_t digitalActionHandle, uint32_t originOutCount) {
     managed_binary<vr::VRInputValueHandle_t> originsOut(originOutCount);
     auto result = vrinput->GetActionOrigins(actionSetHandle, digitalActionHandle, originsOut.data(), originOutCount);
-    return std::tuple<vr::EVRInputError, managed_binary<vr::VRBoneTransform_t>>(
+    return std::tuple<vr::EVRInputError, managed_binary<vr::VRInputValueHandle_t>>(
       result,
       std::move(originsOut)
     );
@@ -332,9 +332,9 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   fnp.reg<
     kIVRInput_GetOriginLocalizedName,
     std::tuple<vr::EVRInputError, managed_binary<char>>,
-    VRInputValueHandle_t,
+    vr::VRInputValueHandle_t,
     uint32_t,
-    int32_t,
+    int32_t
   >([=](VRInputValueHandle_t origin, uint32_t unNameArraySize, int32_t unStringSectionsToInclude) {
     managed_binary<char> nameArray(unNameArraySize);
     auto result = vrinput->GetOriginLocalizedName(origin, nameArray.data(), unNameArraySize, unStringSectionsToInclude);
@@ -345,11 +345,11 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   });
   fnp.reg<
     kIVRInput_GetOriginTrackedDeviceInfo,
-    std::tuple<vr::EVRInputError, InputOriginInfo_t>
+    std::tuple<vr::EVRInputError, vr::InputOriginInfo_t>,
     vr::VRActionHandle_t,
     uint32_t
-  >([=](vr::VRInputValueHandle_t origin, vr::InputOriginInfo_t *pOriginInfo, uint32_t unOriginInfoSize) {
-     vr::InputOriginInfo_t originInfo;
+  >([=](vr::VRInputValueHandle_t origin, uint32_t unOriginInfoSize) {
+    vr::InputOriginInfo_t originInfo;
     auto result = vrinput->GetOriginTrackedDeviceInfo(origin, &originInfo, unOriginInfoSize);
     return std::tuple<vr::EVRInputError, InputOriginInfo_t>(
       result,
@@ -358,15 +358,15 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   });
   fnp.reg<
     kIVRInput_GetActionBindingInfo,
-    std::tuple<vr::EVRInputError, managed_binary<vr::InputBindingInfo_t>, uint32_t>
+    std::tuple<vr::EVRInputError, managed_binary<vr::InputBindingInfo_t>, uint32_t>,
     vr::VRActionHandle_t,
     uint32_t,
     uint32_t
   >([=](vr::VRActionHandle_t action, uint32_t unBindingInfoSize, uint32_t unBindingInfoCount) {
-    managed_binary<vr::InputOriginInfo_t> originInfo(unBindingInfoCount);
+    managed_binary<vr::InputBindingInfo_t> originInfo(unBindingInfoCount);
     uint32_t unReturnedBindingInfoCount;
     auto result = vrinput->GetActionBindingInfo(action, originInfo.data(), unBindingInfoSize, unBindingInfoCount, &unReturnedBindingInfoCount);
-    return std::tuple<vr::EVRInputError, InputOriginInfo_t>(
+    return std::tuple<vr::EVRInputError, managed_binary<vr::InputBindingInfo_t>, uint32_t>(
       result,
       std::move(originInfo),
       unReturnedBindingInfoCount
@@ -388,15 +388,33 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     vr::VRInputValueHandle_t
   >([=](uint32_t unSizeOfVRSelectedActionSet_t, uint32_t unSetCount, vr::VRInputValueHandle_t originToHighlight) {
     managed_binary<vr::VRActiveActionSet_t> sets(unSetCount);
-    auto result = vrinput->ShowActionOrigins(sets.data(), unSizeOfVRSelectedActionSet_t, unSetCount, originToHighlight);
-    return std::tuple<vr::EVRInputError, InputOriginInfo_t>(
+    auto result = vrinput->ShowBindingsForActionSet(sets.data(), unSizeOfVRSelectedActionSet_t, unSetCount, originToHighlight);
+    return std::tuple<vr::EVRInputError, managed_binary<vr::VRActiveActionSet_t>>(
       result,
       std::move(sets)
     );
   });
+  fnp.reg<
+    kIVRInput_IsUsingLegacyInput,
+    int
+  >([=]() {
+    getOut() << "IsUsingLegacyInput abort" << std::endl;
+    abort();
+    return 0;
+  }); 
+  fnp.reg<
+    kIVRInput_OpenBindingUI,
+    vr::EVRInputError,
+    managed_binary<char>,
+    VRActionSetHandle_t,
+    VRInputValueHandle_t,
+    bool
+  >([=](managed_binary<char> appKey, VRActionSetHandle_t ulActionSetHandle, VRInputValueHandle_t ulDeviceHandle, bool bShowOnDesktop) {
+    return vrinput->OpenBindingUI(appKey.data(), ulActionSetHandle, ulDeviceHandle, bShowOnDesktop);
+  });
 }
 vr::EVRInputError PVRInput::SetActionManifestPath(const char *pchActionManifestPath) {
-  managed_binary<char> actionManifestPath(strlen(pchActionManifestPath) + 1);
+  managed_binary<char> actionManifestPath(strlen(pchActionManifestPath)+1);
   memcpy(actionManifestPath.data(), pchActionManifestPath, actionManifestPath.size());
   return fnp.call<
     kIVRInput_SetActionManifestPath,
@@ -405,7 +423,7 @@ vr::EVRInputError PVRInput::SetActionManifestPath(const char *pchActionManifestP
   >(std::move(actionManifestPath));
 }
 vr::EVRInputError PVRInput::GetActionSetHandle(const char *pchActionSetName, vr::VRActionSetHandle_t *pHandle) {
-  managed_binary<char> actionSetName(strlen(pchActionSetName) + 1);
+  managed_binary<char> actionSetName(strlen(pchActionSetName)+1);
   memcpy(actionSetName.data(), pchActionSetName, actionSetName.size());
   auto result = fnp.call<
     kIVRInput_GetActionSetHandle,
@@ -416,18 +434,18 @@ vr::EVRInputError PVRInput::GetActionSetHandle(const char *pchActionSetName, vr:
   return std::get<0>(result);
 }
 vr::EVRInputError PVRInput::GetActionHandle(const char *pchActionName, vr::VRActionHandle_t *pHandle) {
-  managed_binary<char> actionName(strlen(pchActionName) + 1);
+  managed_binary<char> actionName(strlen(pchActionName)+1);
   memcpy(actionName.data(), pchActionName, actionName.size());
   auto result = fnp.call<
     kIVRInput_GetActionHandle,
     std::tuple<vr::EVRInputError, VRActionHandle_t>,
     managed_binary<char>
-  >(std::move(actionSetName));
+  >(std::move(actionName));
   *pHandle = std::get<1>(result);
   return std::get<0>(result);
 }
 vr::EVRInputError PVRInput::GetInputSourceHandle(const char *pchInputSourcePath, vr::VRInputValueHandle_t *pHandle) {
-  managed_binary<char> inputSource(strlen(pchInputSourcePath) + 1);
+  managed_binary<char> inputSource(strlen(pchInputSourcePath)+1);
   memcpy(inputSource.data(), pchInputSourcePath, inputSource.size());
   auto result = fnp.call<
     kIVRInput_GetInputSourceHandle,
@@ -455,7 +473,7 @@ vr::EVRInputError PVRInput::GetDigitalActionData(vr::VRActionHandle_t action, vr
     uint32_t,
     vr::VRInputValueHandle_t
   >(action, unActionDataSize, ulRestrictToDevice);
-  memcpy(pActionData, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(InputDigitalActionData_t));
+  *pActionData = std::get<1>(result);
   return std::get<0>(result);
 }
 vr::EVRInputError PVRInput::GetAnalogActionData(vr::VRActionHandle_t action, vr::InputAnalogActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
@@ -466,10 +484,10 @@ vr::EVRInputError PVRInput::GetAnalogActionData(vr::VRActionHandle_t action, vr:
     uint32_t,
     vr::VRInputValueHandle_t
   >(action, unActionDataSize, ulRestrictToDevice);
-  memcpy(pActionData, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(InputAnalogActionData_t));
+  *pActionData = std::get<1>(result);
   return std::get<0>(result);
 }
-vr::EVRInputError PVRInput::GetPoseActionData(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
+/* vr::EVRInputError PVRInput::GetPoseActionData(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
   auto result = fnp.call<
     kIVRInput_GetPoseActionData,
     std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
@@ -481,7 +499,7 @@ vr::EVRInputError PVRInput::GetPoseActionData(vr::VRActionHandle_t action, vr::E
   >(action, eOrigin, fPredictedSecondsFromNow, unActionDataSize, ulRestrictToDevice);
   *pActionData = std::get<1>(result);
   return std::get<0>(result);
-}
+} */
 vr::EVRInputError PVRInput::GetPoseActionDataRelativeToNow(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
   auto result = fnp.call<
     kIVRInput_GetPoseActionDataRelativeToNow,
@@ -565,8 +583,9 @@ vr::EVRInputError PVRInput::GetSkeletalReferenceTransforms(vr::VRActionHandle_t 
 vr::EVRInputError PVRInput::GetSkeletalTrackingLevel(vr::VRActionHandle_t action, vr::EVRSkeletalTrackingLevel* pSkeletalTrackingLevel) {
   auto result = fnp.call<
     kIVRInput_GetSkeletalTrackingLevel,
-    std::tuple<vr::EVRInputError, EVRSkeletalTrackingLevel>
-  >();
+    std::tuple<vr::EVRInputError, EVRSkeletalTrackingLevel>,
+    vr::VRActionHandle_t
+  >(action);
   *pSkeletalTrackingLevel = std::get<1>(result);
   return std::get<0>(result);
 }
@@ -580,9 +599,8 @@ vr::EVRInputError PVRInput::GetSkeletalBoneData(vr::VRActionHandle_t action, vr:
     vr::VRActionHandle_t,
     vr::EVRSkeletalTransformSpace,
     vr::EVRSkeletalMotionRange,
-    uint32_t,
-    vr::VRInputValueHandle_t
-  >(action, eTransformSpace, eMotionRange, unTransformArrayCount, ulRestrictToDevice);
+    uint32_t
+  >(action, eTransformSpace, eMotionRange, unTransformArrayCount);
   memcpy(pTransformArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(VRBoneTransform_t));
   return std::get<0>(result);
 }
@@ -604,10 +622,9 @@ vr::EVRInputError PVRInput::GetSkeletalBoneDataCompressed(vr::VRActionHandle_t a
     kIVRInput_GetSkeletalBoneDataCompressed,
     std::tuple<vr::EVRInputError, managed_binary<unsigned char>, uint32_t>,
     VRActionHandle_t,
-    vr::EVRSkeletalTransformSpace,
     EVRSkeletalMotionRange,
     uint32_t
-  >(action, eTransformSpace, eMotionRange, unCompressedSize);
+  >(action, eMotionRange, unCompressedSize);
   memcpy(pvCompressedData, std::get<1>(result).data(), std::get<1>(result).size());
   *punRequiredCompressedSize = std::get<2>(result);
   return std::get<0>(result);
@@ -616,18 +633,18 @@ vr::EVRInputError PVRInput::GetSkeletalBoneDataCompressed(vr::VRActionHandle_t a
   return GetSkeletalBoneDataCompressed(action, vr::EVRSkeletalTransformSpace::VRSkeletalTransformSpace_Model, eMotionRange, pvCompressedData, unCompressedSize, punRequiredCompressedSize, 0);
 }
 vr::EVRInputError PVRInput::DecompressSkeletalBoneData(void *pvCompressedBuffer, uint32_t unCompressedBufferSize, vr::EVRSkeletalTransformSpace *peTransformSpace, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount) {
-  DecompressSkeletalBoneData(pvCompressedBuffer, unCompressedBufferSize, peTransformSpace, pTransformArray, unTransformArrayCount);
+  return DecompressSkeletalBoneData(pvCompressedBuffer, unCompressedBufferSize, peTransformSpace, pTransformArray, unTransformArrayCount);
 }
 vr::EVRInputError PVRInput::DecompressSkeletalBoneData(const void *pvCompressedBuffer, uint32_t unCompressedBufferSize, vr::EVRSkeletalTransformSpace eTransformSpace, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount) {
-  std::managed_binary<unsigned char> compressedBuffer(pvCompressedBuffer, unCompressedBufferSize);
+  managed_binary<unsigned char> compressedBuffer((unsigned char *)pvCompressedBuffer, unCompressedBufferSize);
   auto result = fnp.call<
     kIVRInput_DecompressSkeletalBoneData,
     std::tuple<vr::EVRInputError, managed_binary<vr::VRBoneTransform_t>>,
-    std::managed_binary<unsigned char>,
+    managed_binary<unsigned char>,
     uint32_t,
     vr::EVRSkeletalTransformSpace,
     uint32_t
-  >(std::move(compressedBuffer), unCompressedBufferSize, unTransformArrayCount);
+  >(std::move(compressedBuffer), unCompressedBufferSize, eTransformSpace, unTransformArrayCount);
   memcpy(pTransformArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(vr::VRBoneTransform_t));
   return std::get<0>(result);
 }
@@ -636,6 +653,7 @@ vr::EVRInputError PVRInput::TriggerHapticVibrationAction(vr::VRActionHandle_t ac
     kIVRInput_TriggerHapticVibrationAction,
     vr::EVRInputError,
     vr::VRActionHandle_t,
+    float,
     float,
     float,
     float,
@@ -659,19 +677,18 @@ vr::EVRInputError PVRInput::GetOriginLocalizedName(vr::VRInputValueHandle_t orig
 vr::EVRInputError PVRInput::GetOriginLocalizedName(vr::VRInputValueHandle_t origin, VR_OUT_STRING() char *pchNameArray, uint32_t unNameArraySize, int32_t unStringSectionsToInclude) {
   auto result = fnp.call<
     kIVRInput_GetOriginLocalizedName,
-    std::tuple<vr::EVRInputError, managed_binary<vr::VRInputValueHandle_t>>,
-    vr::VRActionSetHandle_t,
-    vr::VRActionHandle_t,
+    std::tuple<vr::EVRInputError, managed_binary<char>>,
+    vr::VRInputValueHandle_t,
     uint32_t,
     int32_t
-  >(actionSetHandle, digitalActionHandle, originOutCount, unStringSectionsToInclude);
-  memcpy(originsOut, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(vr::VRInputValueHandle_t));
+  >(origin, unNameArraySize, unStringSectionsToInclude);
+  memcpy(pchNameArray, std::get<1>(result).data(), std::get<1>(result).size());
   return std::get<0>(result);
 }
 vr::EVRInputError PVRInput::GetOriginTrackedDeviceInfo(vr::VRInputValueHandle_t origin, vr::InputOriginInfo_t *pOriginInfo, uint32_t unOriginInfoSize) {
   auto result = fnp.call<
     kIVRInput_GetOriginTrackedDeviceInfo,
-    std::tuple<vr::EVRInputError, InputOriginInfo_t>
+    std::tuple<vr::EVRInputError, InputOriginInfo_t>,
     vr::VRActionHandle_t,
     uint32_t
   >(origin, unOriginInfoSize);
@@ -685,8 +702,8 @@ vr::EVRInputError PVRInput::GetActionBindingInfo(vr::VRActionHandle_t action, vr
     vr::VRActionHandle_t,
     uint32_t,
     uint32_t
-  >(origin, unBindingInfoSize, unBindingInfoCount);
-  memcpy(pOriginInfo, std::get<1>(result).data(), std::get<0>(result).size() * sizeof(vr::InputBindingInfo_t));
+  >(action, unBindingInfoSize, unBindingInfoCount);
+  memcpy(pOriginInfo, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(vr::InputBindingInfo_t));
   *punReturnedBindingInfoCount = std::get<2>(result);
   return std::get<0>(result);
 }
@@ -705,12 +722,25 @@ vr::EVRInputError PVRInput::ShowBindingsForActionSet(VR_ARRAY_COUNT(unSetCount) 
     uint32_t,
     uint32_t,
     vr::VRInputValueHandle_t
-  >(actionSetHandle, ulActionHandle);
+  >(unSizeOfVRSelectedActionSet_t, unSetCount, originToHighlight);
   memcpy(pSets, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(vr::VRActiveActionSet_t));
   return std::get<0>(result);
 }
 bool PVRInput::IsUsingLegacyInput() {
-  getOut() << "IsUsingLegacyInput" << std::endl;
+  getOut() << "IsUsingLegacyInput abort" << std::endl;
+  abort();
   return false;
+}
+EVRInputError PVRInput::OpenBindingUI(const char* pchAppKey, VRActionSetHandle_t ulActionSetHandle, VRInputValueHandle_t ulDeviceHandle, bool bShowOnDesktop) {
+  managed_binary<char> appKey(strlen(pchAppKey)+1);
+  memcpy(appKey.data(), pchAppKey, appKey.size());
+  return fnp.call<
+    kIVRInput_OpenBindingUI,
+    vr::EVRInputError,
+    managed_binary<char>,
+    VRActionSetHandle_t,
+    VRInputValueHandle_t,
+    bool
+  >(std::move(appKey), ulActionSetHandle, ulDeviceHandle, bShowOnDesktop);
 }
 }

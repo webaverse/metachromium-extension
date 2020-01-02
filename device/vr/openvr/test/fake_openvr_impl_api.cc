@@ -83,6 +83,7 @@ IVRInput *g_vrinput = nullptr;
 PVRClientCore *g_pvrclientcore = nullptr;
 PVRSystem *g_pvrsystem = nullptr;
 PVRCompositor *g_pvrcompositor = nullptr;
+PVRInput *g_pvrinput = nullptr;
 
 }  // namespace vr
 
@@ -182,6 +183,7 @@ extern "C" {
         vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
         vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
         vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
+        vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
       }
 
       if (!*pBooted) {
@@ -194,6 +196,7 @@ extern "C" {
           vr::PVRClientCore clientcore(fnp);
           vr::PVRSystem system(vr::g_vrsystem, fnp);
           vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
+          vr::PVRInput input(vr::g_vrinput, fnp);
           for (;;) {
             fnp.handle();
           }
