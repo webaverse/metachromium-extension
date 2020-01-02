@@ -5,6 +5,7 @@
 #include "device/vr/openvr/test/coreproxy.h"
 #include "device/vr/openvr/test/systemproxy.h"
 #include "device/vr/openvr/test/compositorproxy.h"
+#include "device/vr/openvr/test/inputproxy.h"
 
 #include <functional>
 
@@ -32,6 +33,7 @@ namespace vr {
   extern PVRClientCore *g_pvrclientcore;
   extern PVRSystem *g_pvrsystem;
   extern PVRCompositor *g_pvrcompositor;
+  extern PVRInput *g_pvrinput;
 }
 
 #endif
