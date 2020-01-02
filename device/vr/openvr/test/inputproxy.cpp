@@ -135,6 +135,62 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
       actionData
     );
   });
+  fnp.reg<
+    kIVRInput_GetPoseActionDataRelativeToNow,
+    std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
+    vr::VRActionHandle_t,
+    vr::ETrackingUniverseOrigin,
+    float,
+    uint32_t,
+    vr::VRInputValueHandle_t
+  >([=](VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
+    vr::InputPoseActionData_t actionData;
+    auto result = vrinput->GetPoseActionDataRelativeToNow(action, &actionData, unActionDataSize, ulRestrictToDevice);
+    return std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>(
+      result,
+      actionData
+    );
+  });
+  fnp.reg<
+    kIVRInput_GetPoseActionDataForNextFrame,
+    std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
+    vr::VRActionHandle_t,
+    vr::ETrackingUniverseOrigin,
+    uint32_t,
+    vr::VRInputValueHandle_t
+  >([=](vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
+    vr::InputPoseActionData_t actionData;
+    auto result = vrinput->GetPoseActionDataForNextFrame(action, eOrigin, &actionData, unActionDataSize, ulRestrictToDevice);
+    return std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>(
+      result,
+      actionData
+    );
+  });
+  fnp.reg<
+    kIVRInput_GetSkeletalActionData,
+    std::tuple<vr::EVRInputError, vr::InputSkeletalActionData_t>,
+    vr::VRActionHandle_t,
+    uint32_t
+  >([=](vr::VRActionHandle_t action, uint32_t unActionDataSize) {
+    vr::InputSkeletalActionData_t actionData;
+    auto result = vrinput->GetSkeletalActionData(action, &actionData, unActionDataSize);
+    return std::tuple<vr::EVRInputError, vr::InputSkeletalActionData_t>(
+      result,
+      actionData
+    );
+  });
+  fnp.reg<
+    kIVRInput_GetBoneCount,
+    std::tuple<vr::EVRInputError, uint32_t>,
+    vr::VRActionHandle_t
+  >([=](vr::VRActionHandle_t action) {
+    uint32_t boneCount;
+    auto result = vrinput->GetBoneCount(action, &boneCount);
+    return std::tuple<vr::EVRInputError, uint32_t>(
+      result,
+      boneCount
+    );
+  });
 }
 vr::EVRInputError PVRInput::SetActionManifestPath(const char *pchActionManifestPath) {
   managed_binary<char> actionManifestPath(strlen(pchActionManifestPath) + 1);
@@ -223,11 +279,53 @@ vr::EVRInputError PVRInput::GetPoseActionData(vr::VRActionHandle_t action, vr::E
   *pActionData = std::get<1>(result);
   return std::get<0>(result);
 }
-vr::EVRInputError PVRInput::GetPoseActionDataRelativeToNow(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice);
-vr::EVRInputError PVRInput::GetPoseActionDataForNextFrame(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice);
-vr::EVRInputError PVRInput::GetSkeletalActionData(vr::VRActionHandle_t action, vr::InputSkeletalActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice);
-vr::EVRInputError PVRInput::GetSkeletalActionData(vr::VRActionHandle_t action, vr::InputSkeletalActionData_t *pActionData, uint32_t unActionDataSize);
-vr::EVRInputError PVRInput::GetBoneCount(vr::VRActionHandle_t action, uint32_t* pBoneCount);
+vr::EVRInputError PVRInput::GetPoseActionDataRelativeToNow(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, float fPredictedSecondsFromNow, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
+  auto result = fnp.call<
+    kIVRInput_GetPoseActionDataRelativeToNow,
+    std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
+    vr::VRActionHandle_t,
+    vr::ETrackingUniverseOrigin,
+    float,
+    uint32_t,
+    vr::VRInputValueHandle_t
+  >(action, eOrigin, fPredictedSecondsFromNow, unActionDataSize, ulRestrictToDevice);
+  *pActionData = std::get<1>(result);
+  return std::get<0>(result);
+}
+vr::EVRInputError PVRInput::GetPoseActionDataForNextFrame(vr::VRActionHandle_t action, vr::ETrackingUniverseOrigin eOrigin, vr::InputPoseActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
+  auto result = fnp.call<
+    kIVRInput_GetPoseActionDataForNextFrame,
+    std::tuple<vr::EVRInputError, vr::InputPoseActionData_t>,
+    vr::VRActionHandle_t,
+    vr::ETrackingUniverseOrigin,
+    uint32_t,
+    vr::VRInputValueHandle_t
+  >(action, eOrigin, unActionDataSize, ulRestrictToDevice);
+  *pActionData = std::get<1>(result);
+  return std::get<0>(result);
+}
+vr::EVRInputError PVRInput::GetSkeletalActionData(vr::VRActionHandle_t action, vr::InputSkeletalActionData_t *pActionData, uint32_t unActionDataSize, vr::VRInputValueHandle_t ulRestrictToDevice) {
+  return GetSkeletalActionData(action, pActionData, unActionDataSize);
+}
+vr::EVRInputError PVRInput::GetSkeletalActionData(vr::VRActionHandle_t action, vr::InputSkeletalActionData_t *pActionData, uint32_t unActionDataSize) {
+  auto result = fnp.call<
+    kIVRInput_GetSkeletalActionData,
+    std::tuple<vr::EVRInputError, vr::InputSkeletalActionData_t>,
+    vr::VRActionHandle_t,
+    uint32_t
+  >(action, unActionDataSize);
+  *pActionData = std::get<1>(result);
+  return std::get<0>(result);
+}
+vr::EVRInputError PVRInput::GetBoneCount(vr::VRActionHandle_t action, uint32_t* pBoneCount) {
+  auto result = fnp.call<
+    kIVRInput_GetBoneCount,
+    std::tuple<vr::EVRInputError, uint32_t>,
+    vr::VRActionHandle_t
+  >(action);
+  *pBoneCount = std::get<1>(result);
+  return std::get<0>(result);
+}
 vr::EVRInputError PVRInput::GetBoneHierarchy(vr::VRActionHandle_t action, VR_ARRAY_COUNT(unIndexArayCount) vr::BoneIndex_t* pParentIndices, uint32_t unIndexArayCount);
 vr::EVRInputError PVRInput::GetBoneName(vr::VRActionHandle_t action, vr::BoneIndex_t nBoneIndex, VR_OUT_STRING() char* pchBoneName, uint32_t unNameBufferSize);
 vr::EVRInputError PVRInput::GetSkeletalReferenceTransforms(vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalReferencePose eReferencePose, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount);
