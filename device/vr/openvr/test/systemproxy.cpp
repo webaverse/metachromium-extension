@@ -12,7 +12,6 @@ char kIVRSystem_GetTimeSinceLastVsync[] = "IVRSystem::GetTimeSinceLastVsync";
 char kIVRSystem_GetD3D9AdapterIndex[] = "IVRSystem::GetD3D9AdapterIndex";
 char kIVRSystem_GetDXGIOutputInfo[] = "IVRSystem::GetDXGIOutputInfo";
 char kIVRSystem_GetOutputDevice[] = "IVRSystem::GetOutputDevice";
-char kIVRSystem_GetOutputDevice[] = "IVRSystem::GetOutputDevice";
 char kIVRSystem_IsDisplayOnDesktop[] = "IVRSystem::IsDisplayOnDesktop";
 char kIVRSystem_SetDisplayVisibility[] = "IVRSystem::SetDisplayVisibility";
 char kIVRSystem_GetDeviceToAbsoluteTrackingPose[] = "IVRSystem::GetDeviceToAbsoluteTrackingPose";
@@ -56,12 +55,12 @@ char kIVRSystem_AcknowledgeQuit_Exiting[] = "IVRSystem::AcknowledgeQuit_Exiting"
 char kIVRSystem_AcknowledgeQuit_UserPrompt[] = "IVRSystem::AcknowledgeQuit_UserPrompt";
 char kIVRSystem_GetAppContainerFilePaths[] = "IVRSystem::GetAppContainerFilePaths";
 char kIVRSystem_GetRuntimeVersion[] = "IVRSystem::GetRuntimeVersion";
-char kIVRSystem_ComputeDistortion[] = "IVRSystem::ComputeDistortion";
+/* char kIVRSystem_ComputeDistortion[] = "IVRSystem::ComputeDistortion";
 char kIVRSystem_GetProjectionMatrix[] = "IVRSystem::GetProjectionMatrix";
 char kIVRSystem_PerformanceTestEnableCapture[] = "IVRSystem::PerformanceTestEnableCapture";
-char kIVRSystem_PerformanceTestReportFidelityLevelChange[] = "IVRSystem::PerformanceTestReportFidelityLevelChange";
+char kIVRSystem_PerformanceTestReportFidelityLevelChange[] = "IVRSystem::PerformanceTestReportFidelityLevelChange"; */
 
-PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem)(vrsystem(vrsystem)), fnp(fnp) {
+PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fnp(fnp) {
   fnp.reg<
     kIVRSystem_GetRecommendedRenderTargetSize,
     std::tuple<uint32_t, uint32_t>
@@ -903,10 +902,10 @@ const char *PVRSystem::GetRuntimeVersion() {
   abort();
   return 0;
 }
-/* DistortionCoordinates_t PVRSystem::ComputeDistortion(EVREye eEye, float fU, float fV) {
-  // XXX
+/* HmdMatrix44_t PVRSystem::GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention convention) {
+  return GetProjectionMatrix(eEye, fNearZ, fFarZ);
 }
-HmdMatrix44_t PVRSystem::GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ, EGraphicsAPIConvention convention) {
+DistortionCoordinates_t PVRSystem::ComputeDistortion(EVREye eEye, float fU, float fV) {
   // XXX
 }
 void PVRSystem::PerformanceTestEnableCapture(bool bEnable) {

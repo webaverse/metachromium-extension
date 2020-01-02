@@ -16,6 +16,7 @@ public:
   IVRSystem *vrsystem;
   FnProxy &fnp;
 
+  PVRSystem(IVRSystem *vrsystem, FnProxy &fnp);
   virtual void GetRecommendedRenderTargetSize(uint32_t *pnWidth, uint32_t *pnHeight);
   virtual HmdMatrix44_t GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ);
   virtual void GetProjectionRaw(EVREye eEye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom);

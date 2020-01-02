@@ -992,7 +992,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
 
     Microsoft::WRL::ComPtr<IDXGIFactory1> dxgi_factory;
     Microsoft::WRL::ComPtr<IDXGIAdapter> adapter;
-    HRESULT hr = CreateDXGIFactory1(&dxgi_factory);
+    HRESULT hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), &dxgi_factory);
     dxgi_factory->EnumAdapters(adapterIndex, &adapter);
 
     // Microsoft::WRL::ComPtr<ID3D11Device> device;
@@ -1006,7 +1006,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       0, // FeatureLevels
       D3D11_SDK_VERSION, // SDKVersion
       &device, // ppDevice
-      D3D_FEATURE_LEVEL       *pFeatureLevel,
+      NULL, // pFeatureLevel
       &context // ppImmediateContext
     );
 
@@ -1151,7 +1151,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       GLuint &interopTex = interopTexs[index];
       HANDLE &readInteropHandle = inReadInteropHandles[index];
 
-      glCreateTextures(1, &interopTex);
+      glGenTextures(1, &interopTex);
       readInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTex, interopTex, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
     }
 
@@ -1199,6 +1199,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   srcBox.back = 1;
   context->CopySubresourceRegion(shTex, 0, pBounds->uMin, pBounds->vMax, 0, tex, 0, &srcBox); */
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
+    ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
     context->CopyResource(shTex, tex);
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint readTex = (GLuint)pTexture->handle;
@@ -1242,7 +1243,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
       glBindTexture(GL_TEXTURE_2D, 0);
       glBindFramebuffer(GL_READ_FRAMEBUFFER, oldReadFbo);
-      glReadBuffer(GL_READ_BUFFER, oldReadBuffer);
+      glReadBuffer(oldReadBuffer);
       glDeleteFramebuffers(1, &readFbo);
 
       bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);

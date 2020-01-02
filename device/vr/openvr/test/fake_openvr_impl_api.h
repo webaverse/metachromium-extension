@@ -3,6 +3,7 @@
 
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/coreproxy.h"
+#include "device/vr/openvr/test/systemproxy.h"
 #include "device/vr/openvr/test/compositorproxy.h"
 
 #include <functional>
