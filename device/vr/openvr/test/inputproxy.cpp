@@ -219,6 +219,32 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
       std::move(boneName)
     );
   });
+  fnp.reg<
+    kIVRInput_GetSkeletalReferenceTransforms,
+    std::tuple<vr::EVRInputError, managed_binary<VRBoneTransform_t>>,
+    vr::VRActionHandle_t,
+    vr::EVRSkeletalTransformSpace,
+    vr::EVRSkeletalReferencePose,
+    uint32_t
+  >([=](vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalReferencePose eReferencePose, uint32_t unTransformArrayCount) {
+    managed_binary<VRBoneTransform_t> transformArray(unTransformArrayCount);
+    auto result = vrinput->GetSkeletalReferenceTransforms(action, eTransformSpace, eReferencePose, transformArray.data(), unTransformArrayCount);
+    return std::tuple<vr::EVRInputError, managed_binary<VRBoneTransform_t>>(
+      result,
+      std::move(transformArray)
+    );
+  });
+  fnp.reg<
+    kIVRInput_GetSkeletalTrackingLevel,
+    std::tuple<vr::EVRInputError, EVRSkeletalTrackingLevel>
+  >([=]() {
+    EVRSkeletalTrackingLevel skeletalTrackingLevel;
+    auto result = vrinput->GetSkeletalTrackingLevel(&skeletalTrackingLevel);
+    return std::tuple<vr::EVRInputError, EVRSkeletalTrackingLevel>(
+      result,
+      skeletalTrackingLevel
+    );
+  });
 }
 vr::EVRInputError PVRInput::SetActionManifestPath(const char *pchActionManifestPath) {
   managed_binary<char> actionManifestPath(strlen(pchActionManifestPath) + 1);
@@ -375,8 +401,26 @@ vr::EVRInputError PVRInput::GetBoneName(vr::VRActionHandle_t action, vr::BoneInd
   memcpy(pchBoneName, std::get<1>(result).data(), std::get<1>(result).size());
   return std::get<0>(result);
 }
-vr::EVRInputError PVRInput::GetSkeletalReferenceTransforms(vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalReferencePose eReferencePose, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount);
-vr::EVRInputError PVRInput::GetSkeletalTrackingLevel(vr::VRActionHandle_t action, vr::EVRSkeletalTrackingLevel* pSkeletalTrackingLevel);
+vr::EVRInputError PVRInput::GetSkeletalReferenceTransforms(vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalReferencePose eReferencePose, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount) {
+  auto result = fnp.call<
+    kIVRInput_GetSkeletalReferenceTransforms,
+    std::tuple<vr::EVRInputError, managed_binary<VRBoneTransform_t>>,
+    vr::VRActionHandle_t,
+    vr::EVRSkeletalTransformSpace,
+    vr::EVRSkeletalReferencePose,
+    uint32_t
+  >(action, eTransformSpace, eReferencePose, unTransformArrayCount);
+  memcpy(pTransformArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(VRBoneTransform_t));
+  return std::get<0>(result);
+}
+vr::EVRInputError PVRInput::GetSkeletalTrackingLevel(vr::VRActionHandle_t action, vr::EVRSkeletalTrackingLevel* pSkeletalTrackingLevel) {
+  auto result = fnp.call<
+    kIVRInput_GetSkeletalTrackingLevel,
+    std::tuple<vr::EVRInputError, EVRSkeletalTrackingLevel>
+  >();
+  *pSkeletalTrackingLevel = std::get<1>(result);
+  return std::get<0>(result);
+}
 vr::EVRInputError PVRInput::GetSkeletalBoneData(vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalMotionRange eMotionRange, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount, vr::VRInputValueHandle_t ulRestrictToDevice);
 vr::EVRInputError PVRInput::GetSkeletalBoneData(vr::VRActionHandle_t action, vr::EVRSkeletalTransformSpace eTransformSpace, vr::EVRSkeletalMotionRange eMotionRange, VR_ARRAY_COUNT(unTransformArrayCount) vr::VRBoneTransform_t *pTransformArray, uint32_t unTransformArrayCount);
 vr::EVRInputError PVRInput::GetSkeletalSummaryData(vr::VRActionHandle_t action, vr::EVRSummaryType eSummaryType, vr::VRSkeletalSummaryData_t * pSkeletalSummaryData);
