@@ -90,6 +90,7 @@ PVRSystem *g_pvrsystem = nullptr;
 PVRCompositor *g_pvrcompositor = nullptr;
 PVRInput *g_pvrinput = nullptr;
 PVRScreenshots *g_pvrscreenshots = nullptr;
+PVRChaperone *g_pvrchaperone = nullptr;
 }
 
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
@@ -111,6 +112,7 @@ extern "C" {
       vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
       vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
       vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
+      vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
     }
 
     if (!*pBooted) {

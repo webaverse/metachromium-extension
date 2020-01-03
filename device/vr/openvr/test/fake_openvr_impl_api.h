@@ -9,6 +9,7 @@
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/inputproxy.h"
 #include "device/vr/openvr/test/screenshotsproxy.h"
+#include "device/vr/openvr/test/chaperoneproxy.h"
 
 extern std::string dllDir;
 extern void *shMem;
@@ -36,6 +37,7 @@ namespace vr {
   extern PVRCompositor *g_pvrcompositor;
   extern PVRInput *g_pvrinput;
   extern PVRScreenshots *g_pvrscreenshots;
+  extern PVRChaperone *g_pvrchaperone;
 }
 
 #endif

@@ -109,18 +109,18 @@ vr::EVRScreenshotError PVRScreenshots::RequestScreenshot(vr::ScreenshotHandle_t 
   return std::get<0>(result);
 }
 vr::EVRScreenshotError PVRScreenshots::HookScreenshot(const vr::EVRScreenshotType *pSupportedTypes, int numTypes) {
-  getOut() << "screenshots hook client 1" << std::endl;
+  // getOut() << "screenshots hook client 1" << std::endl;
   managed_binary<vr::EVRScreenshotType> supportedTypes(numTypes);
-  getOut() << "screenshots hook client 2" << std::endl;
+  // getOut() << "screenshots hook client 2" << std::endl;
   memcpy(supportedTypes.data(), pSupportedTypes, numTypes * sizeof(vr::EVRScreenshotType));
-  getOut() << "screenshots hook client 3" << std::endl;
+  // getOut() << "screenshots hook client 3" << std::endl;
   auto result = fnp.call<
     kIVRScreenshots_HookScreenshot,
     vr::EVRScreenshotError,
     managed_binary<vr::EVRScreenshotType>,
     int
   >(std::move(supportedTypes), numTypes);
-  getOut() << "screenshots hook client 4 " << result << std::endl;
+  // getOut() << "screenshots hook client 4 " << result << std::endl;
   return result;
 }
 vr::EVRScreenshotType PVRScreenshots::GetScreenshotPropertyType(vr::ScreenshotHandle_t screenshotHandle, vr::EVRScreenshotError *pError) {
