@@ -414,17 +414,17 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
   });
 }
 vr::EVRInputError PVRInput::SetActionManifestPath(const char *pchActionManifestPath) {
-  getOut() << "set action manifest path client 1 " << pchActionManifestPath << std::endl;
+  // getOut() << "set action manifest path client 1 " << pchActionManifestPath << std::endl;
   managed_binary<char> actionManifestPath(strlen(pchActionManifestPath)+1);
-  getOut() << "set action manifest path client 2" << std::endl;
+  // getOut() << "set action manifest path client 2" << std::endl;
   memcpy(actionManifestPath.data(), pchActionManifestPath, actionManifestPath.size());
-  getOut() << "set action manifest path client 3" << std::endl;
+  // getOut() << "set action manifest path client 3" << std::endl;
   auto result = fnp.call<
     kIVRInput_SetActionManifestPath,
     vr::EVRInputError,
     managed_binary<char>
   >(std::move(actionManifestPath));
-  getOut() << "set action manifest path client 4 " << result << std::endl;
+  // getOut() << "set action manifest path client 4 " << result << std::endl;
   return result;
 }
 vr::EVRInputError PVRInput::GetActionSetHandle(const char *pchActionSetName, vr::VRActionSetHandle_t *pHandle) {
