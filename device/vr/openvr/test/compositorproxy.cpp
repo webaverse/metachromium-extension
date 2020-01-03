@@ -173,8 +173,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   fnp.reg<
     kIVRCompositor_PrepareSubmit,
     HANDLE,
-    ETextureType,
-    uintptr_t
+    ETextureType
   >([=](ETextureType textureType) {
     // getOut() << "prepare submit server 1" << std::endl;
 
@@ -292,7 +291,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         hr = fence->CreateSharedHandle(
           NULL, // security attributes
           GENERIC_ALL, // access
-          "Local\\OpenVrProxyFence", // name
+          L"Local\\OpenVrProxyFence", // name
           &fenceHandle // share handle
         );
         if (SUCCEEDED(hr)) {
@@ -555,11 +554,11 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "prepare submit server 16" << std::endl;
     }
     
-    getOut() << "interop 3" << std::endl;
+    getOut() << "interop 3 " << (void *)fenceHandle << std::endl;
     
     // getOut() << "prepare submit server 20" << std::endl;
 
-    return handle.Get();
+    return fenceHandle;
   });
   fnp.reg<
     kIVRCompositor_Submit,
@@ -611,14 +610,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
 
       // IDXGIResource1 *pD3DResource;
       // HRESULT hr = device->OpenSharedResource1(sharedHandle, __uuidof(IDXGIResource1), (void**)(&pD3DResource));
-      ID3D11Resource *pD3DResource;
-      HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
+      ID3D11Resource *shTexResource;
+      HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
 
       getOut() << "submit server 5" << std::endl;
 
       ID3D11Texture2D *shTexIn;
       if (SUCCEEDED(hr)) {
-        hr = pD3DResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
+        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
         
         if (SUCCEEDED(hr)) {
           // nothing
@@ -643,15 +642,36 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       }
       shTexIn->Release();
-      pD3DResource->Release();
+      shTexResource->Release();
 
       getOut() << "submit server 7" << std::endl;
     }
+    
+    if (!fence) {
+      ID3D11Resource *fenceResource;
+      HRESULT hr = device->OpenSharedResource(fenceHandle, __uuidof(ID3D11Resource), (void**)(&fenceResource));
 
-    getOut() << "submit server 8" << std::endl;
+      getOut() << "submit server 8" << std::endl;
+
+      if (SUCCEEDED(hr)) {
+        hr = fenceResource->QueryInterface(__uuidof(ID3D11Fence), (void**)(&fence));
+        
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "failed to unpack shared fence: " << (void *)hr << " " << (void *)fenceHandle << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to unpack shared fence handle: " << (void *)hr << " " << (void *)fenceHandle << std::endl;
+        abort();
+      }
+    }
+
+    getOut() << "submit server 9" << std::endl;
 
     ++fenceValue;
-    context->Wait(fenceHandle, fenceValue);
+    context->Wait(fence.Get(), fenceValue);
     
     getOut() << "submit server 9" << std::endl;
 
@@ -1247,14 +1267,25 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   
   // getOut() << "prepare submit client 3" << std::endl;
 
-  HANDLE newFence = fnp.call<
+  HANDLE newFenceHandle = fnp.call<
     kIVRCompositor_PrepareSubmit,
     HANDLE,
-    ETextureType,
-    uintptr_t
+    ETextureType
   >(pTexture->eType);
-  if (newFence != fence.Get()) {
-    fence = newFence;
+  if (newFenceHandle != fenceHandle) {
+    getOut() << "new fence check 1 " << (void *)newFenceHandle << std::endl;
+
+    hr = device->OpenSharedFence(newFenceHandle, __uuidof(ID3D11Fence), (void **)&fence);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "fence resource unpack failed" << std::endl;
+      abort();
+    }
+
+    getOut() << "new fence check 2 " << (void *)newFenceHandle << std::endl;
+    
+    fenceHandle = newFenceHandle;
   }
   // getOut() << "prepare submit client 4" << std::endl;
 }
@@ -1371,8 +1402,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     getOut() << "submit client 6" << std::endl;
 
     // get share handle
-    IDXGIResource1 *pDXGIResource;
-    hr = shTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
+    IDXGIResource1 *shTexResource;
+    hr = shTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shTexResource);
     getOut() << "submit client 7" << std::endl;
     // IDXGIResource1 *pDXGIResource;
     // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
@@ -1380,15 +1411,15 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     if (SUCCEEDED(hr)) {
       getOut() << "submit client 8" << std::endl;
       // getOut() << "submit client 7" << std::endl;
-      hr = pDXGIResource->GetSharedHandle(&sharedHandle);
-      // hr = pDXGIResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ | DXGI_SHARED_RESOURCE_WRITE, NULL, &sharedHandle);
+      hr = shTexResource->GetSharedHandle(&sharedHandle);
+      // hr = shTexResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ | DXGI_SHARED_RESOURCE_WRITE, NULL, &sharedHandle);
 
       getOut() << "submit client 9" << std::endl;
 
       // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
       if (SUCCEEDED(hr)) {
         getOut() << "submit client 10" << std::endl;
-        // pDXGIResource->Release();
+        // shTexResource->Release();
         getOut() << "submit client 11" << std::endl;
         // nothing
       } else {
@@ -1483,7 +1514,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   }
 
   ++fenceValue;
-  context->Signal(fenceHandle, fenceValue);
+  context->Signal(fence.Get(), fenceValue);
 
   getOut() << "submit client 14" << std::endl;
   
