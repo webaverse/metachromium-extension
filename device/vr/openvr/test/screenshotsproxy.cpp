@@ -28,17 +28,11 @@ PVRScreenshots::PVRScreenshots(IVRScreenshots *vrscreenshots, FnProxy &fnp) : vr
   });
   fnp.reg<
     kIVRScreenshots_HookScreenshot,
-    std::tuple<vr::EVRScreenshotError, vr::ScreenshotHandle_t>,
-    vr::EVRScreenshotType,
-    managed_binary<char>,
-    managed_binary<char>
-  >([=](vr::EVRScreenshotType type, managed_binary<char> previewFilename, managed_binary<char> vrFilename) {
-    vr::ScreenshotHandle_t outScreenshotHandle;
-    auto result = vrscreenshots->RequestScreenshot(&outScreenshotHandle, type, previewFilename.data(), vrFilename.data());
-    return std::tuple<vr::EVRScreenshotError, vr::ScreenshotHandle_t>(
-      result,
-      outScreenshotHandle
-    );
+    vr::EVRScreenshotError,
+    managed_binary<vr::EVRScreenshotType>,
+    int
+  >([=](managed_binary<vr::EVRScreenshotType> supportedTypes, int numTypes) {
+    return vrscreenshots->HookScreenshot(supportedTypes.data(), numTypes);
   });
   fnp.reg<
     kIVRScreenshots_GetScreenshotPropertyType,
@@ -115,14 +109,19 @@ vr::EVRScreenshotError PVRScreenshots::RequestScreenshot(vr::ScreenshotHandle_t 
   return std::get<0>(result);
 }
 vr::EVRScreenshotError PVRScreenshots::HookScreenshot(const vr::EVRScreenshotType *pSupportedTypes, int numTypes) {
+  getOut() << "screenshots hook client 1" << std::endl;
   managed_binary<vr::EVRScreenshotType> supportedTypes(numTypes);
+  getOut() << "screenshots hook client 2" << std::endl;
   memcpy(supportedTypes.data(), pSupportedTypes, numTypes * sizeof(vr::EVRScreenshotType));
-  return fnp.call<
+  getOut() << "screenshots hook client 3" << std::endl;
+  auto result = fnp.call<
     kIVRScreenshots_HookScreenshot,
     vr::EVRScreenshotError,
     managed_binary<vr::EVRScreenshotType>,
     int
   >(std::move(supportedTypes), numTypes);
+  getOut() << "screenshots hook client 4 " << result << std::endl;
+  return result;
 }
 vr::EVRScreenshotType PVRScreenshots::GetScreenshotPropertyType(vr::ScreenshotHandle_t screenshotHandle, vr::EVRScreenshotError *pError) {
   auto result = fnp.call<

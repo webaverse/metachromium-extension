@@ -1628,3 +1628,65 @@ Thu Jan 02 2020 19:35:06.172 - AppInfoManager.ProcessQuit processid=13736 eLaunc
 Thu Jan 02 2020 19:35:06.172 - AppInfoManager.ProcessQuit: Clearing application system.generated.process.exe PID because 13736 has exited
 Thu Jan 02 2020 19:35:06.172 - oculus: CliD3D11CompositorClient::release 3
 Thu Jan 02 2020 19:35:11.180 - 0 - entering standby
+Thu Jan 02 2020 19:59:43.212 - CSharedResourceNamespaceServer sent namespace data: 10156
+Thu Jan 02 2020 19:59:43.220 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe (VRApplication_Scene) (Args: ) 25028 
+Thu Jan 02 2020 19:59:43.221 - StartSceneApplicationTransitionFromProcess( 25028, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe, )
+Thu Jan 02 2020 19:59:43.221 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe (VRApplication_Scene)
+Thu Jan 02 2020 19:59:43.221 - AppInfoManager.ProcessConnected BEGIN 25028 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 1 
+Thu Jan 02 2020 19:59:43.232 - SetApplicationPid appkey=system.generated.process.exe pid=25028, external transition
+Thu Jan 02 2020 19:59:43.232 - SetApplicationPid: Setting app system.generated.process.exe PID to 25028
+Thu Jan 02 2020 19:59:43.232 - AppInfoManager.ProcessConnected END
+Thu Jan 02 2020 19:59:43.232 - Enabling legacy input for system.generated.process.exe
+Thu Jan 02 2020 19:59:43.243 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Thu Jan 02 2020 19:59:43.244 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Thu Jan 02 2020 19:59:43.244 - 0 - leaving standby
+Thu Jan 02 2020 19:59:43.244 - Using existing HMD oculus.1PASH9AFEV9173
+Thu Jan 02 2020 19:59:43.244 - Processing message VRMsg_Connect from process (25028) took 0.0226 seconds
+Thu Jan 02 2020 19:59:48.335 - 0 - entering standby
+Thu Jan 02 2020 20:00:02.335 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Thu Jan 02 2020 20:00:02.343 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Thu Jan 02 2020 20:00:07.121 - Remembering SetActionManifestPath call from system.generated.process.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Thu Jan 02 2020 20:00:07.127 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Thu Jan 02 2020 20:00:07.127 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Thu Jan 02 2020 20:00:07.127 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Thu Jan 02 2020 20:00:07.127 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Thu Jan 02 2020 20:00:07.128 - Processing message VRMsg_Input_SetActionManifestPath from process (25028) took 0.00724 seconds
+Thu Jan 02 2020 20:00:07.231 - Unknown action set /actions/buggy
+Thu Jan 02 2020 20:00:07.232 - Unknown action set /actions/platformer
+Thu Jan 02 2020 20:00:07.236 - Unknown action set /actions/buggy
+Thu Jan 02 2020 20:00:07.236 - Unknown action set /actions/platformer
+Thu Jan 02 2020 20:00:08.808 - Starting SteamVR Home launch because system.generated.process.exe exited after 25.576664 seconds
+Thu Jan 02 2020 20:00:08.884 - Closing pipe process (25028) because it was broken from the other end
+Thu Jan 02 2020 20:00:08.884 - Process process (25028) disconnected (Thread(0x000001B34A884860/0x000)
+Thu Jan 02 2020 20:00:08.884 - 0 - leaving standby
+Thu Jan 02 2020 20:00:08.884 - AppInfoManager.ProcessQuit processid=25028 eLaunchingApp=LaunchingApp_None
+Thu Jan 02 2020 20:00:08.884 - AppInfoManager.ProcessQuit: Clearing application system.generated.process.exe PID because 25028 has exited
+Thu Jan 02 2020 20:00:08.884 - oculus: CliD3D11CompositorClient::release 4
+Thu Jan 02 2020 20:00:08.884 - oculus: CliD3D11CompositorClient::release 3
+Thu Jan 02 2020 20:00:13.884 - 0 - entering standby
+Thu Jan 02 2020 20:05:21.104 - CSharedResourceNamespaceServer sent namespace data: 10156
+Thu Jan 02 2020 20:05:21.108 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe (VRApplication_Scene) (Args: ) 11792 
+Thu Jan 02 2020 20:05:21.108 - StartSceneApplicationTransitionFromProcess( 11792, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe, )
+Thu Jan 02 2020 20:05:21.108 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe (VRApplication_Scene)
+Thu Jan 02 2020 20:05:21.109 - AppInfoManager.ProcessConnected BEGIN 11792 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 1 
+Thu Jan 02 2020 20:05:21.118 - SetApplicationPid appkey=system.generated.process.exe pid=11792, external transition
+Thu Jan 02 2020 20:05:21.118 - SetApplicationPid: Setting app system.generated.process.exe PID to 11792
+Thu Jan 02 2020 20:05:21.118 - AppInfoManager.ProcessConnected END
+Thu Jan 02 2020 20:05:21.119 - Enabling legacy input for system.generated.process.exe
+Thu Jan 02 2020 20:05:21.124 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Thu Jan 02 2020 20:05:21.124 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Thu Jan 02 2020 20:05:21.124 - 0 - leaving standby
+Thu Jan 02 2020 20:05:21.124 - Using existing HMD oculus.1PASH9AFEV9173
+Thu Jan 02 2020 20:05:21.124 - Processing message VRMsg_Connect from process (11792) took 0.0162 seconds
+Thu Jan 02 2020 20:05:25.542 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Thu Jan 02 2020 20:05:25.549 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Thu Jan 02 2020 20:05:26.204 - 0 - entering standby
+Thu Jan 02 2020 20:05:29.761 - Remembering SetActionManifestPath call from system.generated.process.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Thu Jan 02 2020 20:05:29.763 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Thu Jan 02 2020 20:05:29.763 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Thu Jan 02 2020 20:05:29.763 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Thu Jan 02 2020 20:05:29.763 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Thu Jan 02 2020 20:05:29.826 - Unknown action set /actions/buggy
+Thu Jan 02 2020 20:05:29.827 - Unknown action set /actions/platformer
+Thu Jan 02 2020 20:05:29.829 - Unknown action set /actions/buggy
+Thu Jan 02 2020 20:05:29.830 - Unknown action set /actions/platformer
