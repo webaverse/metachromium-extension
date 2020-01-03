@@ -54,8 +54,8 @@ std::ostream &getOut() {
   return std::cout;
 #endif
 }
-// constexpr bool tracing = true;
-constexpr bool tracing = false;
+constexpr bool tracing = true;
+// constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {
   if (tracing) {
     fn();
@@ -70,6 +70,10 @@ void wrapExternalOpenVr(std::function<void()> &&fn) {
   fn();
 
   SetEnvironmentVariable("VR_OVERRIDE", buf.data());
+}
+
+void vrShutdownInternal() {
+  getOut() << "vr shutdown internal" << std::endl;
 }
 
 namespace vr {
@@ -100,50 +104,127 @@ size_t *pBooted = nullptr;
 // GLFWwindow **ppWindow;
 size_t *pNumClients = nullptr;
 extern "C" {
+  void *__imp_VR_GetGenericInterface = nullptr;
+  void *__imp_VR_IsInterfaceVersionVersion = nullptr;
+  void *__imp_VR_GetInitToken = nullptr;
+  void *__imp_VR_IsInterfaceVersion = nullptr;
+  void *__imp_VR_InitInternal2 = nullptr;
+  void *__imp_VR_IsInterfaceVersionValid = nullptr;
+  void *__imp_VR_ShutdownInternal = vrShutdownInternal;
+  void *__imp_VR_IsHmdPresent = nullptr;
+  void *__imp_VR_GetVRInitErrorAsSymbol = nullptr;
+  void *__imp_VR_GetVRInitErrorAsEnglishDescription = nullptr;
+  
   __declspec(dllexport) void* VRClientCoreFactory(const char* interface_name, int* return_code) {
     getOut() << "get interface " << interface_name << std::endl;
     // size_t &id = *((size_t *)shMem + 1);
     // getOut() << "core 1 " << interface_name << std::endl;
 
-    if (!vr::g_pvrclientcore) {
-      FnProxy *fnp = new FnProxy();
-      vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
-      vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
-      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
-      vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
-      vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
-      vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
-    }
+    wrapExternalOpenVr([&]() -> void {
+      // getOut() << "core 2 " << interface_name << std::endl;
 
-    if (!*pBooted) {
-      getOut() << "create process" << std::endl;
-      *pBooted = 1;
-      // *ppWindow = initGl();
-
-      /* STARTUPINFO si;
-      PROCESS_INFORMATION pi;
-      std::string p2 = dllDir + "process.exe";
-      getOut() << "starting " << p << " " << p2 << std::endl;
-      auto result = CreateProcessA(
-        NULL,   // No module name (use command line)
-        p,        // Command line
-        NULL,           // Process handle not inheritable
-        NULL,           // Thread handle not inheritable
-        FALSE,          // Set handle inheritance to FALSE
-        0,              // No creation flags
-        NULL,           // Use parent's environment block
-        NULL,           // Use parent's starting directory 
-        &si,            // Pointer to STARTUPINFO structure
-        &pi             // Pointer to PROCESS_INFORMATION structure
-      );
-      if (!result) {
-        getOut() << "create process failed " << p << " " << GetLastError() << std::endl;
+      // only look in the override
+      std::string openvrApiDllPath = dllDir + "openvr_api.dll";
+      void *pMod = SharedLib_Load(openvrApiDllPath.c_str());
+      // dumpbin /exports "C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrclient_x64.dll"
+      // nothing more to do if we can't load the DLL
+      // getOut() << "core 3 " << pMod << std::endl;
+      if( !pMod )
+      {
+        getOut() << "core abort" << std::endl; abort();
         abort();
-      } */
-    }
+        // return vr::VRInitError_Init_VRClientDLLNotFound;
+      }
+      
+      // getOut() << "core 4 " << pMod << std::endl;
 
-    // result = vr::VRInitError_None;
-    getOut() << "init 3 " << interface_name << std::endl;
+      __imp_VR_GetGenericInterface = SharedLib_GetFunction( pMod, "VR_GetGenericInterface" );
+      __imp_VR_IsInterfaceVersionVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionVersion" );
+      __imp_VR_GetInitToken = SharedLib_GetFunction( pMod, "VR_GetInitToken" );
+      __imp_VR_IsInterfaceVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersion" );
+      __imp_VR_InitInternal2 = SharedLib_GetFunction( pMod, "VR_InitInternal2" );
+      __imp_VR_IsInterfaceVersionValid = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionValid" );
+      // __imp_VR_ShutdownInternal = SharedLib_GetFunction( pMod, "VR_ShutdownInternal" );
+      __imp_VR_IsHmdPresent = SharedLib_GetFunction( pMod, "VR_IsHmdPresent" );
+      __imp_VR_GetVRInitErrorAsSymbol = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsSymbol" );
+      __imp_VR_GetVRInitErrorAsEnglishDescription = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsEnglishDescription" );
+      if (!__imp_VR_GetGenericInterface) {
+        SharedLib_Unload( pMod );
+        getOut() << "unload abort" << std::endl; abort();
+        // return vr::VRInitError_Init_FactoryNotFound;
+      }
+      
+      // getOut() << "core 6 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
+
+      /* int nReturnCode = 0;
+      g_pHmdSystem = static_cast< IVRClientCore * > ( fnFactory( vr::IVRClientCore_Version, &nReturnCode ) );
+      if( !g_pHmdSystem )
+      {
+        SharedLib_Unload( pMod );
+        return vr::VRInitError_Init_InterfaceNotFound;
+      } */
+
+      vr::EVRInitError result = vr::VRInitError_None;
+      if (!*pBooted) {
+        getOut() << "vr_init " << GetCurrentThreadId() << std::endl;
+        vr::VR_Init(&result, vr::VRApplication_Scene);
+      }
+      if (result != vr::VRInitError_None) {
+        getOut() << "vr_init failed" << std::endl;
+        abort();
+      }
+      getOut() << "proxy init" << std::endl;
+      
+      if (!vr::g_pvrclientcore) {
+        getOut() << "boot 1" << std::endl;
+        vr::g_vrsystem = vr::VRSystem();
+        vr::g_vrcompositor = vr::VRCompositor();
+        vr::g_vrchaperone = vr::VRChaperone();
+        vr::g_vrchaperonesetup = vr::VRChaperoneSetup();
+        vr::g_vroverlay = vr::VROverlay();
+        vr::g_vrrendermodels = vr::VRRenderModels();
+        vr::g_vrscreenshots = vr::VRScreenshots();
+        vr::g_vrsettings = vr::VRSettings();
+        vr::g_vrextendeddisplay = vr::VRExtendedDisplay();
+        vr::g_vrapplications = vr::VRApplications();
+        vr::g_vrinput = vr::VRInput();
+        
+        getOut() << "boot 2 " << (void *)vr::g_vrsystem << " " << (void *)vr::g_vrcompositor << std::endl;
+        
+        FnProxy *fnp = new FnProxy();
+        vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
+        vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
+        vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
+        vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
+        vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
+        vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
+        
+        getOut() << "boot 3" << std::endl;
+      }
+
+      if (!*pBooted) {
+        getOut() << "create thread" << std::endl;
+        *pBooted = 1;
+        // *ppWindow = initGl();
+        
+        std::thread t([=]() {
+          FnProxy fnp;
+          vr::PVRClientCore clientcore(fnp);
+          vr::PVRSystem system(vr::g_vrsystem, fnp);
+          vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
+          vr::PVRInput input(vr::g_vrinput, fnp);
+          vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
+          vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
+          for (;;) {
+            fnp.handle();
+          }
+        });
+        t.detach();
+      }
+
+      // result = vr::VRInitError_None;
+      getOut() << "init 3 " << interface_name << std::endl;
+    });
 
     // getOut() << "init 6 " << interface_name << std::endl;
     void *iface = CreateInterfaceByName(interface_name);

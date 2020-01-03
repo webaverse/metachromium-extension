@@ -124,8 +124,10 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     kIVRSystem_GetDXGIOutputInfo,
     int32_t
   >([=]() {
+    getOut() << "dxgi req 1 " << (void *)vrsystem << std::endl;
     int32_t result;
     vrsystem->GetDXGIOutputInfo(&result);
+    getOut() << "dxgi req 2" << std::endl;
     return result;
   });
   fnp.reg<
@@ -574,11 +576,14 @@ int32_t PVRSystem::GetD3D9AdapterIndex() {
   >();
 }
 void PVRSystem::GetDXGIOutputInfo(int32_t *pnAdapterIndex) {
+  getOut() << "GetDXGIOutputInfo 1" << std::endl;
   auto result = fnp.call<
     kIVRSystem_GetDXGIOutputInfo,
     int32_t
   >();
+  getOut() << "GetDXGIOutputInfo 2" << std::endl;
   *pnAdapterIndex = result;
+  getOut() << "GetDXGIOutputInfo 3" << std::endl;
 }
 void PVRSystem::GetOutputDevice(uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance) {
   getOut() << "GetOutputDevice abort" << std::endl;

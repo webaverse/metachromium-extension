@@ -40,4 +40,17 @@ namespace vr {
   extern PVRChaperone *g_pvrchaperone;
 }
 
+extern "C" {
+  extern void *__imp_VR_GetGenericInterface;
+  extern void *__imp_VR_IsInterfaceVersionVersion;
+  extern void *__imp_VR_GetInitToken;
+  extern void *__imp_VR_IsInterfaceVersion;
+  extern void *__imp_VR_InitInternal2;
+  extern void *__imp_VR_IsInterfaceVersionValid;
+  extern void *__imp_VR_ShutdownInternal;
+  extern void *__imp_VR_IsHmdPresent;
+  extern void *__imp_VR_GetVRInitErrorAsSymbol;
+  extern void *__imp_VR_GetVRInitErrorAsEnglishDescription;
+}
+
 #endif

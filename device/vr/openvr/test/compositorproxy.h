@@ -1,7 +1,7 @@
 #ifndef _openvr_compositorproxy_h_
 #define _openvr_compositorproxy_h_
 
-#include <D3D11_1.h>
+#include <D3D11_4.h>
 #include <DXGI1_4.h>
 #include <wrl.h>
 
@@ -18,8 +18,8 @@ public:
   FnProxy &fnp;
 
   // main
-  Microsoft::WRL::ComPtr<ID3D11Device> device;
-  Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+  Microsoft::WRL::ComPtr<ID3D11Device5> device;
+  Microsoft::WRL::ComPtr<ID3D11DeviceContext4> context;
   GLFWwindow *subWindow = nullptr;
   HANDLE hInteropDevice = NULL;
   uint32_t width;

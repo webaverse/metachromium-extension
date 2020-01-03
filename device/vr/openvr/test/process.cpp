@@ -4,23 +4,6 @@
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
-void vrShutdownInternal() {
-  getOut() << "vr shutdown internal" << std::endl;
-}
-
-extern "C" {
-  void *__imp_VR_GetGenericInterface = nullptr;
-  void *__imp_VR_IsInterfaceVersionVersion = nullptr;
-  void *__imp_VR_GetInitToken = nullptr;
-  void *__imp_VR_IsInterfaceVersion = nullptr;
-  void *__imp_VR_InitInternal2 = nullptr;
-  void *__imp_VR_IsInterfaceVersionValid = nullptr;
-  void *__imp_VR_ShutdownInternal = vrShutdownInternal;
-  void *__imp_VR_IsHmdPresent = nullptr;
-  void *__imp_VR_GetVRInitErrorAsSymbol = nullptr;
-  void *__imp_VR_GetVRInitErrorAsEnglishDescription = nullptr;
-}
-
 int main() {
   getOut() << "process start 1" << std::endl;
 
