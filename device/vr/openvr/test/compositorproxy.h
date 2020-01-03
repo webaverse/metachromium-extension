@@ -25,6 +25,11 @@ public:
   uint32_t width;
   uint32_t height;
   // bool rightEye = false;
+
+  Microsoft::WRL::ComPtr<ID3D11Fence> fence;
+  HANDLE fenceHandle = NULL;
+  uint64_t fenceValue = 0;
+
   std::vector<GLuint> texLocations;
   std::vector<GLuint> hasTexLocations;
 

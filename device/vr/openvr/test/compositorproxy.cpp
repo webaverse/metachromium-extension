@@ -172,12 +172,12 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_PrepareSubmit,
-    int,
+    HANDLE,
     ETextureType,
     uintptr_t
-  >([=](ETextureType textureType, uintptr_t pDevice) {
+  >([=](ETextureType textureType) {
     // getOut() << "prepare submit server 1" << std::endl;
-    
+
     if (!device) {
       // device = (ID3D11Device *)pDevice;
 
@@ -272,6 +272,35 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         // nothing
       } else {
         getOut() << "create dx device failed " << (void *)hr << std::endl;
+        abort();
+      }
+
+      if (!fence) {
+        hr = device->CreateFence(
+          0, // value
+          D3D11_FENCE_FLAG_SHARED, // flags
+          __uuidof(ID3D11Fence), // interface
+          (void **)&fence // out
+        );
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "failed to create fence" << std::endl;
+          abort();
+        }
+
+        hr = fence->CreateSharedHandle(
+          NULL, // security attributes
+          GENERIC_ALL, // access
+          "Local\\OpenVrProxyFence", // name
+          &fenceHandle // share handle
+        );
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "failed to create fence share handle" << std::endl;
+          abort();
+        }
       }
 
       subWindow = initGl();
@@ -530,7 +559,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     
     // getOut() << "prepare submit server 20" << std::endl;
 
-    return 0;
+    return handle.Get();
   });
   fnp.reg<
     kIVRCompositor_Submit,
@@ -618,8 +647,13 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
 
       getOut() << "submit server 7" << std::endl;
     }
-    
+
     getOut() << "submit server 8" << std::endl;
+
+    ++fenceValue;
+    context->Wait(fenceHandle, fenceValue);
+    
+    getOut() << "submit server 9" << std::endl;
 
     return VRCompositorError_None;
   });
@@ -1213,12 +1247,15 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   
   // getOut() << "prepare submit client 3" << std::endl;
 
-  fnp.call<
+  HANDLE newFence = fnp.call<
     kIVRCompositor_PrepareSubmit,
-    int,
+    HANDLE,
     ETextureType,
     uintptr_t
-  >(pTexture->eType, (uintptr_t)device.Get());
+  >(pTexture->eType);
+  if (newFence != fence.Get()) {
+    fence = newFence;
+  }
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
@@ -1379,10 +1416,10 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   srcBox.back = 1;
   context->CopySubresourceRegion(shTex, 0, pBounds->uMin, pBounds->vMax, 0, tex, 0, &srcBox); */
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
-    getOut() << "submit client 12" << std::endl;
+    // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
     context->CopyResource(shTex, tex);
-    getOut() << "submit client 13" << std::endl;
+    // getOut() << "submit client 13" << std::endl;
     // context->Flush();
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint readTex = (GLuint)pTexture->handle;
@@ -1444,6 +1481,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     getOut() << "unknown texture type: " << (void *)pTexture->eType << std::endl;
     abort();
   }
+
+  ++fenceValue;
+  context->Signal(fenceHandle, fenceValue);
 
   getOut() << "submit client 14" << std::endl;
   
