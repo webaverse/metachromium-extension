@@ -1,12 +1,14 @@
 #ifndef _fake_openvr_impl_api_h_
 #define _fake_openvr_impl_api_h_
 
+// #include <functional>
+
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/coreproxy.h"
 #include "device/vr/openvr/test/systemproxy.h"
 #include "device/vr/openvr/test/compositorproxy.h"
-
-#include <functional>
+#include "device/vr/openvr/test/inputproxy.h"
+#include "device/vr/openvr/test/screenshotsproxy.h"
 
 extern std::string dllDir;
 extern void *shMem;
@@ -32,6 +34,8 @@ namespace vr {
   extern PVRClientCore *g_pvrclientcore;
   extern PVRSystem *g_pvrsystem;
   extern PVRCompositor *g_pvrcompositor;
+  extern PVRInput *g_pvrinput;
+  extern PVRScreenshots *g_pvrscreenshots;
 }
 
 #endif

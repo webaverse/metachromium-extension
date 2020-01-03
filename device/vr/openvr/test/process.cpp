@@ -131,6 +131,8 @@ int main() {
   vr::PVRClientCore clientcore(fnp);
   vr::PVRSystem system(vr::g_vrsystem, fnp);
   vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
+  vr::PVRInput input(vr::g_vrinput, fnp);
+  vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
   getOut() << "start loop" << std::endl;
   for (;;) {
     fnp.handle();
