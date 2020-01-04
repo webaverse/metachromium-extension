@@ -1,6 +1,8 @@
 #ifndef _openvr_compositorproxy_h_
 #define _openvr_compositorproxy_h_
 
+#include <deque>
+
 #include <D3D11_4.h>
 #include <DXGI1_4.h>
 #include <wrl.h>
@@ -27,7 +29,7 @@ public:
   // bool rightEye = false;
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
-  HANDLE fenceHandle = NULL;
+  // HANDLE fenceHandle = NULL;
   uint64_t fenceValue = 0;
 
   std::vector<GLuint> texLocations;
@@ -40,6 +42,7 @@ public:
   std::vector<uintptr_t> inTexLatches;
   std::vector<GLuint> interopTexs;
   std::vector<HANDLE> inReadInteropHandles;
+  std::vector<HANDLE> inReadEvents;
   /* ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
@@ -51,7 +54,9 @@ public:
   std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
   std::vector<GLuint> inBackTexs;
   std::vector<HANDLE> inBackInteropHandles;
+  std::vector<HANDLE> inBackReadEvents;
   std::vector<HANDLE> inBackHandleLatches;
+  std::deque<HANDLE> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;

@@ -172,7 +172,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_PrepareSubmit,
-    HANDLE,
+    int,
     ETextureType
   >([=](ETextureType textureType) {
     // getOut() << "prepare submit server 1" << std::endl;
@@ -272,39 +272,6 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       } else {
         getOut() << "create dx device failed " << (void *)hr << std::endl;
         abort();
-      }
-
-      if (!fence) {
-        hr = device->CreateFence(
-          0, // value
-          D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
-          // D3D11_FENCE_FLAG_SHARED, // flags
-          __uuidof(ID3D11Fence), // interface
-          (void **)&fence // out
-        );
-        if (SUCCEEDED(hr)) {
-          // getOut() << "created fence " << (void *)fence << std::endl;
-          // nothing
-        } else {
-          getOut() << "failed to create fence" << std::endl;
-          abort();
-        }
-
-        hr = fence->CreateSharedHandle(
-          NULL, // security attributes
-          GENERIC_ALL, // access
-          L"Local\\OpenVrProxyFence", // name
-          &fenceHandle // share handle
-        );
-        if (SUCCEEDED(hr)) {
-          getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
-          // nothing
-        } else {
-          getOut() << "failed to create fence share handle" << std::endl;
-          abort();
-        }
-        
-        // context->Flush();
       }
 
       subWindow = initGl();
@@ -559,11 +526,12 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "prepare submit server 16" << std::endl;
     }
     
-    getOut() << "interop 3 " << (void *)fenceHandle << std::endl;
+    // getOut() << "interop 3 " << (void *)fenceHandle << std::endl;
     
     // getOut() << "prepare submit server 20" << std::endl;
 
-    return fenceHandle;
+    // return fenceHandle;
+    return 0;
   });
   fnp.reg<
     kIVRCompositor_Submit,
@@ -572,11 +540,11 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags
-  >([=](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
+  >([=, &fnp](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
     
-    getOut() << "submit server 1" << std::endl;
+    // getOut() << "submit server 1" << std::endl;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteCallbackId, eEye);
     auto iter = inBackIndices.find(key);
@@ -590,17 +558,19 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
 
       inBackTexs.resize(index+1, NULL);
       inBackInteropHandles.resize(index+1, NULL);
+      inBackReadEvents.resize(index+1, NULL);
       inBackHandleLatches.resize(index+1, NULL);
     }
     
-    getOut() << "submit server 2" << std::endl;
+    // getOut() << "submit server 2" << std::endl;
 
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
     GLuint &shTexInId = inBackTexs[index]; // gl texture
     HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
+    HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
 
-    getOut() << "submit server 3" << std::endl;
+    // getOut() << "submit server 3" << std::endl;
 
     if (handleLatched != sharedHandle) {
       // getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
@@ -611,14 +581,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       }
       handleLatched = sharedHandle;
 
-      getOut() << "submit server 4" << std::endl;
+      // getOut() << "submit server 4" << std::endl;
 
       // IDXGIResource1 *pD3DResource;
       // HRESULT hr = device->OpenSharedResource1(sharedHandle, __uuidof(IDXGIResource1), (void**)(&pD3DResource));
       ID3D11Resource *shTexResource;
       HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
 
-      getOut() << "submit server 5" << std::endl;
+      // getOut() << "submit server 5" << std::endl;
 
       ID3D11Texture2D *shTexIn;
       if (SUCCEEDED(hr)) {
@@ -635,7 +605,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       }
     
-      getOut() << "submit server 6 " << GetLastError() << std::endl;
+      // getOut() << "submit server 6 " << GetLastError() << std::endl;
 
       glGenTextures(1, &shTexInId);
       shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
@@ -648,11 +618,25 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       }
       shTexIn->Release();
       shTexResource->Release();
+      
+      getOut() << "open backend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.remoteCallbackId) + std::string(":") + std::to_string((int)eEye)) << std::endl;
+      readEvent = OpenEventA(
+        GENERIC_ALL,
+        false,
+        (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.remoteCallbackId) + std::string(":") + std::to_string((int)eEye)).c_str()
+      );
+      
+      if (!readEvent) {
+        getOut() << "failed to open backend read event" << std::endl;
+        abort();
+      }
 
-      getOut() << "submit server 7" << std::endl;
+      // getOut() << "submit server 7 " << (void *)readEvent << std::endl;
     }
     
-    if (!fence) {
+    inBackReadEventQueue.push_back(readEvent);
+
+    /* if (!fence) {
       ID3D11Resource *fenceResource;
       HRESULT hr = device->OpenSharedResource(fenceHandle, __uuidof(ID3D11Resource), (void**)(&fenceResource));
 
@@ -671,14 +655,15 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         getOut() << "failed to unpack shared fence handle: " << (void *)hr << " " << (void *)fenceHandle << std::endl;
         abort();
       }
-    }
+    } */
 
-    getOut() << "submit server 9" << std::endl;
+    // getOut() << "submit server 9 " << (void *)readEvent << std::endl;
 
-    ++fenceValue;
-    context->Wait(fence.Get(), fenceValue);
+    // auto r = WaitForSingleObject(readEvent, INFINITE);
+    // ++fenceValue;
+    // context->Wait(fence.Get(), fenceValue);
     
-    getOut() << "submit server 9" << std::endl;
+    // getOut() << "submit server 9" << std::endl;
 
     return VRCompositorError_None;
   });
@@ -687,10 +672,10 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     int,
     EVREye
   >([=](EVREye eEye) {
-    getOut() << "flush submit server 1" << std::endl;
+    // getOut() << "flush submit server 1" << std::endl;
     
     int iEye = (int)eEye;
-      
+
     std::vector<HANDLE> objects;
     objects.reserve(inBackIndices.size()/2 + 1);
     for (auto iter : inBackIndices) {
@@ -699,16 +684,22 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         size_t index = iter.second;
         HANDLE h = inBackInteropHandles[index];
         objects.push_back(h);
-        getOut() << "got handle " << (void *)h << std::endl;
+        // getOut() << "got handle " << (void *)h << std::endl;
       }
     }
     objects.push_back(shTexOutInteropHandles[iEye]);
-    getOut() << "got handle end " << (void *)shTexOutInteropHandles[iEye] << std::endl;
+    // getOut() << "got handle end " << (void *)shTexOutInteropHandles[iEye] << std::endl;
     
-    getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
-    
+    // getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
+
+    while (inBackReadEventQueue.size() > 0) {
+      HANDLE &readEvent = inBackReadEventQueue.front();
+      auto r = WaitForSingleObject(readEvent, INFINITE);
+      inBackReadEventQueue.pop_front();
+    }
+
     bool lockOk = wglDXLockObjectsNV(hInteropDevice, objects.size(), objects.data());
-    getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
+    // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
     if (lockOk) {
       // getOut() << "flush submit server 3 " << (int)eye << std::endl;
 
@@ -743,6 +734,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
       glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+
       glDrawElements(
         GL_TRIANGLES,
         6,
@@ -772,7 +764,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
           1.0f, 1.0f
         };
         // getOut() << "flush submit server 7 " << (int)eye << std::endl;
-        getOut() << "gl submit 2 " << glGetError() << std::endl;
+        // getOut() << "gl submit 2 " << glGetError() << std::endl;
         vrcompositor->Submit(eEye, &texture, &bounds, EVRSubmitFlags::Submit_Default);
       } else {
         getOut() << "texture unlocking failed" << std::endl;
@@ -784,7 +776,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     }
     // vrcompositor->PostPresentHandoff();
     
-    getOut() << "flush submit server 11" << std::endl;
+    // getOut() << "flush submit server 11" << std::endl;
     return 0;
   });
   fnp.reg<
@@ -1275,25 +1267,51 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   
   // getOut() << "prepare submit client 3" << std::endl;
 
-  HANDLE newFenceHandle = fnp.call<
+  if (!fence) {
+    hr = device->CreateFence(
+      0, // value
+      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+      // D3D11_FENCE_FLAG_SHARED, // flags
+      D3D11_FENCE_FLAG_NONE, // flags
+      __uuidof(ID3D11Fence), // interface
+      (void **)&fence // out
+    );
+    if (SUCCEEDED(hr)) {
+      // getOut() << "created fence " << (void *)fence << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create fence" << std::endl;
+      abort();
+    }
+
+    /* hr = fence->CreateSharedHandle(
+      NULL, // security attributes
+      GENERIC_ALL, // access
+      L"Local\\OpenVrProxyFence", // name
+      &fenceHandle // share handle
+    );
+    if (SUCCEEDED(hr)) {
+      getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create fence share handle" << std::endl;
+      abort();
+    } */
+    
+    // context->Flush();
+  }
+
+  /*HANDLE newFenceHandle = */fnp.call<
     kIVRCompositor_PrepareSubmit,
-    HANDLE,
+    int,
     ETextureType
   >(pTexture->eType);
-  if (newFenceHandle != fenceHandle) {
+  /* if (newFenceHandle != fenceHandle) {
     getOut() << "new fence check 1 " << (void *)newFenceHandle << std::endl;
 
     // IDisplayDeviceInterop *interop;
     // device.As(&interop);
-    
-    /* ID3D11Resource *pFence;
-    hr = device->OpenSharedResourceByName(L"Local\\OpenVrProxyFence", DXGI_SHARED_RESOURCE_READ|DXGI_SHARED_RESOURCE_WRITE, __uuidof(ID3D11Resource), (void**)(&pFence));
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "fence resource open failed 1 " << (void *)hr << std::endl;
-      abort();
-    } */
+
     hr = device->OpenSharedFence(newFenceHandle, __uuidof(ID3D11Fence), (void **)&fence);
     if (SUCCEEDED(hr)) {
       // nothing
@@ -1305,7 +1323,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
     getOut() << "new fence check 2 " << (void *)newFenceHandle << std::endl;
     
     fenceHandle = newFenceHandle;
-  }
+  } */
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
@@ -1326,12 +1344,14 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     inTexLatches.resize(index+1, NULL);
     interopTexs.resize(index+1, NULL);
     inReadInteropHandles.resize(index+1, NULL);
+    inReadEvents.resize(index+1, NULL);
   }
   
   // getOut() << "submit client 2" << std::endl;
 
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
+  HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
   if (textureLatched != (uintptr_t)pTexture->handle) {
     if (textureLatched) {
@@ -1418,28 +1438,28 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       readInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTex, interopTex, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
     }
 
-    getOut() << "submit client 6" << std::endl;
+    // getOut() << "submit client 6" << std::endl;
 
     // get share handle
     IDXGIResource1 *shTexResource;
     hr = shTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shTexResource);
-    getOut() << "submit client 7" << std::endl;
+    // getOut() << "submit client 7" << std::endl;
     // IDXGIResource1 *pDXGIResource;
     // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
 
     if (SUCCEEDED(hr)) {
-      getOut() << "submit client 8" << std::endl;
+      // getOut() << "submit client 8" << std::endl;
       // getOut() << "submit client 7" << std::endl;
       hr = shTexResource->GetSharedHandle(&sharedHandle);
       // hr = shTexResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ | DXGI_SHARED_RESOURCE_WRITE, NULL, &sharedHandle);
 
-      getOut() << "submit client 9" << std::endl;
+      // getOut() << "submit client 9" << std::endl;
 
       // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
       if (SUCCEEDED(hr)) {
-        getOut() << "submit client 10" << std::endl;
+        // getOut() << "submit client 10" << std::endl;
         // shTexResource->Release();
-        getOut() << "submit client 11" << std::endl;
+        // getOut() << "submit client 11" << std::endl;
         // nothing
       } else {
         getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
@@ -1449,6 +1469,23 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       getOut() << "failed to get shared texture: " << (void *)hr << std::endl;
       abort();
     }
+    
+    getOut() << "open frontent read event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.callbackId) + std::string(":") + std::to_string((int)eEye)) << std::endl;
+    readEvent = CreateEventA(
+      NULL,
+      false,
+      false,
+      (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.callbackId) + std::string(":") + std::to_string((int)eEye)).c_str()
+    );
+
+    // getOut() << "submit client 13" << std::endl;
+    
+    if (!readEvent) {
+      getOut() << "failed to open frontend read event" << std::endl;
+      abort();
+    }
+    
+    // getOut() << "submit client 14" << std::endl;
   }
   
   // getOut() << "submit client 10" << std::endl;
@@ -1534,6 +1571,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
   ++fenceValue;
   context->Signal(fence.Get(), fenceValue);
+  fence->SetEventOnCompletion(fenceValue, readEvent);
   // context->Flush();
 
   getOut() << "submit client 14" << std::endl;

@@ -122,7 +122,7 @@ int main() {
   getOut() << "start loop" << std::endl;
   for (;;) {
     fnp.handle();
-    getOut() << "handled" << std::endl;
+    // getOut() << "handled" << std::endl;
   }
   
   getOut() << "process exit" << std::endl;
