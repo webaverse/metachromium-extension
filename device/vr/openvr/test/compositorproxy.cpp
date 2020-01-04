@@ -277,11 +277,13 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       if (!fence) {
         hr = device->CreateFence(
           0, // value
-          D3D11_FENCE_FLAG_SHARED, // flags
+          D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+          // D3D11_FENCE_FLAG_SHARED, // flags
           __uuidof(ID3D11Fence), // interface
           (void **)&fence // out
         );
         if (SUCCEEDED(hr)) {
+          // getOut() << "created fence " << (void *)fence << std::endl;
           // nothing
         } else {
           getOut() << "failed to create fence" << std::endl;
@@ -295,11 +297,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
           &fenceHandle // share handle
         );
         if (SUCCEEDED(hr)) {
+          getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
           // nothing
         } else {
           getOut() << "failed to create fence share handle" << std::endl;
           abort();
         }
+        
+        // context->Flush();
       }
 
       subWindow = initGl();
@@ -1200,13 +1205,16 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
     // Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
     Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
+    D3D_FEATURE_LEVEL featureLevels[] = {
+      D3D_FEATURE_LEVEL_11_1
+    };
     D3D11CreateDevice(
       adapter, // pAdapter
       D3D_DRIVER_TYPE_HARDWARE, // DriverType
       NULL, // Software
       0, // Flags
-      NULL, // pFeatureLevels
-      0, // FeatureLevels
+      featureLevels, // pFeatureLevels
+      ARRAYSIZE(featureLevels), // FeatureLevels
       D3D11_SDK_VERSION, // SDKVersion
       &deviceBasic, // ppDevice
       NULL, // pFeatureLevel
@@ -1275,11 +1283,22 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   if (newFenceHandle != fenceHandle) {
     getOut() << "new fence check 1 " << (void *)newFenceHandle << std::endl;
 
+    // IDisplayDeviceInterop *interop;
+    // device.As(&interop);
+    
+    /* ID3D11Resource *pFence;
+    hr = device->OpenSharedResourceByName(L"Local\\OpenVrProxyFence", DXGI_SHARED_RESOURCE_READ|DXGI_SHARED_RESOURCE_WRITE, __uuidof(ID3D11Resource), (void**)(&pFence));
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "fence resource open failed 1 " << (void *)hr << std::endl;
+      abort();
+    } */
     hr = device->OpenSharedFence(newFenceHandle, __uuidof(ID3D11Fence), (void **)&fence);
     if (SUCCEEDED(hr)) {
       // nothing
     } else {
-      getOut() << "fence resource unpack failed" << std::endl;
+      getOut() << "fence resource unpack failed 2 " << (void *)hr << std::endl;
       abort();
     }
 
@@ -1515,7 +1534,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
   ++fenceValue;
   context->Signal(fence.Get(), fenceValue);
-  context->Flush();
+  // context->Flush();
 
   getOut() << "submit client 14" << std::endl;
   

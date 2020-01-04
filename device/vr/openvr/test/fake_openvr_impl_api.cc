@@ -99,8 +99,8 @@ PVRChaperone *g_pvrchaperone = nullptr;
 
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
 
-// constexpr bool localLoop = true;
-constexpr bool localLoop = false;
+constexpr bool localLoop = true;
+// constexpr bool localLoop = false;
 
 void *shMem = nullptr;
 size_t *pBooted = nullptr;
