@@ -175,7 +175,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     int,
     ETextureType
   >([=](ETextureType textureType) {
-    // getOut() << "prepare submit server 1" << std::endl;
+    getOut() << "prepare submit server 1" << std::endl;
 
     if (!device) {
       // device = (ID3D11Device *)pDevice;
@@ -380,7 +380,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       };
       
-      // getOut() << "prepare submit server 10" << std::endl;
+      getOut() << "prepare submit server 10" << std::endl;
 
       // getOut() << "gl init error 2 " << glGetError() << std::endl;
 
@@ -462,7 +462,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       } */
 
-      // getOut() << "gl init error 5 " << glGetError() << std::endl;
+      getOut() << "gl init error 5 " << glGetError() << std::endl;
 
       // delete the shaders as they're linked into our program now and no longer necessary
       glDeleteShader(composeVertex);
@@ -526,7 +526,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "prepare submit server 16" << std::endl;
     }
     
-    // getOut() << "interop 3 " << (void *)fenceHandle << std::endl;
+    getOut() << "interop 3" << std::endl;
     
     // getOut() << "prepare submit server 20" << std::endl;
 
@@ -544,7 +544,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
     
-    // getOut() << "submit server 1" << std::endl;
+    getOut() << "submit server 1" << std::endl;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteCallbackId, eEye);
     auto iter = inBackIndices.find(key);
@@ -554,7 +554,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     } else {
       index = inBackTexs.size();
       inBackIndices[key] = index;
-      // iter = inBackIndices.find(key);
+      iter = inBackIndices.find(key);
 
       inBackTexs.resize(index+1, NULL);
       inBackInteropHandles.resize(index+1, NULL);
@@ -562,7 +562,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       inBackHandleLatches.resize(index+1, NULL);
     }
     
-    // getOut() << "submit server 2" << std::endl;
+    getOut() << "submit server 2" << std::endl;
 
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
     GLuint &shTexInId = inBackTexs[index]; // gl texture
@@ -570,7 +570,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
 
-    // getOut() << "submit server 3" << std::endl;
+    getOut() << "submit server 3" << std::endl;
 
     if (handleLatched != sharedHandle) {
       // getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
@@ -581,14 +581,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       }
       handleLatched = sharedHandle;
 
-      // getOut() << "submit server 4" << std::endl;
+      getOut() << "submit server 4" << std::endl;
 
       // IDXGIResource1 *pD3DResource;
       // HRESULT hr = device->OpenSharedResource1(sharedHandle, __uuidof(IDXGIResource1), (void**)(&pD3DResource));
       ID3D11Resource *shTexResource;
       HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
 
-      // getOut() << "submit server 5" << std::endl;
+      getOut() << "submit server 5" << std::endl;
 
       ID3D11Texture2D *shTexIn;
       if (SUCCEEDED(hr)) {
@@ -605,7 +605,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       }
     
-      // getOut() << "submit server 6 " << GetLastError() << std::endl;
+      getOut() << "submit server 6 " << GetLastError() << std::endl;
 
       glGenTextures(1, &shTexInId);
       shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
@@ -631,7 +631,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       }
 
-      // getOut() << "submit server 7 " << (void *)readEvent << std::endl;
+      getOut() << "submit server 7 " << (void *)readEvent << std::endl;
     }
     
     inBackReadEventQueue.push_back(std::pair<EVREye, HANDLE>(eEye, readEvent));
@@ -657,7 +657,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       }
     } */
 
-    // getOut() << "submit server 9 " << (void *)readEvent << std::endl;
+    getOut() << "submit server 9 " << (void *)readEvent << std::endl;
 
     // auto r = WaitForSingleObject(readEvent, INFINITE);
     // ++fenceValue;
@@ -671,10 +671,12 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_FlushSubmit,
     int
   >([=]() {
-    // getOut() << "flush submit server 1" << std::endl;
+    getOut() << "flush submit server 1" << std::endl;
 
 for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     EVREye eEye = EYES[iEye];
+    
+    getOut() << "flush submit server 2" << std::endl;
 
     for (auto iter : inBackReadEventQueue) {
       EVREye &e = iter.first;
@@ -698,7 +700,7 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     objects.push_back(shTexOutInteropHandles[iEye]);
     // getOut() << "got handle end " << (void *)shTexOutInteropHandles[iEye] << std::endl;
     
-    // getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
+    getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
 
     bool lockOk = wglDXLockObjectsNV(hInteropDevice, objects.size(), objects.data());
     // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
@@ -779,9 +781,11 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     // vrcompositor->PostPresentHandoff();
 }
 
+    getOut() << "flush submit server 10 " << inBackReadEventQueue.size() << std::endl;
+
     inBackReadEventQueue.clear();
 
-    // getOut() << "flush submit server 11" << std::endl;
+    getOut() << "flush submit server 11" << std::endl;
     return 0;
   });
   fnp.reg<
@@ -795,7 +799,9 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     kIVRCompositor_PostPresentHandoff,
     int
   >([=]() {
+    getOut() << "post present handoff server 1" << std::endl;
     vrcompositor->PostPresentHandoff();
+    getOut() << "post present handoff server 2" << std::endl;
     return 0;
   });
   fnp.reg<
@@ -1138,12 +1144,12 @@ EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDevic
   return std::get<0>(result);
 }
 void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
-  // getOut() << "prepare submit client 1" << std::endl;
+  getOut() << "prepare submit client 1" << std::endl;
 
   HRESULT hr;
-  if (pTexture->eType == ETextureType::TextureType_DirectX) {
-    // getOut() << "prepare submit client 2.1" << std::endl;
-    if (!device) {
+  if (!device) {
+    if (pTexture->eType == ETextureType::TextureType_DirectX) {
+      // getOut() << "prepare submit client 2.1" << std::endl;
       ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
       
       getOut() << "initial tex 1" << std::endl;
@@ -1166,9 +1172,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       // hr = tex->QueryInterface(__uuidof(ID3D11Texture2D1), (void **)&tex2);
       
       // tex2->GetDevice(&device);
-    }
-    // getOut() << "prepare submit client 2" << std::endl;
-    if (!context) {
+      // getOut() << "prepare submit client 2" << std::endl;
       getOut() << "initial tex 5" << std::endl;
       // Microsoft::WRL::ComPtr<ID3D11DeviceContext1> contextBasic;
       getOut() << "initial tex 6 " << (void *)device.Get() << std::endl;
@@ -1184,93 +1188,132 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       }
       
       getOut() << "initial tex 7 " << (void *)context.Get() << std::endl;
-    }
-  } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
-    // getOut() << "prepare submit client 2.2" << std::endl;
-    int32_t adapterIndex;
-    g_vrsystem->GetDXGIOutputInfo(&adapterIndex);
-    if (adapterIndex == -1) {
-      adapterIndex = 0;
-    }
+    } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
+      getOut() << "prepare submit client 2.2" << std::endl;
+      int32_t adapterIndex;
+      g_pvrsystem->GetDXGIOutputInfo(&adapterIndex);
+      if (adapterIndex == -1) {
+        adapterIndex = 0;
+      }
+      
+      getOut() << "prepare submit client 2.3" << std::endl;
 
-    Microsoft::WRL::ComPtr<IDXGIFactory1> dxgi_factory;
-    IDXGIAdapter *adapter;
-    hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), &dxgi_factory);
-    dxgi_factory->EnumAdapters(adapterIndex, &adapter);
+      Microsoft::WRL::ComPtr<IDXGIFactory1> dxgi_factory;
+      IDXGIAdapter *adapter;
+      hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), &dxgi_factory);
+      dxgi_factory->EnumAdapters(adapterIndex, &adapter);
 
-    // Microsoft::WRL::ComPtr<ID3D11Device> device;
-    // Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
-    Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
-    D3D_FEATURE_LEVEL featureLevels[] = {
-      D3D_FEATURE_LEVEL_11_1
-    };
-    D3D11CreateDevice(
-      adapter, // pAdapter
-      D3D_DRIVER_TYPE_HARDWARE, // DriverType
-      NULL, // Software
-      0, // Flags
-      featureLevels, // pFeatureLevels
-      ARRAYSIZE(featureLevels), // FeatureLevels
-      D3D11_SDK_VERSION, // SDKVersion
-      &deviceBasic, // ppDevice
-      NULL, // pFeatureLevel
-      &contextBasic // ppImmediateContext
-    );
-    
-    hr = deviceBasic->QueryInterface(__uuidof(ID3D11Device5), (void **)&device);
-    if (SUCCEEDED(hr)) {
-      // nothing
+      getOut() << "prepare submit client 2.4" << std::endl;
+
+      // Microsoft::WRL::ComPtr<ID3D11Device> device;
+      // Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+      Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
+      Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
+      D3D_FEATURE_LEVEL featureLevels[] = {
+        D3D_FEATURE_LEVEL_11_1
+      };
+      hr = D3D11CreateDevice(
+        // adapter, // pAdapter
+        NULL, // pAdapter
+        D3D_DRIVER_TYPE_HARDWARE, // DriverType
+        NULL, // Software
+        0, // Flags
+        featureLevels, // pFeatureLevels
+        ARRAYSIZE(featureLevels), // FeatureLevels
+        D3D11_SDK_VERSION, // SDKVersion
+        &deviceBasic, // ppDevice
+        NULL, // pFeatureLevel
+        &contextBasic // ppImmediateContext
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "opengl texture dx device creation failed " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      getOut() << "prepare submit client 2.5" << std::endl;
+      
+      hr = deviceBasic->QueryInterface(__uuidof(ID3D11Device5), (void **)&device);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "device query failed" << std::endl;
+        abort();
+      }
+      
+      getOut() << "prepare submit client 2.6" << std::endl;
+
+      Microsoft::WRL::ComPtr<ID3D11DeviceContext3> context3;
+      device->GetImmediateContext3(&context3);
+      hr = context3->QueryInterface(__uuidof(ID3D11DeviceContext4), (void **)&context);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "context query failed" << std::endl;
+        abort();
+      }
+
+      /* {
+        HMODULE module = LoadLibraryA("glew32.dll");
+        wglDXOpenDeviceNV = reinterpret_cast<decltype(wglDXOpenDeviceNV)>(GetProcAddress(module, "__wglewDXOpenDeviceNV"));
+        getOut() << "get p " << (void *)wglDXOpenDeviceNV << std::endl;
+      } */
+      {
+        glewExperimental = true;
+        auto result2 = glewInit();
+        getOut() << "get p " << (void *)wglDXOpenDeviceNV << std::endl;
+        if (result2 == GLEW_OK) {
+          // nothing
+        } else {
+          const GLubyte *errorString = glewGetErrorString(result2);
+          getOut() << "failed to initialize glew: " << (void *)result2 << " " << errorString << std::endl;
+          // abort();
+        }
+      }
+
+      getOut() << "prepare submit client 2.7 " << (void *)wglDXOpenDeviceNV << " " << (void *)device.Get() << std::endl;
+
+      hInteropDevice = wglDXOpenDeviceNV(device.Get());
+
+      getOut() << "prepare submit client 2.8" << std::endl;
+
+      /* hr = contextBasic->QueryInterface(__uuidof(ID3D11DeviceContext1), (void **)&context);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "context query failed" << std::endl;
+        abort();
+      } */
+
+      /* scd.BufferCount = 1;                                    // one back buffer
+      scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
+      scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
+      scd.OutputWindow = hWnd;                                // the window to be used
+      scd.SampleDesc.Count = 4;                               // how many multisamples
+      scd.Windowed = TRUE;                                    // windowed/full-screen mode
+
+      HRESULT D3D11CreateDeviceAndSwapChain(
+        &adapter, // pAdapter
+        D3D_DRIVER_TYPE_HARDWARE, // DriverType
+        NULL, // Software
+        0, // Flags
+        NULL, // pFeatureLevels
+        0, // FeatureLevels
+        D3D11_SDK_VERSION, // SDKVersion
+        0, // pSwapChainDesc
+        IDXGISwapChain             **ppSwapChain,
+        ID3D11Device               **ppDevice,
+        D3D_FEATURE_LEVEL          *pFeatureLevel,
+        ID3D11DeviceContext        **ppImmediateContext
+      ); */
     } else {
-      getOut() << "device query failed" << std::endl;
+      getOut() << "unknown texture type: " << (void *)pTexture->eType << std::endl;
       abort();
     }
-
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext3> context3;
-    device->GetImmediateContext3(&context3);
-    hr = context3->QueryInterface(__uuidof(ID3D11DeviceContext4), (void **)&context);
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "context query failed" << std::endl;
-      abort();
-    }
-
-    /* hr = contextBasic->QueryInterface(__uuidof(ID3D11DeviceContext1), (void **)&context);
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "context query failed" << std::endl;
-      abort();
-    } */
-
-    /* scd.BufferCount = 1;                                    // one back buffer
-    scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
-    scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
-    scd.OutputWindow = hWnd;                                // the window to be used
-    scd.SampleDesc.Count = 4;                               // how many multisamples
-    scd.Windowed = TRUE;                                    // windowed/full-screen mode
-
-    HRESULT D3D11CreateDeviceAndSwapChain(
-      &adapter, // pAdapter
-      D3D_DRIVER_TYPE_HARDWARE, // DriverType
-      NULL, // Software
-      0, // Flags
-      NULL, // pFeatureLevels
-      0, // FeatureLevels
-      D3D11_SDK_VERSION, // SDKVersion
-      0, // pSwapChainDesc
-      IDXGISwapChain             **ppSwapChain,
-      ID3D11Device               **ppDevice,
-      D3D_FEATURE_LEVEL          *pFeatureLevel,
-      ID3D11DeviceContext        **ppImmediateContext
-    ); */
-  } else {
-    getOut() << "unknown texture type: " << (void *)pTexture->eType << std::endl;
-    abort();
   }
-  
-  // getOut() << "prepare submit client 3" << std::endl;
+
+  getOut() << "prepare submit client 3" << std::endl;
 
   if (!fence) {
     hr = device->CreateFence(
@@ -1332,7 +1375,19 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  // getOut() << "submit client 1" << std::endl;
+  getOut() << "submit client 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
+
+  /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
+    GLuint tex = (GLuint)pTexture->handle;
+
+    glBindTexture(GL_TEXTURE_2D, tex);
+    GLint width, height;
+    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WIDTH, &width);
+    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_HEIGHT, &height);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    getOut() << "got width height top " << width << " " << height << std::endl;
+  } */
 
   auto key = std::pair<size_t, EVREye>(fnp.callbackId, eEye);
   auto iter = inFrontIndices.find(key);
@@ -1377,11 +1432,16 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
       GLuint tex = (GLuint)pTexture->handle;
 
-      glBindTexture(GL_TEXTURE_2D, tex);
+      /* glBindTexture(GL_TEXTURE_2D, tex);
       GLint width, height;
       glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WIDTH, &width);
       glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_HEIGHT, &height);
-      glBindTexture(GL_TEXTURE_2D, 0);
+      glBindTexture(GL_TEXTURE_2D, 0); */
+
+      uint32_t width, height;
+      g_pvrsystem->GetRecommendedRenderTargetSize(&width, &height);
+
+      getOut() << "got width height " << width << " " << height << std::endl;
 
       desc.Width = width;
       desc.Height = height;
@@ -1401,8 +1461,15 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       abort();
     }
 
-    /* getOut() << "get texture desc front " << (int)eEye << " " <<
-      (void *)tex << " " << desc.Width << " " << desc.Height << " " <<
+    // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
+    
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
+    desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+
+    getOut() << "get texture desc front " << (int)eEye << " " <<
+      (void *)device.Get() << " " <<
+      desc.Width << " " << desc.Height << " " <<
       desc.ArraySize << " " <<
       desc.Format << " " <<
       desc.SampleDesc.Count << " " <<
@@ -1411,39 +1478,38 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       desc.MiscFlags << " " <<
       // pBounds->uMin << " " << pBounds->vMin << " " <<
       // pBounds->uMax << " " << pBounds->vMax << " " <<
-      std::endl; */
+      std::endl;
 
-    // getOut() << "succ 0.1 " << desc.Width << " " << (void *)desc.BindFlags << " " << (void *)desc.MiscFlags << std::endl;
-    
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
-    desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-
-    // getOut() << "submit client 5" << std::endl;
+    getOut() << "submit client 5" << std::endl;
 
     HRESULT hr = device->CreateTexture2D(
       &desc,
       NULL,
       &shTex
     );
-
     if (SUCCEEDED(hr)) {
-      // getOut() << "get submit 6" << std::endl;
+      // nothing
     } else {
       getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
     }
+    
+    getOut() << "get submit 6" << std::endl;
 
     // get gl interop for copying
     if (pTexture->eType == ETextureType::TextureType_OpenGL) {
       GLuint &interopTex = interopTexs[index];
       HANDLE &readInteropHandle = inReadInteropHandles[index];
+      
+      getOut() << "get submit 7.1" << std::endl;
 
       glGenTextures(1, &interopTex);
+      getOut() << "get submit 7.2 " << (void *)hInteropDevice << std::endl;
       readInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTex, interopTex, GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
+      getOut() << "get submit 7.3 " << (void *)readInteropHandle << std::endl;
     }
 
-    // getOut() << "submit client 6" << std::endl;
+    getOut() << "get submit 8" << std::endl;
 
     // get share handle
     IDXGIResource1 *shTexResource;
@@ -1475,7 +1541,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       abort();
     }
     
-    getOut() << "open frontent read event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.callbackId) + std::string(":") + std::to_string((int)eEye)) << std::endl;
+    getOut() << "open frontend read event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.callbackId) + std::string(":") + std::to_string((int)eEye)) << std::endl;
     readEvent = CreateEventA(
       NULL,
       false,
@@ -1493,7 +1559,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 14" << std::endl;
   }
   
-  // getOut() << "submit client 10" << std::endl;
+  getOut() << "submit client 10" << std::endl;
 
   // getOut() << "submit client 11" << std::endl;
 
@@ -1514,20 +1580,26 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 13" << std::endl;
     // context->Flush();
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
+    getOut() << "submit client 11" << std::endl;
+
     GLuint readTex = (GLuint)pTexture->handle;
     GLuint &interopTex = interopTexs[index];
     HANDLE &readInteropHandle = inReadInteropHandles[index];
+
+    getOut() << "submit client 12 " << (void *)readInteropHandle << std::endl;
 
     HANDLE objects[] = {
       readInteropHandle
     };
     bool lockOk = wglDXLockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);
-    // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
+    getOut() << "submit client 13" << std::endl;
     if (lockOk) {
       GLint oldReadFbo;
       glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &oldReadFbo);
       GLint oldReadBuffer;
       glGetIntegerv(GL_READ_BUFFER, &oldReadBuffer);
+
+      getOut() << "submit client 14" << std::endl;
 
       glBindTexture(GL_TEXTURE_2D, readTex);
       GLint width, height;
@@ -1558,8 +1630,10 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       glReadBuffer(oldReadBuffer);
       glDeleteFramebuffers(1, &readFbo);
 
+      getOut() << "submit client 15" << std::endl;
       bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, ARRAYSIZE(objects), objects);
       if (unlockOk) {
+        getOut() << "submit client 16" << std::endl;
         // nothing
       } else {
         getOut() << "texture unlocking failed" << std::endl;
@@ -1569,30 +1643,44 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       getOut() << "texture locking failed" << std::endl;
       abort();
     }
+    getOut() << "submit client 17" << std::endl;
   } else {
     getOut() << "unknown texture type: " << (void *)pTexture->eType << std::endl;
     abort();
   }
+  
+  getOut() << "submit client 18 " << (void *)context.Get() << " " << (void *)fence.Get() << " " << (void *)readEvent << std::endl;
 
   ++fenceValue;
   context->Signal(fence.Get(), fenceValue);
   fence->SetEventOnCompletion(fenceValue, readEvent);
   // context->Flush();
 
-  // getOut() << "submit client 14" << std::endl;
+  getOut() << "submit client 19 " << (void *)sharedHandle << " " << (void *)pTexture << std::endl;
   
   managed_binary<Texture_t> sharedTexture(1);
   *sharedTexture.data() = Texture_t{
     (void *)sharedHandle,
-    pTexture->eType,
-    pTexture->eColorSpace
+    // pTexture->eType,
+    ETextureType::TextureType_DirectX,
+    EColorSpace::ColorSpace_Auto,
+    // pTexture->eColorSpace
   };
+  getOut() << "submit client 20 " << sharedTexture.size() << " " << (void *)pBounds << std::endl;
   managed_binary<VRTextureBounds_t> bounds(1);
-  *bounds.data() = *pBounds;
+  getOut() << "submit client 21 " << bounds.size() << " " << (void *)pBounds << std::endl;
+  if (pBounds) {
+    *bounds.data() = *pBounds;
+  } else {
+    *bounds.data() = VRTextureBounds_t{
+      0.0f, 0.0f,
+      1.0f, 1.0f
+    };
+  }
 
-  // getOut() << "submit client 15" << std::endl;
+  getOut() << "submit client 22 " << nSubmitFlags << std::endl;
 
-  return fnp.call<
+  auto result = fnp.call<
     kIVRCompositor_Submit,
     EVRCompositorError,
     EVREye,
@@ -1600,12 +1688,18 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags
   >(eEye, std::move(sharedTexture), std::move(bounds), nSubmitFlags);
+  
+  getOut() << "submit client 23" << std::endl;
+  
+  return result;
 }
 void PVRCompositor::FlushSubmit() {
+  getOut() << "flush submit client 1" << std::endl;
   fnp.call<
     kIVRCompositor_FlushSubmit,
     int
   >();
+  getOut() << "flush submit client 2" << std::endl;
 }
 void PVRCompositor::ClearLastSubmittedFrame() {
   fnp.call<
@@ -1614,10 +1708,12 @@ void PVRCompositor::ClearLastSubmittedFrame() {
   >();
 }
 void PVRCompositor::PostPresentHandoff() {
+  getOut() << "post present handoff client 1" << std::endl;
   fnp.call<
     kIVRCompositor_PostPresentHandoff,
     int
   >();
+  getOut() << "post present handoff client 2" << std::endl;
 }
 bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo ) {
   managed_binary<Compositor_FrameTiming> timing(1);

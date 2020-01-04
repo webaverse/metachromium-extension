@@ -59,6 +59,7 @@ uint32_t BaseRenderModels::GetRenderModelName(uint32_t unRenderModelIndex, VR_OU
 
 uint32_t BaseRenderModels::GetRenderModelCount() {
   TRACE("BaseRenderModels", []() { getOut() << "BaseRenderModels::GetRenderModelCount" << std::endl; });
+  return 0;
 	return g_vrrendermodels->GetRenderModelCount();
 }
 

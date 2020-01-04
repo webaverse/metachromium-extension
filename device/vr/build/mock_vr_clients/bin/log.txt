@@ -1,65 +1,626 @@
 --------------------------------------------------------------------------------
+dll main 1
 init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
-get interface IVRClientCore_002
-init 3 IVRClientCore_002
-create interface IVRClientCore_002
-init 7 IVRClientCore_002 000002AC3A8BC530
-get generic interface IVRSystem_015
-create interface IVRSystem_015
-GetDXGIOutputInfo 1
-GetDXGIOutputInfo 2
-GetDXGIOutputInfo 3
-core client cleanup
+get interface IVRClientCore_003
+init 3 IVRClientCore_003
+create interface IVRClientCore_003
+init 7 IVRClientCore_003 0000000024846E60
+dll main 0
 --------------------------------------------------------------------------------
+dll main 1
 init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
-get interface IVRClientCore_002
-init 3 IVRClientCore_002
-create interface IVRClientCore_002
-init 7 IVRClientCore_002 000002AC506FD270
-get generic interface IVRSystem_015
-create interface IVRSystem_015
-get generic interface IVRChaperone_003
-create interface IVRChaperone_003
-get generic interface IVRChaperoneSetup_005
-create interface IVRChaperoneSetup_005
-get generic interface IVRCompositor_020
-create interface IVRCompositor_020
-initial tex 1
-initial tex 2
-initial tex 3 000002AC3F86D798
-initial tex 4
-initial tex 5
-initial tex 6 000002AC3F86D798
-initial tex 7 000002AC3F8C0188
-open frontent read event Local\OpenVrFenceEvent23708:0
-open frontent read event Local\OpenVrFenceEvent23708:1
-get generic interface IVRCompositor_022
-create interface IVRCompositor_022
-get generic interface IVROverlay_019
-create interface IVROverlay_019
-get generic interface FnTable:IVRInput_005
-create interface FnTable:IVRInput_005
-create interface IVRInput_005
+get interface IVRClientCore_003
+init 3 IVRClientCore_003
+create interface IVRClientCore_003
+init 7 IVRClientCore_003 0000000024848660
 get generic interface FnTable:IVRSystem_019
 create interface FnTable:IVRSystem_019
 create interface IVRSystem_019
 get generic interface FnTable:IVRCompositor_022
 create interface FnTable:IVRCompositor_022
 create interface IVRCompositor_022
-get generic interface FnTable:IVROverlay_019
-create interface FnTable:IVROverlay_019
-create interface IVROverlay_019
-get generic interface FnTable:IVRScreenshots_001
-create interface FnTable:IVRScreenshots_001
-create interface IVRScreenshots_001
-screenshots hook client 1
-screenshots hook client 2
-screenshots hook client 3
-screenshots hook client 4 0
-get generic interface FnTable:IVRChaperone_003
-create interface FnTable:IVRChaperone_003
-create interface IVRChaperone_003
+BaseCompositor::SetTrackingSpace
+BaseCompositor::GetTrackingSpace
+BaseSystem::GetStringTrackedDeviceProperty
+get generic interface FnTable:IVRSettings_002
+create interface FnTable:IVRSettings_002
+create interface IVRSettings_002
 get generic interface FnTable:IVRRenderModels_006
 create interface FnTable:IVRRenderModels_006
 create interface IVRRenderModels_006
-core client cleanup
+get generic interface FnTable:IVRChaperone_003
+create interface FnTable:IVRChaperone_003
+create interface IVRChaperone_003
+get generic interface FnTable:IVRApplications_006
+create interface FnTable:IVRApplications_006
+create interface IVRApplications_006
+get generic interface FnTable:IVRInput_006
+create interface FnTable:IVRInput_006
+create interface IVRInput_006
+get generic interface FnTable:IVROCSystem_001
+create interface FnTable:IVROCSystem_001
+create interface IVROCSystem_001
+dll main 2
+BaseChaperone::GetPlayAreaSize
+dll main 2
+BaseSystem::GetRecommendedRenderTargetSize
+BaseSettings::GetFloat
+BaseChaperone::GetPlayAreaSize
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::ShouldApplicationPause
+BaseSystem::PollNextEvent
+dll main 2
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseCompositor::WaitGetPoses
+dll main 2
+dll main 3
+BaseRenderModels::GetRenderModelCount
+BaseSystem::GetEyeToHeadTransform
+dll main 3
+BaseSystem::GetEyeToHeadTransform
+dll main 2
+BaseChaperone::GetPlayAreaSize
+BaseChaperone::GetPlayAreaSize
+BaseCompositor::Submit
+prepare submit client 1
+prepare submit client 2.2
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+prepare submit client 2.3
+prepare submit client 2.4
+dll main 2
+dll main 2
+dll main 2
+prepare submit client 2.5
+prepare submit client 2.6
+dll main 3
+get p 0000000076018210
+prepare submit client 2.7 0000000076018210 0000000033762368
+prepare submit client 2.8
+prepare submit client 3
+submit client 1 1 1
+got width height 1596 1764
+get texture desc front 0 0000000033762368 1596 1764 1 28 1 0 40 2 
+submit client 5
+get submit 6
+get submit 7.1
+get submit 7.2 00000000E0BE494E
+get submit 7.3 00000000E0AE2CE2
+get submit 8
+open frontend read event Local\OpenVrFenceEvent26212:0
+submit client 10
+submit client 11
+submit client 12 00000000E0AE2CE2
+submit client 13
+submit client 14
+submit client 15
+submit client 16
+submit client 17
+submit client 18 00000000336E2538 000000003362D7F0 0000000000000C88
+submit client 19 0000000080003D02 000000001D165C10
+submit client 20 1 0000000000000000
+submit client 21 1 0000000000000000
+submit client 22
+submit client 23
+BaseCompositor::Submit
+prepare submit client 1
+prepare submit client 3
+submit client 1 1 1
+got width height 1596 1764
+get texture desc front 1 0000000033762368 1596 1764 1 28 1 0 40 2 
+submit client 5
+get submit 6
+get submit 7.1
+get submit 7.2 00000000E0BE494E
+get submit 7.3 00000000E07B3692
+get submit 8
+open frontend read event Local\OpenVrFenceEvent26212:1
+submit client 10
+submit client 11
+submit client 12 00000000E07B3692
+submit client 13
+submit client 14
+submit client 15
+submit client 16
+submit client 17
+submit client 18 00000000336E2538 000000003362D7F0 0000000000000CB0
+submit client 19 00000000C0001602 000000001D1653C0
+submit client 20 1 0000000000000000
+submit client 21 1 0000000000000000
+submit client 22
+submit client 23
+flush submit client 1
+flush submit client 2
+dll main 2
+dll main 2
+dll main 3
+dll main 3
+dll main 2
+dll main 3
+dll main 2
+dll main 3
+dll main 3
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_003
+init 3 IVRClientCore_003
+create interface IVRClientCore_003
+init 7 IVRClientCore_003 000000002522EBE0
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_003
+init 3 IVRClientCore_003
+create interface IVRClientCore_003
+init 7 IVRClientCore_003 00000000252568C0
+get generic interface FnTable:IVRSystem_019
+create interface FnTable:IVRSystem_019
+create interface IVRSystem_019
+get generic interface FnTable:IVRCompositor_022
+create interface FnTable:IVRCompositor_022
+create interface IVRCompositor_022
+BaseCompositor::SetTrackingSpace
+BaseCompositor::GetTrackingSpace
+BaseSystem::GetStringTrackedDeviceProperty
+get generic interface FnTable:IVRSettings_002
+create interface FnTable:IVRSettings_002
+create interface IVRSettings_002
+get generic interface FnTable:IVRRenderModels_006
+create interface FnTable:IVRRenderModels_006
+create interface IVRRenderModels_006
+get generic interface FnTable:IVRChaperone_003
+create interface FnTable:IVRChaperone_003
+create interface IVRChaperone_003
+get generic interface FnTable:IVRApplications_006
+create interface FnTable:IVRApplications_006
+create interface IVRApplications_006
+get generic interface FnTable:IVRInput_006
+create interface FnTable:IVRInput_006
+create interface IVRInput_006
+get generic interface FnTable:IVROCSystem_001
+create interface FnTable:IVROCSystem_001
+create interface IVROCSystem_001
+dll main 2
+BaseChaperone::GetPlayAreaSize
+dll main 2
+BaseSystem::GetRecommendedRenderTargetSize
+BaseSettings::GetFloat
+BaseChaperone::GetPlayAreaSize
+dll main 2
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+dll main 2
+dll main 3
+dll main 3
+BaseSystem::ShouldApplicationPause
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseCompositor::WaitGetPoses
+BaseRenderModels::GetRenderModelCount
+BaseSystem::GetEyeToHeadTransform
+BaseSystem::GetEyeToHeadTransform
+BaseChaperone::GetPlayAreaSize
+BaseChaperone::GetPlayAreaSize
+BaseCompositor::Submit
+prepare submit client 1
+prepare submit client 2.2
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+prepare submit client 2.3
+prepare submit client 2.4
+dll main 2
+dll main 2
+dll main 2
+prepare submit client 2.5
+prepare submit client 2.6
+dll main 3
+get p 0000000076018210
+prepare submit client 2.7 0000000076018210 0000000033B513C8
+prepare submit client 2.8
+prepare submit client 3
+submit client 1 1 1
+got width height 1596 1764
+get texture desc front 0 0000000033B513C8 1596 1764 1 28 1 0 40 2 
+submit client 5
+get submit 6
+get submit 7.1
+get submit 7.2 00000000F7A4371E
+get submit 7.3 00000000E0615F52
+get submit 8
+open frontend read event Local\OpenVrFenceEvent11980:0
+submit client 10
+submit client 11
+submit client 12 00000000E0615F52
+submit client 13
+submit client 14
+submit client 15
+submit client 16
+submit client 17
+submit client 18 0000000033B52648 0000000033A578B0 0000000000000C74
+submit client 19 00000000C0005D82 000000001C7A93E0
+submit client 20 1 0000000000000000
+submit client 21 1 0000000000000000
+submit client 22 16
+submit client 23
+BaseCompositor::Submit
+prepare submit client 1
+prepare submit client 3
+submit client 1 1 1
+got width height 1596 1764
+get texture desc front 1 0000000033B513C8 1596 1764 1 28 1 0 40 2 
+submit client 5
+get submit 6
+get submit 7.1
+get submit 7.2 00000000F7A4371E
+get submit 7.3 00000000E0002BB2
+get submit 8
+open frontend read event Local\OpenVrFenceEvent11980:1
+submit client 10
+submit client 11
+submit client 12 00000000E0002BB2
+submit client 13
+submit client 14
+submit client 15
+submit client 16
+submit client 17
+submit client 18 0000000033B52648 0000000033A578B0 0000000000000C6C
+submit client 19 00000000C0000242 000000001C7A7D90
+submit client 20 1 0000000000000000
+submit client 21 1 0000000000000000
+submit client 22 16
+submit client 23
+flush submit client 1
+flush submit client 2
+dll main 2
+dll main 2
+dll main 3
+dll main 2
+dll main 3
+dll main 2
+dll main 3
+dll main 2
+dll main 3
+dll main 3
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_003
+init 3 IVRClientCore_003
+create interface IVRClientCore_003
+init 7 IVRClientCore_003 0000000022E71C90
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_003
+init 3 IVRClientCore_003
+create interface IVRClientCore_003
+init 7 IVRClientCore_003 0000000022BDE950
+get generic interface FnTable:IVRSystem_019
+create interface FnTable:IVRSystem_019
+create interface IVRSystem_019
+get generic interface FnTable:IVRCompositor_022
+create interface FnTable:IVRCompositor_022
+create interface IVRCompositor_022
+BaseCompositor::SetTrackingSpace
+BaseCompositor::GetTrackingSpace
+BaseSystem::GetStringTrackedDeviceProperty
+get generic interface FnTable:IVRSettings_002
+create interface FnTable:IVRSettings_002
+create interface IVRSettings_002
+get generic interface FnTable:IVRRenderModels_006
+create interface FnTable:IVRRenderModels_006
+create interface IVRRenderModels_006
+get generic interface FnTable:IVRChaperone_003
+create interface FnTable:IVRChaperone_003
+create interface IVRChaperone_003
+get generic interface FnTable:IVRApplications_006
+create interface FnTable:IVRApplications_006
+create interface IVRApplications_006
+get generic interface FnTable:IVRInput_006
+create interface FnTable:IVRInput_006
+create interface IVRInput_006
+get generic interface FnTable:IVROCSystem_001
+create interface FnTable:IVROCSystem_001
+create interface IVROCSystem_001
+dll main 2
+BaseChaperone::GetPlayAreaSize
+dll main 2
+BaseSystem::GetRecommendedRenderTargetSize
+BaseSettings::GetFloat
+BaseChaperone::GetPlayAreaSize
+dll main 2
+dll main 2
+dll main 3
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+dll main 3
+BaseSystem::ShouldApplicationPause
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseCompositor::WaitGetPoses
+BaseRenderModels::GetRenderModelCount
+BaseSystem::GetEyeToHeadTransform
+BaseSystem::GetEyeToHeadTransform
+dll main 2
+BaseChaperone::GetPlayAreaSize
+BaseChaperone::GetPlayAreaSize
+BaseCompositor::Submit
+prepare submit client 1
+prepare submit client 2.2
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+prepare submit client 2.3
+prepare submit client 2.4
+dll main 2
+dll main 2
+dll main 3
+dll main 2
+prepare submit client 2.5
+prepare submit client 2.6
+get p 0000000076018210
+prepare submit client 2.7 0000000076018210 0000000031D9CFB8
+prepare submit client 2.8
+prepare submit client 3
+submit client 1 1 1
+got width height 1596 1764
+get texture desc front 0 0000000031D9CFB8 1596 1764 1 28 1 0 40 2 
+submit client 5
+get submit 6
+get submit 7.1
+get submit 7.2 00000000F10BF51E
+get submit 7.3 00000000E1D9DDA2
+get submit 8
+open frontend read event Local\OpenVrFenceEvent15748:0
+submit client 10
+submit client 11
+submit client 12 00000000E1D9DDA2
+submit client 13
+submit client 14
+submit client 15
+submit client 16
+submit client 17
+submit client 18 0000000031D9E238 0000000031C83600 0000000000000C54
+submit client 19 00000000800078C2 000000001C4DB840
+submit client 20 1 0000000000000000
+submit client 21 1 0000000000000000
+submit client 22 16
+submit client 23
+BaseCompositor::Submit
+prepare submit client 1
+prepare submit client 3
+submit client 1 1 1
+got width height 1596 1764
+get texture desc front 1 0000000031D9CFB8 1596 1764 1 28 1 0 40 2 
+submit client 5
+get submit 6
+get submit 7.1
+get submit 7.2 00000000F10BF51E
+get submit 7.3 00000000E1DFB4F2
+get submit 8
+open frontend read event Local\OpenVrFenceEvent15748:1
+submit client 10
+submit client 11
+submit client 12 00000000E1DFB4F2
+submit client 13
+submit client 14
+submit client 15
+submit client 16
+submit client 17
+submit client 18 0000000031D9E238 0000000031C83600 0000000000000C74
+submit client 19 00000000800044C2 000000001C4DBDF0
+submit client 20 1 0000000000000000
+submit client 21 1 0000000000000000
+submit client 22 16
+submit client 23
+flush submit client 1
+flush submit client 2
+dll main 2
+dll main 3
+dll main 2
+dll main 2
+dll main 3
+dll main 2
+dll main 3
+dll main 3
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_003
+init 3 IVRClientCore_003
+create interface IVRClientCore_003
+init 7 IVRClientCore_003 0000000022E29A80
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_003
+init 3 IVRClientCore_003
+create interface IVRClientCore_003
+init 7 IVRClientCore_003 0000000022E4B480
+get generic interface FnTable:IVRSystem_019
+create interface FnTable:IVRSystem_019
+create interface IVRSystem_019
+get generic interface FnTable:IVRCompositor_022
+create interface FnTable:IVRCompositor_022
+create interface IVRCompositor_022
+BaseCompositor::SetTrackingSpace
+BaseCompositor::GetTrackingSpace
+BaseSystem::GetStringTrackedDeviceProperty
+get generic interface FnTable:IVRSettings_002
+create interface FnTable:IVRSettings_002
+create interface IVRSettings_002
+get generic interface FnTable:IVRRenderModels_006
+create interface FnTable:IVRRenderModels_006
+create interface IVRRenderModels_006
+get generic interface FnTable:IVRChaperone_003
+create interface FnTable:IVRChaperone_003
+create interface IVRChaperone_003
+get generic interface FnTable:IVRApplications_006
+create interface FnTable:IVRApplications_006
+create interface IVRApplications_006
+get generic interface FnTable:IVRInput_006
+create interface FnTable:IVRInput_006
+create interface IVRInput_006
+get generic interface FnTable:IVROCSystem_001
+create interface FnTable:IVROCSystem_001
+create interface IVROCSystem_001
+dll main 2
+BaseChaperone::GetPlayAreaSize
+dll main 2
+BaseSystem::GetRecommendedRenderTargetSize
+BaseSettings::GetFloat
+BaseChaperone::GetPlayAreaSize
+dll main 2
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+BaseSystem::GetProjectionMatrix
+dll main 2
+dll main 3
+BaseSystem::ShouldApplicationPause
+BaseSystem::PollNextEvent
+dll main 3
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseCompositor::WaitGetPoses
+BaseRenderModels::GetRenderModelCount
+BaseSystem::GetEyeToHeadTransform
+BaseSystem::GetEyeToHeadTransform
+dll main 2
+BaseChaperone::GetPlayAreaSize
+BaseChaperone::GetPlayAreaSize
+BaseCompositor::Submit
+prepare submit client 1
+prepare submit client 2.2
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+prepare submit client 2.3
+prepare submit client 2.4
+dll main 2
+dll main 2
+dll main 2
+prepare submit client 2.5
+prepare submit client 2.6
+dll main 3
+get p 0000000076018210
+prepare submit client 2.7 0000000076018210 00000000389464F8
+prepare submit client 2.8
+prepare submit client 3
+submit client 1 1 1
+got width height 1596 1764
+get texture desc front 0 00000000389464F8 1596 1764 1 28 1 0 40 2 
+submit client 5
+get submit 6
+get submit 7.1
+get submit 7.2 00000000EB584C0E
+get submit 7.3 00000000EB490C42
+get submit 8
+open frontend read event Local\OpenVrFenceEvent7056:0
+submit client 10
+submit client 11
+submit client 12 00000000EB490C42
+submit client 13
+submit client 14
+submit client 15
+submit client 16
+submit client 17
+submit client 18 000000003894B788 00000000388AE580 0000000000000C10
+submit client 19 0000000040005CC2 000000001D805E60
+submit client 20 1 0000000000000000
+submit client 21 1 0000000000000000
+submit client 22 16
+submit client 23
+BaseCompositor::Submit
+prepare submit client 1
+prepare submit client 3
+submit client 1 1 1
+got width height 1596 1764
+get texture desc front 1 00000000389464F8 1596 1764 1 28 1 0 40 2 
+submit client 5
+get submit 6
+get submit 7.1
+get submit 7.2 00000000EB584C0E
+get submit 7.3 00000000EB1E2DA2
+get submit 8
+open frontend read event Local\OpenVrFenceEvent7056:1
+submit client 10
+submit client 11
+submit client 12 00000000EB1E2DA2
+submit client 13
+submit client 14
+submit client 15
+submit client 16
+submit client 17
+submit client 18 000000003894B788 00000000388AE580 0000000000000C80
+submit client 19 0000000040004942 000000001D805ED0
+submit client 20 1 0000000000000000
+submit client 21 1 0000000000000000
+submit client 22 16
+submit client 23
+flush submit client 1
+flush submit client 2
+dll main 2
+dll main 3
+dll main 2
+dll main 2
+dll main 2
+dll main 3
+dll main 3
+dll main 3
+dll main 3
+dll main 0

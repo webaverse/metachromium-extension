@@ -54,8 +54,8 @@ std::ostream &getOut() {
     return std::cout;
   }
 }
-// constexpr bool tracing = true;
-constexpr bool tracing = false;
+constexpr bool tracing = true;
+// constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {
   if (tracing) {
     fn();
@@ -267,7 +267,7 @@ BOOL WINAPI DllMain(
     dllDir += dir;
   }
 
-  // getOut() << "dll main " << fdwReason << std::endl;
+  getOut() << "dll main " << fdwReason << std::endl;
 
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 16);
