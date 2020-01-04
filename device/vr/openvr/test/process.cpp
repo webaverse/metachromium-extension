@@ -4,6 +4,8 @@
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
+bool isProcess = true;
+
 int main() {
   getOut() << "process start 1" << std::endl;
 
@@ -120,7 +122,7 @@ int main() {
   getOut() << "start loop" << std::endl;
   for (;;) {
     fnp.handle();
-    // getOut() << "handled" << std::endl;
+    getOut() << "handled" << std::endl;
   }
   
   getOut() << "process exit" << std::endl;

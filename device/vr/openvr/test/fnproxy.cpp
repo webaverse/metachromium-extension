@@ -134,7 +134,7 @@ void FnProxy::dispatchCall() {
 void FnProxy::handle() {
   inSem.lock();
 
-  // getOut() << "fn proxy handle 1" << std::endl;
+  getOut() << "fn proxy handle 1" << std::endl;
 
   std::string name;
   // {
@@ -152,13 +152,13 @@ void FnProxy::handle() {
     abort();
   }
   
-  // getOut() << "handle 1 " << name << std::endl;
+  getOut() << "fn proxy handle 2 " << name << std::endl;
   
   std::function<void()> &f = fns.find(name)->second;
 
   f();
 
-  // getOut() << "handle 2 " << name << std::endl;
+  getOut() << "fn proxy handle 3 " << name << std::endl;
 
   std::map<size_t, Semaphore>::iterator iter = outSems.find(remoteCallbackId);
   if (iter == outSems.end()) {

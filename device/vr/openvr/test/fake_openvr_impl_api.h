@@ -16,6 +16,7 @@ extern void *shMem;
 extern size_t *pBooted;
 // extern GLFWwindow **ppWindow;
 // extern size_t *pNumClients;
+extern bool isProcess;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
 

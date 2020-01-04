@@ -1515,6 +1515,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
   ++fenceValue;
   context->Signal(fence.Get(), fenceValue);
+  context->Flush();
 
   getOut() << "submit client 14" << std::endl;
   
