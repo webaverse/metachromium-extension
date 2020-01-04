@@ -634,7 +634,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "submit server 7 " << (void *)readEvent << std::endl;
     }
     
-    inBackReadEventQueue.push_back(readEvent);
+    inBackReadEventQueue.push_back(std::pair<EVREye, HANDLE>(eEye, readEvent));
 
     /* if (!fence) {
       ID3D11Resource *fenceResource;
@@ -669,12 +669,20 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   });
   fnp.reg<
     kIVRCompositor_FlushSubmit,
-    int,
-    EVREye
-  >([=](EVREye eEye) {
+    int
+  >([=]() {
     // getOut() << "flush submit server 1" << std::endl;
-    
-    int iEye = (int)eEye;
+
+for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
+    EVREye eEye = EYES[iEye];
+
+    for (auto iter : inBackReadEventQueue) {
+      EVREye &e = iter.first;
+      if (e == eEye) {
+        HANDLE &readEvent = iter.second;
+        WaitForSingleObject(readEvent, INFINITE);
+      }
+    }
 
     std::vector<HANDLE> objects;
     objects.reserve(inBackIndices.size()/2 + 1);
@@ -691,12 +699,6 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     // getOut() << "got handle end " << (void *)shTexOutInteropHandles[iEye] << std::endl;
     
     // getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
-
-    while (inBackReadEventQueue.size() > 0) {
-      HANDLE &readEvent = inBackReadEventQueue.front();
-      auto r = WaitForSingleObject(readEvent, INFINITE);
-      inBackReadEventQueue.pop_front();
-    }
 
     bool lockOk = wglDXLockObjectsNV(hInteropDevice, objects.size(), objects.data());
     // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
@@ -775,7 +777,10 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       abort();
     }
     // vrcompositor->PostPresentHandoff();
-    
+}
+
+    inBackReadEventQueue.clear();
+
     // getOut() << "flush submit server 11" << std::endl;
     return 0;
   });
@@ -1327,7 +1332,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  getOut() << "submit client 1" << std::endl;
+  // getOut() << "submit client 1" << std::endl;
 
   auto key = std::pair<size_t, EVREye>(fnp.callbackId, eEye);
   auto iter = inFrontIndices.find(key);
@@ -1414,7 +1419,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
-    getOut() << "submit client 5" << std::endl;
+    // getOut() << "submit client 5" << std::endl;
 
     HRESULT hr = device->CreateTexture2D(
       &desc,
@@ -1423,7 +1428,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     );
 
     if (SUCCEEDED(hr)) {
-      getOut() << "get submit 6" << std::endl;
+      // getOut() << "get submit 6" << std::endl;
     } else {
       getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
@@ -1574,7 +1579,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   fence->SetEventOnCompletion(fenceValue, readEvent);
   // context->Flush();
 
-  getOut() << "submit client 14" << std::endl;
+  // getOut() << "submit client 14" << std::endl;
   
   managed_binary<Texture_t> sharedTexture(1);
   *sharedTexture.data() = Texture_t{
@@ -1585,7 +1590,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   managed_binary<VRTextureBounds_t> bounds(1);
   *bounds.data() = *pBounds;
 
-  getOut() << "submit client 15" << std::endl;
+  // getOut() << "submit client 15" << std::endl;
 
   return fnp.call<
     kIVRCompositor_Submit,
@@ -1596,12 +1601,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EVRSubmitFlags
   >(eEye, std::move(sharedTexture), std::move(bounds), nSubmitFlags);
 }
-void PVRCompositor::FlushSubmit(EVREye eEye) {
+void PVRCompositor::FlushSubmit() {
   fnp.call<
     kIVRCompositor_FlushSubmit,
-    int,
-    EVREye
-  >(eEye);
+    int
+  >();
 }
 void PVRCompositor::ClearLastSubmittedFrame() {
   fnp.call<

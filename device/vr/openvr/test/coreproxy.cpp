@@ -115,7 +115,7 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
 
     // auto iter = std::find(submitSemsOrder.begin(), submitSemsOrder.end(), id);
     // getOut() << "do submit " << std::distance(submitSemsOrder.begin(), iter) << " " << submitSemsOrder.size() << std::endl;
-    bool doRealSubmit = submitSemsOrder.size() <= 2;
+    bool doRealSubmit = submitSemsOrder.size() == 0;
     
     // getOut() << "pre submit " << doRealSubmit << std::endl;
 

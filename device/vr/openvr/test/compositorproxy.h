@@ -1,7 +1,7 @@
 #ifndef _openvr_compositorproxy_h_
 #define _openvr_compositorproxy_h_
 
-#include <deque>
+// #include <deque>
 
 #include <D3D11_4.h>
 #include <DXGI1_4.h>
@@ -56,7 +56,7 @@ public:
   std::vector<HANDLE> inBackInteropHandles;
   std::vector<HANDLE> inBackReadEvents;
   std::vector<HANDLE> inBackHandleLatches;
-  std::deque<HANDLE> inBackReadEventQueue;
+  std::vector<std::pair<EVREye, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;
@@ -79,7 +79,7 @@ public:
 	virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose );
 	virtual void PrepareSubmit(const Texture_t *pTexture);
   virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
-  virtual void FlushSubmit(EVREye eEye);
+  virtual void FlushSubmit();
 	virtual void ClearLastSubmittedFrame();
 	virtual void PostPresentHandoff();
 	virtual bool GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo = 0 );
