@@ -2,6 +2,8 @@
 #include "device/vr/openvr/test/settingsproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
+// using namespace vr;
+
 namespace vr {
 char kIVRSettings_GetSettingsErrorNameFromEnum[] = "Settings::GetSettingsErrorNameFromEnum";
 char kIVRSettings_Sync[] = "Settings::Sync";
@@ -25,6 +27,7 @@ PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrs
     abort();
     // getOut() << "set action manifest path" << actionManifestPath.data() << std::endl;
     // return vrinput->SetActionManifestPath(actionManifestPath.data());
+    return 0;
   });
   fnp.reg<
     kIVRSettings_Sync,
@@ -37,64 +40,52 @@ PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrs
     auto result = vrsettings->Sync(bForce, &error);
     return std::tuple<bool, EVRSettingsError>(
       result,
-      error,
+      error
     );
   });
   fnp.reg<
     kIVRSettings_SetBool,
-    std::tuple<bool, EVRSettingsError>,
+    EVRSettingsError,
     managed_binary<char>,
     managed_binary<char>,
     bool
   >([=](managed_binary<char> section, managed_binary<char> settingsKey, bool bValue) {
     EVRSettingsError error;
-    auto result = vrsettings->SetBool(section.data(), settingsKey.data(), bValue, &error);
-    return std::tuple<bool, EVRSettingsError>(
-      result,
-      error,
-    );
+    vrsettings->SetBool(section.data(), settingsKey.data(), bValue, &error);
+    return error;
   });
   fnp.reg<
     kIVRSettings_SetInt32,
-    std::tuple<bool, EVRSettingsError>,
+    EVRSettingsError,
     managed_binary<char>,
     managed_binary<char>,
     int32_t
   >([=](managed_binary<char> section, managed_binary<char> settingsKey, int32_t nValue) {
     EVRSettingsError error;
-    auto result = vrsettings->SetInt32(section.data(), settingsKey.data(), nValue, &error);
-    return std::tuple<bool, EVRSettingsError>(
-      result,
-      error,
-    );
+    vrsettings->SetInt32(section.data(), settingsKey.data(), nValue, &error);
+    return error;
   });
   fnp.reg<
     kIVRSettings_SetFloat,
-    std::tuple<bool, EVRSettingsError>,
+    EVRSettingsError,
     managed_binary<char>,
     managed_binary<char>,
     float
   >([=](managed_binary<char> section, managed_binary<char> settingsKey, float flValue) {
     EVRSettingsError error;
-    auto result = vrsettings->SetFloat(section.data(), settingsKey.data(), flValue, &error);
-    return std::tuple<bool, EVRSettingsError>(
-      result,
-      error,
-    );
+    vrsettings->SetFloat(section.data(), settingsKey.data(), flValue, &error);
+    return error;
   });
   fnp.reg<
     kIVRSettings_SetString,
-    std::tuple<bool, EVRSettingsError>,
+    EVRSettingsError,
     managed_binary<char>,
     managed_binary<char>,
      managed_binary<char>
   >([=](managed_binary<char> section, managed_binary<char> settingsKey, managed_binary<char> value) {
     EVRSettingsError error;
-    auto result = vrsettings->SetString(section.data(), settingsKey.data(), value.data(), &error);
-    return std::tuple<bool, EVRSettingsError>(
-      result,
-      error,
-    );
+    vrsettings->SetString(section.data(), settingsKey.data(), value.data(), &error);
+    return error;
   });
   fnp.reg<
     kIVRSettings_GetBool,
@@ -106,7 +97,7 @@ PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrs
     auto result = vrsettings->GetBool(section.data(), settingsKey.data(), &error);
     return std::tuple<bool, EVRSettingsError>(
       result,
-      error,
+      error
     );
   });
   fnp.reg<
@@ -119,7 +110,7 @@ PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrs
     auto result = vrsettings->GetInt32(section.data(), settingsKey.data(), &error);
     return std::tuple<int32_t, EVRSettingsError>(
       result,
-      error,
+      error
     );
   });
   fnp.reg<
@@ -132,7 +123,7 @@ PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrs
     auto result = vrsettings->GetFloat(section.data(), settingsKey.data(), &error);
     return std::tuple<float, EVRSettingsError>(
       result,
-      error,
+      error
     );
   });
   fnp.reg<
@@ -145,9 +136,9 @@ PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrs
     managed_binary<char> value(unValueLen);
     EVRSettingsError error;
     vrsettings->GetString(section.data(), settingsKey.data(), value.data(), unValueLen, &error);
-    return std::tuple<float, EVRSettingsError>(
+    return std::tuple<managed_binary<char>, EVRSettingsError>(
       std::move(value),
-      error,
+      error
     );
   });
   fnp.reg<
@@ -172,7 +163,7 @@ PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrs
 }
 const char *PVRSettings::GetSettingsErrorNameFromEnum(EVRSettingsError eError) {
   getOut() << "GetSettingsErrorNameFromEnum abort" << std::endl; abort();
-  return "":
+  return "";
 }
 bool PVRSettings::Sync(bool bForce, EVRSettingsError *peError) {
   auto result = fnp.call<
@@ -185,22 +176,21 @@ bool PVRSettings::Sync(bool bForce, EVRSettingsError *peError) {
   }
   return std::get<0>(result);
 }
-bool PVRSettings::SetBool(const char *pchSection, const char *pchSettingsKey, bool bValue, EVRSettingsError *peError) {
+void PVRSettings::SetBool(const char *pchSection, const char *pchSettingsKey, bool bValue, EVRSettingsError *peError) {
   managed_binary<char> section(strlen(pchSection)+1);
   memcpy(section.data(), pchSection, section.size());
   managed_binary<char> settingsKey(strlen(pchSettingsKey)+1);
   memcpy(settingsKey.data(), pchSettingsKey, settingsKey.size());
   auto result = fnp.call<
     kIVRSettings_SetBool,
-    std::tuple<bool, EVRSettingsError>,
+    EVRSettingsError,
     managed_binary<char>,
     managed_binary<char>,
     bool
   >(std::move(section), std::move(settingsKey), bValue);
   if (peError) {
-    *peError = std::get<1>(result);
+    *peError = result;
   }
-  return std::get<0>(result);
 }
 void PVRSettings::SetInt32(const char *pchSection, const char *pchSettingsKey, int32_t nValue, EVRSettingsError *peError) {
   managed_binary<char> section(strlen(pchSection)+1);
@@ -209,15 +199,14 @@ void PVRSettings::SetInt32(const char *pchSection, const char *pchSettingsKey, i
   memcpy(settingsKey.data(), pchSettingsKey, settingsKey.size());
   auto result = fnp.call<
     kIVRSettings_SetInt32,
-    std::tuple<bool, EVRSettingsError>,
+    EVRSettingsError,
     managed_binary<char>,
     managed_binary<char>,
     int32_t
   >(std::move(section), std::move(settingsKey), nValue);
   if (peError) {
-    *peError = std::get<1>(result);
+    *peError = result;
   }
-  return std::get<0>(result);
 }
 void PVRSettings::SetFloat(const char *pchSection, const char *pchSettingsKey, float flValue, EVRSettingsError *peError) {
   managed_binary<char> section(strlen(pchSection)+1);
@@ -226,15 +215,14 @@ void PVRSettings::SetFloat(const char *pchSection, const char *pchSettingsKey, f
   memcpy(settingsKey.data(), pchSettingsKey, settingsKey.size());
   auto result = fnp.call<
     kIVRSettings_SetFloat,
-    std::tuple<bool, EVRSettingsError>,
+    EVRSettingsError,
     managed_binary<char>,
     managed_binary<char>,
     float
   >(std::move(section), std::move(settingsKey), flValue);
   if (peError) {
-    *peError = std::get<1>(result);
+    *peError = result;
   }
-  return std::get<0>(result);
 }
 void PVRSettings::SetString(const char *pchSection, const char *pchSettingsKey, const char *pchValue, EVRSettingsError *peError) {
   managed_binary<char> section(strlen(pchSection)+1);
@@ -245,15 +233,14 @@ void PVRSettings::SetString(const char *pchSection, const char *pchSettingsKey, 
   memcpy(value.data(), pchValue, value.size());
   auto result = fnp.call<
     kIVRSettings_SetString,
-    std::tuple<bool, EVRSettingsError>,
+    EVRSettingsError,
     managed_binary<char>,
     managed_binary<char>,
     managed_binary<char>
   >(std::move(section), std::move(settingsKey), std::move(value));
   if (peError) {
-    *peError = std::get<1>(result);
+    *peError = result;
   }
-  return std::get<0>(result);
 }
 bool PVRSettings::GetBool(const char *pchSection, const char *pchSettingsKey, EVRSettingsError *peError) {
   managed_binary<char> section(strlen(pchSection)+1);
@@ -313,7 +300,7 @@ void PVRSettings::GetString(const char *pchSection, const char *pchSettingsKey, 
     std::tuple<managed_binary<char>, EVRSettingsError>,
     managed_binary<char>,
     managed_binary<char>,
-    uint32_t,
+    uint32_t
   >(std::move(section), std::move(settingsKey), unValueLen);
   if (peError) {
     *peError = std::get<1>(result);
