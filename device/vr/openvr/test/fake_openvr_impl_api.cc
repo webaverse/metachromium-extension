@@ -95,6 +95,7 @@ PVRCompositor *g_pvrcompositor = nullptr;
 PVRInput *g_pvrinput = nullptr;
 PVRScreenshots *g_pvrscreenshots = nullptr;
 PVRChaperone *g_pvrchaperone = nullptr;
+PVRSettings *g_pvrsettings = nullptr;
 }
 
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
@@ -200,6 +201,7 @@ extern "C" {
           vr::PVRInput input(vr::g_vrinput, fnp);
           vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
           vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
+          vr::PVRSettings settings(vr::g_vrsettings, fnp);
           for (;;) {
             fnp.handle();
           }
@@ -218,6 +220,7 @@ extern "C" {
       vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
       vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
       vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
+      vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *fnp);
     }
 
     // result = vr::VRInitError_None;

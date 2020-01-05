@@ -119,6 +119,7 @@ int main() {
   vr::PVRInput input(vr::g_vrinput, fnp);
   vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
   vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
+  vr::PVRSettings settings(vr::g_vrsettings, fnp);
   getOut() << "start loop" << std::endl;
   for (;;) {
     fnp.handle();
