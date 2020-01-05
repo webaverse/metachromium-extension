@@ -316,7 +316,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // glBindTexture(GL_TEXTURE_2D, shTexOutId);
       // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
       g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
-      getOut() << "got width height " << width << " " << height << std::endl;
+      getOut() << "got width height backend " << width << " " << height << std::endl;
       glBindTexture(GL_TEXTURE_2D, texDepthIds[0]);
       glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
       glBindTexture(GL_TEXTURE_2D, texDepthIds[1]);
@@ -1380,11 +1380,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint tex = (GLuint)pTexture->handle;
 
-    glBindTexture(GL_TEXTURE_2D, tex);
+    // glBindTexture(GL_TEXTURE_2D, tex);
     GLint width, height;
-    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WIDTH, &width);
-    glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_HEIGHT, &height);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glGetTextureLevelParameteriv(tex, 0, GL_TEXTURE_WIDTH, &width);
+    glGetTextureLevelParameteriv(tex, 0, GL_TEXTURE_HEIGHT, &height);
+    // glBindTexture(GL_TEXTURE_2D, 0);
 
     getOut() << "got width height top " << width << " " << height << std::endl;
   } */
@@ -1432,16 +1432,16 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
       GLuint tex = (GLuint)pTexture->handle;
 
-      /* glBindTexture(GL_TEXTURE_2D, tex);
+      // glBindTexture(GL_TEXTURE_2D, tex);
       GLint width, height;
-      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WIDTH, &width);
-      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_HEIGHT, &height);
-      glBindTexture(GL_TEXTURE_2D, 0); */
+      glGetTextureLevelParameteriv(tex, 0, GL_TEXTURE_WIDTH, &width);
+      glGetTextureLevelParameteriv(tex, 0, GL_TEXTURE_HEIGHT, &height);
+      // glBindTexture(GL_TEXTURE_2D, 0);
+      getOut() << "got width height 1 " << width << " " << height << std::endl;
 
-      uint32_t width, height;
-      g_pvrsystem->GetRecommendedRenderTargetSize(&width, &height);
-
-      getOut() << "got width height " << width << " " << height << std::endl;
+      // uint32_t width, height;
+      // g_pvrsystem->GetRecommendedRenderTargetSize(&width, &height);
+      //getOut() << "got width height 2 " << width << " " << height << std::endl;
 
       desc.Width = width;
       desc.Height = height;
@@ -1599,12 +1599,12 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       GLint oldReadBuffer;
       glGetIntegerv(GL_READ_BUFFER, &oldReadBuffer);
 
-      getOut() << "submit client 14" << std::endl;
-
-      glBindTexture(GL_TEXTURE_2D, readTex);
+      // glBindTexture(GL_TEXTURE_2D, readTex);
       GLint width, height;
-      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_WIDTH, &width);
-      glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_HEIGHT, &height);
+      glGetTextureLevelParameteriv(readTex, 0, GL_TEXTURE_WIDTH, &width);
+      glGetTextureLevelParameteriv(readTex, 0, GL_TEXTURE_HEIGHT, &height);
+      
+      getOut() << "got width height 3 " << width << " " << height << std::endl;
 
       GLuint readFbo;
       glGenFramebuffers(1, &readFbo);
@@ -1687,7 +1687,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags
-  >(eEye, std::move(sharedTexture), std::move(bounds), nSubmitFlags);
+  >(eEye, std::move(sharedTexture), std::move(bounds), EVRSubmitFlags::Submit_Default);
   
   getOut() << "submit client 23" << std::endl;
   
