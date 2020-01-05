@@ -35,6 +35,7 @@ SET(src
   openvr/test/inputproxy.cpp
   openvr/test/screenshotsproxy.cpp
   openvr/test/chaperoneproxy.cpp
+  openvr/test/settingsproxy.cpp
   openvr/test/fnproxy.cpp
   # openvr/test/test_helper.cc
   # openvr/test/test_helper.h
