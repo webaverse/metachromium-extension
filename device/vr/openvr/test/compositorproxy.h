@@ -34,6 +34,9 @@ public:
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> hasTexLocations;
+  
+  GLuint blitVao;
+  GLuint blitProgram;
 
   // input front
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
