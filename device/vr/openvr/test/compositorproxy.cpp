@@ -194,7 +194,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     int,
     ETextureType
   >([=](ETextureType textureType) {
-    getOut() << "prepare submit server 1" << std::endl;
+    // getOut() << "prepare submit server 1" << std::endl;
 
     if (!device) {
       // device = (ID3D11Device *)pDevice;
@@ -228,7 +228,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         }
       }
       
-      getOut() << "creating device 1" << std::endl;
+      // getOut() << "creating device 1" << std::endl;
 
       // Microsoft::WRL::ComPtr<ID3D11Device> device;
       // Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
@@ -250,7 +250,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         NULL, // pFeatureLevel
         &contextBasic // ppImmediateContext
       );
-      getOut() << "creating device 2" << std::endl;
+      // getOut() << "creating device 2" << std::endl;
       if (SUCCEEDED(hr)) {
         hr = deviceBasic->QueryInterface(__uuidof(ID3D11Device5), (void **)&device);
         if (SUCCEEDED(hr)) {
@@ -299,11 +299,11 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
 
       // getOut() << "gl init 1 " << (void *)subWindow << " " << (void *)device.Get() << " " << glGetError() << std::endl;
 
-      getOut() << "open interop device 1 " << (void *)device.Get() << std::endl;
+      // getOut() << "open interop device 1 " << (void *)device.Get() << std::endl;
 
       hInteropDevice = wglDXOpenDeviceNV(device.Get());
       
-      getOut() << "open interop device 2 " << (void *)hInteropDevice << std::endl;
+      // getOut() << "open interop device 2 " << (void *)hInteropDevice << std::endl;
 
       // getOut() << "prepare submit server 5" << std::endl;
 
@@ -326,7 +326,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       texDepthIds[0] = textures[2];
       texDepthIds[1] = textures[3];
       
-      getOut() << "getting width height" << std::endl;
+      // getOut() << "getting width height" << std::endl;
       
       // getOut() << "prepare submit server 7" << std::endl;
 
@@ -366,7 +366,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         std::endl; */
       shTexOuts.resize(2);
       shTexOutInteropHandles.resize(2);
-      getOut() << "interop 1" << std::endl;
+      // getOut() << "interop 1" << std::endl;
       for (int i = 0; i < 2; i++) {
         HRESULT hr = device->CreateTexture2D(
           &desc,
@@ -375,7 +375,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         );
         shTexOutInteropHandles[i] = wglDXRegisterObjectNV(hInteropDevice, shTexOuts[i], shTexOutIds[i], GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
       }
-      getOut() << "interop 2" << std::endl;
+      // getOut() << "interop 2" << std::endl;
       
       // getOut() << "prepare submit server 9" << std::endl;
       
@@ -563,7 +563,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
     
-    getOut() << "submit server 1" << std::endl;
+    // getOut() << "submit server 1" << std::endl;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteCallbackId, eEye);
     auto iter = inBackIndices.find(key);
@@ -581,7 +581,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       inBackHandleLatches.resize(index+1, NULL);
     }
     
-    getOut() << "submit server 2" << std::endl;
+    // getOut() << "submit server 2" << std::endl;
 
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
     GLuint &shTexInId = inBackTexs[index]; // gl texture
@@ -589,7 +589,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
 
-    getOut() << "submit server 3" << std::endl;
+    // getOut() << "submit server 3" << std::endl;
 
     if (handleLatched != sharedHandle) {
       // getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
@@ -600,14 +600,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       }
       handleLatched = sharedHandle;
 
-      getOut() << "submit server 4" << std::endl;
+      // getOut() << "submit server 4" << std::endl;
 
       // IDXGIResource1 *pD3DResource;
       // HRESULT hr = device->OpenSharedResource1(sharedHandle, __uuidof(IDXGIResource1), (void**)(&pD3DResource));
       ID3D11Resource *shTexResource;
       HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
 
-      getOut() << "submit server 5" << std::endl;
+      // getOut() << "submit server 5" << std::endl;
 
       ID3D11Texture2D *shTexIn;
       if (SUCCEEDED(hr)) {
@@ -624,7 +624,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       }
     
-      getOut() << "submit server 6 " << GetLastError() << std::endl;
+      // getOut() << "submit server 6 " << GetLastError() << std::endl;
 
       glGenTextures(1, &shTexInId);
       shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
@@ -650,7 +650,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       }
 
-      getOut() << "submit server 7 " << (void *)readEvent << std::endl;
+      // getOut() << "submit server 7 " << (void *)readEvent << std::endl;
     }
     
     inBackReadEventQueue.push_back(std::pair<EVREye, HANDLE>(eEye, readEvent));
@@ -676,7 +676,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       }
     } */
 
-    getOut() << "submit server 9 " << (void *)readEvent << std::endl;
+    // getOut() << "submit server 9 " << (void *)readEvent << std::endl;
 
     // auto r = WaitForSingleObject(readEvent, INFINITE);
     // ++fenceValue;
@@ -690,12 +690,12 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     kIVRCompositor_FlushSubmit,
     int
   >([=]() {
-    getOut() << "flush submit server 1" << std::endl;
+    // getOut() << "flush submit server 1" << std::endl;
 
 for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     EVREye eEye = EYES[iEye];
     
-    getOut() << "flush submit server 2" << std::endl;
+    // getOut() << "flush submit server 2" << std::endl;
 
     for (auto iter : inBackReadEventQueue) {
       EVREye &e = iter.first;
