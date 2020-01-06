@@ -60,7 +60,7 @@ uint32_t BaseRenderModels::GetRenderModelName(uint32_t unRenderModelIndex, VR_OU
 uint32_t BaseRenderModels::GetRenderModelCount() {
   TRACE("BaseRenderModels", []() { getOut() << "BaseRenderModels::GetRenderModelCount" << std::endl; });
 	auto result = g_pvrrendermodels->GetRenderModelCount();
-  getOut() << "get render model count " << result << std::endl;
+  // getOut() << "get render model count " << result << std::endl;
   return result;
 }
 
@@ -79,7 +79,7 @@ uint32_t BaseRenderModels::GetComponentName(const char * pchRenderModelName, uin
 uint64_t BaseRenderModels::GetComponentButtonMask(const char * pchRenderModelName, const char * pchComponentName) {
   TRACE("BaseRenderModels", []() { getOut() << "BaseRenderModels::GetComponentButtonMask" << std::endl; });
 	auto result = g_pvrrendermodels->GetComponentButtonMask(pchRenderModelName, pchComponentName);
-  getOut() << "GetComponentButtonMask result " << (void *)result << std::endl;
+  // getOut() << "GetComponentButtonMask result " << (void *)result << std::endl;
   return result;
 }
 
@@ -94,7 +94,7 @@ bool BaseRenderModels::GetComponentStateForDevicePath(const char *pchRenderModel
     vr::RenderModel_ComponentState_t *pComponentState) {
   TRACE("BaseRenderModels", []() { getOut() << "BaseRenderModels::GetComponentStateForDevicePath" << std::endl; });
   auto result = g_pvrrendermodels->GetComponentStateForDevicePath(pchRenderModelName, pchComponentName, devicePath, pState, pComponentState);
-  getOut() << "get component state tracking " << pchRenderModelName << " " << pchComponentName << " " << result << " " <<
+  /* getOut() << "get component state tracking " << pchRenderModelName << " " << pchComponentName << " " << result << " " <<
     pComponentState->mTrackingToComponentRenderModel.m[0][0] << " " <<
     pComponentState->mTrackingToComponentRenderModel.m[0][1] << " " <<
     pComponentState->mTrackingToComponentRenderModel.m[0][2] << " " <<
@@ -107,7 +107,7 @@ bool BaseRenderModels::GetComponentStateForDevicePath(const char *pchRenderModel
     pComponentState->mTrackingToComponentRenderModel.m[2][1] << " " <<
     pComponentState->mTrackingToComponentRenderModel.m[2][2] << " " <<
     pComponentState->mTrackingToComponentRenderModel.m[2][3] << " " <<
-    std::endl;
+    std::endl; */
   return result;
 }
 

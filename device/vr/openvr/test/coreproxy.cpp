@@ -42,7 +42,7 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
   >([=]() {
     size_t id = fnp.remoteCallbackId;
     
-    getOut() << "pre wait 1 " << id << std::endl;
+    // getOut() << "pre wait 1 " << id << std::endl;
     
     {
       auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), id);
@@ -59,12 +59,12 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
       }
     }
     
-    getOut() << "pre wait 2 " << submitSemsOrder.size() << " " << (id | WAIT_MASK) << " " << id << std::endl;
+    // getOut() << "pre wait 2 " << submitSemsOrder.size() << " " << (id | WAIT_MASK) << " " << id << std::endl;
 
     bool foundPendingSubmit = false;
     auto newEnd = std::remove_if(submitSemsOrder.begin(), submitSemsOrder.end(), [&](size_t id2) {
       if (id == id2) {
-        getOut() << "pre wait remove " << id << std::endl;
+        // getOut() << "pre wait remove " << id << std::endl;
         foundPendingSubmit = true;
         return true;
       } else {
@@ -78,7 +78,7 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
     // getOut() << "iter distance " << id << " " << waitSemsOrder.size() << " " << (iter != waitSemsOrder.end()) << " " << std::distance(waitSemsOrder.begin(), iter) << std::endl;
     bool doRealWait = std::distance(waitSemsOrder.begin(), iter) == 0;
 
-    getOut() << "pre wait 3 " << submitSemsOrder.size() << " " << nextSemId << " " << id << std::endl;
+    // getOut() << "pre wait 3 " << submitSemsOrder.size() << " " << nextSemId << " " << id << std::endl;
 
     return std::tuple<size_t, bool>(
       nextSemId,
@@ -92,11 +92,11 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
     size_t id = fnp.remoteCallbackId;
     size_t nextSemId;
 
-    std::for_each(submitSemsOrder.begin(), submitSemsOrder.end(), [&](size_t id2) {
+    /* std::for_each(submitSemsOrder.begin(), submitSemsOrder.end(), [&](size_t id2) {
       if (id == id2) {
         getOut() << "post wait would have removed " << id << std::endl;
       }
-    });
+    }); */
     /* std::remove_if(submitSemsOrder.begin(), submitSemsOrder.end(), [&](size_t id2) {
       if (id == id2) {
         return true;
@@ -112,11 +112,10 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
     int index = std::distance(waitSemsOrder.begin(), iter);
     if ((index+1) < waitSemsOrder.size()) {
       nextSemId = waitSemsOrder[index+1] | WAIT_MASK;
-      getOut() << "post wait get poses wait " << submitSemsOrder.size() << " " << nextSemId << std::endl;
+      // getOut() << "post wait get poses wait " << submitSemsOrder.size() << " " << nextSemId << std::endl;
     } else {
       nextSemId = submitSemsOrder.front() | SUBMIT_MASK;
-      getOut() << "post wait get poses submit " << submitSemsOrder.size() << " " << nextSemId << std::endl;
-      // submitSemsOrder.pop_front();
+      // getOut() << "post wait get poses submit " << submitSemsOrder.size() << " " << nextSemId << std::endl;
     }
 
     return nextSemId;
@@ -159,13 +158,11 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
     size_t nextSemId;
 
     if (submitSemsOrder.size() > 0) {
-      // getOut() << "post submit submit " << submitSemsOrder.size() << std::endl;
       nextSemId = submitSemsOrder.front() | SUBMIT_MASK;
-      getOut() << "post submit unlock 1 " << submitSemsOrder.size() << " " << submitSemsOrder.front() << " " << nextSemId << std::endl;
-      // submitSemsOrder.pop_front();
+      // getOut() << "post submit unlock 1 " << submitSemsOrder.size() << " " << submitSemsOrder.front() << " " << nextSemId << std::endl;
     } else {
       nextSemId = waitSemsOrder[0] | WAIT_MASK;
-      getOut() << "post submit unlock 2 " << waitSemsOrder[0] << " " << nextSemId << std::endl;
+      // getOut() << "post submit unlock 2 " << waitSemsOrder[0] << " " << nextSemId << std::endl;
     }
     
     return nextSemId;
@@ -198,14 +195,14 @@ void PVRClientCore::PreWaitGetPoses(bool *doRealWait) {
   *doRealWait = std::get<1>(result);
 
   if (id != 0) {
-    getOut() << "get local semaphore yes " << id << std::endl;
+    // getOut() << "get local semaphore yes " << id << std::endl;
     Semaphore *sem = getLocalSemaphore(id);
     // getOut() << "PreWaitGetPoses 2 " << id << " " << *doRealWait << std::endl;
     sem->lock();
     // getOut() << "PreWaitGetPoses 3 " << *doRealWait << std::endl;
-    getOut() << "get local semaphore yes locked " << id << std::endl;
+    // getOut() << "get local semaphore yes locked " << id << std::endl;
   } else {
-    getOut() << "get local semaphore null " << id << std::endl;
+    // getOut() << "get local semaphore null " << id << std::endl;
   }
 }
 void PVRClientCore::PostWaitGetPoses() {

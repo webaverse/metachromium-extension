@@ -481,7 +481,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       } */
 
-      getOut() << "gl init error 5 " << glGetError() << std::endl;
+      // getOut() << "gl init error 5 " << glGetError() << std::endl;
 
       // delete the shaders as they're linked into our program now and no longer necessary
       glDeleteShader(composeVertex);

@@ -39,11 +39,9 @@ Semaphore::Semaphore(const char *name) {
     getOut() << "semaphore error " << GetLastError() << std::endl;
     // abort();
   }
-  getOut() << "create semaphore " << name << " " << (void *)h << std::endl;
 }
 Semaphore::~Semaphore() {
   // CloseHandle(h);
-  getOut() << "destroy semaphore " << (void *)h << std::endl;
 }
 void Semaphore::lock() {
   // getOut() << "sempaphore lock 1" << std::endl;

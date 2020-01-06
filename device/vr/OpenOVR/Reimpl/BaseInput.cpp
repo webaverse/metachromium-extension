@@ -26,19 +26,19 @@ EVRInputError BaseInput::SetActionManifestPath(const char *pchActionManifestPath
 EVRInputError BaseInput::GetActionSetHandle(const char *pchActionSetName, VRActionSetHandle_t *pHandle) {
   TRACE("BaseInput", []() { getOut() << "BaseInput::GetActionSetHandle" << std::endl; });
   auto result = g_pvrinput->GetActionSetHandle(pchActionSetName, pHandle);
-  getOut() << "BaseInput::GetActionSetHandle result '" << pchActionSetName << "' " << (int)result << " " << (void *)*pHandle << std::endl;
+  // getOut() << "BaseInput::GetActionSetHandle result '" << pchActionSetName << "' " << (int)result << " " << (void *)*pHandle << std::endl;
   return result;
 }
 EVRInputError BaseInput::GetActionHandle(const char *pchActionName, VRActionHandle_t *pHandle) {
   TRACE("BaseInput", []() { getOut() << "BaseInput::GetActionHandle" << std::endl; });
   auto result = g_pvrinput->GetActionHandle(pchActionName, pHandle);
-  getOut() << "BaseInput::GetActionHandle result '" << pchActionName << "' " << (int)result << " " << (void *)*pHandle << std::endl;
+  // getOut() << "BaseInput::GetActionHandle result '" << pchActionName << "' " << (int)result << " " << (void *)*pHandle << std::endl;
   return result;
 }
 EVRInputError BaseInput::GetInputSourceHandle(const char *pchInputSourcePath, VRInputValueHandle_t *pHandle) {
   TRACE("BaseInput", []() { getOut() << "BaseInput::GetInputSourceHandle" << std::endl; });
   auto result = g_pvrinput->GetInputSourceHandle(pchInputSourcePath, pHandle);
-  getOut() << "BaseInput::GetInputSourceHandle result " << (int)result << " " << (void *)*pHandle << std::endl;
+  // getOut() << "BaseInput::GetInputSourceHandle result " << (int)result << " " << (void *)*pHandle << std::endl;
   return result;
 }
 
@@ -88,7 +88,7 @@ EVRInputError BaseInput::GetPoseActionDataRelativeToNow(VRActionHandle_t action,
 EVRInputError BaseInput::GetPoseActionDataForNextFrame(VRActionHandle_t action, ETrackingUniverseOrigin eOrigin, InputPoseActionData_t *pActionData, uint32_t unActionDataSize, VRInputValueHandle_t ulRestrictToDevice) {
   TRACE("BaseInput", []() { getOut() << "BaseInput::GetPoseActionDataForNextFrame" << std::endl; });
   auto result = g_pvrinput->GetPoseActionDataForNextFrame(action, eOrigin, pActionData, unActionDataSize, ulRestrictToDevice);
-  getOut() << "get pose action data for next frame " << (void *)action << " " << result << " " <<
+  /* getOut() << "get pose action data for next frame " << (void *)action << " " << result << " " <<
     pActionData->pose.mDeviceToAbsoluteTracking.m[0][0] << " " <<
     pActionData->pose.mDeviceToAbsoluteTracking.m[0][1] << " " <<
     pActionData->pose.mDeviceToAbsoluteTracking.m[0][2] << " " <<
@@ -101,7 +101,7 @@ EVRInputError BaseInput::GetPoseActionDataForNextFrame(VRActionHandle_t action, 
     pActionData->pose.mDeviceToAbsoluteTracking.m[2][1] << " " <<
     pActionData->pose.mDeviceToAbsoluteTracking.m[2][2] << " " <<
     pActionData->pose.mDeviceToAbsoluteTracking.m[2][3] << " " <<
-    std::endl;
+    std::endl; */
   return result;
 }
 EVRInputError BaseInput::GetSkeletalActionData(VRActionHandle_t action, InputSkeletalActionData_t *pActionData, uint32_t unActionDataSize,
@@ -155,7 +155,7 @@ EVRInputError BaseInput::GetSkeletalSummaryData(VRActionHandle_t action, VRSkele
 EVRInputError BaseInput::GetSkeletalBoneDataCompressed(VRActionHandle_t action, EVRSkeletalTransformSpace eTransformSpace,
 	  EVRSkeletalMotionRange eMotionRange, VR_OUT_BUFFER_COUNT(unCompressedSize) void *pvCompressedData, uint32_t unCompressedSize,
 	  uint32_t *punRequiredCompressedSize, VRInputValueHandle_t ulRestrictToDevice) {
-  getOut() << "abort BaseInput::GetSkeletalBoneDataCompressed" << std::endl; abort();
+  // getOut() << "abort BaseInput::GetSkeletalBoneDataCompressed" << std::endl; abort();
   return VRInputError_None;
   // return g_pvrinput->GetSkeletalBoneDataCompressed(action, eTransformSpace, eMotionRange, pvCompressedData, unCompressedSize, punRequiredCompressedSize, ulRestrictToDevice);
 }
@@ -167,7 +167,7 @@ EVRInputError BaseInput::GetSkeletalBoneDataCompressed(VRActionHandle_t action, 
 EVRInputError BaseInput::DecompressSkeletalBoneData(void *pvCompressedBuffer, uint32_t unCompressedBufferSize,
 	  EVRSkeletalTransformSpace *peTransformSpace, VR_ARRAY_COUNT(unTransformArrayCount) VRBoneTransform_t *pTransformArray,
 	  uint32_t unTransformArrayCount) {
-  getOut() << "abort BaseInput::DecompressSkeletalBoneData" << std::endl; abort();
+  // getOut() << "abort BaseInput::DecompressSkeletalBoneData" << std::endl; abort();
   return VRInputError_None;
   // return g_pvrinput->DecompressSkeletalBoneData(pvCompressedBuffer, unCompressedBufferSize, peTransformSpace, pTransformArray, unTransformArrayCount);
 }
@@ -200,7 +200,7 @@ EVRInputError BaseInput::GetOriginLocalizedName(VRInputValueHandle_t origin, VR_
 EVRInputError BaseInput::GetOriginTrackedDeviceInfo(VRInputValueHandle_t origin, InputOriginInfo_t *pOriginInfo, uint32_t unOriginInfoSize) {
   TRACE("BaseInput", []() { getOut() << "BaseInput::GetOriginTrackedDeviceInfo" << std::endl; });
   auto result = g_pvrinput->GetOriginTrackedDeviceInfo(origin, pOriginInfo, unOriginInfoSize);
-  getOut() << "get origin tracked device info '" << pOriginInfo->rchRenderModelComponentName << "'" << std::endl;
+  // getOut() << "get origin tracked device info '" << pOriginInfo->rchRenderModelComponentName << "'" << std::endl;
   return result;
 }
 

@@ -124,10 +124,10 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     kIVRSystem_GetDXGIOutputInfo,
     int32_t
   >([=]() {
-    getOut() << "dxgi req 1 " << (void *)vrsystem << std::endl;
+    // getOut() << "dxgi req 1 " << (void *)vrsystem << std::endl;
     int32_t result;
     vrsystem->GetDXGIOutputInfo(&result);
-    getOut() << "dxgi req 2" << std::endl;
+    // getOut() << "dxgi req 2" << std::endl;
     return result;
   });
   fnp.reg<
@@ -366,9 +366,9 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     uint32_t
   >([=](uint32_t uncbVREvent) {
     VREvent_t event;
-    getOut() << "poll next event 1" << std::endl;
+    // getOut() << "poll next event 1" << std::endl;
     auto result = vrsystem->PollNextEvent(&event, uncbVREvent);
-    getOut() << "poll next event 2 " << result << std::endl;
+    // getOut() << "poll next event 2 " << result << std::endl;
     return std::tuple<bool, VREvent_t>(result, event);
   });
   fnp.reg<
@@ -773,7 +773,7 @@ uint32_t PVRSystem::GetStringTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDe
     uint32_t
   >(unDeviceIndex, prop, unBufferSize);
   memcpy(pchValue, std::get<1>(result).data(), std::get<1>(result).size());
-  getOut() << "get string tracked device property " << (void *)prop << " " << pchValue << std::endl;
+  // getOut() << "get string tracked device property " << (void *)prop << " " << pchValue << std::endl;
   if (pErrorL) {
     *pErrorL = std::get<2>(result);
   }

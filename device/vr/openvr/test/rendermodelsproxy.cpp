@@ -394,14 +394,14 @@ uint64_t PVRRenderModels::GetComponentButtonMask(const char *pchRenderModelName,
   managed_binary<char> componentName(strlen(pchComponentName)+1);
   memcpy(componentName.data(), pchComponentName, componentName.size());
 
-  getOut() << "calling GetComponentButtonMask 1" << std::endl;
+  // getOut() << "calling GetComponentButtonMask 1" << std::endl;
   auto result = fnp.call<
     kIVRRenderModels_GetComponentButtonMask,
     uint64_t,
     managed_binary<char>,
     managed_binary<char>
   >(std::move(renderModelName), std::move(componentName));
-  getOut() << "calling GetComponentButtonMask 2 " << (void *)result << " " << pchRenderModelName << " " << pchComponentName << std::endl;
+  // getOut() << "calling GetComponentButtonMask 2 " << (void *)result << " " << pchRenderModelName << " " << pchComponentName << std::endl;
   return result;
 }
 uint32_t PVRRenderModels::GetComponentRenderModelName(const char *pchRenderModelName, const char *pchComponentName, VR_OUT_STRING() char *pchComponentRenderModelName, uint32_t unComponentRenderModelNameLen) {
