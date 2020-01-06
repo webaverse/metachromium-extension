@@ -1,5 +1,5 @@
 // #include <chrono>
-#include "device/vr/openvr/test/rendermodelproxy.h"
+#include "device/vr/openvr/test/rendermodelsproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
 namespace vr {
@@ -53,7 +53,10 @@ PVRRenderModels::PVRRenderModels(IVRRenderModels *vrrendermodels, FnProxy &fnp) 
       );
     } else {
       managed_binary<RenderModel_Vertex_t> vertexData;
+      uint32_t unVertexCount = 0;
       managed_binary<uint16_t> indexData;
+      uint32_t unTriangleCount = 0;
+      TextureID_t diffuseTextureId = 0;
       return std::tuple<vr::EVRRenderModelError, managed_binary<RenderModel_Vertex_t>, uint32_t, managed_binary<uint16_t>, uint32_t, TextureID_t>(
         result,
         std::move(vertexData),
@@ -74,23 +77,35 @@ PVRRenderModels::PVRRenderModels(IVRRenderModels *vrrendermodels, FnProxy &fnp) 
   });
   fnp.reg<
     kIVRRenderModels_LoadTexture_Async,
-    std:tuple<vr::EVRRenderModelError, uint16_t, uint16_t, managed_binary<uint8_t>>,
+    std::tuple<vr::EVRRenderModelError, uint16_t, uint16_t, managed_binary<uint8_t>>,
     vr::TextureID_t
   >([=](vr::TextureID_t textureId) {
-    vr::RenderModel_TextureMap_t *pTexture;
+    vr::RenderModel_TextureMap_t *pTexture = nullptr;
     auto result = vrrendermodels->LoadTexture_Async(textureId, &pTexture);
-    uint16_t unWidth = pTexture->unWidth;
-    uint16_t unHeight = pTexture->unHeight;
-    uint8_t *rubTextureMapData = pTexture->rubTextureMapData;
-    managed_binary<uint8_t> textureMapData(unWidth * unHeight * 4);
-    memcpy(textureMapData.data(), rubTextureMapData, textureMapData.size());
+    if (pTexture) {
+      uint16_t unWidth = pTexture->unWidth;
+      uint16_t unHeight = pTexture->unHeight;
+      const uint8_t *rubTextureMapData = pTexture->rubTextureMapData;
+      managed_binary<uint8_t> textureMapData(unWidth * unHeight * 4);
+      memcpy(textureMapData.data(), rubTextureMapData, textureMapData.size());
 
-    return std:tuple<vr::EVRRenderModelError, uint16_t, uint16_t, managed_binary<uint8_t>>(
-      result,
-      unWidth,
-      unHeight,
-      std::move(textureMapData)
-    );
+      return std::tuple<vr::EVRRenderModelError, uint16_t, uint16_t, managed_binary<uint8_t>>(
+        result,
+        unWidth,
+        unHeight,
+        std::move(textureMapData)
+      );
+    } else {
+      uint16_t unWidth = 0;
+      uint16_t unHeight = 0;
+      managed_binary<uint8_t> textureMapData;
+      return std::tuple<vr::EVRRenderModelError, uint16_t, uint16_t, managed_binary<uint8_t>>(
+        result,
+        unWidth,
+        unHeight,
+        std::move(textureMapData)
+      );
+    }
   });
   fnp.reg<
     kIVRRenderModels_FreeTexture,
@@ -126,13 +141,13 @@ PVRRenderModels::PVRRenderModels(IVRRenderModels *vrrendermodels, FnProxy &fnp) 
   });
   fnp.reg<
     kIVRRenderModels_GetRenderModelName,
-    std:tuple<uint32_t, managed_binary<char>>,
+    std::tuple<uint32_t, managed_binary<char>>,
     uint32_t,
     uint32_t
   >([=](uint32_t unRenderModelIndex, uint32_t unRenderModelNameLen) {
     managed_binary<char> renderModelName(unRenderModelNameLen);
     auto result = vrrendermodels->GetRenderModelName(unRenderModelIndex, renderModelName.data(), unRenderModelNameLen);
-    return std:tuple<uint32_t, managed_binary<char>>(
+    return std::tuple<uint32_t, managed_binary<char>>(
       result,
       std::move(renderModelName)
     );
@@ -179,11 +194,11 @@ PVRRenderModels::PVRRenderModels(IVRRenderModels *vrrendermodels, FnProxy &fnp) 
     managed_binary<char>,
     uint32_t
   >([=](managed_binary<char> renderModelName, managed_binary<char> componentName, uint32_t unComponentRenderModelNameLen) {
-    managed_binary<char> renderModelName(unComponentRenderModelNameLen);
-    auto result = vrrendermodels->GetComponentRenderModelName(renderModelName.data(), componentName.data(), renderModelName.data(), unComponentRenderModelNameLen);
+    managed_binary<char> componentRenderModelName(unComponentRenderModelNameLen);
+    auto result = vrrendermodels->GetComponentRenderModelName(renderModelName.data(), componentName.data(), componentRenderModelName.data(), unComponentRenderModelNameLen);
     return std::tuple<uint32_t, managed_binary<char>>(
       result,
-      std::move(renderModelName)
+      std::move(componentRenderModelName)
     );
   });
   fnp.reg<
@@ -247,7 +262,7 @@ PVRRenderModels::PVRRenderModels(IVRRenderModels *vrrendermodels, FnProxy &fnp) 
   >([=](managed_binary<char> renderModelName, uint32_t unOriginalPathLen) {
     managed_binary<char> originalPath(unOriginalPathLen);
     vr::EVRRenderModelError error;
-    auto result = vrrendermodels->GetRenderModelThumbnailURL(renderModelName.data(), originalPath.data(), unThumbnailURLLen, &error);
+    auto result = vrrendermodels->GetRenderModelThumbnailURL(renderModelName.data(), originalPath.data(), unOriginalPathLen, &error);
     return std::tuple<bool, managed_binary<char>, vr::EVRRenderModelError>(
       result,
       std::move(originalPath),
@@ -260,7 +275,7 @@ PVRRenderModels::PVRRenderModels(IVRRenderModels *vrrendermodels, FnProxy &fnp) 
   >([=]() {
     getOut() << "GetRenderModelErrorNameFromEnum abort" << std::endl;
     abort();
-    return "";
+    return 0;
   });
 }
 vr::EVRRenderModelError PVRRenderModels::LoadRenderModel_Async(const char *pchRenderModelName, vr::RenderModel_t **ppRenderModel) {
@@ -272,9 +287,11 @@ vr::EVRRenderModelError PVRRenderModels::LoadRenderModel_Async(const char *pchRe
     std::tuple<vr::EVRRenderModelError, managed_binary<RenderModel_Vertex_t>, uint32_t, managed_binary<uint16_t>, uint32_t, TextureID_t>,
     managed_binary<char>
   >(std::move(renderModelName));
-  RenderModel_Vertex_t *rVertexData = std::get<1>(result).size() > 0 ? std::get<1>(result).release() : nullptr;
+  RenderModel_Vertex_t *rVertexData = new RenderModel_Vertex_t[std::get<1>(result).size()];
+  memcpy(rVertexData, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(RenderModel_Vertex_t));
   uint32_t unVertexCount = std::get<2>(result);
-  uint16_t *rIndexData = std::get<3>(result).size() > 0 ? std::get<3>(result).release() : nullptr;
+  uint16_t *rIndexData = new uint16_t[std::get<3>(result).size()];
+  memcpy(rIndexData, std::get<3>(result).data(), std::get<3>(result).size() * sizeof(uint16_t));
   uint32_t unTriangleCount = std::get<4>(result);
   TextureID_t diffuseTextureId = std::get<5>(result);
   if (rVertexData) {
@@ -297,12 +314,13 @@ void PVRRenderModels::FreeRenderModel(vr::RenderModel_t *pRenderModel) {
 vr::EVRRenderModelError PVRRenderModels::LoadTexture_Async(vr::TextureID_t textureId, vr::RenderModel_TextureMap_t **ppTexture) {
   auto result = fnp.call<
     kIVRRenderModels_LoadTexture_Async,
-    std:tuple<vr::EVRRenderModelError, uint16_t, uint16_t, managed_binary<uint8_t>>,
+    std::tuple<vr::EVRRenderModelError, uint16_t, uint16_t, managed_binary<uint8_t>>,
     vr::TextureID_t
   >(textureId);
   uint16_t unWidth = std::get<1>(result);
   uint16_t unHeight = std::get<2>(result);
-  uint8_t *rubTextureMapData = std::get<3>(result).size() > 0 ? std::get<3>(result).release() : nullptr;
+  uint8_t *rubTextureMapData = new uint8_t[std::get<3>(result).size()];
+  memcpy(rubTextureMapData, std::get<3>(result).data(), std::get<3>(result).size() * sizeof(uint8_t));
   if (rubTextureMapData) {
     *ppTexture = new vr::RenderModel_TextureMap_t{
       unWidth,
@@ -330,12 +348,11 @@ vr::EVRRenderModelError PVRRenderModels::LoadIntoTextureD3D11_Async(vr::TextureI
 void PVRRenderModels::FreeTextureD3D11(void *pD3D11Texture2D) {
   getOut() << "FreeTextureD3D11 abort" << std::endl;
   abort();
-  return VRRenderModelError_None;
 }
 uint32_t PVRRenderModels::GetRenderModelName(uint32_t unRenderModelIndex, VR_OUT_STRING() char *pchRenderModelName, uint32_t unRenderModelNameLen) {
   auto result = fnp.call<
     kIVRRenderModels_GetRenderModelName,
-    std:tuple<uint32_t, managed_binary<char>>,
+    std::tuple<uint32_t, managed_binary<char>>,
     uint32_t,
     uint32_t
   >(unRenderModelIndex, unRenderModelNameLen);
@@ -377,13 +394,12 @@ uint64_t PVRRenderModels::GetComponentButtonMask(const char *pchRenderModelName,
   managed_binary<char> componentName(strlen(pchComponentName)+1);
   memcpy(componentName.data(), pchComponentName, componentName.size());
 
-  auto result = fnp.call<
+  return fnp.call<
     kIVRRenderModels_GetComponentButtonMask,
     uint64_t,
     managed_binary<char>,
     managed_binary<char>
   >(std::move(renderModelName), std::move(componentName));
-  return std::get<0>(result);
 }
 uint32_t PVRRenderModels::GetComponentRenderModelName(const char *pchRenderModelName, const char *pchComponentName, VR_OUT_STRING() char *pchComponentRenderModelName, uint32_t unComponentRenderModelNameLen) {
   managed_binary<char> renderModelName(strlen(pchRenderModelName)+1);
@@ -405,7 +421,7 @@ bool PVRRenderModels::GetComponentStateForDevicePath(const char *pchRenderModelN
   memcpy(renderModelName.data(), pchRenderModelName, renderModelName.size());
   managed_binary<char> componentName(strlen(pchComponentName)+1);
   memcpy(componentName.data(), pchComponentName, componentName.size());
-  vr::RenderModel_ControllerMode_State_t state = *vr::RenderModel_ControllerMode_State_t;
+  vr::RenderModel_ControllerMode_State_t state = *pState;
 
   auto result = fnp.call<
     kIVRRenderModels_GetComponentStateForDevicePath,
@@ -422,16 +438,17 @@ bool PVRRenderModels::GetComponentState(const char *pchRenderModelName, const ch
   memcpy(renderModelName.data(), pchRenderModelName, renderModelName.size());
   managed_binary<char> componentName(strlen(pchComponentName)+1);
   memcpy(componentName.data(), pchComponentName, componentName.size());
-  vr::RenderModel_ControllerMode_State_t state = *vr::RenderModel_ControllerMode_State_t;
+  vr::VRControllerState_t controllerState = *pControllerState;
+  vr::RenderModel_ControllerMode_State_t state = *pState;
 
   auto result = fnp.call<
     kIVRRenderModels_GetComponentState,
     std::tuple<bool, RenderModel_ComponentState_t>,
     managed_binary<char>,
     managed_binary<char>,
-    vr::VRInputValueHandle_t,
+    vr::VRControllerState_t,
     vr::RenderModel_ControllerMode_State_t
-  >(std::move(renderModelName), std::move(componentName), devicePath, state);
+  >(std::move(renderModelName), std::move(componentName), controllerState, state);
   return std::get<0>(result);
 }
 bool PVRRenderModels::RenderModelHasComponent(const char *pchRenderModelName, const char *pchComponentName) {
@@ -474,8 +491,8 @@ uint32_t PVRRenderModels::GetRenderModelOriginalPath(const char *pchRenderModelN
     std::tuple<bool, managed_binary<char>, vr::EVRRenderModelError>,
     managed_binary<char>,
     uint32_t
-  >(std::move(renderModelName), unThumbnailURLLen);
-  memcpy(pchThumbnailURL, std::get<1>(result).data(), std::get<1>(result).size());
+  >(std::move(renderModelName), unOriginalPathLen);
+  memcpy(pchOriginalPath, std::get<1>(result).data(), std::get<1>(result).size());
   if (peError) {
     *peError = std::get<2>(result);
   }
