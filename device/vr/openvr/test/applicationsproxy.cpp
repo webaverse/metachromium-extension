@@ -185,6 +185,147 @@ PVRApplications::PVRApplications(IVRApplications *vrapplications, FnProxy &fnp) 
       error
     );
   });
+  fnp.reg<
+    kIVRRenderModels_GetApplicationPropertyUint64,
+    std::tuple<uint64_t, vr::EVRApplicationError>,
+    managed_binary<char>,
+    vr::EVRApplicationProperty
+  >([=](managed_binary<char> appKey, vr::EVRApplicationProperty eProperty) {
+    vr::EVRApplicationError error;
+    auto result = vrapplications->GetApplicationPropertyUint64(appKey.data(), eProperty, &error);
+    return std::tuple<uint64_t, vr::EVRApplicationError>(
+      result,
+      error
+    );
+  });
+  fnp.reg<
+    kIVRRenderModels_SetApplicationAutoLaunch,
+    vr::EVRApplicationError,
+    managed_binary<char>,
+    bool
+  >([=](managed_binary<char> appKey, bool bAutoLaunch) {
+    return vrapplications->SetApplicationAutoLaunch(appKey.data(), bAutoLaunch);
+  });
+  fnp.reg<
+    kIVRRenderModels_GetApplicationAutoLaunch,
+    bool,
+    managed_binary<char>
+  >([=](managed_binary<char> appKey) {
+    return vrapplications->GetApplicationAutoLaunch(appKey.data());
+  });
+  fnp.reg<
+    kIVRRenderModels_SetDefaultApplicationForMimeType,
+    vr::EVRApplicationError,
+    managed_binary<char>,
+    managed_binary<char>
+  >([=](managed_binary<char> appKey, managed_binary<char> mimeType) {
+    return vrapplications->SetDefaultApplicationForMimeType(appKey.data(), mimeType.data());
+  });
+  fnp.reg<
+    kIVRRenderModels_GetDefaultApplicationForMimeType,
+    std::tuple<bool, managed_binary<char>>,
+    managed_binary<char>,
+    uint32_t
+  >([=](managed_binary<char> mimeType, uint32_t unAppKeyBufferLen) {
+    managed_binary<char> appKeyBuffer(unAppKeyBufferLen);
+    auto result = vrapplications->GetDefaultApplicationForMimeType(mimeType.data(), appKeyBuffer.data(), unAppKeyBufferLen);
+    return std::tuple<bool, managed_binary<char>>(
+      result,
+      std::move(appKeyBuffer)
+    );
+  });
+  fnp.reg<
+    kIVRRenderModels_GetApplicationSupportedMimeTypes,
+    std::tuple<bool, managed_binary<char>>,
+    managed_binary<char>,
+    uint32_t
+  >([=](managed_binary<char> appKey, uint32_t unMimeTypesBuffer) {
+    managed_binary<char> mimeTypesBuffer(unMimeTypesBuffer);
+    auto result = vrapplications->GetApplicationSupportedMimeTypes(appKey.data(), mimeTypesBuffer.data(), unMimeTypesBuffer);
+    return std::tuple<bool, managed_binary<char>>(
+      result,
+      std::move(mimeTypesBuffer)
+    );
+  });
+  fnp.reg<
+    kIVRRenderModels_GetApplicationsThatSupportMimeType,
+    std::tuple<uint32_t, managed_binary<char>>,
+    managed_binary<char>,
+    uint32_t
+  >([=](managed_binary<char> mimeType, uint32_t unAppKeysThatSupportBuffer) {
+    managed_binary<char> ppKeysThatSupportBuffer(unAppKeysThatSupportBuffer);
+    auto result = vrapplications->GetApplicationsThatSupportMimeType(mimeType.data(), ppKeysThatSupportBuffer.data(), unAppKeysThatSupportBuffer);
+    return std::tuple<uint32_t, managed_binary<char>>(
+      result,
+      std::move(ppKeysThatSupportBuffer)
+    );
+  });
+  fnp.reg<
+    kIVRRenderModels_GetApplicationLaunchArguments,
+    std::tuple<uint32_t, managed_binary<char>>,
+    uint32_t,
+    uint32_t
+  >([=](uint32_t unHandle, uint32_t unArgs) {
+    managed_binary<char> args(unArgs);
+    auto result = vrapplications->GetApplicationLaunchArguments(unHandle, args.data(), unArgs);
+    return std::tuple<uint32_t, managed_binary<char>>(
+      result,
+      std::move(args)
+    );
+  });
+  fnp.reg<
+    kIVRRenderModels_GetStartingApplication,
+    std::tuple<vr::EVRApplicationError, managed_binary<char>>,
+    uint32_t
+  >([=](uint32_t unAppKeyBufferLen) {
+    managed_binary<char> appKeyBuffer(unAppKeyBufferLen);
+    auto result = vrapplications->GetStartingApplication(appKeyBuffer.data(), unAppKeyBufferLen);
+    return std::tuple<vr::EVRApplicationError, managed_binary<char>>(
+      result,
+      std::move(appKeyBuffer)
+    );
+  });
+  fnp.reg<
+    kIVRRenderModels_GetTransitionState
+  >([=](uint32_t unAppKeyBufferLen) {
+    return vrapplications->GetTransitionState();
+  });
+  fnp.reg<
+    kIVRRenderModels_PerformApplicationPrelaunchCheck,
+    vr::EVRApplicationTransitionState,
+    managed_binary<char>
+  >([=](managed_binary<char> appKey) {
+    return vrapplications->PerformApplicationPrelaunchCheck(appKey.data());
+  });
+  fnp.reg<
+    kIVRRenderModels_GetApplicationsTransitionStateNameFromEnum,
+    int
+  >([=]() {
+    getOut() << "GetApplicationsErrorNameFromEnum abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVRRenderModels_IsQuitUserPromptRequested,
+    bool
+  >([=]() {
+    return vrapplications->IsQuitUserPromptRequested();
+  });
+  fnp.reg<
+    kIVRRenderModels_LaunchInternalProcess,
+    vr::EVRApplicationError,
+    managed_binary<char>,
+    managed_binary<char>,
+    managed_binary<char>
+  >([=](managed_binary<char> binaryPath, managed_binary<char> arguments, managed_binary<char> workingDirectory) {
+    return vrapplications->LaunchInternalProcess(binaryPath.data(), arguments.data(), workingDirectory.data());
+  });
+  fnp.reg<
+    kIVRRenderModels_GetCurrentSceneProcessId,
+    uint32_t
+  >([=]() {
+    return vrapplications->GetCurrentSceneProcessId();
+  });
 }
 vr::EVRApplicationError PVRApplications::AddApplicationManifest(const char *pchApplicationManifestFullPath, bool bTemporary) {
   managed_binary<char> applicationManifestFullPath(strlen(pchApplicationManifestFullPath)+1);
@@ -385,7 +526,14 @@ vr::EVRApplicationError PVRApplications::SetApplicationAutoLaunch(const char *pc
   >(std::move(appKey), bAutoLaunch);
 }
 bool PVRApplications::GetApplicationAutoLaunch(const char *pchAppKey) {
+  managed_binary<char> appKey(strlen(pchAppKey)+1);
+  memcpy(appKey.data(), pchAppKey, appKey.size());
 
+  return fnp.call<
+    kIVRRenderModels_GetApplicationAutoLaunch,
+    bool,
+    managed_binary<char>
+  >(std::move(appKey));
 }
 vr::EVRApplicationError PVRApplications::SetDefaultApplicationForMimeType(const char *pchAppKey, const char *pchMimeType) {
   managed_binary<char> appKey(strlen(pchAppKey)+1);
@@ -403,16 +551,13 @@ vr::EVRApplicationError PVRApplications::SetDefaultApplicationForMimeType(const 
 bool PVRApplications::GetDefaultApplicationForMimeType(const char *pchMimeType, VR_OUT_STRING() char *pchAppKeyBuffer, uint32_t unAppKeyBufferLen) {
   managed_binary<char> mimeType(strlen(pchMimeType)+1);
   memcpy(mimeType.data(), pchMimeType, mimeType.size());
-  managed_binary<char> appKeyBuffer(strlen(pchAppKeyBuffer)+1);
-  memcpy(appKeyBuffer.data(), pchAppKeyBuffer, appKeyBuffer.size());
 
   auto result = fnp.call<
     kIVRRenderModels_GetDefaultApplicationForMimeType,
     std::tuple<bool, managed_binary<char>>,
     managed_binary<char>,
-    managed_binary<char>,
     uint32_t
-  >(std::move(mimeType), std::move(appKeyBuffer), unAppKeyBufferLen);
+  >(std::move(mimeType), unAppKeyBufferLen);
   memcpy(pchMimeTypesBuffer, std::get<1>(result).data(), std::get<1>(result).size());
   return std::get<0>(result);
 }
@@ -473,8 +618,9 @@ vr::EVRApplicationError PVRApplications::PerformApplicationPrelaunchCheck(const 
 
   return fnp.call<
     kIVRRenderModels_PerformApplicationPrelaunchCheck,
-    vr::EVRApplicationTransitionState
-  >();
+    vr::EVRApplicationTransitionState,
+    managed_binary<char>
+  >(std::move(appKey));
 }
 const char *PVRApplications::GetApplicationsTransitionStateNameFromEnum(vr::EVRApplicationTransitionState state) {
   getOut() << "GetApplicationsErrorNameFromEnum abort" << std::endl;
