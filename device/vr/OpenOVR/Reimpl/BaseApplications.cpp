@@ -112,23 +112,20 @@ EVRApplicationError BaseApplications::GetStartingApplication(VR_OUT_STRING() cha
 	return g_pvrapplications->GetStartingApplication(pchAppKeyBuffer, unAppKeyBufferLen);
 }
 EVRApplicationTransitionState BaseApplications::GetTransitionState() {
-  getOut() << "abort BaseApplications::GetTransitionState" << std::endl; abort();
-  return EVRApplicationTransitionState();
-	// return g_pvrapplications->GetTransitionState();
+  TRACE("BaseApplications", []() { getOut() << "BaseApplications::GetTransitionState" << std::endl; });
+	return g_pvrapplications->GetTransitionState();
 }
 EVRApplicationError BaseApplications::PerformApplicationPrelaunchCheck(const char *pchAppKey) {
   TRACE("BaseApplications", []() { getOut() << "BaseApplications::PerformApplicationPrelaunchCheck" << std::endl; });
 	return g_pvrapplications->PerformApplicationPrelaunchCheck(pchAppKey);
 }
 const char * BaseApplications::GetApplicationsTransitionStateNameFromEnum(EVRApplicationTransitionState state) {
-  getOut() << "abort BaseApplications::GetApplicationsTransitionStateNameFromEnum" << std::endl; abort();
-  return nullptr;
-	// return g_pvrapplications->GetApplicationsTransitionStateNameFromEnum(state);
+  TRACE("BaseApplications", []() { getOut() << "BaseApplications::GetApplicationsTransitionStateNameFromEnum" << std::endl; });
+  return g_pvrapplications->GetApplicationsTransitionStateNameFromEnum(state);
 }
 bool BaseApplications::IsQuitUserPromptRequested() {
-  getOut() << "abort BaseApplications::IsQuitUserPromptRequested" << std::endl; abort();
-  return false;
-	// return g_pvrapplications->IsQuitUserPromptRequested();
+  TRACE("BaseApplications", []() { getOut() << "BaseApplications::IsQuitUserPromptRequested" << std::endl; });
+	return g_pvrapplications->IsQuitUserPromptRequested();
 }
 EVRApplicationError BaseApplications::LaunchInternalProcess(const char *pchBinaryPath, const char *pchArguments, const char *pchWorkingDirectory) {
   TRACE("BaseApplications", []() { getOut() << "BaseApplications::LaunchInternalProcess" << std::endl; });
