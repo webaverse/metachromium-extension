@@ -57,14 +57,17 @@ ETrackingUniverseOrigin BaseCompositor::GetTrackingSpace() {
 ovr_enum_t BaseCompositor::WaitGetPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::WaitGetPoses" << std::endl; });
-  // getOut() << "base wait get poses 1" << std::endl;
+  getOut() << "wait get poses 1 " << GetCurrentThreadId() << std::endl;
   bool doRealWait;
   g_pvrclientcore->PreWaitGetPoses(&doRealWait);
+  getOut() << "wait get poses 2 " << GetCurrentThreadId() << " " << doRealWait << std::endl;
   auto result = doRealWait ?
     g_pvrcompositor->WaitGetPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount)
   :
     g_pvrcompositor->GetLastPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
+  getOut() << "wait get poses 3 " << GetCurrentThreadId() << std::endl;
   g_pvrclientcore->PostWaitGetPoses();
+  getOut() << "wait get poses 4 " << GetCurrentThreadId() << std::endl;
   return result;
   // getOut() << "wait get poses 2 " << result << std::endl;
 }
@@ -118,7 +121,7 @@ ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::Submit" << std::endl; });
-  // getOut() << "submit 1" << std::endl;
+  getOut() << "submit 1 " << GetCurrentThreadId() << std::endl;
   bool doRealSubmit;
   g_pvrclientcore->PreSubmit(&doRealSubmit);
   // getOut() << "submit 2" << std::endl;

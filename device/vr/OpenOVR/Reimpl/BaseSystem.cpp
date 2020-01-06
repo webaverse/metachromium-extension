@@ -212,7 +212,10 @@ void BaseSystem::CheckControllerEvents(TrackedDeviceIndex_t hand, VRControllerSt
 
 bool BaseSystem::PollNextEvent(VREvent_t * pEvent, uint32_t uncbVREvent) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::PollNextEvent" << std::endl; });
-	return g_pvrsystem->PollNextEvent(pEvent, uncbVREvent);
+  getOut() << "poll next event 1" << std::endl;
+  auto result = g_pvrsystem->PollNextEvent(pEvent, uncbVREvent);
+  getOut() << "poll next event 2 " << result << std::endl;
+  return result;
 }
 
 bool BaseSystem::PollNextEventWithPose(ETrackingUniverseOrigin eOrigin, VREvent_t * pEvent, uint32_t uncbVREvent, vr::TrackedDevicePose_t * pTrackedDevicePose) {

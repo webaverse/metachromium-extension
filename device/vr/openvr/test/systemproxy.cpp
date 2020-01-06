@@ -366,7 +366,9 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     uint32_t
   >([=](uint32_t uncbVREvent) {
     VREvent_t event;
+    getOut() << "poll next event 1" << std::endl;
     auto result = vrsystem->PollNextEvent(&event, uncbVREvent);
+    getOut() << "poll next event 2 " << result << std::endl;
     return std::tuple<bool, VREvent_t>(result, event);
   });
   fnp.reg<
