@@ -63,6 +63,7 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     VRActionHandle_t handle;
     getOut() << "get action handle " << actionName.data() << std::endl;
     auto result = vrinput->GetActionHandle(actionName.data(), &handle);
+    getOut() << "get action handle result " << (int)result << " " << (void *)handle << std::endl;
     return std::tuple<vr::EVRInputError, VRActionHandle_t>(
       result,
       handle
@@ -74,8 +75,9 @@ PVRInput::PVRInput(IVRInput *vrinput, FnProxy &fnp) : vrinput(vrinput), fnp(fnp)
     managed_binary<char>
   >([=](managed_binary<char> inputSource) {
     VRInputValueHandle_t handle;
-    getOut() << "get input source handle " << inputSource.data() << std::endl;
+    getOut() << "get input source handle 1 " << inputSource.data() << std::endl;
     auto result = vrinput->GetInputSourceHandle(inputSource.data(), &handle);
+    getOut() << "get input source handle 2 " << (int)result << " " << (void *)handle << std::endl;
     return std::tuple<vr::EVRInputError, VRInputValueHandle_t>(
       result,
       handle
@@ -447,6 +449,7 @@ vr::EVRInputError PVRInput::GetActionHandle(const char *pchActionName, vr::VRAct
     managed_binary<char>
   >(std::move(actionName));
   *pHandle = std::get<1>(result);
+  getOut() << "GetActionHandle result " << (int)std::get<0>(result) << " " << (void *)std::get<1>(result) << std::endl; 
   return std::get<0>(result);
 }
 vr::EVRInputError PVRInput::GetInputSourceHandle(const char *pchInputSourcePath, vr::VRInputValueHandle_t *pHandle) {

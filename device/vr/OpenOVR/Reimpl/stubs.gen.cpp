@@ -5691,6 +5691,7 @@ void *CreateInterfaceByName(const char *name) {
 
     // If the interface is NULL, then error will have been set and we can return null too.
     if (!interfaceClass) {
+      getOut() << "failed to find fntable interface: " << baseInterface << std::endl;
       return nullptr;
     }
 
@@ -5747,7 +5748,7 @@ void *CreateInterfaceByName(const char *name) {
 	if(strcmp(vr::IVRClientCore_002::IVRClientCore_Version, name) == 0) return new CVRClientCore_002();
 	// if(strcmp(ocapi::IVROCSystem_001::IVROCSystem_Version, name) == 0) return new CVROCSystem_001();
 	// if(strcmp(vr::driver_IVRServerDriverHost_005::IVRServerDriverHost_Version, name) == 0) return new CVRServerDriverHost_005();
-  // getOut() << "create interface 2 " << name << std::endl;
+  getOut() << "failed to find interface: " << name << std::endl;
 	return nullptr;
 }
 // Get flags by name

@@ -545,7 +545,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "prepare submit server 16" << std::endl;
     }
     
-    getOut() << "interop 3" << std::endl;
+    // getOut() << "interop 3" << std::endl;
     
     // getOut() << "prepare submit server 20" << std::endl;
 
@@ -1728,7 +1728,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 14" << std::endl;
   }
   
-  getOut() << "submit client 10" << std::endl;
+  // getOut() << "submit client 10" << std::endl;
 
   // getOut() << "submit client 11" << std::endl;
 
@@ -1933,7 +1933,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     };
   }
 
-  getOut() << "submit client 22 " << nSubmitFlags << std::endl;
+  // getOut() << "submit client 22 " << nSubmitFlags << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
@@ -1944,17 +1944,17 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EVRSubmitFlags
   >(eEye, std::move(sharedTexture), std::move(bounds), EVRSubmitFlags::Submit_Default);
   
-  getOut() << "submit client 23" << std::endl;
+  // getOut() << "submit client 23" << std::endl;
   
   return result;
 }
 void PVRCompositor::FlushSubmit() {
-  getOut() << "flush submit client 1" << std::endl;
+  // getOut() << "flush submit client 1" << std::endl;
   fnp.call<
     kIVRCompositor_FlushSubmit,
     int
   >();
-  getOut() << "flush submit client 2" << std::endl;
+  // getOut() << "flush submit client 2" << std::endl;
 }
 void PVRCompositor::ClearLastSubmittedFrame() {
   fnp.call<
@@ -1963,12 +1963,12 @@ void PVRCompositor::ClearLastSubmittedFrame() {
   >();
 }
 void PVRCompositor::PostPresentHandoff() {
-  getOut() << "post present handoff client 1" << std::endl;
+  // getOut() << "post present handoff client 1" << std::endl;
   fnp.call<
     kIVRCompositor_PostPresentHandoff,
     int
   >();
-  getOut() << "post present handoff client 2" << std::endl;
+  // getOut() << "post present handoff client 2" << std::endl;
 }
 bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo ) {
   managed_binary<Compositor_FrameTiming> timing(1);

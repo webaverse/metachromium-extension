@@ -29,11 +29,15 @@ EVRInputError BaseInput::GetActionSetHandle(const char *pchActionSetName, VRActi
 }
 EVRInputError BaseInput::GetActionHandle(const char *pchActionName, VRActionHandle_t *pHandle) {
   TRACE("BaseInput", []() { getOut() << "BaseInput::GetActionHandle" << std::endl; });
-  return g_pvrinput->GetActionHandle(pchActionName, pHandle);
+  auto result = g_pvrinput->GetActionHandle(pchActionName, pHandle);
+  getOut() << "BaseInput::GetActionHandle result " << (int)result << " " << (void *)*pHandle << std::endl;
+  return result;
 }
-EVRInputError BaseInput::GetInputSourceHandle(const char *pchInputSourcePath, VRInputValueHandle_t  *pHandle) {
+EVRInputError BaseInput::GetInputSourceHandle(const char *pchInputSourcePath, VRInputValueHandle_t *pHandle) {
   TRACE("BaseInput", []() { getOut() << "BaseInput::GetInputSourceHandle" << std::endl; });
-  return g_pvrinput->GetInputSourceHandle(pchInputSourcePath, pHandle);
+  auto result = g_pvrinput->GetInputSourceHandle(pchInputSourcePath, pHandle);
+  getOut() << "BaseInput::GetInputSourceHandle result " << (int)result << " " << (void *)*pHandle << std::endl;
+  return result;
 }
 
 /* void BaseInput::BuildActionSet(const ActionSet *actionSet) {
