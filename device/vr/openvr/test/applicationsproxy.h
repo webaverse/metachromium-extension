@@ -1,5 +1,5 @@
-#ifndef _openvr_rendermodelsproxy_h_
-#define _openvr_rendermodelsproxy_h_
+#ifndef _openvr_applicationsproxy_h_
+#define _openvr_applicationsproxy_h_
 
 // #include <deque>
 
