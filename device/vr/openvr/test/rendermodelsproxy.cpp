@@ -394,12 +394,15 @@ uint64_t PVRRenderModels::GetComponentButtonMask(const char *pchRenderModelName,
   managed_binary<char> componentName(strlen(pchComponentName)+1);
   memcpy(componentName.data(), pchComponentName, componentName.size());
 
-  return fnp.call<
+  getOut() << "calling GetComponentButtonMask 1" << std::endl;
+  auto result = fnp.call<
     kIVRRenderModels_GetComponentButtonMask,
     uint64_t,
     managed_binary<char>,
     managed_binary<char>
   >(std::move(renderModelName), std::move(componentName));
+  getOut() << "calling GetComponentButtonMask 2 " << (void *)result << " " << pchRenderModelName << " " << pchComponentName << std::endl;
+  return result;
 }
 uint32_t PVRRenderModels::GetComponentRenderModelName(const char *pchRenderModelName, const char *pchComponentName, VR_OUT_STRING() char *pchComponentRenderModelName, uint32_t unComponentRenderModelNameLen) {
   managed_binary<char> renderModelName(strlen(pchRenderModelName)+1);
@@ -414,6 +417,7 @@ uint32_t PVRRenderModels::GetComponentRenderModelName(const char *pchRenderModel
     managed_binary<char>,
     uint32_t
   >(std::move(renderModelName), std::move(componentName), unComponentRenderModelNameLen);
+  memcpy(pchComponentRenderModelName, std::get<1>(result).data(), std::get<1>(result).size());
   return std::get<0>(result);
 }
 bool PVRRenderModels::GetComponentStateForDevicePath(const char *pchRenderModelName, const char *pchComponentName, vr::VRInputValueHandle_t devicePath, const vr::RenderModel_ControllerMode_State_t *pState, vr::RenderModel_ComponentState_t *pComponentState) {
@@ -431,6 +435,7 @@ bool PVRRenderModels::GetComponentStateForDevicePath(const char *pchRenderModelN
     vr::VRInputValueHandle_t,
     vr::RenderModel_ControllerMode_State_t
   >(std::move(renderModelName), std::move(componentName), devicePath, state);
+  *pComponentState = std::get<1>(result);
   return std::get<0>(result);
 }
 bool PVRRenderModels::GetComponentState(const char *pchRenderModelName, const char *pchComponentName, const vr::VRControllerState_t *pControllerState, const vr::RenderModel_ControllerMode_State_t *pState, vr::RenderModel_ComponentState_t *pComponentState) {
@@ -449,6 +454,7 @@ bool PVRRenderModels::GetComponentState(const char *pchRenderModelName, const ch
     vr::VRControllerState_t,
     vr::RenderModel_ControllerMode_State_t
   >(std::move(renderModelName), std::move(componentName), controllerState, state);
+  *pComponentState = std::get<1>(result);
   return std::get<0>(result);
 }
 bool PVRRenderModels::RenderModelHasComponent(const char *pchRenderModelName, const char *pchComponentName) {

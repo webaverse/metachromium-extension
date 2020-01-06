@@ -771,6 +771,7 @@ uint32_t PVRSystem::GetStringTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDe
     uint32_t
   >(unDeviceIndex, prop, unBufferSize);
   memcpy(pchValue, std::get<1>(result).data(), std::get<1>(result).size());
+  getOut() << "get string tracked device property " << (void *)prop << " " << pchValue << std::endl;
   if (pErrorL) {
     *pErrorL = std::get<2>(result);
   }
