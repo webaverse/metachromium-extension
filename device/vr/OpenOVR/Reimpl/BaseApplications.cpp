@@ -7,7 +7,7 @@ using namespace std;
 using namespace vr;
 
 /** The maximum length of an application key */
-static const uint32_t k_unMaxApplicationKeyLength = 128;
+// static const uint32_t k_unMaxApplicationKeyLength = 128;
 
 // Used by Viveport
 EVRApplicationError BaseApplications::AddApplicationManifest(const char *pchApplicationManifestFullPath, bool bTemporary) {
