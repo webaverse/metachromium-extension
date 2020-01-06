@@ -31,7 +31,7 @@ public:
     
   void PreWaitGetPoses(bool *doRealWait);
   void PostWaitGetPoses();
-  void PreSubmit(bool *doRealSubmit);
+  void PreSubmit(bool *doQueueSubmit, bool *doRealSubmit);
   void PostSubmit();
 };
 }

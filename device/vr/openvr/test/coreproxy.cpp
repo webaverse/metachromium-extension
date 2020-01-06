@@ -116,26 +116,39 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
     } else {
       nextSemId = submitSemsOrder.front() | SUBMIT_MASK;
       getOut() << "post wait get poses submit " << submitSemsOrder.size() << " " << nextSemId << std::endl;
-      submitSemsOrder.pop_front();
+      // submitSemsOrder.pop_front();
     }
 
     return nextSemId;
   });
   fnp.reg<
     kPVRClientCore_PreSubmit,
-    std::tuple<size_t, bool>
+    std::tuple<size_t, bool, bool>
   >([=]() {
     size_t id = fnp.remoteCallbackId;
-    size_t nextSemId = id | SUBMIT_MASK;
-
+    auto iter = std::find(submitSemsOrder.begin(), submitSemsOrder.end(), id);
+    size_t nextSemId;
+    bool doQueueSubmit;
+    bool doRealSubmit;
+    if (iter != submitSemsOrder.end()) {
+      submitSemsOrder.erase(iter);
+      nextSemId = id | SUBMIT_MASK;
+      doQueueSubmit = true;
+      doRealSubmit = submitSemsOrder.size() == 0;
+    } else {
+      nextSemId = 0;
+      doQueueSubmit = false;
+      doRealSubmit = false;
+    }
+ 
     // auto iter = std::find(submitSemsOrder.begin(), submitSemsOrder.end(), id);
     // getOut() << "do submit " << std::distance(submitSemsOrder.begin(), iter) << " " << submitSemsOrder.size() << std::endl;
-    bool doRealSubmit = submitSemsOrder.size() == 0;
     
     // getOut() << "pre submit " << doRealSubmit << std::endl;
 
-    return std::tuple<size_t, bool>(
+    return std::tuple<size_t, bool, bool>(
       nextSemId,
+      doQueueSubmit,
       doRealSubmit
     );
   });
@@ -149,7 +162,7 @@ PVRClientCore::PVRClientCore(FnProxy &fnp) :
       // getOut() << "post submit submit " << submitSemsOrder.size() << std::endl;
       nextSemId = submitSemsOrder.front() | SUBMIT_MASK;
       getOut() << "post submit unlock 1 " << submitSemsOrder.size() << " " << submitSemsOrder.front() << " " << nextSemId << std::endl;
-      submitSemsOrder.pop_front();
+      // submitSemsOrder.pop_front();
     } else {
       nextSemId = waitSemsOrder[0] | WAIT_MASK;
       getOut() << "post submit unlock 2 " << waitSemsOrder[0] << " " << nextSemId << std::endl;
@@ -206,13 +219,14 @@ void PVRClientCore::PostWaitGetPoses() {
   nextSem->unlock();
   // getOut() << "PostWaitGetPoses 3" << std::endl;
 }
-void PVRClientCore::PreSubmit(bool *doRealSubmit) {
+void PVRClientCore::PreSubmit(bool *doQueueSubmit, bool *doRealSubmit) {
   //  getOut() << "PreSubmit 1" << std::endl;
 
-  auto result = fnp.call<kPVRClientCore_PreSubmit, std::tuple<size_t, bool>>();
+  auto result = fnp.call<kPVRClientCore_PreSubmit, std::tuple<size_t, bool, bool>>();
 
   size_t id = std::get<0>(result);
-  *doRealSubmit = std::get<1>(result);
+  *doQueueSubmit = std::get<1>(result);
+  *doRealSubmit = std::get<2>(result);
   
   if (id != 0) {
     Semaphore *nextSem = getLocalSemaphore(id);

@@ -122,19 +122,24 @@ ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::Submit" << std::endl; });
   getOut() << "submit 1 " << GetCurrentThreadId() << std::endl;
+  bool doQueueSubmit;
   bool doRealSubmit;
-  g_pvrclientcore->PreSubmit(&doRealSubmit);
-  // getOut() << "submit 2" << std::endl;
-  g_pvrcompositor->PrepareSubmit(texture);
-  VRCompositorError result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
-  //  getOut() << "do real submit " << doRealSubmit << std::endl;
-  if (doRealSubmit) {
-    g_pvrcompositor->FlushSubmit();
-    // g_pvrcompositor->PostPresentHandoff();
+  g_pvrclientcore->PreSubmit(&doQueueSubmit, &doRealSubmit);
+  if (doQueueSubmit) {
+    // getOut() << "submit 2" << std::endl;
+    g_pvrcompositor->PrepareSubmit(texture);
+    VRCompositorError result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
+    //  getOut() << "do real submit " << doRealSubmit << std::endl;
+    if (doRealSubmit) {
+      g_pvrcompositor->FlushSubmit();
+      // g_pvrcompositor->PostPresentHandoff();
+    }
+    // getOut() << "submit 3" << std::endl;
+    g_pvrclientcore->PostSubmit();
+    return result;
+  } else {
+    return VRCompositorError::VRCompositorError_None;
   }
-  // getOut() << "submit 3" << std::endl;
-  g_pvrclientcore->PostSubmit();
-	return result;
   // getOut() << "submit 2 " << texture->eType << " " << texture->eColorSpace << std::endl;
 }
 
