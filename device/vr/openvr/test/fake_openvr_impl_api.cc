@@ -205,7 +205,7 @@ extern "C" {
           vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
           vr::PVRSettings settings(vr::g_vrsettings, fnp);
           vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
-          vr::PVRApplications applications(vr::g_vrapplications fnp);
+          vr::PVRApplications applications(vr::g_vrapplications, fnp);
           for (;;) {
             fnp.handle();
           }

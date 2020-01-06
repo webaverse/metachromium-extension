@@ -44,10 +44,12 @@ public:
   virtual uint32_t GetApplicationsThatSupportMimeType(const char *pchMimeType, VR_OUT_STRING() char *pchAppKeysThatSupportBuffer, uint32_t unAppKeysThatSupportBuffer);
   virtual uint32_t GetApplicationLaunchArguments(uint32_t unHandle, VR_OUT_STRING() char *pchArgs, uint32_t unArgs);
   virtual vr::EVRApplicationError GetStartingApplication(VR_OUT_STRING() char *pchAppKeyBuffer, uint32_t unAppKeyBufferLen);
-  virtual vr::EVRApplicationTransitionState GetTransitionState();
+  // virtual vr::EVRApplicationTransitionState GetTransitionState();
+  virtual EVRSceneApplicationState GetSceneApplicationState();
   virtual vr::EVRApplicationError PerformApplicationPrelaunchCheck(const char *pchAppKey);
-  virtual const char *GetApplicationsTransitionStateNameFromEnum(vr::EVRApplicationTransitionState state);
-  virtual bool IsQuitUserPromptRequested();
+  virtual const char *GetSceneApplicationStateNameFromEnum( EVRSceneApplicationState state );
+  // virtual const char *GetApplicationsTransitionStateNameFromEnum(vr::EVRApplicationTransitionState state);
+  // virtual bool IsQuitUserPromptRequested();
   virtual vr::EVRApplicationError LaunchInternalProcess(const char *pchBinaryPath, const char *pchArguments, const char *pchWorkingDirectory);
   virtual uint32_t GetCurrentSceneProcessId();
 };
