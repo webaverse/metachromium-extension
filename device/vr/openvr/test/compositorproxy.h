@@ -34,6 +34,7 @@ public:
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> hasTexLocations;
+  std::vector<GLuint> texBoundsLocations;
   
   GLuint blitVao;
   GLuint blitProgram;
@@ -58,6 +59,7 @@ public:
   std::vector<GLuint> inBackTexs;
   std::vector<HANDLE> inBackInteropHandles;
   std::vector<HANDLE> inBackReadEvents;
+  std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<std::pair<EVREye, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;

@@ -72,15 +72,17 @@ uniform sampler2D tex1;\n\
 uniform sampler2D tex2;\n\
 uniform float hasTex1;\n\
 uniform float hasTex2;\n\
+uniform vec4 texBounds1;\n\
+uniform vec4 texBounds2;\n\
 // uniform  sampler2D depthTex;\n\
 \n\
 void main() {\n\
   if (hasTex1 > 0.0) {\n\
-    vec4 c = texture(tex1, vUv);\n\
+    vec4 c = texture(tex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
     fragColor += vec4(c.rgb*c.a, c.a);\n\
   }\n\
   if (hasTex2 > 0.0) {\n\
-    vec4 c = texture(tex2, vUv);\n\
+    vec4 c = texture(tex2, texBounds2.xy + vUv * (texBounds2.zw - texBounds2.xy));\n\
     fragColor += vec4(c.rgb*c.a, c.a);\n\
   }\n\
   // if (fragColor.a < 0.5) discard;\n\
@@ -454,6 +456,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       // getOut() << "prepare submit server 14" << std::endl;
       texLocations.resize(MAX_LAYERS);
       hasTexLocations.resize(MAX_LAYERS);
+      texBoundsLocations.resize(MAX_LAYERS);
       for (size_t i = 0; i < MAX_LAYERS; i++) {
         std::string texString = std::string("tex") + std::to_string(i+1);
         GLuint texLocation = glGetUniformLocation(composeProgram, texString.c_str());
@@ -464,6 +467,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
           getOut() << "compose program failed to get uniform location for '" << texString << "'" << std::endl;
           abort();
         }
+
         std::string hasTexString = std::string("hasTex") + std::to_string(i+1);
         GLuint hasTexLocation = glGetUniformLocation(composeProgram, hasTexString.c_str());
         // getOut() << "get location 2 " << hasTexString << " " << hasTexLocation << std::endl;
@@ -471,6 +475,16 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
           hasTexLocations[i] = hasTexLocation;
         } else {
           getOut() << "compose program failed to get uniform location for '" << hasTexString << "'" << std::endl;
+          abort();
+        }
+
+        std::string texBoundsString = std::string("texBounds") + std::to_string(i+1);
+        GLuint texBoundsLocation = glGetUniformLocation(composeProgram, texBoundsString.c_str());
+        // getOut() << "get location 2 " << hasTexString << " " << hasTexLocation << std::endl;
+        if (texBoundsLocation != -1) {
+          texBoundsLocations[i] = texBoundsLocation;
+        } else {
+          getOut() << "compose program failed to get uniform location for '" << texBoundsString << "'" << std::endl;
           abort();
         }
       }
@@ -508,10 +522,10 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       glGenBuffers(1, &uvBuffer);
       glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
       static const float uvs[] = {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
         0.0f, 1.0f,
         1.0f, 1.0f,
+        0.0f, 0.0f,
+        1.0f, 0.0f,
       };
       glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
       glEnableVertexAttribArray(uvLocation);
@@ -562,8 +576,8 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
   >([=, &fnp](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
-    
-    // getOut() << "submit server 1" << std::endl;
+
+    // getOut() << "submit server 1 " << pBounds->uMin << " " << pBounds->vMin << " " << pBounds->uMax << " " << pBounds->vMax << std::endl;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteCallbackId, eEye);
     auto iter = inBackIndices.find(key);
@@ -578,6 +592,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       inBackTexs.resize(index+1, NULL);
       inBackInteropHandles.resize(index+1, NULL);
       inBackReadEvents.resize(index+1, NULL);
+      inBackTextureBounds.resize(index+1, VRTextureBounds_t{});
       inBackHandleLatches.resize(index+1, NULL);
     }
     
@@ -587,6 +602,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     GLuint &shTexInId = inBackTexs[index]; // gl texture
     HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
     HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
+    VRTextureBounds_t &textureBounds = inBackTextureBounds[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
 
     // getOut() << "submit server 3" << std::endl;
@@ -652,7 +668,9 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
 
       // getOut() << "submit server 7 " << (void *)readEvent << std::endl;
     }
-    
+
+    textureBounds = *pBounds;
+
     inBackReadEventQueue.push_back(std::pair<EVREye, HANDLE>(eEye, readEvent));
 
     /* if (!fence) {
@@ -737,6 +755,8 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
           glActiveTexture(GL_TEXTURE0 + numLayers);
           glBindTexture(GL_TEXTURE_2D, inBackTexs[index]);
           glUniform1f(hasTexLocations[numLayers], 1.0f);
+          const VRTextureBounds_t &textureBounds = inBackTextureBounds[index];
+          glUniform4f(texBoundsLocations[numLayers], textureBounds.uMin, textureBounds.vMin, textureBounds.uMax, textureBounds.vMax);
 
           numLayers++;
           if (numLayers >= MAX_LAYERS) {
@@ -749,6 +769,7 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
         // glActiveTexture(GL_TEXTURE0 + i);
         // glBindTexture(GL_TEXTURE_2D, 0);
         glUniform1f(hasTexLocations[i], 0.0f);
+        // glUniform4f(texBoundsLocations[i], 0.0f, 0.0f, 1.0f, 1.0f);
       }
       
       // checkError("flush submit server 5");
@@ -1342,10 +1363,10 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         glGenBuffers(1, &uvBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
         static const float uvs[] = {
-          0.0f, 1.0f,
-          1.0f, 1.0f,
           0.0f, 0.0f,
           1.0f, 0.0f,
+          0.0f, 1.0f,
+          1.0f, 1.0f,
         };
         glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
         glEnableVertexAttribArray(uvLocation);
@@ -1575,6 +1596,22 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   
   // getOut() << "submit client 2" << std::endl;
 
+  managed_binary<VRTextureBounds_t> bounds(1);
+  // getOut() << "submit client 23 " << bounds.size() << " " << (void *)pBounds << std::endl;
+  if (pBounds) {
+    *bounds.data() = *pBounds;
+  } else {
+    *bounds.data() = VRTextureBounds_t{
+      0.0f, 0.0f,
+      1.0f, 1.0f
+    };
+  }
+  
+  float uMin = std::min(bounds.data()->uMin, bounds.data()->uMax);
+  float uMax = std::max(bounds.data()->uMin, bounds.data()->uMax);
+  float vMin = std::min(bounds.data()->vMin, bounds.data()->vMax);
+  float vMax = std::max(bounds.data()->vMin, bounds.data()->vMax);
+
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
   HANDLE &readEvent = inReadEvents[index]; // fence event
@@ -1595,6 +1632,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // getOut() << "submit client 4" << std::endl;
 
       tex->GetDesc(&desc);
+      // getOut() << "old tex width " << desc.Width << " " << desc.Height << " " << (bounds.data()->uMax - bounds.data()->uMin) << " " << (bounds.data()->vMax - bounds.data()->vMin) << std::endl;
+      width = desc.Width;
+      height = desc.Height;
+      desc.Width *= uMax - uMin;
+      desc.Height *= vMax- vMin;
     } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
       GLuint tex = (GLuint)pTexture->handle;
 
@@ -1605,12 +1647,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // glBindTexture(GL_TEXTURE_2D, 0);
       // getOut() << "got width frontend " << width << " " << height << std::endl;
 
-      // uint32_t width, height;
-      // g_pvrsystem->GetRecommendedRenderTargetSize(&width, &height);
-      //getOut() << "got width height 2 " << width << " " << height << std::endl;
-
-      desc.Width = width;
-      desc.Height = height;
+      desc.Width = width * (uMax - uMin);
+      desc.Height = height * (vMax - vMin);
       desc.ArraySize = 1;
       // desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
       // desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
@@ -1633,7 +1671,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
-    /* getOut() << "get texture desc front " << (int)eEye << " " <<
+    getOut() << "get texture desc front " << (int)eEye << " " <<
       (void *)device.Get() << " " <<
       desc.Width << " " << desc.Height << " " <<
       desc.ArraySize << " " <<
@@ -1644,7 +1682,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       desc.MiscFlags << " " <<
       // pBounds->uMin << " " << pBounds->vMin << " " <<
       // pBounds->uMax << " " << pBounds->vMax << " " <<
-      std::endl; */
+      std::endl;
 
     // getOut() << "submit client 5" << std::endl;
 
@@ -1678,7 +1716,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // checkError("get submit 7.3");
     }
 
-    getOut() << "get submit 8" << std::endl;
+    // getOut() << "get submit 8" << std::endl;
 
     // get share handle
     IDXGIResource1 *shTexResource;
@@ -1745,7 +1783,44 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-    context->CopyResource(shTex, tex);
+    // context->CopyResource(shTex, tex);
+    D3D11_BOX srcBox{
+      width * uMin,
+      height * vMin,
+      0,
+      width * uMax,
+      height * vMax,
+      1
+    };
+    /* getOut() << "box " <<
+      width * uMin << " " <<
+      height * vMin << " " <<
+      0 << " " <<
+      width * uMax << " " <<
+      height * vMax << " " <<
+      1 << std::endl; */
+    /* ID3D11Resource *shTex1 = nullptr;
+    HRESULT hr = shTex->QueryInterface(__uuidof(ID3D11Resource), (void **)&shTex1);
+    if (SUCCEEDED(hr)) {
+    } else {
+      getOut() << "copy fail 1" << std::endl;
+    }
+    ID3D11Resource *tex1 = nullptr;
+    hr = tex->QueryInterface(__uuidof(ID3D11Resource), (void **)&tex1);
+    if (SUCCEEDED(hr)) {
+    } else {
+      getOut() << "copy fail 2" << std::endl;
+    } */
+    context->CopySubresourceRegion(
+      shTex,
+      0,
+      0,
+      0,
+      0,
+      tex,
+      0,
+      &srcBox
+    );
     // getOut() << "submit client 13" << std::endl;
     // context->Flush();
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
@@ -1921,19 +1996,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EColorSpace::ColorSpace_Auto,
     // pTexture->eColorSpace
   };
-  // getOut() << "submit client 22 " << sharedTexture.size() << " " << (void *)pBounds << std::endl;
-  managed_binary<VRTextureBounds_t> bounds(1);
-  // getOut() << "submit client 23 " << bounds.size() << " " << (void *)pBounds << std::endl;
-  if (pBounds) {
-    *bounds.data() = *pBounds;
-  } else {
-    *bounds.data() = VRTextureBounds_t{
-      0.0f, 0.0f,
-      1.0f, 1.0f
-    };
-  }
-
-  // getOut() << "submit client 22 " << nSubmitFlags << std::endl;
+  const bool flip = bounds.data()->vMax < bounds.data()->vMin;
+  *bounds.data() = VRTextureBounds_t{
+    0.0f, flip ? 1.0f : 0.0f,
+    1.0f, flip ? 0.0f : 1.0f
+  };
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
