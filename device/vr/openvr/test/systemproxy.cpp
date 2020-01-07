@@ -734,7 +734,9 @@ uint64_t PVRSystem::GetUint64TrackedDeviceProperty(vr::TrackedDeviceIndex_t unDe
     vr::TrackedDeviceIndex_t,
     ETrackedDeviceProperty
   >(unDeviceIndex, prop);
-  *pErrorL = std::get<1>(result);
+  if (pErrorL) {
+    *pErrorL = std::get<1>(result);
+  }
   return std::get<0>(result);
 }
 HmdMatrix34_t PVRSystem::GetMatrix34TrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pErrorL) {
