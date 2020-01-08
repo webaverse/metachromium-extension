@@ -116,11 +116,9 @@ const EVREye EYES[] = {
   }
 } */
 
-PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, uint64_t &fenceValue, FnProxy &fnp) :
+PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
   vrcompositor(vrcompositor),
-  fenceValue(fenceValue),
-  fnp(fnp),
-  fenceMutex("Local\\OpenVrFenceMutex")
+  fnp(fnp)
 {
   fnp.reg<
     kIVRCompositor_SetTrackingSpace,
@@ -1988,14 +1986,10 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
   // getOut() << "submit client 18 " << (void *)context.Get() << " " << (void *)fence.Get() << " " << (void *)readEvent << std::endl;
 
-  uint64_t localFenceValue;
-  {
-    std::lock_guard<Mutex> lock(fenceMutex);
-    localFenceValue = ++fenceValue;
-  }
-  context->Signal(fence.Get(), localFenceValue);
-  getOut() << "signal read event " << (std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << " " << localFenceValue << std::endl;
-  fence->SetEventOnCompletion(localFenceValue, readEvent);
+  ++fenceValue;
+  getOut() << "signal read event " << (std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << " " << fenceValue << std::endl;
+  context->Signal(fence.Get(), fenceValue);
+  fence->SetEventOnCompletion(fenceValue, readEvent);
   // context->Flush();
 
   // getOut() << "submit client 19 " << (void *)sharedHandle << " " << (void *)pTexture << std::endl;

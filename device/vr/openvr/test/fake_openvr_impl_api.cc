@@ -108,7 +108,6 @@ constexpr bool localLoop = false;
 
 void *shMem = nullptr;
 uint64_t *pBooted = nullptr;
-uint64_t *pFence = nullptr;
 // GLFWwindow **ppWindow;
 // size_t *pNumClients = nullptr;
 extern "C" {
@@ -200,7 +199,7 @@ extern "C" {
         std::thread t([=]() {
           FnProxy fnp;
           vr::PVRSystem system(vr::g_vrsystem, fnp);
-          vr::PVRCompositor compositor(vr::g_vrcompositor, *pFence, fnp);
+          vr::PVRCompositor compositor(vr::g_vrcompositor, fnp);
           vr::PVRClientCore clientcore(&compositor, fnp);
           vr::PVRInput input(vr::g_vrinput, fnp);
           vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
@@ -222,7 +221,7 @@ extern "C" {
     if (!vr::g_pvrclientcore) {
       FnProxy *fnp = new FnProxy();
       vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
-      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *pFence, *fnp);
+      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *fnp);
       vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *fnp);
       vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
       vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
@@ -285,7 +284,6 @@ BOOL WINAPI DllMain(
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
     pBooted = (uint64_t *)shMem;
-    pFence = ((uint64_t *)shMem) + 1;
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
     

@@ -16,7 +16,6 @@ namespace vr {
 class PVRCompositor : public IVRCompositor {
 public:
   IVRCompositor *vrcompositor;
-  uint64_t &fenceValue;
   FnProxy &fnp;
 
   // system
@@ -34,7 +33,8 @@ public:
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
   // HANDLE fenceHandle = NULL;
-  Mutex fenceMutex;
+  // Mutex fenceMutex;
+  uint64_t fenceValue = 0;
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> hasTexLocations;
@@ -78,7 +78,7 @@ public:
   std::vector<ID3D11Texture2D *> shTexOuts;
   std::vector<HANDLE> shTexOutInteropHandles;
 
-  PVRCompositor(IVRCompositor *vrcompositor, uint64_t &fenceValue, FnProxy &fnp);
+  PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
 	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,

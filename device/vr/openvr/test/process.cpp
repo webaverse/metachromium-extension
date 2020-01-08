@@ -39,9 +39,6 @@ int main() {
   
   getOut() << "process start 5 " << dllDir << std::endl;
 
-  void *shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
-  uint64_t *pFence = ((uint64_t *)shMem) + 1;
-
   wrapExternalOpenVr([&]() -> void {
     // only look in the override
     std::string openvrApiDllPath = dllDir + "openvr_api.dll";
@@ -117,7 +114,7 @@ int main() {
 
   FnProxy fnp;
   vr::PVRSystem system(vr::g_vrsystem, fnp);
-  vr::PVRCompositor compositor(vr::g_vrcompositor, *pFence, fnp);
+  vr::PVRCompositor compositor(vr::g_vrcompositor, fnp);
   vr::PVRClientCore clientcore(&compositor, fnp);
   vr::PVRInput input(vr::g_vrinput, fnp);
   vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
