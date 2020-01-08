@@ -19,7 +19,6 @@ char kIVRSettings_RemoveSection[] = "Settings::RemoveSection";
 char kIVRSettings_RemoveKeyInSection[] = "Settings::RemoveKeyInSection";
 
 PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrsettings), fnp(fnp) {
-  // getOut() << "settings init 1" << std::endl;
   fnp.reg<
     kIVRSettings_GetSettingsErrorNameFromEnum,
     int
@@ -161,7 +160,6 @@ PVRSettings::PVRSettings(IVRSettings *vrsettings, FnProxy &fnp) : vrsettings(vrs
     vrsettings->RemoveKeyInSection(section.data(), settingsKey.data(), &error);
     return error;
   });
-  // getOut() << "settings init 2" << std::endl;
 }
 const char *PVRSettings::GetSettingsErrorNameFromEnum(EVRSettingsError eError) {
   getOut() << "GetSettingsErrorNameFromEnum abort" << std::endl; abort();
