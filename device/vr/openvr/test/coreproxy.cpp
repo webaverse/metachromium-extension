@@ -41,7 +41,12 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
   >([=, &fnp]() {
     // size_t id = fnp.remoteCallbackId;
     size_t remoteProcessId = fnp.remoteProcessId;
-    
+
+    if (firstWait) {
+      pvrcompositor->CacheWaitGetPoses();
+      firstWait = false;
+    }
+
     if (processIds.find(remoteProcessId) == processIds.end()) {
       processIds.insert(remoteProcessId);
     }
