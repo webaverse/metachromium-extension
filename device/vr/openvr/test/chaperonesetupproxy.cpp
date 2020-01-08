@@ -89,7 +89,9 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     managed_binary<vr::HmdQuad_t>,
     uint32_t
   >([=](managed_binary<vr::HmdQuad_t> quadsBuffer, uint32_t unQuadsCount) {
+    getOut() << "server GetLiveCollisionBoundsInfo 1 " << quadsBuffer.size() << " " << unQuadsCount << std::endl;
     auto result = vrchaperonesetup->GetLiveCollisionBoundsInfo(quadsBuffer.size() > 0 ? quadsBuffer.data() : nullptr, &unQuadsCount);
+    getOut() << "server GetLiveCollisionBoundsInfo 2 " << quadsBuffer.size() << " " << unQuadsCount << std::endl;
     return std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>(
       result,
       std::move(quadsBuffer),
@@ -324,17 +326,23 @@ bool PVRChaperoneSetup::GetWorkingCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuad
   return std::get<0>(result);
 }
 bool PVRChaperoneSetup::GetLiveCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
+  getOut() << "get live 1 " << (void *)pQuadsBuffer << " " << *punQuadsCount << std::endl;
   managed_binary<vr::HmdQuad_t> quadsBuffer(pQuadsBuffer ? *punQuadsCount : 0);
+  getOut() << "get live 2 " << (void *)pQuadsBuffer << " " << *punQuadsCount << std::endl;
   auto result = fnp.call<
     kIVRChaperoneSetup_GetLiveCollisionBoundsInfo,
     std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>,
     managed_binary<vr::HmdQuad_t>,
     uint32_t
   >(std::move(quadsBuffer), *punQuadsCount);
+  getOut() << "get live 3 " << (void *)pQuadsBuffer << " " << *punQuadsCount << std::endl;
   if (pQuadsBuffer) {
+    getOut() << "get live 4 " << (void *)pQuadsBuffer << " " << *punQuadsCount << std::endl;
     memcpy(pQuadsBuffer, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(vr::HmdQuad_t));
   }
+  getOut() << "get live 5 " << (void *)pQuadsBuffer << " " << *punQuadsCount << std::endl;
   *punQuadsCount = std::get<2>(result);
+  getOut() << "get live 6 " << (void *)pQuadsBuffer << " " << *punQuadsCount << std::endl;
   return std::get<0>(result);
 }
 bool PVRChaperoneSetup::GetWorkingSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pmatSeatedZeroPoseToRawTrackingPose) {
