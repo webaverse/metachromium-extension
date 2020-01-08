@@ -13,6 +13,7 @@ char kIVRChaperone_AreBoundsVisible[] = "Chaperone::AreBoundsVisible";
 char kIVRChaperone_ForceBoundsVisible[] = "Chaperone::ForceBoundsVisible";
 
 PVRChaperone::PVRChaperone(IVRChaperone *vrchaperone, FnProxy &fnp) : vrchaperone(vrchaperone), fnp(fnp) {
+  // getOut() << "chap init 1" << std::endl;
   fnp.reg<
     kIVRChaperone_GetCalibrationState,
     ChaperoneCalibrationState
@@ -85,6 +86,7 @@ PVRChaperone::PVRChaperone(IVRChaperone *vrchaperone, FnProxy &fnp) : vrchaperon
     vrchaperone->ForceBoundsVisible(bForce);
     return 0;
   });
+  // getOut() << "chap init 2" << std::endl;
 }
 ChaperoneCalibrationState PVRChaperone::GetCalibrationState() {
   return fnp.call<

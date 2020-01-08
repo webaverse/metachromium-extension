@@ -19,6 +19,10 @@ public:
   IVRCompositor *vrcompositor;
   FnProxy &fnp;
 
+  // system
+  TrackedDevicePose_t cachedRenderPoses[vr::k_unMaxTrackedDeviceCount];
+  TrackedDevicePose_t cachedGamePoses[vr::k_unMaxTrackedDeviceCount];
+
   // main
   Microsoft::WRL::ComPtr<ID3D11Device5> device;
   Microsoft::WRL::ComPtr<ID3D11DeviceContext4> context;
@@ -125,6 +129,8 @@ public:
 	virtual bool IsMotionSmoothingEnabled();
 	virtual bool IsMotionSmoothingSupported();
 	virtual bool IsCurrentSceneFocusAppLoading();
+  
+  void CacheWaitGetPoses();
 };
 }
 

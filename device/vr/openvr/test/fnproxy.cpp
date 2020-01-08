@@ -105,8 +105,9 @@ void *allocateShared(const char *szName, size_t s) {
 
 FnProxy::FnProxy() :
   callbackId((size_t)GetCurrentThreadId()),
+  processId((size_t)GetCurrentProcessId()),
   // mut("Local\\OpenVrProxyMutex"),
-  mut((std::string("Local\\OpenVrProxyMutex") + std::to_string(callbackId)).c_str()),
+  mut("Local\\OpenVrProxyMutex"),
   inSem("Local\\OpenVrProxySemaphoreIn"),
   // outSem((std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(id)).c_str()),
   dataArg((unsigned char *)allocateShared("Local\\OpenVrProxyArg", FnProxy::BUF_SIZE + sizeof(unsigned char *)*2)),
@@ -140,12 +141,12 @@ void FnProxy::handle() {
   // {
     // std::lock_guard<Mutex> lock(mut);
     // getOut() << "read arg 1" << std::endl;
-    readArg >> remoteCallbackId >> name;
+    readArg >> remoteCallbackId >> remoteProcessId >> name;
     // getOut() << "read arg 2 " << name << std::endl;
   // }
   
   if (name.size() == 0) {
-    getOut() << "error: got blank function name " << remoteCallbackId << " " << name.size() << " " << name << " " << fns.size() << " " << (fns.find(name) != fns.end()) << std::endl;
+    getOut() << "error: got blank function name " << remoteCallbackId << " " << remoteProcessId << " " << name.size() << " " << name << " " << fns.size() << " " << (fns.find(name) != fns.end()) << std::endl;
     for (auto iter : fns) {
       getOut() << iter.first << std::endl;
     }

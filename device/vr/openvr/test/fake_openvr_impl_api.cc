@@ -197,9 +197,9 @@ extern "C" {
         
         std::thread t([=]() {
           FnProxy fnp;
-          vr::PVRClientCore clientcore(fnp);
           vr::PVRSystem system(vr::g_vrsystem, fnp);
           vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
+          vr::PVRClientCore clientcore(&compositor, fnp);
           vr::PVRInput input(vr::g_vrinput, fnp);
           vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
           vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
@@ -218,9 +218,9 @@ extern "C" {
     
     if (!vr::g_pvrclientcore) {
       FnProxy *fnp = new FnProxy();
-      vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
       vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
       vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
+      vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *fnp);
       vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
       vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
       vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
