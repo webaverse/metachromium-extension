@@ -28,8 +28,13 @@ EVRInitError BaseClientCore::Init(vr::EVRApplicationType eApplicationType, const
 	// EVRInitError err;
 	// VR_InitInternal2(&err, eApplicationType, pStartupInfo);
   // return VRInitError_None;
-  auto result = vr::g_pvrclientcore->Init(eApplicationType, pStartupInfo);
-  // getOut() << "core client init 2" << std::endl;
+  EVRInitError result;
+  // if (vr::g_pvrclientcore) {
+    result = vr::g_pvrclientcore->Init(eApplicationType, pStartupInfo);
+    // getOut() << "core client init 2" << std::endl;
+  /* } else {
+    result = vr::g_vrclientcore->Init(eApplicationType, pStartupInfo);
+  } */
   return result;
 }
 
@@ -38,7 +43,11 @@ void BaseClientCore::Cleanup() {
 	// Note that this object is not affected by the shutdown, as it is handled seperately
 	//  from all the other interface objects and is only destroyed when the DLL is unloaded.
 	//  VR_ShutdownInternal();
-  vr::g_pvrclientcore->Cleanup();
+  // if (vr::g_pvrclientcore) {
+    vr::g_pvrclientcore->Cleanup();
+  /* } else {
+    vr::g_vrclientcore->Cleanup();
+  } */
 }
 
 EVRInitError BaseClientCore::IsInterfaceVersionValid(const char * pchInterfaceVersion) {
@@ -48,7 +57,7 @@ EVRInitError BaseClientCore::IsInterfaceVersionValid(const char * pchInterfaceVe
 }
 
 void * BaseClientCore::GetGenericInterface(const char * pchNameAndVersion, EVRInitError * peError) {
-  // getOut() << "get generic interface 0 " << pchNameAndVersion << std::endl;
+  getOut() << "get generic interface " << pchNameAndVersion << std::endl;
   // return nullptr;
   void *iface = CreateInterfaceByName(pchNameAndVersion);
   if (iface) {
@@ -62,20 +71,18 @@ void * BaseClientCore::GetGenericInterface(const char * pchNameAndVersion, EVRIn
 }
 
 bool BaseClientCore::BIsHmdPresent() {
-  // return true;
-	auto result = VR_IsHmdPresent();
-  // getOut() << "is hmd present " << result << std::endl;
-  return result;
+  return true;
+	// return VR_IsHmdPresent();
 }
 
 const char * BaseClientCore::GetEnglishStringForHmdError(vr::EVRInitError eError) {
   // getOut() << "get error string " << (int)eError << std::endl;
-  // return "error";
-	return VR_GetVRInitErrorAsEnglishDescription(eError);
+  return "error";
+	// return VR_GetVRInitErrorAsEnglishDescription(eError);
 }
 
 const char * BaseClientCore::GetIDForVRInitError(vr::EVRInitError eError) {
   // getOut() << "get id string " << (int)eError << std::endl;
-  // return "error";
-	return VR_GetVRInitErrorAsSymbol(eError);
+  return "error";
+	// return VR_GetVRInitErrorAsSymbol(eError);
 }

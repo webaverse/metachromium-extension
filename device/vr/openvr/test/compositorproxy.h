@@ -1,7 +1,9 @@
 #ifndef _openvr_compositorproxy_h_
 #define _openvr_compositorproxy_h_
 
-#include <D3D11_1.h>
+// #include <deque>
+
+#include <D3D11_4.h>
 #include <DXGI1_4.h>
 #include <wrl.h>
 
@@ -18,15 +20,24 @@ public:
   FnProxy &fnp;
 
   // main
-  Microsoft::WRL::ComPtr<ID3D11Device> device;
-  Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+  Microsoft::WRL::ComPtr<ID3D11Device5> device;
+  Microsoft::WRL::ComPtr<ID3D11DeviceContext4> context;
   GLFWwindow *subWindow = nullptr;
   HANDLE hInteropDevice = NULL;
   uint32_t width;
   uint32_t height;
   // bool rightEye = false;
+
+  Microsoft::WRL::ComPtr<ID3D11Fence> fence;
+  // HANDLE fenceHandle = NULL;
+  uint64_t fenceValue = 0;
+
   std::vector<GLuint> texLocations;
   std::vector<GLuint> hasTexLocations;
+  std::vector<GLuint> texBoundsLocations;
+  
+  GLuint blitVao;
+  GLuint blitProgram;
 
   // input front
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
@@ -35,6 +46,7 @@ public:
   std::vector<uintptr_t> inTexLatches;
   std::vector<GLuint> interopTexs;
   std::vector<HANDLE> inReadInteropHandles;
+  std::vector<HANDLE> inReadEvents;
   /* ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
@@ -46,7 +58,10 @@ public:
   std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
   std::vector<GLuint> inBackTexs;
   std::vector<HANDLE> inBackInteropHandles;
+  std::vector<HANDLE> inBackReadEvents;
+  std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
+  std::vector<std::pair<EVREye, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;
@@ -69,7 +84,7 @@ public:
 	virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose );
 	virtual void PrepareSubmit(const Texture_t *pTexture);
   virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
-  virtual void FlushSubmit(EVREye eEye);
+  virtual void FlushSubmit();
 	virtual void ClearLastSubmittedFrame();
 	virtual void PostPresentHandoff();
 	virtual bool GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo = 0 );

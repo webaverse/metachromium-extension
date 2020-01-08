@@ -6,23 +6,30 @@
 using namespace vr;
 
 EVRScreenshotError BaseScreenshots::RequestScreenshot(ScreenshotHandle_t *pOutScreenshotHandle, EVRScreenshotType type, const char *pchPreviewFilename, const char *pchVRFilename) {
-	return g_vrscreenshots->RequestScreenshot(pOutScreenshotHandle, type, pchPreviewFilename, pchVRFilename);
+  TRACE("BaseScreenshots", []() { getOut() << "BaseScreenshots::RequestScreenshot" << std::endl; });
+	return g_pvrscreenshots->RequestScreenshot(pOutScreenshotHandle, type, pchPreviewFilename, pchVRFilename);
 }
 EVRScreenshotError BaseScreenshots::HookScreenshot(VR_ARRAY_COUNT(numTypes) const EVRScreenshotType *pSupportedTypes, int numTypes) {
-	return g_vrscreenshots->HookScreenshot(pSupportedTypes, numTypes);
+  TRACE("BaseScreenshots", []() { getOut() << "BaseScreenshots::HookScreenshot" << std::endl; });
+	return g_pvrscreenshots->HookScreenshot(pSupportedTypes, numTypes);
 }
 EVRScreenshotType BaseScreenshots::GetScreenshotPropertyType(ScreenshotHandle_t screenshotHandle, EVRScreenshotError *pError) {
-	return g_vrscreenshots->GetScreenshotPropertyType(screenshotHandle, pError);
+  TRACE("BaseScreenshots", []() { getOut() << "BaseScreenshots::GetScreenshotPropertyType" << std::endl; });
+	return g_pvrscreenshots->GetScreenshotPropertyType(screenshotHandle, pError);
 }
 uint32_t BaseScreenshots::GetScreenshotPropertyFilename(ScreenshotHandle_t screenshotHandle, EVRScreenshotPropertyFilenames filenameType, VR_OUT_STRING() char *pchFilename, uint32_t cchFilename, EVRScreenshotError *pError) {
-	return g_vrscreenshots->GetScreenshotPropertyFilename(screenshotHandle, filenameType, pchFilename, cchFilename, pError);
+  TRACE("BaseScreenshots", []() { getOut() << "BaseScreenshots::GetScreenshotPropertyFilename" << std::endl; });
+	return g_pvrscreenshots->GetScreenshotPropertyFilename(screenshotHandle, filenameType, pchFilename, cchFilename, pError);
 }
 EVRScreenshotError BaseScreenshots::UpdateScreenshotProgress(ScreenshotHandle_t screenshotHandle, float flProgress) {
-	return g_vrscreenshots->UpdateScreenshotProgress(screenshotHandle, flProgress);
+  TRACE("BaseScreenshots", []() { getOut() << "BaseScreenshots::UpdateScreenshotProgress" << std::endl; });
+	return g_pvrscreenshots->UpdateScreenshotProgress(screenshotHandle, flProgress);
 }
 EVRScreenshotError BaseScreenshots::TakeStereoScreenshot(ScreenshotHandle_t *pOutScreenshotHandle, const char *pchPreviewFilename, const char *pchVRFilename) {
-	return g_vrscreenshots->TakeStereoScreenshot(pOutScreenshotHandle, pchPreviewFilename, pchVRFilename);
+  TRACE("BaseScreenshots", []() { getOut() << "BaseScreenshots::TakeStereoScreenshot" << std::endl; });
+	return g_pvrscreenshots->TakeStereoScreenshot(pOutScreenshotHandle, pchPreviewFilename, pchVRFilename);
 }
 EVRScreenshotError BaseScreenshots::SubmitScreenshot(ScreenshotHandle_t screenshotHandle, EVRScreenshotType type, const char *pchSourcePreviewFilename, const char *pchSourceVRFilename) {
-	return g_vrscreenshots->SubmitScreenshot(screenshotHandle, type, pchSourcePreviewFilename, pchSourceVRFilename);
+  TRACE("BaseScreenshots", []() { getOut() << "BaseScreenshots::SubmitScreenshot" << std::endl; });
+	return g_pvrscreenshots->SubmitScreenshot(screenshotHandle, type, pchSourcePreviewFilename, pchSourceVRFilename);
 }

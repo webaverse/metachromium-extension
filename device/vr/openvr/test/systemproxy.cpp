@@ -124,8 +124,10 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     kIVRSystem_GetDXGIOutputInfo,
     int32_t
   >([=]() {
+    // getOut() << "dxgi req 1 " << (void *)vrsystem << std::endl;
     int32_t result;
     vrsystem->GetDXGIOutputInfo(&result);
+    // getOut() << "dxgi req 2" << std::endl;
     return result;
   });
   fnp.reg<
@@ -364,7 +366,9 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     uint32_t
   >([=](uint32_t uncbVREvent) {
     VREvent_t event;
+    // getOut() << "poll next event 1" << std::endl;
     auto result = vrsystem->PollNextEvent(&event, uncbVREvent);
+    // getOut() << "poll next event 2 " << result << std::endl;
     return std::tuple<bool, VREvent_t>(result, event);
   });
   fnp.reg<
@@ -574,11 +578,14 @@ int32_t PVRSystem::GetD3D9AdapterIndex() {
   >();
 }
 void PVRSystem::GetDXGIOutputInfo(int32_t *pnAdapterIndex) {
+  getOut() << "GetDXGIOutputInfo 1" << std::endl;
   auto result = fnp.call<
     kIVRSystem_GetDXGIOutputInfo,
     int32_t
   >();
+  getOut() << "GetDXGIOutputInfo 2" << std::endl;
   *pnAdapterIndex = result;
+  getOut() << "GetDXGIOutputInfo 3" << std::endl;
 }
 void PVRSystem::GetOutputDevice(uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance) {
   getOut() << "GetOutputDevice abort" << std::endl;
@@ -727,7 +734,9 @@ uint64_t PVRSystem::GetUint64TrackedDeviceProperty(vr::TrackedDeviceIndex_t unDe
     vr::TrackedDeviceIndex_t,
     ETrackedDeviceProperty
   >(unDeviceIndex, prop);
-  *pErrorL = std::get<1>(result);
+  if (pErrorL) {
+    *pErrorL = std::get<1>(result);
+  }
   return std::get<0>(result);
 }
 HmdMatrix34_t PVRSystem::GetMatrix34TrackedDeviceProperty(vr::TrackedDeviceIndex_t unDeviceIndex, ETrackedDeviceProperty prop, ETrackedPropertyError *pErrorL) {
@@ -766,6 +775,7 @@ uint32_t PVRSystem::GetStringTrackedDeviceProperty(vr::TrackedDeviceIndex_t unDe
     uint32_t
   >(unDeviceIndex, prop, unBufferSize);
   memcpy(pchValue, std::get<1>(result).data(), std::get<1>(result).size());
+  // getOut() << "get string tracked device property " << (void *)prop << " " << pchValue << std::endl;
   if (pErrorL) {
     *pErrorL = std::get<2>(result);
   }

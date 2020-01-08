@@ -33,6 +33,11 @@ SET(src
   openvr/test/systemproxy.cpp
   openvr/test/compositorproxy.cpp
   openvr/test/inputproxy.cpp
+  openvr/test/screenshotsproxy.cpp
+  openvr/test/chaperoneproxy.cpp
+  openvr/test/settingsproxy.cpp
+  openvr/test/rendermodelsproxy.cpp
+  openvr/test/applicationsproxy.cpp
   openvr/test/fnproxy.cpp
   # openvr/test/test_helper.cc
   # openvr/test/test_helper.h
@@ -73,16 +78,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/mock_vr_clients/b
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
-ADD_LIBRARY(vrclient_x64 SHARED ${src})
+ADD_LIBRARY(vrclient_x64 SHARED ${src} openvr/test/dll.cc)
 # target_link_libraries(vrclient_x64 openvr_api.dll)
 target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib opengl32.lib glew32.lib glfw3.lib)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
 
-# ADD_EXECUTABLE(process ${src} openvr/test/process.cpp)
-# target_link_libraries(process dxgi.lib d3d11.lib opengl32.lib glew32.lib glfw3.lib)
-# set_property(TARGET process PROPERTY CXX_STANDARD 17)
-# set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
+ADD_EXECUTABLE(process ${src} openvr/test/process.cpp)
+target_link_libraries(process dxgi.lib d3d11.lib opengl32.lib glew32.lib glfw3.lib)
+set_property(TARGET process PROPERTY CXX_STANDARD 17)
+set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
+# target_compile_definitions(process PRIVATE IS_PROCESS=1)
 
 # ADD_EXECUTABLE(process2 openvr/test/serializer.cpp openvr/test/process2.cpp openvr/test/fnproxy.cpp)
 # set_property(TARGET process2 PROPERTY CXX_STANDARD 17)

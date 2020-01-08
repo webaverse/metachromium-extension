@@ -16,20 +16,21 @@ set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\
 C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\ && set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\ && set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\ &&  C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe"
 */
 
+#include <iostream>
 #include <chrono>
 #include <thread>
+#include <memory>
 #include <algorithm>
 
 #include <D3D11_1.h>
 #include <DXGI1_4.h>
 // #include <wrl.h>
-#include <memory>
 
 // #include "device/vr/openvr/test/test_helper.h"
 // #include "device/vr/test/test_hook.h"
-#include "device/vr/windows/d3d11_device_helpers.h"
-#include "third_party/openvr/src/headers/openvr.h"
-#include "third_party/openvr/src/src/ivrclientcore.h"
+// #include "device/vr/windows/d3d11_device_helpers.h"
+// #include "third_party/openvr/src/headers/openvr.h"
+// #include "third_party/openvr/src/src/ivrclientcore.h"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
@@ -42,12 +43,16 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 std::string dllDir;
 std::ofstream out;
 std::ostream &getOut() {
-  if (!out.is_open()) {
-    std::string logPath = dllDir + "log.txt";
-    out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
-    out << "--------------------------------------------------------------------------------" << std::endl;
+  if (!isProcess) {
+    if (!out.is_open()) {
+      std::string logPath = dllDir + "log.txt";
+      out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
+      out << "--------------------------------------------------------------------------------" << std::endl;
+    }
+    return out;
+  } else {
+    return std::cout;
   }
-  return out;
 }
 // constexpr bool tracing = true;
 constexpr bool tracing = false;
@@ -67,6 +72,10 @@ void wrapExternalOpenVr(std::function<void()> &&fn) {
   SetEnvironmentVariable("VR_OVERRIDE", buf.data());
 }
 
+void vrShutdownInternal() {
+  getOut() << "vr shutdown internal" << std::endl;
+}
+
 namespace vr {
 IVRSystem *g_vrsystem = nullptr;
 IVRCompositor *g_vrcompositor = nullptr;
@@ -84,17 +93,22 @@ PVRClientCore *g_pvrclientcore = nullptr;
 PVRSystem *g_pvrsystem = nullptr;
 PVRCompositor *g_pvrcompositor = nullptr;
 PVRInput *g_pvrinput = nullptr;
-
-}  // namespace vr
-
-void vrShutdownInternal() {
-  getOut() << "vr shutdown internal" << std::endl;
+PVRScreenshots *g_pvrscreenshots = nullptr;
+PVRChaperone *g_pvrchaperone = nullptr;
+PVRSettings *g_pvrsettings = nullptr;
+PVRRenderModels *g_pvrrendermodels = nullptr;
+PVRApplications *g_pvrapplications = nullptr;
 }
+
+// char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
+
+// constexpr bool localLoop = true;
+constexpr bool localLoop = false;
 
 void *shMem = nullptr;
 size_t *pBooted = nullptr;
 // GLFWwindow **ppWindow;
-size_t *pNumClients = nullptr;
+// size_t *pNumClients = nullptr;
 extern "C" {
   void *__imp_VR_GetGenericInterface = nullptr;
   void *__imp_VR_IsInterfaceVersionVersion = nullptr;
@@ -111,85 +125,75 @@ extern "C" {
     getOut() << "get interface " << interface_name << std::endl;
     // size_t &id = *((size_t *)shMem + 1);
     // getOut() << "core 1 " << interface_name << std::endl;
-    wrapExternalOpenVr([&]() -> void {
-      // getOut() << "core 2 " << interface_name << std::endl;
 
-      // only look in the override
-      std::string openvrApiDllPath = dllDir + "openvr_api.dll";
-      void *pMod = SharedLib_Load(openvrApiDllPath.c_str());
-      // dumpbin /exports "C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrclient_x64.dll"
-      // nothing more to do if we can't load the DLL
-      // getOut() << "core 3 " << pMod << std::endl;
-      if( !pMod )
-      {
-        getOut() << "core abort" << std::endl; abort();
-        abort();
-        // return vr::VRInitError_Init_VRClientDLLNotFound;
-      }
-      
-      // getOut() << "core 4 " << pMod << std::endl;
+    if (!*pBooted) {
+      if (localLoop) {
+        wrapExternalOpenVr([&]() -> void {
+          // getOut() << "core 2 " << interface_name << std::endl;
 
-      __imp_VR_GetGenericInterface = SharedLib_GetFunction( pMod, "VR_GetGenericInterface" );
-      __imp_VR_IsInterfaceVersionVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionVersion" );
-      __imp_VR_GetInitToken = SharedLib_GetFunction( pMod, "VR_GetInitToken" );
-      __imp_VR_IsInterfaceVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersion" );
-      __imp_VR_InitInternal2 = SharedLib_GetFunction( pMod, "VR_InitInternal2" );
-      __imp_VR_IsInterfaceVersionValid = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionValid" );
-      // __imp_VR_ShutdownInternal = SharedLib_GetFunction( pMod, "VR_ShutdownInternal" );
-      __imp_VR_IsHmdPresent = SharedLib_GetFunction( pMod, "VR_IsHmdPresent" );
-      __imp_VR_GetVRInitErrorAsSymbol = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsSymbol" );
-      __imp_VR_GetVRInitErrorAsEnglishDescription = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsEnglishDescription" );
-      if (!__imp_VR_GetGenericInterface) {
-        SharedLib_Unload( pMod );
-        getOut() << "unload abort" << std::endl; abort();
-        // return vr::VRInitError_Init_FactoryNotFound;
-      }
-      
-      // getOut() << "core 6 " << pMod << " " << __imp_VR_GetGenericInterface << std::endl;
+          // only look in the override
+          std::string openvrApiDllPath = dllDir + "openvr_api.dll";
+          void *pMod = SharedLib_Load(openvrApiDllPath.c_str());
+          // dumpbin /exports "C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrclient_x64.dll"
+          // nothing more to do if we can't load the DLL
+          // getOut() << "core 3 " << pMod << std::endl;
+          if( !pMod )
+          {
+            getOut() << "core abort" << std::endl; abort();
+            abort();
+            // return vr::VRInitError_Init_VRClientDLLNotFound;
+          }
+          
+          // getOut() << "core 4 " << pMod << std::endl;
 
-      /* int nReturnCode = 0;
-      g_pHmdSystem = static_cast< IVRClientCore * > ( fnFactory( vr::IVRClientCore_Version, &nReturnCode ) );
-      if( !g_pHmdSystem )
-      {
-        SharedLib_Unload( pMod );
-        return vr::VRInitError_Init_InterfaceNotFound;
-      } */
+          __imp_VR_GetGenericInterface = SharedLib_GetFunction( pMod, "VR_GetGenericInterface" );
+          __imp_VR_IsInterfaceVersionVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionVersion" );
+          __imp_VR_GetInitToken = SharedLib_GetFunction( pMod, "VR_GetInitToken" );
+          __imp_VR_IsInterfaceVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersion" );
+          __imp_VR_InitInternal2 = SharedLib_GetFunction( pMod, "VR_InitInternal2" );
+          __imp_VR_IsInterfaceVersionValid = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionValid" );
+          // __imp_VR_ShutdownInternal = SharedLib_GetFunction( pMod, "VR_ShutdownInternal" );
+          __imp_VR_IsHmdPresent = SharedLib_GetFunction( pMod, "VR_IsHmdPresent" );
+          __imp_VR_GetVRInitErrorAsSymbol = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsSymbol" );
+          __imp_VR_GetVRInitErrorAsEnglishDescription = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsEnglishDescription" );
+          if (!__imp_VR_GetGenericInterface) {
+            SharedLib_Unload( pMod );
+            getOut() << "unload abort" << std::endl; abort();
+            // return vr::VRInitError_Init_FactoryNotFound;
+          }
 
-      vr::EVRInitError result = vr::VRInitError_None;
-      if (!*pBooted) {
-        getOut() << "vr_init " << GetCurrentThreadId() << std::endl;
-        vr::VR_Init(&result, vr::VRApplication_Scene);
-      }
-      if (result != vr::VRInitError_None) {
-        getOut() << "vr_init failed" << std::endl;
-        abort();
-      }
-      getOut() << "proxy init" << std::endl;
+          vr::EVRInitError result = vr::VRInitError_None;
+          if (!*pBooted) {
+            getOut() << "vr_init " << GetCurrentThreadId() << std::endl;
+            vr::VR_Init(&result, vr::VRApplication_Scene);
+          }
+          if (result != vr::VRInitError_None) {
+            getOut() << "vr_init failed" << std::endl;
+            abort();
+          }
+          getOut() << "proxy init" << std::endl;
+          
+          // if (!vr::g_pvrclientcore) {
+            getOut() << "boot 1" << std::endl;
+            vr::g_vrsystem = vr::VRSystem();
+            vr::g_vrcompositor = vr::VRCompositor();
+            vr::g_vrchaperone = vr::VRChaperone();
+            vr::g_vrchaperonesetup = vr::VRChaperoneSetup();
+            vr::g_vroverlay = vr::VROverlay();
+            vr::g_vrrendermodels = vr::VRRenderModels();
+            vr::g_vrscreenshots = vr::VRScreenshots();
+            vr::g_vrsettings = vr::VRSettings();
+            vr::g_vrextendeddisplay = vr::VRExtendedDisplay();
+            vr::g_vrapplications = vr::VRApplications();
+            vr::g_vrinput = vr::VRInput();
+            
+            getOut() << "boot 2 " << (void *)vr::g_vrsystem << " " << (void *)vr::g_vrcompositor << std::endl;
+          // }
+        });
+      // }
 
-      if (!vr::g_vrsystem) {
-        vr::g_vrsystem = vr::VRSystem();
-        vr::g_vrcompositor = vr::VRCompositor();
-        vr::g_vrchaperone = vr::VRChaperone();
-        vr::g_vrchaperonesetup = vr::VRChaperoneSetup();
-        vr::g_vroverlay = vr::VROverlay();
-        vr::g_vrrendermodels = vr::VRRenderModels();
-        vr::g_vrscreenshots = vr::VRScreenshots();
-        vr::g_vrsettings = vr::VRSettings();
-        vr::g_vrextendeddisplay = vr::VRExtendedDisplay();
-        vr::g_vrapplications = vr::VRApplications();
-        vr::g_vrinput = vr::VRInput();
-
-        FnProxy *fnp = new FnProxy();
-        vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
-        vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
-        vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
-        vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
-      }
-
-      if (!*pBooted) {
+      // if (localLoop) {
         getOut() << "create thread" << std::endl;
-        *pBooted = 1;
-        // *ppWindow = initGl();
         
         std::thread t([=]() {
           FnProxy fnp;
@@ -197,17 +201,38 @@ extern "C" {
           vr::PVRSystem system(vr::g_vrsystem, fnp);
           vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
           vr::PVRInput input(vr::g_vrinput, fnp);
+          vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
+          vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
+          vr::PVRSettings settings(vr::g_vrsettings, fnp);
+          vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
+          vr::PVRApplications applications(vr::g_vrapplications, fnp);
           for (;;) {
             fnp.handle();
           }
         });
         t.detach();
       }
+      
+      *pBooted = 1;
+    }
+    
+    if (!vr::g_pvrclientcore) {
+      FnProxy *fnp = new FnProxy();
+      vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
+      vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
+      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
+      vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
+      vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
+      vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
+      vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *fnp);
+      vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *fnp);
+      vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *fnp);
+    }
 
-      // result = vr::VRInitError_None;
-      getOut() << "init 3" << std::endl;
-    });
-    getOut() << "init 6 " << interface_name << std::endl;
+    // result = vr::VRInitError_None;
+    getOut() << "init 3 " << interface_name << std::endl;
+
+    // getOut() << "init 6 " << interface_name << std::endl;
     void *iface = CreateInterfaceByName(interface_name);
     getOut() << "init 7 " << interface_name << " " << iface << std::endl;
     return iface;
@@ -251,7 +276,7 @@ BOOL WINAPI DllMain(
     dllDir += dir;
   }
 
-  // getOut() << "dll main " << fdwReason << std::endl;
+  getOut() << "dll main " << fdwReason << std::endl;
 
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 16);
