@@ -37,13 +37,13 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     bool,
     EChaperoneConfigFile
   >([=](EChaperoneConfigFile configFile) {
-    return vrcompositor->CommitWorkingCopy(configFile);
+    return vrchaperonesetup->CommitWorkingCopy(configFile);
   });
   fnp.reg<
     kIVRChaperoneSetup_RevertWorkingCopy,
     int
   >([=]() {
-    vrcompositor->RevertWorkingCopy();
+    vrchaperonesetup->RevertWorkingCopy();
     return 0;
   });
   fnp.reg<
@@ -52,7 +52,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
   >([=]() {
     float sizeX;
     float sizeZ;
-    auto result = vrcompositor->GetWorkingPlayAreaSize(&sizeX, &sizeZ);
+    auto result = vrchaperonesetup->GetWorkingPlayAreaSize(&sizeX, &sizeZ);
     return std::tuple<bool, float, float>(
       result,
       sizeX,
@@ -64,19 +64,19 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     std::tuple<bool, vr::HmdQuad_t>
   >([=]() {
     vr::HmdQuad_t rect;
-    auto result = vrcompositor->GetWorkingPlayAreaRect(&rect);
+    auto result = vrchaperonesetup->GetWorkingPlayAreaRect(&rect);
     return std::tuple<bool, vr::HmdQuad_t>(
       result,
-      quad
+      rect
     );
   });
   fnp.reg<
     kIVRChaperoneSetup_GetWorkingCollisionBoundsInfo,
-    std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>
+    std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>,
     managed_binary<vr::HmdQuad_t>,
     uint32_t
   >([=](managed_binary<vr::HmdQuad_t> quadsBuffer, uint32_t unQuadsCount) {
-    auto result = vrcompositor->GetWorkingCollisionBoundsInfo(quadsBuffer.size() > 0 ? quadsBuffer.data() : nullptr, &unQuadsCount);
+    auto result = vrchaperonesetup->GetWorkingCollisionBoundsInfo(quadsBuffer.size() > 0 ? quadsBuffer.data() : nullptr, &unQuadsCount);
     return std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>(
       result,
       std::move(quadsBuffer),
@@ -85,9 +85,11 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
   });
   fnp.reg<
     kIVRChaperoneSetup_GetLiveCollisionBoundsInfo,
-    std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>
+    std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>,
+    managed_binary<vr::HmdQuad_t>,
+    uint32_t
   >([=](managed_binary<vr::HmdQuad_t> quadsBuffer, uint32_t unQuadsCount) {
-    auto result = vrcompositor->GetLiveCollisionBoundsInfo(quadsBuffer.size() > 0 ? quadsBuffer.data() : nullptr, &unQuadsCount);
+    auto result = vrchaperonesetup->GetLiveCollisionBoundsInfo(quadsBuffer.size() > 0 ? quadsBuffer.data() : nullptr, &unQuadsCount);
     return std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>(
       result,
       std::move(quadsBuffer),
@@ -99,7 +101,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     std::tuple<bool, vr::HmdMatrix34_t>
   >([=]() {
     vr::HmdMatrix34_t seatedZeroPoseToRawTrackingPose;
-    auto result = vrcompositor->GetWorkingSeatedZeroPoseToRawTrackingPose(&seatedZeroPoseToRawTrackingPose);
+    auto result = vrchaperonesetup->GetWorkingSeatedZeroPoseToRawTrackingPose(&seatedZeroPoseToRawTrackingPose);
     return std::tuple<bool, vr::HmdMatrix34_t>(
       result,
       seatedZeroPoseToRawTrackingPose
@@ -110,7 +112,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     std::tuple<bool, vr::HmdMatrix34_t>
   >([=]() {
     vr::HmdMatrix34_t standingZeroPoseToRawTrackingPose;
-    auto result = vrcompositor->GetWorkingStandingZeroPoseToRawTrackingPose(&standingZeroPoseToRawTrackingPose);
+    auto result = vrchaperonesetup->GetWorkingStandingZeroPoseToRawTrackingPose(&standingZeroPoseToRawTrackingPose);
     return std::tuple<bool, vr::HmdMatrix34_t>(
       result,
       standingZeroPoseToRawTrackingPose
@@ -122,7 +124,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     float,
     float
   >([=](float sizeX, float sizeZ) {
-    vrcompositor->SetWorkingPlayAreaSize(sizeX, sizeZ);
+    vrchaperonesetup->SetWorkingPlayAreaSize(sizeX, sizeZ);
     return 0;
   });
   fnp.reg<
@@ -131,7 +133,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     managed_binary<vr::HmdQuad_t>,
     uint32_t
   >([=](managed_binary<vr::HmdQuad_t> quadsBuffer, uint32_t unQuadsCount) {
-    vrcompositor->SetWorkingCollisionBoundsInfo(quadsBuffer.data(), unQuadsCount);
+    vrchaperonesetup->SetWorkingCollisionBoundsInfo(quadsBuffer.data(), unQuadsCount);
     return 0;
   });
   fnp.reg<
@@ -139,7 +141,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     int,
     vr::HmdMatrix34_t
   >([=](vr::HmdMatrix34_t seatedZeroPoseToRawTrackingPose) {
-    vrcompositor->SetWorkingSeatedZeroPoseToRawTrackingPose(&seatedZeroPoseToRawTrackingPose);
+    vrchaperonesetup->SetWorkingSeatedZeroPoseToRawTrackingPose(&seatedZeroPoseToRawTrackingPose);
     return 0;
   });
   fnp.reg<
@@ -147,7 +149,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     int,
     vr::HmdMatrix34_t
   >([=](vr::HmdMatrix34_t standingZeroPoseToRawTrackingPose) {
-    vrcompositor->SetWorkingStandingZeroPoseToRawTrackingPose(&standingZeroPoseToRawTrackingPose);
+    vrchaperonesetup->SetWorkingStandingZeroPoseToRawTrackingPose(&standingZeroPoseToRawTrackingPose);
     return 0;
   });
   fnp.reg<
@@ -155,7 +157,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     int,
     vr::EChaperoneConfigFile
   >([=](vr::EChaperoneConfigFile configFile) {
-    vrcompositor->ReloadFromDisk(configFile);
+    vrchaperonesetup->ReloadFromDisk(configFile);
     return 0;
   });
   fnp.reg<
@@ -163,7 +165,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     std::tuple<bool, vr::HmdMatrix34_t>
   >([=]() {
     vr::HmdMatrix34_t seatedZeroPoseToRawTrackingPose;
-    auto result = vrcompositor->GetLiveSeatedZeroPoseToRawTrackingPose(&seatedZeroPoseToRawTrackingPose);
+    auto result = vrchaperonesetup->GetLiveSeatedZeroPoseToRawTrackingPose(&seatedZeroPoseToRawTrackingPose);
     return std::tuple<bool, vr::HmdMatrix34_t>(
       result,
       seatedZeroPoseToRawTrackingPose
@@ -171,53 +173,67 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
   });
   fnp.reg<
     kIVRChaperoneSetup_SetWorkingCollisionBoundsTagsInfo,
-    int,
+    int/*,
     managed_binary<uint8_t>,
-    uint32_t
-  >([=](managed_binary<uint8_t> tagsBuffer, uint32_t unTagCount) {
-    vrcompositor->SetWorkingCollisionBoundsTagsInfo(tagsBuffer.data(), unTagCount);
+    uint32_t*/
+  >([=](/*managed_binary<uint8_t> tagsBuffer, uint32_t unTagCount*/) {
+    getOut() << "SetWorkingCollisionBoundsTagsInfo abort" << std::endl;
+    abort();
+    // vrchaperonesetup->SetWorkingCollisionBoundsTagsInfo(tagsBuffer.data(), unTagCount);
     return 0;
   });
   fnp.reg<
     kIVRChaperoneSetup_GetLiveCollisionBoundsTagsInfo,
-    std::tuple<bool, managed_binary<uint8_t>, uint32_t>,
+    int
+    /* std::tuple<bool, managed_binary<uint8_t>, uint32_t>,
     managed_binary<uint8_t>,
-    uint32_t
-  >([=](managed_binary<uint8_t> tagsBuffer, uint32_t unTagCount) {
-    vrcompositor->GetLiveCollisionBoundsTagsInfo(tagsBuffer.size() > 0 ? tagsBuffer.data() : nullptr, &unTagCount);
+    uint32_t */
+  >([=](/*managed_binary<uint8_t> tagsBuffer, uint32_t unTagCount*/) {
+    getOut() << "GetLiveCollisionBoundsTagsInfo abort" << std::endl;
+    abort();
+    return 0;
+    /* vrchaperonesetup->GetLiveCollisionBoundsTagsInfo(tagsBuffer.size() > 0 ? tagsBuffer.data() : nullptr, &unTagCount);
     return std::tuple<bool, managed_binary<uint8_t>, uint32_t>(
       std::move(tagsBuffer),
       unTagCount
-    );
+    ); */
   });
   fnp.reg<
     kIVRChaperoneSetup_SetWorkingPhysicalBoundsInfo,
-    bool,
+    int
+    /* bool,
     managed_binary<vr::HmdQuad_t>,
-    uint32_t
-  >([=](managed_binary<vr::HmdQuad_t> quadsBuffer, uint32_t unQuadsCount) {
-    return vrcompositor->SetWorkingPhysicalBoundsInfo(quadsBuffer.data(), unQuadsCount);
+    uint32_t */
+  >([=](/*managed_binary<vr::HmdQuad_t> quadsBuffer, uint32_t unQuadsCount*/) {
+    getOut() << "SetWorkingPhysicalBoundsInfo abort" << std::endl;
+    abort();
+    return 0;
+    // return vrchaperonesetup->SetWorkingPhysicalBoundsInfo(quadsBuffer.data(), unQuadsCount);
   });
   fnp.reg<
     kIVRChaperoneSetup_GetLivePhysicalBoundsInfo,
-    std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>
+    int
+    /* std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>,
     managed_binary<vr::HmdQuad_t>,
-    uint32_t
-  >([=](managed_binary<vr::HmdQuad_t> quadsBuffer, uint32_t unQuadsCount) {
-    auto result = vrcompositor->GetLivePhysicalBoundsInfo(quadsBuffer.size() > 0 ? quadsBuffer.data() : nullptr, &unQuadsCount);
+    uint32_t */
+  >([=](/*managed_binary<vr::HmdQuad_t> quadsBuffer, uint32_t unQuadsCount*/) {
+    getOut() << "GetLivePhysicalBoundsInfo abort" << std::endl;
+    abort();
+    return 0;
+    /* auto result = vrchaperonesetup->GetLivePhysicalBoundsInfo(quadsBuffer.size() > 0 ? quadsBuffer.data() : nullptr, &unQuadsCount);
     return std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>(
       result,
       std::move(quadsBuffer),
       unQuadsCount
-    );
+    ); */
   });
   fnp.reg<
     kIVRChaperoneSetup_ExportLiveToBuffer,
     std::tuple<bool, managed_binary<char>, uint32_t>,
     managed_binary<char>,
     uint32_t
-  >([=](managed_binary<vr::HmdQuad_t> buffer, uint32_t nBufferLength) {
-    auto result = vrcompositor->ExportLiveToBuffer(quadsBuffer.size() > 0 ? quadsBuffer.data() : nullptr, &nBufferLength);
+  >([=](managed_binary<char> buffer, uint32_t nBufferLength) {
+    auto result = vrchaperonesetup->ExportLiveToBuffer(buffer.size() > 0 ? buffer.data() : nullptr, &nBufferLength);
     return std::tuple<bool, managed_binary<char>, uint32_t>(
       result,
       std::move(buffer),
@@ -230,7 +246,7 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     managed_binary<char>,
     uint32_t
   >([=](managed_binary<char> buffer, uint32_t nImportFlags) {
-    return vrcompositor->ImportFromBufferToWorking(buffer.data(), nImportFlags);
+    return vrchaperonesetup->ImportFromBufferToWorking(buffer.data(), nImportFlags);
   });
   fnp.reg<
     kIVRChaperoneSetup_SetWorkingPerimeter,
@@ -238,45 +254,45 @@ PVRChaperoneSetup::PVRChaperoneSetup(IVRChaperoneSetup *vrchaperonesetup, FnProx
     managed_binary<vr::HmdVector2_t>,
     uint32_t
   >([=](managed_binary<vr::HmdVector2_t> pointBuffer, uint32_t unPointCount) {
-    vrcompositor->SetWorkingPerimeter(pointBuffer.data(), unPointCount);
+    vrchaperonesetup->SetWorkingPerimeter(pointBuffer.data(), unPointCount);
     return 0;
   });
   fnp.reg<
     kIVRChaperoneSetup_ShowWorkingSetPreview,
     int
   >([=]() {
-    vrcompositor->ShowWorkingSetPreview();
+    vrchaperonesetup->ShowWorkingSetPreview();
     return 0;
   });
   fnp.reg<
     kIVRChaperoneSetup_HideWorkingSetPreview,
     int
   >([=]() {
-    vrcompositor->HideWorkingSetPreview();
+    vrchaperonesetup->HideWorkingSetPreview();
     return 0;
   });
   fnp.reg<
     kIVRChaperoneSetup_RoomSetupStarting,
     int
   >([=]() {
-    vrcompositor->RoomSetupStarting();
+    vrchaperonesetup->RoomSetupStarting();
     return 0;
   });
 }
-bool PVRCompositor::CommitWorkingCopy(vr::EChaperoneConfigFile configFile) {
+bool PVRChaperoneSetup::CommitWorkingCopy(vr::EChaperoneConfigFile configFile) {
   return fnp.call<
     kIVRChaperoneSetup_CommitWorkingCopy,
     bool,
     EChaperoneConfigFile
   >(configFile);
 }
-void PVRCompositor::RevertWorkingCopy() {
+void PVRChaperoneSetup::RevertWorkingCopy() {
   fnp.call<
     kIVRChaperoneSetup_RevertWorkingCopy,
     int
   >();
 }
-bool PVRCompositor::GetWorkingPlayAreaSize(float *pSizeX, float *pSizeZ) {
+bool PVRChaperoneSetup::GetWorkingPlayAreaSize(float *pSizeX, float *pSizeZ) {
   auto result = fnp.call<
     kIVRChaperoneSetup_GetWorkingPlayAreaSize,
     std::tuple<bool, float, float>
@@ -285,7 +301,7 @@ bool PVRCompositor::GetWorkingPlayAreaSize(float *pSizeX, float *pSizeZ) {
   *pSizeZ = std::get<2>(result);
   return std::get<0>(result);
 }
-bool PVRCompositor::GetWorkingPlayAreaRect(vr::HmdQuad_t *rect) {
+bool PVRChaperoneSetup::GetWorkingPlayAreaRect(vr::HmdQuad_t *rect) {
   auto result = fnp.call<
     kIVRChaperoneSetup_GetWorkingPlayAreaRect,
     std::tuple<bool, vr::HmdQuad_t>
@@ -293,11 +309,11 @@ bool PVRCompositor::GetWorkingPlayAreaRect(vr::HmdQuad_t *rect) {
   *rect = std::get<1>(result);
   return std::get<0>(result);
 }
-bool PVRCompositor::GetWorkingCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
+bool PVRChaperoneSetup::GetWorkingCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
   managed_binary<vr::HmdQuad_t> quadsBuffer(pQuadsBuffer ? *punQuadsCount : 0);
   auto result = fnp.call<
     kIVRChaperoneSetup_GetWorkingCollisionBoundsInfo,
-    std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>
+    std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>,
     managed_binary<vr::HmdQuad_t>,
     uint32_t
   >(std::move(quadsBuffer), *punQuadsCount);
@@ -307,7 +323,7 @@ bool PVRCompositor::GetWorkingCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCou
   *punQuadsCount = std::get<2>(result);
   return std::get<0>(result);
 }
-bool PVRCompositor::GetLiveCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
+bool PVRChaperoneSetup::GetLiveCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
   managed_binary<vr::HmdQuad_t> quadsBuffer(pQuadsBuffer ? *punQuadsCount : 0);
   auto result = fnp.call<
     kIVRChaperoneSetup_GetLiveCollisionBoundsInfo,
@@ -321,7 +337,7 @@ bool PVRCompositor::GetLiveCollisionBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount)
   *punQuadsCount = std::get<2>(result);
   return std::get<0>(result);
 }
-bool PVRCompositor::GetWorkingSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pmatSeatedZeroPoseToRawTrackingPose) {
+bool PVRChaperoneSetup::GetWorkingSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pmatSeatedZeroPoseToRawTrackingPose) {
   auto result = fnp.call<
     kIVRChaperoneSetup_GetWorkingSeatedZeroPoseToRawTrackingPose,
     std::tuple<bool, vr::HmdMatrix34_t>
@@ -329,7 +345,7 @@ bool PVRCompositor::GetWorkingSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t 
   *pmatSeatedZeroPoseToRawTrackingPose = std::get<1>(result);
   return std::get<0>(result);
 }
-bool PVRCompositor::GetWorkingStandingZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pmatStandingZeroPoseToRawTrackingPose) {
+bool PVRChaperoneSetup::GetWorkingStandingZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pmatStandingZeroPoseToRawTrackingPose) {
   auto result = fnp.call<
     kIVRChaperoneSetup_GetWorkingStandingZeroPoseToRawTrackingPose,
     std::tuple<bool, vr::HmdMatrix34_t>
@@ -337,7 +353,7 @@ bool PVRCompositor::GetWorkingStandingZeroPoseToRawTrackingPose(vr::HmdMatrix34_
   *pmatStandingZeroPoseToRawTrackingPose = std::get<1>(result);
   return std::get<0>(result);
 }
-void PVRCompositor::SetWorkingPlayAreaSize(float sizeX, float sizeZ) {
+void PVRChaperoneSetup::SetWorkingPlayAreaSize(float sizeX, float sizeZ) {
   fnp.call<
     kIVRChaperoneSetup_SetWorkingPlayAreaSize,
     int,
@@ -345,7 +361,7 @@ void PVRCompositor::SetWorkingPlayAreaSize(float sizeX, float sizeZ) {
     float
   >(sizeX, sizeZ);
 }
-void PVRCompositor::SetWorkingCollisionBoundsInfo(VR_ARRAY_COUNT(unQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t unQuadsCount) {
+void PVRChaperoneSetup::SetWorkingCollisionBoundsInfo(VR_ARRAY_COUNT(unQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t unQuadsCount) {
   managed_binary<vr::HmdQuad_t> quadsBuffer(unQuadsCount);
   memcpy(quadsBuffer.data(), pQuadsBuffer, unQuadsCount * sizeof(vr::HmdQuad_t));
   fnp.call<
@@ -355,28 +371,28 @@ void PVRCompositor::SetWorkingCollisionBoundsInfo(VR_ARRAY_COUNT(unQuadsCount) v
     uint32_t
   >(std::move(quadsBuffer), unQuadsCount);
 }
-void PVRCompositor::SetWorkingSeatedZeroPoseToRawTrackingPose(const vr::HmdMatrix34_t *pMatSeatedZeroPoseToRawTrackingPose) {
+void PVRChaperoneSetup::SetWorkingSeatedZeroPoseToRawTrackingPose(const vr::HmdMatrix34_t *pMatSeatedZeroPoseToRawTrackingPose) {
   fnp.call<
     kIVRChaperoneSetup_SetWorkingSeatedZeroPoseToRawTrackingPose,
     int,
     vr::HmdMatrix34_t
   >(*pMatSeatedZeroPoseToRawTrackingPose);
 }
-void PVRCompositor::SetWorkingStandingZeroPoseToRawTrackingPose(const vr::HmdMatrix34_t *pMatStandingZeroPoseToRawTrackingPose) {
+void PVRChaperoneSetup::SetWorkingStandingZeroPoseToRawTrackingPose(const vr::HmdMatrix34_t *pMatStandingZeroPoseToRawTrackingPose) {
   fnp.call<
     kIVRChaperoneSetup_SetWorkingStandingZeroPoseToRawTrackingPose,
     int,
     vr::HmdMatrix34_t
   >(*pMatStandingZeroPoseToRawTrackingPose);
 }
-void PVRCompositor::ReloadFromDisk(vr::EChaperoneConfigFile configFile) {
+void PVRChaperoneSetup::ReloadFromDisk(vr::EChaperoneConfigFile configFile) {
   fnp.call<
     kIVRChaperoneSetup_ReloadFromDisk,
     int,
     vr::EChaperoneConfigFile
   >(configFile);
 }
-bool PVRCompositor::GetLiveSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pmatSeatedZeroPoseToRawTrackingPose) {
+bool PVRChaperoneSetup::GetLiveSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pmatSeatedZeroPoseToRawTrackingPose) {
   auto result = fnp.call<
     kIVRChaperoneSetup_GetLiveSeatedZeroPoseToRawTrackingPose,
     std::tuple<bool, vr::HmdMatrix34_t>
@@ -384,18 +400,23 @@ bool PVRCompositor::GetLiveSeatedZeroPoseToRawTrackingPose(vr::HmdMatrix34_t *pm
   *pmatSeatedZeroPoseToRawTrackingPose = std::get<1>(result);
   return std::get<0>(result);
 }
-void PVRCompositor::SetWorkingCollisionBoundsTagsInfo(VR_ARRAY_COUNT(unTagCount) uint8_t *pTagsBuffer, uint32_t unTagCount) {
-  managed_binary<uint8_t> tagsBuffer(unTagCount);
+void PVRChaperoneSetup::SetWorkingCollisionBoundsTagsInfo(VR_ARRAY_COUNT(unTagCount) uint8_t *pTagsBuffer, uint32_t unTagCount) {
+  getOut() << "SetWorkingCollisionBoundsTagsInfo abort" << std::endl;
+  abort();
+  /* managed_binary<uint8_t> tagsBuffer(unTagCount);
   memcpy(tagsBuffer.data(), pTagsBuffer, unTagCount);
   fnp.call<
     kIVRChaperoneSetup_SetWorkingCollisionBoundsTagsInfo,
     int,
     managed_binary<uint8_t>,
     uint32_t
-  >(std::move(tagsBuffer), unTagCount);
+  >(std::move(tagsBuffer), unTagCount); */
 }
-bool PVRCompositor::GetLiveCollisionBoundsTagsInfo(VR_OUT_ARRAY_COUNT(punTagCount) uint8_t *pTagsBuffer, uint32_t *punTagCount) {
-  managed_binary<uint8_t> tagsBuffer(pTagsBuffer ? *punTagCount : 0);
+bool PVRChaperoneSetup::GetLiveCollisionBoundsTagsInfo(VR_OUT_ARRAY_COUNT(punTagCount) uint8_t *pTagsBuffer, uint32_t *punTagCount) {
+  getOut() << "GetLiveCollisionBoundsTagsInfo abort" << std::endl;
+  abort();
+  return false;
+  /* managed_binary<uint8_t> tagsBuffer(pTagsBuffer ? *punTagCount : 0);
   auto result = fnp.call<
     kIVRChaperoneSetup_GetLiveCollisionBoundsTagsInfo,
     std::tuple<bool, managed_binary<uint8_t>, uint32_t>,
@@ -406,20 +427,26 @@ bool PVRCompositor::GetLiveCollisionBoundsTagsInfo(VR_OUT_ARRAY_COUNT(punTagCoun
     memcpy(pTagsBuffer, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(uint8_t));
   }
   *punTagCount = std::get<2>(result);
-  return std::get<0>(result);
+  return std::get<0>(result); */
 }
-bool PVRCompositor::SetWorkingPhysicalBoundsInfo(VR_ARRAY_COUNT(unQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t unQuadsCount) {
-  managed_binary<vr::HmdQuad_t> quadsBuffer(unQuadsCount);
+bool PVRChaperoneSetup::SetWorkingPhysicalBoundsInfo(VR_ARRAY_COUNT(unQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t unQuadsCount) {
+  getOut() << "SetWorkingPhysicalBoundsInfo abort" << std::endl;
+  abort();
+  return false; 
+  /* managed_binary<vr::HmdQuad_t> quadsBuffer(unQuadsCount);
   memcpy(quadsBuffer.data(), pQuadsBuffer, unQuadsCount * sizeof(vr::HmdQuad_t));
   return fnp.call<
     kIVRChaperoneSetup_SetWorkingPhysicalBoundsInfo,
     bool,
     managed_binary<vr::HmdQuad_t>,
     uint32_t
-  >(std::move(quadsBuffer), unQuadsCount);
+  >(std::move(quadsBuffer), unQuadsCount); */
 }
-bool PVRCompositor::GetLivePhysicalBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
-  managed_binary<vr::HmdQuad_t> quadsBuffer(pQuadsBuffer ? *punQuadsCount : 0);
+bool PVRChaperoneSetup::GetLivePhysicalBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) vr::HmdQuad_t *pQuadsBuffer, uint32_t* punQuadsCount) {
+  getOut() << "GetLivePhysicalBoundsInfo abort" << std::endl;
+  abort();
+  return false; 
+  /* managed_binary<vr::HmdQuad_t> quadsBuffer(pQuadsBuffer ? *punQuadsCount : 0);
   auto result = fnp.call<
     kIVRChaperoneSetup_GetLivePhysicalBoundsInfo,
     std::tuple<bool, managed_binary<vr::HmdQuad_t>, uint32_t>
@@ -430,9 +457,9 @@ bool PVRCompositor::GetLivePhysicalBoundsInfo(VR_OUT_ARRAY_COUNT(punQuadsCount) 
     memcpy(pQuadsBuffer, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(vr::HmdQuad_t));
   }
   *punQuadsCount = std::get<2>(result);
-  return std::get<0>(result);
+  return std::get<0>(result); */
 }
-bool PVRCompositor::ExportLiveToBuffer(VR_OUT_STRING() char *pBuffer, uint32_t *pnBufferLength) {
+bool PVRChaperoneSetup::ExportLiveToBuffer(VR_OUT_STRING() char *pBuffer, uint32_t *pnBufferLength) {
   auto result = fnp.call<
     kIVRChaperoneSetup_ExportLiveToBuffer,
     std::tuple<bool, managed_binary<char>, uint32_t>
@@ -441,7 +468,7 @@ bool PVRCompositor::ExportLiveToBuffer(VR_OUT_STRING() char *pBuffer, uint32_t *
   *pnBufferLength = std::get<2>(result);
   return std::get<0>(result);
 }
-bool PVRCompositor::ImportFromBufferToWorking(const char *pBuffer, uint32_t nImportFlags) {
+bool PVRChaperoneSetup::ImportFromBufferToWorking(const char *pBuffer, uint32_t nImportFlags) {
   managed_binary<char> buffer(strlen(pBuffer)+1);
   memcpy(buffer.data(), pBuffer, buffer.size());
   return fnp.call<
@@ -451,7 +478,7 @@ bool PVRCompositor::ImportFromBufferToWorking(const char *pBuffer, uint32_t nImp
     uint32_t
   >(std::move(buffer), nImportFlags);
 }
-void PVRCompositor::SetWorkingPerimeter(VR_ARRAY_COUNT(unPointCount) vr::HmdVector2_t *pPointBuffer, uint32_t unPointCount) {
+void PVRChaperoneSetup::SetWorkingPerimeter(VR_ARRAY_COUNT(unPointCount) vr::HmdVector2_t *pPointBuffer, uint32_t unPointCount) {
   managed_binary<vr::HmdVector2_t> pointBuffer(unPointCount);
   memcpy(pointBuffer.data(), pPointBuffer, unPointCount * sizeof(vr::HmdVector2_t));
   fnp.call<
@@ -461,19 +488,19 @@ void PVRCompositor::SetWorkingPerimeter(VR_ARRAY_COUNT(unPointCount) vr::HmdVect
     uint32_t
   >(std::move(pointBuffer), unPointCount);
 }
-void PVRCompositor::ShowWorkingSetPreview() {
+void PVRChaperoneSetup::ShowWorkingSetPreview() {
   fnp.call<
     kIVRChaperoneSetup_ShowWorkingSetPreview,
     int
   >();
 }
-void PVRCompositor::HideWorkingSetPreview() {
+void PVRChaperoneSetup::HideWorkingSetPreview() {
   fnp.call<
     kIVRChaperoneSetup_HideWorkingSetPreview,
     int
   >();
 }
-void PVRCompositor::RoomSetupStarting() {
+void PVRChaperoneSetup::RoomSetupStarting() {
   fnp.call<
     kIVRChaperoneSetup_RoomSetupStarting,
     int
