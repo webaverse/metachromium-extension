@@ -1,5 +1,5 @@
 // #include <chrono>
-#include "device/vr/openvr/test/compositorproxy.h"
+#include "device/vr/openvr/test/chaperonesetupproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
 namespace vr {

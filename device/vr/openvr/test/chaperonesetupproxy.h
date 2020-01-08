@@ -1,11 +1,11 @@
-#ifndef _openvr_compositorproxy_h_
-#define _openvr_compositorproxy_h_
+#ifndef _openvr_chaperonesetupproxy_h_
+#define _openvr_chaperonesetupproxy_h_
 
 // #include <deque>
 
-#include <D3D11_4.h>
-#include <DXGI1_4.h>
-#include <wrl.h>
+// #include <D3D11_4.h>
+// #include <DXGI1_4.h>
+// #include <wrl.h>
 
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
