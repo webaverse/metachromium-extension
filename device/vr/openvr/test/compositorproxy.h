@@ -15,8 +15,8 @@
 namespace vr {
 class PVRCompositor : public IVRCompositor {
 public:
-  IVRSystem *vrsystem;
   IVRCompositor *vrcompositor;
+  uint64_t &fenceValue;
   FnProxy &fnp;
 
   // system
@@ -34,7 +34,7 @@ public:
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
   // HANDLE fenceHandle = NULL;
-  uint64_t fenceValue = 0;
+  Mutex fenceMutex;
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> hasTexLocations;
@@ -65,7 +65,7 @@ public:
   std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
-  std::vector<std::pair<EVREye, HANDLE>> inBackReadEventQueue;
+  std::vector<std::tuple<EVREye, uint64_t, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;
@@ -78,7 +78,7 @@ public:
   std::vector<ID3D11Texture2D *> shTexOuts;
   std::vector<HANDLE> shTexOutInteropHandles;
 
-  PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp);
+  PVRCompositor(IVRCompositor *vrcompositor, uint64_t &fenceValue, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
 	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,

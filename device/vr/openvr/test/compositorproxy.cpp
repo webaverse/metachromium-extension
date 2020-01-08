@@ -116,7 +116,12 @@ const EVREye EYES[] = {
   }
 } */
 
-PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp) : vrcompositor(vrcompositor), fnp(fnp) {
+PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, uint64_t &fenceValue, FnProxy &fnp) :
+  vrcompositor(vrcompositor),
+  fenceValue(fenceValue),
+  fnp(fnp),
+  fenceMutex("Local\\OpenVrFenceMutex")
+{
   fnp.reg<
     kIVRCompositor_SetTrackingSpace,
     int,
@@ -675,7 +680,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
 
     textureBounds = *pBounds;
 
-    inBackReadEventQueue.push_back(std::pair<EVREye, HANDLE>(eEye, readEvent));
+    inBackReadEventQueue.push_back(std::tuple<EVREye, uint64_t, HANDLE>(eEye, fnp.remoteProcessId, readEvent));
 
     /* if (!fence) {
       ID3D11Resource *fenceResource;
@@ -720,10 +725,12 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     // getOut() << "flush submit server 2" << std::endl;
 
     for (auto iter : inBackReadEventQueue) {
-      EVREye &e = iter.first;
+      EVREye &e = std::get<0>(iter);
       if (e == eEye) {
-        HANDLE &readEvent = iter.second;
+        getOut() << "wait for read pre " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
+        HANDLE &readEvent = std::get<2>(iter);
         WaitForSingleObject(readEvent, INFINITE);
+        getOut() << "wait for read post " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
       }
     }
 
@@ -1750,7 +1757,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       abort();
     }
     
-    getOut() << "open frontend read event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
+    getOut() << "open frontend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
     readEvent = CreateEventA(
       NULL,
       false,
@@ -1761,7 +1768,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 13" << std::endl;
     
     if (!readEvent) {
-      getOut() << "failed to open frontend read event" << std::endl;
+      getOut() << "failed to open frontend event" << std::endl;
       abort();
     }
     
@@ -1981,9 +1988,14 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
   // getOut() << "submit client 18 " << (void *)context.Get() << " " << (void *)fence.Get() << " " << (void *)readEvent << std::endl;
 
-  ++fenceValue;
-  context->Signal(fence.Get(), fenceValue);
-  fence->SetEventOnCompletion(fenceValue, readEvent);
+  uint64_t localFenceValue;
+  {
+    std::lock_guard<Mutex> lock(fenceMutex);
+    localFenceValue = ++fenceValue;
+  }
+  context->Signal(fence.Get(), localFenceValue);
+  getOut() << "signal read event " << (std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << " " << localFenceValue << std::endl;
+  fence->SetEventOnCompletion(localFenceValue, readEvent);
   // context->Flush();
 
   // getOut() << "submit client 19 " << (void *)sharedHandle << " " << (void *)pTexture << std::endl;
@@ -2282,5 +2294,6 @@ void PVRCompositor::CacheWaitGetPoses() {
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
+  inBackReadEventQueue.clear();
 }
 }
