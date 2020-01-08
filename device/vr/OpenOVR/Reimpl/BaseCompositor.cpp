@@ -45,18 +45,18 @@ BaseCompositor::~BaseCompositor() {
 }
 
 void BaseCompositor::SetTrackingSpace(ETrackingUniverseOrigin eOrigin) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SetTrackingSpace" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SetTrackingSpace " << GetCurrentThreadId() << std::endl; });
   g_pvrcompositor->SetTrackingSpace(eOrigin);
 }
 
 ETrackingUniverseOrigin BaseCompositor::GetTrackingSpace() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetTrackingSpace" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetTrackingSpace " << GetCurrentThreadId() << std::endl; });
   return g_pvrcompositor->GetTrackingSpace();
 }
 
 ovr_enum_t BaseCompositor::WaitGetPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::WaitGetPoses" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::WaitGetPoses " << GetCurrentThreadId() << std::endl; });
   // getOut() << "wait get poses 1 " << GetCurrentThreadId() << std::endl;
   bool doRealWait;
   g_pvrclientcore->PreWaitGetPoses(&doRealWait);
@@ -101,7 +101,7 @@ Matrix4f BaseCompositor::GetHandTransform() {
 
 ovr_enum_t BaseCompositor::GetLastPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetLastPoses" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetLastPoses " << GetCurrentThreadId() << std::endl; });
   // getOut() << "get last poses 1 " << (void *)GetCurrentThreadId() << std::endl;
   // auto start = std::chrono::high_resolution_clock::now();
   auto result = g_pvrcompositor->GetLastPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
@@ -113,19 +113,19 @@ ovr_enum_t BaseCompositor::GetLastPoses(TrackedDevicePose_t * renderPoseArray, u
 
 ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t * pOutputPose,
 	  TrackedDevicePose_t * pOutputGamePose) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetLastPoseForTrackedDeviceIndex" << std::endl; });
-  // getOut() << "get last pose 1 " << std::endl;
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetLastPoseForTrackedDeviceIndex " << GetCurrentThreadId() << std::endl; });
+  // getOut() << "get last pose 1  " << GetCurrentThreadId() << std::endl;
   return g_pvrcompositor->GetLastPoseForTrackedDeviceIndex(unDeviceIndex, pOutputPose, pOutputGamePose);
 }
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::Submit" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::Submit " << GetCurrentThreadId() << std::endl; });
   // getOut() << "submit 1 " << GetCurrentThreadId() << std::endl;
   bool doQueueSubmit;
   bool doRealSubmit;
   g_pvrclientcore->PreSubmit(&doQueueSubmit, &doRealSubmit);
   if (doQueueSubmit) {
-    // getOut() << "submit 2" << std::endl;
+    // getOut() << "submit 2 " << GetCurrentThreadId() << std::endl;
     g_pvrcompositor->PrepareSubmit(texture);
     VRCompositorError result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
     //  getOut() << "do real submit " << doRealSubmit << std::endl;
@@ -133,7 +133,7 @@ ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const V
       g_pvrcompositor->FlushSubmit();
       // g_pvrcompositor->PostPresentHandoff();
     }
-    // getOut() << "submit 3" << std::endl;
+    // getOut() << "submit 3 " << GetCurrentThreadId() << std::endl;
     g_pvrclientcore->PostSubmit();
     return result;
   } else {
@@ -143,7 +143,7 @@ ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const V
 }
 
 void BaseCompositor::ClearLastSubmittedFrame() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ClearLastSubmittedFrame" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ClearLastSubmittedFrame " << GetCurrentThreadId() << std::endl; });
 	// At this point we should show the loading screen and show Guardian, and undo this when the
 	// next frame comes along. TODO implement since it would improve loading screens, but it's certainly not critical
   g_pvrcompositor->ClearLastSubmittedFrame();
@@ -161,12 +161,12 @@ void BaseCompositor::PostPresentHandoff() {
 	//
 	// TODO: use ovr_EndFrame and co instead of ovr_SubmitFrame for better performance, not just here but in all cases
 	//  that way we can call ovr_WaitToBeginFrame in WaitGetPoses to mimick SteamVR.
-  // TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::PostPresentHandoff" << std::endl; });
+  // TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::PostPresentHandoff " << GetCurrentThreadId() << std::endl; });
   // g_pvrcompositor->PostPresentHandoff();
 }
 
 bool BaseCompositor::GetFrameTiming(vr::Compositor_FrameTiming * pTiming, uint32_t unFramesAgo) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetFrameTiming" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetFrameTiming " << GetCurrentThreadId() << std::endl; });
   return g_pvrcompositor->GetFrameTiming(pTiming, unFramesAgo);
 
 	// TODO fill in the m_nNumVSyncsReadyForUse and uint32_t m_nNumVSyncsToFirstView fields, but only
@@ -174,7 +174,7 @@ bool BaseCompositor::GetFrameTiming(vr::Compositor_FrameTiming * pTiming, uint32
 }
 
 uint32_t BaseCompositor::GetFrameTimings(vr::Compositor_FrameTiming * pTiming, uint32_t nFrames) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetFrameTimings" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetFrameTimings " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetFrameTimings(pTiming, nFrames);
 }
 
@@ -187,181 +187,181 @@ uint32_t BaseCompositor::GetFrameTimings(vr::Compositor_FrameTiming * pTiming, u
 } */
 
 float BaseCompositor::GetFrameTimeRemaining() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetFrameTimeRemaining" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetFrameTimeRemaining " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetFrameTimeRemaining();
 }
 
 void BaseCompositor::GetCumulativeStats(vr::Compositor_CumulativeStats * pStats, uint32_t nStatsSizeInBytes) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCumulativeStats" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCumulativeStats " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetCumulativeStats(pStats, nStatsSizeInBytes);
 }
 
 void BaseCompositor::FadeToColor(float fSeconds, float fRed, float fGreen, float fBlue, float fAlpha, bool bBackground) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::FadeToColor" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::FadeToColor " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->FadeToColor(fSeconds, fRed, fGreen, fBlue, fAlpha, bBackground);
 }
 
 HmdColor_t BaseCompositor::GetCurrentFadeColor(bool bBackground) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCurrentFadeColor" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCurrentFadeColor " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetCurrentFadeColor(bBackground);
 }
 
 void BaseCompositor::FadeGrid(float fSeconds, bool bFadeIn) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::FadeGrid" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::FadeGrid " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->FadeGrid(fSeconds, bFadeIn);
 }
 
 float BaseCompositor::GetCurrentGridAlpha() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCurrentGridAlpha" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCurrentGridAlpha " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetCurrentGridAlpha();
 }
 
 ovr_enum_t BaseCompositor::SetSkyboxOverride(const Texture_t * pTextures, uint32_t unTextureCount) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SetSkyboxOverride" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SetSkyboxOverride " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->SetSkyboxOverride(pTextures, unTextureCount);
 }
 
 void BaseCompositor::ClearSkyboxOverride() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ClearSkyboxOverride" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ClearSkyboxOverride " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->ClearSkyboxOverride();
 }
 
 void BaseCompositor::CompositorBringToFront() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CompositorBringToFront" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CompositorBringToFront " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->CompositorBringToFront();
 }
 
 void BaseCompositor::CompositorGoToBack() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CompositorGoToBack" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CompositorGoToBack " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->CompositorGoToBack();
 }
 
 void BaseCompositor::CompositorQuit() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CompositorQuit" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CompositorQuit " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->CompositorQuit();
 }
 
 bool BaseCompositor::IsFullscreen() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsFullscreen" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsFullscreen " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->IsFullscreen();
 }
 
 uint32_t BaseCompositor::GetCurrentSceneFocusProcess() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCurrentSceneFocusProcess" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCurrentSceneFocusProcess " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetCurrentSceneFocusProcess();
 }
 
 uint32_t BaseCompositor::GetLastFrameRenderer() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCurrentSceneFocusProcess" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetCurrentSceneFocusProcess " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetLastFrameRenderer();
 }
 
 bool BaseCompositor::CanRenderScene() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CanRenderScene" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CanRenderScene " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->CanRenderScene();
 }
 
 void BaseCompositor::ShowMirrorWindow() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ShowMirrorWindow" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ShowMirrorWindow " << GetCurrentThreadId() << std::endl; });
 	return g_vrcompositor->ShowMirrorWindow();
 }
 
 void BaseCompositor::HideMirrorWindow() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::HideMirrorWindow" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::HideMirrorWindow " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->HideMirrorWindow();
 }
 
 bool BaseCompositor::IsMirrorWindowVisible() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsMirrorWindowVisible" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsMirrorWindowVisible " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->IsMirrorWindowVisible();
 }
 
 void BaseCompositor::CompositorDumpImages() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CompositorDumpImages" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::CompositorDumpImages " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->CompositorDumpImages();
 }
 
 bool BaseCompositor::ShouldAppRenderWithLowResources() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ShouldAppRenderWithLowResources" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ShouldAppRenderWithLowResources " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->ShouldAppRenderWithLowResources();
 }
 
 void BaseCompositor::ForceInterleavedReprojectionOn(bool bOverride) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ForceInterleavedReprojectionOn" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ForceInterleavedReprojectionOn " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->ForceInterleavedReprojectionOn(bOverride);
 }
 
 void BaseCompositor::ForceReconnectProcess() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ForceReconnectProcess" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ForceReconnectProcess " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->ForceReconnectProcess();
 }
 
 void BaseCompositor::SuspendRendering(bool bSuspend) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SuspendRendering" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SuspendRendering " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->SuspendRendering(bSuspend);
 }
 
 ovr_enum_t BaseCompositor::GetMirrorTextureD3D11(EVREye eEye, void * pD3D11DeviceOrResource, void ** ppD3D11ShaderResourceView) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetMirrorTextureD3D11" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetMirrorTextureD3D11 " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetMirrorTextureD3D11(eEye, pD3D11DeviceOrResource, ppD3D11ShaderResourceView);
 }
 
 void BaseCompositor::ReleaseMirrorTextureD3D11(void * pD3D11ShaderResourceView) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ReleaseMirrorTextureD3D11" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ReleaseMirrorTextureD3D11 " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->ReleaseMirrorTextureD3D11(pD3D11ShaderResourceView);
 }
 
 ovr_enum_t BaseCompositor::GetMirrorTextureGL(EVREye eEye, glUInt_t * pglTextureId, glSharedTextureHandle_t * pglSharedTextureHandle) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetMirrorTextureGL" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetMirrorTextureGL " << GetCurrentThreadId() << std::endl; });
   return g_pvrcompositor->GetMirrorTextureGL(eEye, pglTextureId, pglSharedTextureHandle);
 }
 
 bool BaseCompositor::ReleaseSharedGLTexture(glUInt_t glTextureId, glSharedTextureHandle_t glSharedTextureHandle) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ReleaseSharedGLTexture" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ReleaseSharedGLTexture " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->ReleaseSharedGLTexture(glTextureId, glSharedTextureHandle);
 }
 
 void BaseCompositor::LockGLSharedTextureForAccess(glSharedTextureHandle_t glSharedTextureHandle) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::LockGLSharedTextureForAccess" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::LockGLSharedTextureForAccess " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->LockGLSharedTextureForAccess(glSharedTextureHandle);
 }
 
 void BaseCompositor::UnlockGLSharedTextureForAccess(glSharedTextureHandle_t glSharedTextureHandle) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::UnlockGLSharedTextureForAccess" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::UnlockGLSharedTextureForAccess " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->UnlockGLSharedTextureForAccess(glSharedTextureHandle);
 }
 
 uint32_t BaseCompositor::GetVulkanInstanceExtensionsRequired(VR_OUT_STRING() char * pchValue, uint32_t unBufferSize) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetVulkanInstanceExtensionsRequired" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetVulkanInstanceExtensionsRequired " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetVulkanInstanceExtensionsRequired(pchValue, unBufferSize);
 }
 
 uint32_t BaseCompositor::GetVulkanDeviceExtensionsRequired(VkPhysicalDevice_T * pPhysicalDevice, char * pchValue, uint32_t unBufferSize) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetVulkanDeviceExtensionsRequired" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetVulkanDeviceExtensionsRequired " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->GetVulkanDeviceExtensionsRequired(pPhysicalDevice, pchValue, unBufferSize);
 }
 
 void BaseCompositor::SetExplicitTimingMode(ovr_enum_t eTimingMode) {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SetExplicitTimingMode" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SetExplicitTimingMode " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->SetExplicitTimingMode((vr::EVRCompositorTimingMode)eTimingMode);
 }
 
 ovr_enum_t BaseCompositor::SubmitExplicitTimingData() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SubmitExplicitTimingData" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::SubmitExplicitTimingData " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->SubmitExplicitTimingData();
 }
 
 bool BaseCompositor::IsMotionSmoothingSupported() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsMotionSmoothingSupported" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsMotionSmoothingSupported " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->IsMotionSmoothingSupported();
 }
 
 bool BaseCompositor::IsMotionSmoothingEnabled() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsMotionSmoothingEnabled" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsMotionSmoothingEnabled " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->IsMotionSmoothingEnabled();
 }
 
 bool BaseCompositor::IsCurrentSceneFocusAppLoading() {
-  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsCurrentSceneFocusAppLoading" << std::endl; });
+  TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::IsCurrentSceneFocusAppLoading " << GetCurrentThreadId() << std::endl; });
 	return g_pvrcompositor->IsCurrentSceneFocusAppLoading();
 }
