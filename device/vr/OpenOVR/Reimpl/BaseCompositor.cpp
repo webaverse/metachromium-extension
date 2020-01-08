@@ -116,30 +116,30 @@ ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::Submit " << GetCurrentProcessId() << std::endl; });
-  getOut() << "submit 1 " << GetCurrentProcessId() << std::endl;
+  // getOut() << "submit 1 " << GetCurrentProcessId() << std::endl;
   bool doQueueSubmit;
   bool doRealSubmit;
   g_pvrclientcore->PreSubmit(&doQueueSubmit, &doRealSubmit);
-  getOut() << "submit 2 " << GetCurrentProcessId() << std::endl;
+  // getOut() << "submit 2 " << GetCurrentProcessId() << std::endl;
   if (doQueueSubmit) {
-    getOut() << "submit 3.1 " << GetCurrentProcessId() << std::endl;
+    // getOut() << "submit 3.1 " << GetCurrentProcessId() << std::endl;
     g_pvrcompositor->PrepareSubmit(texture);
-    getOut() << "submit 4 " << GetCurrentProcessId() << std::endl;
+    // getOut() << "submit 4 " << GetCurrentProcessId() << std::endl;
     VRCompositorError result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
-    getOut() << "submit 5 " << GetCurrentProcessId() << std::endl;
+    // getOut() << "submit 5 " << GetCurrentProcessId() << std::endl;
     if (doRealSubmit) {
-      getOut() << "submit 6 " << GetCurrentProcessId() << std::endl;
+      // getOut() << "submit 6 " << GetCurrentProcessId() << std::endl;
       g_pvrcompositor->FlushSubmit();
-      getOut() << "do real submit yes " << GetCurrentProcessId() << std::endl;
+      // getOut() << "do real submit yes " << GetCurrentProcessId() << std::endl;
       // g_pvrcompositor->PostPresentHandoff();
     } else {
-      getOut() << "do real submit no " << GetCurrentProcessId() << std::endl;
+      // getOut() << "do real submit no " << GetCurrentProcessId() << std::endl;
     }
     // getOut() << "submit 3 " << GetCurrentProcessId() << std::endl;
     // g_pvrclientcore->PostSubmit();
     return result;
   } else {
-    getOut() << "submit 3.2 " << GetCurrentProcessId() << std::endl;
+    // getOut() << "submit 3.2 " << GetCurrentProcessId() << std::endl;
     return VRCompositorError::VRCompositorError_None;
   }
   // getOut() << "submit 2 " << texture->eType << " " << texture->eColorSpace << std::endl;
