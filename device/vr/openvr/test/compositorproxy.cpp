@@ -70,20 +70,25 @@ in vec2 vUv;\n\
 out vec4 fragColor;\n\
 uniform sampler2D tex1;\n\
 uniform sampler2D tex2;\n\
+uniform sampler2D depthTex1;\n\
+uniform sampler2D depthTex2;\n\
 uniform float hasTex1;\n\
 uniform float hasTex2;\n\
 uniform vec4 texBounds1;\n\
 uniform vec4 texBounds2;\n\
-// uniform  sampler2D depthTex;\n\
 \n\
 void main() {\n\
   if (hasTex1 > 0.0) {\n\
     vec4 c = texture(tex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
-    fragColor += vec4(c.rgb*c.a, c.a);\n\
+    fragColor += vec4(c.rgb*c.a, c.a) * 0.01;\n\
+    vec4 c2 = texture(depthTex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
+    fragColor += vec4(c2.rgb*c2.a, c2.a);\n\
   }\n\
   if (hasTex2 > 0.0) {\n\
     vec4 c = texture(tex2, texBounds2.xy + vUv * (texBounds2.zw - texBounds2.xy));\n\
-    fragColor += vec4(c.rgb*c.a, c.a);\n\
+    fragColor += vec4(c.rgb*c.a, c.a) * 0.01;\n\
+    vec4 c2 = texture(depthTex2, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
+    fragColor += vec4(c2.rgb*c2.a, c2.a);\n\
   }\n\
   // if (fragColor.a < 0.5) discard;\n\
   // fragColor = vec4(vec3(0.0), 1.0);\n\
@@ -466,6 +471,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
       }
       // getOut() << "prepare submit server 14" << std::endl;
       texLocations.resize(MAX_LAYERS);
+      depthTexLocations.resize(MAX_LAYERS);
       hasTexLocations.resize(MAX_LAYERS);
       texBoundsLocations.resize(MAX_LAYERS);
       for (size_t i = 0; i < MAX_LAYERS; i++) {
@@ -476,6 +482,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           texLocations[i] = texLocation;
         } else {
           getOut() << "compose program failed to get uniform location for '" << texString << "'" << std::endl;
+          abort();
+        }
+
+        std::string depthTexString = std::string("depthTex") + std::to_string(i+1);
+        GLuint depthTexLocation = glGetUniformLocation(composeProgram, depthTexString.c_str());
+        // getOut() << "get depth location 1  " << depthTexString << " " << depthTexLocation << std::endl;
+        if (depthTexLocation != -1) {
+          depthTexLocations[i] = depthTexLocation;
+        } else {
+          getOut() << "compose program failed to get uniform location for '" << depthTexString << "'" << std::endl;
           abort();
         }
 
@@ -555,9 +571,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
       glActiveTexture(GL_TEXTURE0);
       glUniform1i(tex2Location, 1); */
       for (size_t i = 0; i < MAX_LAYERS; i++) {
-        if (texLocations[i] != -1) {
+        // if (texLocations[i] != -1) {
           glUniform1i(texLocations[i], i);
-        }
+          glUniform1i(depthTexLocations[i], MAX_LAYERS + i);
+        // }
       }
 
       fbos.resize(2);
@@ -808,6 +825,8 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
 
           glActiveTexture(GL_TEXTURE0 + numLayers);
           glBindTexture(GL_TEXTURE_2D, inBackTexs[index]);
+          glActiveTexture(GL_TEXTURE0 + MAX_LAYERS + numLayers);
+          glBindTexture(GL_TEXTURE_2D, inBackDepthTexs[index]);
           glUniform1f(hasTexLocations[numLayers], 1.0f);
           const VRTextureBounds_t &textureBounds = inBackTextureBounds[index];
           glUniform4f(texBoundsLocations[numLayers], textureBounds.uMin, textureBounds.vMin, textureBounds.uMax, textureBounds.vMax);

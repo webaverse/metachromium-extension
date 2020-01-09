@@ -37,6 +37,7 @@ public:
   uint64_t fenceValue = 0;
 
   std::vector<GLuint> texLocations;
+  std::vector<GLuint> depthTexLocations;
   std::vector<GLuint> hasTexLocations;
   std::vector<GLuint> texBoundsLocations;
   
