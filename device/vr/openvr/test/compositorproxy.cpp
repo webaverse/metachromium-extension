@@ -1785,9 +1785,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT; // GL_DEPTH32F_STENCIL8
       descDepth.SampleDesc.Count = 1;
       descDepth.SampleDesc.Quality = 0;
-      descDepth.Usage = D3D11_USAGE_DEFAULT;
+      descDepth.Usage = D3D11_USAGE_DYNAMIC;
       descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-      descDepth.CPUAccessFlags = 0;
+      descDepth.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
       descDepth.MiscFlags = desc.MiscFlags;
       /* D3D11_TEXTURE2D_DESC desc2{};
       desc2.ArraySize = 1;
@@ -1925,18 +1925,17 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
+    ID3D11Device *device2;
+    ID3D11DeviceContext *context2;
     ID3D11Texture2D *depthTex = nullptr;
     {
       // getOut() << "get tex view" << std::endl;
-      
-      ID3D11Device *device;
-      ID3D11DeviceContext *context;
 
-      tex->GetDevice(&device);
-      device->GetImmediateContext(&context);
+      tex->GetDevice(&device2);
+      device2->GetImmediateContext(&context2);
       ID3D11RenderTargetView *renderTargetView = nullptr;
       ID3D11DepthStencilView *depthStencilView = nullptr;
-      context->OMGetRenderTargets(1, &renderTargetView, &depthStencilView);
+      context2->OMGetRenderTargets(1, &renderTargetView, &depthStencilView);
       // getOut() << "got tex view " << (void *)renderTargetView << " " << (void *)depthStencilView << std::endl;
 
       ID3D11Resource *resource = nullptr;
@@ -2004,6 +2003,22 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         &srcBox
       );
     }
+
+    D3D11_MAPPED_SUBRESOURCE resource;
+    UINT subresource = 0;//D3D11CalcSubresource(0, 0, 0);
+    hr = context2->Map(depthTex, subresource, D3D11_MAP_READ, 0, &resource);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "depth tex map failed " << (void *)hr << std::endl;
+    }
+    getOut() << "get tex data pointer " << (void *)pData << std::endl;
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "depth tex unmap failed " << (void *)hr << std::endl;
+    }
+    hr = context2->Unmap(depthTex, subresource);
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
 
