@@ -82,13 +82,13 @@ void main() {\n\
     vec4 c = texture(tex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
     fragColor += vec4(c.rgb*c.a, c.a) * 0.01;\n\
     vec4 c2 = texture(depthTex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
-    fragColor += vec4(c2.rgb*c2.a, c2.a);\n\
+    fragColor += vec4(c2.rgb * 100.0, 1.0);\n\
   }\n\
   if (hasTex2 > 0.0) {\n\
     vec4 c = texture(tex2, texBounds2.xy + vUv * (texBounds2.zw - texBounds2.xy));\n\
     fragColor += vec4(c.rgb*c.a, c.a) * 0.01;\n\
     vec4 c2 = texture(depthTex2, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
-    fragColor += vec4(c2.rgb*c2.a, c2.a);\n\
+    fragColor += vec4(c2.rgb * 100.0, 1.0);\n\
   }\n\
   // if (fragColor.a < 0.5) discard;\n\
   // fragColor = vec4(vec3(0.0), 1.0);\n\
@@ -795,13 +795,13 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     }
 
     std::vector<HANDLE> objects;
-    objects.reserve(inBackIndices.size()/2 + 1);
+    objects.reserve(inBackIndices.size()/2*2 + 1);
     for (auto iter : inBackIndices) {
       EVREye e = iter.first.second;
       if (e == eEye) {
         size_t index = iter.second;
-        HANDLE h = inBackInteropHandles[index];
-        objects.push_back(h);
+        objects.push_back(inBackInteropHandles[index]);
+        objects.push_back(inBackDepthInteropHandles[index]);
         // getOut() << "got handle " << (void *)h << std::endl;
       }
     }
@@ -1691,7 +1691,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
   ID3D11Texture2D *&shDepthTex = inDxDepthTexs[index]; // shared dx depth texture
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
-  HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx interop handle
+  HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
   HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
   if (textureLatched != (uintptr_t)pTexture->handle) {
@@ -1860,7 +1860,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     }
     {
       IDXGIResource1 *shDepthTexResource;
-      hr = shTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shDepthTexResource);
+      hr = shDepthTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shDepthTexResource);
       // getOut() << "submit client 7" << std::endl;
       // IDXGIResource1 *pDXGIResource;
       // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
