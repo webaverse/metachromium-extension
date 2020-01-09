@@ -15,9 +15,12 @@
 namespace vr {
 class PVRCompositor : public IVRCompositor {
 public:
-  IVRSystem *vrsystem;
   IVRCompositor *vrcompositor;
   FnProxy &fnp;
+
+  // system
+  TrackedDevicePose_t cachedRenderPoses[vr::k_unMaxTrackedDeviceCount];
+  TrackedDevicePose_t cachedGamePoses[vr::k_unMaxTrackedDeviceCount];
 
   // main
   Microsoft::WRL::ComPtr<ID3D11Device5> device;
@@ -30,6 +33,7 @@ public:
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
   // HANDLE fenceHandle = NULL;
+  // Mutex fenceMutex;
   uint64_t fenceValue = 0;
 
   std::vector<GLuint> texLocations;
@@ -61,7 +65,7 @@ public:
   std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
-  std::vector<std::pair<EVREye, HANDLE>> inBackReadEventQueue;
+  std::vector<std::tuple<EVREye, uint64_t, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;
@@ -74,7 +78,7 @@ public:
   std::vector<ID3D11Texture2D *> shTexOuts;
   std::vector<HANDLE> shTexOutInteropHandles;
 
-  PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp);
+  PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
 	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
@@ -125,6 +129,8 @@ public:
 	virtual bool IsMotionSmoothingEnabled();
 	virtual bool IsMotionSmoothingSupported();
 	virtual bool IsCurrentSceneFocusAppLoading();
+  
+  void CacheWaitGetPoses();
 };
 }
 

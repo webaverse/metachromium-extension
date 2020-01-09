@@ -126,7 +126,7 @@ class Serializer {
 public:
   Serializer(size_t id, unsigned char *data, uintptr_t &read, uintptr_t &write, size_t initSize);
   template<typename T>
-  Serializer &operator>>(T &t) {
+  inline Serializer &operator>>(T &t) {
     Serializer &in = *this;
     static_assert(std::is_trivially_copyable<T>::value, "Must be trivially copyable");
     // getOut() << "reader T 1 " << (in.m_read - in.m_data) << std::endl;
@@ -145,7 +145,7 @@ public:
     return in;
   }
   template<>
-  Serializer &operator>>(std::string &t) {
+  inline Serializer &operator>>(std::string &t) {
     Serializer &in = *this;
 
     if (in.m_read % 8 != 0) {
@@ -184,7 +184,7 @@ public:
     return in;
   }
   template<typename T>
-  Serializer &operator>>(managed_binary<T> &t) {
+  inline Serializer &operator>>(managed_binary<T> &t) {
     Serializer &in = *this;
     
     if (in.m_read % 8 != 0) {
@@ -232,12 +232,12 @@ public:
     deserializeTuple<I + 1, Ts...>(ts);
   }
   template<typename... Ts>
-  Serializer &operator>>(std::tuple<Ts...> &ts) {
+  inline Serializer &operator>>(std::tuple<Ts...> &ts) {
     deserializeTuple<0, Ts...>(ts);
     return *this;
   }
   template<typename T>
-  Serializer &operator<<(const T &t) {
+  inline Serializer &operator<<(const T &t) {
     Serializer &out = *this;
     // getOut() << "writer T 1 " << (out.m_write - out.m_data) << std::endl;
     static_assert(std::is_trivially_copyable<T>::value, "Must be trivially copyable");
@@ -261,7 +261,7 @@ public:
     return out;
   }
   template<>
-  Serializer &operator<<(const std::string &t) {
+  inline Serializer &operator<<(const std::string &t) {
     Serializer &out = *this;
     
     if (out.m_write % 8 != 0) {
@@ -296,7 +296,7 @@ public:
     return out;
   }
   template<typename T>
-  Serializer &operator<<(const binary<T> &t) {
+  inline Serializer &operator<<(const binary<T> &t) {
     Serializer &out = *this;
     
     if (out.m_write % 8 != 0) {
@@ -330,7 +330,7 @@ public:
     return out;
   }
   template<typename T>
-  Serializer &operator<<(const managed_binary<T> &t) {
+  inline Serializer &operator<<(const managed_binary<T> &t) {
     return *this << *((const binary<T> *)(&t));
   }
   template<int I = 0, typename... Ts>
@@ -343,7 +343,7 @@ public:
     serializeTuple<I + 1, Ts...>(ts);
   }
   template<typename... Ts>
-  Serializer &operator<<(std::tuple<Ts...> &ts) {
+  inline Serializer &operator<<(std::tuple<Ts...> &ts) {
     serializeTuple<0, Ts...>(ts);
     return *this;
   }

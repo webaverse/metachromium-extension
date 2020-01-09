@@ -57,17 +57,13 @@ ETrackingUniverseOrigin BaseCompositor::GetTrackingSpace() {
 ovr_enum_t BaseCompositor::WaitGetPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::WaitGetPoses" << std::endl; });
-  // getOut() << "wait get poses 1 " << GetCurrentThreadId() << std::endl;
-  bool doRealWait;
-  g_pvrclientcore->PreWaitGetPoses(&doRealWait);
-  // getOut() << "wait get poses 2 " << GetCurrentThreadId() << " " << doRealWait << std::endl;
-  auto result = doRealWait ?
-    g_pvrcompositor->WaitGetPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount)
-  :
-    g_pvrcompositor->GetLastPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
-  // getOut() << "wait get poses 3 " << GetCurrentThreadId() << std::endl;
-  g_pvrclientcore->PostWaitGetPoses();
-  // getOut() << "wait get poses 4 " << GetCurrentThreadId() << std::endl;
+  // getOut() << "BaseCompositor::WaitGetPoses 1" << std::endl;
+  g_pvrclientcore->PreWaitGetPoses();
+  // getOut() << "BaseCompositor::WaitGetPoses 2" << std::endl;
+  auto result = g_pvrcompositor->WaitGetPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
+  // getOut() << "BaseCompositor::WaitGetPoses 3" << std::endl;
+  // g_pvrclientcore->PostWaitGetPoses();
+  // getOut() << "wait get poses 4" << std::endl;
   return result;
 }
 
@@ -102,7 +98,7 @@ Matrix4f BaseCompositor::GetHandTransform() {
 ovr_enum_t BaseCompositor::GetLastPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::GetLastPoses" << std::endl; });
-  // getOut() << "get last poses 1 " << (void *)GetCurrentThreadId() << std::endl;
+  // getOut() << "get last poses 1 " << (void *)GetCurrentProcessId() << std::endl;
   // auto start = std::chrono::high_resolution_clock::now();
   auto result = g_pvrcompositor->GetLastPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
   /* auto end = std::chrono::high_resolution_clock::now();
@@ -120,23 +116,30 @@ ovr_enum_t BaseCompositor::GetLastPoseForTrackedDeviceIndex(TrackedDeviceIndex_t
 
 ovr_enum_t BaseCompositor::Submit(EVREye eye, const Texture_t * texture, const VRTextureBounds_t * bounds, EVRSubmitFlags submitFlags) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::Submit" << std::endl; });
-  // getOut() << "submit 1 " << GetCurrentThreadId() << std::endl;
+  // getOut() << "submit 1" << std::endl;
   bool doQueueSubmit;
   bool doRealSubmit;
   g_pvrclientcore->PreSubmit(&doQueueSubmit, &doRealSubmit);
+  // getOut() << "submit 2" << std::endl;
   if (doQueueSubmit) {
-    // getOut() << "submit 2" << std::endl;
+    // getOut() << "submit 3.1" << std::endl;
     g_pvrcompositor->PrepareSubmit(texture);
+    // getOut() << "submit 4" << std::endl;
     VRCompositorError result = g_pvrcompositor->Submit(eye, texture, bounds, submitFlags);
-    //  getOut() << "do real submit " << doRealSubmit << std::endl;
+    // getOut() << "submit 5" << std::endl;
     if (doRealSubmit) {
+      // getOut() << "submit 6" << std::endl;
       g_pvrcompositor->FlushSubmit();
+      // getOut() << "do real submit yes" << std::endl;
       // g_pvrcompositor->PostPresentHandoff();
+    } else {
+      // getOut() << "do real submit no" << std::endl;
     }
     // getOut() << "submit 3" << std::endl;
-    g_pvrclientcore->PostSubmit();
+    // g_pvrclientcore->PostSubmit();
     return result;
   } else {
+    // getOut() << "submit 3.2" << std::endl;
     return VRCompositorError::VRCompositorError_None;
   }
   // getOut() << "submit 2 " << texture->eType << " " << texture->eColorSpace << std::endl;

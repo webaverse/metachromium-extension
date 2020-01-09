@@ -42,7 +42,9 @@ public:
 class FnProxy {
 public:
   size_t callbackId;
+  size_t processId;
   size_t remoteCallbackId;
+  size_t remoteProcessId;
   Mutex mut;
   Semaphore inSem;
   // Semaphore outSem;
@@ -69,7 +71,7 @@ public:
       // getOut() << "proxy0 call 1" << std::endl;
       std::lock_guard<Mutex> lock(mut);
       // getOut() << "proxy0 call 2" << std::endl;
-      writeArg << callbackId << std::string(name);
+      writeArg << callbackId << processId << std::string(name);
       // getOut() << "proxy0 call 3" << std::endl;
     // }
     dispatchCall();
@@ -94,7 +96,7 @@ public:
       // getOut() << "proxy1 call 1" << std::endl;
       std::lock_guard<Mutex> lock(mut);
       // getOut() << "proxy1 call 2" << std::endl;
-      writeArg << callbackId << std::string(name) << a;
+      writeArg << callbackId << processId << std::string(name) << a;
       // getOut() << "proxy1 call 3" << std::endl;
     // }
     dispatchCall();
@@ -119,7 +121,7 @@ public:
       // getOut() << "proxy2 call 1" << std::endl;
       std::lock_guard<Mutex> lock(mut);
       // getOut() << "proxy2 call 2" << std::endl;
-      writeArg << callbackId << std::string(name) << a << b;
+      writeArg << callbackId << processId << std::string(name) << a << b;
       // getOut() << "proxy2 call 3" << std::endl;
     // }
     dispatchCall();
@@ -144,7 +146,7 @@ public:
       // getOut() << "proxy3 call 1" << std::endl;
       std::lock_guard<Mutex> lock(mut);
       // getOut() << "proxy3 call 2" << std::endl;
-      writeArg << callbackId << std::string(name) << a << b << c;
+      writeArg << callbackId << processId << std::string(name) << a << b << c;
       // getOut() << "proxy3 call 3" << std::endl;
     // }
     dispatchCall();
@@ -169,7 +171,7 @@ public:
       // getOut() << "proxy4 call 1" << std::endl;
       std::lock_guard<Mutex> lock(mut);
       // getOut() << "proxy4 call 2" << std::endl;
-      writeArg << callbackId << std::string(name) << a << b << c << d;
+      writeArg << callbackId << processId << std::string(name) << a << b << c << d;
       // getOut() << "proxy4 call 3" << std::endl;
     // }
     dispatchCall();
@@ -192,7 +194,7 @@ public:
     
     {
       std::lock_guard<Mutex> lock(mut);
-      writeArg << callbackId << std::string(name) << a << b << c << d << e;
+      writeArg << callbackId << processId << std::string(name) << a << b << c << d << e;
     // }
     dispatchCall();
     // {
@@ -210,7 +212,7 @@ public:
     
     {
       std::lock_guard<Mutex> lock(mut);
-      writeArg << callbackId << std::string(name) << a << b << c << d << e << f;
+      writeArg << callbackId << processId << std::string(name) << a << b << c << d << e << f;
     // }
     dispatchCall();
     // {

@@ -10,6 +10,7 @@
 #include "device/vr/openvr/test/inputproxy.h"
 #include "device/vr/openvr/test/screenshotsproxy.h"
 #include "device/vr/openvr/test/chaperoneproxy.h"
+#include "device/vr/openvr/test/chaperonesetupproxy.h"
 #include "device/vr/openvr/test/settingsproxy.h"
 #include "device/vr/openvr/test/rendermodelsproxy.h"
 #include "device/vr/openvr/test/applicationsproxy.h"
@@ -42,6 +43,7 @@ namespace vr {
   extern PVRInput *g_pvrinput;
   extern PVRScreenshots *g_pvrscreenshots;
   extern PVRChaperone *g_pvrchaperone;
+  extern PVRChaperoneSetup *g_pvrchaperonesetup;
   extern PVRSettings *g_pvrsettings;
   extern PVRRenderModels *g_pvrrendermodels;
   extern PVRApplications *g_pvrapplications;

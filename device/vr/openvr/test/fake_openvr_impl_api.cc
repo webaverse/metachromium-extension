@@ -95,6 +95,7 @@ PVRCompositor *g_pvrcompositor = nullptr;
 PVRInput *g_pvrinput = nullptr;
 PVRScreenshots *g_pvrscreenshots = nullptr;
 PVRChaperone *g_pvrchaperone = nullptr;
+PVRChaperoneSetup *g_pvrchaperonesetup = nullptr;
 PVRSettings *g_pvrsettings = nullptr;
 PVRRenderModels *g_pvrrendermodels = nullptr;
 PVRApplications *g_pvrapplications = nullptr;
@@ -106,7 +107,7 @@ PVRApplications *g_pvrapplications = nullptr;
 constexpr bool localLoop = false;
 
 void *shMem = nullptr;
-size_t *pBooted = nullptr;
+uint64_t *pBooted = nullptr;
 // GLFWwindow **ppWindow;
 // size_t *pNumClients = nullptr;
 extern "C" {
@@ -197,12 +198,13 @@ extern "C" {
         
         std::thread t([=]() {
           FnProxy fnp;
-          vr::PVRClientCore clientcore(fnp);
           vr::PVRSystem system(vr::g_vrsystem, fnp);
-          vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
+          vr::PVRCompositor compositor(vr::g_vrcompositor, fnp);
+          vr::PVRClientCore clientcore(&compositor, fnp);
           vr::PVRInput input(vr::g_vrinput, fnp);
           vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
           vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
+          vr::PVRChaperoneSetup chaperonesetup(vr::g_vrchaperonesetup, fnp);
           vr::PVRSettings settings(vr::g_vrsettings, fnp);
           vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
           vr::PVRApplications applications(vr::g_vrapplications, fnp);
@@ -218,12 +220,13 @@ extern "C" {
     
     if (!vr::g_pvrclientcore) {
       FnProxy *fnp = new FnProxy();
-      vr::g_pvrclientcore = new vr::PVRClientCore(*fnp);
       vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
-      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrsystem, vr::g_vrcompositor, *fnp);
+      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *fnp);
+      vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *fnp);
       vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
       vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
       vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
+      vr::g_pvrchaperonesetup = new vr::PVRChaperoneSetup(vr::g_vrchaperonesetup, *fnp);
       vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *fnp);
       vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *fnp);
       vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *fnp);
@@ -279,8 +282,8 @@ BOOL WINAPI DllMain(
   getOut() << "dll main " << fdwReason << std::endl;
 
   if (fdwReason == DLL_PROCESS_ATTACH) {
-    shMem = allocateShared("Local\\OpenVrProxyInit", 16);
-    pBooted = (size_t *)shMem;
+    shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
+    pBooted = (uint64_t *)shMem;
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
     

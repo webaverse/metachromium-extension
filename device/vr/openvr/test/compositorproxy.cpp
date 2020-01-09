@@ -116,7 +116,10 @@ const EVREye EYES[] = {
   }
 } */
 
-PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, FnProxy &fnp) : vrcompositor(vrcompositor), fnp(fnp) {
+PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
+  vrcompositor(vrcompositor),
+  fnp(fnp)
+{
   fnp.reg<
     kIVRCompositor_SetTrackingSpace,
     int,
@@ -142,10 +145,14 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
     // getOut() << "handle poses 2" << std::endl;
 
-    EVRCompositorError error = vrcompositor->WaitGetPoses(renderPoseArray.data(), unRenderPoseArrayCount, gamePoseArray.data(), unGamePoseArrayCount);
+    memcpy(renderPoseArray.data(), cachedRenderPoses, unRenderPoseArrayCount * sizeof(TrackedDevicePose_t));
+    memcpy(gamePoseArray.data(), cachedGamePoses, unGamePoseArrayCount * sizeof(TrackedDevicePose_t));
+
+    // EVRCompositorError error = vrcompositor->WaitGetPoses(renderPoseArray.data(), unRenderPoseArrayCount, gamePoseArray.data(), unGamePoseArrayCount);
 
     // getOut() << "handle poses 3" << std::endl;
 
+    EVRCompositorError error = VRCompositorError_None;
     auto result = std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>(
       error,
       std::move(renderPoseArray),
@@ -163,12 +170,16 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     managed_binary<TrackedDevicePose_t> renderPoseArray(unRenderPoseArrayCount);
     managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
 
+    memcpy(renderPoseArray.data(), cachedRenderPoses, unRenderPoseArrayCount * sizeof(TrackedDevicePose_t));
+    memcpy(gamePoseArray.data(), cachedGamePoses, unGamePoseArrayCount * sizeof(TrackedDevicePose_t));
+
     // auto start = std::chrono::high_resolution_clock::now();
-    EVRCompositorError error = vrcompositor->GetLastPoses(renderPoseArray.data(), unRenderPoseArrayCount, gamePoseArray.data(), unGamePoseArrayCount);
+    // EVRCompositorError error = vrcompositor->GetLastPoses(renderPoseArray.data(), unRenderPoseArrayCount, gamePoseArray.data(), unGamePoseArrayCount);
     /* auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
     getOut() << "get last poses real " << elapsed.count() << std::endl; */
 
+    EVRCompositorError error = VRCompositorError_None;
     return std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>(
       error,
       std::move(renderPoseArray),
@@ -401,7 +412,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
         abort();
       };
       
-      getOut() << "prepare submit server 10" << std::endl;
+      // getOut() << "prepare submit server 10" << std::endl;
 
       // getOut() << "gl init error 2 " << glGetError() << std::endl;
 
@@ -577,9 +588,9 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
 
-    // getOut() << "submit server 1 " << pBounds->uMin << " " << pBounds->vMin << " " << pBounds->uMax << " " << pBounds->vMax << std::endl;
+    // getOut() << "submit server 1 " << fnp.remoteProcessId << " " << (int)eEye << std::endl;
 
-    auto key = std::pair<size_t, EVREye>(fnp.remoteCallbackId, eEye);
+    auto key = std::pair<size_t, EVREye>(fnp.remoteProcessId, eEye);
     auto iter = inBackIndices.find(key);
     size_t index;
     if (iter != inBackIndices.end()) {
@@ -654,11 +665,11 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
       shTexIn->Release();
       shTexResource->Release();
       
-      getOut() << "open backend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.remoteCallbackId) + std::string(":") + std::to_string((int)eEye)) << std::endl;
+      getOut() << "open backend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
       readEvent = OpenEventA(
         GENERIC_ALL,
         false,
-        (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.remoteCallbackId) + std::string(":") + std::to_string((int)eEye)).c_str()
+        (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))).c_str()
       );
       
       if (!readEvent) {
@@ -671,7 +682,7 @@ PVRCompositor::PVRCompositor(IVRSystem *vrsystem, IVRCompositor *vrcompositor, F
 
     textureBounds = *pBounds;
 
-    inBackReadEventQueue.push_back(std::pair<EVREye, HANDLE>(eEye, readEvent));
+    inBackReadEventQueue.push_back(std::tuple<EVREye, uint64_t, HANDLE>(eEye, fnp.remoteProcessId, readEvent));
 
     /* if (!fence) {
       ID3D11Resource *fenceResource;
@@ -716,10 +727,12 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     // getOut() << "flush submit server 2" << std::endl;
 
     for (auto iter : inBackReadEventQueue) {
-      EVREye &e = iter.first;
+      EVREye &e = std::get<0>(iter);
       if (e == eEye) {
-        HANDLE &readEvent = iter.second;
+        // getOut() << "wait for read pre " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
+        HANDLE &readEvent = std::get<2>(iter);
         WaitForSingleObject(readEvent, INFINITE);
+        // getOut() << "wait for read post " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
       }
     }
 
@@ -853,10 +866,10 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     managed_binary<Compositor_FrameTiming>,
     uint32_t
   >([=](managed_binary<Compositor_FrameTiming> timing, uint32_t unFramesAgo) {
-    //  managed_binary<Compositor_FrameTiming> timing(1);
-
+    // getOut() << "server get frame timing 1" << std::endl;
+    // managed_binary<Compositor_FrameTiming> timing(1);
     bool result = vrcompositor->GetFrameTiming(timing.data(), unFramesAgo);
-
+    // getOut() << "server get frame timing 2" << std::endl;
     return std::tuple<bool, managed_binary<Compositor_FrameTiming>>(
       result,
       std::move(timing)
@@ -867,9 +880,9 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
     managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >([=](managed_binary<Compositor_FrameTiming> timings, uint32_t nFrames) {
+  >([=](managed_binary<Compositor_FrameTiming> timings, int32_t nFrames) {
+    // managed_binary<Compositor_FrameTiming> timings(nFrames);
     uint32_t result = vrcompositor->GetFrameTimings(timings.data(), nFrames);
-
     return std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>(
       result,
       std::move(timings)
@@ -1153,11 +1166,11 @@ EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArra
     uint32_t,
     uint32_t
   >(unRenderPoseArrayCount, unGamePoseArrayCount);
-  // getOut() << "wait get poses 1 " << unRenderPoseArrayCount << " " << unGamePoseArrayCount << " " << std::get<1>(result).size() << " " << std::get<2>(result).size() << std::endl;
-  memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(*std::get<1>(result).data()));
-  // getOut() << "wait get poses 2 " << unRenderPoseArrayCount << " " << unGamePoseArrayCount << " " << std::get<1>(result).size() << " " << std::get<2>(result).size() << std::endl;
-  memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(*std::get<2>(result).data()));
-  // getOut() << "wait get poses 3 " << unRenderPoseArrayCount << " " << unGamePoseArrayCount << " " << std::get<1>(result).size() << " " << std::get<2>(result).size() << std::endl;
+  // getOut() << "proxy wait get poses 1 " << (void *)pRenderPoseArray << " " << unRenderPoseArrayCount << " " << (void *)pGamePoseArray << " " << unGamePoseArrayCount << std::endl;
+  memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(TrackedDevicePose_t));
+  // getOut() << "proxy wait get poses 2 " << (void *)pRenderPoseArray << " " << unRenderPoseArrayCount << " " << (void *)pGamePoseArray << " " << unGamePoseArrayCount << std::endl;
+  memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(TrackedDevicePose_t));
+  // getOut() << "proxy wait get poses 3 " << (void *)pRenderPoseArray << " " << unRenderPoseArrayCount << " " << (void *)pGamePoseArray << " " << unGamePoseArrayCount << std::endl;
   return std::get<0>(result);
 }
 EVRCompositorError PVRCompositor::GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
@@ -1172,8 +1185,8 @@ EVRCompositorError PVRCompositor::GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArra
   /* auto end = std::chrono::high_resolution_clock::now();
   std::chrono::duration<double> elapsed = end - start;
   getOut() << "get last poses call " << elapsed.count() << std::endl;  */
-  memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(*std::get<1>(result).data()));
-  memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(*std::get<2>(result).data()));
+  memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(TrackedDevicePose_t));
+  memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(TrackedDevicePose_t));
   return std::get<0>(result);
 }
 EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose ) {
@@ -1576,7 +1589,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     getOut() << "got width height top " << width << " " << height << std::endl;
   } */
 
-  auto key = std::pair<size_t, EVREye>(fnp.callbackId, eEye);
+  auto key = std::pair<size_t, EVREye>(fnp.processId, eEye);
   auto iter = inFrontIndices.find(key);
   size_t index;
   if (iter != inFrontIndices.end()) {
@@ -1748,18 +1761,18 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       abort();
     }
     
-    getOut() << "open frontend read event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.callbackId) + std::string(":") + std::to_string((int)eEye)) << std::endl;
+    getOut() << "open frontend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
     readEvent = CreateEventA(
       NULL,
       false,
       false,
-      (std::string("Local\\OpenVrFenceEvent") + std::to_string(fnp.callbackId) + std::string(":") + std::to_string((int)eEye)).c_str()
+      (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))).c_str()
     );
 
     // getOut() << "submit client 13" << std::endl;
     
     if (!readEvent) {
-      getOut() << "failed to open frontend read event" << std::endl;
+      getOut() << "failed to open frontend event" << std::endl;
       abort();
     }
     
@@ -1976,10 +1989,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     getOut() << "unknown texture type: " << (void *)pTexture->eType << std::endl;
     abort();
   }
-  
+
   // getOut() << "submit client 18 " << (void *)context.Get() << " " << (void *)fence.Get() << " " << (void *)readEvent << std::endl;
 
   ++fenceValue;
+  // getOut() << "signal read event " << (std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << " " << fenceValue << std::endl;
   context->Signal(fence.Get(), fenceValue);
   fence->SetEventOnCompletion(fenceValue, readEvent);
   // context->Flush();
@@ -2010,9 +2024,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags
   >(eEye, std::move(sharedTexture), std::move(bounds), EVRSubmitFlags::Submit_Default);
-  
+
   // getOut() << "submit client 23" << std::endl;
-  
+
   return result;
 }
 void PVRCompositor::FlushSubmit() {
@@ -2040,13 +2054,16 @@ void PVRCompositor::PostPresentHandoff() {
 bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo ) {
   managed_binary<Compositor_FrameTiming> timing(1);
   *timing.data() = *pTiming;
+  // getOut() << "get frame timing 1" << std::endl;
   auto result = fnp.call<
     kIVRCompositor_GetFrameTiming,
     std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
     managed_binary<Compositor_FrameTiming>,
     uint32_t
   >(std::move(timing), unFramesAgo);
+  // getOut() << "get frame timing 2 " << (void *)pTiming << std::endl;
   *pTiming = *std::get<1>(result).data();
+  // getOut() << "get frame timing 3" << std::endl;
   return std::get<0>(result);
 }
 uint32_t PVRCompositor::GetFrameTimings( VR_ARRAY_COUNT( nFrames ) Compositor_FrameTiming *pTiming, uint32_t nFrames ) {
@@ -2058,7 +2075,7 @@ uint32_t PVRCompositor::GetFrameTimings( VR_ARRAY_COUNT( nFrames ) Compositor_Fr
     managed_binary<Compositor_FrameTiming>,
     uint32_t
   >(std::move(timings), nFrames);
-  memcpy((void *)pTiming, (void *)std::get<1>(result).data(), nFrames * sizeof(Compositor_FrameTiming));
+  memcpy((void *)pTiming, (void *)std::get<1>(result).data(), std::get<1>(result).size() * sizeof(Compositor_FrameTiming));
   return std::get<0>(result);
 }
 float PVRCompositor::GetFrameTimeRemaining() {
@@ -2271,5 +2288,14 @@ bool PVRCompositor::IsCurrentSceneFocusAppLoading() {
     kIVRCompositor_IsCurrentSceneFocusAppLoading,
     bool
   >();
+}
+void PVRCompositor::CacheWaitGetPoses() {
+  // getOut() << "CacheWaitGetPoses 1" << std::endl;
+  EVRCompositorError error = vrcompositor->WaitGetPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), cachedGamePoses, ARRAYSIZE(cachedGamePoses));
+  // getOut() << "CacheWaitGetPoses 2" << std::endl;
+  if (error != VRCompositorError_None) {
+    getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
+  }
+  inBackReadEventQueue.clear();
 }
 }

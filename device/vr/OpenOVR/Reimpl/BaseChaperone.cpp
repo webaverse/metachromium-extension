@@ -45,5 +45,6 @@ void BaseChaperone::ForceBoundsVisible(bool bForce) {
 bool BaseChaperone::GetMinMaxPoints(vr::HmdVector3_t &minPoint, vr::HmdVector3_t &maxPoint) {
   TRACE("BaseChaperone", []() { getOut() << "BaseChaperone::GetMinMaxPoints" << std::endl; });
   getOut() << "abort BaseChaperone::GetMinMaxPoints" << std::endl; abort();
+  return false;
 	// return g_pvrchaperone->GetMinMaxPoints(minPoint, maxPoint);
 }

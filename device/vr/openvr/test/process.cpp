@@ -113,16 +113,16 @@ int main() {
   });
 
   FnProxy fnp;
-  vr::PVRClientCore clientcore(fnp);
   vr::PVRSystem system(vr::g_vrsystem, fnp);
-  vr::PVRCompositor compositor(vr::g_vrsystem, vr::g_vrcompositor, fnp);
+  vr::PVRCompositor compositor(vr::g_vrcompositor, fnp);
+  vr::PVRClientCore clientcore(&compositor, fnp);
   vr::PVRInput input(vr::g_vrinput, fnp);
   vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
   vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
+  vr::PVRChaperoneSetup chaperonesetup(vr::g_vrchaperonesetup, fnp);
   vr::PVRSettings settings(vr::g_vrsettings, fnp);
   vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
   vr::PVRApplications applications(vr::g_vrapplications, fnp);
-  getOut() << "start loop" << std::endl;
   for (;;) {
     fnp.handle();
     // getOut() << "handled" << std::endl;
