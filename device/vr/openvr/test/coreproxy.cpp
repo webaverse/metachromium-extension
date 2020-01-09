@@ -84,32 +84,25 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
       submitSemsOrder.erase(newEnd, submitSemsOrder.end());
     }
 
-    submitSemsOrder.push_back(remoteProcessId);
-    submitSemsOrder.push_back(remoteProcessId);
-
     if (waitSemsOrder.size() >= processIds.size()) {
       // getOut() << "wait get poses flush 1 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
       pvrcompositor->CacheWaitGetPoses();
       // getOut() << "wait get poses flush 2 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
 
-      for (auto iter : waitSemsOrder) {
-        Semaphore *sem = getLocalSemaphore(iter);
-        sem->unlock();
-      }
-      /* {
-        auto newEnd = std::remove_if(waitSemsOrder.begin(), waitSemsOrder.end(), [&](size_t id2) {
-          if (id2 == remoteProcessId) {
-            return true;
-          } else {
-            return false;
-          }
-        });
-        waitSemsOrder.erase(newEnd, waitSemsOrder.end());
-      } */
+      unlockSemsOrder = std::move(waitSemsOrder);
       waitSemsOrder.clear();
-    } /* else {
-      getOut() << "wait get poses do not flush " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
-    } */
+    }
+    
+    if (unlockSemsOrder.size() > 0) {
+      size_t unlockProcessId = unlockSemsOrder.front();
+      unlockSemsOrder.pop_front();
+
+      Semaphore *sem = getLocalSemaphore(unlockProcessId);
+      sem->unlock();
+
+      submitSemsOrder.push_back(unlockProcessId);
+      submitSemsOrder.push_back(unlockProcessId);
+    }
     /* auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), id);
     // getOut() << "iter distance " << id << " " << waitSemsOrder.size() << " " << (iter != waitSemsOrder.end()) << " " << std::distance(waitSemsOrder.begin(), iter) << std::endl;
     bool doRealWait = std::distance(waitSemsOrder.begin(), iter) == 0; */
@@ -131,7 +124,7 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
       submitSemsOrder.erase(iter);
       // nextSemId = id | SUBMIT_MASK;
       doQueueSubmit = true;
-      doRealSubmit = submitSemsOrder.size() == 0;
+      doRealSubmit = unlockSemsOrder.size() == 0 && submitSemsOrder.size() == 0;
       // getOut() << "pre submit yes submit " << submitSemsOrder.size() << std::endl;
     } else {
       // nextSemId = 0;

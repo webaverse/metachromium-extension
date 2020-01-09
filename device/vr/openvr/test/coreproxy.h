@@ -24,7 +24,8 @@ public:
   // bool firstWait = true;
   // Mutex mut;
   std::set<size_t> processIds;
-  std::vector<size_t> waitSemsOrder;
+  std::deque<size_t> waitSemsOrder;
+  std::deque<size_t> unlockSemsOrder;
   std::deque<size_t> submitSemsOrder;
   std::map<size_t, Semaphore> localSems;
   // bool rightEye;
