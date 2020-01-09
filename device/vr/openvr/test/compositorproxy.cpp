@@ -585,9 +585,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags,
     uintptr_t
-  >([=, &fnp](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags, uintptr_t sharedDepthHandle) {
+  >([=, &fnp](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags, uintptr_t sharedDepthHandlePtr) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
+    HANDLE sharedDepthHandle = (HANDLE)sharedDepthHandlePtr;
 
     // getOut() << "submit server 1 " << fnp.remoteProcessId << " " << (int)eEye << std::endl;
 
@@ -615,6 +616,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
     GLuint &shTexInId = inBackTexs[index]; // gl texture
     HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
+    GLuint &shDepthTexInId = inBackDepthTexs[index]; // gl depth texture
+    HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
     HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     VRTextureBounds_t &textureBounds = inBackTextureBounds[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
@@ -624,7 +627,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     if (handleLatched != sharedHandle) {
       // getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
       if (handleLatched) {
-        // glDeleteTextures(1, &shTexInId);
         // XXX delete old resources
         // hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
       }
@@ -634,40 +636,76 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
 
       // IDXGIResource1 *pD3DResource;
       // HRESULT hr = device->OpenSharedResource1(sharedHandle, __uuidof(IDXGIResource1), (void**)(&pD3DResource));
-      ID3D11Resource *shTexResource;
-      HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+      
 
       // getOut() << "submit server 5" << std::endl;
 
-      ID3D11Texture2D *shTexIn;
-      if (SUCCEEDED(hr)) {
-        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
+      GLuint textures[2];
+      glGenTextures(ARRAYSIZE(textures), textures);
+      shTexInId = textures[0];
+      shDepthTexInId = textures[1];
+
+      {
+        ID3D11Resource *shTexResource;
+        HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
         
+        ID3D11Texture2D *shTexIn;
         if (SUCCEEDED(hr)) {
-          // nothing
+          hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
+          
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+            abort();
+          }
         } else {
-          getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+          getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
           abort();
         }
-      } else {
-        getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
-        abort();
-      }
-    
-      // getOut() << "submit server 6 " << GetLastError() << std::endl;
 
-      glGenTextures(1, &shTexInId);
-      shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
-      if (shTexInInteropHandle) {
-        // nothing
-      } else {
-        // C007006E
-        getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shTexIn << " " << shTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
-        abort();
+        shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+        if (shTexInInteropHandle) {
+          // nothing
+        } else {
+          // C007006E
+          getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shTexIn << " " << shTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
+          abort();
+        }
+        shTexIn->Release();
+        shTexResource->Release();
       }
-      shTexIn->Release();
-      shTexResource->Release();
-      
+      {
+        ID3D11Resource *shDepthTexResource;
+        HRESULT hr = device->OpenSharedResource(sharedDepthHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
+        
+        ID3D11Texture2D *shDepthTexIn;
+        if (SUCCEEDED(hr)) {
+          hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTexIn));
+          
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
+            abort();
+          }
+        } else {
+          getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
+          abort();
+        }
+
+        shDepthTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shDepthTexIn, shDepthTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+        if (shDepthTexInInteropHandle) {
+          // nothing
+        } else {
+          // C007006E
+          getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shDepthTexIn << " " << shDepthTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
+          abort();
+        }
+        shDepthTexIn->Release();
+        shDepthTexResource->Release();
+      }
+
       getOut() << "open backend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
       readEvent = OpenEventA(
         GENERIC_ALL,
