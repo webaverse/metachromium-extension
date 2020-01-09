@@ -583,8 +583,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     EVREye,
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
-    EVRSubmitFlags
-  >([=, &fnp](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags) {
+    EVRSubmitFlags,
+    uintptr_t
+  >([=, &fnp](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags, uintptr_t sharedDepthHandle) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
 
@@ -602,6 +603,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
 
       inBackTexs.resize(index+1, NULL);
       inBackInteropHandles.resize(index+1, NULL);
+      inBackDepthTexs.resize(index+1, NULL);
+      inBackDepthInteropHandles.resize(index+1, NULL);
       inBackReadEvents.resize(index+1, NULL);
       inBackTextureBounds.resize(index+1, VRTextureBounds_t{});
       inBackHandleLatches.resize(index+1, NULL);
@@ -1600,7 +1603,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // iter = inFrontIndices.find(key);
 
     inDxTexs.resize(index+1, NULL);
+    inDxDepthTexs.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
+    inShDepthDxShareHandles.resize(index+1, NULL);
     inTexLatches.resize(index+1, NULL);
     interopTexs.resize(index+1, NULL);
     inReadInteropHandles.resize(index+1, NULL);
@@ -1625,8 +1630,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   float vMin = std::min(bounds.data()->vMin, bounds.data()->vMax);
   float vMax = std::max(bounds.data()->vMin, bounds.data()->vMax);
 
+  HRESULT hr;
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
+  ID3D11Texture2D *&shDepthTex = inDxDepthTexs[index]; // shared dx depth texture
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
+  HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx interop handle
   HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
   if (textureLatched != (uintptr_t)pTexture->handle) {
@@ -1699,7 +1707,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
     // getOut() << "submit client 5" << std::endl;
 
-    HRESULT hr = device->CreateTexture2D(
+    hr = device->CreateTexture2D(
       &desc,
       NULL,
       &shTex
@@ -1709,6 +1717,37 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     } else {
       getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
+    }
+
+    {
+      D3D11_TEXTURE2D_DESC descDepth;
+      descDepth.Width = desc.Width;
+      descDepth.Height = desc.Height;
+      descDepth.MipLevels = 1;
+      descDepth.ArraySize = 1;
+      descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT; // GL_DEPTH32F_STENCIL8
+      descDepth.SampleDesc.Count = 1;
+      descDepth.SampleDesc.Quality = 0;
+      descDepth.Usage = D3D11_USAGE_DEFAULT;
+      descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+      descDepth.CPUAccessFlags = 0;
+      descDepth.MiscFlags = desc.MiscFlags;
+      /* D3D11_TEXTURE2D_DESC desc2{};
+      desc2.ArraySize = 1;
+      desc2.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+      desc2.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+      // desc2.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_DEPTH_STENCIL; */
+      hr = device->CreateTexture2D(
+        &descDepth,
+        NULL,
+        &shDepthTex
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to create shared depth texture: " << (void *)hr << std::endl;
+        abort();
+      }
     }
     
     // getOut() << "get submit 6" << std::endl;
@@ -1731,34 +1770,66 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
     // getOut() << "get submit 8" << std::endl;
 
-    // get share handle
-    IDXGIResource1 *shTexResource;
-    hr = shTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shTexResource);
-    // getOut() << "submit client 7" << std::endl;
-    // IDXGIResource1 *pDXGIResource;
-    // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
-
-    if (SUCCEEDED(hr)) {
-      // getOut() << "submit client 8" << std::endl;
+    // get share handles
+    {
+      IDXGIResource1 *shTexResource;
+      hr = shTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shTexResource);
       // getOut() << "submit client 7" << std::endl;
-      hr = shTexResource->GetSharedHandle(&sharedHandle);
-      // hr = shTexResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ | DXGI_SHARED_RESOURCE_WRITE, NULL, &sharedHandle);
+      // IDXGIResource1 *pDXGIResource;
+      // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
 
-      // getOut() << "submit client 9" << std::endl;
-
-      // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
       if (SUCCEEDED(hr)) {
-        // getOut() << "submit client 10" << std::endl;
-        // shTexResource->Release();
-        // getOut() << "submit client 11" << std::endl;
-        // nothing
+        // getOut() << "submit client 8" << std::endl;
+        // getOut() << "submit client 7" << std::endl;
+        hr = shTexResource->GetSharedHandle(&sharedHandle);
+        // hr = shTexResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ | DXGI_SHARED_RESOURCE_WRITE, NULL, &sharedHandle);
+
+        // getOut() << "submit client 9" << std::endl;
+
+        // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+        if (SUCCEEDED(hr)) {
+          // getOut() << "submit client 10" << std::endl;
+          // shTexResource->Release();
+          // getOut() << "submit client 11" << std::endl;
+          // nothing
+        } else {
+          getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
+          abort();
+        }
       } else {
-        getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
+        getOut() << "failed to get shared texture: " << (void *)hr << std::endl;
         abort();
       }
-    } else {
-      getOut() << "failed to get shared texture: " << (void *)hr << std::endl;
-      abort();
+    }
+    {
+      IDXGIResource1 *shDepthTexResource;
+      hr = shTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shDepthTexResource);
+      // getOut() << "submit client 7" << std::endl;
+      // IDXGIResource1 *pDXGIResource;
+      // HRESULT hr = tex->QueryInterface(__uuidof(IDXGIResource1), (void **)&pDXGIResource);
+
+      if (SUCCEEDED(hr)) {
+        // getOut() << "submit client 8" << std::endl;
+        // getOut() << "submit client 7" << std::endl;
+        hr = shDepthTexResource->GetSharedHandle(&sharedDepthHandle);
+        // hr = shTexResource->CreateSharedHandle(NULL, DXGI_SHARED_RESOURCE_READ | DXGI_SHARED_RESOURCE_WRITE, NULL, &sharedHandle);
+
+        // getOut() << "submit client 9" << std::endl;
+
+        // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+        if (SUCCEEDED(hr)) {
+          // getOut() << "submit client 10" << std::endl;
+          // shTexResource->Release();
+          // getOut() << "submit client 11" << std::endl;
+          // nothing
+        } else {
+          getOut() << "failed to get shared depth texture handle: " << (void *)hr << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to get shared depth texture: " << (void *)hr << std::endl;
+        abort();
+      }
     }
     
     getOut() << "open frontend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
@@ -1796,46 +1867,86 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-    // context->CopyResource(shTex, tex);
-    D3D11_BOX srcBox{
-      width * uMin,
-      height * vMin,
-      0,
-      width * uMax,
-      height * vMax,
-      1
-    };
-    /* getOut() << "box " <<
-      width * uMin << " " <<
-      height * vMin << " " <<
-      0 << " " <<
-      width * uMax << " " <<
-      height * vMax << " " <<
-      1 << std::endl; */
-    /* ID3D11Resource *shTex1 = nullptr;
-    HRESULT hr = shTex->QueryInterface(__uuidof(ID3D11Resource), (void **)&shTex1);
-    if (SUCCEEDED(hr)) {
-    } else {
-      getOut() << "copy fail 1" << std::endl;
+
+    ID3D11Texture2D *depthTex = nullptr;
+    {
+      // getOut() << "get tex view" << std::endl;
+      
+      ID3D11Device *device;
+      ID3D11DeviceContext *context;
+
+      tex->GetDevice(&device);
+      device->GetImmediateContext(&context);
+      ID3D11RenderTargetView *renderTargetView = nullptr;
+      ID3D11DepthStencilView *depthStencilView = nullptr;
+      context->OMGetRenderTargets(1, &renderTargetView, &depthStencilView);
+      // getOut() << "got tex view " << (void *)renderTargetView << " " << (void *)depthStencilView << std::endl;
+
+      ID3D11Resource *resource = nullptr;
+      depthStencilView->GetResource(&resource);
+      // ID3D11Texture2D *depthTex = nullptr;
+      hr = resource->QueryInterface(__uuidof(ID3D11Texture2D), (void **)&depthTex);
+      if (SUCCEEDED(hr)) {
+        // getOut() << "got resource ok" << std::endl;
+      } else {
+        getOut() << "got resource fail" << std::endl;
+        abort();
+        // D3D11_RESOURCE_DIMENSION dimension;
+      }
+
+      /* D3D11_TEXTURE2D_DESC desc;
+      depthTex->GetDesc(&desc);
+      
+      getOut() << "got desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+
+      D3D11_DEPTH_STENCIL_VIEW_DESC desc;
+      depthStencilView->GetDesc(&desc);
+      getOut() << "got desc " << desc.Format << " " << desc.ViewDimension << " " << desc.Flags << std::endl; */
     }
-    ID3D11Resource *tex1 = nullptr;
-    hr = tex->QueryInterface(__uuidof(ID3D11Resource), (void **)&tex1);
-    if (SUCCEEDED(hr)) {
-    } else {
-      getOut() << "copy fail 2" << std::endl;
-    } */
-    context->CopySubresourceRegion(
-      shTex,
-      0,
-      0,
-      0,
-      0,
-      tex,
-      0,
-      &srcBox
-    );
-    // getOut() << "submit client 13" << std::endl;
-    // context->Flush();
+    // getOut() << "got desc 2" << std::endl;
+
+    {
+      D3D11_BOX srcBox{
+        width * uMin,
+        height * vMin,
+        0,
+        width * uMax,
+        height * vMax,
+        1
+      };
+      context->CopySubresourceRegion(
+        shTex,
+        0,
+        0,
+        0,
+        0,
+        tex,
+        0,
+        &srcBox
+      );
+      // getOut() << "submit client 13" << std::endl;
+      // context->Flush();
+    }
+    {
+      D3D11_BOX srcBox{
+        width * uMin,
+        height * vMin,
+        0,
+        width * uMax,
+        height * vMax,
+        1
+      };
+      context->CopySubresourceRegion(
+        shDepthTex,
+        0,
+        0,
+        0,
+        0,
+        depthTex,
+        0,
+        &srcBox
+      );
+    }
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
 
@@ -2022,8 +2133,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EVREye,
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
-    EVRSubmitFlags
-  >(eEye, std::move(sharedTexture), std::move(bounds), EVRSubmitFlags::Submit_Default);
+    EVRSubmitFlags,
+    uintptr_t
+  >(eEye, std::move(sharedTexture), std::move(bounds), EVRSubmitFlags::Submit_Default, (uintptr_t)sharedDepthHandle);
 
   // getOut() << "submit client 23" << std::endl;
 

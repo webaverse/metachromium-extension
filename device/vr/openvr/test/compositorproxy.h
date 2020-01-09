@@ -46,7 +46,9 @@ public:
   // input front
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
+  std::vector<ID3D11Texture2D *> inDxDepthTexs;
   std::vector<HANDLE> inShDxShareHandles;
+  std::vector<HANDLE> inShDepthDxShareHandles;
   std::vector<uintptr_t> inTexLatches;
   std::vector<GLuint> interopTexs;
   std::vector<HANDLE> inReadInteropHandles;
@@ -62,6 +64,8 @@ public:
   std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
   std::vector<GLuint> inBackTexs;
   std::vector<HANDLE> inBackInteropHandles;
+  std::vector<GLuint> inBackDepthTexs;
+  std::vector<HANDLE> inBackDepthInteropHandles;
   std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
