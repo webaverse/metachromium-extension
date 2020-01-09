@@ -863,12 +863,13 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
   fnp.reg<
     kIVRCompositor_GetFrameTiming,
     std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
+    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >([=](uint32_t unFramesAgo) {
-    getOut() << "server get frame timing 1" << std::endl;
-    managed_binary<Compositor_FrameTiming> timing(1);
+  >([=](managed_binary<Compositor_FrameTiming> timing, uint32_t unFramesAgo) {
+    // getOut() << "server get frame timing 1" << std::endl;
+    // managed_binary<Compositor_FrameTiming> timing(1);
     bool result = vrcompositor->GetFrameTiming(timing.data(), unFramesAgo);
-    getOut() << "server get frame timing 2" << std::endl;
+    // getOut() << "server get frame timing 2" << std::endl;
     return std::tuple<bool, managed_binary<Compositor_FrameTiming>>(
       result,
       std::move(timing)
@@ -877,9 +878,10 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
   fnp.reg<
     kIVRCompositor_GetFrameTimings,
     std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
+    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >([=](uint32_t nFrames) {
-    managed_binary<Compositor_FrameTiming> timings(nFrames);
+  >([=](managed_binary<Compositor_FrameTiming> timings, int32_t nFrames) {
+    // managed_binary<Compositor_FrameTiming> timings(nFrames);
     uint32_t result = vrcompositor->GetFrameTimings(timings.data(), nFrames);
     return std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>(
       result,
@@ -2050,27 +2052,29 @@ void PVRCompositor::PostPresentHandoff() {
   // getOut() << "post present handoff client 2" << std::endl;
 }
 bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo ) {
-  /* managed_binary<Compositor_FrameTiming> timing(1);
-  *timing.data() = *pTiming; */
-  getOut() << "get frame timing 1" << std::endl;
+  managed_binary<Compositor_FrameTiming> timing(1);
+  *timing.data() = *pTiming;
+  // getOut() << "get frame timing 1" << std::endl;
   auto result = fnp.call<
     kIVRCompositor_GetFrameTiming,
     std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
+    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >(unFramesAgo);
-  getOut() << "get frame timing 2 " << (void *)pTiming << std::endl;
+  >(std::move(timing), unFramesAgo);
+  // getOut() << "get frame timing 2 " << (void *)pTiming << std::endl;
   *pTiming = *std::get<1>(result).data();
-  getOut() << "get frame timing 3" << std::endl;
+  // getOut() << "get frame timing 3" << std::endl;
   return std::get<0>(result);
 }
 uint32_t PVRCompositor::GetFrameTimings( VR_ARRAY_COUNT( nFrames ) Compositor_FrameTiming *pTiming, uint32_t nFrames ) {
-  /* managed_binary<Compositor_FrameTiming> timings(nFrames);
-  memcpy(timings.data(), (void *)pTiming, nFrames * sizeof(Compositor_FrameTiming)); */
+  managed_binary<Compositor_FrameTiming> timings(nFrames);
+  memcpy(timings.data(), (void *)pTiming, nFrames * sizeof(Compositor_FrameTiming));
   auto result = fnp.call<
     kIVRCompositor_GetFrameTimings,
     std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
+    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >(nFrames);
+  >(std::move(timings), nFrames);
   memcpy((void *)pTiming, (void *)std::get<1>(result).data(), std::get<1>(result).size() * sizeof(Compositor_FrameTiming));
   return std::get<0>(result);
 }
