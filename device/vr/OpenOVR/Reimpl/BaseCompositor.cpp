@@ -57,11 +57,11 @@ ETrackingUniverseOrigin BaseCompositor::GetTrackingSpace() {
 ovr_enum_t BaseCompositor::WaitGetPoses(TrackedDevicePose_t * renderPoseArray, uint32_t renderPoseArrayCount,
 	  TrackedDevicePose_t * gamePoseArray, uint32_t gamePoseArrayCount) {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::WaitGetPoses" << std::endl; });
-  getOut() << "BaseCompositor::WaitGetPoses 1" << std::endl;
+  // getOut() << "BaseCompositor::WaitGetPoses 1" << std::endl;
   g_pvrclientcore->PreWaitGetPoses();
-  getOut() << "BaseCompositor::WaitGetPoses 2" << std::endl;
+  // getOut() << "BaseCompositor::WaitGetPoses 2" << std::endl;
   auto result = g_pvrcompositor->WaitGetPoses(renderPoseArray, renderPoseArrayCount, gamePoseArray, gamePoseArrayCount);
-  getOut() << "BaseCompositor::WaitGetPoses 3" << std::endl;
+  // getOut() << "BaseCompositor::WaitGetPoses 3" << std::endl;
   // g_pvrclientcore->PostWaitGetPoses();
   // getOut() << "wait get poses 4" << std::endl;
   return result;

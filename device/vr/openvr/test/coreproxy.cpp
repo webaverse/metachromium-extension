@@ -88,9 +88,9 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     submitSemsOrder.push_back(remoteProcessId);
 
     if (waitSemsOrder.size() >= processIds.size()) {
-      getOut() << "wait get poses flush 1 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
+      // getOut() << "wait get poses flush 1 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
       pvrcompositor->CacheWaitGetPoses();
-      getOut() << "wait get poses flush 2 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
+      // getOut() << "wait get poses flush 2 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
 
       for (auto iter : waitSemsOrder) {
         Semaphore *sem = getLocalSemaphore(iter);
@@ -107,9 +107,9 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
         waitSemsOrder.erase(newEnd, waitSemsOrder.end());
       } */
       waitSemsOrder.clear();
-    } else {
+    } /* else {
       getOut() << "wait get poses do not flush " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
-    }
+    } */
     /* auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), id);
     // getOut() << "iter distance " << id << " " << waitSemsOrder.size() << " " << (iter != waitSemsOrder.end()) << " " << std::distance(waitSemsOrder.begin(), iter) << std::endl;
     bool doRealWait = std::distance(waitSemsOrder.begin(), iter) == 0; */
@@ -132,12 +132,12 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
       // nextSemId = id | SUBMIT_MASK;
       doQueueSubmit = true;
       doRealSubmit = submitSemsOrder.size() == 0;
-      getOut() << "pre submit yes submit " << submitSemsOrder.size() << std::endl;
+      // getOut() << "pre submit yes submit " << submitSemsOrder.size() << std::endl;
     } else {
       // nextSemId = 0;
       doQueueSubmit = false;
       doRealSubmit = false;
-      getOut() << "pre submit do not submit " << submitSemsOrder.size() << std::endl;
+      // getOut() << "pre submit do not submit " << submitSemsOrder.size() << std::endl;
     }
  
     // auto iter = std::find(submitSemsOrder.begin(), submitSemsOrder.end(), id);
@@ -177,13 +177,13 @@ void PVRClientCore::PreWaitGetPoses() {
   // getOut() << "PreWaitGetPoses 1" << std::endl;
   auto result = fnp.call<kPVRClientCore_PreWaitGetPoses, size_t>();
   Semaphore *sem = getLocalSemaphore(result);
-  getOut() << "wait get poses lock 1 " << result << " " << (void *)sem << std::endl;
+  // getOut() << "wait get poses lock 1 " << result << " " << (void *)sem << std::endl;
   // {
     // fnp.mut.unlock();
     sem->lock();
     // fnp.mut.lock();
   // }
-  getOut() << "wait get poses lock 2 " << result << std::endl;
+  // getOut() << "wait get poses lock 2 " << result << std::endl;
 }
 void PVRClientCore::PreSubmit(bool *doQueueSubmit, bool *doRealSubmit) {
   //  getOut() << "PreSubmit 1" << std::endl;

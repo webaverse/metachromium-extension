@@ -412,7 +412,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         abort();
       };
       
-      getOut() << "prepare submit server 10" << std::endl;
+      // getOut() << "prepare submit server 10" << std::endl;
 
       // getOut() << "gl init error 2 " << glGetError() << std::endl;
 
@@ -588,7 +588,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
 
-    getOut() << "submit server " << fnp.remoteProcessId << " " << (int)eEye << std::endl;
+    // getOut() << "submit server 1 " << fnp.remoteProcessId << " " << (int)eEye << std::endl;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteProcessId, eEye);
     auto iter = inBackIndices.find(key);
@@ -729,10 +729,10 @@ for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
     for (auto iter : inBackReadEventQueue) {
       EVREye &e = std::get<0>(iter);
       if (e == eEye) {
-        getOut() << "wait for read pre " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
+        // getOut() << "wait for read pre " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
         HANDLE &readEvent = std::get<2>(iter);
         WaitForSingleObject(readEvent, INFINITE);
-        getOut() << "wait for read post " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
+        // getOut() << "wait for read post " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
       }
     }
 
@@ -1993,7 +1993,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   // getOut() << "submit client 18 " << (void *)context.Get() << " " << (void *)fence.Get() << " " << (void *)readEvent << std::endl;
 
   ++fenceValue;
-  getOut() << "signal read event " << (std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << " " << fenceValue << std::endl;
+  // getOut() << "signal read event " << (std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << " " << fenceValue << std::endl;
   context->Signal(fence.Get(), fenceValue);
   fence->SetEventOnCompletion(fenceValue, readEvent);
   // context->Flush();
@@ -2290,9 +2290,9 @@ bool PVRCompositor::IsCurrentSceneFocusAppLoading() {
   >();
 }
 void PVRCompositor::CacheWaitGetPoses() {
-  getOut() << "CacheWaitGetPoses 1" << std::endl;
+  // getOut() << "CacheWaitGetPoses 1" << std::endl;
   EVRCompositorError error = vrcompositor->WaitGetPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), cachedGamePoses, ARRAYSIZE(cachedGamePoses));
-  getOut() << "CacheWaitGetPoses 2" << std::endl;
+  // getOut() << "CacheWaitGetPoses 2" << std::endl;
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
