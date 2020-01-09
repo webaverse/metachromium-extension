@@ -21,7 +21,7 @@ public:
   PVRCompositor *pvrcompositor;
   FnProxy &fnp;
 
-  bool firstWait = true;
+  // bool firstWait = true;
   // Mutex mut;
   std::set<size_t> processIds;
   std::vector<size_t> waitSemsOrder;
