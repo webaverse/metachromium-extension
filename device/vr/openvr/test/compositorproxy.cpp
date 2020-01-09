@@ -179,6 +179,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     std::chrono::duration<double> elapsed = end - start;
     getOut() << "get last poses real " << elapsed.count() << std::endl; */
 
+    EVRCompositorError error = VRCompositorError_None;
     return std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>(
       error,
       std::move(renderPoseArray),
