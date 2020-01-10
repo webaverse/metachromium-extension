@@ -1648,7 +1648,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  getOut() << "submit client 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
+  // getOut() << "submit client 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint tex = (GLuint)pTexture->handle;
@@ -1965,9 +1965,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
     ID3D11Texture2D *depthTex = getDepthTextureMatching(tex);
-    if (depthTex) {
+    /* if (depthTex) {
       getOut() << "got depth tex " << (void *)depthTex << std::endl;
-    }
+    } */
     /* {
       // getOut() << "get tex view" << std::endl;
 
