@@ -17,6 +17,7 @@ INCLUDE_DIRECTORIES(
   # gl/include/glad
   gl/include/KHR
   gl/include/GLFW
+  detours
 )
 LINK_DIRECTORIES(
   gl/lib/glew
@@ -71,6 +72,9 @@ SET(src
   OpenOVR/Reimpl/BaseClientCore.cpp
   OpenOVR/Reimpl/CVRClientCore.cpp
   ../../third_party/openvr/src/src/vrcommon/sharedlibtools_public.cpp
+  detours/detours.cpp
+  detours/disasm.cpp
+  detours/modules.cpp
 )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)

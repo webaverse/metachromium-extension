@@ -36,6 +36,7 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 // #include "third_party/openvr/src/headers/openvr.h"
 // #include "third_party/openvr/src/src/ivrclientcore.h"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
+#include "device/vr/detours/detours.h"
 
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/glcontext.h"
@@ -246,6 +247,22 @@ extern "C" {
   }
 }
 
+void realFn() {
+  if (dllDir.size() > 0) {
+    std::string s("real ");
+    s += std::string("fn");
+    getOut() << s << std::endl;
+  }
+}
+void (*realFn2)() = realFn;
+void fakeFn() {
+  if (dllDir.size() > 0) {
+    std::string s("fake fn 1 ");
+    s += std::string("lol 2");
+    getOut() << s << std::endl;
+  }
+}
+
 /* TCHAR processExe[4096] = TEXT("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe");
 char lol[] = "lol";
 char lol2[] = "lol2"; */
@@ -283,14 +300,28 @@ BOOL WINAPI DllMain(
     dllDir += dir;
   }
 
-  getOut() << "dll main " << fdwReason << std::endl;
+  getOut() << "dll main " << fdwReason << /*" " << DetourIsHelperProcess() << */ std::endl;
 
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
     pBooted = (uint64_t *)shMem;
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
-    
+
+    getOut() << "detour 1" << std::endl;
+    LONG error = DetourTransactionBegin();
+    getOut() << "detour 2 " << error << std::endl;
+    error = DetourUpdateThread(GetCurrentThread());
+    getOut() << "detour 3 " << error << std::endl;
+    error = DetourAttach(&(PVOID&)realFn2, fakeFn);
+    getOut() << "detour 4 " << error << std::endl;
+    error = DetourTransactionCommit();
+    getOut() << "detour 5 " << error << std::endl;
+    realFn();
+    // realFn2();
+    // fakeFn();
+    getOut() << "detour 6" << std::endl;
+
     // getOut() << "init dll 0" << std::endl;
     std::vector<char> buf(4096);
     GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
