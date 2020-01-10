@@ -2,7 +2,7 @@
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
-void hijack(ID3D11DeviceContext4 *context);
+void hijack(ID3D11DeviceContext *context);
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -1962,6 +1962,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       ID3D11DeviceContext *context2;
       tex->GetDevice(&device2);
       device2->GetImmediateContext(&context2);
+      
+      hijack(context2);
+      
       ID3D11RenderTargetView *renderTargetViews[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
       ID3D11DepthStencilView *depthStencilViews[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
       context2->OMGetRenderTargets(ARRAYSIZE(renderTargetViews), renderTargetViews, depthStencilViews);
