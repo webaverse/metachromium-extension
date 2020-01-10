@@ -1,70 +1,8 @@
 // #include <chrono>
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
-#include "device/vr/detours/detours.h"
 
-class DID3D11DeviceContext : public ID3D11DeviceContext4 {
-public:
-  void fakeFn(
-    ID3D11Resource  *pDstResource,
-    UINT            DstSubresource,
-    UINT            DstX,
-    UINT            DstY,
-    UINT            DstZ,
-    ID3D11Resource  *pSrcResource,
-    UINT            SrcSubresource,
-    const D3D11_BOX *pSrcBox
-  );
-  static void (ID3D11DeviceContext4::* copySubresourceRegion)(
-    ID3D11Resource *,
-    UINT,
-    UINT,
-    UINT,
-    UINT,
-    ID3D11Resource *,
-    UINT,
-    const D3D11_BOX *
-  );
-};
-void (ID3D11DeviceContext4::* DID3D11DeviceContext::copySubresourceRegion)(
-  ID3D11Resource *,
-  UINT,
-  UINT,
-  UINT,
-  UINT,
-  ID3D11Resource *,
-  UINT,
-  const D3D11_BOX *
-) = &ID3D11DeviceContext4::CopySubresourceRegion;
-void DID3D11DeviceContext::fakeFn(
-  ID3D11Resource  *pDstResource,
-  UINT            DstSubresource,
-  UINT            DstX,
-  UINT            DstY,
-  UINT            DstZ,
-  ID3D11Resource  *pSrcResource,
-  UINT            SrcSubresource,
-  const D3D11_BOX *pSrcBox
-) {
-  getOut() << "copy subresource intercept" << std::endl;
-  (this->*copySubresourceRegion)(pDstResource, DstSubresource, DstX, DstY, DstZ, pSrcResource, SrcSubresource, pSrcBox);
-  /* if (dllDir.size() > 0) {
-    std::string s("fake fn 1 ");
-    s += std::string("lol 2");
-    getOut() << s << std::endl;
-  } */
-}
-void (DID3D11DeviceContext::* fakeFn)(
-  ID3D11Resource *,
-  UINT,
-  UINT,
-  UINT,
-  UINT,
-  ID3D11Resource *,
-  UINT,
-  const D3D11_BOX *
-) = &DID3D11DeviceContext::fakeFn;
-bool hijacked = false;
+void hijack(ID3D11DeviceContext4 *context);
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -2053,18 +1991,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     }
     // getOut() << "got desc 2" << std::endl;
 
-    if (!hijacked) {
-      getOut() << "detour 1" << std::endl;
-      LONG error = DetourTransactionBegin();
-      getOut() << "detour 2 " << error << std::endl;
-      error = DetourUpdateThread(GetCurrentThread());
-      getOut() << "detour 3 " << error << std::endl;
-      error = DetourAttach(&(PVOID&)DID3D11DeviceContext::copySubresourceRegion, *(PBYTE*)&fakeFn);
-      getOut() << "detour 4 " << error << std::endl;
-      error = DetourTransactionCommit();
-      getOut() << "detour 5 " << error << std::endl;
-      hijacked = true;
-    }
+    hijack(context.Get());
     {
       D3D11_BOX srcBox{
         width * uMin,

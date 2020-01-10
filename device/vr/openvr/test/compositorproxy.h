@@ -1,8 +1,6 @@
 #ifndef _openvr_compositorproxy_h_
 #define _openvr_compositorproxy_h_
 
-// #include <deque>
-
 #include <D3D11_4.h>
 #include <DXGI1_4.h>
 #include <wrl.h>

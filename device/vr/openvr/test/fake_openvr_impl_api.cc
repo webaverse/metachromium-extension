@@ -36,7 +36,6 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 // #include "third_party/openvr/src/headers/openvr.h"
 // #include "third_party/openvr/src/src/ivrclientcore.h"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
-// #include "device/vr/detours/detours.h"
 
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/glcontext.h"
