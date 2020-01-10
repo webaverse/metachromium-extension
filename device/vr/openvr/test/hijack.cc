@@ -46,7 +46,26 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
   ID3D11RenderTargetView * const *ppRenderTargetViews,
   ID3D11DepthStencilView *pDepthStencilView
 ) {
-  getOut() << "intercept" << std::endl;
+  getOut() << "intercept " << NumViews << std::endl;
+
+  if (ppRenderTargetViews) {
+    ID3D11RenderTargetView * const pRenderTargetView = *ppRenderTargetViews;
+    ID3D11Resource *depthResource;
+    pRenderTargetView->lpVtbl->GetResource(pRenderTargetView, &depthResource);
+    ID3D11Texture2D *depthTex;
+    HRESULT hr = depthResource->lpVtbl->QueryInterface(depthResource, IID_ID3D11Texture2D, (void **)&depthTex);
+    if (SUCCEEDED(hr)) {
+      // getOut() << "got resource ok" << std::endl;
+      D3D11_TEXTURE2D_DESC desc;
+      depthTex->lpVtbl->GetDesc(depthTex, &desc);
+      getOut() << "got source depth desc " << (void *)depthTex << " " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+    } else {
+      getOut() << "got resource fail" << std::endl;
+      abort();
+      // D3D11_RESOURCE_DIMENSION dimension;
+    }
+  }
+  
   RealOMSetRenderTargets(This, NumViews, ppRenderTargetViews, pDepthStencilView);
 }
 

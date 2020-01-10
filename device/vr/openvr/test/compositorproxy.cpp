@@ -1709,7 +1709,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     if (pTexture->eType == ETextureType::TextureType_DirectX) {
       ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
       
-      // getOut() << "submit client 3" << std::endl;
+      getOut() << "submit client tex " << (void *)tex << std::endl;
 
       // getOut() << "submit client 4" << std::endl;
 
@@ -1980,13 +1980,13 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         // D3D11_RESOURCE_DIMENSION dimension;
       }
 
-      D3D11_TEXTURE2D_DESC desc;
+      /* D3D11_TEXTURE2D_DESC desc;
       depthTex->GetDesc(&desc);
       getOut() << "got source depth desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
       
       for (uint32_t i = 0; i < ARRAYSIZE(depthStencilViews); i++) {
         getOut() << "check depth " << i << " " << (void *)depthStencilViews[i] << std::endl;
-      }
+      } */
 
       /* D3D11_DEPTH_STENCIL_VIEW_DESC desc;
       depthStencilViews[0]->GetDesc(&desc);
