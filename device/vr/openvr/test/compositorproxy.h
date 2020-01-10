@@ -48,6 +48,7 @@ public:
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
   std::vector<ID3D11Texture2D *> inDxDepthTexs;
+  std::vector<ID3D11Texture2D *> inDxDepthTexs2;
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<HANDLE> inShDepthDxShareHandles;
   std::vector<uintptr_t> inTexLatches;

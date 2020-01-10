@@ -1661,6 +1661,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
     inDxTexs.resize(index+1, NULL);
     inDxDepthTexs.resize(index+1, NULL);
+    inDxDepthTexs2.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
     inShDepthDxShareHandles.resize(index+1, NULL);
     inTexLatches.resize(index+1, NULL);
@@ -1690,6 +1691,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   HRESULT hr;
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
   ID3D11Texture2D *&shDepthTex = inDxDepthTexs[index]; // shared dx depth texture
+  ID3D11Texture2D *&shDepthTex2 = inDxDepthTexs2[index]; // shared dx depth texture 2
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
   HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
   HANDLE &readEvent = inReadEvents[index]; // fence event
@@ -1714,7 +1716,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       width = desc.Width;
       height = desc.Height;
       desc.Width *= uMax - uMin;
-      desc.Height *= vMax- vMin;
+      desc.Height *= vMax - vMin;
     } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
       GLuint tex = (GLuint)pTexture->handle;
 
@@ -1749,7 +1751,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
-    getOut() << "get texture desc front " << (int)eEye << " " <<
+    /* getOut() << "get texture desc front " << (int)eEye << " " <<
       (void *)device.Get() << " " <<
       desc.Width << " " << desc.Height << " " <<
       desc.ArraySize << " " <<
@@ -1760,7 +1762,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       desc.MiscFlags << " " <<
       // pBounds->uMin << " " << pBounds->vMin << " " <<
       // pBounds->uMax << " " << pBounds->vMax << " " <<
-      std::endl;
+      std::endl; */
+    getOut() << "got source tex desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
 
     // getOut() << "submit client 5" << std::endl;
 
@@ -1785,15 +1788,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT; // GL_DEPTH32F_STENCIL8
       descDepth.SampleDesc.Count = 1;
       descDepth.SampleDesc.Quality = 0;
-      descDepth.Usage = D3D11_USAGE_DYNAMIC;
+      descDepth.Usage = D3D11_USAGE_DEFAULT;
       descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-      descDepth.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+      descDepth.CPUAccessFlags = 0;
       descDepth.MiscFlags = desc.MiscFlags;
-      /* D3D11_TEXTURE2D_DESC desc2{};
-      desc2.ArraySize = 1;
-      desc2.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-      desc2.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
-      // desc2.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_DEPTH_STENCIL; */
+
       hr = device->CreateTexture2D(
         &descDepth,
         NULL,
@@ -1806,7 +1805,35 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         abort();
       }
     }
-    
+    {
+      D3D11_TEXTURE2D_DESC descDepth;
+      descDepth.Width = desc.Width;
+      descDepth.Height = desc.Height;
+      descDepth.MipLevels = 1;
+      descDepth.ArraySize = 1;
+      descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;// DXGI_FORMAT_R8G8B8A8_UNORM; // GL_DEPTH32F_STENCIL8
+      descDepth.SampleDesc.Count = 1;
+      descDepth.SampleDesc.Quality = 0;
+      descDepth.Usage = D3D11_USAGE_STAGING;
+      descDepth.BindFlags = 0;
+      descDepth.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+      descDepth.MiscFlags = 0;
+      
+      getOut() << "got shared depth desc " << descDepth.Width << " " << descDepth.Height << " " << descDepth.Format << " " << descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags << std::endl;
+
+      hr = device->CreateTexture2D(
+        &descDepth,
+        NULL,
+        &shDepthTex2
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to create shared depth texture: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+
     // getOut() << "get submit 6" << std::endl;
 
     // get gl interop for copying
@@ -1925,12 +1952,12 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
-    ID3D11Device *device2;
-    ID3D11DeviceContext *context2;
     ID3D11Texture2D *depthTex = nullptr;
     {
       // getOut() << "get tex view" << std::endl;
 
+      ID3D11Device *device2;
+      ID3D11DeviceContext *context2;
       tex->GetDevice(&device2);
       device2->GetImmediateContext(&context2);
       ID3D11RenderTargetView *renderTargetView = nullptr;
@@ -1938,10 +1965,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       context2->OMGetRenderTargets(1, &renderTargetView, &depthStencilView);
       // getOut() << "got tex view " << (void *)renderTargetView << " " << (void *)depthStencilView << std::endl;
 
-      ID3D11Resource *resource = nullptr;
-      depthStencilView->GetResource(&resource);
-      // ID3D11Texture2D *depthTex = nullptr;
-      hr = resource->QueryInterface(__uuidof(ID3D11Texture2D), (void **)&depthTex);
+      ID3D11Resource *depthResource;
+      depthStencilView->GetResource(&depthResource);
+      hr = depthResource->QueryInterface(__uuidof(ID3D11Texture2D), (void **)&depthTex);
       if (SUCCEEDED(hr)) {
         // getOut() << "got resource ok" << std::endl;
       } else {
@@ -1950,12 +1976,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         // D3D11_RESOURCE_DIMENSION dimension;
       }
 
-      /* D3D11_TEXTURE2D_DESC desc;
+      D3D11_TEXTURE2D_DESC desc;
       depthTex->GetDesc(&desc);
-      
-      getOut() << "got desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+      getOut() << "got source depth desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
 
-      D3D11_DEPTH_STENCIL_VIEW_DESC desc;
+      /* D3D11_DEPTH_STENCIL_VIEW_DESC desc;
       depthStencilView->GetDesc(&desc);
       getOut() << "got desc " << desc.Format << " " << desc.ViewDimension << " " << desc.Flags << std::endl; */
     }
@@ -1980,16 +2005,14 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         0,
         &srcBox
       );
-      // getOut() << "submit client 13" << std::endl;
-      // context->Flush();
     }
     {
       D3D11_BOX srcBox{
-        width * uMin,
-        height * vMin,
         0,
-        width * uMax,
-        height * vMax,
+        0,
+        0,
+        500,
+        500,
         1
       };
       context->CopySubresourceRegion(
@@ -2002,23 +2025,48 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         0,
         &srcBox
       );
+      context->CopySubresourceRegion(
+        shDepthTex2,
+        0,
+        0,
+        0,
+        0,
+        depthTex,
+        0,
+        &srcBox
+      );
     }
+    // context->Flush();
 
-    D3D11_MAPPED_SUBRESOURCE resource;
-    UINT subresource = 0;//D3D11CalcSubresource(0, 0, 0);
-    hr = context2->Map(depthTex, subresource, D3D11_MAP_READ, 0, &resource);
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "depth tex map failed " << (void *)hr << std::endl;
+    {
+      ID3D11Resource *shDepthTexResource = nullptr;
+      hr = shDepthTex2->QueryInterface(__uuidof(ID3D11Resource), (void **)&shDepthTexResource);
+      if (SUCCEEDED(hr)) {
+        // getOut() << "got resource ok" << std::endl;
+      } else {
+        getOut() << "got shared depth tex resource fail " << (void *)hr << std::endl;
+        abort();
+      }
+
+      D3D11_MAPPED_SUBRESOURCE mappedResource;
+      UINT subresource = 0;//D3D11CalcSubresource(0, 0, 0);
+      hr = context->Map(shDepthTexResource, subresource, D3D11_MAP_READ, 0, &mappedResource);
+      if (SUCCEEDED(hr)) {
+        getOut() << "get tex data pointer " << (void *)mappedResource.pData << " " << mappedResource.RowPitch << std::endl;
+        float value = 0;
+        const uint32_t pixelSize = 4*2;
+        char *pData = (char *)mappedResource.pData;
+        for (uint32_t j = 0; j < height; j++) {
+          for (uint32_t i = 0; i < width; i++) {
+            value += *((float *)(pData + j*mappedResource.RowPitch + i*pixelSize));
+          }
+        }
+        getOut() << "got value " << value << std::endl;
+      } else {
+        getOut() << "depth tex map failed " << (void *)hr << std::endl;
+      }
+      context->Unmap(shDepthTexResource, subresource);
     }
-    getOut() << "get tex data pointer " << (void *)pData << std::endl;
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "depth tex unmap failed " << (void *)hr << std::endl;
-    }
-    hr = context2->Unmap(depthTex, subresource);
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
 
