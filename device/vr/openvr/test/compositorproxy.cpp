@@ -1635,7 +1635,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  // getOut() << "submit client 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
+  getOut() << "submit client 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint tex = (GLuint)pTexture->handle;
@@ -1960,13 +1960,12 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       ID3D11DeviceContext *context2;
       tex->GetDevice(&device2);
       device2->GetImmediateContext(&context2);
-      ID3D11RenderTargetView *renderTargetView = nullptr;
-      ID3D11DepthStencilView *depthStencilView = nullptr;
-      context2->OMGetRenderTargets(1, &renderTargetView, &depthStencilView);
-      // getOut() << "got tex view " << (void *)renderTargetView << " " << (void *)depthStencilView << std::endl;
+      ID3D11RenderTargetView *renderTargetViews[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+      ID3D11DepthStencilView *depthStencilViews[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+      context2->OMGetRenderTargets(ARRAYSIZE(renderTargetViews), renderTargetViews, depthStencilViews);
 
       ID3D11Resource *depthResource;
-      depthStencilView->GetResource(&depthResource);
+      depthStencilViews[0]->GetResource(&depthResource);
       hr = depthResource->QueryInterface(__uuidof(ID3D11Texture2D), (void **)&depthTex);
       if (SUCCEEDED(hr)) {
         // getOut() << "got resource ok" << std::endl;
@@ -1979,9 +1978,13 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       D3D11_TEXTURE2D_DESC desc;
       depthTex->GetDesc(&desc);
       getOut() << "got source depth desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+      
+      for (uint32_t i = 0; i < ARRAYSIZE(depthStencilViews); i++) {
+        getOut() << "check depth " << i << " " << (void *)depthStencilViews[i] << std::endl;
+      }
 
       /* D3D11_DEPTH_STENCIL_VIEW_DESC desc;
-      depthStencilView->GetDesc(&desc);
+      depthStencilViews[0]->GetDesc(&desc);
       getOut() << "got desc " << desc.Format << " " << desc.ViewDimension << " " << desc.Flags << std::endl; */
     }
     // getOut() << "got desc 2" << std::endl;
