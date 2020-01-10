@@ -76,7 +76,28 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
         
         auto iter = texMap.find(tex);
         if (iter == texMap.end()) {
-          // getOut() << "add tex " << (void *)tex << " " << (void *)depthTex << std::endl;
+          D3D11_TEXTURE2D_DESC desc;
+          tex->lpVtbl->GetDesc(tex, &desc);
+          D3D11_TEXTURE2D_DESC descDepth;
+          depthTex->lpVtbl->GetDesc(depthTex, &desc);
+          /* 2124 2348
+          1 1
+          2 0
+          19 // DXGI_FORMAT_R32G8X24_TYPELESS
+          0 64 0 0 */ // D3D11_BIND_DEPTH_STENCIL
+          getOut() << "add tex " << (void *)tex << " " << (void *)depthTex << " | " <<
+            desc.Width << " " << desc.Height << " " <<
+            desc.MipLevels << " " << desc.ArraySize << " " <<
+            desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+            desc.Format << " " <<
+            desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " | " <<
+            descDepth.Width << " " << descDepth.Height << " " <<
+            descDepth.MipLevels << " " << descDepth.ArraySize << " " <<
+            descDepth.SampleDesc.Count << " " << descDepth.SampleDesc.Quality << " " <<
+            descDepth.Format << " " <<
+            descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
+            std::endl;
+            
           texMap.emplace(tex, depthTex);
         } else {
           tex->lpVtbl->Release(tex);

@@ -1720,7 +1720,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     if (pTexture->eType == ETextureType::TextureType_DirectX) {
       ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
       
-      // getOut() << "submit client 3 " << (void *)tex << std::endl;
+      getOut() << "got submit tex " << (void *)tex << std::endl;
 
       // getOut() << "submit client 4" << std::endl;
 
@@ -2035,20 +2035,17 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         0,
         &srcBox
       );
-      context->CopySubresourceRegion(
+      context->CopyResource(
         shDepthTex2,
-        0,
-        0,
-        0,
-        0,
-        depthTex,
-        0,
-        &srcBox
+        depthTex
       );
       // context->Flush();
-    }
 
-    /* {
+      D3D11_TEXTURE2D_DESC descDepth;
+      shDepthTex2->GetDesc(&descDepth);
+      
+      getOut() << "copy resource " << uMin << " " << vMin << " " << uMax << " " << vMax << std::endl;
+
       ID3D11Resource *shDepthTexResource = nullptr;
       hr = shDepthTex2->QueryInterface(__uuidof(ID3D11Resource), (void **)&shDepthTexResource);
       if (SUCCEEDED(hr)) {
@@ -2062,21 +2059,24 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       UINT subresource = 0;//D3D11CalcSubresource(0, 0, 0);
       hr = context->Map(shDepthTexResource, subresource, D3D11_MAP_READ, 0, &mappedResource);
       if (SUCCEEDED(hr)) {
-        getOut() << "get tex data pointer " << (void *)mappedResource.pData << " " << mappedResource.RowPitch << std::endl;
+        // getOut() << "get tex data pointer " << (void *)mappedResource.pData << " " << mappedResource.RowPitch << std::endl;
         float value = 0;
+        uint32_t ticks = 0;
         const uint32_t pixelSize = 4*2;
         char *pData = (char *)mappedResource.pData;
-        for (uint32_t j = 0; j < height; j++) {
-          for (uint32_t i = 0; i < width; i++) {
+        for (uint32_t j = 0; j < descDepth.Height; j++) {
+          for (uint32_t i = 0; i < descDepth.Width; i++) {
             value += *((float *)(pData + j*mappedResource.RowPitch + i*pixelSize));
+            ticks++;
           }
         }
-        getOut() << "got value " << value << std::endl;
+        getOut() << "got value " << value << " " << ticks << std::endl;
       } else {
         getOut() << "depth tex map failed " << (void *)hr << std::endl;
       }
       context->Unmap(shDepthTexResource, subresource);
-    } */
+      shDepthTexResource->Release();
+    }
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
 
