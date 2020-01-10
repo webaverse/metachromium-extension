@@ -75,6 +75,7 @@ SET(src
   detours/detours.cpp
   detours/disasm.cpp
   detours/modules.cpp
+  openvr/test/hijack.cc
 )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
