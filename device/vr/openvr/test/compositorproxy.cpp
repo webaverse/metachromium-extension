@@ -3,6 +3,8 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
 void hijack(ID3D11DeviceContext *context);
+ID3D11Texture2D *getDepthTextureMatching(ID3D11Texture2D *tex);
+void flushTextureLatches();
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -1222,6 +1224,9 @@ ETrackingUniverseOrigin PVRCompositor::GetTrackingSpace() {
 EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
     VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
   // getOut() << "wait get poses client 1" << std::endl;
+  
+  flushTextureLatches();
+  
   auto result = fnp.call<
     kIVRCompositor_WaitGetPoses,
     std::tuple<EVRCompositorError, managed_binary<TrackedDevicePose_t>, managed_binary<TrackedDevicePose_t>>,
@@ -1274,7 +1279,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       
       Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
       tex->GetDevice(&deviceBasic);
-      
+
       // getOut() << "initial tex 2" << std::endl;
       
       hr = deviceBasic->QueryInterface(__uuidof(ID3D11Device5), (void **)&device);
@@ -1294,6 +1299,10 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       // getOut() << "initial tex 5" << std::endl;
       // Microsoft::WRL::ComPtr<ID3D11DeviceContext1> contextBasic;
       // getOut() << "initial tex 6 " << (void *)device.Get() << std::endl;
+      
+      Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
+      device->GetImmediateContext(&contextBasic);
+      hijack(contextBasic.Get());
 
       Microsoft::WRL::ComPtr<ID3D11DeviceContext3> context3;
       device->GetImmediateContext3(&context3);
@@ -1506,6 +1515,8 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         abort();
       }
       
+      hijack(contextBasic.Get());
+      
       // getOut() << "init program 13" << std::endl;
       
       hr = deviceBasic->QueryInterface(__uuidof(ID3D11Device5), (void **)&device);
@@ -1709,7 +1720,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     if (pTexture->eType == ETextureType::TextureType_DirectX) {
       ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
       
-      getOut() << "submit client tex " << (void *)tex << std::endl;
+      // getOut() << "submit client 3 " << (void *)tex << std::endl;
 
       // getOut() << "submit client 4" << std::endl;
 
@@ -1953,17 +1964,17 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-
-    ID3D11Texture2D *depthTex = nullptr;
-    {
+    ID3D11Texture2D *depthTex = getDepthTextureMatching(tex);
+    if (depthTex) {
+      getOut() << "got depth tex " << (void *)depthTex << std::endl;
+    }
+    /* {
       // getOut() << "get tex view" << std::endl;
 
       ID3D11Device *device2;
       ID3D11DeviceContext *context2;
       tex->GetDevice(&device2);
       device2->GetImmediateContext(&context2);
-      
-      hijack(context2);
       
       ID3D11RenderTargetView *renderTargetViews[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
       ID3D11DepthStencilView *depthStencilViews[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
@@ -1980,51 +1991,40 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         // D3D11_RESOURCE_DIMENSION dimension;
       }
 
-      /* D3D11_TEXTURE2D_DESC desc;
-      depthTex->GetDesc(&desc);
-      getOut() << "got source depth desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+      // D3D11_TEXTURE2D_DESC desc;
+      // depthTex->GetDesc(&desc);
+      // getOut() << "got source depth desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
       
-      for (uint32_t i = 0; i < ARRAYSIZE(depthStencilViews); i++) {
-        getOut() << "check depth " << i << " " << (void *)depthStencilViews[i] << std::endl;
-      } */
+      // for (uint32_t i = 0; i < ARRAYSIZE(depthStencilViews); i++) {
+        // getOut() << "check depth " << i << " " << (void *)depthStencilViews[i] << std::endl;
+      // }
 
-      /* D3D11_DEPTH_STENCIL_VIEW_DESC desc;
-      depthStencilViews[0]->GetDesc(&desc);
-      getOut() << "got desc " << desc.Format << " " << desc.ViewDimension << " " << desc.Flags << std::endl; */
+      // D3D11_DEPTH_STENCIL_VIEW_DESC desc;
+      // depthStencilViews[0]->GetDesc(&desc);
+      // getOut() << "got desc " << desc.Format << " " << desc.ViewDimension << " " << desc.Flags << std::endl;
     }
-    // getOut() << "got desc 2" << std::endl;
+    // getOut() << "got desc 2" << std::endl; */
 
-    hijack(context.Get());
-    {
-      D3D11_BOX srcBox{
-        width * uMin,
-        height * vMin,
-        0,
-        width * uMax,
-        height * vMax,
-        1
-      };
-      // getOut() << "fn address use " << (void *)(&(context->CopySubresourceRegion)) << std::endl;
-      context->CopySubresourceRegion(
-        shTex,
-        0,
-        0,
-        0,
-        0,
-        tex,
-        0,
-        &srcBox
-      );
-    }
-    {
-      D3D11_BOX srcBox{
-        0,
-        0,
-        0,
-        500,
-        500,
-        1
-      };
+    D3D11_BOX srcBox{
+      width * uMin,
+      height * vMin,
+      0,
+      width * uMax,
+      height * vMax,
+      1
+    };
+    // getOut() << "fn address use " << (void *)(&(context->CopySubresourceRegion)) << std::endl;
+    context->CopySubresourceRegion(
+      shTex,
+      0,
+      0,
+      0,
+      0,
+      tex,
+      0,
+      &srcBox
+    );
+    if (depthTex) {
       context->CopySubresourceRegion(
         shDepthTex,
         0,
@@ -2045,10 +2045,10 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         0,
         &srcBox
       );
+      // context->Flush();
     }
-    // context->Flush();
 
-    {
+    /* {
       ID3D11Resource *shDepthTexResource = nullptr;
       hr = shDepthTex2->QueryInterface(__uuidof(ID3D11Resource), (void **)&shDepthTexResource);
       if (SUCCEEDED(hr)) {
@@ -2076,7 +2076,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         getOut() << "depth tex map failed " << (void *)hr << std::endl;
       }
       context->Unmap(shDepthTexResource, subresource);
-    }
+    } */
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
 
