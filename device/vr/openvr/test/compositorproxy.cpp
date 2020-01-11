@@ -153,6 +153,7 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
+// Texture2DMS QuadDepthTexture : register(ps, t0);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
@@ -1858,40 +1859,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       0,
       &srcBox
     );
-    /* {
-      D3D11_TEXTURE2D_DESC desc;
-      tex->GetDesc(&desc);
-      
-      getOut() << "submit tex desc " <<
-        desc.Width << " " << desc.Height << " " <<
-        desc.MipLevels << " " << desc.ArraySize << " " <<
-        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-        desc.Format << " " <<
-        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
-
-      D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc{};
-      shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-      shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-      shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
-      shaderResourceViewDesc.Texture2D.MipLevels = 1;
-      hr = device->CreateShaderResourceView(
-        tex,
-        // texResource,
-        &shaderResourceViewDesc,
-        &shaderResourceView
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        getOut() << "failed to create shader resource view: " << (void *)hr << std::endl;
-        abort();
-      }
-      context->PSSetShaderResources(0, 1, &shaderResourceView);
-      context->DrawIndexed(6, 0, 0);
-      ID3D11ShaderResourceView *nullSRV[] = {nullptr};
-      context->PSSetShaderResources(0, 1, nullSRV);
-      shaderResourceView->Release();
-    }  */
     if (depthTex) {
       /* context->CopySubresourceRegion(
         shDepthTex,
@@ -2603,5 +2570,39 @@ void PVRCompositor::InitRenderTarget(ID3D11Texture2D *tex) {
     // depthStencilView
     nullptr
   );
+}
+void PVRCompositor::Draw(ID3D11Texture2D *tex) {
+  D3D11_TEXTURE2D_DESC desc;
+  tex->GetDesc(&desc);
+  
+  getOut() << "submit tex desc " <<
+    desc.Width << " " << desc.Height << " " <<
+    desc.MipLevels << " " << desc.ArraySize << " " <<
+    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+    desc.Format << " " <<
+    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+
+  D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc{};
+  shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+  shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+  shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+  shaderResourceViewDesc.Texture2D.MipLevels = 1;
+  hr = device->CreateShaderResourceView(
+    tex,
+    // texResource,
+    &shaderResourceViewDesc,
+    &shaderResourceView
+  );
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "failed to create shader resource view: " << (void *)hr << std::endl;
+    abort();
+  }
+  context->PSSetShaderResources(0, 1, &shaderResourceView);
+  context->DrawIndexed(6, 0, 0);
+  ID3D11ShaderResourceView *nullSRV[] = {nullptr};
+  // context->PSSetShaderResources(0, 1, nullSRV);
+  shaderResourceView->Release();
 }
 }

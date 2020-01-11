@@ -148,6 +148,7 @@ public:
   void CacheWaitGetPoses();
   void InitShader();
   void InitRenderTarget(ID3D11Texture2D *tex);
+  void Draw();
 };
 }
 
