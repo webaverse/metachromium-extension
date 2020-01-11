@@ -28,14 +28,11 @@ public:
   HANDLE hInteropDevice = NULL;
   uint32_t width;
   uint32_t height;
-  // bool rightEye = false;
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
-  // HANDLE fenceHandle = NULL;
-  // Mutex fenceMutex;
   uint64_t fenceValue = 0;
 
-  ID3D11Buffer *vertexBuffer = nullptr;
+  /* ID3D11Buffer *vertexBuffer = nullptr;
   ID3D11Buffer *indexBuffer = nullptr;
   ID3D11SamplerState *linearSampler = nullptr;
   ID3DBlob *vsBlob = nullptr;
@@ -45,7 +42,7 @@ public:
   ID3D11InputLayout *vertexLayout = nullptr;
   ID3D11ShaderResourceView *shaderResourceView = nullptr;
   ID3D11RenderTargetView *renderTargetView = nullptr;
-  ID3D11DepthStencilView *depthStencilView = nullptr;
+  ID3D11DepthStencilView *depthStencilView = nullptr; */
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> depthTexLocations;

@@ -11,6 +11,8 @@
 #include "device/vr/detours/detours.h"
 
 std::map<ID3D11Texture2D *, ID3D11Texture2D *> texMap;
+std::vector<ID3D11Texture2D *> texOrder;
+
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
   ID3D11DeviceContext *This,
   UINT                   NumViews,
@@ -79,7 +81,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           D3D11_TEXTURE2D_DESC desc;
           tex->lpVtbl->GetDesc(tex, &desc);
           D3D11_TEXTURE2D_DESC descDepth;
-          depthTex->lpVtbl->GetDesc(depthTex, &desc);
+          depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
           /* 2124 2348
           1 1
           2 0
@@ -97,8 +99,9 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
             descDepth.Format << " " <<
             descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
             std::endl;
-            
+
           texMap.emplace(tex, depthTex);
+          texOrder.push_back(tex);
         } else {
           tex->lpVtbl->Release(tex);
           depthTex->lpVtbl->Release(depthTex);
@@ -153,6 +156,10 @@ ID3D11Texture2D *getDepthTextureMatching(ID3D11Texture2D *tex) {
   auto iter = texMap.find(tex);
   // getOut() << "get depth texture matching " << (void *)tex << " " << (iter != texMap.end()) << std::endl;
   if (iter != texMap.end()) {
+    auto iter2 = std::find(texOrder.begin(), texOrder.end(), tex);
+    iter2--;
+    ID3D11Texture2D *tex2 = *iter2;
+    iter = texMap.find(tex2);
     return iter->second;
   } else {
     return nullptr;
@@ -165,5 +172,6 @@ void flushTextureLatches() {
       iter.second->lpVtbl->Release(iter.second);
     }
     texMap.clear();
+    texOrder.clear();
   }
 }

@@ -1396,7 +1396,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         abort();
       }
 
-      {      
+      /* {      
         float vertices[] = { // xyzuv
           -1, -1, 0, 0, 1,
           -1, 1, 0, 0, 0,
@@ -1556,7 +1556,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
           context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
         }
         getOut() << "init render 10" << std::endl;
-      }
+      } */
       
       // getOut() << "initial tex 7 " << (void *)context.Get() << std::endl;
     } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
@@ -2173,7 +2173,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       }
     }
 
-    // render targets
+    /* // render targets
     {
       D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
       renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -2213,7 +2213,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         &renderTargetView,
         depthStencilView
       );
-    }
+    } */
 
     getOut() << "open frontend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
     readEvent = CreateEventA(
@@ -2251,9 +2251,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
     ID3D11Texture2D *depthTex = getDepthTextureMatching(tex);
-    /* if (depthTex) {
+    if (depthTex) {
       getOut() << "got depth tex " << (void *)depthTex << std::endl;
-    } */
+    }
     /* {
       // getOut() << "get tex view" << std::endl;
 
@@ -2299,16 +2299,17 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       height * vMax,
       1
     };
-    {
-      /* ID3D11Resource *texResource = nullptr;
-      hr = tex->QueryInterface(__uuidof(ID3D11Resource), (void **)&texResource);
-      if (SUCCEEDED(hr)) {
-        // getOut() << "got resource ok" << std::endl;
-      } else {
-        getOut() << "get tex resource failed: " << (void *)hr << std::endl;
-        abort();
-      } */
-
+    context->CopySubresourceRegion(
+      shTex,
+      0,
+      0,
+      0,
+      0,
+      tex,
+      0,
+      &srcBox
+    );
+    /* {
       D3D11_TEXTURE2D_DESC desc;
       tex->GetDesc(&desc);
       
@@ -2337,21 +2338,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         abort();
       }
       context->PSSetShaderResources(0, 1, &shaderResourceView);
-      /* context->CopySubresourceRegion(
-        shTex,
-        0,
-        0,
-        0,
-        0,
-        tex,
-        0,
-        &srcBox
-      ); */
       context->DrawIndexed(6, 0, 0);
       ID3D11ShaderResourceView *nullSRV[] = {nullptr};
       context->PSSetShaderResources(0, 1, nullSRV);
       shaderResourceView->Release();
-    }
+    }  */
     if (depthTex) {
       context->CopySubresourceRegion(
         shDepthTex,
@@ -2363,16 +2354,22 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         0,
         &srcBox
       );
-      /* context->CopyResource(
+      context->CopySubresourceRegion(
         shDepthTex2,
-        depthTex
+        0,
+        0,
+        0,
+        0,
+        depthTex,
+        0,
+        &srcBox
       );
       // context->Flush();
 
       D3D11_TEXTURE2D_DESC descDepth;
       shDepthTex2->GetDesc(&descDepth);
       
-      getOut() << "copy resource " << uMin << " " << vMin << " " << uMax << " " << vMax << std::endl;
+      // getOut() << "copy resource " << uMin << " " << vMin << " " << uMax << " " << vMax << std::endl;
 
       ID3D11Resource *shDepthTexResource = nullptr;
       hr = shDepthTex2->QueryInterface(__uuidof(ID3D11Resource), (void **)&shDepthTexResource);
@@ -2403,7 +2400,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         getOut() << "depth tex map failed " << (void *)hr << std::endl;
       }
       context->Unmap(shDepthTexResource, subresource);
-      shDepthTexResource->Release(); */
+      shDepthTexResource->Release();
     }
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
