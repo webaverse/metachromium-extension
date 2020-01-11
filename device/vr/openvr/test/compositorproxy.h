@@ -43,6 +43,7 @@ public:
   ID3DBlob *psBlob = nullptr;
   ID3D11PixelShader *psShader = nullptr;
   ID3D11InputLayout *vertexLayout = nullptr;
+  ID3D11ShaderResourceView *shaderResourceView = nullptr;
   ID3D11RenderTargetView *renderTargetView = nullptr;
   ID3D11DepthStencilView *depthStencilView = nullptr;
 

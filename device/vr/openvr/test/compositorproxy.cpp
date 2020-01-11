@@ -84,13 +84,13 @@ uniform vec4 texBounds2;
 void main() {
   if (hasTex1 > 0.0) {
     vec4 c = texture(tex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
-    fragColor += vec4(c.rgb*c.a, c.a) * 0.01;
+    fragColor += vec4(c.rgb*c.a, c.a);
     vec4 c2 = texture(depthTex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
     fragColor += vec4(c2.rgb * 100.0, 1.0);
   }
   if (hasTex2 > 0.0) {
     vec4 c = texture(tex2, texBounds2.xy + vUv * (texBounds2.zw - texBounds2.xy));
-    fragColor += vec4(c.rgb*c.a, c.a) * 0.01;
+    fragColor += vec4(c.rgb*c.a, c.a);
     vec4 c2 = texture(depthTex2, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
     fragColor += vec4(c2.rgb * 100.0, 1.0);
   }
@@ -1545,13 +1545,10 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         }
         getOut() << "init render 9" << std::endl;
         {
-          ID3D11ShaderResourceView *textures[] = { nullptr };
-          UINT texCount = ARRAYSIZE(textures);
           context->VSSetShader(vsShader, nullptr, 0);
           context->PSSetShader(psShader, nullptr, 0);
           context->PSSetSamplers(0, 1, &linearSampler);
-          context->PSSetShaderResources(0, texCount, textures);
-          
+
           UINT stride = sizeof(float) * 5; // xyzuv
           UINT offset = 0;
           context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -2216,7 +2213,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         &renderTargetView,
         depthStencilView
       );
-      // context->DrawIndexed(6, 0, 0);
     }
 
     getOut() << "open frontend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
@@ -2303,17 +2299,59 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       height * vMax,
       1
     };
-    // getOut() << "fn address use " << (void *)(&(context->CopySubresourceRegion)) << std::endl;
-    context->CopySubresourceRegion(
-      shTex,
-      0,
-      0,
-      0,
-      0,
-      tex,
-      0,
-      &srcBox
-    );
+    {
+      /* ID3D11Resource *texResource = nullptr;
+      hr = tex->QueryInterface(__uuidof(ID3D11Resource), (void **)&texResource);
+      if (SUCCEEDED(hr)) {
+        // getOut() << "got resource ok" << std::endl;
+      } else {
+        getOut() << "get tex resource failed: " << (void *)hr << std::endl;
+        abort();
+      } */
+
+      D3D11_TEXTURE2D_DESC desc;
+      tex->GetDesc(&desc);
+      
+      getOut() << "submit tex desc " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+
+      D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc{};
+      shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+      shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+      shaderResourceViewDesc.Texture2D.MipLevels = 1;
+      hr = device->CreateShaderResourceView(
+        tex,
+        // texResource,
+        &shaderResourceViewDesc,
+        &shaderResourceView
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to create shader resource view: " << (void *)hr << std::endl;
+        abort();
+      }
+      context->PSSetShaderResources(0, 1, &shaderResourceView);
+      /* context->CopySubresourceRegion(
+        shTex,
+        0,
+        0,
+        0,
+        0,
+        tex,
+        0,
+        &srcBox
+      ); */
+      context->DrawIndexed(6, 0, 0);
+      ID3D11ShaderResourceView *nullSRV[] = {nullptr};
+      context->PSSetShaderResources(0, 1, nullSRV);
+      shaderResourceView->Release();
+    }
     if (depthTex) {
       context->CopySubresourceRegion(
         shDepthTex,
@@ -2325,7 +2363,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         0,
         &srcBox
       );
-      context->CopyResource(
+      /* context->CopyResource(
         shDepthTex2,
         depthTex
       );
@@ -2365,7 +2403,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         getOut() << "depth tex map failed " << (void *)hr << std::endl;
       }
       context->Unmap(shDepthTexResource, subresource);
-      shDepthTexResource->Release();
+      shDepthTexResource->Release(); */
     }
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
