@@ -144,7 +144,7 @@ struct VS_OUTPUT
 // Pixel Shader OUT struct
 struct PS_OUTPUT
 {
-	float4 Color :	COLOR;
+	float4 Color : SV_Target;
 };
 //------------------------------------------------------------//
 
@@ -153,12 +153,10 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-sampler QuadTextureSampler : register(ps, s[0]) = sampler_state 
-{ 
-	Texture = (QuadTexture); 
-	MipFilter = LINEAR; 
+SamplerState QuadTextureSampler {
+  MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
-	MagFilter = LINEAR; 
+	MagFilter = LINEAR;
 };
 //------------------------------------------------------------//
 
@@ -186,7 +184,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 	//Output struct
 	PS_OUTPUT OUT;
 	
-	OUT.Color.rgb = tex2D(QuadTextureSampler, IN.Tex0);
+	OUT.Color.rgb = QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb;
 	OUT.Color.a = 1;
 	
 	return OUT;
@@ -1516,15 +1514,18 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
             "ps_5_0",
             D3DCOMPILE_ENABLE_STRICTNESS,
             0,
-            &vsBlob,
+            &psBlob,
             &errorBlob
           );
+          getOut() << "init render 6" << std::endl;
           if (FAILED(hr)) {
             if (errorBlob != nullptr) {
               getOut() << "ps compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
               abort();
             }
           }
+          
+          getOut() << "init render 7" << std::endl;
 
           ID3D11ClassLinkage *linkage = nullptr;
 	        hr = device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), linkage, &psShader);
@@ -1533,7 +1534,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
             abort();
           }
         }
-        getOut() << "init render 6" << std::endl;
+        getOut() << "init render 8" << std::endl;
         {
           D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
             { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -1542,7 +1543,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
           UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
 	        hr = device->CreateInputLayout(PositionTextureVertexLayout, numElements, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &vertexLayout);
         }
-        getOut() << "init render 7" << std::endl;
+        getOut() << "init render 9" << std::endl;
         {
           ID3D11ShaderResourceView *textures[] = { nullptr };
           UINT texCount = ARRAYSIZE(textures);
@@ -1558,7 +1559,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
           context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
           context->DrawIndexed(6, 0, 0); */
         }
-        getOut() << "init render 8" << std::endl;
+        getOut() << "init render 10" << std::endl;
       }
       
       // getOut() << "initial tex 7 " << (void *)context.Get() << std::endl;
@@ -1566,7 +1567,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       {
         glewExperimental = true;
         auto result2 = glewInit();
-        getOut() << "get p " << (void *)wglDXOpenDeviceNV << std::endl;
+        // getOut() << "get p " << (void *)wglDXOpenDeviceNV << std::endl;
         if (result2 == GLEW_OK) {
           // nothing
         } else {
