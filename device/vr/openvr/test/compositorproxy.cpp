@@ -55,63 +55,147 @@ char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothi
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
 
-const char *composeVsh = ""
-"#version 330\n\
-\n\
-in vec2 position;\n\
-in vec2 uv;\n\
-out vec2 vUv;\n\
-\n\
-void main() {\n\
-  vUv = uv;\n\
-  gl_Position = vec4(position.xy, 0., 1.);\n\
-}\n\
-";
-const char *composeFsh = ""
-"#version 330\n\
-\n\
-in vec2 vUv;\n\
-out vec4 fragColor;\n\
-uniform sampler2D tex1;\n\
-uniform sampler2D tex2;\n\
-uniform sampler2D depthTex1;\n\
-uniform sampler2D depthTex2;\n\
-uniform float hasTex1;\n\
-uniform float hasTex2;\n\
-uniform vec4 texBounds1;\n\
-uniform vec4 texBounds2;\n\
-\n\
-void main() {\n\
-  if (hasTex1 > 0.0) {\n\
-    vec4 c = texture(tex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
-    fragColor += vec4(c.rgb*c.a, c.a) * 0.01;\n\
-    vec4 c2 = texture(depthTex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
-    fragColor += vec4(c2.rgb * 100.0, 1.0);\n\
-  }\n\
-  if (hasTex2 > 0.0) {\n\
-    vec4 c = texture(tex2, texBounds2.xy + vUv * (texBounds2.zw - texBounds2.xy));\n\
-    fragColor += vec4(c.rgb*c.a, c.a) * 0.01;\n\
-    vec4 c2 = texture(depthTex2, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));\n\
-    fragColor += vec4(c2.rgb * 100.0, 1.0);\n\
-  }\n\
-  // if (fragColor.a < 0.5) discard;\n\
-  // fragColor = vec4(vec3(0.0), 1.0);\n\
-  // fragColor.r += 0.1;\n\
-  // gl_FragDepth = texture(depthTex, vUv).r;\n\
-}\n\
-";
-const char *blitFsh = ""
-"#version 330\n\
-\n\
-in vec2 vUv;\n\
-out vec4 fragColor;\n\
-uniform sampler2D tex;\n\
-\n\
-void main() {\n\
-  fragColor = vec4(texture(tex, vUv).rgb, 1.0);\n\
-  // fragColor += vec4(0.5, 0.0, 0.0, 0.1);\n\
-}\n\
-";
+const char *composeVsh = R"END(
+#version 330
+
+in vec2 position;
+in vec2 uv;
+out vec2 vUv;
+
+void main() {
+  vUv = uv;
+  gl_Position = vec4(position.xy, 0., 1.);
+}
+)END";
+const char *composeFsh = R"END(
+#version 330
+
+in vec2 vUv;
+out vec4 fragColor;
+uniform sampler2D tex1;
+uniform sampler2D tex2;
+uniform sampler2D depthTex1;
+uniform sampler2D depthTex2;
+uniform float hasTex1;
+uniform float hasTex2;
+uniform vec4 texBounds1;
+uniform vec4 texBounds2;
+
+void main() {
+  if (hasTex1 > 0.0) {
+    vec4 c = texture(tex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
+    fragColor += vec4(c.rgb*c.a, c.a) * 0.01;
+    vec4 c2 = texture(depthTex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
+    fragColor += vec4(c2.rgb * 100.0, 1.0);
+  }
+  if (hasTex2 > 0.0) {
+    vec4 c = texture(tex2, texBounds2.xy + vUv * (texBounds2.zw - texBounds2.xy));
+    fragColor += vec4(c.rgb*c.a, c.a) * 0.01;
+    vec4 c2 = texture(depthTex2, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
+    fragColor += vec4(c2.rgb * 100.0, 1.0);
+  }
+  // if (fragColor.a < 0.5) discard;
+  // fragColor = vec4(vec3(0.0), 1.0);
+  // fragColor.r += 0.1;
+  // gl_FragDepth = texture(depthTex, vUv).r;
+}
+)END";
+const char *blitFsh = R"END(
+#version 330
+
+in vec2 vUv;
+out vec4 fragColor;
+uniform sampler2D tex;
+
+void main() {
+  fragColor = vec4(texture(tex, vUv).rgb, 1.0);
+  // fragColor += vec4(0.5, 0.0, 0.0, 0.1);
+}
+)END";
+const char *hlsl = R"END(
+//------------------------------------------------------------//
+// Description
+//------------------------------------------------------------//
+// A simple fullscreen quad
+//------------------------------------------------------------//
+
+//------------------------------------------------------------//
+// Global shader data
+//------------------------------------------------------------//
+//------------------------------------------------------------//
+
+//------------------------------------------------------------//
+// Constants
+//------------------------------------------------------------//
+float Width;
+float Height;
+//------------------------------------------------------------//
+
+//------------------------------------------------------------//
+// Structs
+//------------------------------------------------------------//
+// Vertex shader OUT struct
+struct VS_OUTPUT
+{
+   float4 Position:	POSITION;
+   float2 Tex0:		TEXCOORD0;	
+};
+//------------------------------------------------------------//
+// Pixel Shader OUT struct
+struct PS_OUTPUT
+{
+	float4 Color :	COLOR;
+};
+//------------------------------------------------------------//
+
+//------------------------------------------------------------//
+// Textures / samplers
+//------------------------------------------------------------//
+//Texture
+Texture2D QuadTexture : register(ps, t0);
+sampler QuadTextureSampler : register(ps, s[0]) = sampler_state 
+{ 
+	Texture = (QuadTexture); 
+	MipFilter = LINEAR; 
+	MinFilter = LINEAR; 
+	MagFilter = LINEAR; 
+};
+//------------------------------------------------------------//
+
+//------------------------------------------------------------//
+// Vertex Shader
+//------------------------------------------------------------//
+VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
+{
+	VS_OUTPUT Output;
+	//Output.Position = float4((inPos - 0.5f) * 2, 0, 1);
+	//Output.Position.y += 1;
+	Output.Position = float4(inPos, 0, 1);
+	Output.Tex0 = inTex;
+	//Output.Tex0.y = 1 - Output.Tex0.y;
+	Output.Tex0 += float2(0.5f / Width, 0.5f / Height);
+	return Output;
+}
+//------------------------------------------------------------//
+
+//------------------------------------------------------------//
+// Pixel shader
+//------------------------------------------------------------//
+PS_OUTPUT ps_main(VS_OUTPUT IN)
+{   
+	//Output struct
+	PS_OUTPUT OUT;
+	
+	OUT.Color.rgb = tex2D(QuadTextureSampler, IN.Tex0);
+	OUT.Color.a = 1;
+	
+	return OUT;
+}
+//------------------------------------------------------------//
+)END";
+const char *hlslVsEntry = "vs_main";
+const char *hlslPsEntry = "ps_main";
+
 constexpr size_t MAX_LAYERS = 2;
 const EVREye EYES[] = {
   Eye_Left,
@@ -1312,6 +1396,169 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       } else {
         getOut() << "context query failed" << std::endl;
         abort();
+      }
+
+      {      
+        float vertices[] = { // xyzuv
+          -1, -1, 0, 0, 1,
+          -1, 1, 0, 0, 0,
+          1, -1, 0, 1, 1,
+          1, 1, 0, 1, 0
+        };
+        int indices[] =
+        {
+          0, 1, 2,
+          3, 2, 1
+        };
+
+        getOut() << "init render 1" << std::endl;
+
+        {
+          D3D11_BUFFER_DESC bd{};
+          D3D11_SUBRESOURCE_DATA InitData{};
+
+          // ZeroMemory(&bd, sizeof(bd));
+          bd.Usage = D3D11_USAGE_DEFAULT;
+          bd.ByteWidth = sizeof(float) * 5 * 4;
+          bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+          bd.CPUAccessFlags = 0;
+          // ZeroMemory(&InitData, sizeof(InitData));
+          InitData.pSysMem = vertices;
+          
+          // ID3D11Buffer* vertexBuffer = nullptr;
+          hr = device->CreateBuffer(&bd, &InitData, &vertexBuffer);
+          if(FAILED(hr)) {
+            getOut() << "Unable to create vertex buffer: " << (void *)hr << std::endl;
+            abort();   
+          }
+          // m_VB.Set(vertexBuffer);
+        }
+        getOut() << "init render 2" << std::endl;
+        {
+          D3D11_BUFFER_DESC bd{};
+          D3D11_SUBRESOURCE_DATA InitData{};
+
+          // ZeroMemory(&bd, sizeof(bd));
+          bd.Usage = D3D11_USAGE_DEFAULT;
+          bd.ByteWidth = sizeof(int) * 6;
+          bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+          bd.CPUAccessFlags = 0;
+          bd.MiscFlags = 0;
+          // ZeroMemory(&InitData, sizeof(InitData));
+          InitData.pSysMem = indices;
+
+          // ID3D11Buffer* indexBuffer = nullptr;
+          hr = device->CreateBuffer(&bd, &InitData, &indexBuffer);
+          if(FAILED(hr)) {
+            getOut() << "Unable to create index buffer: " << (void *)hr << std::endl;
+            abort();
+          }
+          // m_IB.Set(indexBuffer);
+        }
+        getOut() << "init render 3" << std::endl;
+        {
+          // Create samplers
+          D3D11_SAMPLER_DESC sampDesc{};
+          sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+          sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+          sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+          sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+          sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+          sampDesc.MinLOD = 0;
+          sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+          hr = device->CreateSamplerState(&sampDesc, &linearSampler);
+          if(FAILED(hr))
+          {
+            getOut() << "Unable to create linear sampler state: " << (void *)hr << std::endl;
+            abort();
+          }
+          // m_LinearSampler.Set(linearSampler);
+        }
+        getOut() << "init render 4" << std::endl;
+        {
+          ID3DBlob *errorBlob = nullptr;
+          hr = D3DCompile(
+            hlsl,
+            strlen(hlsl),
+            "vs.hlsl",
+            nullptr,
+            D3D_COMPILE_STANDARD_FILE_INCLUDE,
+            hlslVsEntry,
+            "vs_5_0",
+            D3DCOMPILE_ENABLE_STRICTNESS,
+            0,
+            &vsBlob,
+            &errorBlob
+          );
+          if (FAILED(hr)) {
+            if (errorBlob != nullptr) {
+              getOut() << "vs compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+              abort();
+            }
+          }
+          ID3D11ClassLinkage *linkage = nullptr;
+	        hr = device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), linkage, &vsShader);
+          if (FAILED(hr)) {
+            getOut() << "vs create failed: " << (void *)hr << std::endl;
+            abort();
+          }
+        }
+        getOut() << "init render 5" << std::endl;
+        {
+          ID3DBlob *errorBlob = nullptr;
+          hr = D3DCompile(
+            hlsl,
+            strlen(hlsl),
+            "ps.hlsl",
+            nullptr,
+            D3D_COMPILE_STANDARD_FILE_INCLUDE,
+            hlslPsEntry,
+            "ps_5_0",
+            D3DCOMPILE_ENABLE_STRICTNESS,
+            0,
+            &vsBlob,
+            &errorBlob
+          );
+          if (FAILED(hr)) {
+            if (errorBlob != nullptr) {
+              getOut() << "ps compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+              abort();
+            }
+          }
+
+          ID3D11ClassLinkage *linkage = nullptr;
+	        hr = device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), linkage, &psShader);
+          if (FAILED(hr)) {
+            getOut() << "ps create failed: " << (void *)hr << std::endl;
+            abort();
+          }
+        }
+        getOut() << "init render 6" << std::endl;
+        {
+          D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
+            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+            { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+          };
+          UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
+	        hr = device->CreateInputLayout(PositionTextureVertexLayout, numElements, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &vertexLayout);
+        }
+        getOut() << "init render 7" << std::endl;
+        {
+          ID3D11ShaderResourceView *textures[] = { nullptr };
+          UINT texCount = ARRAYSIZE(textures);
+          context->VSSetShader(vsShader, nullptr, 0);
+          context->PSSetShader(psShader, nullptr, 0);
+          context->PSSetSamplers(0, 1, &linearSampler);
+          context->PSSetShaderResources(0, texCount, textures);
+          
+          /* UINT stride = sizeof(float) * 5; // xyzuv
+          UINT offset = 0;
+          context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+          context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+          context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+          context->DrawIndexed(6, 0, 0); */
+        }
+        getOut() << "init render 8" << std::endl;
       }
       
       // getOut() << "initial tex 7 " << (void *)context.Get() << std::endl;

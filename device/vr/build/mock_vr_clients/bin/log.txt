@@ -2326,3 +2326,110 @@ dll main 3
 dll main 3
 core client cleanup
 dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 000001E7B9D017C0
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+core client cleanup
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 000001E7CFBBE470
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+get generic interface IVRChaperone_003
+create interface IVRChaperone_003
+get generic interface IVRChaperoneSetup_005
+create interface IVRChaperoneSetup_005
+get generic interface IVRCompositor_020
+create interface IVRCompositor_020
+dll main 2
+detour 3 0
+init render 1
+init render 2
+init render 3
+Unable to create linear sampler state
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 000001548B0B19A0
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+core client cleanup
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 00000154A0FEFD90
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+get generic interface IVRChaperone_003
+create interface IVRChaperone_003
+get generic interface IVRChaperoneSetup_005
+create interface IVRChaperoneSetup_005
+get generic interface IVRCompositor_020
+create interface IVRCompositor_020
+dll main 2
+detour 3 0
+init render 1
+init render 2
+init render 3
+Unable to create linear sampler state: FFFFFFFF80070057
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 0000023D3F981D20
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+core client cleanup
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 0000023D557EB550
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+get generic interface IVRChaperone_003
+create interface IVRChaperone_003
+get generic interface IVRChaperoneSetup_005
+create interface IVRChaperoneSetup_005
+get generic interface IVRCompositor_020
+create interface IVRCompositor_020
+dll main 2
+detour 3 0
+init render 1
+init render 2
+init render 3
+init render 4
+vs compilation failed: C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\vs.hlsl(42,51): error X3086: DX9-style '= sampler_state' syntax is deprecated in strict mode
+

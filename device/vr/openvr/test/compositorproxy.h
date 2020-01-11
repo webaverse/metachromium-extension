@@ -2,6 +2,7 @@
 #define _openvr_compositorproxy_h_
 
 #include <D3D11_4.h>
+#include <d3dcompiler.h>
 #include <DXGI1_4.h>
 #include <wrl.h>
 
@@ -33,6 +34,15 @@ public:
   // HANDLE fenceHandle = NULL;
   // Mutex fenceMutex;
   uint64_t fenceValue = 0;
+  
+  ID3D11Buffer *vertexBuffer;
+  ID3D11Buffer *indexBuffer;
+  ID3D11SamplerState *linearSampler;
+  ID3DBlob *vsBlob;
+  ID3D11VertexShader *vsShader;
+  ID3DBlob *psBlob;
+  ID3D11PixelShader *psShader;
+  ID3D11InputLayout *vertexLayout;
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> depthTexLocations;
