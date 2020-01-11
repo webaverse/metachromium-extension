@@ -2528,6 +2528,41 @@ void PVRCompositor::InitShader() {
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
   }
   getOut() << "init render 10" << std::endl;
+
+  g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
+  
+  D3D11_TEXTURE2D_DESC desc{};
+  desc.Width = width;
+  desc.Height = height;
+  desc.ArraySize = 1;
+  desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+  // desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
+  desc.SampleDesc.Count = 1;
+  desc.Usage = D3D11_USAGE_DEFAULT;
+  // desc.BindFlags = D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET;
+  // desc.BindFlags = 40; // D3D11_BIND_DEPTH_STENCIL
+  desc.BindFlags = 0; // D3D11_BIND_DEPTH_STENCIL
+  // desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+  // desc.MiscFlags = 0; 
+  // getOut() << "gl init 6 " << width << " " << height << " " << (void *)device.Get() << " " << glGetError() << std::endl;
+  /* getOut() << "get texture desc back " << (int)eEye << " " << desc.Width << " " << desc.Height << " " <<
+    pBounds->uMin << " " << pBounds->vMin << " " <<
+    pBounds->uMax << " " << pBounds->vMax << " " <<
+    std::endl; */
+  shTexOuts.resize(2);
+  // getOut() << "interop 1" << std::endl;
+  for (int i = 0; i < 2; i++) {
+    HRESULT hr = device->CreateTexture2D(
+      &desc,
+      NULL,
+      &shTexOuts[i]
+    );
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "failed to create eye texture: " << (void *)hr << std::endl;
+    }
+  }
 }
 void PVRCompositor::InitRenderTarget(ID3D11Texture2D *tex) {
   D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
