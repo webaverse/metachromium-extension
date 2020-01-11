@@ -34,21 +34,23 @@ public:
   // HANDLE fenceHandle = NULL;
   // Mutex fenceMutex;
   uint64_t fenceValue = 0;
-  
-  ID3D11Buffer *vertexBuffer;
-  ID3D11Buffer *indexBuffer;
-  ID3D11SamplerState *linearSampler;
-  ID3DBlob *vsBlob;
-  ID3D11VertexShader *vsShader;
-  ID3DBlob *psBlob;
-  ID3D11PixelShader *psShader;
-  ID3D11InputLayout *vertexLayout;
+
+  ID3D11Buffer *vertexBuffer = nullptr;
+  ID3D11Buffer *indexBuffer = nullptr;
+  ID3D11SamplerState *linearSampler = nullptr;
+  ID3DBlob *vsBlob = nullptr;
+  ID3D11VertexShader *vsShader = nullptr;
+  ID3DBlob *psBlob = nullptr;
+  ID3D11PixelShader *psShader = nullptr;
+  ID3D11InputLayout *vertexLayout = nullptr;
+  ID3D11RenderTargetView *renderTargetView = nullptr;
+  ID3D11DepthStencilView *depthStencilView = nullptr;
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> depthTexLocations;
   std::vector<GLuint> hasTexLocations;
   std::vector<GLuint> texBoundsLocations;
-  
+
   GLuint blitVao;
   GLuint blitProgram;
 

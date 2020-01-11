@@ -1552,12 +1552,11 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
           context->PSSetSamplers(0, 1, &linearSampler);
           context->PSSetShaderResources(0, texCount, textures);
           
-          /* UINT stride = sizeof(float) * 5; // xyzuv
+          UINT stride = sizeof(float) * 5; // xyzuv
           UINT offset = 0;
           context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
           context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
           context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-          context->DrawIndexed(6, 0, 0); */
         }
         getOut() << "init render 10" << std::endl;
       }
@@ -2176,7 +2175,50 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         abort();
       }
     }
-    
+
+    // render targets
+    {
+      D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+      renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+      renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+      hr = device->CreateRenderTargetView(
+        shTex,
+        &renderTargetViewDesc,
+        &renderTargetView
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to create render texure view: " << (void *)hr << std::endl;
+      }
+    // }
+    // {
+      D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilDesc{};
+      depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+      depthStencilDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+      depthStencilDesc.Texture2D.MipSlice = 0;
+
+      hr = device->CreateDepthStencilView(
+        shDepthTex,
+        &depthStencilDesc,
+        &depthStencilView
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to create depth stencil view: " << (void *)hr << std::endl;
+      }
+
+      context->OMSetRenderTargets(
+        1,
+        &renderTargetView,
+        depthStencilView
+      );
+      // context->DrawIndexed(6, 0, 0);
+    }
+
     getOut() << "open frontend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
     readEvent = CreateEventA(
       NULL,
