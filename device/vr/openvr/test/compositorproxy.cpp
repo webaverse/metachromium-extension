@@ -432,9 +432,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
       iter = inBackIndices.find(key);
 
       inBackTexs.resize(index+1, NULL);
-      inBackInteropHandles.resize(index+1, NULL);
+      // inBackInteropHandles.resize(index+1, NULL);
       inBackDepthTexs.resize(index+1, NULL);
-      inBackDepthInteropHandles.resize(index+1, NULL);
+      // inBackDepthInteropHandles.resize(index+1, NULL);
       inBackReadEvents.resize(index+1, NULL);
       inBackTextureBounds.resize(index+1, VRTextureBounds_t{});
       inBackHandleLatches.resize(index+1, NULL);
@@ -443,10 +443,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     // getOut() << "submit server 2" << std::endl;
 
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
-    GLuint &shTexInId = inBackTexs[index]; // gl texture
-    HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
-    GLuint &shDepthTexInId = inBackDepthTexs[index]; // gl depth texture
-    HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
+    ID3D11Texture2D *&shTexIn = inBackTexs[index]; // gl texture
+    // HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
+    ID3D11Texture2D *&shDepthTexIn = inBackDepthTexs[index]; // gl depth texture
+    // HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
     HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     VRTextureBounds_t &textureBounds = inBackTextureBounds[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
@@ -469,16 +469,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
 
       // getOut() << "submit server 5" << std::endl;
 
-      GLuint textures[2];
+      /* GLuint textures[2];
       glGenTextures(ARRAYSIZE(textures), textures);
       shTexInId = textures[0];
-      shDepthTexInId = textures[1];
+      shDepthTexInId = textures[1]; */
 
       {
         ID3D11Resource *shTexResource;
         HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
-        
-        ID3D11Texture2D *shTexIn;
+
         if (SUCCEEDED(hr)) {
           hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
           
@@ -493,22 +492,20 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           abort();
         }
 
-        shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+        /* shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
         if (shTexInInteropHandle) {
           // nothing
         } else {
           // C007006E
           getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shTexIn << " " << shTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
           abort();
-        }
-        shTexIn->Release();
+        } */
         shTexResource->Release();
       }
       {
         ID3D11Resource *shDepthTexResource;
         HRESULT hr = device->OpenSharedResource(sharedDepthHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
-        
-        ID3D11Texture2D *shDepthTexIn;
+
         if (SUCCEEDED(hr)) {
           hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTexIn));
           
@@ -523,15 +520,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           abort();
         }
 
-        shDepthTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shDepthTexIn, shDepthTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+        /* shDepthTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shDepthTexIn, shDepthTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
         if (shDepthTexInInteropHandle) {
           // nothing
         } else {
           // C007006E
           getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shDepthTexIn << " " << shDepthTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
           abort();
-        }
-        shDepthTexIn->Release();
+        } */
+        // shDepthTexIn->Release();
         shDepthTexResource->Release();
       }
 

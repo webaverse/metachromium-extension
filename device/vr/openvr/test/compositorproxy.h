@@ -73,10 +73,10 @@ public:
 
   // input back
   std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
-  std::vector<GLuint> inBackTexs;
-  std::vector<HANDLE> inBackInteropHandles;
-  std::vector<GLuint> inBackDepthTexs;
-  std::vector<HANDLE> inBackDepthInteropHandles;
+  std::vector<ID3D11Texture2D *> inBackTexs;
+  // std::vector<HANDLE> inBackInteropHandles;
+  std::vector<ID3D11Texture2D *> inBackDepthTexs;
+  // std::vector<HANDLE> inBackDepthInteropHandles;
   std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
