@@ -396,284 +396,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         getOut() << "create dx device failed " << (void *)hr << std::endl;
         abort();
       }
-
-      subWindow = initGl();
-
-      // getOut() << "prepare submit server 4 " << (void *)device.Get() << std::endl;
-
-      // getOut() << "gl init 1 " << (void *)subWindow << " " << (void *)device.Get() << " " << glGetError() << std::endl;
-
-      // getOut() << "open interop device 1 " << (void *)device.Get() << std::endl;
-
-      hInteropDevice = wglDXOpenDeviceNV(device.Get());
       
-      // getOut() << "open interop device 2 " << (void *)hInteropDevice << std::endl;
-
-      // getOut() << "prepare submit server 5" << std::endl;
-
-      // getOut() << "gl init 2 " << (void *)hInteropDevice << " " << glGetError() << std::endl;
-      
-      GLuint vao;
-      glGenVertexArrays(1, &vao);
-      glBindVertexArray(vao);
-      
-      // getOut() << "prepare submit server 6" << std::endl;
-      
-      // getOut() << "gl init 3 " << glGetError() << std::endl;
-
-      GLuint textures[4];
-      glGenTextures(ARRAYSIZE(textures), textures);
-      shTexOutIds.resize(2);
-      shTexOutIds[0] = textures[0];
-      shTexOutIds[1] = textures[1];
-      texDepthIds.resize(2);
-      texDepthIds[0] = textures[2];
-      texDepthIds[1] = textures[3];
-      
-      // getOut() << "getting width height" << std::endl;
-      
-      // getOut() << "prepare submit server 7" << std::endl;
-
-      // getOut() << "gl init 4 " << glGetError() << std::endl;
-
-      // glBindTexture(GL_TEXTURE_2D, shTexOutId);
-      // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-      g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
-      getOut() << "got width height backend " << width << " " << height << std::endl;
-      glBindTexture(GL_TEXTURE_2D, texDepthIds[0]);
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
-      glBindTexture(GL_TEXTURE_2D, texDepthIds[1]);
-      glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
-      glBindTexture(GL_TEXTURE_2D, 0);
-      
-      // getOut() << "prepare submit server 8" << std::endl;
-      
-      // getOut() << "gl init 5 " << glGetError() << std::endl;
-      
-      D3D11_TEXTURE2D_DESC desc{};
-      desc.Width = width;
-      desc.Height = height;
-      desc.ArraySize = 1;
-      desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-      // desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
-      desc.SampleDesc.Count = 1;
-      desc.Usage = D3D11_USAGE_DEFAULT;
-      // desc.BindFlags = D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET;
-      // desc.BindFlags = 40; // D3D11_BIND_DEPTH_STENCIL
-      desc.BindFlags = 0; // D3D11_BIND_DEPTH_STENCIL
-      // desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
-      // desc.MiscFlags = 0; 
-      // getOut() << "gl init 6 " << width << " " << height << " " << (void *)device.Get() << " " << glGetError() << std::endl;
-      /* getOut() << "get texture desc back " << (int)eEye << " " << desc.Width << " " << desc.Height << " " <<
-        pBounds->uMin << " " << pBounds->vMin << " " <<
-        pBounds->uMax << " " << pBounds->vMax << " " <<
-        std::endl; */
-      shTexOuts.resize(2);
-      shTexOutInteropHandles.resize(2);
-      // getOut() << "interop 1" << std::endl;
-      for (int i = 0; i < 2; i++) {
-        HRESULT hr = device->CreateTexture2D(
-          &desc,
-          NULL,
-          &shTexOuts[i]
-        );
-        shTexOutInteropHandles[i] = wglDXRegisterObjectNV(hInteropDevice, shTexOuts[i], shTexOutIds[i], GL_TEXTURE_2D, WGL_ACCESS_WRITE_DISCARD_NV);
-      }
-      // getOut() << "interop 2" << std::endl;
-      
-      // getOut() << "prepare submit server 9" << std::endl;
-      
-      /* if (!shTexOutInteropHandle) {
-        getOut() << "gl init error 1 " << (void *)shTexOutInteropHandle << " " << (void *)hr << " " << (void *)shTexOut << " " << (void *)shTexOutId << " " << glGetError() << std::endl;
-        abort();
-      } */
-
-      // vertex shader
-      GLuint composeVertex = glCreateShader(GL_VERTEX_SHADER);
-      glShaderSource(composeVertex, 1, &composeVsh, NULL);
-      glCompileShader(composeVertex);
-      GLint success;
-      glGetShaderiv(composeVertex, GL_COMPILE_STATUS, &success);
-      if (!success) {
-        char infoLog[4096];
-        GLsizei length;
-        glGetShaderInfoLog(composeVertex, sizeof(infoLog), &length, infoLog);
-        infoLog[length] = '\0';
-        getOut() << "compose vertex shader compilation failed:\n" << infoLog << std::endl;
-        abort();
-      };
-      
-      // getOut() << "prepare submit server 10" << std::endl;
-
-      // getOut() << "gl init error 2 " << glGetError() << std::endl;
-
-      // fragment shader
-      GLuint composeFragment = glCreateShader(GL_FRAGMENT_SHADER);
-      glShaderSource(composeFragment, 1, &composeFsh, NULL);
-      glCompileShader(composeFragment);
-      glGetShaderiv(composeFragment, GL_COMPILE_STATUS, &success);
-      if (!success) {
-        char infoLog[4096];
-        GLsizei length;
-        glGetShaderInfoLog(composeFragment, sizeof(infoLog), &length, infoLog);
-        infoLog[length] = '\0';
-        getOut() << "compose fragment shader compilation failed:\n" << infoLog << std::endl;
-        abort();
-      };
-      
-      // getOut() << "prepare submit server 11" << std::endl;
-      
-      // getOut() << "gl init error 3 " << glGetError() << std::endl;
-
-      // shader program
-      GLuint composeProgram = glCreateProgram();
-      glAttachShader(composeProgram, composeVertex);
-      glAttachShader(composeProgram, composeFragment);
-      glLinkProgram(composeProgram);
-      glGetProgramiv(composeProgram, GL_LINK_STATUS, &success);
-      if (!success) {
-        char infoLog[4096];
-        GLsizei length;
-        glGetShaderInfoLog(composeProgram, sizeof(infoLog), &length, infoLog);
-        infoLog[length] = '\0';
-        getOut() << "compose program linking failed\n" << infoLog << std::endl;
-        abort();
-      }
-      
-      // getOut() << "prepare submit server 12" << std::endl;
-      
-      // getOut() << "gl init error 4 " << glGetError() << std::endl;
-
-      GLuint positionLocation = glGetAttribLocation(composeProgram, "position");
-      if (positionLocation == -1) {
-        getOut() << "compose program failed to get attrib location for 'position'" << std::endl;
-        abort();
-      }
-      // getOut() << "prepare submit server 13" << std::endl;
-      GLuint uvLocation = glGetAttribLocation(composeProgram, "uv");
-      if (uvLocation == -1) {
-        getOut() << "compose program failed to get attrib location for 'uv'" << std::endl;
-        abort();
-      }
-      // getOut() << "prepare submit server 14" << std::endl;
-      texLocations.resize(MAX_LAYERS);
-      depthTexLocations.resize(MAX_LAYERS);
-      hasTexLocations.resize(MAX_LAYERS);
-      texBoundsLocations.resize(MAX_LAYERS);
-      for (size_t i = 0; i < MAX_LAYERS; i++) {
-        std::string texString = std::string("tex") + std::to_string(i+1);
-        GLuint texLocation = glGetUniformLocation(composeProgram, texString.c_str());
-        // getOut() << "get location 1  " << texString << " " << texLocation << std::endl;
-        if (texLocation != -1) {
-          texLocations[i] = texLocation;
-        } else {
-          getOut() << "compose program failed to get uniform location for '" << texString << "'" << std::endl;
-          abort();
-        }
-
-        std::string depthTexString = std::string("depthTex") + std::to_string(i+1);
-        GLuint depthTexLocation = glGetUniformLocation(composeProgram, depthTexString.c_str());
-        // getOut() << "get depth location 1  " << depthTexString << " " << depthTexLocation << std::endl;
-        if (depthTexLocation != -1) {
-          depthTexLocations[i] = depthTexLocation;
-        } else {
-          getOut() << "compose program failed to get uniform location for '" << depthTexString << "'" << std::endl;
-          abort();
-        }
-
-        std::string hasTexString = std::string("hasTex") + std::to_string(i+1);
-        GLuint hasTexLocation = glGetUniformLocation(composeProgram, hasTexString.c_str());
-        // getOut() << "get location 2 " << hasTexString << " " << hasTexLocation << std::endl;
-        if (hasTexLocation != -1) {
-          hasTexLocations[i] = hasTexLocation;
-        } else {
-          getOut() << "compose program failed to get uniform location for '" << hasTexString << "'" << std::endl;
-          abort();
-        }
-
-        std::string texBoundsString = std::string("texBounds") + std::to_string(i+1);
-        GLuint texBoundsLocation = glGetUniformLocation(composeProgram, texBoundsString.c_str());
-        // getOut() << "get location 2 " << hasTexString << " " << hasTexLocation << std::endl;
-        if (texBoundsLocation != -1) {
-          texBoundsLocations[i] = texBoundsLocation;
-        } else {
-          getOut() << "compose program failed to get uniform location for '" << texBoundsString << "'" << std::endl;
-          abort();
-        }
-      }
-      // getOut() << "prepare submit server 15" << std::endl;
-      /* GLuint depthTexLocation = glGetUniformLocation(composeProgram, "depthTex");
-      if (depthTexLocation == -1) {
-        getOut() << "compose program failed to get uniform location for 'depthTex'" << std::endl;
-        abort();
-      } */
-
-      // getOut() << "gl init error 5 " << glGetError() << std::endl;
-
-      // delete the shaders as they're linked into our program now and no longer necessary
-      glDeleteShader(composeVertex);
-      glDeleteShader(composeFragment);
-
-      glUseProgram(composeProgram);
-
-      GLuint positionBuffer;
-      glGenBuffers(1, &positionBuffer);
-      glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-      static const float positions[] = {
-        -1.0f, 1.0f,
-        1.0f, 1.0f,
-        -1.0f, -1.0f,
-        1.0f, -1.0f,
-      };
-      glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-      glEnableVertexAttribArray(positionLocation);
-      glVertexAttribPointer(positionLocation, 2, GL_FLOAT, false, 0, 0);
-
-      // getOut() << "gl init error 6 " << glGetError() << std::endl;
-
-      GLuint uvBuffer;
-      glGenBuffers(1, &uvBuffer);
-      glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-      static const float uvs[] = {
-        0.0f, 1.0f,
-        1.0f, 1.0f,
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-      };
-      glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
-      glEnableVertexAttribArray(uvLocation);
-      glVertexAttribPointer(uvLocation, 2, GL_FLOAT, false, 0, 0);
-
-      // getOut() << "gl init error 7 " << glGetError() << std::endl;
-
-      GLuint indexBuffer;
-      glGenBuffers(1, &indexBuffer);
-      static const uint16_t indices[] = {0, 2, 1, 2, 3, 1};
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-      glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-      
-      /* glActiveTexture(GL_TEXTURE0);
-      glUniform1i(tex1Location, 0);
-      glActiveTexture(GL_TEXTURE0);
-      glUniform1i(tex2Location, 1); */
-      for (size_t i = 0; i < MAX_LAYERS; i++) {
-        // if (texLocations[i] != -1) {
-          glUniform1i(texLocations[i], i);
-          glUniform1i(depthTexLocations[i], MAX_LAYERS + i);
-        // }
-      }
-
-      fbos.resize(2);
-      glGenFramebuffers(fbos.size(), fbos.data());
-
-      glViewport(0, 0, width, height);      
-      // glEnable(GL_SCISSOR_TEST);
-      glClearColor(0, 0, 0, 0);
-      
-      // getOut() << "prepare submit server 16" << std::endl;
+      InitShader();
     }
-    
-    // getOut() << "interop 3" << std::endl;
     
     // getOut() << "prepare submit server 20" << std::endl;
 
@@ -1395,168 +1120,6 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         getOut() << "context query failed" << std::endl;
         abort();
       }
-
-      /* {      
-        float vertices[] = { // xyzuv
-          -1, -1, 0, 0, 1,
-          -1, 1, 0, 0, 0,
-          1, -1, 0, 1, 1,
-          1, 1, 0, 1, 0
-        };
-        int indices[] =
-        {
-          0, 1, 2,
-          3, 2, 1
-        };
-
-        getOut() << "init render 1" << std::endl;
-
-        {
-          D3D11_BUFFER_DESC bd{};
-          D3D11_SUBRESOURCE_DATA InitData{};
-
-          // ZeroMemory(&bd, sizeof(bd));
-          bd.Usage = D3D11_USAGE_DEFAULT;
-          bd.ByteWidth = sizeof(float) * 5 * 4;
-          bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-          bd.CPUAccessFlags = 0;
-          // ZeroMemory(&InitData, sizeof(InitData));
-          InitData.pSysMem = vertices;
-          
-          // ID3D11Buffer* vertexBuffer = nullptr;
-          hr = device->CreateBuffer(&bd, &InitData, &vertexBuffer);
-          if(FAILED(hr)) {
-            getOut() << "Unable to create vertex buffer: " << (void *)hr << std::endl;
-            abort();   
-          }
-          // m_VB.Set(vertexBuffer);
-        }
-        getOut() << "init render 2" << std::endl;
-        {
-          D3D11_BUFFER_DESC bd{};
-          D3D11_SUBRESOURCE_DATA InitData{};
-
-          // ZeroMemory(&bd, sizeof(bd));
-          bd.Usage = D3D11_USAGE_DEFAULT;
-          bd.ByteWidth = sizeof(int) * 6;
-          bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-          bd.CPUAccessFlags = 0;
-          bd.MiscFlags = 0;
-          // ZeroMemory(&InitData, sizeof(InitData));
-          InitData.pSysMem = indices;
-
-          // ID3D11Buffer* indexBuffer = nullptr;
-          hr = device->CreateBuffer(&bd, &InitData, &indexBuffer);
-          if(FAILED(hr)) {
-            getOut() << "Unable to create index buffer: " << (void *)hr << std::endl;
-            abort();
-          }
-          // m_IB.Set(indexBuffer);
-        }
-        getOut() << "init render 3" << std::endl;
-        {
-          // Create samplers
-          D3D11_SAMPLER_DESC sampDesc{};
-          sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-          sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-          sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-          sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-          sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-          sampDesc.MinLOD = 0;
-          sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-          hr = device->CreateSamplerState(&sampDesc, &linearSampler);
-          if(FAILED(hr))
-          {
-            getOut() << "Unable to create linear sampler state: " << (void *)hr << std::endl;
-            abort();
-          }
-          // m_LinearSampler.Set(linearSampler);
-        }
-        getOut() << "init render 4" << std::endl;
-        {
-          ID3DBlob *errorBlob = nullptr;
-          hr = D3DCompile(
-            hlsl,
-            strlen(hlsl),
-            "vs.hlsl",
-            nullptr,
-            D3D_COMPILE_STANDARD_FILE_INCLUDE,
-            hlslVsEntry,
-            "vs_5_0",
-            D3DCOMPILE_ENABLE_STRICTNESS,
-            0,
-            &vsBlob,
-            &errorBlob
-          );
-          if (FAILED(hr)) {
-            if (errorBlob != nullptr) {
-              getOut() << "vs compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
-              abort();
-            }
-          }
-          ID3D11ClassLinkage *linkage = nullptr;
-	        hr = device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), linkage, &vsShader);
-          if (FAILED(hr)) {
-            getOut() << "vs create failed: " << (void *)hr << std::endl;
-            abort();
-          }
-        }
-        getOut() << "init render 5" << std::endl;
-        {
-          ID3DBlob *errorBlob = nullptr;
-          hr = D3DCompile(
-            hlsl,
-            strlen(hlsl),
-            "ps.hlsl",
-            nullptr,
-            D3D_COMPILE_STANDARD_FILE_INCLUDE,
-            hlslPsEntry,
-            "ps_5_0",
-            D3DCOMPILE_ENABLE_STRICTNESS,
-            0,
-            &psBlob,
-            &errorBlob
-          );
-          getOut() << "init render 6" << std::endl;
-          if (FAILED(hr)) {
-            if (errorBlob != nullptr) {
-              getOut() << "ps compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
-              abort();
-            }
-          }
-          
-          getOut() << "init render 7" << std::endl;
-
-          ID3D11ClassLinkage *linkage = nullptr;
-	        hr = device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), linkage, &psShader);
-          if (FAILED(hr)) {
-            getOut() << "ps create failed: " << (void *)hr << std::endl;
-            abort();
-          }
-        }
-        getOut() << "init render 8" << std::endl;
-        {
-          D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
-            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-            { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-          };
-          UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
-	        hr = device->CreateInputLayout(PositionTextureVertexLayout, numElements, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &vertexLayout);
-        }
-        getOut() << "init render 9" << std::endl;
-        {
-          context->VSSetShader(vsShader, nullptr, 0);
-          context->PSSetShader(psShader, nullptr, 0);
-          context->PSSetSamplers(0, 1, &linearSampler);
-
-          UINT stride = sizeof(float) * 5; // xyzuv
-          UINT offset = 0;
-          context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-          context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-          context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-        }
-        getOut() << "init render 10" << std::endl;
-      } */
       
       // getOut() << "initial tex 7 " << (void *)context.Get() << std::endl;
     } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
@@ -1919,6 +1482,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     inDxTexs.resize(index+1, NULL);
     inDxDepthTexs.resize(index+1, NULL);
     inDxDepthTexs2.resize(index+1, NULL);
+    inDxDepthTexs3.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
     inShDepthDxShareHandles.resize(index+1, NULL);
     inTexLatches.resize(index+1, NULL);
@@ -1949,6 +1513,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
   ID3D11Texture2D *&shDepthTex = inDxDepthTexs[index]; // shared dx depth texture
   ID3D11Texture2D *&shDepthTex2 = inDxDepthTexs2[index]; // shared dx depth texture 2
+  ID3D11Texture2D *&shDepthTex3 = inDxDepthTexs3[index]; // shared dx depth texture 3
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
   HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
   HANDLE &readEvent = inReadEvents[index]; // fence event
@@ -2037,7 +1602,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     }
 
     {
-      D3D11_TEXTURE2D_DESC descDepth;
+      D3D11_TEXTURE2D_DESC descDepth{};
       descDepth.Width = desc.Width;
       descDepth.Height = desc.Height;
       descDepth.MipLevels = 1;
@@ -2063,17 +1628,17 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       }
     }
     {
-      D3D11_TEXTURE2D_DESC descDepth;
-      descDepth.Width = desc.Width;
-      descDepth.Height = desc.Height;
+      D3D11_TEXTURE2D_DESC descDepth{};
+      descDepth.Width = width;
+      descDepth.Height = height;
       descDepth.MipLevels = 1;
       descDepth.ArraySize = 1;
       descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;// DXGI_FORMAT_R8G8B8A8_UNORM; // GL_DEPTH32F_STENCIL8
       descDepth.SampleDesc.Count = 1;
       descDepth.SampleDesc.Quality = 0;
-      descDepth.Usage = D3D11_USAGE_STAGING;
-      descDepth.BindFlags = 0;
-      descDepth.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+      descDepth.Usage = D3D11_USAGE_DEFAULT;
+      descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+      descDepth.CPUAccessFlags = 0;
       descDepth.MiscFlags = 0;
       
       getOut() << "got shared depth desc " << descDepth.Width << " " << descDepth.Height << " " << descDepth.Format << " " << descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags << std::endl;
@@ -2082,6 +1647,32 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         &descDepth,
         NULL,
         &shDepthTex2
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to create shared depth texture: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+    {
+      D3D11_TEXTURE2D_DESC descDepth{};
+      descDepth.Width = width;
+      descDepth.Height = height;
+      descDepth.MipLevels = 1;
+      descDepth.ArraySize = 1;
+      descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+      descDepth.SampleDesc.Count = 1;
+      descDepth.SampleDesc.Quality = 0;
+      descDepth.Usage = D3D11_USAGE_STAGING;
+      descDepth.BindFlags = 0;
+      descDepth.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+      descDepth.MiscFlags = 0;
+
+      hr = device->CreateTexture2D(
+        &descDepth,
+        NULL,
+        &shDepthTex3
       );
       if (SUCCEEDED(hr)) {
         // nothing
@@ -2172,48 +1763,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         abort();
       }
     }
-
-    /* // render targets
-    {
-      D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
-      renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-      renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-      renderTargetViewDesc.Texture2D.MipSlice = 0;
-
-      hr = device->CreateRenderTargetView(
-        shTex,
-        &renderTargetViewDesc,
-        &renderTargetView
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        getOut() << "failed to create render texure view: " << (void *)hr << std::endl;
-      }
-    // }
-    // {
-      D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilDesc{};
-      depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
-      depthStencilDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-      depthStencilDesc.Texture2D.MipSlice = 0;
-
-      hr = device->CreateDepthStencilView(
-        shDepthTex,
-        &depthStencilDesc,
-        &depthStencilView
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        getOut() << "failed to create depth stencil view: " << (void *)hr << std::endl;
-      }
-
-      context->OMSetRenderTargets(
-        1,
-        &renderTargetView,
-        depthStencilView
-      );
-    } */
 
     getOut() << "open frontend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
     readEvent = CreateEventA(
@@ -2344,7 +1893,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       shaderResourceView->Release();
     }  */
     if (depthTex) {
-      context->CopySubresourceRegion(
+      /* context->CopySubresourceRegion(
         shDepthTex,
         0,
         0,
@@ -2354,54 +1903,45 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         0,
         &srcBox
       );
-      context->CopySubresourceRegion(
+      context->ResolveSubresource(
         shDepthTex2,
-        0,
-        0,
-        0,
         0,
         depthTex,
         0,
-        &srcBox
+        DXGI_FORMAT_D32_FLOAT_S8X24_UINT
+      );
+      context->CopyResource(
+        shDepthTex3,
+        shDepthTex2
       );
       // context->Flush();
 
       D3D11_TEXTURE2D_DESC descDepth;
-      shDepthTex2->GetDesc(&descDepth);
+      shDepthTex3->GetDesc(&descDepth);
       
       // getOut() << "copy resource " << uMin << " " << vMin << " " << uMax << " " << vMax << std::endl;
 
-      ID3D11Resource *shDepthTexResource = nullptr;
-      hr = shDepthTex2->QueryInterface(__uuidof(ID3D11Resource), (void **)&shDepthTexResource);
-      if (SUCCEEDED(hr)) {
-        // getOut() << "got resource ok" << std::endl;
-      } else {
-        getOut() << "got shared depth tex resource fail " << (void *)hr << std::endl;
-        abort();
-      }
-
       D3D11_MAPPED_SUBRESOURCE mappedResource;
       UINT subresource = 0;//D3D11CalcSubresource(0, 0, 0);
-      hr = context->Map(shDepthTexResource, subresource, D3D11_MAP_READ, 0, &mappedResource);
+      hr = context->Map(shDepthTex3, subresource, D3D11_MAP_READ, 0, &mappedResource);
       if (SUCCEEDED(hr)) {
         // getOut() << "get tex data pointer " << (void *)mappedResource.pData << " " << mappedResource.RowPitch << std::endl;
         float value = 0;
-        uint32_t ticks = 0;
+        // uint32_t ticks = 0;
         const uint32_t pixelSize = 4*2;
         char *pData = (char *)mappedResource.pData;
         for (uint32_t j = 0; j < descDepth.Height; j++) {
           for (uint32_t i = 0; i < descDepth.Width; i++) {
             value += *((float *)(pData + j*mappedResource.RowPitch + i*pixelSize));
-            ticks++;
+            // ticks++;
           }
         }
-        getOut() << "got value " << value << " " << ticks << std::endl;
+        getOut() << "got value " << value << /*" " << ticks <<*/ std::endl;
       } else {
         getOut() << "depth tex map failed " << (void *)hr << std::endl;
       }
-      context->Unmap(shDepthTexResource, subresource);
-      shDepthTexResource->Release();
-    }
+      context->Unmap(shDepthTex3, subresource);
+    } */
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
 
@@ -2864,5 +2404,204 @@ void PVRCompositor::CacheWaitGetPoses() {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
   inBackReadEventQueue.clear();
+}
+void PVRCompositor::InitShader() {
+  float vertices[] = { // xyzuv
+    -1, -1, 0, 0, 1,
+    -1, 1, 0, 0, 0,
+    1, -1, 0, 1, 1,
+    1, 1, 0, 1, 0
+  };
+  int indices[] = {
+    0, 1, 2,
+    3, 2, 1
+  };
+
+  getOut() << "init render 1" << std::endl;
+
+  {
+    D3D11_BUFFER_DESC bd{};
+    D3D11_SUBRESOURCE_DATA InitData{};
+
+    // ZeroMemory(&bd, sizeof(bd));
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.ByteWidth = sizeof(float) * 5 * 4;
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    bd.CPUAccessFlags = 0;
+    // ZeroMemory(&InitData, sizeof(InitData));
+    InitData.pSysMem = vertices;
+    
+    // ID3D11Buffer* vertexBuffer = nullptr;
+    hr = device->CreateBuffer(&bd, &InitData, &vertexBuffer);
+    if(FAILED(hr)) {
+      getOut() << "Unable to create vertex buffer: " << (void *)hr << std::endl;
+      abort();   
+    }
+    // m_VB.Set(vertexBuffer);
+  }
+  getOut() << "init render 2" << std::endl;
+  {
+    D3D11_BUFFER_DESC bd{};
+    D3D11_SUBRESOURCE_DATA InitData{};
+
+    // ZeroMemory(&bd, sizeof(bd));
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.ByteWidth = sizeof(int) * 6;
+    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+    bd.CPUAccessFlags = 0;
+    bd.MiscFlags = 0;
+    // ZeroMemory(&InitData, sizeof(InitData));
+    InitData.pSysMem = indices;
+
+    // ID3D11Buffer* indexBuffer = nullptr;
+    hr = device->CreateBuffer(&bd, &InitData, &indexBuffer);
+    if(FAILED(hr)) {
+      getOut() << "Unable to create index buffer: " << (void *)hr << std::endl;
+      abort();
+    }
+    // m_IB.Set(indexBuffer);
+  }
+  getOut() << "init render 3" << std::endl;
+  {
+    // Create samplers
+    D3D11_SAMPLER_DESC sampDesc{};
+    sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    sampDesc.MinLOD = 0;
+    sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+    hr = device->CreateSamplerState(&sampDesc, &linearSampler);
+    if(FAILED(hr))
+    {
+      getOut() << "Unable to create linear sampler state: " << (void *)hr << std::endl;
+      abort();
+    }
+    // m_LinearSampler.Set(linearSampler);
+  }
+  getOut() << "init render 4" << std::endl;
+  {
+    ID3DBlob *errorBlob = nullptr;
+    hr = D3DCompile(
+      hlsl,
+      strlen(hlsl),
+      "vs.hlsl",
+      nullptr,
+      D3D_COMPILE_STANDARD_FILE_INCLUDE,
+      hlslVsEntry,
+      "vs_5_0",
+      D3DCOMPILE_ENABLE_STRICTNESS,
+      0,
+      &vsBlob,
+      &errorBlob
+    );
+    if (FAILED(hr)) {
+      if (errorBlob != nullptr) {
+        getOut() << "vs compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+        abort();
+      }
+    }
+    ID3D11ClassLinkage *linkage = nullptr;
+    hr = device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), linkage, &vsShader);
+    if (FAILED(hr)) {
+      getOut() << "vs create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  getOut() << "init render 5" << std::endl;
+  {
+    ID3DBlob *errorBlob = nullptr;
+    hr = D3DCompile(
+      hlsl,
+      strlen(hlsl),
+      "ps.hlsl",
+      nullptr,
+      D3D_COMPILE_STANDARD_FILE_INCLUDE,
+      hlslPsEntry,
+      "ps_5_0",
+      D3DCOMPILE_ENABLE_STRICTNESS,
+      0,
+      &psBlob,
+      &errorBlob
+    );
+    getOut() << "init render 6" << std::endl;
+    if (FAILED(hr)) {
+      if (errorBlob != nullptr) {
+        getOut() << "ps compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+        abort();
+      }
+    }
+    
+    getOut() << "init render 7" << std::endl;
+
+    ID3D11ClassLinkage *linkage = nullptr;
+    hr = device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), linkage, &psShader);
+    if (FAILED(hr)) {
+      getOut() << "ps create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  getOut() << "init render 8" << std::endl;
+  {
+    D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
+      { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+      { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    };
+    UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
+    hr = device->CreateInputLayout(PositionTextureVertexLayout, numElements, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &vertexLayout);
+  }
+  getOut() << "init render 9" << std::endl;
+  {
+    context->VSSetShader(vsShader, nullptr, 0);
+    context->PSSetShader(psShader, nullptr, 0);
+    context->PSSetSamplers(0, 1, &linearSampler);
+
+    UINT stride = sizeof(float) * 5; // xyzuv
+    UINT offset = 0;
+    context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+    context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+  }
+  getOut() << "init render 10" << std::endl;
+}
+void PVRCompositor::InitRenderTarget(ID3D11Texture2D *tex) {
+  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+  renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+  renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+  renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+  hr = device->CreateRenderTargetView(
+    tex,
+    &renderTargetViewDesc,
+    &renderTargetView
+  );
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "failed to create render texure view: " << (void *)hr << std::endl;
+  }
+  /* D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilDesc{};
+  depthStencilDesc.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+  depthStencilDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+  depthStencilDesc.Texture2D.MipSlice = 0;
+
+  hr = device->CreateDepthStencilView(
+    shDepthTex,
+    &depthStencilDesc,
+    &depthStencilView
+  );
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "failed to create depth stencil view: " << (void *)hr << std::endl;
+  } */
+
+  context->OMSetRenderTargets(
+    1,
+    &renderTargetView,
+    // depthStencilView
+    nullptr
+  );
 }
 }

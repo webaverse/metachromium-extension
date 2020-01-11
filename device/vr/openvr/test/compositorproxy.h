@@ -32,7 +32,7 @@ public:
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
   uint64_t fenceValue = 0;
 
-  /* ID3D11Buffer *vertexBuffer = nullptr;
+  ID3D11Buffer *vertexBuffer = nullptr;
   ID3D11Buffer *indexBuffer = nullptr;
   ID3D11SamplerState *linearSampler = nullptr;
   ID3DBlob *vsBlob = nullptr;
@@ -42,7 +42,7 @@ public:
   ID3D11InputLayout *vertexLayout = nullptr;
   ID3D11ShaderResourceView *shaderResourceView = nullptr;
   ID3D11RenderTargetView *renderTargetView = nullptr;
-  ID3D11DepthStencilView *depthStencilView = nullptr; */
+  ID3D11DepthStencilView *depthStencilView = nullptr;
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> depthTexLocations;
@@ -57,6 +57,7 @@ public:
   std::vector<ID3D11Texture2D *> inDxTexs;
   std::vector<ID3D11Texture2D *> inDxDepthTexs;
   std::vector<ID3D11Texture2D *> inDxDepthTexs2;
+  std::vector<ID3D11Texture2D *> inDxDepthTexs3;
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<HANDLE> inShDepthDxShareHandles;
   std::vector<uintptr_t> inTexLatches;
@@ -145,6 +146,8 @@ public:
 	virtual bool IsCurrentSceneFocusAppLoading();
   
   void CacheWaitGetPoses();
+  void InitShader();
+  void InitRenderTarget(ID3D11Texture2D *tex);
 };
 }
 

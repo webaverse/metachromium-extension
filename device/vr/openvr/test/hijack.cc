@@ -101,8 +101,6 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
             descDepth.Format << " " <<
             descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
             std::endl;
-            
-            2124 2348 1 1 8 0 19 0 64 0 0
 
           texMap.emplace(tex, depthTex);
           texOrder.push_back(tex);
