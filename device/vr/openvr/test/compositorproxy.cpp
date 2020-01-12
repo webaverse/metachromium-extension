@@ -193,8 +193,6 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 }
 //------------------------------------------------------------//
 )END";
-const char *hlslVsEntry = "vs_main";
-const char *hlslPsEntry = "ps_main";
 
 constexpr size_t MAX_LAYERS = 1;
 const EVREye EYES[] = {
@@ -2357,11 +2355,11 @@ void PVRCompositor::CacheWaitGetPoses() {
   inBackReadEventQueue.clear();
 }
 void PVRCompositor::InitShader() {
-  float vertices[] = { // xyzuv
-    -1, -1, 0, 0, 1,
-    -1, 1, 0, 0, 0,
-    1, -1, 0, 1, 1,
-    1, 1, 0, 1, 0
+  float vertices[] = { // xyuv
+    -1, -1, 0, 1,
+    -1, 1, 0, 0,
+    1, -1, 1, 1,
+    1, 1, 1, 0
   };
   int indices[] = {
     0, 1, 2,
@@ -2378,7 +2376,7 @@ void PVRCompositor::InitShader() {
 
     // ZeroMemory(&bd, sizeof(bd));
     bd.Usage = D3D11_USAGE_DEFAULT;
-    bd.ByteWidth = sizeof(float) * 5 * 4;
+    bd.ByteWidth = sizeof(float) * (2+2) * 4;
     bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
     bd.CPUAccessFlags = 0;
     // ZeroMemory(&InitData, sizeof(InitData));
@@ -2442,7 +2440,7 @@ void PVRCompositor::InitShader() {
       "vs.hlsl",
       nullptr,
       D3D_COMPILE_STANDARD_FILE_INCLUDE,
-      hlslVsEntry,
+      "vs_main",
       "vs_5_0",
       D3DCOMPILE_ENABLE_STRICTNESS,
       0,
@@ -2471,7 +2469,7 @@ void PVRCompositor::InitShader() {
       "ps.hlsl",
       nullptr,
       D3D_COMPILE_STANDARD_FILE_INCLUDE,
-      hlslPsEntry,
+      "ps_main",
       "ps_5_0",
       D3DCOMPILE_ENABLE_STRICTNESS,
       0,
@@ -2499,7 +2497,7 @@ void PVRCompositor::InitShader() {
   {
     D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
       { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-      { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+      { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 8, D3D11_INPUT_PER_VERTEX_DATA, 0 },
     };
     UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
     hr = device->CreateInputLayout(PositionTextureVertexLayout, numElements, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &vertexLayout);
@@ -2510,7 +2508,20 @@ void PVRCompositor::InitShader() {
     context->PSSetShader(psShader, nullptr, 0);
     context->PSSetSamplers(0, 1, &linearSampler);
 
-    UINT stride = sizeof(float) * 5; // xyzuv
+    D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
+    ID3D11DepthStencilState *depthStencilState;
+    hr = device->CreateDepthStencilState(
+      &depthStencilDesc,
+      &depthStencilState
+    );
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "failed to create depth stencil state: " << (void *)hr << std::endl;
+    }
+    context->OMSetDepthStencilState(depthStencilState, 0x00);
+
+    UINT stride = sizeof(float) * 4; // xyuv
     UINT offset = 0;
     context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
