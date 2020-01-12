@@ -1,16 +1,849 @@
-Sat Jan 04 2020 02:47:58.063 - //==============================================================================================
-Sat Jan 04 2020 02:47:58.063 - ================================================================================================
-Sat Jan 04 2020 02:47:58.063 - ================================================================================================
-Sat Jan 04 2020 02:47:58.063 - vrwebhelper.exe 1.9.16 startup with PID=26544, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Jan 04 2020 02:47:58.064 - vrclient type=VRApplication_WebHelper
-Sat Jan 04 2020 02:47:58.074 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Jan 04 2020 02:47:58.075 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Jan 04 2020 02:47:58.075 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Jan 04 2020 02:47:58.076 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Jan 04 2020 02:47:58.078 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Jan 04 2020 02:47:58.087 - Closing pipe SteamVR_Namespace because it was broken from the other end
-Sat Jan 04 2020 02:47:58.087 - CSharedResourceNamespaceClient::Init(): received namespace data 25848
-Sat Jan 04 2020 02:47:58.110 - Received success response from vrserver connect
-Sat Jan 04 2020 02:47:58.113 - App key after connect message:openvr.component.vrwebhelper
-Sat Jan 04 2020 02:47:58.126 - Received success response from vrcompositor connect
-Sat Jan 04 2020 02:47:58.126 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 06:55:06.015 - //==============================================================================================
+Sun Dec 29 2019 06:55:06.015 - ================================================================================================
+Sun Dec 29 2019 06:55:06.015 - ================================================================================================
+Sun Dec 29 2019 06:55:06.015 - vrwebhelper.exe 1.9.16 startup with PID=18596, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 06:55:06.016 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 06:55:06.025 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:55:06.026 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:55:06.026 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:55:06.027 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 06:55:06.029 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 06:55:06.042 - CSharedResourceNamespaceClient::Init(): received namespace data 16752
+Sun Dec 29 2019 06:55:06.080 - Received success response from vrserver connect
+Sun Dec 29 2019 06:55:06.084 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 06:55:06.123 - Received success response from vrcompositor connect
+Sun Dec 29 2019 06:55:06.123 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 07:17:25.848 - //==============================================================================================
+Sun Dec 29 2019 07:17:25.848 - ================================================================================================
+Sun Dec 29 2019 07:17:25.848 - ================================================================================================
+Sun Dec 29 2019 07:17:25.848 - vrwebhelper.exe 1.9.16 startup with PID=18248, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 07:17:25.848 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 07:17:25.857 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:25.858 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:25.859 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:25.860 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 07:17:25.861 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 07:17:25.874 - CSharedResourceNamespaceClient::Init(): received namespace data 23532
+Sun Dec 29 2019 07:17:25.893 - Received success response from vrserver connect
+Sun Dec 29 2019 07:17:25.897 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 07:17:25.910 - Received success response from vrcompositor connect
+Sun Dec 29 2019 07:17:25.910 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 07:22:14.638 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 07:23:08.646 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 07:37:33.374 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 07:39:42.701 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 07:45:39.989 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 07:54:16.027 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 07:55:25.535 - PropertyContainer: High lock acquisition counters: sp:100003 yd:3 re:0
+Sun Dec 29 2019 08:03:41.296 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:03:54.399 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:10:30.664 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:11:32.982 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:13:46.209 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:15:14.388 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:23:01.851 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:24:24.659 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:26:50.670 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:31:40.581 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:37:29.201 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:39:38.336 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:41:43.956 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:42:32.750 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:42:46.289 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:42:53.852 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:43:24.729 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:43:27.845 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:45:51.625 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:45:54.023 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:48:12.002 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:48:42.937 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:53:00.004 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:55:46.978 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:56:51.898 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:57:20.976 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:59:48.968 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 08:59:58.013 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:01:37.483 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:02:47.567 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:03:51.224 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:06:22.752 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:08:38.471 - //==============================================================================================
+Sun Dec 29 2019 09:08:38.471 - ================================================================================================
+Sun Dec 29 2019 09:08:38.471 - ================================================================================================
+Sun Dec 29 2019 09:08:38.471 - vrwebhelper.exe 1.9.16 startup with PID=2064, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 09:08:38.471 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 09:08:38.481 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:08:38.482 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:08:38.482 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:08:38.484 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:08:38.486 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 09:08:38.493 - CSharedResourceNamespaceClient::Init(): received namespace data 16180
+Sun Dec 29 2019 09:08:38.564 - Received success response from vrserver connect
+Sun Dec 29 2019 09:08:38.568 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 09:08:38.583 - Received success response from vrcompositor connect
+Sun Dec 29 2019 09:08:38.583 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 09:09:20.988 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:11:55.117 - //==============================================================================================
+Sun Dec 29 2019 09:11:55.117 - ================================================================================================
+Sun Dec 29 2019 09:11:55.117 - ================================================================================================
+Sun Dec 29 2019 09:11:55.117 - vrwebhelper.exe 1.9.16 startup with PID=15592, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 09:11:55.118 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 09:11:55.129 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:11:55.130 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:11:55.131 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:11:55.132 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:11:55.133 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 09:11:55.148 - CSharedResourceNamespaceClient::Init(): received namespace data 14064
+Sun Dec 29 2019 09:11:55.202 - Received success response from vrserver connect
+Sun Dec 29 2019 09:11:55.210 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 09:11:55.226 - Received success response from vrcompositor connect
+Sun Dec 29 2019 09:11:55.226 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 09:12:09.281 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:12:12.998 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:12:49.924 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:12:56.455 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:13:04.228 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:13:07.865 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:14:32.688 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:15:50.971 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:16:02.865 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:16:28.718 - //==============================================================================================
+Sun Dec 29 2019 09:16:28.718 - ================================================================================================
+Sun Dec 29 2019 09:16:28.718 - ================================================================================================
+Sun Dec 29 2019 09:16:28.718 - vrwebhelper.exe 1.9.16 startup with PID=21004, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 09:16:28.719 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 09:16:28.727 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:16:28.728 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:16:28.728 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:16:28.729 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:16:28.730 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 09:16:28.743 - CSharedResourceNamespaceClient::Init(): received namespace data 23200
+Sun Dec 29 2019 09:16:28.796 - Received success response from vrserver connect
+Sun Dec 29 2019 09:16:28.801 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 09:16:28.825 - Received success response from vrcompositor connect
+Sun Dec 29 2019 09:16:28.825 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 09:16:36.974 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:16:50.881 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:18:45.546 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:19:38.212 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:26:21.421 - //==============================================================================================
+Sun Dec 29 2019 09:26:21.421 - ================================================================================================
+Sun Dec 29 2019 09:26:21.421 - ================================================================================================
+Sun Dec 29 2019 09:26:21.421 - vrwebhelper.exe 1.9.16 startup with PID=7612, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 09:26:21.422 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 09:26:21.435 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:26:21.436 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:26:21.436 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:26:21.437 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 09:26:21.440 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 09:26:21.456 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sun Dec 29 2019 09:26:21.456 - CSharedResourceNamespaceClient::Init(): received namespace data 11832
+Sun Dec 29 2019 09:26:21.522 - Received success response from vrserver connect
+Sun Dec 29 2019 09:26:21.529 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 09:26:21.555 - Received success response from vrcompositor connect
+Sun Dec 29 2019 09:26:21.555 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 09:26:27.143 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:27:29.625 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:28:11.851 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:30:05.082 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:31:11.066 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:35:43.510 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:39:36.340 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:41:51.793 - PropertyContainer: High lock acquisition counters: sp:100002 yd:2 re:0
+Sun Dec 29 2019 09:46:18.612 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:47:21.123 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:49:00.448 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:52:24.654 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:56:37.643 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 09:59:38.080 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:00:17.632 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:01:35.223 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:04:46.064 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:04:54.738 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:07:56.518 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:07:58.990 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:08:20.936 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:13:56.928 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:15:19.700 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:15:41.867 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:19:56.839 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:21:11.978 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:24:45.229 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:28:07.241 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:28:15.523 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:29:24.404 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:34:49.164 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:38:32.078 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:41:32.779 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:41:42.105 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:41:44.211 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:41:57.475 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:42:03.976 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:46:23.511 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:51:27.503 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 10:53:24.978 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 11:00:36.840 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 11:01:44.071 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 11:05:10.088 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:10:22.177 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:11:58.008 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:12:45.929 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:13:19.927 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:14:36.671 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:15:18.087 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:1
+Sun Dec 29 2019 12:17:33.765 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:27:36.661 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:35:29.518 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:36:07.318 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:38:39.499 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:40:33.075 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:42:17.944 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:44:45.658 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:51:27.190 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:54:00.035 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:58:17.564 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 12:59:09.578 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:12:02.433 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:23:42.349 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:35:03.840 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:35:43.531 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:35:55.847 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:36:52.341 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:39:43.323 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:40:53.470 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:43:25.854 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:43:43.469 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:46:17.291 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:51:19.083 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:51:33.932 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:55:10.048 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:57:48.642 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 13:59:02.082 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:01:06.660 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:02:10.098 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:06:03.327 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:07:19.373 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:11:52.022 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:14:52.191 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:22:49.959 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:32:16.460 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:35:33.771 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:43:32.157 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:47:33.863 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:49:37.235 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:49:37.737 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:55:36.417 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:56:36.819 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 14:57:17.775 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:00:57.770 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:01:48.738 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:02:30.127 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:07:05.219 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:08:17.487 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:10:17.846 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:13:23.086 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:14:22.548 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:15:50.164 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:17:38.546 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:17:43.357 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:20:20.107 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:21:02.594 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:26:28.955 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:31:34.506 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:36:48.204 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:36:57.215 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:38:26.726 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:38:46.512 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:39:43.549 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:41:44.308 - PropertyContainer: High lock acquisition counters: sp:100003 yd:3 re:0
+Sun Dec 29 2019 15:44:12.183 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:53:23.682 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:53:34.413 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 15:59:11.626 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:06:54.777 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:13:20.203 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:14:32.213 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:20:37.327 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:20:39.120 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:21:22.175 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:25:52.562 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:27:47.888 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:28:31.218 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:30:51.953 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:31:06.786 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:36:56.496 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:37:54.105 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:40:07.310 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:40:08.296 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 16:44:36.217 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:14:07.557 - //==============================================================================================
+Sun Dec 29 2019 21:14:07.557 - ================================================================================================
+Sun Dec 29 2019 21:14:07.557 - ================================================================================================
+Sun Dec 29 2019 21:14:07.557 - vrwebhelper.exe 1.9.16 startup with PID=20420, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 21:14:07.557 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 21:14:07.566 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:14:07.567 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:14:07.567 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:14:07.568 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:14:07.569 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 21:14:07.577 - CSharedResourceNamespaceClient::Init(): received namespace data 21352
+Sun Dec 29 2019 21:14:07.595 - Received success response from vrserver connect
+Sun Dec 29 2019 21:14:07.599 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 21:14:07.623 - Received success response from vrcompositor connect
+Sun Dec 29 2019 21:14:07.623 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 21:14:40.502 - //==============================================================================================
+Sun Dec 29 2019 21:14:40.502 - ================================================================================================
+Sun Dec 29 2019 21:14:40.502 - ================================================================================================
+Sun Dec 29 2019 21:14:40.502 - vrwebhelper.exe 1.9.16 startup with PID=9084, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 21:14:40.502 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 21:14:40.512 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:14:40.512 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:14:40.513 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:14:40.514 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:14:40.515 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 21:14:40.525 - CSharedResourceNamespaceClient::Init(): received namespace data 26936
+Sun Dec 29 2019 21:14:40.540 - Received success response from vrserver connect
+Sun Dec 29 2019 21:14:40.543 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 21:14:40.557 - Received success response from vrcompositor connect
+Sun Dec 29 2019 21:14:40.557 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 21:15:14.571 - //==============================================================================================
+Sun Dec 29 2019 21:15:14.571 - ================================================================================================
+Sun Dec 29 2019 21:15:14.571 - ================================================================================================
+Sun Dec 29 2019 21:15:14.571 - vrwebhelper.exe 1.9.16 startup with PID=19384, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Dec 29 2019 21:15:14.572 - vrclient type=VRApplication_WebHelper
+Sun Dec 29 2019 21:15:14.582 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:15:14.583 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:15:14.583 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:15:14.586 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Dec 29 2019 21:15:14.588 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Dec 29 2019 21:15:14.597 - CSharedResourceNamespaceClient::Init(): received namespace data 19892
+Sun Dec 29 2019 21:15:14.623 - Received success response from vrserver connect
+Sun Dec 29 2019 21:15:14.628 - App key after connect message:openvr.component.vrwebhelper
+Sun Dec 29 2019 21:15:14.642 - Received success response from vrcompositor connect
+Sun Dec 29 2019 21:15:14.642 - Initializing the limited version of CVRCompositorClient
+Sun Dec 29 2019 21:15:17.077 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:21:15.405 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:23:31.476 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:25:06.269 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:31:59.155 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:32:31.837 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:36:03.608 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:46:59.276 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:49:50.609 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 21:55:15.250 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:02:59.390 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:09:24.339 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:09:24.905 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:10:46.462 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:13:15.514 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:16:54.513 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:17:07.203 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:20:42.463 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:23:05.608 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:27:59.874 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:29:18.387 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:36:06.051 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:36:28.435 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:37:38.696 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:38:54.311 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:39:13.518 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:39:51.480 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:41:28.492 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:45:11.277 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:45:12.728 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Dec 29 2019 22:45:14.961 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 09:05:39.751 - //==============================================================================================
+Mon Dec 30 2019 09:05:39.751 - ================================================================================================
+Mon Dec 30 2019 09:05:39.751 - ================================================================================================
+Mon Dec 30 2019 09:05:39.751 - vrwebhelper.exe 1.9.16 startup with PID=8324, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Mon Dec 30 2019 09:05:39.751 - vrclient type=VRApplication_WebHelper
+Mon Dec 30 2019 09:05:39.764 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Mon Dec 30 2019 09:05:39.765 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Mon Dec 30 2019 09:05:39.766 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Mon Dec 30 2019 09:05:39.768 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Mon Dec 30 2019 09:05:39.769 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Mon Dec 30 2019 09:05:39.775 - CSharedResourceNamespaceClient::Init(): received namespace data 19668
+Mon Dec 30 2019 09:05:39.814 - Received success response from vrserver connect
+Mon Dec 30 2019 09:05:39.817 - App key after connect message:openvr.component.vrwebhelper
+Mon Dec 30 2019 09:05:39.844 - Received success response from vrcompositor connect
+Mon Dec 30 2019 09:05:39.844 - Initializing the limited version of CVRCompositorClient
+Mon Dec 30 2019 09:49:13.095 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:22:59.307 - //==============================================================================================
+Mon Dec 30 2019 12:22:59.307 - ================================================================================================
+Mon Dec 30 2019 12:22:59.307 - ================================================================================================
+Mon Dec 30 2019 12:22:59.307 - vrwebhelper.exe 1.9.16 startup with PID=28644, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Mon Dec 30 2019 12:22:59.307 - vrclient type=VRApplication_WebHelper
+Mon Dec 30 2019 12:22:59.317 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Mon Dec 30 2019 12:22:59.317 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Mon Dec 30 2019 12:22:59.317 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Mon Dec 30 2019 12:22:59.318 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Mon Dec 30 2019 12:22:59.319 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Mon Dec 30 2019 12:22:59.331 - CSharedResourceNamespaceClient::Init(): received namespace data 10860
+Mon Dec 30 2019 12:22:59.346 - Received success response from vrserver connect
+Mon Dec 30 2019 12:22:59.349 - App key after connect message:openvr.component.vrwebhelper
+Mon Dec 30 2019 12:22:59.361 - Received success response from vrcompositor connect
+Mon Dec 30 2019 12:22:59.361 - Initializing the limited version of CVRCompositorClient
+Mon Dec 30 2019 12:23:04.226 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:23:24.015 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:31:45.800 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:31:54.913 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:33:08.483 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:37:48.565 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:40:17.633 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:40:19.669 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:43:34.369 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 12:47:56.163 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:03:28.613 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:05:42.018 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:05:44.534 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:07:00.065 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:08:03.914 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:22:42.669 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:28:00.053 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:30:36.049 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:46:47.945 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:57:22.488 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 13:58:41.545 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 14:18:46.434 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 14:28:04.612 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 14:35:18.095 - PropertyContainer: High lock acquisition counters: sp:100002 yd:2 re:0
+Mon Dec 30 2019 14:51:14.087 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 14:56:56.301 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:01:44.775 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:04:29.974 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:10:24.748 - PropertyContainer: High lock acquisition counters: sp:100002 yd:2 re:0
+Mon Dec 30 2019 15:16:33.035 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:18:11.571 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:21:04.065 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:24:31.075 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:30:10.559 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:32:17.346 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:41:01.301 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:49:22.088 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:50:26.544 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 15:50:49.752 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 16:00:25.622 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 16:24:08.224 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 16:41:04.829 - PropertyContainer: High lock acquisition counters: sp:100002 yd:2 re:0
+Mon Dec 30 2019 16:52:42.016 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 16:55:14.518 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 16:59:59.951 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:01:56.690 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:09:58.906 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:11:02.500 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:19:02.670 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:20:06.432 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:21:27.264 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:22:49.270 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:33:06.232 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:33:32.698 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:35:16.397 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:43:27.697 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:49:44.001 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 17:50:14.158 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 18:01:38.658 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 18:03:16.906 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 18:11:23.459 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 18:18:38.715 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 18:19:41.414 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 18:23:42.154 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 18:24:33.988 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 18:37:28.496 - //==============================================================================================
+Mon Dec 30 2019 18:37:28.496 - ================================================================================================
+Mon Dec 30 2019 18:37:28.496 - ================================================================================================
+Mon Dec 30 2019 18:37:28.496 - vrwebhelper.exe 1.9.16 startup with PID=14820, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Mon Dec 30 2019 18:37:28.497 - vrclient type=VRApplication_WebHelper
+Mon Dec 30 2019 18:37:28.506 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Mon Dec 30 2019 18:37:28.506 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Mon Dec 30 2019 18:37:28.507 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Mon Dec 30 2019 18:37:28.508 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Mon Dec 30 2019 18:37:28.509 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Mon Dec 30 2019 18:37:28.522 - CSharedResourceNamespaceClient::Init(): received namespace data 14948
+Mon Dec 30 2019 18:37:28.555 - Received success response from vrserver connect
+Mon Dec 30 2019 18:37:28.558 - App key after connect message:openvr.component.vrwebhelper
+Mon Dec 30 2019 18:37:28.574 - Received success response from vrcompositor connect
+Mon Dec 30 2019 18:37:28.574 - Initializing the limited version of CVRCompositorClient
+Mon Dec 30 2019 19:33:00.889 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 19:33:59.167 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 19:34:11.609 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 19:34:12.168 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 19:36:16.402 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 19:40:04.794 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 19:40:08.129 - PropertyContainer: High lock acquisition counters: sp:100003 yd:3 re:0
+Mon Dec 30 2019 19:46:16.298 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 19:49:37.217 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 20:04:12.008 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 20:05:38.421 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 20:13:59.879 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 20:15:38.251 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 20:15:45.734 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 20:19:35.114 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 20:19:36.618 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 20:22:36.349 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 21:07:50.557 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 21:10:08.401 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 21:10:30.886 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 21:20:35.916 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 21:22:58.745 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 22:03:58.249 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 22:08:06.079 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 22:15:55.141 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 22:17:41.004 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 22:24:37.177 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 22:57:17.720 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:04:55.199 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:06:35.817 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:07:53.613 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:08:37.127 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:10:32.232 - PropertyContainer: High lock acquisition counters: sp:100003 yd:3 re:0
+Mon Dec 30 2019 23:17:15.799 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:18:06.272 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:21:39.925 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:21:42.050 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:22:32.787 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:1
+Mon Dec 30 2019 23:27:33.988 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:29:50.189 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:35:37.325 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:37:07.460 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:37:07.937 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:37:08.553 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Mon Dec 30 2019 23:45:48.210 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:00:34.357 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:12:30.801 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:12:47.711 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:12:52.758 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:13:24.988 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:14:32.187 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:17:35.099 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:19:46.189 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:19:52.511 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:25:44.388 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:25:52.340 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:25:57.647 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:25:58.112 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:27:21.513 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:29:35.024 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:36:54.928 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:40:14.348 - PropertyContainer: High lock acquisition counters: sp:100005 yd:5 re:0
+Tue Dec 31 2019 00:41:27.230 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:42:19.671 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 00:45:12.214 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:01:44.611 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:05:41.794 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:09:45.025 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:19:17.753 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:23:52.286 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:23:52.871 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:24:04.407 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:24:04.903 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:27:04.522 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:28:31.303 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:36:02.004 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:47:40.767 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:51:55.337 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:52:14.756 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:52:16.605 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:53:38.290 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:54:37.679 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:55:45.888 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 01:57:32.694 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:03:16.045 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:06:16.160 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:09:43.688 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:14:35.192 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:15:16.094 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:19:35.263 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:24:23.701 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:25:42.231 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:28:21.221 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:29:08.435 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:30:30.501 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:31:28.081 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:31:29.916 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 02:32:03.123 - //==============================================================================================
+Tue Dec 31 2019 02:32:03.123 - ================================================================================================
+Tue Dec 31 2019 02:32:03.123 - ================================================================================================
+Tue Dec 31 2019 02:32:03.123 - vrwebhelper.exe 1.9.16 startup with PID=13280, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 02:32:03.123 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 02:32:03.133 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 02:32:03.133 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 02:32:03.134 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 02:32:03.135 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 02:32:03.136 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 02:32:03.148 - CSharedResourceNamespaceClient::Init(): received namespace data 25752
+Tue Dec 31 2019 02:32:03.176 - Received success response from vrserver connect
+Tue Dec 31 2019 02:32:03.179 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 02:32:03.192 - Received success response from vrcompositor connect
+Tue Dec 31 2019 02:32:03.192 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 18:05:23.620 - //==============================================================================================
+Tue Dec 31 2019 18:05:23.620 - ================================================================================================
+Tue Dec 31 2019 18:05:23.620 - ================================================================================================
+Tue Dec 31 2019 18:05:23.620 - vrwebhelper.exe 1.9.16 startup with PID=3712, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 18:05:23.621 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 18:05:23.630 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:05:23.630 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:05:23.631 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:05:23.633 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:05:23.634 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 18:05:23.644 - CSharedResourceNamespaceClient::Init(): received namespace data 29564
+Tue Dec 31 2019 18:05:23.679 - Received success response from vrserver connect
+Tue Dec 31 2019 18:05:23.683 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 18:05:23.704 - Received success response from vrcompositor connect
+Tue Dec 31 2019 18:05:23.704 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 18:06:26.767 - //==============================================================================================
+Tue Dec 31 2019 18:06:26.767 - ================================================================================================
+Tue Dec 31 2019 18:06:26.767 - ================================================================================================
+Tue Dec 31 2019 18:06:26.767 - vrwebhelper.exe 1.9.16 startup with PID=26672, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 18:06:26.767 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 18:06:26.778 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:06:26.779 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:06:26.779 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:06:26.780 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:06:26.782 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 18:06:26.794 - CSharedResourceNamespaceClient::Init(): received namespace data 29012
+Tue Dec 31 2019 18:06:26.820 - Received success response from vrserver connect
+Tue Dec 31 2019 18:06:26.824 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 18:06:26.843 - Received success response from vrcompositor connect
+Tue Dec 31 2019 18:06:26.843 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 18:06:29.167 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:06:34.836 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:07:59.829 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:08:11.773 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:11:49.281 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:16:31.676 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:16:32.812 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:17:01.072 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:1
+Tue Dec 31 2019 18:20:31.299 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:21:04.904 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:21:08.653 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:27:38.667 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:27:56.785 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:28:02.841 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:28:22.179 - //==============================================================================================
+Tue Dec 31 2019 18:28:22.179 - ================================================================================================
+Tue Dec 31 2019 18:28:22.179 - ================================================================================================
+Tue Dec 31 2019 18:28:22.179 - vrwebhelper.exe 1.9.16 startup with PID=17344, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 18:28:22.179 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 18:28:22.189 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:28:22.189 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:28:22.190 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:28:22.191 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 18:28:22.192 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 18:28:22.204 - CSharedResourceNamespaceClient::Init(): received namespace data 3108
+Tue Dec 31 2019 18:28:22.248 - Received success response from vrserver connect
+Tue Dec 31 2019 18:28:22.252 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 18:28:22.265 - Received success response from vrcompositor connect
+Tue Dec 31 2019 18:28:22.265 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 18:28:30.290 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:32:52.461 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:33:43.290 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:34:15.935 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:36:42.572 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:39:01.240 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:39:45.590 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:39:45.968 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:40:01.374 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:40:53.924 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:41:01.929 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:48:44.720 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:49:46.632 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:57:09.726 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 18:59:06.481 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:00:54.584 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:01:24.518 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:04:28.590 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:06:13.525 - //==============================================================================================
+Tue Dec 31 2019 19:06:13.525 - ================================================================================================
+Tue Dec 31 2019 19:06:13.525 - ================================================================================================
+Tue Dec 31 2019 19:06:13.525 - vrwebhelper.exe 1.9.16 startup with PID=18168, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 19:06:13.525 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 19:06:13.536 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 19:06:13.536 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 19:06:13.537 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 19:06:13.538 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 19:06:13.539 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 19:06:13.550 - CSharedResourceNamespaceClient::Init(): received namespace data 12860
+Tue Dec 31 2019 19:06:13.577 - Received success response from vrserver connect
+Tue Dec 31 2019 19:06:13.581 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 19:06:13.602 - Received success response from vrcompositor connect
+Tue Dec 31 2019 19:06:13.602 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 19:07:52.339 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:08:01.758 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:09:56.511 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:18:33.720 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:18:34.007 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:18:36.141 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:21:02.487 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:27:22.380 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:27:30.749 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:42:30.248 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:50:53.406 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:50:59.473 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:54:30.158 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:57:15.350 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:57:18.826 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:57:21.237 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:58:45.278 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 19:59:13.474 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:01:04.185 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:01:19.218 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:01:31.405 - //==============================================================================================
+Tue Dec 31 2019 20:01:31.405 - ================================================================================================
+Tue Dec 31 2019 20:01:31.405 - ================================================================================================
+Tue Dec 31 2019 20:01:31.405 - vrwebhelper.exe 1.9.16 startup with PID=23068, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 20:01:31.406 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 20:01:31.414 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:01:31.415 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:01:31.416 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:01:31.417 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:01:31.418 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 20:01:31.429 - CSharedResourceNamespaceClient::Init(): received namespace data 22220
+Tue Dec 31 2019 20:01:31.482 - Received success response from vrserver connect
+Tue Dec 31 2019 20:01:31.487 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 20:01:31.515 - Received success response from vrcompositor connect
+Tue Dec 31 2019 20:01:31.515 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 20:03:27.136 - //==============================================================================================
+Tue Dec 31 2019 20:03:27.136 - ================================================================================================
+Tue Dec 31 2019 20:03:27.136 - ================================================================================================
+Tue Dec 31 2019 20:03:27.136 - vrwebhelper.exe 1.9.16 startup with PID=20344, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 20:03:27.137 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 20:03:27.147 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:27.147 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:27.148 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:27.148 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 20:03:27.149 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 20:03:27.166 - CSharedResourceNamespaceClient::Init(): received namespace data 20780
+Tue Dec 31 2019 20:03:27.195 - Received success response from vrserver connect
+Tue Dec 31 2019 20:03:27.199 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 20:03:27.223 - Received success response from vrcompositor connect
+Tue Dec 31 2019 20:03:27.223 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 20:03:30.407 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:03:48.310 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:04:07.160 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:04:30.500 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:05:45.526 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:05:54.578 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:06:10.574 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:09:35.745 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:09:54.623 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:12:37.545 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:15:03.426 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:15:27.348 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:18:16.871 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:18:34.127 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:20:51.794 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:27:52.781 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:29:59.797 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:31:00.469 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:33:23.154 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:1
+Tue Dec 31 2019 20:36:59.970 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:37:51.995 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:42:20.675 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:47:01.863 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:47:13.243 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:50:26.682 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:50:56.732 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:52:11.568 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:52:24.601 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:52:34.681 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:53:24.050 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:53:25.575 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:54:00.230 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:56:03.373 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:57:08.725 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:58:31.828 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 20:58:45.296 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:02:05.522 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:04:23.554 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:04:37.170 - PropertyContainer: High lock acquisition counters: sp:100002 yd:2 re:0
+Tue Dec 31 2019 21:05:25.947 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:08:59.912 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:09:15.123 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:09:15.665 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:13:36.885 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:16:35.778 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:18:19.890 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:19:59.523 - //==============================================================================================
+Tue Dec 31 2019 21:19:59.523 - ================================================================================================
+Tue Dec 31 2019 21:19:59.523 - ================================================================================================
+Tue Dec 31 2019 21:19:59.523 - vrwebhelper.exe 1.9.16 startup with PID=24736, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 21:19:59.523 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 21:19:59.533 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 21:19:59.534 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 21:19:59.534 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 21:19:59.536 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 21:19:59.538 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 21:19:59.560 - CSharedResourceNamespaceClient::Init(): received namespace data 1036
+Tue Dec 31 2019 21:19:59.582 - Received success response from vrserver connect
+Tue Dec 31 2019 21:19:59.585 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 21:19:59.598 - Received success response from vrcompositor connect
+Tue Dec 31 2019 21:19:59.598 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 21:20:43.266 - //==============================================================================================
+Tue Dec 31 2019 21:20:43.266 - ================================================================================================
+Tue Dec 31 2019 21:20:43.266 - ================================================================================================
+Tue Dec 31 2019 21:20:43.266 - vrwebhelper.exe 1.9.16 startup with PID=21136, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Dec 31 2019 21:20:43.266 - vrclient type=VRApplication_WebHelper
+Tue Dec 31 2019 21:20:43.301 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Tue Dec 31 2019 21:20:43.302 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Tue Dec 31 2019 21:20:43.302 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Tue Dec 31 2019 21:20:43.303 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Tue Dec 31 2019 21:20:43.305 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Tue Dec 31 2019 21:20:43.325 - CSharedResourceNamespaceClient::Init(): received namespace data 24600
+Tue Dec 31 2019 21:20:43.361 - Received success response from vrserver connect
+Tue Dec 31 2019 21:20:43.369 - App key after connect message:openvr.component.vrwebhelper
+Tue Dec 31 2019 21:20:43.395 - Received success response from vrcompositor connect
+Tue Dec 31 2019 21:20:43.395 - Initializing the limited version of CVRCompositorClient
+Tue Dec 31 2019 21:21:44.657 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Tue Dec 31 2019 21:22:51.341 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 11:57:56.245 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 11:58:44.124 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 11:58:52.199 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 11:58:55.203 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 12:01:41.883 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 12:03:24.821 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 12:04:39.289 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 12:06:15.883 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 12:11:07.297 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 12:13:19.193 - //==============================================================================================
+Wed Jan 01 2020 12:13:19.193 - ================================================================================================
+Wed Jan 01 2020 12:13:19.193 - ================================================================================================
+Wed Jan 01 2020 12:13:19.193 - vrwebhelper.exe 1.9.16 startup with PID=26144, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Wed Jan 01 2020 12:13:19.194 - vrclient type=VRApplication_WebHelper
+Wed Jan 01 2020 12:13:19.203 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Wed Jan 01 2020 12:13:19.204 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Wed Jan 01 2020 12:13:19.204 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Wed Jan 01 2020 12:13:19.205 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Wed Jan 01 2020 12:13:19.206 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Wed Jan 01 2020 12:13:19.217 - CSharedResourceNamespaceClient::Init(): received namespace data 21820
+Wed Jan 01 2020 12:13:19.250 - Received success response from vrserver connect
+Wed Jan 01 2020 12:13:19.254 - App key after connect message:openvr.component.vrwebhelper
+Wed Jan 01 2020 12:13:19.287 - Received success response from vrcompositor connect
+Wed Jan 01 2020 12:13:19.287 - Initializing the limited version of CVRCompositorClient
+Wed Jan 01 2020 12:41:31.479 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:34:02.689 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:34:27.925 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:35:18.576 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:35:33.548 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:43:09.929 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:47:29.816 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:48:54.516 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:49:09.674 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:55:18.788 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 13:56:02.889 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:04:38.461 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:06:17.326 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:08:11.442 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:16:00.131 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:16:40.186 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:19:04.145 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:19:10.882 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:28:22.426 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:29:10.715 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:33:22.391 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:34:46.535 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:35:49.872 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:36:31.404 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:37:29.477 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:38:11.689 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:39:45.041 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Wed Jan 01 2020 14:40:13.543 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
