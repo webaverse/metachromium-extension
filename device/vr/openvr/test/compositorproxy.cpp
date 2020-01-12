@@ -184,9 +184,10 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 {   
 	//Output struct
 	PS_OUTPUT OUT;
-	
-	OUT.Color.rgb = QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb;
-	OUT.Color.a = 1;
+
+  OUT.Color = float4(1, 0, 0, 1);
+	// OUT.Color.rgb = QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb;
+	// OUT.Color.a = 1;
 	
 	return OUT;
 }
@@ -644,7 +645,19 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         localShaderResourceViews.push_back(nullptr);
       } */
 
+      /* const VRTextureBounds_t &textureBounds = inBackTextureBounds[index];
+      glUniform4f(texBoundsLocations[numLayers], textureBounds.uMin, textureBounds.vMin, textureBounds.uMax, textureBounds.vMax); */
+
       context->PSSetShaderResources(0, localShaderResourceViews.size(), localShaderResourceViews.data());
+      D3D11_VIEWPORT viewport{
+        0, // TopLeftX,
+        0, // TopLeftY,
+        width, // Width,
+        height, // Height,
+        0, // MinDepth,
+        1 // MaxDepth
+      };
+      context->RSSetViewports(1, &viewport);
       context->OMSetRenderTargets(
         1,
         &renderTargetViews[iEye],
