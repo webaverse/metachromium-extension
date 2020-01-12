@@ -195,7 +195,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 const char *hlslVsEntry = "vs_main";
 const char *hlslPsEntry = "ps_main";
 
-constexpr size_t MAX_LAYERS = 2;
+constexpr size_t MAX_LAYERS = 1;
 const EVREye EYES[] = {
   Eye_Left,
   Eye_Right,
@@ -626,7 +626,32 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         }
       }
 
-      
+      std::vector<ID3D11ShaderResourceView *> localShaderResourceViews;
+      size_t numLayers = 0;
+      for (auto iter : inBackIndices) {
+        EVREye e = iter.first.second;
+        if (e == eEye) {
+          size_t &index = iter.second;
+
+          localShaderResourceViews.push_back(shaderResourceViews[index]);
+
+          if (localShaderResourceViews.size() >= MAX_LAYERS) {
+            break;
+          }
+        }
+      }
+      /* for (size_t i = numLayers; i < MAX_LAYERS; i++) {
+        localShaderResourceViews.push_back(nullptr);
+      } */
+
+      context->PSSetShaderResources(0, localShaderResourceViews.size(), localShaderResourceViews.data());
+      context->OMSetRenderTargets(
+        1,
+        &renderTargetViews[iEye],
+        // depthStencilView
+        nullptr
+      );
+      context->DrawIndexed(6, 0, 0);
       
       // getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
 
@@ -2521,25 +2546,5 @@ void PVRCompositor::InitShader() {
       getOut() << "failed to create render target view: " << (void *)hr << std::endl;
     }
   }
-}
-void PVRCompositor::Draw(ID3D11Texture2D *tex) {
-  /* D3D11_TEXTURE2D_DESC desc;
-  tex->GetDesc(&desc);
-  
-  getOut() << "submit tex desc " <<
-    desc.Width << " " << desc.Height << " " <<
-    desc.MipLevels << " " << desc.ArraySize << " " <<
-    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-    desc.Format << " " <<
-    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl; */
-
-  context->PSSetShaderResources(0, 1, &shaderResourceViews[iEye]);
-  context->OMSetRenderTargets(
-    1,
-    &renderTargetViews[iEye],
-    // depthStencilView
-    nullptr
-  );
-  context->DrawIndexed(6, 0, 0);
 }
 }

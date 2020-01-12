@@ -149,7 +149,6 @@ public:
   
   void CacheWaitGetPoses();
   void InitShader();
-  void Draw();
 };
 }
 
