@@ -630,7 +630,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           std::endl;
         
         D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
-        shaderDepthResourceViewDesc.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+        shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
         shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
         shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
         shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;
@@ -1631,19 +1631,13 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
-    /* getOut() << "get texture desc front " << (int)eEye << " " <<
-      (void *)device.Get() << " " <<
+    getOut() << "shared tex flags " <<
       desc.Width << " " << desc.Height << " " <<
-      desc.ArraySize << " " <<
+      desc.MipLevels << " " << desc.ArraySize << " " <<
+      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
       desc.Format << " " <<
-      desc.SampleDesc.Count << " " <<
-      desc.Usage << " " <<
-      desc.BindFlags << " " <<
-      desc.MiscFlags << " " <<
-      // pBounds->uMin << " " << pBounds->vMin << " " <<
-      // pBounds->uMax << " " << pBounds->vMax << " " <<
-      std::endl; */
-    getOut() << "got source tex desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
+      std::endl;
 
     // getOut() << "submit client 5" << std::endl;
 
@@ -1867,9 +1861,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         // descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
         descDepth.Usage = D3D11_USAGE_DEFAULT;
         descDepth.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-        // descDepth.BindFlags = 0;
         // descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
         descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+        // descDepth.SampleDesc.Count = 1;
         
         getOut() << "shared depth flags " <<
           descDepth.Width << " " << descDepth.Height << " " <<
