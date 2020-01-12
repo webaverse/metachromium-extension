@@ -40,9 +40,9 @@ public:
   ID3DBlob *psBlob = nullptr;
   ID3D11PixelShader *psShader = nullptr;
   ID3D11InputLayout *vertexLayout = nullptr;
-  ID3D11ShaderResourceView *shaderResourceView = nullptr;
-  ID3D11RenderTargetView *renderTargetView = nullptr;
-  ID3D11DepthStencilView *depthStencilView = nullptr;
+  // ID3D11ShaderResourceView *shaderResourceView = nullptr;
+  // ID3D11RenderTargetView *renderTargetView = nullptr;
+  // ID3D11DepthStencilView *depthStencilView = nullptr;
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> depthTexLocations;
@@ -58,6 +58,7 @@ public:
   std::vector<ID3D11Texture2D *> inDxDepthTexs;
   std::vector<ID3D11Texture2D *> inDxDepthTexs2;
   std::vector<ID3D11Texture2D *> inDxDepthTexs3;
+  std::vector<ID3D11ShaderResourceView *> shaderResourceViews;
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<HANDLE> inShDepthDxShareHandles;
   std::vector<uintptr_t> inTexLatches;
@@ -73,10 +74,10 @@ public:
 
   // input back
   std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
-  std::vector<GLuint> inBackTexs;
-  std::vector<HANDLE> inBackInteropHandles;
-  std::vector<GLuint> inBackDepthTexs;
-  std::vector<HANDLE> inBackDepthInteropHandles;
+  std::vector<ID3D11Texture2D *> inBackTexs;
+  // std::vector<HANDLE> inBackInteropHandles;
+  std::vector<ID3D11Texture2D *> inBackDepthTexs;
+  // std::vector<HANDLE> inBackDepthInteropHandles;
   std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
@@ -87,11 +88,12 @@ public:
   HANDLE handleRightLatched = nullptr; */
 
   // output
-  std::vector<GLuint> fbos;
-  std::vector<GLuint> shTexOutIds;
-  std::vector<GLuint> texDepthIds;
+  // std::vector<GLuint> fbos;
+  // std::vector<GLuint> shTexOutIds;
+  // std::vector<GLuint> texDepthIds;
   std::vector<ID3D11Texture2D *> shTexOuts;
-  std::vector<HANDLE> shTexOutInteropHandles;
+  std::vector<ID3D11RenderTargetView *> renderTargetViews;
+  // std::vector<HANDLE> shTexOutInteropHandles;
 
   PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
@@ -147,7 +149,6 @@ public:
   
   void CacheWaitGetPoses();
   void InitShader();
-  void InitRenderTarget(ID3D11Texture2D *tex);
 };
 }
 
