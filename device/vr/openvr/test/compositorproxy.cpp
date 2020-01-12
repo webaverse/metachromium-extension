@@ -212,14 +212,13 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   Output.Position = float4(inPos, 0, 1);
   Output.Tex0 = inTex;
   return Output;
-  // return float4(inPos, 0, 1);
-    // float2 texcoord = float2(vI&1,vI>>1); //you can use these for texture coordinates later
-    // return float4((texcoord.x-0.5f)*2,-(texcoord.y-0.5f)*2,0,1);
 }
 
 float4 ps_main(VS_OUTPUT IN) : SV_TARGET
 {
-    return float4(IN.Tex0, 0, 1); //the red color
+    float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
+    // result.rg += IN.Tex0*0.1;
+    return result;
 }
 
 //------------------------------------------------------------//
@@ -2388,10 +2387,10 @@ void PVRCompositor::CacheWaitGetPoses() {
 }
 void PVRCompositor::InitShader() {
   float vertices[] = { // xyuv
-    -1, -1, 0, 1,
-    -1, 1, 0, 0,
-    1, -1, 1, 1,
-    1, 1, 1, 0
+    -1, -1, 0, 0,
+    -1, 1, 0, 1,
+    1, -1, 1, 0,
+    1, 1, 1, 1
   };
   int indices[] = {
     0, 1, 2,
@@ -2445,7 +2444,7 @@ void PVRCompositor::InitShader() {
     // m_IB.Set(indexBuffer);
   }
   getOut() << "init render 3" << std::endl;
-  {
+  /* {
     // Create samplers
     D3D11_SAMPLER_DESC sampDesc{};
     sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
@@ -2462,7 +2461,7 @@ void PVRCompositor::InitShader() {
       abort();
     }
     // m_LinearSampler.Set(linearSampler);
-  }
+  } */
   getOut() << "init render 4" << std::endl;
   {
     ID3DBlob *errorBlob = nullptr;
@@ -2538,7 +2537,7 @@ void PVRCompositor::InitShader() {
   {
     context->VSSetShader(vsShader, nullptr, 0);
     context->PSSetShader(psShader, nullptr, 0);
-    context->PSSetSamplers(0, 1, &linearSampler);
+    // context->PSSetSamplers(0, 1, &linearSampler);
 
     D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
     ID3D11DepthStencilState *depthStencilState;
