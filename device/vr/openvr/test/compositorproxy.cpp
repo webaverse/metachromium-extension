@@ -273,6 +273,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     uint32_t,
     uint32_t
   >([=](uint32_t unRenderPoseArrayCount, uint32_t unGamePoseArrayCount) {
+    InfoQueueLog();
+    
     // getOut() << "waitgetposes 1" << std::endl;
     managed_binary<TrackedDevicePose_t> renderPoseArray(unRenderPoseArrayCount);
     managed_binary<TrackedDevicePose_t> gamePoseArray(unGamePoseArrayCount);
@@ -432,12 +434,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
 
         hr = deviceBasic->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
         if (SUCCEEDED(hr)) {
-          // nothing
+          infoQueue->PushEmptyStorageFilter();
         } else {
           getOut() << "info queue query failed" << std::endl;
-          abort();
+          // abort();
         }
-        infoQueue->PushEmptyStorageFilter();
 
         /* hr = contextBasic->QueryInterface(__uuidof(ID3D11DeviceContext1), (void **)&context);
         if (SUCCEEDED(hr)) {
@@ -1116,7 +1117,9 @@ ETrackingUniverseOrigin PVRCompositor::GetTrackingSpace() {
 }
 EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
     VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
-  // getOut() << "wait get poses client 1" << std::endl;
+  // getOut() << "wait get poses" << std::endl;
+  
+  InfoQueueLog();
   
   flushTextureLatches();
   
@@ -1183,15 +1186,14 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         getOut() << "device query failed" << std::endl;
         abort();
       }
-      // getOut() << "initial tex 4" << std::endl;
-      // ID3D11Texture2D1 *tex2;
-      // hr = tex->QueryInterface(__uuidof(ID3D11Texture2D1), (void **)&tex2);
-      
-      // tex2->GetDevice(&device);
-      // getOut() << "prepare submit client 2" << std::endl;
-      // getOut() << "initial tex 5" << std::endl;
-      // Microsoft::WRL::ComPtr<ID3D11DeviceContext1> contextBasic;
-      // getOut() << "initial tex 6 " << (void *)device.Get() << std::endl;
+
+      hr = deviceBasic->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
+      if (SUCCEEDED(hr)) {
+        infoQueue->PushEmptyStorageFilter();
+      } else {
+        getOut() << "info queue query failed" << std::endl;
+        // abort();
+      }
       
       Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
       device->GetImmediateContext(&contextBasic);
@@ -1541,7 +1543,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  // getOut() << "submit client 1 " << pTexture->eType << " " << pTexture->eColorSpace << std::endl;
+  getOut() << "submit client 1 " << (uintptr_t)pTexture->handle << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint tex = (GLuint)pTexture->handle;
@@ -1572,6 +1574,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     inShDxShareHandles.resize(index+1, NULL);
     inShDepthDxShareHandles.resize(index+1, NULL);
     inTexLatches.resize(index+1, NULL);
+    inDepthTexLatches.resize(index+1, NULL);
     interopTexs.resize(index+1, NULL);
     inReadInteropHandles.resize(index+1, NULL);
     inReadEvents.resize(index+1, NULL);
@@ -1604,6 +1607,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
   HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
+  uintptr_t &depthTextureLatched = inDepthTexLatches[index]; // remembered depth attachemnt
+
   if (textureLatched != (uintptr_t)pTexture->handle) {
     if (textureLatched) {
       // XXX delete old resources
@@ -1679,6 +1684,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     } else {
       getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
+    }
+    {
+      std::string s("SharedTex");
+      s += std::to_string((int)eEye);
+      shTex->SetPrivateData(WKPDID_D3DDebugObjectName, s.size(), s.c_str());
     }
 
     /* {
@@ -1883,7 +1893,12 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       &srcBox
     );
     if (depthTex) {
-      if (!shDepthTex) {
+      if (depthTextureLatched != (uintptr_t)depthTex) {
+        if (depthTextureLatched) {
+          // XXX delete old resources
+        }
+        depthTextureLatched = (uintptr_t)depthTex;
+
         D3D11_TEXTURE2D_DESC descDepth;
         depthTex->GetDesc(&descDepth);
         // descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
@@ -1892,8 +1907,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         // descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
         descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
         // descDepth.SampleDesc.Count = 1;
-        
+
         getOut() << "shared depth flags " <<
+          // (void *)depthTex << " " <<
           descDepth.Width << " " << descDepth.Height << " " <<
           descDepth.MipLevels << " " << descDepth.ArraySize << " " <<
           descDepth.SampleDesc.Count << " " << descDepth.SampleDesc.Quality << " " <<
@@ -1912,6 +1928,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
           getOut() << "failed to create shared depth texture: " << (void *)hr << std::endl;
           abort();
         }
+        {
+          std::string s("SharedDepthTex");
+          s += std::to_string((int)eEye);
+          shDepthTex->SetPrivateData(WKPDID_D3DDebugObjectName, s.size(), s.c_str());
+        }
         
         IDXGIResource1 *shDepthTexResource;
         hr = shDepthTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shDepthTexResource);
@@ -1922,7 +1943,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
           getOut() << "failed to get shared depth texture handle: " << (void *)hr << std::endl;
           abort();
         }
-        shDepthTexResource->Release();
+        // shDepthTexResource->Release();
       }
       context->CopyResource(
         shDepthTex,
@@ -2731,34 +2752,37 @@ void PVRCompositor::InitShader() {
       getOut() << "failed to create render target view: " << (void *)hr << std::endl;
     }
   }
-  
-  UINT64 numStoredMessages = infoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
-  for (UINT64 i = 0; i < numStoredMessages; i++) {
-    size_t messageSize = 0;
-    hr = infoQueue->GetMessage(
-      i,
-      nullptr,
-      &messageSize
-    );
-    if (SUCCEEDED(hr)) {
-      D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
-      
-      hr = infoQueue->GetMessage(
+}
+void PVRCompositor::InfoQueueLog() {
+  if (infoQueue) {
+    UINT64 numStoredMessages = infoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
+    for (UINT64 i = 0; i < numStoredMessages; i++) {
+      size_t messageSize = 0;
+      HRESULT hr = infoQueue->GetMessage(
         i,
-        message,
+        nullptr,
         &messageSize
       );
       if (SUCCEEDED(hr)) {
-        // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
-          getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
-        // }
+        D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
+        
+        hr = infoQueue->GetMessage(
+          i,
+          message,
+          &messageSize
+        );
+        if (SUCCEEDED(hr)) {
+          // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
+            getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
+          // }
+        } else {
+          getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
+        }
+        
+        free(message);
       } else {
         getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
       }
-      
-      free(message);
-    } else {
-      getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
     }
   }
 }

@@ -66,6 +66,7 @@ public:
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<HANDLE> inShDepthDxShareHandles;
   std::vector<uintptr_t> inTexLatches;
+  std::vector<uintptr_t> inDepthTexLatches;
   std::vector<GLuint> interopTexs;
   std::vector<HANDLE> inReadInteropHandles;
   std::vector<HANDLE> inReadEvents;
@@ -154,6 +155,7 @@ public:
   
   void CacheWaitGetPoses();
   void InitShader();
+  void InfoQueueLog();
 };
 }
 

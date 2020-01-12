@@ -139,7 +139,7 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
     D3D11_COMPARISON_NOT_EQUAL << " " <<
     D3D11_COMPARISON_GREATER_EQUAL << " " <<
     D3D11_COMPARISON_ALWAYS << " " <<
-    std::endl; */
+    std::endl;
   if (pDepthStencilState) {
     D3D11_DEPTH_STENCIL_DESC desc;
     pDepthStencilState->lpVtbl->GetDesc(pDepthStencilState, &desc);
@@ -155,7 +155,7 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
       desc.FrontFace.StencilFailOp << " " << desc.FrontFace.StencilDepthFailOp << " " << desc.FrontFace.StencilPassOp << " " << desc.FrontFace.StencilFunc << " " <<
       desc.BackFace.StencilFailOp << " " << desc.BackFace.StencilDepthFailOp << " " << desc.BackFace.StencilPassOp << " " << desc.BackFace.StencilFunc << " " <<
       std::endl;
-  }
+  } */
   RealOMSetDepthStencilState(This, pDepthStencilState, StencilRef);
 }
 void (STDMETHODCALLTYPE *RealDraw)(
@@ -313,6 +313,48 @@ void STDMETHODCALLTYPE MineClearView(
   getOut() << "ClearView" << std::endl;
   RealClearView(This, pView, Color, pRect, NumRects);
 }
+void (STDMETHODCALLTYPE *RealResolveSubresource)(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource *pDstResource,
+  UINT           DstSubresource,
+  ID3D11Resource *pSrcResource,
+  UINT           SrcSubresource,
+  DXGI_FORMAT    Format
+) = nullptr;
+ID3D11Texture2D *tmpTexture = nullptr;
+void STDMETHODCALLTYPE MineResolveSubresource(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource *pDstResource,
+  UINT           DstSubresource,
+  ID3D11Resource *pSrcResource,
+  UINT           SrcSubresource,
+  DXGI_FORMAT    Format
+) {
+  getOut() << "ResolveSubresource" << std::endl;
+  
+  if (tmpTexture) {
+    tmpTexture->lpVtbl->Release(tmpTexture);
+    tmpTexture = nullptr;
+  }
+  
+  ID3D11Device *device;
+  This->lpVtbl->GetDevice(This, &device);
+  
+  D3D11_TEXTURE2D_DESC desc;
+  desc.Width = 256;
+  desc.Height = 256;
+  desc.MipLevels = desc.ArraySize = 1;
+  desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+  desc.SampleDesc.Count = 1;
+  desc.Usage = D3D11_USAGE_DYNAMIC;
+  desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+  desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+  desc.MiscFlags = 0;
+
+  device->lpVtbl->CreateTexture2D(device, &desc, NULL, &tmpTexture);
+  
+  RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
+}
 
 bool hijacked = false;
 
@@ -380,6 +422,9 @@ void hijack(ID3D11DeviceContext *context) {
     
     RealClearView = context1->lpVtbl->ClearView;
     error = DetourAttach(&(PVOID&)RealClearView, MineClearView);
+    
+    RealResolveSubresource = context1->lpVtbl->ResolveSubresource;
+    error = DetourAttach(&(PVOID&)RealResolveSubresource, MineResolveSubresource);
     
     if (error) {
       getOut() << "detour error 4: " << (void *)error << std::endl;
