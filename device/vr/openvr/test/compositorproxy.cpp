@@ -137,7 +137,7 @@ float Height;
 // Vertex shader OUT struct
 struct VS_OUTPUT
 {
-   float4 Position:	POSITION;
+   float4 Position:	SV_POSITION;
    float2 Tex0:		TEXCOORD0;	
 };
 //------------------------------------------------------------//
@@ -161,6 +161,15 @@ SamplerState QuadTextureSampler {
 };
 //------------------------------------------------------------//
 
+
+
+
+
+
+
+
+
+/*
 //------------------------------------------------------------//
 // Vertex Shader
 //------------------------------------------------------------//
@@ -191,6 +200,28 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 	
 	return OUT;
 }
+//------------------------------------------------------------//
+*/
+
+
+
+
+VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
+{
+  VS_OUTPUT Output;
+  Output.Position = float4(inPos, 0, 1);
+  Output.Tex0 = inTex;
+  return Output;
+  // return float4(inPos, 0, 1);
+    // float2 texcoord = float2(vI&1,vI>>1); //you can use these for texture coordinates later
+    // return float4((texcoord.x-0.5f)*2,-(texcoord.y-0.5f)*2,0,1);
+}
+
+float4 ps_main(VS_OUTPUT IN) : SV_TARGET
+{
+    return float4(IN.Tex0, 0, 1); //the red color
+}
+
 //------------------------------------------------------------//
 )END";
 
@@ -672,6 +703,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         nullptr
       );
       context->DrawIndexed(6, 0, 0);
+      // context->Draw(4, 0);
       
       // getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
 
@@ -2496,7 +2528,7 @@ void PVRCompositor::InitShader() {
   getOut() << "init render 8" << std::endl;
   {
     D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
-      { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+      { "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
       { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 8, D3D11_INPUT_PER_VERTEX_DATA, 0 },
     };
     UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
@@ -2523,7 +2555,9 @@ void PVRCompositor::InitShader() {
 
     UINT stride = sizeof(float) * 4; // xyuv
     UINT offset = 0;
+    // context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
     context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    context->IASetInputLayout(vertexLayout);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
   }
