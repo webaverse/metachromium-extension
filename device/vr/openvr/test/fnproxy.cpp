@@ -133,7 +133,7 @@ void FnProxy::dispatchCall() {
 }
 
 void FnProxy::handle() {
-  inSem.lock();
+  // inSem.lock();
 
   // getOut() << "fn proxy handle 1" << std::endl;
 

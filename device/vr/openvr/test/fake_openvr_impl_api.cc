@@ -11,6 +11,8 @@ set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\
 set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
 set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\
 
+VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\; VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\; VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\;
+
 cd C:\Users\avaer\AppData\Local\Chromium\Application
 .\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality"
 
@@ -47,16 +49,16 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 std::string dllDir;
 std::ofstream out;
 std::ostream &getOut() {
-  if (!isProcess) {
+  // if (!isProcess) {
     if (!out.is_open()) {
-      std::string logPath = dllDir + "log.txt";
+      std::string logPath = dllDir + (isProcess ? "log_process.txt" : "log.txt");
       out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
       out << "--------------------------------------------------------------------------------" << std::endl;
     }
     return out;
-  } else {
+  /* } else {
     return std::cout;
-  }
+  } */
 }
 // constexpr bool tracing = true;
 constexpr bool tracing = false;

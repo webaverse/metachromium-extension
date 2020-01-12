@@ -24,17 +24,20 @@ public:
   // main
   Microsoft::WRL::ComPtr<ID3D11Device5> device;
   Microsoft::WRL::ComPtr<ID3D11DeviceContext4> context;
+  Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
   Microsoft::WRL::ComPtr<ID3D11InfoQueue> infoQueue;
   GLFWwindow *subWindow = nullptr;
   HANDLE hInteropDevice = NULL;
   uint32_t width;
   uint32_t height;
+  HWND hWnd;
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
   uint64_t fenceValue = 0;
 
   ID3D11Buffer *vertexBuffer = nullptr;
   ID3D11Buffer *indexBuffer = nullptr;
+  ID3D11Buffer *constantBuffer = nullptr;
   // ID3D11SamplerState *linearSampler = nullptr;
   ID3DBlob *vsBlob = nullptr;
   ID3D11VertexShader *vsShader = nullptr;

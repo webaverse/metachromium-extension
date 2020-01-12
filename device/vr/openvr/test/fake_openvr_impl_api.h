@@ -21,6 +21,7 @@ extern size_t *pBooted;
 // extern GLFWwindow **ppWindow;
 // extern size_t *pNumClients;
 extern bool isProcess;
+extern HWND g_hWnd;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
 

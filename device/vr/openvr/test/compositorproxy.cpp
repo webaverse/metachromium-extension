@@ -127,9 +127,17 @@ const char *hlsl = R"END(
 //------------------------------------------------------------//
 // Constants
 //------------------------------------------------------------//
-float Width;
-float Height;
+// float Width;
+// float Height;
 //------------------------------------------------------------//
+
+cbuffer PS_CONSTANT_BUFFER : register(b0)
+{
+  float width;
+  float height;
+  float tmp1;
+  float tmp2;
+}
 
 //------------------------------------------------------------//
 // Structs
@@ -137,8 +145,9 @@ float Height;
 // Vertex shader OUT struct
 struct VS_OUTPUT
 {
-   float4 Position:	SV_POSITION;
-   float2 Tex0:		TEXCOORD0;	
+   float4 Position: SV_POSITION;
+   float2 Tex0: TEXCOORD0;	
+   // uint2 Tex1: TEXCOORD1;	
 };
 //------------------------------------------------------------//
 // Pixel Shader OUT struct
@@ -153,7 +162,7 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-Texture2DMS<float> QuadDepthTexture : register(ps, t1);
+Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
@@ -211,13 +220,16 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   VS_OUTPUT Output;
   Output.Position = float4(inPos, 0, 1);
   Output.Tex0 = inTex;
+  // Output.Tex1 = uint2(inTex) * uint2(width, height);
   return Output;
 }
 
 float4 ps_main(VS_OUTPUT IN) : SV_TARGET
 {
-    float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
-    // result.rg += IN.Tex0*0.1;
+    // float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb * 0.2, 1);
+    float4 result = float4(0, 0, 0, 1);
+    result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
+    // result.rg += IN.Tex0*width/2000.0*0.5;
     return result;
 }
 
@@ -368,11 +380,23 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
       // Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
       Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
       Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
+
       D3D_FEATURE_LEVEL featureLevels[] = {
         D3D_FEATURE_LEVEL_11_1
       };
-      hr = D3D11CreateDevice(
-        // NULL, // pAdapter
+      getOut() << "create swap chain " << (void *)g_hWnd << std::endl;
+      DXGI_SWAP_CHAIN_DESC swapChainDesc{};
+      swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+      swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; 
+      swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; 
+      swapChainDesc.SampleDesc.Count = 1;                               
+      swapChainDesc.SampleDesc.Quality = 0;                               
+      swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+      swapChainDesc.BufferCount = 1;                               
+      swapChainDesc.OutputWindow = g_hWnd;                
+      swapChainDesc.Windowed = true;
+
+      hr = D3D11CreateDeviceAndSwapChain(
         adapter, // pAdapter
         D3D_DRIVER_TYPE_HARDWARE, // DriverType
         NULL, // Software
@@ -380,6 +404,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         featureLevels, // pFeatureLevels
         ARRAYSIZE(featureLevels), // FeatureLevels
         D3D11_SDK_VERSION, // SDKVersion
+        &swapChainDesc, // pSwapChainDesc,
+        &swapChain, // ppSwapChain
         &deviceBasic, // ppDevice
         NULL, // pFeatureLevel
         &contextBasic // ppImmediateContext
@@ -717,7 +743,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           localShaderResourceViews.push_back(shaderResourceView);
           localShaderResourceViews.push_back(shaderDepthResourceView);
 
-          if (localShaderResourceViews.size() >= MAX_LAYERS) {
+          if (localShaderResourceViews.size()/2 >= MAX_LAYERS) {
             break;
           }
         }
@@ -769,6 +795,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     // getOut() << "flush submit server 10 " << inBackReadEventQueue.size() << std::endl;
 
     inBackReadEventQueue.clear();
+    
+    swapChain->Present(0, 0);
 
     // getOut() << "flush submit server 11" << std::endl;
     return 0;
@@ -2441,6 +2469,8 @@ void PVRCompositor::CacheWaitGetPoses() {
   inBackReadEventQueue.clear();
 }
 void PVRCompositor::InitShader() {
+  g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
+  
   float vertices[] = { // xyuv
     -1, -1, 0, 0,
     -1, 1, 0, 1,
@@ -2499,6 +2529,39 @@ void PVRCompositor::InitShader() {
     // m_IB.Set(indexBuffer);
   }
   getOut() << "init render 3" << std::endl;
+  {
+    float hw[] = {
+      (float)width,
+      (float)height,
+      0,
+      0
+    };
+    
+    D3D11_BUFFER_DESC cbDesc{};
+    cbDesc.ByteWidth = sizeof(hw);
+    cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    cbDesc.MiscFlags = 0;
+    cbDesc.StructureByteStride = 0;
+
+    // Fill in the subresource data.
+    D3D11_SUBRESOURCE_DATA InitData{};
+    InitData.pSysMem = hw;
+    InitData.SysMemPitch = 0;
+    InitData.SysMemSlicePitch = 0;
+
+    // Create the buffer.
+    hr = device->CreateBuffer(
+      &cbDesc,
+      &InitData, 
+      &constantBuffer
+    );
+    if (FAILED(hr)) {
+      getOut() << "cbuf create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
   /* {
     // Create samplers
     D3D11_SAMPLER_DESC sampDesc{};
@@ -2594,7 +2657,7 @@ void PVRCompositor::InitShader() {
     context->PSSetShader(psShader, nullptr, 0);
     // context->PSSetSamplers(0, 1, &linearSampler);
 
-    D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
+    /* D3D11_DEPTH_STENCIL_DESC depthStencilDesc{};
     ID3D11DepthStencilState *depthStencilState;
     hr = device->CreateDepthStencilState(
       &depthStencilDesc,
@@ -2605,7 +2668,7 @@ void PVRCompositor::InitShader() {
     } else {
       getOut() << "failed to create depth stencil state: " << (void *)hr << std::endl;
     }
-    context->OMSetDepthStencilState(depthStencilState, 0x00);
+    context->OMSetDepthStencilState(depthStencilState, 0x00); */
 
     UINT stride = sizeof(float) * 4; // xyuv
     UINT offset = 0;
@@ -2614,10 +2677,9 @@ void PVRCompositor::InitShader() {
     context->IASetInputLayout(vertexLayout);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+    context->PSSetConstantBuffers(0, 1, &constantBuffer);
   }
   getOut() << "init render 10" << std::endl;
-
-  g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
 
   D3D11_TEXTURE2D_DESC desc{};
   desc.Width = width;
