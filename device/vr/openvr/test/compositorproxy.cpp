@@ -348,7 +348,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         adapter, // pAdapter
         D3D_DRIVER_TYPE_HARDWARE, // DriverType
         NULL, // Software
-        0, // Flags
+        D3D11_CREATE_DEVICE_DEBUG, // Flags
         featureLevels, // pFeatureLevels
         ARRAYSIZE(featureLevels), // FeatureLevels
         D3D11_SDK_VERSION, // SDKVersion
@@ -375,7 +375,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           getOut() << "context query failed" << std::endl;
           abort();
         }
-        
+
+        hr = deviceBasic->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "info queue query failed" << std::endl;
+          abort();
+        }
+        infoQueue->PushEmptyStorageFilter();
+
         /* hr = contextBasic->QueryInterface(__uuidof(ID3D11DeviceContext1), (void **)&context);
         if (SUCCEEDED(hr)) {
           // nothing
@@ -2559,6 +2568,34 @@ void PVRCompositor::InitShader() {
       // nothing
     } else {
       getOut() << "failed to create render target view: " << (void *)hr << std::endl;
+    }
+  }
+  
+  UINT64 numStoredMessages = infoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
+  for (UINT64 i = 0; i < numStoredMessages; i++) {
+    size_t messageSize = 0;
+    hr = infoQueue->GetMessage(
+      i,
+      nullptr,
+      &messageSize
+    );
+    if (SUCCEEDED(hr)) {
+      D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
+      
+      hr = infoQueue->GetMessage(
+        i,
+        message,
+        &messageSize
+      );
+      if (SUCCEEDED(hr)) {
+        getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
+      } else {
+        getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
+      }
+      
+      free(message);
+    } else {
+      getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
     }
   }
 }

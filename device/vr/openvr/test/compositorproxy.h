@@ -24,6 +24,7 @@ public:
   // main
   Microsoft::WRL::ComPtr<ID3D11Device5> device;
   Microsoft::WRL::ComPtr<ID3D11DeviceContext4> context;
+  Microsoft::WRL::ComPtr<ID3D11InfoQueue> infoQueue;
   GLFWwindow *subWindow = nullptr;
   HANDLE hInteropDevice = NULL;
   uint32_t width;
