@@ -2519,7 +2519,7 @@ void PVRCompositor::InitShader() {
   getOut() << "init render 10" << std::endl;
 
   g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
-  
+
   D3D11_TEXTURE2D_DESC desc{};
   desc.Width = width;
   desc.Height = height;
@@ -2530,7 +2530,7 @@ void PVRCompositor::InitShader() {
   desc.Usage = D3D11_USAGE_DEFAULT;
   // desc.BindFlags = D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET;
   // desc.BindFlags = 40; // D3D11_BIND_DEPTH_STENCIL
-  desc.BindFlags = 0; // D3D11_BIND_DEPTH_STENCIL
+  desc.BindFlags = D3D11_BIND_RENDER_TARGET; // D3D11_BIND_DEPTH_STENCIL
   // desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
   // desc.MiscFlags = 0; 
   // getOut() << "gl init 6 " << width << " " << height << " " << (void *)device.Get() << " " << glGetError() << std::endl;
@@ -2588,7 +2588,9 @@ void PVRCompositor::InitShader() {
         &messageSize
       );
       if (SUCCEEDED(hr)) {
-        getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
+        // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
+          getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
+        // }
       } else {
         getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
       }
