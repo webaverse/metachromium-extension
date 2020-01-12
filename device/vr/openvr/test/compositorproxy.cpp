@@ -153,7 +153,7 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-// Texture2DMS QuadDepthTexture : register(ps, t0);
+Texture2DMS<float> QuadDepthTexture : register(ps, t1);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
@@ -473,7 +473,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
       // inBackInteropHandles.resize(index+1, NULL);
       inBackDepthTexs.resize(index+1, NULL);
       // inBackDepthInteropHandles.resize(index+1, NULL);
-      shaderResourceViews.resize(index+1, NULL);
+      shaderResourceViews.resize(index+1, std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>(nullptr, nullptr));
       inBackReadEvents.resize(index+1, NULL);
       inBackTextureBounds.resize(index+1, VRTextureBounds_t{});
       inBackHandleLatches.resize(index+1, NULL);
@@ -487,7 +487,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     // HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
     ID3D11Texture2D *&shDepthTexIn = inBackDepthTexs[index]; // gl depth texture
     // HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
-    ID3D11ShaderResourceView *&shaderResourceView = shaderResourceViews[index];
+    ID3D11ShaderResourceView *&shaderResourceView = shaderResourceViews[index].first;
+    ID3D11ShaderResourceView *&shaderDepthResourceView = shaderResourceViews[index].second;
     HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     VRTextureBounds_t &textureBounds = inBackTextureBounds[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
@@ -563,7 +564,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           getOut() << "failed to create shader resource view: " << (void *)hr << std::endl;
           abort();
         }
-        context->PSSetShaderResources(0, 1, &shaderResourceView);
       }
 
       getOut() << "open backend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
@@ -589,24 +589,44 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
       }
       depthHandleLatched = sharedDepthHandle;
 
-      ID3D11Resource *shDepthTexResource;
-      HRESULT hr = device->OpenSharedResource(sharedDepthHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
+      {
+        ID3D11Resource *shDepthTexResource;
+        HRESULT hr = device->OpenSharedResource(sharedDepthHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
 
-      if (SUCCEEDED(hr)) {
-        hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTexIn));
-        
+        if (SUCCEEDED(hr)) {
+          hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTexIn));
+          
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
+            abort();
+          }
+        } else {
+          getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
+          abort();
+        }
+        shDepthTexResource->Release();
+      }
+      {
+        D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
+        shaderDepthResourceViewDesc.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+        shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+        shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
+        shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;
+        HRESULT hr = device->CreateShaderResourceView(
+          shDepthTexIn,
+          // texResource,
+          &shaderDepthResourceViewDesc,
+          &shaderDepthResourceView
+        );
         if (SUCCEEDED(hr)) {
           // nothing
         } else {
-          getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
+          getOut() << "failed to create depth shader resource view: " << (void *)hr << std::endl;
           abort();
         }
-      } else {
-        getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
-        abort();
       }
-
-      shDepthTexResource->Release();
     }
 
     textureBounds = *pBounds;
@@ -672,7 +692,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         if (e == eEye) {
           size_t &index = iter.second;
 
-          localShaderResourceViews.push_back(shaderResourceViews[index]);
+          ID3D11ShaderResourceView *shaderResourceView = shaderResourceViews[index].first;
+          ID3D11ShaderResourceView *shaderDepthResourceView = shaderResourceViews[index].second;
+          localShaderResourceViews.push_back(shaderResourceView);
+          localShaderResourceViews.push_back(shaderDepthResourceView);
 
           if (localShaderResourceViews.size() >= MAX_LAYERS) {
             break;

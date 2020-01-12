@@ -1,0 +1,56 @@
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 0000020AC6D62420
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+core client cleanup
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 0000020AD245CFC0
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+get generic interface IVRChaperone_003
+create interface IVRChaperone_003
+get generic interface IVRChaperoneSetup_005
+create interface IVRChaperoneSetup_005
+get generic interface IVRCompositor_020
+create interface IVRCompositor_020
+dll main 2
+detour 3 0
+got submit tex 0000020ADCBF4820
+got source tex desc 2152 2380 28 0 40 0 2
+open frontend event Local\OpenVrFenceEvent4824:0
+got submit tex 0000020ADCBF3FE0
+got source tex desc 2152 2380 28 0 40 0 2
+open frontend event Local\OpenVrFenceEvent4824:1
+add tex 0000020ACBD20418 | 0000020ADCB4B420 0000020ADCB4C760 | 820 599 1 1 1 0 29 0 40 0 0 | 820 599 1 1 1 0 19 0 64 0 0
+dll main 2
+dll main 2
+add tex 0000020ACBD20418 | 0000020ADCB4B420 0000020ADCB4C760 | 820 599 1 1 1 0 29 0 40 0 0 | 820 599 1 1 1 0 19 0 64 0 0
+add tex 0000020ACBD20418 | 0000020ADCBF3A60 0000020ADCBF4AE0 | 2152 2380 1 1 2 0 9 0 32 0 0 | 2152 2380 1 1 2 0 19 0 64 0 0
+ClearRenderTargetView
+ClearDepthStencilView
+depth state 0000020ACBD20418 1 0 8 0 00000000000000FF 00000000000000FF 1 1 1 8 1 1 1 8 
+DrawIndexed
+add tex 0000020ACBD20418 | 0000020ADCBF4820 0000020ADCBF3D20 | 2152 2380 1 1 1 0 27 0 40 0 0 | 2152 2380 1 1 1 0 19 0 72 0 0
+DrawIndexed
+add tex 0000020ACBD20418 | 0000020ADCBF2F60 0000020ADCBF6920 | 2152 2380 1 1 2 0 9 0 32 0 0 | 2152 2380 1 1 2 0 19 0 64 0 0
+ClearRenderTargetView
+ClearDepthStencilView
+DrawIndexed
+add tex 0000020ACBD20418 | 0000020ADCBF3FE0 0000020ADCBF34E0 | 2152 2380 1 1 1 0 27 0 40 0 0 | 2152 2380 1 1 1 0 19 0 72 0 0
+DrawIndexed
+DrawIndexed
+got depth tex 0000020ADCBF4AE0
