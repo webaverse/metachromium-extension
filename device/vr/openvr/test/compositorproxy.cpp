@@ -547,6 +547,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
       }
 
       {
+        D3D11_TEXTURE2D_DESC desc;
+        shTexIn->GetDesc(&desc);
+        getOut() << "shader resource view tex " <<
+          desc.Width << " " << desc.Height << " " <<
+          desc.MipLevels << " " << desc.ArraySize << " " <<
+          desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+          desc.Format << " " <<
+          desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
+          std::endl;
+        
         D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc{};
         shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
         shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -609,6 +619,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         shDepthTexResource->Release();
       }
       {
+        D3D11_TEXTURE2D_DESC desc;
+        shDepthTexIn->GetDesc(&desc);
+        getOut() << "shader resource view depth " <<
+          desc.Width << " " << desc.Height << " " <<
+          desc.MipLevels << " " << desc.ArraySize << " " <<
+          desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+          desc.Format << " " <<
+          desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
+          std::endl;
+        
         D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
         shaderDepthResourceViewDesc.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
         shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
@@ -1844,10 +1864,20 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       if (!shDepthTex) {
         D3D11_TEXTURE2D_DESC descDepth;
         depthTex->GetDesc(&descDepth);
+        // descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
         descDepth.Usage = D3D11_USAGE_DEFAULT;
         descDepth.BindFlags = D3D11_BIND_SHADER_RESOURCE;
         // descDepth.BindFlags = 0;
+        // descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
         descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+        
+        getOut() << "shared depth flags " <<
+          descDepth.Width << " " << descDepth.Height << " " <<
+          descDepth.MipLevels << " " << descDepth.ArraySize << " " <<
+          descDepth.SampleDesc.Count << " " << descDepth.SampleDesc.Quality << " " <<
+          descDepth.Format << " " <<
+          descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
+          std::endl;
 
         hr = device->CreateTexture2D(
           &descDepth,
