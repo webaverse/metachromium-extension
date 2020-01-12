@@ -57,8 +57,8 @@ public:
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
   std::vector<ID3D11Texture2D *> inDxDepthTexs;
-  std::vector<ID3D11Texture2D *> inDxDepthTexs2;
-  std::vector<ID3D11Texture2D *> inDxDepthTexs3;
+  // std::vector<ID3D11Texture2D *> inDxDepthTexs2;
+  // std::vector<ID3D11Texture2D *> inDxDepthTexs3;
   std::vector<ID3D11ShaderResourceView *> shaderResourceViews;
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<HANDLE> inShDepthDxShareHandles;
@@ -82,6 +82,7 @@ public:
   std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
+  std::vector<HANDLE> inBackDepthHandleLatches;
   std::vector<std::tuple<EVREye, uint64_t, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
