@@ -153,7 +153,6 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-// Texture2DMS QuadDepthTexture : register(ps, t0);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
@@ -195,7 +194,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 const char *hlslVsEntry = "vs_main";
 const char *hlslPsEntry = "ps_main";
 
-constexpr size_t MAX_LAYERS = 1;
+constexpr size_t MAX_LAYERS = 2;
 const EVREye EYES[] = {
   Eye_Left,
   Eye_Right,
@@ -432,10 +431,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
       iter = inBackIndices.find(key);
 
       inBackTexs.resize(index+1, NULL);
-      // inBackInteropHandles.resize(index+1, NULL);
+      inBackInteropHandles.resize(index+1, NULL);
       inBackDepthTexs.resize(index+1, NULL);
-      // inBackDepthInteropHandles.resize(index+1, NULL);
-      shaderResourceViews.resize(index+1, NULL);
+      inBackDepthInteropHandles.resize(index+1, NULL);
       inBackReadEvents.resize(index+1, NULL);
       inBackTextureBounds.resize(index+1, VRTextureBounds_t{});
       inBackHandleLatches.resize(index+1, NULL);
@@ -444,11 +442,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
     // getOut() << "submit server 2" << std::endl;
 
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
-    ID3D11Texture2D *&shTexIn = inBackTexs[index]; // gl texture
-    // HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
-    ID3D11Texture2D *&shDepthTexIn = inBackDepthTexs[index]; // gl depth texture
-    // HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
-    ID3D11ShaderResourceView *&shaderResourceView = shaderResourceViews[index];
+    GLuint &shTexInId = inBackTexs[index]; // gl texture
+    HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
+    GLuint &shDepthTexInId = inBackDepthTexs[index]; // gl depth texture
+    HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
     HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     VRTextureBounds_t &textureBounds = inBackTextureBounds[index]; // interop texture handle
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
@@ -471,15 +468,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
 
       // getOut() << "submit server 5" << std::endl;
 
-      /* GLuint textures[2];
+      GLuint textures[2];
       glGenTextures(ARRAYSIZE(textures), textures);
       shTexInId = textures[0];
-      shDepthTexInId = textures[1]; */
+      shDepthTexInId = textures[1];
 
       {
         ID3D11Resource *shTexResource;
         HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
-
+        
+        ID3D11Texture2D *shTexIn;
         if (SUCCEEDED(hr)) {
           hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
           
@@ -494,20 +492,22 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           abort();
         }
 
-        /* shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+        shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
         if (shTexInInteropHandle) {
           // nothing
         } else {
           // C007006E
           getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shTexIn << " " << shTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
           abort();
-        } */
+        }
+        shTexIn->Release();
         shTexResource->Release();
       }
       {
         ID3D11Resource *shDepthTexResource;
         HRESULT hr = device->OpenSharedResource(sharedDepthHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
-
+        
+        ID3D11Texture2D *shDepthTexIn;
         if (SUCCEEDED(hr)) {
           hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTexIn));
           
@@ -522,37 +522,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           abort();
         }
 
-        /* shDepthTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shDepthTexIn, shDepthTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+        shDepthTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shDepthTexIn, shDepthTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
         if (shDepthTexInInteropHandle) {
           // nothing
         } else {
           // C007006E
           getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shDepthTexIn << " " << shDepthTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
           abort();
-        } */
-        // shDepthTexIn->Release();
-        shDepthTexResource->Release();
-      }
-
-      {
-        D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc{};
-        shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-        shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
-        shaderResourceViewDesc.Texture2D.MipLevels = 1;
-        hr = device->CreateShaderResourceView(
-          shTexIn,
-          // texResource,
-          &shaderResourceViewDesc,
-          &shaderResourceView
-        );
-        if (SUCCEEDED(hr)) {
-          // nothing
-        } else {
-          getOut() << "failed to create shader resource view: " << (void *)hr << std::endl;
-          abort();
         }
-        context->PSSetShaderResources(0, 1, shaderResourceView);
+        shDepthTexIn->Release();
+        shDepthTexResource->Release();
       }
 
       getOut() << "open backend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
@@ -611,65 +590,123 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
   >([=]() {
     // getOut() << "flush submit server 1" << std::endl;
 
-    for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
-      EVREye eEye = EYES[iEye];
-      
-      // getOut() << "flush submit server 2" << std::endl;
+for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
+    EVREye eEye = EYES[iEye];
+    
+    // getOut() << "flush submit server 2" << std::endl;
 
-      for (auto iter : inBackReadEventQueue) {
-        EVREye &e = std::get<0>(iter);
-        if (e == eEye) {
-          // getOut() << "wait for read pre " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
-          HANDLE &readEvent = std::get<2>(iter);
-          WaitForSingleObject(readEvent, INFINITE);
-          // getOut() << "wait for read post " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
-        }
+    for (auto iter : inBackReadEventQueue) {
+      EVREye &e = std::get<0>(iter);
+      if (e == eEye) {
+        // getOut() << "wait for read pre " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
+        HANDLE &readEvent = std::get<2>(iter);
+        WaitForSingleObject(readEvent, INFINITE);
+        // getOut() << "wait for read post " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
       }
+    }
 
-      std::vector<ID3D11ShaderResourceView *> localShaderResourceViews;
+    std::vector<HANDLE> objects;
+    objects.reserve(inBackIndices.size()/2*2 + 1);
+    for (auto iter : inBackIndices) {
+      EVREye e = iter.first.second;
+      if (e == eEye) {
+        size_t index = iter.second;
+        objects.push_back(inBackInteropHandles[index]);
+        objects.push_back(inBackDepthInteropHandles[index]);
+        // getOut() << "got handle " << (void *)h << std::endl;
+      }
+    }
+    objects.push_back(shTexOutInteropHandles[iEye]);
+    // getOut() << "got handle end " << (void *)shTexOutInteropHandles[iEye] << std::endl;
+    
+    // getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
+
+    bool lockOk = wglDXLockObjectsNV(hInteropDevice, objects.size(), objects.data());
+    // getOut() << "gl init error 11 " << lockOk << " " << glGetError() << std::endl;
+    if (lockOk) {
+      // getOut() << "flush submit server 3 " << (int)eye << std::endl;
+
+      // checkError("flush submit server 3");
+
       size_t numLayers = 0;
       for (auto iter : inBackIndices) {
         EVREye e = iter.first.second;
         if (e == eEye) {
           size_t &index = iter.second;
 
-          localShaderResourceViews.push_back(shaderResourceViews[index]);
+          glActiveTexture(GL_TEXTURE0 + numLayers);
+          glBindTexture(GL_TEXTURE_2D, inBackTexs[index]);
+          glActiveTexture(GL_TEXTURE0 + MAX_LAYERS + numLayers);
+          glBindTexture(GL_TEXTURE_2D, inBackDepthTexs[index]);
+          glUniform1f(hasTexLocations[numLayers], 1.0f);
+          const VRTextureBounds_t &textureBounds = inBackTextureBounds[index];
+          glUniform4f(texBoundsLocations[numLayers], textureBounds.uMin, textureBounds.vMin, textureBounds.uMax, textureBounds.vMax);
 
-          if (localShaderResourceViews.size() >= MAX_LAYERS) {
+          numLayers++;
+          if (numLayers >= MAX_LAYERS) {
             break;
           }
         }
       }
-      /* for (size_t i = numLayers; i < MAX_LAYERS; i++) {
-        localShaderResourceViews.push_back(nullptr);
-      } */
-
-      context->PSSetShaderResources(0, localShaderResourceViews.size(), localShaderResourceViews.data());
-      context->OMSetRenderTargets(
-        1,
-        &renderTargetViews[iEye],
-        // depthStencilView
-        nullptr
-      );
-      context->DrawIndexed(6, 0, 0);
+      // checkError("flush submit server 4");
+      for (size_t i = numLayers; i < MAX_LAYERS; i++) {
+        // glActiveTexture(GL_TEXTURE0 + i);
+        // glBindTexture(GL_TEXTURE_2D, 0);
+        glUniform1f(hasTexLocations[i], 0.0f);
+        // glUniform4f(texBoundsLocations[i], 0.0f, 0.0f, 1.0f, 1.0f);
+      }
       
-      // getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
+      // checkError("flush submit server 5");
 
-      Texture_t texture{
-        (void *)shTexOuts[iEye],
-        TextureType_DirectX,
-        ColorSpace_Auto
-      };
-      VRTextureBounds_t bounds{
-        0.0f, 0.0f,
-        1.0f, 1.0f
-      };
-      // getOut() << "flush submit server 7 " << (int)eye << std::endl;
-      // getOut() << "gl submit 2 " << glGetError() << std::endl;
-      auto result = vrcompositor->Submit(eEye, &texture, &bounds, EVRSubmitFlags::Submit_Default);
-      // getOut() << "compositor submit result " << (void *)result << std::endl;
-      // vrcompositor->PostPresentHandoff();
+      glBindFramebuffer(GL_FRAMEBUFFER, fbos[iEye]);
+      glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shTexOutIds[iEye], 0);
+      glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, texDepthIds[iEye], 0);
+      // auto status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+
+      glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT|GL_STENCIL_BUFFER_BIT);
+
+      glDrawElements(
+        GL_TRIANGLES,
+        6,
+        GL_UNSIGNED_SHORT,
+        (void *)0
+      );
+      // checkError("flush submit server 6");
+
+      // getOut() << "flush submit server 6 " << (int)eye << std::endl;
+
+      // getOut() << "gl submit 1 " << glGetError() << std::endl;
+      // pTexture->handle = (void *)shTexOut;
+      // getOut() << "flush submit server 8" << std::endl;
+      // getOut() << "flush submit server 9" << std::endl;
+      bool unlockOk = wglDXUnlockObjectsNV(hInteropDevice, objects.size(), objects.data());
+      // checkError("flush submit server 7");
+      if (unlockOk) {
+        // nothing
+        // EVREye eye = EYES[iEye];
+        Texture_t texture{
+          (void *)shTexOuts[iEye],
+          TextureType_DirectX,
+          ColorSpace_Auto
+        };
+        VRTextureBounds_t bounds{
+          0.0f, 0.0f,
+          1.0f, 1.0f
+        };
+        // getOut() << "flush submit server 7 " << (int)eye << std::endl;
+        // getOut() << "gl submit 2 " << glGetError() << std::endl;
+        auto result = vrcompositor->Submit(eEye, &texture, &bounds, EVRSubmitFlags::Submit_Default);
+        // getOut() << "compositor submit result " << (void *)result << std::endl;
+      } else {
+        getOut() << "texture unlocking failed" << std::endl;
+        abort();
+      }
+    } else {
+      getOut() << "texture locking failed" << std::endl;
+      abort();
     }
+    // vrcompositor->PostPresentHandoff();
+}
 
     // getOut() << "flush submit server 10 " << inBackReadEventQueue.size() << std::endl;
 
@@ -1821,6 +1858,40 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       0,
       &srcBox
     );
+    /* {
+      D3D11_TEXTURE2D_DESC desc;
+      tex->GetDesc(&desc);
+      
+      getOut() << "submit tex desc " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
+
+      D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc{};
+      shaderResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+      shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+      shaderResourceViewDesc.Texture2D.MipLevels = 1;
+      hr = device->CreateShaderResourceView(
+        tex,
+        // texResource,
+        &shaderResourceViewDesc,
+        &shaderResourceView
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to create shader resource view: " << (void *)hr << std::endl;
+        abort();
+      }
+      context->PSSetShaderResources(0, 1, &shaderResourceView);
+      context->DrawIndexed(6, 0, 0);
+      ID3D11ShaderResourceView *nullSRV[] = {nullptr};
+      context->PSSetShaderResources(0, 1, nullSRV);
+      shaderResourceView->Release();
+    }  */
     if (depthTex) {
       /* context->CopySubresourceRegion(
         shDepthTex,
@@ -1865,12 +1936,12 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
             // ticks++;
           }
         }
-        getOut() << "got value " << value << /*" " << ticks <<*/ std::endl;
+        getOut() << "got value " << value << std::endl;
       } else {
         getOut() << "depth tex map failed " << (void *)hr << std::endl;
       }
-      context->Unmap(shDepthTex3, subresource);
-    } */
+      context->Unmap(shDepthTex3, subresource); */
+    }
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     // getOut() << "submit client 11" << std::endl;
 
@@ -2347,6 +2418,8 @@ void PVRCompositor::InitShader() {
   };
 
   getOut() << "init render 1" << std::endl;
+  
+  HRESULT hr;
 
   {
     D3D11_BUFFER_DESC bd{};
@@ -2493,58 +2566,5 @@ void PVRCompositor::InitShader() {
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
   }
   getOut() << "init render 10" << std::endl;
-
-  g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
-  
-  D3D11_TEXTURE2D_DESC desc{};
-  desc.Width = width;
-  desc.Height = height;
-  desc.ArraySize = 1;
-  desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-  // desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
-  desc.SampleDesc.Count = 1;
-  desc.Usage = D3D11_USAGE_DEFAULT;
-  // desc.BindFlags = D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET;
-  // desc.BindFlags = 40; // D3D11_BIND_DEPTH_STENCIL
-  desc.BindFlags = 0; // D3D11_BIND_DEPTH_STENCIL
-  // desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
-  // desc.MiscFlags = 0; 
-  // getOut() << "gl init 6 " << width << " " << height << " " << (void *)device.Get() << " " << glGetError() << std::endl;
-  /* getOut() << "get texture desc back " << (int)eEye << " " << desc.Width << " " << desc.Height << " " <<
-    pBounds->uMin << " " << pBounds->vMin << " " <<
-    pBounds->uMax << " " << pBounds->vMax << " " <<
-    std::endl; */
-
-  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
-  renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-  renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-  renderTargetViewDesc.Texture2D.MipSlice = 0;
-
-  shTexOuts.resize(2);
-  renderTargetViews.resize(2);
-  // getOut() << "interop 1" << std::endl;
-  for (int i = 0; i < 2; i++) {
-    hr = device->CreateTexture2D(
-      &desc,
-      NULL,
-      &shTexOuts[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "failed to create eye texture: " << (void *)hr << std::endl;
-    }
-
-    hr = device->CreateRenderTargetView(
-      shTexOuts[i],
-      &renderTargetViewDesc,
-      &renderTargetViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "failed to create render target view: " << (void *)hr << std::endl;
-    }
-  }
 }
 }
