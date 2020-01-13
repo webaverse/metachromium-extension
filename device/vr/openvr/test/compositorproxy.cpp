@@ -170,51 +170,6 @@ SamplerState QuadTextureSampler {
 };
 //------------------------------------------------------------//
 
-
-
-
-
-
-
-
-
-/*
-//------------------------------------------------------------//
-// Vertex Shader
-//------------------------------------------------------------//
-VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
-{
-	VS_OUTPUT Output;
-	//Output.Position = float4((inPos - 0.5f) * 2, 0, 1);
-	//Output.Position.y += 1;
-	Output.Position = float4(inPos, 0, 1);
-	Output.Tex0 = inTex;
-	//Output.Tex0.y = 1 - Output.Tex0.y;
-	Output.Tex0 += float2(0.5f / Width, 0.5f / Height);
-	return Output;
-}
-//------------------------------------------------------------//
-
-//------------------------------------------------------------//
-// Pixel shader
-//------------------------------------------------------------//
-PS_OUTPUT ps_main(VS_OUTPUT IN)
-{   
-	//Output struct
-	PS_OUTPUT OUT;
-
-  OUT.Color = float4(1, 0, 0, 1);
-	// OUT.Color.rgb = QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb;
-	// OUT.Color.a = 1;
-	
-	return OUT;
-}
-//------------------------------------------------------------//
-*/
-
-
-
-
 VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
@@ -226,9 +181,9 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 
 float4 ps_main(VS_OUTPUT IN) : SV_TARGET
 {
-    // float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb * 0.2, 1);
-    float4 result = float4(0, 0, 0, 1);
-    result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
+    float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
+    // float4 result = float4(0, 0, 0, 1);
+    // result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
     // result.rg += IN.Tex0*width/2000.0*0.5;
     return result;
 }
@@ -402,7 +357,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
         adapter, // pAdapter
         D3D_DRIVER_TYPE_HARDWARE, // DriverType
         NULL, // Software
-        D3D11_CREATE_DEVICE_DEBUG, // Flags
+        0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
         featureLevels, // pFeatureLevels
         ARRAYSIZE(featureLevels), // FeatureLevels
         D3D11_SDK_VERSION, // SDKVersion
@@ -742,7 +697,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
           ID3D11ShaderResourceView *shaderResourceView = shaderResourceViews[index].first;
           ID3D11ShaderResourceView *shaderDepthResourceView = shaderResourceViews[index].second;
           localShaderResourceViews.push_back(shaderResourceView);
-          localShaderResourceViews.push_back(shaderDepthResourceView);
+          // localShaderResourceViews.push_back(shaderDepthResourceView);
 
           if (localShaderResourceViews.size()/2 >= MAX_LAYERS) {
             break;
@@ -1685,11 +1640,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
       abort();
     }
-    {
+    /* {
       std::string s("SharedTex");
       s += std::to_string((int)eEye);
       shTex->SetPrivateData(WKPDID_D3DDebugObjectName, s.size(), s.c_str());
-    }
+    } */
 
     /* {
       D3D11_TEXTURE2D_DESC descDepth{};
@@ -1834,9 +1789,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
     ID3D11Texture2D *depthTex = getDepthTextureMatching(tex);
-    if (depthTex) {
+    /* if (depthTex) {
       getOut() << "got depth tex " << (void *)depthTex << std::endl;
-    }
+    } */
     /* {
       // getOut() << "get tex view" << std::endl;
 
@@ -1928,11 +1883,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
           getOut() << "failed to create shared depth texture: " << (void *)hr << std::endl;
           abort();
         }
-        {
+        /* {
           std::string s("SharedDepthTex");
           s += std::to_string((int)eEye);
           shDepthTex->SetPrivateData(WKPDID_D3DDebugObjectName, s.size(), s.c_str());
-        }
+        } */
         
         IDXGIResource1 *shDepthTexResource;
         hr = shDepthTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shDepthTexResource);

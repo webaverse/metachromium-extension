@@ -14,7 +14,9 @@ set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\
 VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\; VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\; VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\;
 
 cd C:\Users\avaer\AppData\Local\Chromium\Application
-.\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality"
+.\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --app --disable-xr-device-consent-prompt-for-testing --no-sandbox --add-gpu-appcontainer-caps --add-xr-appcontainer-caps --xr_compositing --allow-third-party-modules --allow-unsecure-dlls --allow-sandbox-debugging --gpu-launcher="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process2.exe"
+
+--gpu-launcher --no-startup-window --gpu-startup-dialog
 
 cd C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR
 .\SpacePirateVR.exe
@@ -51,7 +53,7 @@ std::ofstream out;
 std::ostream &getOut() {
   // if (!isProcess) {
     if (!out.is_open()) {
-      std::string logPath = dllDir + (isProcess ? "log_process.txt" : "log.txt");
+      std::string logPath = dllDir + std::string("log") + logSuffix + std::string(".txt");
       out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
       out << "--------------------------------------------------------------------------------" << std::endl;
     }

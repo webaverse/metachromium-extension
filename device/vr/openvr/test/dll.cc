@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <string>
 
-bool isProcess = false;
+std::string logSuffix = "";
 HWND g_hWnd = NULL;

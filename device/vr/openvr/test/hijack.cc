@@ -82,12 +82,8 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           tex->lpVtbl->GetDesc(tex, &desc);
           D3D11_TEXTURE2D_DESC descDepth;
           depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
-          /* 2124 2348
-          1 1
-          2 0
-          19 // DXGI_FORMAT_R32G8X24_TYPELESS
-          0 64 0 0 */ // D3D11_BIND_DEPTH_STENCIL
-          getOut() << "add tex " <<
+
+          /* getOut() << "add tex " <<
             (void *)This << " | " <<
             (void *)tex << " " << (void *)depthTex << " | " <<
             desc.Width << " " << desc.Height << " " <<
@@ -100,7 +96,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
             descDepth.SampleDesc.Count << " " << descDepth.SampleDesc.Quality << " " <<
             descDepth.Format << " " <<
             descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
-            std::endl;
+            std::endl; */
 
           texMap.emplace(tex, depthTex);
           texOrder.push_back(tex);

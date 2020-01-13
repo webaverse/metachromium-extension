@@ -1,0 +1,351 @@
+Sun Jan 12 2020 11:08:40.528 - //==============================================================================================
+Sun Jan 12 2020 11:08:40.528 - ================================================================================================
+Sun Jan 12 2020 11:08:40.528 - ================================================================================================
+Sun Jan 12 2020 11:08:40.529 - process.exe 1.9.16 startup with PID=13624, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 11:08:40.529 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 11:08:40.628 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 11:08:40.635 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 11:08:40.644 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 11:08:40.653 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 11:08:40.662 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 11:08:40.675 - Starting vrserver process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrserver.exe
+Sun Jan 12 2020 11:08:40.681 - CSharedResourceNamespaceClient::Init(): failed connect
+Sun Jan 12 2020 11:08:40.681 - CSharedResourceNamespaceClient::Init(): waiting for vrserver for namespace initialization, retries=100
+Sun Jan 12 2020 11:08:40.791 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 11:08:41.539 - Received success response from vrserver connect
+Sun Jan 12 2020 11:08:41.600 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 11:08:41.601 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 11:08:41.617 - Starting vrcompositor process: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrcompositor.exe 
+Sun Jan 12 2020 11:08:43.467 - Received success response from vrcompositor connect
+Sun Jan 12 2020 11:08:43.467 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 11:08:43.484 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe with pid 2992
+Sun Jan 12 2020 11:08:43.496 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe with pid 8868
+Sun Jan 12 2020 11:08:43.518 - Started C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe with pid 11344
+Sun Jan 12 2020 11:09:45.240 - Capturing Scene Focus
+Sun Jan 12 2020 11:09:45.434 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 12 2020 11:09:45.459 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sun Jan 12 2020 11:09:52.358 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
+Sun Jan 12 2020 11:09:52.437 - Screenshot: Hook Screenshot called with types:Sun Jan 12 2020 11:09:52.439 -  5Sun Jan 12 2020 11:09:52.439 - 
+Sun Jan 12 2020 11:09:55.973 - Unknown action set /actions/buggy
+Sun Jan 12 2020 11:09:55.973 - Unknown action set /actions/platformer
+Sun Jan 12 2020 11:09:56.051 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_left\oculus_rifts_controller_left.json
+Sun Jan 12 2020 11:09:56.051 - RendermodelManager: name=base inputRouting=0 filename=
+Sun Jan 12 2020 11:09:56.051 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sun Jan 12 2020 11:09:56.051 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sun Jan 12 2020 11:09:56.052 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sun Jan 12 2020 11:09:56.052 - RendermodelManager: name=button_x inputRouting=1 filename=button_x.obj
+Sun Jan 12 2020 11:09:56.052 - RendermodelManager: name=button_y inputRouting=1 filename=button_y.obj
+Sun Jan 12 2020 11:09:56.052 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sun Jan 12 2020 11:09:56.052 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sun Jan 12 2020 11:09:56.052 - RendermodelManager: name=tip inputRouting=0 filename=
+Sun Jan 12 2020 11:09:56.052 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_rifts_controller_right\oculus_rifts_controller_right.json
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=base inputRouting=0 filename=
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=body inputRouting=0 filename=body.obj
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=button_a inputRouting=1 filename=button_a.obj
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=button_b inputRouting=1 filename=button_b.obj
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=button_enter inputRouting=1 filename=button_enter.obj
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=button_grip inputRouting=2 filename=button_grip.obj
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=handgrip inputRouting=0 filename=
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=thumbstick inputRouting=2 filename=thumbstick.obj
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=tip inputRouting=0 filename=
+Sun Jan 12 2020 11:09:56.101 - RendermodelManager: name=trigger inputRouting=2 filename=trigger.obj
+Sun Jan 12 2020 11:09:58.699 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Jan 12 2020 19:52:48.131 - //==============================================================================================
+Sun Jan 12 2020 19:52:48.131 - ================================================================================================
+Sun Jan 12 2020 19:52:48.131 - ================================================================================================
+Sun Jan 12 2020 19:52:48.131 - process.exe 1.9.16 startup with PID=17036, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 19:52:48.132 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 19:52:48.212 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 19:52:48.219 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 19:52:48.225 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 19:52:48.232 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 19:52:48.239 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 19:52:48.257 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 19:52:48.280 - Received success response from vrserver connect
+Sun Jan 12 2020 19:52:48.317 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 19:52:48.317 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 19:52:48.330 - Received success response from vrcompositor connect
+Sun Jan 12 2020 19:52:48.330 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 19:52:56.543 - Capturing Scene Focus
+Sun Jan 12 2020 19:52:56.707 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 12 2020 19:52:57.260 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sun Jan 12 2020 20:09:04.292 - //==============================================================================================
+Sun Jan 12 2020 20:09:04.292 - ================================================================================================
+Sun Jan 12 2020 20:09:04.292 - ================================================================================================
+Sun Jan 12 2020 20:09:04.292 - process.exe 1.9.16 startup with PID=17192, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 20:09:04.292 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 20:09:04.299 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:09:04.300 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:09:04.300 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:09:04.301 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:09:04.301 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 20:09:04.310 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 20:09:04.322 - Received success response from vrserver connect
+Sun Jan 12 2020 20:09:04.325 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 20:09:04.325 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 20:09:04.342 - Received success response from vrcompositor connect
+Sun Jan 12 2020 20:09:04.342 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 20:09:50.950 - //==============================================================================================
+Sun Jan 12 2020 20:09:50.950 - ================================================================================================
+Sun Jan 12 2020 20:09:50.950 - ================================================================================================
+Sun Jan 12 2020 20:09:50.950 - process.exe 1.9.16 startup with PID=17236, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 20:09:50.951 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 20:09:50.958 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:09:50.958 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:09:50.959 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:09:50.959 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:09:50.960 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 20:09:50.965 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 20:09:50.977 - Received success response from vrserver connect
+Sun Jan 12 2020 20:09:50.981 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 20:09:50.981 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 20:09:50.995 - Received success response from vrcompositor connect
+Sun Jan 12 2020 20:09:50.995 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 20:10:02.028 - Capturing Scene Focus
+Sun Jan 12 2020 20:10:02.208 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 12 2020 20:10:02.227 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sun Jan 12 2020 20:10:35.708 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Jan 12 2020 20:10:38.815 - PropertyContainer: High lock acquisition counters: sp:100001 yd:1 re:0
+Sun Jan 12 2020 20:12:02.917 - //==============================================================================================
+Sun Jan 12 2020 20:12:02.917 - ================================================================================================
+Sun Jan 12 2020 20:12:02.917 - ================================================================================================
+Sun Jan 12 2020 20:12:02.917 - process.exe 1.9.16 startup with PID=12904, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 20:12:02.917 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 20:12:02.926 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:12:02.926 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:12:02.927 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:12:02.927 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:12:02.928 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 20:12:02.942 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 20:12:02.954 - Received success response from vrserver connect
+Sun Jan 12 2020 20:12:02.957 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 20:12:02.957 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 20:12:02.980 - Received success response from vrcompositor connect
+Sun Jan 12 2020 20:12:02.980 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 20:12:11.158 - Capturing Scene Focus
+Sun Jan 12 2020 20:12:11.348 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 12 2020 20:12:11.372 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sun Jan 12 2020 20:15:25.218 - //==============================================================================================
+Sun Jan 12 2020 20:15:25.218 - ================================================================================================
+Sun Jan 12 2020 20:15:25.218 - ================================================================================================
+Sun Jan 12 2020 20:15:25.218 - process.exe 1.9.16 startup with PID=16044, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 20:15:25.218 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 20:15:25.226 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:15:25.227 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:15:25.227 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:15:25.228 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:15:25.228 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 20:15:25.238 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sun Jan 12 2020 20:15:25.238 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 20:15:25.260 - Received success response from vrserver connect
+Sun Jan 12 2020 20:15:25.265 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 20:15:25.265 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 20:15:25.283 - Received success response from vrcompositor connect
+Sun Jan 12 2020 20:15:25.284 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 20:15:50.974 - Capturing Scene Focus
+Sun Jan 12 2020 20:15:51.158 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 12 2020 20:15:51.179 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sun Jan 12 2020 20:23:03.221 - //==============================================================================================
+Sun Jan 12 2020 20:23:03.221 - ================================================================================================
+Sun Jan 12 2020 20:23:03.221 - ================================================================================================
+Sun Jan 12 2020 20:23:03.221 - process.exe 1.9.16 startup with PID=14020, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 20:23:03.223 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 20:23:03.228 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:23:03.229 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:23:03.229 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:23:03.230 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:23:03.231 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 20:23:03.243 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sun Jan 12 2020 20:23:03.243 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 20:23:03.262 - Received success response from vrserver connect
+Sun Jan 12 2020 20:23:03.265 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 20:23:03.265 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 20:23:03.282 - Received success response from vrcompositor connect
+Sun Jan 12 2020 20:23:03.282 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 20:23:14.773 - Capturing Scene Focus
+Sun Jan 12 2020 20:23:14.963 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 12 2020 20:23:14.988 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sun Jan 12 2020 20:31:44.452 - //==============================================================================================
+Sun Jan 12 2020 20:31:44.452 - ================================================================================================
+Sun Jan 12 2020 20:31:44.452 - ================================================================================================
+Sun Jan 12 2020 20:31:44.452 - process.exe 1.9.16 startup with PID=10292, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 20:31:44.452 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 20:31:44.459 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:31:44.460 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:31:44.460 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:31:44.461 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:31:44.462 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 20:31:44.474 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 20:31:44.488 - Received success response from vrserver connect
+Sun Jan 12 2020 20:31:44.491 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 20:31:44.491 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 20:31:44.512 - Received success response from vrcompositor connect
+Sun Jan 12 2020 20:31:44.512 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 20:37:18.783 - //==============================================================================================
+Sun Jan 12 2020 20:37:18.784 - ================================================================================================
+Sun Jan 12 2020 20:37:18.784 - ================================================================================================
+Sun Jan 12 2020 20:37:18.784 - process.exe 1.9.16 startup with PID=11248, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 20:37:18.784 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 20:37:18.794 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:37:18.795 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:37:18.795 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:37:18.796 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 20:37:18.798 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 20:37:18.809 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 20:37:18.842 - Received success response from vrserver connect
+Sun Jan 12 2020 20:37:18.846 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 20:37:18.846 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 20:37:18.870 - Received success response from vrcompositor connect
+Sun Jan 12 2020 20:37:18.870 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 20:37:22.347 - Capturing Scene Focus
+Sun Jan 12 2020 20:37:22.531 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 12 2020 20:37:22.556 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sun Jan 12 2020 21:13:21.786 - //==============================================================================================
+Sun Jan 12 2020 21:13:21.786 - ================================================================================================
+Sun Jan 12 2020 21:13:21.786 - ================================================================================================
+Sun Jan 12 2020 21:13:21.786 - process.exe 1.9.16 startup with PID=6184, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:13:21.787 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:13:21.793 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:21.794 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:21.795 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:21.795 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:21.796 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:13:21.807 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:13:21.827 - Received success response from vrserver connect
+Sun Jan 12 2020 21:13:21.830 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:13:21.830 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:13:21.853 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:13:21.853 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 21:13:34.832 - //==============================================================================================
+Sun Jan 12 2020 21:13:34.832 - ================================================================================================
+Sun Jan 12 2020 21:13:34.832 - ================================================================================================
+Sun Jan 12 2020 21:13:34.832 - process.exe 1.9.16 startup with PID=7140, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:13:34.832 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:13:34.839 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:34.840 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:34.840 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:34.841 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:34.842 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:13:34.856 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sun Jan 12 2020 21:13:34.856 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:13:34.876 - Received success response from vrserver connect
+Sun Jan 12 2020 21:13:34.879 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:13:34.879 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:13:34.895 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:13:34.895 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 21:13:44.860 - //==============================================================================================
+Sun Jan 12 2020 21:13:44.860 - ================================================================================================
+Sun Jan 12 2020 21:13:44.860 - ================================================================================================
+Sun Jan 12 2020 21:13:44.860 - process.exe 1.9.16 startup with PID=3364, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:13:44.860 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:13:44.867 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:44.868 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:44.868 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:44.869 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:13:44.870 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:13:44.877 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:13:44.894 - Received success response from vrserver connect
+Sun Jan 12 2020 21:13:44.896 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:13:44.896 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:13:44.915 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:13:44.915 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 21:14:36.242 - //==============================================================================================
+Sun Jan 12 2020 21:14:36.242 - ================================================================================================
+Sun Jan 12 2020 21:14:36.242 - ================================================================================================
+Sun Jan 12 2020 21:14:36.242 - process.exe 1.9.16 startup with PID=7588, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:14:36.243 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:14:36.249 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:14:36.250 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:14:36.250 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:14:36.252 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:14:36.253 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:14:36.261 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:14:36.274 - Received success response from vrserver connect
+Sun Jan 12 2020 21:14:36.277 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:14:36.277 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:14:36.295 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:14:36.295 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 21:14:44.429 - Capturing Scene Focus
+Sun Jan 12 2020 21:14:44.605 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 12 2020 21:14:44.624 - Setting max texture dimensions to 2894x3202 before requiring downsampling
+Sun Jan 12 2020 21:34:47.611 - //==============================================================================================
+Sun Jan 12 2020 21:34:47.611 - ================================================================================================
+Sun Jan 12 2020 21:34:47.611 - ================================================================================================
+Sun Jan 12 2020 21:34:47.611 - process.exe 1.9.16 startup with PID=12808, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:34:47.611 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:34:47.618 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:34:47.619 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:34:47.620 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:34:47.620 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:34:47.622 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:34:47.632 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:34:47.661 - Received success response from vrserver connect
+Sun Jan 12 2020 21:34:47.666 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:34:47.666 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:34:47.683 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:34:47.684 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 21:37:19.468 - //==============================================================================================
+Sun Jan 12 2020 21:37:19.468 - ================================================================================================
+Sun Jan 12 2020 21:37:19.468 - ================================================================================================
+Sun Jan 12 2020 21:37:19.468 - process.exe 1.9.16 startup with PID=2064, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:37:19.469 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:37:19.475 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:37:19.477 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:37:19.477 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:37:19.478 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:37:19.478 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:37:19.484 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:37:19.500 - Received success response from vrserver connect
+Sun Jan 12 2020 21:37:19.503 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:37:19.503 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:37:19.523 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:37:19.523 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 21:37:57.718 - //==============================================================================================
+Sun Jan 12 2020 21:37:57.718 - ================================================================================================
+Sun Jan 12 2020 21:37:57.718 - ================================================================================================
+Sun Jan 12 2020 21:37:57.718 - process.exe 1.9.16 startup with PID=17280, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:37:57.718 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:37:57.726 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:37:57.726 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:37:57.727 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:37:57.727 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:37:57.729 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:37:57.742 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:37:57.767 - Received success response from vrserver connect
+Sun Jan 12 2020 21:37:57.770 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:37:57.770 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:37:57.786 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:37:57.786 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 21:53:28.435 - //==============================================================================================
+Sun Jan 12 2020 21:53:28.435 - ================================================================================================
+Sun Jan 12 2020 21:53:28.435 - ================================================================================================
+Sun Jan 12 2020 21:53:28.435 - process.exe 1.9.16 startup with PID=14332, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:53:28.435 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:53:28.444 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:53:28.445 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:53:28.445 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:53:28.446 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:53:28.447 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:53:28.455 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:53:28.471 - Received success response from vrserver connect
+Sun Jan 12 2020 21:53:28.474 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:53:28.474 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:53:28.492 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:53:28.492 - Initializing the limited version of CVRCompositorClient
+Sun Jan 12 2020 21:56:06.075 - //==============================================================================================
+Sun Jan 12 2020 21:56:06.075 - ================================================================================================
+Sun Jan 12 2020 21:56:06.075 - ================================================================================================
+Sun Jan 12 2020 21:56:06.075 - process.exe 1.9.16 startup with PID=9460, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 12 2020 21:56:06.076 - vrclient type=VRApplication_Scene
+Sun Jan 12 2020 21:56:06.083 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:56:06.084 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:56:06.084 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:56:06.085 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 12 2020 21:56:06.086 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 12 2020 21:56:06.101 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
+Sun Jan 12 2020 21:56:06.120 - Received success response from vrserver connect
+Sun Jan 12 2020 21:56:06.124 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 12 2020 21:56:06.124 - App key after connect message:system.generated.process.exe
+Sun Jan 12 2020 21:56:06.139 - Received success response from vrcompositor connect
+Sun Jan 12 2020 21:56:06.139 - Initializing the limited version of CVRCompositorClient

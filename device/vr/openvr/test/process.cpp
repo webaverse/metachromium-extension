@@ -9,7 +9,7 @@
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
-bool isProcess = true;
+std::string logSuffix = "_process";
 HWND g_hWnd = NULL;
 bool live = true;
 
@@ -110,37 +110,7 @@ int WINAPI WinMain(
   );    // used with multiple windows, NULL
   ShowWindow(g_hWnd, SW_SHOW);
 
-  getOut() << "process start 1 " << (void *)g_hWnd << " " << (void *)GetLastError() << std::endl;
-
-  {  
-    char dllPath[MAX_PATH];
-    HMODULE hm = GetModuleHandleW(NULL);
-    if (hm == 0) {
-        int ret = GetLastError();
-        // getOut() << "GetModuleHandle failed, error = " << ret << std::endl;
-        // Return or however you want to handle an error.
-        getOut() << "dll abort 1" << std::endl; abort();
-    }
-    if (GetModuleFileName(hm, dllPath, sizeof(dllPath)) == 0) {
-        int ret = GetLastError();
-        // getOut() << "GetModuleFileName failed, error = " << ret << std::endl;
-        getOut() << "dll abort 2" << std::endl; abort();
-    }
-    
-    getOut() << "process start 2 " << dllPath << std::endl;
-    
-    char drive[MAX_PATH];
-    char dir[MAX_PATH];
-    // char fname[MAX_PATH];
-    // char ext[MAX_PATH];
-    _splitpath(dllPath, drive, dir, nullptr, nullptr);
-    getOut() << "process start 3 " << dllPath << " " << drive << " " << dir << std::endl;
-    dllDir = drive;
-    dllDir += dir;
-    getOut() << "process start 4 " << dllDir << std::endl;
-  }
-  
-  getOut() << "process start 5 " << dllDir << std::endl;
+  getOut() << "process start " << (void *)g_hWnd << " " << (void *)GetLastError() << std::endl;
 
   wrapExternalOpenVr([&]() -> void {
     // only look in the override
