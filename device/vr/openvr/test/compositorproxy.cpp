@@ -1,10 +1,7 @@
 // #include <chrono>
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
-
-void hijack(ID3D11DeviceContext *context);
-ID3D11Texture2D *getDepthTextureMatching(ID3D11Texture2D *tex);
-void flushTextureLatches();
+#include "device/vr/openvr/test/hijack.h"
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -1498,7 +1495,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  getOut() << "submit client 1 " << (uintptr_t)pTexture->handle << std::endl;
+  // getOut() << "submit client 1 " << (uintptr_t)pTexture->handle << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint tex = (GLuint)pTexture->handle;

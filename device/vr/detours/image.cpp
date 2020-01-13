@@ -21,8 +21,6 @@
 #error detours.h version mismatch
 #endif
 
-#include "device/vr/openvr/test/out.h"
-
 namespace Detour
 {
 //////////////////////////////////////////////////////////////////////////////
@@ -1460,7 +1458,6 @@ BOOL CImage::EditImports(PVOID pContext,
 
             if (pszFile != NULL) {
                 // Insert a new Byway.
-                getOut() << "new byway 1" << std::endl;
                 CImageImportFile *pByway = NewByway(pszFile);
                 if (pByway == NULL) {
                     return FALSE;
@@ -1579,7 +1576,6 @@ BOOL CImage::EditImports(PVOID pContext,
             }
             if (pszFile != NULL) {
                 // Insert a new Byway.
-                getOut() << "new byway 2" << std::endl;
                 CImageImportFile *pByway = NewByway(pszFile);
                 if (pByway == NULL) {
                     return FALSE;
@@ -1593,8 +1589,6 @@ BOOL CImage::EditImports(PVOID pContext,
         }
         break;
     }
-    
-    getOut() << "commit" << std::endl;
 
     if (pfCommitCallback != NULL) {
         if (!(*pfCommitCallback)(pContext)) {

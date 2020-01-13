@@ -52,6 +52,7 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "device/vr/OpenOVR/Reimpl/static_bases.gen.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/fnproxy.h"
+#include "device/vr/openvr/test/hijack.h"
 
 std::string dllDir;
 std::ofstream out;
@@ -300,8 +301,7 @@ BOOL WINAPI DllMain(
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
 
-    /* realFn();
-    getOut() << "detour 6" << std::endl; */
+    hijackGl();
 
     // getOut() << "init dll 0" << std::endl;
     std::vector<char> buf(4096);

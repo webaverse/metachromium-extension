@@ -7,7 +7,9 @@
 // #include <DXGI1_4.h>
 // #include <wrl.h>
 
+#include "device/vr/openvr/test/hijack.h"
 #include "device/vr/openvr/test/out.h"
+#include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/detours/detours.h"
 
 std::map<ID3D11Texture2D *, ID3D11Texture2D *> texMap;
@@ -351,8 +353,31 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   
   RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
 }
+void (STDMETHODCALLTYPE *RealGlFramebufferRenderbuffer)(
+  GLenum target,
+ 	GLenum attachment,
+ 	GLenum renderbuffertarget,
+ 	GLuint renderbuffer
+) = nullptr;
+void STDMETHODCALLTYPE MineGlFramebufferRenderbuffer(
+  GLenum target,
+ 	GLenum attachment,
+ 	GLenum renderbuffertarget,
+ 	GLuint renderbuffer
+) {
+  getOut() << "glFramebufferRenderbuffer" << std::endl;
+  RealGlFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
+}
 
 bool hijacked = false;
+bool hijackedGl = false;
+
+void checkDetourError(const char *label, LONG error) {
+  if (error) {
+    getOut() << "detour error " << label << " " << (void *)error << std::endl;
+    abort();
+  }
+}
 
 void hijack(ID3D11DeviceContext *context) {
   if (!hijacked) {
@@ -365,76 +390,104 @@ void hijack(ID3D11DeviceContext *context) {
     }
     
     LONG error = DetourTransactionBegin();
-    if (error) {
-      getOut() << "detour error 1: " << (void *)error << std::endl;
-      abort();
-    }
+    checkDetourError("DetourTransactionBegin", error);
+
     error = DetourUpdateThread(GetCurrentThread());
-    if (error) {
-      getOut() << "detour error 2: " << (void *)error << std::endl;
-      abort();
-    }
-    getOut() << "detour 3 " << error << std::endl;
-    if (error) {
-      getOut() << "detour error 3: " << (void *)error << std::endl;
-      abort();
-    }
+    checkDetourError("DetourUpdateThread", error);
     
     RealOMSetRenderTargets = context->lpVtbl->OMSetRenderTargets;
     error = DetourAttach(&(PVOID&)RealOMSetRenderTargets, MineOMSetRenderTargets);
-    
+    checkDetourError("RealOMSetRenderTargets", error);
+
     RealOMSetDepthStencilState = context->lpVtbl->OMSetDepthStencilState;
     error = DetourAttach(&(PVOID&)RealOMSetDepthStencilState, MineOMSetDepthStencilState);
+    checkDetourError("RealOMSetDepthStencilState", error);
 
     RealDraw = context->lpVtbl->Draw;
     error = DetourAttach(&(PVOID&)RealDraw, MineDraw);
+    checkDetourError("RealDraw", error);
     
     RealDrawAuto = context->lpVtbl->DrawAuto;
     error = DetourAttach(&(PVOID&)RealDrawAuto, MineDrawAuto);
+    checkDetourError("RealDrawAuto", error);
     
     RealDrawIndexed = context->lpVtbl->DrawIndexed;
     error = DetourAttach(&(PVOID&)RealDrawIndexed, MineDrawIndexed);
+    checkDetourError("RealDrawIndexed", error);
     
     RealDrawIndexedInstanced = context->lpVtbl->DrawIndexedInstanced;
     error = DetourAttach(&(PVOID&)RealDrawIndexedInstanced, MineDrawIndexedInstanced);
+    checkDetourError("RealDrawIndexedInstanced", error);
     
     RealDrawIndexedInstancedIndirect = context->lpVtbl->DrawIndexedInstancedIndirect;
     error = DetourAttach(&(PVOID&)RealDrawIndexedInstancedIndirect, MineDrawIndexedInstancedIndirect);
+    checkDetourError("RealDrawIndexedInstancedIndirect", error);
     
     RealDrawInstanced = context->lpVtbl->DrawInstanced;
     error = DetourAttach(&(PVOID&)RealDrawInstanced, MineDrawInstanced);
+    checkDetourError("RealDrawInstanced", error);
     
     RealDrawInstancedIndirect = context->lpVtbl->DrawInstancedIndirect;
     error = DetourAttach(&(PVOID&)RealDrawInstancedIndirect, MineDrawInstancedIndirect);
+    checkDetourError("RealDrawInstancedIndirect", error);
     
     RealClearRenderTargetView = context->lpVtbl->ClearRenderTargetView;
     error = DetourAttach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
+    checkDetourError("RealClearRenderTargetView", error);
     
     RealClearDepthStencilView = context->lpVtbl->ClearDepthStencilView;
     error = DetourAttach(&(PVOID&)RealClearDepthStencilView, MineClearDepthStencilView);
+    checkDetourError("RealClearDepthStencilView", error);
 
     RealClearState = context->lpVtbl->ClearState;
     error = DetourAttach(&(PVOID&)RealClearState, MineClearState);
+    checkDetourError("RealClearState", error);
     
     RealClearView = context1->lpVtbl->ClearView;
     error = DetourAttach(&(PVOID&)RealClearView, MineClearView);
+    checkDetourError("RealClearView", error);
     
     RealResolveSubresource = context1->lpVtbl->ResolveSubresource;
     error = DetourAttach(&(PVOID&)RealResolveSubresource, MineResolveSubresource);
-    
-    if (error) {
-      getOut() << "detour error 4: " << (void *)error << std::endl;
-      abort();
-    }
+    checkDetourError("RealResolveSubresource", error);
+
     error = DetourTransactionCommit();
-    if (error) {
-      getOut() << "detour error 5: " << (void *)error << std::endl;
-      abort();
-    }
-    
+    checkDetourError("DetourTransactionCommit", error);
+
     context1->lpVtbl->Release(context1);
-    
+
     hijacked = true;
+  }
+}
+void hijackGl() {
+  if (!hijackedGl) {
+    HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+
+    if (libGlesV2) {
+      decltype(RealGlFramebufferRenderbuffer) glFramebufferRenderbuffer =
+        (decltype(RealGlFramebufferRenderbuffer))GetProcAddress(libGlesV2, "glFramebufferRenderbuffer");
+
+      if (glFramebufferRenderbuffer) {
+        LONG error = DetourTransactionBegin();
+        checkDetourError("DetourTransactionBegin", error);
+
+        error = DetourUpdateThread(GetCurrentThread());
+        checkDetourError("DetourUpdateThread", error);
+
+        RealGlFramebufferRenderbuffer = glFramebufferRenderbuffer;
+        error = DetourAttach(&(PVOID&)RealGlFramebufferRenderbuffer, MineGlFramebufferRenderbuffer);
+        checkDetourError("RealGlFramebufferRenderbuffer", error);
+
+        error = DetourTransactionCommit();
+        checkDetourError("DetourTransactionCommit", error);
+      } else {
+        getOut() << "failed to find gles lib function: " << (void *)glFramebufferRenderbuffer << " " << GetLastError() << std::endl;
+      }
+    } else {
+      getOut() << "failed to load gles lib: " << (void *)libGlesV2 << " " << GetLastError() << std::endl;
+    }
+
+    hijackedGl = true;
   }
 }
 ID3D11Texture2D *getDepthTextureMatching(ID3D11Texture2D *tex) {
