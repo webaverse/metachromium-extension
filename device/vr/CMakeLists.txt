@@ -75,6 +75,7 @@ SET(src
   detours/detours.cpp
   detours/disasm.cpp
   detours/modules.cpp
+  detours/image.cpp
   openvr/test/hijack.cc
 )
 
@@ -99,6 +100,11 @@ ADD_EXECUTABLE(process2 WIN32 ${src} openvr/test/process2.cpp)
 target_link_libraries(process2 dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)
 set_property(TARGET process2 PROPERTY CXX_STANDARD 17)
 set_property(TARGET process2 PROPERTY CXX_STANDARD_REQUIRED ON)
+
+ADD_EXECUTABLE(process3 WIN32 ${src} openvr/test/process3.cpp)
+target_link_libraries(process3 dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)
+set_property(TARGET process3 PROPERTY CXX_STANDARD 17)
+set_property(TARGET process3 PROPERTY CXX_STANDARD_REQUIRED ON)
 
 add_definitions(-D_USE_MATH_DEFINES)
 add_definitions(-DNOMINMAX)
