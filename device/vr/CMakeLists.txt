@@ -17,6 +17,7 @@ INCLUDE_DIRECTORIES(
   # gl/include/glad
   gl/include/KHR
   gl/include/GLFW
+  ../../third_party/khronos
   detours
 )
 LINK_DIRECTORIES(

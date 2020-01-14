@@ -11,6 +11,7 @@
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/detours/detours.h"
+#include "third_party/khronos/EGL/egl.h"
 
 std::map<ID3D11Texture2D *, ID3D11Texture2D *> texMap;
 std::vector<ID3D11Texture2D *> texOrder;
@@ -353,21 +354,6 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   
   RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
 }
-void (STDMETHODCALLTYPE *RealGlFramebufferRenderbuffer)(
-  GLenum target,
- 	GLenum attachment,
- 	GLenum renderbuffertarget,
- 	GLuint renderbuffer
-) = nullptr;
-void STDMETHODCALLTYPE MineGlFramebufferRenderbuffer(
-  GLenum target,
- 	GLenum attachment,
- 	GLenum renderbuffertarget,
- 	GLuint renderbuffer
-) {
-  getOut() << "glFramebufferRenderbuffer" << std::endl;
-  RealGlFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
-}
 
 bool hijacked = false;
 bool hijackedGl = false;
@@ -459,37 +445,6 @@ void hijack(ID3D11DeviceContext *context) {
     hijacked = true;
   }
 }
-void hijackGl() {
-  if (!hijackedGl) {
-    HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-
-    if (libGlesV2) {
-      decltype(RealGlFramebufferRenderbuffer) glFramebufferRenderbuffer =
-        (decltype(RealGlFramebufferRenderbuffer))GetProcAddress(libGlesV2, "glFramebufferRenderbuffer");
-
-      if (glFramebufferRenderbuffer) {
-        LONG error = DetourTransactionBegin();
-        checkDetourError("DetourTransactionBegin", error);
-
-        error = DetourUpdateThread(GetCurrentThread());
-        checkDetourError("DetourUpdateThread", error);
-
-        RealGlFramebufferRenderbuffer = glFramebufferRenderbuffer;
-        error = DetourAttach(&(PVOID&)RealGlFramebufferRenderbuffer, MineGlFramebufferRenderbuffer);
-        checkDetourError("RealGlFramebufferRenderbuffer", error);
-
-        error = DetourTransactionCommit();
-        checkDetourError("DetourTransactionCommit", error);
-      } else {
-        getOut() << "failed to find gles lib function: " << (void *)glFramebufferRenderbuffer << " " << GetLastError() << std::endl;
-      }
-    } else {
-      getOut() << "failed to load gles lib: " << (void *)libGlesV2 << " " << GetLastError() << std::endl;
-    }
-
-    hijackedGl = true;
-  }
-}
 ID3D11Texture2D *getDepthTextureMatching(ID3D11Texture2D *tex) {
   auto iter = texMap.find(tex);
   // getOut() << "get depth texture matching " << (void *)tex << " " << (iter != texMap.end()) << std::endl;
@@ -511,5 +466,425 @@ void flushTextureLatches() {
     }
     texMap.clear();
     texOrder.clear();
+  }
+}
+
+void (STDMETHODCALLTYPE *RealGlGenFramebuffers)(
+  GLsizei n,
+ 	GLuint * framebuffers
+) = nullptr;
+void STDMETHODCALLTYPE MineGlGenFramebuffers(
+  GLsizei n,
+ 	GLuint * framebuffers
+) {
+  RealGlGenFramebuffers(n, framebuffers);
+  getOut() << "glGenFramebuffers " << n << " " << framebuffers[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+}
+void (STDMETHODCALLTYPE *RealGlBindFramebuffer)(
+  GLenum target,
+ 	GLuint framebuffer
+) = nullptr;
+void STDMETHODCALLTYPE MineGlBindFramebuffer(
+  GLenum target,
+ 	GLuint framebuffer
+) {
+  getOut() << "glBindFramebuffer " << target << " " << framebuffer << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  RealGlBindFramebuffer(target, framebuffer);
+}
+void (STDMETHODCALLTYPE *RealGlGenRenderbuffers)(
+  GLsizei n,
+ 	GLuint * renderbuffers
+) = nullptr;
+void STDMETHODCALLTYPE MineGlGenRenderbuffers(
+  GLsizei n,
+ 	GLuint * renderbuffers
+) {
+  RealGlGenRenderbuffers(n, renderbuffers);
+  getOut() << "glGenRenderbuffers " << n << " " << renderbuffers[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+}
+void (STDMETHODCALLTYPE *RealGlBindRenderbuffer)(
+  GLenum target,
+ 	GLuint renderbuffer
+) = nullptr;
+void STDMETHODCALLTYPE MineGlBindRenderbuffer(
+  GLenum target,
+ 	GLuint renderbuffer
+) {
+  getOut() << "glBindRenderbuffer " << target << " " << renderbuffer << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  RealGlBindRenderbuffer(target, renderbuffer);
+}
+void (STDMETHODCALLTYPE *RealGlFramebufferTexture2D)(
+  GLenum target,
+ 	GLenum attachment,
+ 	GLenum textarget,
+ 	GLuint texture,
+ 	GLint level
+) = nullptr;
+void STDMETHODCALLTYPE MineGlFramebufferTexture2D(
+  GLenum target,
+ 	GLenum attachment,
+ 	GLenum textarget,
+ 	GLuint texture,
+ 	GLint level
+) {
+  getOut() << "glFramebufferTexture2D " << target << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  RealGlFramebufferTexture2D(target, attachment, textarget, texture, level);
+}
+void (STDMETHODCALLTYPE *RealGlFramebufferTexture2DMultisampleEXT)(
+  GLenum target,
+  GLenum attachment,
+  GLenum textarget,
+  GLuint texture, 
+  GLint level,
+  GLsizei samples
+) = nullptr;
+void STDMETHODCALLTYPE MineGlFramebufferTexture2DMultisampleEXT(
+  GLenum target,
+  GLenum attachment,
+  GLenum textarget,
+  GLuint texture, 
+  GLint level,
+  GLsizei samples
+) {
+  getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  RealGlFramebufferTexture2DMultisampleEXT(target, attachment, textarget, texture, level, samples);
+}
+void (STDMETHODCALLTYPE *RealGlFramebufferRenderbuffer)(
+  GLenum target,
+ 	GLenum attachment,
+ 	GLenum renderbuffertarget,
+ 	GLuint renderbuffer
+) = nullptr;
+void STDMETHODCALLTYPE MineGlFramebufferRenderbuffer(
+  GLenum target,
+ 	GLenum attachment,
+ 	GLenum renderbuffertarget,
+ 	GLuint renderbuffer
+) {
+  getOut() << "glFramebufferRenderbuffer " << target << " " << attachment << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  RealGlFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
+}
+void (STDMETHODCALLTYPE *RealGlDiscardFramebufferEXT)(
+  GLenum target, 
+  GLsizei numAttachments, 
+  const GLenum *attachments
+) = nullptr;
+void STDMETHODCALLTYPE MineGlDiscardFramebufferEXT(
+  GLenum target, 
+  GLsizei numAttachments, 
+  const GLenum *attachments
+) {
+  getOut() << "glDiscardFramebufferEXT" << std::endl;
+  RealGlDiscardFramebufferEXT(target, numAttachments, attachments);
+}
+void (STDMETHODCALLTYPE *RealGlDiscardFramebufferEXTContextANGLE)(
+  GLenum target, 
+  GLsizei numAttachments, 
+  const GLenum *attachments
+) = nullptr;
+void STDMETHODCALLTYPE MineGlDiscardFramebufferEXTContextANGLE(
+  GLenum target, 
+  GLsizei numAttachments, 
+  const GLenum *attachments
+) {
+  getOut() << "glDiscardFramebufferEXTContextANGLE" << std::endl;
+  RealGlDiscardFramebufferEXTContextANGLE(target, numAttachments, attachments);
+}
+void (STDMETHODCALLTYPE *RealGlInvalidateFramebuffer)(
+  GLenum target,
+ 	GLsizei numAttachments,
+ 	const GLenum *attachments
+) = nullptr;
+void STDMETHODCALLTYPE MineGlInvalidateFramebuffer(
+  GLenum target,
+ 	GLsizei numAttachments,
+ 	const GLenum *attachments
+) {
+  getOut() << "glInvalidateFramebuffer" << std::endl;
+  RealGlInvalidateFramebuffer(target, numAttachments, attachments);
+}
+void (STDMETHODCALLTYPE *RealDiscardFramebufferEXT)(
+  GLenum target,
+  GLsizei count,
+  const GLenum* attachments
+) = nullptr;
+void STDMETHODCALLTYPE MineDiscardFramebufferEXT(
+  GLenum target,
+  GLsizei count,
+  const GLenum* attachments
+) {
+  getOut() << "DiscardFramebufferEXT" << std::endl;
+  RealDiscardFramebufferEXT(target, count, attachments);
+}
+void (STDMETHODCALLTYPE *RealGlGenTextures)(
+  GLsizei n,
+ 	GLuint * textures
+) = nullptr;
+void STDMETHODCALLTYPE MineGlGenTextures(
+  GLsizei n,
+ 	GLuint * textures
+) {
+  getOut() << "RealGlGenTextures" << std::endl;
+  RealGlGenTextures(n, textures);
+}
+/* void (STDMETHODCALLTYPE *RealGlBindTexture)(
+  GLenum target,
+ 	GLuint texture
+) = nullptr;
+void STDMETHODCALLTYPE MineGlBindTexture(
+  GLenum target,
+ 	GLuint texture
+) {
+  getOut() << "RealGlBindTexture " << target << " " << texture << std::endl;
+  RealGlBindTexture(target, texture);
+} */
+void (STDMETHODCALLTYPE *RealGlRequestExtensionANGLE)(
+  const GLchar *extension
+) = nullptr;
+void STDMETHODCALLTYPE MineGlRequestExtensionANGLE(
+  const GLchar *extension
+) {
+  getOut() << "RealGlRequestExtensionANGLE " << extension << std::endl;
+  RealGlRequestExtensionANGLE(extension);
+}
+void (STDMETHODCALLTYPE *RealGlDeleteTextures)(
+  GLsizei n,
+ 	const GLuint * textures
+) = nullptr;
+void STDMETHODCALLTYPE MineGlDeleteTextures(
+  GLsizei n,
+ 	const GLuint * textures
+) {
+  getOut() << "RealGlDeleteTextures" << std::endl;
+  RealGlDeleteTextures(n, textures);
+}
+void (STDMETHODCALLTYPE *RealGlFenceSync)(
+  GLenum condition,
+ 	GLbitfield flags
+) = nullptr;
+void STDMETHODCALLTYPE MineGlFenceSync(
+  GLenum condition,
+ 	GLbitfield flags
+) {
+  getOut() << "RealGlFenceSync" << std::endl;
+  RealGlFenceSync(condition, flags);
+}
+void (STDMETHODCALLTYPE *RealGlDeleteSync)(
+  GLsync sync
+) = nullptr;
+void STDMETHODCALLTYPE MineGlDeleteSync(
+  GLsync sync
+) {
+  getOut() << "RealGlDeleteSync" << std::endl;
+  RealGlDeleteSync(sync);
+}
+void (STDMETHODCALLTYPE *RealGlWaitSync)(
+  GLsync sync,
+ 	GLbitfield flags,
+ 	GLuint64 timeout
+) = nullptr;
+void STDMETHODCALLTYPE MineGlWaitSync(
+  GLsync sync,
+ 	GLbitfield flags,
+ 	GLuint64 timeout
+) {
+  getOut() << "RealGlWaitSync" << std::endl;
+  RealGlWaitSync(sync, flags, timeout);
+}
+void (STDMETHODCALLTYPE *RealGlClientWaitSync)(
+  GLsync sync,
+ 	GLbitfield flags,
+ 	GLuint64 timeout
+) = nullptr;
+void STDMETHODCALLTYPE MineGlClientWaitSync(
+  GLsync sync,
+ 	GLbitfield flags,
+ 	GLuint64 timeout
+) {
+  getOut() << "RealGlClientWaitSync" << std::endl;
+  RealGlClientWaitSync(sync, flags, timeout);
+}
+void (STDMETHODCALLTYPE *RealGlClear)(
+  GLbitfield mask
+) = nullptr;
+void STDMETHODCALLTYPE MineGlClear(
+  GLbitfield mask
+) {
+  getOut() << "RealGlClear " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  RealGlClear(mask);
+}
+void (STDMETHODCALLTYPE *RealGlClearColor)(
+  GLclampf red,
+ 	GLclampf green,
+ 	GLclampf blue,
+ 	GLclampf alpha
+) = nullptr;
+void STDMETHODCALLTYPE MineGlClearColor(
+  GLclampf red,
+ 	GLclampf green,
+ 	GLclampf blue,
+ 	GLclampf alpha
+) {
+  getOut() << "RealGlClearColor " << red << " " << green << " " << blue << " " << alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  RealGlClearColor(red, green, blue, alpha);
+}
+EGLBoolean (STDMETHODCALLTYPE *RealEGL_MakeCurrent)(
+  EGLDisplay display,
+ 	EGLSurface draw,
+ 	EGLSurface read,
+ 	EGLContext context
+) = nullptr;
+EGLBoolean STDMETHODCALLTYPE MineEGL_MakeCurrent(
+  EGLDisplay display,
+ 	EGLSurface draw,
+ 	EGLSurface read,
+ 	EGLContext context
+) {
+  getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  return RealEGL_MakeCurrent(display, draw, read, context);
+}
+BOOL (STDMETHODCALLTYPE *RealWglMakeCurrent)(
+  HDC arg1,
+  HGLRC arg2
+) = nullptr;
+BOOL STDMETHODCALLTYPE MineWglMakeCurrent(
+  HDC arg1,
+  HGLRC arg2
+) {
+  getOut() << "RealWglMakeCurrent" << (void *)arg1 << " " << (void *)arg2 << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  return RealWglMakeCurrent(arg1, arg2);
+}
+
+void hijackGl() {
+  if (!hijackedGl) {
+    HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+    HMODULE libOpenGl32 = LoadLibraryA("opengl32.dll");
+
+    if (libGlesV2 != NULL && libOpenGl32 != NULL) {
+      decltype(RealGlGenFramebuffers) glGenFramebuffers = (decltype(RealGlGenFramebuffers))GetProcAddress(libGlesV2, "glGenFramebuffers");
+      decltype(RealGlBindFramebuffer) glBindFramebuffer = (decltype(RealGlBindFramebuffer))GetProcAddress(libGlesV2, "glBindFramebuffer");
+      decltype(RealGlGenRenderbuffers) glGenRenderbuffers = (decltype(RealGlGenRenderbuffers))GetProcAddress(libGlesV2, "glGenRenderbuffers");
+      decltype(RealGlBindRenderbuffer) glBindRenderbuffer = (decltype(RealGlBindRenderbuffer))GetProcAddress(libGlesV2, "glBindRenderbuffer");
+      decltype(RealGlFramebufferTexture2D) glFramebufferTexture2D = (decltype(RealGlFramebufferTexture2D))GetProcAddress(libGlesV2, "glFramebufferTexture2D");
+      decltype(RealGlFramebufferTexture2DMultisampleEXT) glFramebufferTexture2DMultisampleEXT = (decltype(RealGlFramebufferTexture2DMultisampleEXT))GetProcAddress(libGlesV2, "glFramebufferTexture2DMultisampleEXT");
+      decltype(RealGlFramebufferRenderbuffer) glFramebufferRenderbuffer = (decltype(RealGlFramebufferRenderbuffer))GetProcAddress(libGlesV2, "glFramebufferRenderbuffer");
+      decltype(RealGlDiscardFramebufferEXT) glDiscardFramebufferEXT = (decltype(RealGlDiscardFramebufferEXT))GetProcAddress(libGlesV2, "glDiscardFramebufferEXT");
+      decltype(RealGlDiscardFramebufferEXTContextANGLE) glDiscardFramebufferEXTContextANGLE = (decltype(RealGlDiscardFramebufferEXTContextANGLE))GetProcAddress(libGlesV2, "glDiscardFramebufferEXTContextANGLE");
+      decltype(RealGlInvalidateFramebuffer) glInvalidateFramebuffer = (decltype(RealGlInvalidateFramebuffer))GetProcAddress(libGlesV2, "glInvalidateFramebuffer");
+      decltype(RealDiscardFramebufferEXT) DiscardFramebufferEXT = (decltype(RealDiscardFramebufferEXT))GetProcAddress(libGlesV2, "?DiscardFramebufferEXT@gl@@YAXIHPEBI@Z");
+      decltype(RealGlGenTextures) glGenTextures = (decltype(RealGlGenTextures))GetProcAddress(libGlesV2, "glGenTextures");
+      // decltype(RealGlBindTexture) glBindTexture = (decltype(RealGlBindTexture))GetProcAddress(libGlesV2, "glBindTexture");
+      decltype(RealGlRequestExtensionANGLE) glRequestExtensionANGLE = (decltype(RealGlRequestExtensionANGLE))GetProcAddress(libGlesV2, "glRequestExtensionANGLE");
+      decltype(RealGlDeleteTextures) glDeleteTextures = (decltype(RealGlDeleteTextures))GetProcAddress(libGlesV2, "glDeleteTextures");
+      decltype(RealGlFenceSync) glFenceSync = (decltype(RealGlFenceSync))GetProcAddress(libGlesV2, "glFenceSync");
+      decltype(RealGlDeleteSync) glDeleteSync = (decltype(RealGlDeleteSync))GetProcAddress(libGlesV2, "glDeleteSync");
+      decltype(RealGlWaitSync) glWaitSync = (decltype(RealGlWaitSync))GetProcAddress(libGlesV2, "glWaitSync");
+      decltype(RealGlClientWaitSync) glClientWaitSync = (decltype(RealGlClientWaitSync))GetProcAddress(libGlesV2, "glClientWaitSync");
+      decltype(RealGlClear) glClear = (decltype(RealGlClear))GetProcAddress(libGlesV2, "glClear");
+      decltype(RealGlClearColor) glClearColor = (decltype(RealGlClearColor))GetProcAddress(libGlesV2, "glClearColor");
+      decltype(RealEGL_MakeCurrent) EGL_MakeCurrent = (decltype(RealEGL_MakeCurrent))GetProcAddress(libGlesV2, "EGL_MakeCurrent");
+      decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
+
+      LONG error = DetourTransactionBegin();
+      checkDetourError("DetourTransactionBegin", error);
+
+      error = DetourUpdateThread(GetCurrentThread());
+      checkDetourError("DetourUpdateThread", error);
+      
+      RealGlGenFramebuffers = glGenFramebuffers;
+      error = DetourAttach(&(PVOID&)RealGlGenFramebuffers, MineGlGenFramebuffers);
+      checkDetourError("RealGlGenFramebuffers", error);
+      
+      RealGlBindFramebuffer = glBindFramebuffer;
+      error = DetourAttach(&(PVOID&)RealGlBindFramebuffer, MineGlBindFramebuffer);
+      checkDetourError("RealGlBindFramebuffer", error);
+
+      RealGlGenRenderbuffers = glGenRenderbuffers;
+      error = DetourAttach(&(PVOID&)RealGlGenRenderbuffers, MineGlGenRenderbuffers);
+      checkDetourError("RealGlGenRenderbuffers", error);
+      
+      RealGlBindRenderbuffer = glBindRenderbuffer;
+      error = DetourAttach(&(PVOID&)RealGlBindRenderbuffer, MineGlBindRenderbuffer);
+      checkDetourError("RealGlBindRenderbuffer", error);
+
+      RealGlFramebufferTexture2D = glFramebufferTexture2D;
+      error = DetourAttach(&(PVOID&)RealGlFramebufferTexture2D, MineGlFramebufferTexture2D);
+      checkDetourError("RealGlFramebufferTexture2D", error);
+      
+      RealGlFramebufferTexture2DMultisampleEXT = glFramebufferTexture2DMultisampleEXT;
+      error = DetourAttach(&(PVOID&)RealGlFramebufferTexture2DMultisampleEXT, MineGlFramebufferTexture2DMultisampleEXT);
+      checkDetourError("RealGlFramebufferTexture2DMultisampleEXT", error);
+      
+      RealGlFramebufferRenderbuffer = glFramebufferRenderbuffer;
+      error = DetourAttach(&(PVOID&)RealGlFramebufferRenderbuffer, MineGlFramebufferRenderbuffer);
+      checkDetourError("RealGlFramebufferRenderbuffer", error);
+      
+      RealGlDiscardFramebufferEXT = glDiscardFramebufferEXT;
+      error = DetourAttach(&(PVOID&)RealGlDiscardFramebufferEXT, MineGlDiscardFramebufferEXT);
+      checkDetourError("RealGlDiscardFramebufferEXT", error);
+      
+      RealGlDiscardFramebufferEXTContextANGLE = glDiscardFramebufferEXTContextANGLE;
+      error = DetourAttach(&(PVOID&)RealGlDiscardFramebufferEXTContextANGLE, MineGlDiscardFramebufferEXTContextANGLE);
+      checkDetourError("RealGlDiscardFramebufferEXTContextANGLE", error);
+
+      RealGlInvalidateFramebuffer = glInvalidateFramebuffer;
+      error = DetourAttach(&(PVOID&)RealGlInvalidateFramebuffer, MineGlInvalidateFramebuffer);
+      checkDetourError("RealGlInvalidateFramebuffer", error);
+      
+      RealDiscardFramebufferEXT = DiscardFramebufferEXT;
+      error = DetourAttach(&(PVOID&)RealDiscardFramebufferEXT, MineDiscardFramebufferEXT);
+      checkDetourError("RealDiscardFramebufferEXT", error);
+      
+      RealGlGenTextures = glGenTextures;
+      error = DetourAttach(&(PVOID&)RealGlGenTextures, MineGlGenTextures);
+      checkDetourError("RealGlGenTextures", error);
+      
+      /* RealGlBindTexture = glBindTexture;
+      error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
+      checkDetourError("RealGlBindTexture", error); */
+
+      RealGlDeleteTextures = glDeleteTextures;
+      error = DetourAttach(&(PVOID&)RealGlDeleteTextures, MineGlDeleteTextures);
+      checkDetourError("RealGlDeleteTextures", error);
+      
+      RealGlFenceSync = glFenceSync;
+      error = DetourAttach(&(PVOID&)RealGlFenceSync, MineGlFenceSync);
+      checkDetourError("RealGlFenceSync", error);
+      
+      RealGlDeleteSync = glDeleteSync;
+      error = DetourAttach(&(PVOID&)RealGlDeleteSync, MineGlDeleteSync);
+      checkDetourError("RealGlDeleteSync", error);
+      
+      RealGlWaitSync = glWaitSync;
+      error = DetourAttach(&(PVOID&)RealGlWaitSync, MineGlWaitSync);
+      checkDetourError("RealGlWaitSync", error);
+      
+      RealGlClientWaitSync = glClientWaitSync;
+      error = DetourAttach(&(PVOID&)RealGlClientWaitSync, MineGlClientWaitSync);
+      checkDetourError("RealGlClientWaitSync", error);
+      
+      RealGlClear = glClear;
+      error = DetourAttach(&(PVOID&)RealGlClear, MineGlClear);
+      checkDetourError("RealGlClear", error);
+      
+      RealGlClearColor = glClearColor;
+      error = DetourAttach(&(PVOID&)RealGlClearColor, MineGlClearColor);
+      checkDetourError("RealGlClearColor", error);
+      
+      RealEGL_MakeCurrent = EGL_MakeCurrent;
+      error = DetourAttach(&(PVOID&)RealEGL_MakeCurrent, MineEGL_MakeCurrent);
+      checkDetourError("RealEGL_MakeCurrent", error);
+      
+      RealWglMakeCurrent = wglMakeCurrent;
+      error = DetourAttach(&(PVOID&)RealWglMakeCurrent, MineWglMakeCurrent);
+      checkDetourError("RealWglMakeCurrent", error);
+
+      error = DetourTransactionCommit();
+      checkDetourError("DetourTransactionCommit", error);
+    } else {
+      getOut() << "failed to load gles lib: " << (void *)libGlesV2 << " " << GetLastError() << std::endl;
+    }
+
+    hijackedGl = true;
   }
 }
