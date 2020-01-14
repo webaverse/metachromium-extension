@@ -469,6 +469,13 @@ void flushTextureLatches() {
   }
 }
 
+BOOL (STDMETHODCALLTYPE *RealGlGetFramebufferAttachmentParameteriv)(
+  GLenum target,
+ 	GLenum attachment,
+ 	GLenum pname,
+ 	GLint *params
+) = nullptr;
+
 void (STDMETHODCALLTYPE *RealGlGenFramebuffers)(
   GLsizei n,
  	GLuint * framebuffers
@@ -711,6 +718,11 @@ void STDMETHODCALLTYPE MineGlClear(
   GLbitfield mask
 ) {
   getOut() << "RealGlClear " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  GLint type;
+  RealGlGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
+  GLint rbo;
+  RealGlGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
+  getOut() << "bound rbo " << type << " " << rbo << std::endl;
   RealGlClear(mask);
 }
 void (STDMETHODCALLTYPE *RealGlClearColor)(
@@ -761,6 +773,9 @@ void hijackGl() {
     HMODULE libOpenGl32 = LoadLibraryA("opengl32.dll");
 
     if (libGlesV2 != NULL && libOpenGl32 != NULL) {
+      decltype(RealGlGetFramebufferAttachmentParameteriv) glGetFramebufferAttachmentParameteriv = (decltype(RealGlGetFramebufferAttachmentParameteriv))GetProcAddress(libGlesV2, "glGetFramebufferAttachmentParameteriv");
+      RealGlGetFramebufferAttachmentParameteriv = glGetFramebufferAttachmentParameteriv;
+      
       decltype(RealGlGenFramebuffers) glGenFramebuffers = (decltype(RealGlGenFramebuffers))GetProcAddress(libGlesV2, "glGenFramebuffers");
       decltype(RealGlBindFramebuffer) glBindFramebuffer = (decltype(RealGlBindFramebuffer))GetProcAddress(libGlesV2, "glBindFramebuffer");
       decltype(RealGlGenRenderbuffers) glGenRenderbuffers = (decltype(RealGlGenRenderbuffers))GetProcAddress(libGlesV2, "glGenRenderbuffers");
@@ -784,7 +799,7 @@ void hijackGl() {
       decltype(RealGlClearColor) glClearColor = (decltype(RealGlClearColor))GetProcAddress(libGlesV2, "glClearColor");
       decltype(RealEGL_MakeCurrent) EGL_MakeCurrent = (decltype(RealEGL_MakeCurrent))GetProcAddress(libGlesV2, "EGL_MakeCurrent");
       decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
-
+  
       LONG error = DetourTransactionBegin();
       checkDetourError("DetourTransactionBegin", error);
 
@@ -882,7 +897,7 @@ void hijackGl() {
       error = DetourTransactionCommit();
       checkDetourError("DetourTransactionCommit", error);
     } else {
-      getOut() << "failed to load gles lib: " << (void *)libGlesV2 << " " << GetLastError() << std::endl;
+      getOut() << "failed to load gl hijack libs: " << (void *)libGlesV2 << " " << (void *)libOpenGl32 << " " << GetLastError() << std::endl;
     }
 
     hijackedGl = true;
