@@ -469,6 +469,8 @@ void flushTextureLatches() {
   }
 }
 
+int phase = 0;
+
 BOOL (STDMETHODCALLTYPE *RealGlGetFramebufferAttachmentParameteriv)(
   GLenum target,
  	GLenum attachment,
@@ -553,6 +555,7 @@ void STDMETHODCALLTYPE MineGlFramebufferTexture2DMultisampleEXT(
   GLint level,
   GLsizei samples
 ) {
+  phase = 1;
   getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << textarget << " " << texture << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlFramebufferTexture2DMultisampleEXT(target, attachment, textarget, texture, level, samples);
 }
@@ -721,12 +724,18 @@ void (STDMETHODCALLTYPE *RealGlClear)(
 void STDMETHODCALLTYPE MineGlClear(
   GLbitfield mask
 ) {
+  if (phase == 3) {
+    GLint type;
+    RealGlGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
+    GLint rbo;
+    RealGlGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
+    getOut() << "blit rbo " << type << " " << rbo << std::endl;
+    
+    phase = 0;
+  } else {
+    phase = 0;
+  }
   getOut() << "RealGlClear " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
-  GLint type;
-  RealGlGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
-  GLint rbo;
-  RealGlGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
-  getOut() << "bound rbo " << type << " " << rbo << std::endl;
   RealGlClear(mask);
 }
 void (STDMETHODCALLTYPE *RealGlClearColor)(
@@ -741,6 +750,11 @@ void STDMETHODCALLTYPE MineGlClearColor(
  	GLclampf blue,
  	GLclampf alpha
 ) {
+  if (phase == 2 && red == 0 && blue == 0 && green == 0 && alpha == 0) {
+    phase = 3;
+  } else {
+    phase = 0;
+  }
   getOut() << "RealGlClearColor " << red << " " << green << " " << blue << " " << alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlClearColor(red, green, blue, alpha);
 }
@@ -756,6 +770,11 @@ void STDMETHODCALLTYPE MineGlColorMask(
  	GLboolean blue,
  	GLboolean alpha
 ) {
+  if (phase == 1 && red == 1 && blue == 1 && green == 1 && alpha == 1) {
+    phase = 2;
+  } else {
+    phase = 0;
+  }
   getOut() << "RealGlColorMask " << (int)red << " " << (int)green << " " << (int)blue << " " << (int)alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlColorMask(red, green, blue, alpha);
 }
@@ -771,6 +790,7 @@ EGLBoolean STDMETHODCALLTYPE MineEGL_MakeCurrent(
  	EGLSurface read,
  	EGLContext context
 ) {
+  phase = 0;
   getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   return RealEGL_MakeCurrent(display, draw, read, context);
 }
