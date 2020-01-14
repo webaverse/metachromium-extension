@@ -553,7 +553,7 @@ void STDMETHODCALLTYPE MineGlFramebufferTexture2DMultisampleEXT(
   GLint level,
   GLsizei samples
 ) {
-  getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << textarget << " " << texture << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlFramebufferTexture2DMultisampleEXT(target, attachment, textarget, texture, level, samples);
 }
 void (STDMETHODCALLTYPE *RealGlFramebufferRenderbuffer)(
@@ -631,8 +631,8 @@ void STDMETHODCALLTYPE MineGlGenTextures(
   GLsizei n,
  	GLuint * textures
 ) {
-  getOut() << "RealGlGenTextures" << std::endl;
   RealGlGenTextures(n, textures);
+  getOut() << "RealGlGenTextures" << n << " " << textures[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
 }
 /* void (STDMETHODCALLTYPE *RealGlBindTexture)(
   GLenum target,
@@ -662,8 +662,12 @@ void STDMETHODCALLTYPE MineGlDeleteTextures(
   GLsizei n,
  	const GLuint * textures
 ) {
-  getOut() << "RealGlDeleteTextures" << std::endl;
   RealGlDeleteTextures(n, textures);
+  if (n > 0 && textures != NULL) {
+    getOut() << "RealGlDeleteTextures " << n << " " << textures[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  } else {
+    getOut() << "RealGlDeleteTextures " << n << std::endl;
+  }
 }
 void (STDMETHODCALLTYPE *RealGlFenceSync)(
   GLenum condition,
@@ -740,6 +744,21 @@ void STDMETHODCALLTYPE MineGlClearColor(
   getOut() << "RealGlClearColor " << red << " " << green << " " << blue << " " << alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlClearColor(red, green, blue, alpha);
 }
+void (STDMETHODCALLTYPE *RealGlColorMask)(
+  GLboolean red,
+ 	GLboolean green,
+ 	GLboolean blue,
+ 	GLboolean alpha
+) = nullptr;
+void STDMETHODCALLTYPE MineGlColorMask(
+  GLboolean red,
+ 	GLboolean green,
+ 	GLboolean blue,
+ 	GLboolean alpha
+) {
+  getOut() << "RealGlColorMask " << (int)red << " " << (int)green << " " << (int)blue << " " << (int)alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  RealGlColorMask(red, green, blue, alpha);
+}
 EGLBoolean (STDMETHODCALLTYPE *RealEGL_MakeCurrent)(
   EGLDisplay display,
  	EGLSurface draw,
@@ -797,6 +816,7 @@ void hijackGl() {
       decltype(RealGlClientWaitSync) glClientWaitSync = (decltype(RealGlClientWaitSync))GetProcAddress(libGlesV2, "glClientWaitSync");
       decltype(RealGlClear) glClear = (decltype(RealGlClear))GetProcAddress(libGlesV2, "glClear");
       decltype(RealGlClearColor) glClearColor = (decltype(RealGlClearColor))GetProcAddress(libGlesV2, "glClearColor");
+      decltype(RealGlColorMask) glColorMask = (decltype(RealGlColorMask))GetProcAddress(libGlesV2, "glColorMask");
       decltype(RealEGL_MakeCurrent) EGL_MakeCurrent = (decltype(RealEGL_MakeCurrent))GetProcAddress(libGlesV2, "EGL_MakeCurrent");
       decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
   
@@ -885,6 +905,10 @@ void hijackGl() {
       RealGlClearColor = glClearColor;
       error = DetourAttach(&(PVOID&)RealGlClearColor, MineGlClearColor);
       checkDetourError("RealGlClearColor", error);
+      
+      RealGlColorMask = glColorMask;
+      error = DetourAttach(&(PVOID&)RealGlColorMask, MineGlColorMask);
+      checkDetourError("RealGlColorMask", error);
       
       RealEGL_MakeCurrent = EGL_MakeCurrent;
       error = DetourAttach(&(PVOID&)RealEGL_MakeCurrent, MineEGL_MakeCurrent);
