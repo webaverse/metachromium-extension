@@ -478,6 +478,10 @@ GLsizei depthHeight = 0;
 GLuint depthReadFbo = 0;
 GLuint depthDrawFbo = 0;
 
+BOOL (STDMETHODCALLTYPE *RealGlGetIntegerv)(
+  GLenum pname,
+ 	GLint * data
+) = nullptr;
 BOOL (STDMETHODCALLTYPE *RealGlGetFramebufferAttachmentParameteriv)(
   GLenum target,
  	GLenum attachment,
@@ -563,7 +567,7 @@ void STDMETHODCALLTYPE MineGlFramebufferTexture2DMultisampleEXT(
   GLsizei samples
 ) {
   phase = 1;
-  getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << textarget << " " << texture << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << textarget << " " << texture << " " << level << " " << samples << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlFramebufferTexture2DMultisampleEXT(target, attachment, textarget, texture, level, samples);
 }
 void (STDMETHODCALLTYPE *RealGlFramebufferRenderbuffer)(
@@ -581,6 +585,12 @@ void STDMETHODCALLTYPE MineGlFramebufferRenderbuffer(
   getOut() << "glFramebufferRenderbuffer " << target << " " << attachment << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
 }
+void (STDMETHODCALLTYPE *RealGlRenderbufferStorage)(
+  GLenum target,
+ 	GLenum internalformat,
+ 	GLsizei width,
+ 	GLsizei height
+) = nullptr;
 void (STDMETHODCALLTYPE *RealGlRenderbufferStorageMultisampleEXT)(
   GLenum target,
   GLsizei samples,
@@ -600,6 +610,7 @@ void STDMETHODCALLTYPE MineGlRenderbufferStorageMultisampleEXT(
   depthWidth = width;
   depthHeight = height;
   getOut() << "glRenderbufferStorageMultisampleEXT " << target << " " << samples << " " << internalformat << " " << width << " " << height << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  // RealGlRenderbufferStorage(target, internalformat, width, height);
   RealGlRenderbufferStorageMultisampleEXT(target, samples, internalformat, width, height);
 }
 void (STDMETHODCALLTYPE *RealGlDiscardFramebufferEXT)(
@@ -665,6 +676,17 @@ void (STDMETHODCALLTYPE *RealGlGenTextures)(
   RealGlGenTextures(n, textures);
   getOut() << "RealGlGenTextures" << n << " " << textures[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
 } */
+void (STDMETHODCALLTYPE *RealGlTexImage2D)(
+  GLenum target,
+ 	GLint level,
+ 	GLint internalformat,
+ 	GLsizei width,
+ 	GLsizei height,
+ 	GLint border,
+ 	GLenum format,
+ 	GLenum type,
+ 	const void * data
+) = nullptr;
 void (STDMETHODCALLTYPE *RealGlBindTexture)(
   GLenum target,
  	GLuint texture
@@ -676,6 +698,15 @@ void (STDMETHODCALLTYPE *RealGlBindTexture)(
   getOut() << "RealGlBindTexture " << target << " " << texture << std::endl;
   RealGlBindTexture(target, texture);
 } */
+void (STDMETHODCALLTYPE *RealGlReadPixels)(
+  GLint x,
+ 	GLint y,
+ 	GLsizei width,
+ 	GLsizei height,
+ 	GLenum format,
+ 	GLenum type,
+ 	void * data
+) = nullptr;
 void (STDMETHODCALLTYPE *RealGlTexStorage2DMultisample)(
   GLenum target,
  	GLsizei samples,
@@ -764,10 +795,20 @@ void STDMETHODCALLTYPE MineGlClear(
 ) {
   if (phase == 3) {
     if (depthSamples != 0) {
-      GLint oldTexMs;
-      glGetIntegerv(GL_TEXTURE_BINDING_2D_MULTISAMPLE, &oldTexMs);
+      getOut() << "get old 1 " << (void *)RealGlGetError() << std::endl;
+      GLint oldTex;
+      RealGlGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTex);
+      getOut() << "get old 2 " << (void *)RealGlGetError() << std::endl;
+      // GLint oldTexMs;
+      // RealGlGetIntegerv(GL_TEXTURE_BINDING_2D_MULTISAMPLE, &oldTexMs);
+      getOut() << "get old 3 " << (void *)RealGlGetError() << std::endl;
+      GLint oldReadFbo;
+      RealGlGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &oldReadFbo);
+      getOut() << "get old 4 " << (void *)RealGlGetError() << std::endl;
       GLint oldDrawFbo;
-      glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &oldDrawFbo);
+      RealGlGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &oldDrawFbo);
+
+      getOut() << "get old X " << oldTex << " " << oldReadFbo << " " << oldDrawFbo << std::endl;
 
       if (!glTexStorage2DMultisample) {
         HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
@@ -789,23 +830,60 @@ void STDMETHODCALLTYPE MineGlClear(
         HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
         glBlitFramebuffer = (decltype(glBlitFramebuffer))GetProcAddress(libGlesV2, "glBlitFramebuffer");
       }
+      if (!glBlitFramebufferANGLE) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glBlitFramebufferANGLE = (decltype(glBlitFramebuffer))GetProcAddress(libGlesV2, "glBlitFramebufferANGLE");
+      }
 
       if (!depthTex) {
+        getOut() << "generating depth 1 " << (void *)RealGlGetError() << std::endl;
         RealGlGenTextures(1, &depthTex);
-        RealGlBindTexture(GL_TEXTURE_2D_MULTISAMPLE, depthTex);
-        glTexStorage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, depthSamples, depthInternalformat, depthWidth, depthHeight, true);
+        
+        getOut() << "generating depth 2 " << (void *)RealGlGetError() << std::endl;
 
         GLuint fbos[2];
         glGenFramebuffers(2, fbos);
         depthReadFbo = fbos[0];
         depthDrawFbo = fbos[1];
-        
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthDrawFbo);
-        glFramebufferTexture2DMultisampleEXT(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D_MULTISAMPLE, depthTex, 0, depthSamples);
+        
+        getOut() << "generating depth 3 " << (void *)RealGlGetError() << std::endl;
+        
+        // RealGlBindTexture(GL_TEXTURE_2D_MULTISAMPLE, depthTex);
+        // glTexStorage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, depthSamples, depthInternalformat, depthWidth, depthHeight, true);
+
+        RealGlBindTexture(GL_TEXTURE_2D, depthTex);
+        getOut() << "generating depth 4 1 " << (void *)RealGlGetError() << std::endl;
+        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL, depthWidth, depthHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+        getOut() << "generating depth 4 2 " << (void *)RealGlGetError() << std::endl;
+        
+        GLuint tex;
+        RealGlGenTextures(1, &tex);
+        RealGlBindTexture(GL_TEXTURE_2D, tex);
+        getOut() << "generating depth 4 3 " << (void *)RealGlGetError() << std::endl;
+        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        getOut() << "generating depth 4 4 " << (void *)RealGlGetError() << std::endl;
+        
+        RealGlFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tex, 0);
+        getOut() << "generating depth 4 5 " << (void *)RealGlGetError() << std::endl;
+        RealGlFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTex, 0);
+        // RealGlFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTex, 0);
+        // RealGlFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTex, 0);
+        getOut() << "generating depth 4 6 " << (void *)RealGlGetError() << std::endl;
       }
       
+      getOut() << "generating depth 5 " << (void *)RealGlGetError() << std::endl;
+      
       glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthDrawFbo);
-      glBlitFramebuffer(
+      getOut() << "generating depth 6 " << (void *)RealGlGetError() << std::endl;
+      getOut() << "blit" <<
+        0 << " " << 0 << " " <<
+        depthWidth << " " << depthHeight << " " <<
+        0 << " " << 0 << " " <<
+        depthWidth << " " << depthHeight << " " <<
+        (GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT) << " " <<
+        GL_NEAREST << std::endl;
+      glBlitFramebufferANGLE(
         0, 0,
         depthWidth, depthHeight,
         0, 0,
@@ -813,15 +891,29 @@ void STDMETHODCALLTYPE MineGlClear(
         GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
         GL_NEAREST
       );
+      
+      getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
+      
+      glBindFramebuffer(GL_READ_FRAMEBUFFER, depthDrawFbo);
+      std::vector<uint32_t> data(depthWidth * depthHeight);
+      RealGlReadPixels(0, 0, depthWidth, depthHeight, GL_DEPTH_COMPONENT, GL_FLOAT, data.data());
+      getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
+      size_t count = 0;
+      for (size_t i = 0; i < data.size(); i++) {
+        count += data[i];
+      }
+      getOut() << "depth count " << count << std::endl;
 
-      RealGlBindTexture(GL_TEXTURE_2D_MULTISAMPLE, oldTexMs);
+      RealGlBindTexture(GL_TEXTURE_2D, oldTex);
+      // RealGlBindTexture(GL_TEXTURE_2D_MULTISAMPLE, oldTexMs);
+      glBindFramebuffer(GL_READ_FRAMEBUFFER, oldReadFbo);
       glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDrawFbo);
       
       /* GLint type;
-      RealGlGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
+      RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
       GLint rbo;
-      RealGlGetFramebufferAttachmentParameteriv(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
-      getOut() << "blit rbo " << type << " " << rbo << std::endl; */
+      RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
+      getOut() << "blit rbo " << type << " " << rbo << " " << oldDrawFbo << std::endl; */
     } else {
       getOut() << "warning: do not know how to create blit copy target" << std::endl;
     }
@@ -907,9 +999,11 @@ void hijackGl() {
     HMODULE libOpenGl32 = LoadLibraryA("opengl32.dll");
 
     if (libGlesV2 != NULL && libOpenGl32 != NULL) {
+      decltype(RealGlGetIntegerv) glGetIntegerv = (decltype(RealGlGetIntegerv))GetProcAddress(libGlesV2, "glGetIntegerv");
+      RealGlGetIntegerv = glGetIntegerv;
       decltype(RealGlGetFramebufferAttachmentParameteriv) glGetFramebufferAttachmentParameteriv = (decltype(RealGlGetFramebufferAttachmentParameteriv))GetProcAddress(libGlesV2, "glGetFramebufferAttachmentParameteriv");
       RealGlGetFramebufferAttachmentParameteriv = glGetFramebufferAttachmentParameteriv;
-      
+
       decltype(RealGlGenFramebuffers) glGenFramebuffers = (decltype(RealGlGenFramebuffers))GetProcAddress(libGlesV2, "glGenFramebuffers");
       decltype(RealGlBindFramebuffer) glBindFramebuffer = (decltype(RealGlBindFramebuffer))GetProcAddress(libGlesV2, "glBindFramebuffer");
       decltype(RealGlGenRenderbuffers) glGenRenderbuffers = (decltype(RealGlGenRenderbuffers))GetProcAddress(libGlesV2, "glGenRenderbuffers");
@@ -918,12 +1012,15 @@ void hijackGl() {
       decltype(RealGlFramebufferTexture2DMultisampleEXT) glFramebufferTexture2DMultisampleEXT = (decltype(RealGlFramebufferTexture2DMultisampleEXT))GetProcAddress(libGlesV2, "glFramebufferTexture2DMultisampleEXT");
       decltype(RealGlFramebufferRenderbuffer) glFramebufferRenderbuffer = (decltype(RealGlFramebufferRenderbuffer))GetProcAddress(libGlesV2, "glFramebufferRenderbuffer");
       decltype(RealGlRenderbufferStorageMultisampleEXT) glRenderbufferStorageMultisampleEXT = (decltype(RealGlRenderbufferStorageMultisampleEXT))GetProcAddress(libGlesV2, "glRenderbufferStorageMultisampleEXT");
+      decltype(RealGlRenderbufferStorage) glRenderbufferStorage = (decltype(RealGlRenderbufferStorage))GetProcAddress(libGlesV2, "glRenderbufferStorage");
       decltype(RealGlDiscardFramebufferEXT) glDiscardFramebufferEXT = (decltype(RealGlDiscardFramebufferEXT))GetProcAddress(libGlesV2, "glDiscardFramebufferEXT");
       decltype(RealGlDiscardFramebufferEXTContextANGLE) glDiscardFramebufferEXTContextANGLE = (decltype(RealGlDiscardFramebufferEXTContextANGLE))GetProcAddress(libGlesV2, "glDiscardFramebufferEXTContextANGLE");
       decltype(RealGlInvalidateFramebuffer) glInvalidateFramebuffer = (decltype(RealGlInvalidateFramebuffer))GetProcAddress(libGlesV2, "glInvalidateFramebuffer");
       decltype(RealDiscardFramebufferEXT) DiscardFramebufferEXT = (decltype(RealDiscardFramebufferEXT))GetProcAddress(libGlesV2, "?DiscardFramebufferEXT@gl@@YAXIHPEBI@Z");
       decltype(RealGlGenTextures) glGenTextures = (decltype(RealGlGenTextures))GetProcAddress(libGlesV2, "glGenTextures");
       decltype(RealGlBindTexture) glBindTexture = (decltype(RealGlBindTexture))GetProcAddress(libGlesV2, "glBindTexture");
+      decltype(RealGlTexImage2D) glTexImage2D = (decltype(RealGlTexImage2D))GetProcAddress(libGlesV2, "glTexImage2D");
+      decltype(RealGlReadPixels) glReadPixels = (decltype(RealGlReadPixels))GetProcAddress(libGlesV2, "glReadPixels");
       decltype(RealGlTexStorage2DMultisample) glTexStorage2DMultisample = (decltype(RealGlTexStorage2DMultisample))GetProcAddress(libGlesV2, "glTexStorage2DMultisample");
       decltype(RealGlRequestExtensionANGLE) glRequestExtensionANGLE = (decltype(RealGlRequestExtensionANGLE))GetProcAddress(libGlesV2, "glRequestExtensionANGLE");
       decltype(RealGlDeleteTextures) glDeleteTextures = (decltype(RealGlDeleteTextures))GetProcAddress(libGlesV2, "glDeleteTextures");
@@ -936,7 +1033,7 @@ void hijackGl() {
       decltype(RealGlColorMask) glColorMask = (decltype(RealGlColorMask))GetProcAddress(libGlesV2, "glColorMask");
       decltype(RealEGL_MakeCurrent) EGL_MakeCurrent = (decltype(RealEGL_MakeCurrent))GetProcAddress(libGlesV2, "EGL_MakeCurrent");
       decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
-      decltype(RealGlGetError) glGetError = (decltype(RealGlGetError))GetProcAddress(libOpenGl32, "glGetError");
+      decltype(RealGlGetError) glGetError = (decltype(RealGlGetError))GetProcAddress(libGlesV2, "glGetError");
   
       LONG error = DetourTransactionBegin();
       checkDetourError("DetourTransactionBegin", error);
@@ -972,6 +1069,10 @@ void hijackGl() {
       error = DetourAttach(&(PVOID&)RealGlFramebufferRenderbuffer, MineGlFramebufferRenderbuffer);
       checkDetourError("RealGlFramebufferRenderbuffer", error);
       
+      RealGlRenderbufferStorage = glRenderbufferStorage;
+      /* error = DetourAttach(&(PVOID&)RealGlRenderbufferStorageMultisampleEXT, MineGlRenderbufferStorageMultisampleEXT);
+      checkDetourError("RealGlRenderbufferStorageMultisampleEXT", error); */
+      
       RealGlRenderbufferStorageMultisampleEXT = glRenderbufferStorageMultisampleEXT;
       error = DetourAttach(&(PVOID&)RealGlRenderbufferStorageMultisampleEXT, MineGlRenderbufferStorageMultisampleEXT);
       checkDetourError("RealGlRenderbufferStorageMultisampleEXT", error);
@@ -997,6 +1098,14 @@ void hijackGl() {
       checkDetourError("RealGlGenTextures", error); */
 
       RealGlBindTexture = glBindTexture;
+      /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
+      checkDetourError("RealGlBindTexture", error); */
+      
+      RealGlTexImage2D = glTexImage2D;
+      /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
+      checkDetourError("RealGlBindTexture", error); */
+      
+      RealGlReadPixels = glReadPixels;
       /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
       checkDetourError("RealGlBindTexture", error); */
       
