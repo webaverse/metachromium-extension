@@ -115,6 +115,9 @@ PVRRenderModels *g_pvrrendermodels = nullptr;
 PVRApplications *g_pvrapplications = nullptr;
 }
 
+FnProxy *g_fnp = nullptr;
+Hijacker *g_hijacker = nullptr;
+
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
 
 // constexpr bool localLoop = true;
@@ -211,19 +214,18 @@ extern "C" {
         getOut() << "create thread" << std::endl;
         
         std::thread t([=]() {
-          FnProxy fnp;
-          vr::PVRSystem system(vr::g_vrsystem, fnp);
-          vr::PVRCompositor compositor(vr::g_vrcompositor, fnp);
-          vr::PVRClientCore clientcore(&compositor, fnp);
-          vr::PVRInput input(vr::g_vrinput, fnp);
-          vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
-          vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
-          vr::PVRChaperoneSetup chaperonesetup(vr::g_vrchaperonesetup, fnp);
-          vr::PVRSettings settings(vr::g_vrsettings, fnp);
-          vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
-          vr::PVRApplications applications(vr::g_vrapplications, fnp);
+          vr::PVRSystem system(vr::g_vrsystem, *g_fnp);
+          vr::PVRCompositor compositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+          vr::PVRClientCore clientcore(&compositor, *g_fnp);
+          vr::PVRInput input(vr::g_vrinput, *g_fnp);
+          vr::PVRScreenshots screenshots(vr::g_vrscreenshots, *g_fnp);
+          vr::PVRChaperone chaperone(vr::g_vrchaperone, *g_fnp);
+          vr::PVRChaperoneSetup chaperonesetup(vr::g_vrchaperonesetup, *g_fnp);
+          vr::PVRSettings settings(vr::g_vrsettings, *g_fnp);
+          vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, *g_fnp);
+          vr::PVRApplications applications(vr::g_vrapplications, *g_fnp);
           for (;;) {
-            fnp.handle();
+            g_fnp->handle();
           }
         });
         t.detach();
@@ -233,17 +235,16 @@ extern "C" {
     }
     
     if (!vr::g_pvrclientcore) {
-      FnProxy *fnp = new FnProxy();
-      vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
-      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *fnp);
-      vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *fnp);
-      vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
-      vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
-      vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
-      vr::g_pvrchaperonesetup = new vr::PVRChaperoneSetup(vr::g_vrchaperonesetup, *fnp);
-      vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *fnp);
-      vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *fnp);
-      vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *fnp);
+      vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *g_fnp);
+      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+      vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *g_fnp);
+      vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *g_fnp);
+      vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *g_fnp);
+      vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *g_fnp);
+      vr::g_pvrchaperonesetup = new vr::PVRChaperoneSetup(vr::g_vrchaperonesetup, *g_fnp);
+      vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *g_fnp);
+      vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
+      vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
     }
 
     // result = vr::VRInitError_None;
@@ -300,7 +301,9 @@ BOOL WINAPI DllMain(
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
 
-    hijackGl();
+    g_fnp = new FnProxy();
+    g_hijacker = new Hijacker(*g_fnp);
+    g_hijacker->hijackGl();
 
     // getOut() << "init dll 0" << std::endl;
     std::vector<char> buf(4096);

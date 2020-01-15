@@ -201,8 +201,9 @@ const EVREye EYES[] = {
   }
 } */
 
-PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp) :
+PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp) :
   vrcompositor(vrcompositor),
+  hijacker(hijacker),
   fnp(fnp)
 {
   fnp.reg<
@@ -1073,7 +1074,7 @@ EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArra
   
   InfoQueueLog();
   
-  flushTextureLatches();
+  hijacker.flushTextureLatches();
   
   auto result = fnp.call<
     kIVRCompositor_WaitGetPoses,
@@ -1149,7 +1150,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       
       Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
       device->GetImmediateContext(&contextBasic);
-      hijack(contextBasic.Get());
+      hijacker.hijackDx(contextBasic.Get());
 
       Microsoft::WRL::ComPtr<ID3D11DeviceContext3> context3;
       device->GetImmediateContext3(&context3);
@@ -1362,10 +1363,6 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         abort();
       }
       
-      hijack(contextBasic.Get());
-      
-      // getOut() << "init program 13" << std::endl;
-      
       hr = deviceBasic->QueryInterface(__uuidof(ID3D11Device5), (void **)&device);
       if (SUCCEEDED(hr)) {
         // nothing
@@ -1373,8 +1370,6 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         getOut() << "device query failed" << std::endl;
         abort();
       }
-      
-      // getOut() << "init program 14" << std::endl;
 
       Microsoft::WRL::ComPtr<ID3D11DeviceContext3> context3;
       device->GetImmediateContext3(&context3);
@@ -1385,6 +1380,8 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
         getOut() << "context query failed" << std::endl;
         abort();
       }
+      
+      hijacker.hijackDx(contextBasic.Get());
 
       /* {
         HMODULE module = LoadLibraryA("glew32.dll");
@@ -1785,7 +1782,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-    ID3D11Texture2D *depthTex = getDepthTextureMatching(tex);
+    std::pair<ID3D11Texture2D *, HANDLE> depthTexPair = hijacker.getDepthTextureMatching(tex);
+    ID3D11Texture2D *depthTex = depthTexPair.first;
     /* if (depthTex) {
       getOut() << "got depth tex " << (void *)depthTex << std::endl;
     } */

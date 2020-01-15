@@ -13,8 +13,41 @@
 #include "device/vr/detours/detours.h"
 #include "third_party/khronos/EGL/egl.h"
 
+// constants
+char kHijacker_GetDepth[] = "Hijacker_GetDepth";
+char kHijacker_SetDepth[] = "Hijacker_SetDepth";
+
+// dx
+// front
 std::map<ID3D11Texture2D *, ID3D11Texture2D *> texMap;
 std::vector<ID3D11Texture2D *> texOrder;
+
+// gl
+// front
+int phase = 0;
+GLuint depthTex = 0;
+GLsizei depthSamples = 0;
+GLenum depthInternalformat = 0;
+GLsizei depthWidth = 0;
+GLsizei depthHeight = 0;
+GLuint depthReadFbo = 0;
+GLuint depthDrawFbo = 0;
+size_t fenceValue = 0;
+HANDLE frontSharedDepthHandle = NULL;
+HANDLE frontDepthEvent = NULL;
+// back
+HANDLE backSharedDepthHandle = NULL;
+// client
+ID3D11Texture2D *clientDepthTex = nullptr;
+HANDLE clientDepthEvent = NULL;
+HANDLE clientDepthHandleLatched = NULL;
+
+void checkDetourError(const char *label, LONG error) {
+  if (error) {
+    getOut() << "detour error " << label << " " << (void *)error << std::endl;
+    abort();
+  }
+}
 
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
   ID3D11DeviceContext *This,
@@ -354,129 +387,6 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   
   RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
 }
-
-bool hijacked = false;
-bool hijackedGl = false;
-
-void checkDetourError(const char *label, LONG error) {
-  if (error) {
-    getOut() << "detour error " << label << " " << (void *)error << std::endl;
-    abort();
-  }
-}
-
-void hijack(ID3D11DeviceContext *context) {
-  if (!hijacked) {
-    ID3D11DeviceContext1 *context1;
-    HRESULT hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext1, (void **)&context1);
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "hijack failed to get context 1: " << (void *)hr << std::endl;
-    }
-    
-    LONG error = DetourTransactionBegin();
-    checkDetourError("DetourTransactionBegin", error);
-
-    error = DetourUpdateThread(GetCurrentThread());
-    checkDetourError("DetourUpdateThread", error);
-    
-    RealOMSetRenderTargets = context->lpVtbl->OMSetRenderTargets;
-    error = DetourAttach(&(PVOID&)RealOMSetRenderTargets, MineOMSetRenderTargets);
-    checkDetourError("RealOMSetRenderTargets", error);
-
-    RealOMSetDepthStencilState = context->lpVtbl->OMSetDepthStencilState;
-    error = DetourAttach(&(PVOID&)RealOMSetDepthStencilState, MineOMSetDepthStencilState);
-    checkDetourError("RealOMSetDepthStencilState", error);
-
-    RealDraw = context->lpVtbl->Draw;
-    error = DetourAttach(&(PVOID&)RealDraw, MineDraw);
-    checkDetourError("RealDraw", error);
-    
-    RealDrawAuto = context->lpVtbl->DrawAuto;
-    error = DetourAttach(&(PVOID&)RealDrawAuto, MineDrawAuto);
-    checkDetourError("RealDrawAuto", error);
-    
-    RealDrawIndexed = context->lpVtbl->DrawIndexed;
-    error = DetourAttach(&(PVOID&)RealDrawIndexed, MineDrawIndexed);
-    checkDetourError("RealDrawIndexed", error);
-    
-    RealDrawIndexedInstanced = context->lpVtbl->DrawIndexedInstanced;
-    error = DetourAttach(&(PVOID&)RealDrawIndexedInstanced, MineDrawIndexedInstanced);
-    checkDetourError("RealDrawIndexedInstanced", error);
-    
-    RealDrawIndexedInstancedIndirect = context->lpVtbl->DrawIndexedInstancedIndirect;
-    error = DetourAttach(&(PVOID&)RealDrawIndexedInstancedIndirect, MineDrawIndexedInstancedIndirect);
-    checkDetourError("RealDrawIndexedInstancedIndirect", error);
-    
-    RealDrawInstanced = context->lpVtbl->DrawInstanced;
-    error = DetourAttach(&(PVOID&)RealDrawInstanced, MineDrawInstanced);
-    checkDetourError("RealDrawInstanced", error);
-    
-    RealDrawInstancedIndirect = context->lpVtbl->DrawInstancedIndirect;
-    error = DetourAttach(&(PVOID&)RealDrawInstancedIndirect, MineDrawInstancedIndirect);
-    checkDetourError("RealDrawInstancedIndirect", error);
-    
-    RealClearRenderTargetView = context->lpVtbl->ClearRenderTargetView;
-    error = DetourAttach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
-    checkDetourError("RealClearRenderTargetView", error);
-    
-    RealClearDepthStencilView = context->lpVtbl->ClearDepthStencilView;
-    error = DetourAttach(&(PVOID&)RealClearDepthStencilView, MineClearDepthStencilView);
-    checkDetourError("RealClearDepthStencilView", error);
-
-    RealClearState = context->lpVtbl->ClearState;
-    error = DetourAttach(&(PVOID&)RealClearState, MineClearState);
-    checkDetourError("RealClearState", error);
-    
-    RealClearView = context1->lpVtbl->ClearView;
-    error = DetourAttach(&(PVOID&)RealClearView, MineClearView);
-    checkDetourError("RealClearView", error);
-    
-    RealResolveSubresource = context1->lpVtbl->ResolveSubresource;
-    error = DetourAttach(&(PVOID&)RealResolveSubresource, MineResolveSubresource);
-    checkDetourError("RealResolveSubresource", error);
-
-    error = DetourTransactionCommit();
-    checkDetourError("DetourTransactionCommit", error);
-
-    context1->lpVtbl->Release(context1);
-
-    hijacked = true;
-  }
-}
-ID3D11Texture2D *getDepthTextureMatching(ID3D11Texture2D *tex) {
-  auto iter = texMap.find(tex);
-  // getOut() << "get depth texture matching " << (void *)tex << " " << (iter != texMap.end()) << std::endl;
-  if (iter != texMap.end()) {
-    auto iter2 = std::find(texOrder.begin(), texOrder.end(), tex);
-    iter2--;
-    ID3D11Texture2D *tex2 = *iter2;
-    iter = texMap.find(tex2);
-    return iter->second;
-  } else {
-    return nullptr;
-  }
-}
-void flushTextureLatches() {
-  if (texMap.size() > 0) {
-    for (auto iter : texMap) {
-      iter.first->lpVtbl->Release(iter.first);
-      iter.second->lpVtbl->Release(iter.second);
-    }
-    texMap.clear();
-    texOrder.clear();
-  }
-}
-
-int phase = 0;
-GLuint depthTex = 0;
-GLsizei depthSamples = 0;
-GLenum depthInternalformat = 0;
-GLsizei depthWidth = 0;
-GLsizei depthHeight = 0;
-GLuint depthReadFbo = 0;
-GLuint depthDrawFbo = 0;
 
 BOOL (STDMETHODCALLTYPE *RealGlGetIntegerv)(
   GLenum pname,
@@ -986,7 +896,103 @@ BOOL STDMETHODCALLTYPE MineWglMakeCurrent(
   return RealWglMakeCurrent(arg1, arg2);
 }
 
-void hijackGl() {
+Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
+  fnp.reg<
+    kHijacker_GetDepth,
+    HANDLE
+  >([=]() {
+    return backSharedDepthHandle;
+  });
+  fnp.reg<
+    kHijacker_SetDepth,
+    int,
+    HANDLE
+  >([=](HANDLE depthHandle) {
+    backSharedDepthHandle = depthHandle;
+    return 0;
+  });
+}
+void Hijacker::hijackDx(ID3D11DeviceContext *context) {
+  if (!hijacked) {
+    ID3D11DeviceContext1 *context1;
+    HRESULT hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext1, (void **)&context1);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "hijack failed to get context 1: " << (void *)hr << std::endl;
+    }
+    
+    LONG error = DetourTransactionBegin();
+    checkDetourError("DetourTransactionBegin", error);
+
+    error = DetourUpdateThread(GetCurrentThread());
+    checkDetourError("DetourUpdateThread", error);
+    
+    RealOMSetRenderTargets = context->lpVtbl->OMSetRenderTargets;
+    error = DetourAttach(&(PVOID&)RealOMSetRenderTargets, MineOMSetRenderTargets);
+    checkDetourError("RealOMSetRenderTargets", error);
+
+    RealOMSetDepthStencilState = context->lpVtbl->OMSetDepthStencilState;
+    error = DetourAttach(&(PVOID&)RealOMSetDepthStencilState, MineOMSetDepthStencilState);
+    checkDetourError("RealOMSetDepthStencilState", error);
+
+    RealDraw = context->lpVtbl->Draw;
+    error = DetourAttach(&(PVOID&)RealDraw, MineDraw);
+    checkDetourError("RealDraw", error);
+    
+    RealDrawAuto = context->lpVtbl->DrawAuto;
+    error = DetourAttach(&(PVOID&)RealDrawAuto, MineDrawAuto);
+    checkDetourError("RealDrawAuto", error);
+    
+    RealDrawIndexed = context->lpVtbl->DrawIndexed;
+    error = DetourAttach(&(PVOID&)RealDrawIndexed, MineDrawIndexed);
+    checkDetourError("RealDrawIndexed", error);
+    
+    RealDrawIndexedInstanced = context->lpVtbl->DrawIndexedInstanced;
+    error = DetourAttach(&(PVOID&)RealDrawIndexedInstanced, MineDrawIndexedInstanced);
+    checkDetourError("RealDrawIndexedInstanced", error);
+    
+    RealDrawIndexedInstancedIndirect = context->lpVtbl->DrawIndexedInstancedIndirect;
+    error = DetourAttach(&(PVOID&)RealDrawIndexedInstancedIndirect, MineDrawIndexedInstancedIndirect);
+    checkDetourError("RealDrawIndexedInstancedIndirect", error);
+    
+    RealDrawInstanced = context->lpVtbl->DrawInstanced;
+    error = DetourAttach(&(PVOID&)RealDrawInstanced, MineDrawInstanced);
+    checkDetourError("RealDrawInstanced", error);
+    
+    RealDrawInstancedIndirect = context->lpVtbl->DrawInstancedIndirect;
+    error = DetourAttach(&(PVOID&)RealDrawInstancedIndirect, MineDrawInstancedIndirect);
+    checkDetourError("RealDrawInstancedIndirect", error);
+    
+    RealClearRenderTargetView = context->lpVtbl->ClearRenderTargetView;
+    error = DetourAttach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
+    checkDetourError("RealClearRenderTargetView", error);
+    
+    RealClearDepthStencilView = context->lpVtbl->ClearDepthStencilView;
+    error = DetourAttach(&(PVOID&)RealClearDepthStencilView, MineClearDepthStencilView);
+    checkDetourError("RealClearDepthStencilView", error);
+
+    RealClearState = context->lpVtbl->ClearState;
+    error = DetourAttach(&(PVOID&)RealClearState, MineClearState);
+    checkDetourError("RealClearState", error);
+    
+    RealClearView = context1->lpVtbl->ClearView;
+    error = DetourAttach(&(PVOID&)RealClearView, MineClearView);
+    checkDetourError("RealClearView", error);
+    
+    RealResolveSubresource = context1->lpVtbl->ResolveSubresource;
+    error = DetourAttach(&(PVOID&)RealResolveSubresource, MineResolveSubresource);
+    checkDetourError("RealResolveSubresource", error);
+
+    error = DetourTransactionCommit();
+    checkDetourError("DetourTransactionCommit", error);
+
+    context1->lpVtbl->Release(context1);
+
+    hijacked = true;
+  }
+}
+void Hijacker::hijackGl() {
   if (!hijackedGl) {
     HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
     HMODULE libOpenGl32 = LoadLibraryA("opengl32.dll");
@@ -1155,5 +1161,70 @@ void hijackGl() {
     }
 
     hijackedGl = true;
+  }
+}
+std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) {
+  // local
+  auto iter = texMap.find(tex);
+  if (iter != texMap.end()) {
+    auto iter2 = std::find(texOrder.begin(), texOrder.end(), tex);
+    iter2--;
+    ID3D11Texture2D *tex2 = *iter2;
+    iter = texMap.find(tex2);
+    return std::pair<ID3D11Texture2D *, HANDLE>(iter->second, nullptr);
+  }
+  // remote
+  HANDLE sharedDepthHandle = fnp.call<
+    kHijacker_GetDepth,
+    HANDLE
+  >();
+  if (sharedDepthHandle) {
+    if (clientDepthHandleLatched != backSharedDepthHandle) {
+      if (clientDepthHandleLatched) {
+        // XXX delete old resources
+      }
+      clientDepthHandleLatched = sharedDepthHandle;
+
+      {      
+        ID3D11Resource *shDepthTexResource;
+        HRESULT hr = device->lpVtbl->OpenSharedResource(device, sharedDepthHandle, IID_ID3D11Resource, (void**)(&shDepthTexResource));
+
+        if (SUCCEEDED(hr)) {
+          hr = shDepthTexResource->lpVtbl->QueryInterface(shDepthTexResource, IID_ID3D11Texture2D, (void**)(&clientDepthTex));
+          
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
+            abort();
+          }
+        } else {
+          getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
+          abort();
+        }
+        shDepthTexResource->lpVtbl->Release(shDepthTexResource);
+      }
+      if (!clientDepthEvent) {
+        clientDepthEvent = OpenEventA(
+          GENERIC_ALL,
+          false,
+          "Local\\OpenVrDepthFenceEvent"
+        );
+      }
+    }
+    
+    return std::pair<ID3D11Texture2D *, HANDLE>(clientDepthTex, clientDepthEvent);
+  }
+  // not found
+  return std::pair<ID3D11Texture2D *, HANDLE>(nullptr, nullptr);
+}
+void Hijacker::flushTextureLatches() {
+  if (texMap.size() > 0) {
+    for (auto iter : texMap) {
+      iter.first->lpVtbl->Release(iter.first);
+      iter.second->lpVtbl->Release(iter.second);
+    }
+    texMap.clear();
+    texOrder.clear();
   }
 }

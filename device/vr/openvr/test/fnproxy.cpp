@@ -1,4 +1,8 @@
+#include <string>
+
 #include "device/vr/openvr/test/fnproxy.h"
+
+#include <windows.h>
 
 Mutex::Mutex(const char *name) {
   h = CreateMutex(

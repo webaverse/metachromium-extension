@@ -186,8 +186,9 @@ int WINAPI WinMain(
   });
 
   FnProxy fnp;
+  Hijacker hijacker(fnp);
   vr::PVRSystem system(vr::g_vrsystem, fnp);
-  vr::PVRCompositor compositor(vr::g_vrcompositor, fnp);
+  vr::PVRCompositor compositor(vr::g_vrcompositor, hijacker, fnp);
   vr::PVRClientCore clientcore(&compositor, fnp);
   vr::PVRInput input(vr::g_vrinput, fnp);
   vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);

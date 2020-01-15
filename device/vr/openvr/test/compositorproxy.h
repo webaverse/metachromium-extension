@@ -10,11 +10,13 @@
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/openvr/test/fnproxy.h"
+#include "device/vr/openvr/test/hijack.h"
 
 namespace vr {
 class PVRCompositor : public IVRCompositor {
 public:
   IVRCompositor *vrcompositor;
+  Hijacker &hijacker;
   FnProxy &fnp;
 
   // system
@@ -101,7 +103,7 @@ public:
   std::vector<ID3D11RenderTargetView *> renderTargetViews;
   // std::vector<HANDLE> shTexOutInteropHandles;
 
-  PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp);
+  PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
 	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,

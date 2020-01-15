@@ -1,11 +1,22 @@
 #ifndef _hijack_h_
 #define _hijack_h_
 
-#include <D3D11_4.h>
+#include "device/vr/openvr/test/fnproxy.h"
 
-void hijack(ID3D11DeviceContext *context);
-void hijackGl();
-ID3D11Texture2D *getDepthTextureMatching(ID3D11Texture2D *tex);
-void flushTextureLatches();
+class Hijacker {
+public:
+  FnProxy fnp;
+  bool hijacked = false;
+  bool hijackedGl = false;
+  ID3D11Device5 *device;
+  ID3D11DeviceContext4 *context;
+  
+  Hijacker(FnProxy &fnp);
+
+  void hijackDx(ID3D11DeviceContext *context);
+  void hijackGl();
+  std::pair<ID3D11Texture2D *, HANDLE> getDepthTextureMatching(ID3D11Texture2D *tex);
+  void flushTextureLatches();
+};
 
 #endif
