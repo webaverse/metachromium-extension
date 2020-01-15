@@ -12,6 +12,7 @@
 #include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/detours/detours.h"
 #include "third_party/khronos/EGL/egl.h"
+#include "third_party/khronos/EGL/eglext.h"
 
 // constants
 char kHijacker_GetDepth[] = "Hijacker_GetDepth";
@@ -24,6 +25,7 @@ std::vector<ID3D11Texture2D *> texOrder;
 // client
 ID3D11Device5 *hijackerDevice = nullptr;
 ID3D11DeviceContext4 *hijackerContext = nullptr;
+HANDLE hijackerInteropDevice = NULL;
 
 // gl
 // front
@@ -54,6 +56,11 @@ void checkDetourError(const char *label, LONG error) {
     abort();
   }
 }
+
+decltype(eglGetCurrentDisplay) *EGL_GetCurrentDisplay = nullptr;
+decltype(eglChooseConfig) *EGL_ChooseConfig = nullptr;
+decltype(eglCreatePbufferFromClientBuffer) *EGL_CreatePbufferFromClientBuffer = nullptr;
+decltype(eglBindTexImage) *EGL_BindTexImage = nullptr;
 
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
   ID3D11DeviceContext *This,
@@ -754,6 +761,11 @@ void STDMETHODCALLTYPE MineGlClear(
       if (!depthTex) {
         Hijacker::ensureClientDevice();
         
+        /* HANDLE (*wglDXOpenDeviceNV)(void *dxDevice) = (HANDLE (*)(void *dxDevice))wglGetProcAddress("wglDXOpenDeviceNV");
+        getOut() << "make hijacker interop device 1 " << (void *)wglDXOpenDeviceNV << std::endl;
+        hijackerInteropDevice = wglDXOpenDeviceNV(hijackerDevice);
+        getOut() << "make hijacker interop device 2 " << (void *)hijackerInteropDevice << std::endl; */
+        
         getOut() << "generating depth 1 " << (void *)RealGlGetError() << std::endl;
         RealGlGenTextures(1, &depthTex);
         
@@ -788,6 +800,89 @@ void STDMETHODCALLTYPE MineGlClear(
         // RealGlFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthTex, 0);
         // RealGlFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthTex, 0);
         getOut() << "generating depth 4 6 " << (void *)RealGlGetError() << std::endl;
+
+        {
+          getOut() << "shared 1" << std::endl;
+          
+          ID3D11Texture2D *depthTex = nullptr;
+          D3D11_TEXTURE2D_DESC desc{};
+          desc.Width = 256;
+          desc.Height = 256;
+          desc.MipLevels = desc.ArraySize = 1;
+          desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+          desc.SampleDesc.Count = 1;
+          desc.Usage = D3D11_USAGE_DEFAULT;
+          desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+          desc.CPUAccessFlags = 0;
+          desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+          HRESULT hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
+          {
+              // error handling code
+          }
+          
+          getOut() << "shared 2" << std::endl;
+          
+          IDXGIResource *dxgiResource;
+          hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource, (void **)&dxgiResource);
+          if FAILED(hr)
+          {
+              // error handling code
+          }
+          
+          HANDLE sharedHandle;
+          hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &sharedHandle);
+          if FAILED(hr)
+          {
+              // error handling code
+          }
+          
+          getOut() << "shared 3" << std::endl;
+
+          EGLDisplay display = EGL_GetCurrentDisplay();
+          EGLConfig config;
+          EGLint numConfigs = 0;
+          EGLint attribList[] = {
+            // 32 bit color
+            EGL_RED_SIZE, 8,
+            EGL_GREEN_SIZE, 8,
+            EGL_BLUE_SIZE, 8,
+            EGL_ALPHA_SIZE, 8,
+            // at least 24 bit depth
+            EGL_DEPTH_SIZE, 0,
+            EGL_STENCIL_SIZE, 0,
+            // EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+            // want opengl-es 2.x conformant CONTEXT
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, 
+            EGL_NONE
+          };
+          EGLBoolean ok = EGL_ChooseConfig(
+            display,
+            attribList,
+            &config,
+            1,
+            &numConfigs
+          );
+          
+          getOut() << "shared 4 " << (int)ok << std::endl;
+          
+          EGLint pBufferAttributes[] =
+          {
+              EGL_WIDTH, desc.Width,
+              EGL_HEIGHT, desc.Height,
+              EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
+              EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
+              EGL_NONE
+          };
+          EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, sharedHandle, config, pBufferAttributes);
+          if (surface == EGL_NO_SURFACE)
+          {
+              // error handling code
+          }
+          
+          getOut() << "shared 5" << std::endl;
+          
+          // EGL_BindTexImage(display, surface, EGL_BACK_BUFFER);
+        }
       }
       
       getOut() << "generating depth 5 " << (void *)RealGlGetError() << std::endl;
@@ -1081,6 +1176,11 @@ void Hijacker::hijackGl() {
     HMODULE libOpenGl32 = LoadLibraryA("opengl32.dll");
 
     if (libGlesV2 != NULL && libOpenGl32 != NULL) {
+      EGL_GetCurrentDisplay = (decltype(EGL_GetCurrentDisplay))GetProcAddress(libGlesV2, "EGL_GetCurrentDisplay");
+      EGL_ChooseConfig = (decltype(EGL_ChooseConfig))GetProcAddress(libGlesV2, "EGL_ChooseConfig");
+      EGL_CreatePbufferFromClientBuffer = (decltype(EGL_CreatePbufferFromClientBuffer))GetProcAddress(libGlesV2, "EGL_CreatePbufferFromClientBuffer");
+      EGL_BindTexImage = (decltype(EGL_BindTexImage))GetProcAddress(libGlesV2, "EGL_BindTexImage");
+      
       decltype(RealGlGetIntegerv) glGetIntegerv = (decltype(RealGlGetIntegerv))GetProcAddress(libGlesV2, "glGetIntegerv");
       RealGlGetIntegerv = glGetIntegerv;
       decltype(RealGlGetFramebufferAttachmentParameteriv) glGetFramebufferAttachmentParameteriv = (decltype(RealGlGetFramebufferAttachmentParameteriv))GetProcAddress(libGlesV2, "glGetFramebufferAttachmentParameteriv");
