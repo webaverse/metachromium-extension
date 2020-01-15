@@ -876,13 +876,6 @@ void STDMETHODCALLTYPE MineGlClear(
       
       glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthDrawFbo);
       getOut() << "generating depth 6 " << (void *)RealGlGetError() << std::endl;
-      getOut() << "blit" <<
-        0 << " " << 0 << " " <<
-        depthWidth << " " << depthHeight << " " <<
-        0 << " " << 0 << " " <<
-        depthWidth << " " << depthHeight << " " <<
-        (GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT) << " " <<
-        GL_NEAREST << std::endl;
       glBlitFramebufferANGLE(
         0, 0,
         depthWidth, depthHeight,

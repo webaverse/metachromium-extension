@@ -121,7 +121,7 @@ PVRApplications *g_pvrapplications = nullptr;
 constexpr bool localLoop = false;
 
 void *shMem = nullptr;
-uint64_t *pBooted = nullptr;
+bool booted = false;
 // GLFWwindow **ppWindow;
 // size_t *pNumClients = nullptr;
 extern "C" {
@@ -141,7 +141,7 @@ extern "C" {
     // size_t &id = *((size_t *)shMem + 1);
     // getOut() << "core 1 " << interface_name << std::endl;
 
-    if (!*pBooted) {
+    if (!booted) {
       if (localLoop) {
         wrapExternalOpenVr([&]() -> void {
           // getOut() << "core 2 " << interface_name << std::endl;
@@ -178,10 +178,10 @@ extern "C" {
           }
 
           vr::EVRInitError result = vr::VRInitError_None;
-          if (!*pBooted) {
+          /* if (!*pBooted) {
             getOut() << "vr_init " << GetCurrentThreadId() << std::endl;
             vr::VR_Init(&result, vr::VRApplication_Scene);
-          }
+          } */
           if (result != vr::VRInitError_None) {
             getOut() << "vr_init failed" << std::endl;
             abort();
@@ -229,7 +229,7 @@ extern "C" {
         t.detach();
       }
       
-      *pBooted = 1;
+      booted = true;
     }
     
     if (!vr::g_pvrclientcore) {
@@ -297,7 +297,6 @@ BOOL WINAPI DllMain(
 
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
-    pBooted = (uint64_t *)shMem;
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
 
