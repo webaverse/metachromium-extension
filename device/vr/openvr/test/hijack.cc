@@ -78,12 +78,13 @@ HANDLE hijackerInteropDevice = NULL;
 int phase = 0;
 GLuint depthResolveTexId = 0;
 GLuint depthTexId = 0;
+GLuint depthResolveFbo = 0;
+GLuint depthShFbo = 0;
 GLsizei depthSamples = 0;
 GLenum depthInternalformat = 0;
 GLsizei depthWidth = 0;
 GLsizei depthHeight = 0;
-GLuint depthResolveFbo = 0;
-GLuint depthShFbo = 0;
+GLuint depthProgram = 0;
 size_t fenceValue = 0;
 HANDLE frontSharedDepthHandle = NULL;
 HANDLE frontDepthEvent = NULL;
@@ -765,25 +766,10 @@ void STDMETHODCALLTYPE MineGlClear(
 ) {
   if (phase == 3) {
     if (depthSamples != 0) {
-      GLint oldTex;
-      RealGlGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTex);
-      GLint oldReadFbo;
-      RealGlGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &oldReadFbo);
-      GLint oldDrawFbo;
-      RealGlGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &oldDrawFbo);
-      GLint oldProgram;
-      RealGlGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
-      GLint oldVao;
-      RealGlGetIntegerv(GL_VERTEX_ARRAY_BINDING, &oldVao);
-      GLint oldArrayBuffer;
-      RealGlGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldArrayBuffer);
-
-      getOut() << "get old X " << oldTex << " " << oldReadFbo << " " << oldDrawFbo << " " << oldProgram << " " << oldVao << " " << oldArrayBuffer << std::endl;
-
-      /* if (!glTexParameteri) {
+      if (!glActiveTexture) {
         HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glTexParameteri = (decltype(glTexParameteri))GetProcAddress(libGlesV2, "glTexParameteri");
-      } */
+        glActiveTexture = (decltype(glActiveTexture))GetProcAddress(libGlesV2, "glActiveTexture");
+      }
       if (!glTexStorage2DMultisample) {
         HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
         glTexStorage2DMultisample = (decltype(glTexStorage2DMultisample))GetProcAddress(libGlesV2, "glTexStorage2DMultisample");
@@ -892,6 +878,26 @@ void STDMETHODCALLTYPE MineGlClear(
         HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
         glUniform1i = (decltype(glUniform1i))GetProcAddress(libGlesV2, "glUniform1i");
       }
+      
+      GLint oldActiveTexture;
+      RealGlGetIntegerv(GL_ACTIVE_TEXTURE, &oldActiveTexture);
+      glActiveTexture(GL_TEXTURE0);
+      GLint oldTexture2d;
+      RealGlGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTexture2d);
+      GLint oldReadFbo;
+      RealGlGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &oldReadFbo);
+      GLint oldDrawFbo;
+      RealGlGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &oldDrawFbo);
+      GLint oldProgram;
+      RealGlGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+      GLint oldVao;
+      RealGlGetIntegerv(GL_VERTEX_ARRAY_BINDING, &oldVao);
+      GLint oldArrayBuffer;
+      RealGlGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldArrayBuffer);
+      GLint oldViewport[4];
+      RealGlGetIntegerv(GL_VIEWPORT, oldViewport);
+
+      // getOut() << "get old X " << oldTex << " " << oldReadFbo << " " << oldDrawFbo << " " << oldProgram << " " << oldVao << " " << oldArrayBuffer << std::endl;
 
       if (!depthTexId) {
         Hijacker::ensureClientDevice();
@@ -975,7 +981,7 @@ void STDMETHODCALLTYPE MineGlClear(
           getOut() << "generating depth 5 5 " << (void *)glCreateProgram << " " << (void *)glAttachShader << " " << (void *)glLinkProgram << " " << (void *)glGetProgramiv << " " << (void *)RealGlGetError() << std::endl;
 
           // shader program
-          GLuint depthProgram = glCreateProgram();
+          depthProgram = glCreateProgram();
           glAttachShader(depthProgram, composeVertex);
           glAttachShader(depthProgram, composeFragment);
           glLinkProgram(depthProgram);
@@ -1066,10 +1072,6 @@ void STDMETHODCALLTYPE MineGlClear(
           glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
           glUniform1i(texLocation, 0);
-
-          glBindVertexArray(oldVao);
-          glUseProgram(oldProgram);
-          glBindBuffer(GL_ARRAY_BUFFER, oldArrayBuffer);
         }
         {
           getOut() << "shared 1" << std::endl;
@@ -1167,10 +1169,22 @@ void STDMETHODCALLTYPE MineGlClear(
         GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
         GL_NEAREST
       );
+
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, depthResolveTexId);
+      glUseProgram(depthProgram);
+      glViewport(0, 0, depthWidth, depthHeight);
+      getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
+      glDrawElements(
+        GL_TRIANGLES,
+        6,
+        GL_UNSIGNED_SHORT,
+        (void *)0
+      );
       
-      /* getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
+      getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
       
-      glBindFramebuffer(GL_READ_FRAMEBUFFER, depthDrawFbo);
+      /* glBindFramebuffer(GL_READ_FRAMEBUFFER, depthDrawFbo);
       std::vector<uint32_t> data(depthWidth * depthHeight);
       RealGlReadPixels(0, 0, depthWidth, depthHeight, GL_DEPTH_COMPONENT, GL_FLOAT, data.data());
       getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
@@ -1180,12 +1194,14 @@ void STDMETHODCALLTYPE MineGlClear(
       }
       getOut() << "depth count " << count << std::endl; */
 
-      RealGlBindTexture(GL_TEXTURE_2D, oldTex);
+      RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
+      glActiveTexture(oldActiveTexture);
       glBindFramebuffer(GL_READ_FRAMEBUFFER, oldReadFbo);
       glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDrawFbo);
       glUseProgram(oldProgram);
       glBindVertexArray(oldVao);
       glBindBuffer(GL_ARRAY_BUFFER, oldArrayBuffer);
+      glViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
 
       /* GLint type;
       RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
