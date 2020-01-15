@@ -54,42 +54,6 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "device/vr/openvr/test/fnproxy.h"
 #include "device/vr/openvr/test/hijack.h"
 
-std::string dllDir;
-std::ofstream out;
-std::ostream &getOut() {
-  // if (!isProcess) {
-    if (!out.is_open()) {
-      std::string logPath = dllDir + std::string("log") + logSuffix + std::string(".txt");
-      out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
-      out << "--------------------------------------------------------------------------------" << std::endl;
-    }
-    return out;
-  /* } else {
-    return std::cout;
-  } */
-}
-// constexpr bool tracing = true;
-constexpr bool tracing = false;
-void TRACE(const char *module, const std::function<void()> &fn) {
-  if (tracing) {
-    fn();
-  }
-}
-
-void wrapExternalOpenVr(std::function<void()> &&fn) {
-  std::vector<char> buf(4096);
-  GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
-  SetEnvironmentVariable("VR_OVERRIDE", "");
-
-  fn();
-
-  SetEnvironmentVariable("VR_OVERRIDE", buf.data());
-}
-
-void vrShutdownInternal() {
-  getOut() << "vr shutdown internal" << std::endl;
-}
-
 namespace vr {
 IVRSystem *g_vrsystem = nullptr;
 IVRCompositor *g_vrcompositor = nullptr;
@@ -113,6 +77,48 @@ PVRChaperoneSetup *g_pvrchaperonesetup = nullptr;
 PVRSettings *g_pvrsettings = nullptr;
 PVRRenderModels *g_pvrrendermodels = nullptr;
 PVRApplications *g_pvrapplications = nullptr;
+}
+
+std::string dllDir;
+std::ofstream out;
+std::ostream &getOut() {
+  // if (!isProcess) {
+    if (!out.is_open()) {
+      std::string logPath = dllDir + std::string("log") + logSuffix + std::string(".txt");
+      out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
+      out << "--------------------------------------------------------------------------------" << std::endl;
+    }
+    return out;
+  /* } else {
+    return std::cout;
+  } */
+}
+void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex) {
+  vr::g_vrsystem->GetDXGIOutputInfo(pAdaterIndex);
+}
+void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex) {
+  vr::g_pvrsystem->GetDXGIOutputInfo(pAdaterIndex);
+}
+// constexpr bool tracing = true;
+constexpr bool tracing = false;
+void TRACE(const char *module, const std::function<void()> &fn) {
+  if (tracing) {
+    fn();
+  }
+}
+
+void wrapExternalOpenVr(std::function<void()> &&fn) {
+  std::vector<char> buf(4096);
+  GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
+  SetEnvironmentVariable("VR_OVERRIDE", "");
+
+  fn();
+
+  SetEnvironmentVariable("VR_OVERRIDE", buf.data());
+}
+
+void vrShutdownInternal() {
+  getOut() << "vr shutdown internal" << std::endl;
 }
 
 FnProxy *g_fnp = nullptr;
@@ -181,10 +187,6 @@ extern "C" {
           }
 
           vr::EVRInitError result = vr::VRInitError_None;
-          /* if (!*pBooted) {
-            getOut() << "vr_init " << GetCurrentThreadId() << std::endl;
-            vr::VR_Init(&result, vr::VRApplication_Scene);
-          } */
           if (result != vr::VRInitError_None) {
             getOut() << "vr_init failed" << std::endl;
             abort();
@@ -232,19 +234,6 @@ extern "C" {
       }
       
       booted = true;
-    }
-    
-    if (!vr::g_pvrclientcore) {
-      vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *g_fnp);
-      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
-      vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *g_fnp);
-      vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *g_fnp);
-      vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *g_fnp);
-      vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *g_fnp);
-      vr::g_pvrchaperonesetup = new vr::PVRChaperoneSetup(vr::g_vrchaperonesetup, *g_fnp);
-      vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *g_fnp);
-      vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
-      vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
     }
 
     // result = vr::VRInitError_None;
@@ -303,6 +292,17 @@ BOOL WINAPI DllMain(
 
     g_fnp = new FnProxy();
     g_hijacker = new Hijacker(*g_fnp);
+    vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *g_fnp);
+    vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+    vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *g_fnp);
+    vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *g_fnp);
+    vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *g_fnp);
+    vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *g_fnp);
+    vr::g_pvrchaperonesetup = new vr::PVRChaperoneSetup(vr::g_vrchaperonesetup, *g_fnp);
+    vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *g_fnp);
+    vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
+    vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
+    
     g_hijacker->hijackGl();
 
     // getOut() << "init dll 0" << std::endl;

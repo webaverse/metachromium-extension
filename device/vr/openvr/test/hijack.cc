@@ -21,6 +21,9 @@ char kHijacker_SetDepth[] = "Hijacker_SetDepth";
 // front
 std::map<ID3D11Texture2D *, ID3D11Texture2D *> texMap;
 std::vector<ID3D11Texture2D *> texOrder;
+// client
+ID3D11Device5 *hijackerDevice = nullptr;
+ID3D11DeviceContext4 *hijackerContext = nullptr;
 
 // gl
 // front
@@ -41,6 +44,9 @@ HANDLE backSharedDepthHandle = NULL;
 ID3D11Texture2D *clientDepthTex = nullptr;
 HANDLE clientDepthEvent = NULL;
 HANDLE clientDepthHandleLatched = NULL;
+
+void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
+void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
 
 void checkDetourError(const char *label, LONG error) {
   if (error) {
@@ -353,7 +359,7 @@ void (STDMETHODCALLTYPE *RealResolveSubresource)(
   UINT           SrcSubresource,
   DXGI_FORMAT    Format
 ) = nullptr;
-ID3D11Texture2D *tmpTexture = nullptr;
+// ID3D11Texture2D *tmpTexture = nullptr;
 void STDMETHODCALLTYPE MineResolveSubresource(
   ID3D11DeviceContext1 *This,
   ID3D11Resource *pDstResource,
@@ -364,7 +370,7 @@ void STDMETHODCALLTYPE MineResolveSubresource(
 ) {
   getOut() << "ResolveSubresource" << std::endl;
   
-  if (tmpTexture) {
+  /* if (tmpTexture) {
     tmpTexture->lpVtbl->Release(tmpTexture);
     tmpTexture = nullptr;
   }
@@ -383,7 +389,7 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
   desc.MiscFlags = 0;
 
-  device->lpVtbl->CreateTexture2D(device, &desc, NULL, &tmpTexture);
+  device->lpVtbl->CreateTexture2D(device, &desc, NULL, &tmpTexture); */
   
   RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
 }
@@ -746,6 +752,8 @@ void STDMETHODCALLTYPE MineGlClear(
       }
 
       if (!depthTex) {
+        Hijacker::ensureClientDevice();
+        
         getOut() << "generating depth 1 " << (void *)RealGlGetError() << std::endl;
         RealGlGenTextures(1, &depthTex);
         
@@ -795,7 +803,7 @@ void STDMETHODCALLTYPE MineGlClear(
         GL_NEAREST
       );
       
-      getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
+      /* getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
       
       glBindFramebuffer(GL_READ_FRAMEBUFFER, depthDrawFbo);
       std::vector<uint32_t> data(depthWidth * depthHeight);
@@ -805,7 +813,7 @@ void STDMETHODCALLTYPE MineGlClear(
       for (size_t i = 0; i < data.size(); i++) {
         count += data[i];
       }
-      getOut() << "depth count " << count << std::endl;
+      getOut() << "depth count " << count << std::endl; */
 
       RealGlBindTexture(GL_TEXTURE_2D, oldTex);
       // RealGlBindTexture(GL_TEXTURE_2D_MULTISAMPLE, oldTexMs);
@@ -911,6 +919,81 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     backSharedDepthHandle = depthHandle;
     return 0;
   });
+}
+void Hijacker::ensureClientDevice() {
+  if (!hijackerDevice) {
+    getOut() << "ensure client device 1" << std::endl;
+    int32_t adapterIndex;
+    ProxyGetDXGIOutputInfo(&adapterIndex);
+    if (adapterIndex == -1) {
+      adapterIndex = 0;
+    }
+    
+    getOut() << "ensure client device 2" << std::endl;
+
+    IDXGIFactory1 *dxgi_factory;
+    IDXGIAdapter *adapter;
+    HRESULT hr = CreateDXGIFactory1(IID_IDXGIFactory1, (void **)&dxgi_factory);
+    dxgi_factory->lpVtbl->EnumAdapters(dxgi_factory, adapterIndex, &adapter);
+
+    getOut() << "ensure client device 3" << std::endl;
+
+    ID3D11Device *deviceBasic;
+    ID3D11DeviceContext *contextBasic;
+    D3D_FEATURE_LEVEL featureLevels[] = {
+      D3D_FEATURE_LEVEL_11_1
+    };
+    hr = D3D11CreateDevice(
+      // adapter, // pAdapter
+      NULL, // pAdapter
+      D3D_DRIVER_TYPE_HARDWARE, // DriverType
+      NULL, // Software
+      0, // Flags
+      featureLevels, // pFeatureLevels
+      ARRAYSIZE(featureLevels), // FeatureLevels
+      D3D11_SDK_VERSION, // SDKVersion
+      &deviceBasic, // ppDevice
+      NULL, // pFeatureLevel
+      &contextBasic // ppImmediateContext
+    );
+    getOut() << "ensure client device 4" << std::endl;
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "hijacker client device creation failed " << (void *)hr << std::endl;
+      abort();
+    }
+
+    hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11Device5, (void **)&hijackerDevice);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "device query failed" << std::endl;
+      abort();
+    }
+
+    getOut() << "ensure client device 5" << std::endl;
+
+    ID3D11DeviceContext3 *context3;
+    hijackerDevice->lpVtbl->GetImmediateContext3(hijackerDevice, &context3);
+    hr = context3->lpVtbl->QueryInterface(context3, IID_ID3D11DeviceContext4, (void **)&hijackerContext);
+    getOut() << "ensure client device 6" << std::endl;
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "context query failed" << std::endl;
+      abort();
+    }
+    
+    getOut() << "ensure client device 7" << std::endl;
+    
+    dxgi_factory->lpVtbl->Release(dxgi_factory);
+    deviceBasic->lpVtbl->Release(deviceBasic);
+    contextBasic->lpVtbl->Release(contextBasic);
+    context3->lpVtbl->Release(context3);
+    
+    getOut() << "ensure client device 8" << std::endl;
+  }
 }
 void Hijacker::hijackDx(ID3D11DeviceContext *context) {
   if (!hijacked) {
@@ -1163,7 +1246,7 @@ void Hijacker::hijackGl() {
     hijackedGl = true;
   }
 }
-std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) {
+std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client
   // local
   auto iter = texMap.find(tex);
   if (iter != texMap.end()) {
@@ -1185,9 +1268,11 @@ std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Tex
       }
       clientDepthHandleLatched = sharedDepthHandle;
 
-      {      
+      Hijacker::ensureClientDevice();
+
+      {
         ID3D11Resource *shDepthTexResource;
-        HRESULT hr = device->lpVtbl->OpenSharedResource(device, sharedDepthHandle, IID_ID3D11Resource, (void**)(&shDepthTexResource));
+        HRESULT hr = hijackerDevice->lpVtbl->OpenSharedResource(hijackerDevice, sharedDepthHandle, IID_ID3D11Resource, (void**)(&shDepthTexResource));
 
         if (SUCCEEDED(hr)) {
           hr = shDepthTexResource->lpVtbl->QueryInterface(shDepthTexResource, IID_ID3D11Texture2D, (void**)(&clientDepthTex));

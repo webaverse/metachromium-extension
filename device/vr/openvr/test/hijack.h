@@ -8,11 +8,10 @@ public:
   FnProxy fnp;
   bool hijacked = false;
   bool hijackedGl = false;
-  ID3D11Device5 *device;
-  ID3D11DeviceContext4 *context;
   
   Hijacker(FnProxy &fnp);
 
+  static void ensureClientDevice();
   void hijackDx(ID3D11DeviceContext *context);
   void hijackGl();
   std::pair<ID3D11Texture2D *, HANDLE> getDepthTextureMatching(ID3D11Texture2D *tex);
