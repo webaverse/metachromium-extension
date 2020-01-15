@@ -76,13 +76,14 @@ HANDLE hijackerInteropDevice = NULL;
 // gl
 // front
 int phase = 0;
+GLuint depthResolveTexId = 0;
 GLuint depthTexId = 0;
 GLsizei depthSamples = 0;
 GLenum depthInternalformat = 0;
 GLsizei depthWidth = 0;
 GLsizei depthHeight = 0;
-GLuint depthReadFbo = 0;
-GLuint depthDrawFbo = 0;
+GLuint depthResolveFbo = 0;
+GLuint depthShFbo = 0;
 size_t fenceValue = 0;
 HANDLE frontSharedDepthHandle = NULL;
 HANDLE frontDepthEvent = NULL;
@@ -779,6 +780,10 @@ void STDMETHODCALLTYPE MineGlClear(
 
       getOut() << "get old X " << oldTex << " " << oldReadFbo << " " << oldDrawFbo << " " << oldProgram << " " << oldVao << " " << oldArrayBuffer << std::endl;
 
+      /* if (!glTexParameteri) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glTexParameteri = (decltype(glTexParameteri))GetProcAddress(libGlesV2, "glTexParameteri");
+      } */
       if (!glTexStorage2DMultisample) {
         HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
         glTexStorage2DMultisample = (decltype(glTexStorage2DMultisample))GetProcAddress(libGlesV2, "glTexStorage2DMultisample");
@@ -896,16 +901,38 @@ void STDMETHODCALLTYPE MineGlClear(
         hijackerInteropDevice = wglDXOpenDeviceNV(hijackerDevice);
         getOut() << "make hijacker interop device 2 " << (void *)hijackerInteropDevice << std::endl; */
 
-        RealGlGenTextures(1, &depthTexId);
+        GLuint textures[2];
+        RealGlGenTextures(2, textures);
+        depthResolveTexId = textures[0];
+        depthTexId = textures[1];
         GLuint fbos[2];
         glGenFramebuffers(2, fbos);
-        depthReadFbo = fbos[0];
-        depthDrawFbo = fbos[1];
+        depthResolveFbo = fbos[0];
+        depthShFbo = fbos[1];
         
-        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthDrawFbo);
+        getOut() << "generating depth 1 1 " << (void *)RealGlGetError() << std::endl;
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthResolveFbo);
+        getOut() << "generating depth 1 2 " << (void *)RealGlGetError() << std::endl;
+        RealGlBindTexture(GL_TEXTURE_2D, depthResolveTexId);
+        getOut() << "generating depth 1 3 " << (void *)RealGlGetError() << std::endl;
+        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL, depthWidth, depthHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+        getOut() << "generating depth 1 4 " << (void *)RealGlGetError() << std::endl;
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        getOut() << "generating depth 1 5 " << (void *)RealGlGetError() << std::endl;
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        getOut() << "generating depth 1 6 " << (void *)RealGlGetError() << std::endl;
+        RealGlFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthResolveTexId, 0);
+        getOut() << "generating depth 1 7 " << (void *)RealGlGetError() << std::endl;
+
+        glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthShFbo);
+        getOut() << "generating depth 1 8 " << (void *)RealGlGetError() << std::endl;
         RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
-        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);        
+        getOut() << "generating depth 1 9 " << (void *)RealGlGetError() << std::endl;
+        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        getOut() << "generating depth 1 10 " << (void *)RealGlGetError() << std::endl;
         RealGlFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, depthTexId, 0);
+        getOut() << "generating depth 1 11 " << (void *)RealGlGetError() << std::endl;
 
         {
           GLuint depthVao;
@@ -1130,7 +1157,7 @@ void STDMETHODCALLTYPE MineGlClear(
       
       getOut() << "generating depth 5 " << (void *)RealGlGetError() << std::endl;
       
-      /* glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthDrawFbo);
+      glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthResolveFbo);
       getOut() << "generating depth 6 " << (void *)RealGlGetError() << std::endl;
       glBlitFramebufferANGLE(
         0, 0,
@@ -1139,7 +1166,7 @@ void STDMETHODCALLTYPE MineGlClear(
         depthWidth, depthHeight,
         GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
         GL_NEAREST
-      ); */
+      );
       
       /* getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
       
