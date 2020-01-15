@@ -35,7 +35,7 @@ precision highp float;
 
 varying vec2 vUv;
 // out vec4 fragColor;
-uniform sampler2D tex1;
+uniform sampler2D tex;
 uniform sampler2D tex2;
 uniform sampler2D depthTex1;
 uniform sampler2D depthTex2;
@@ -46,17 +46,17 @@ uniform vec4 texBounds2;
 
 void main() {
   if (hasTex1 > 0.0) {
-    vec4 c = texture2D(tex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
+    vec4 c = texture2D(tex, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
     gl_FragColor  += vec4(c.rgb*c.a, c.a);
-    vec4 c2 = texture2D(depthTex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
-    gl_FragColor  += vec4(c2.rgb * 100.0, 1.0);
+    // vec4 c2 = texture2D(depthTex1, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
+    // gl_FragColor  += vec4(c2.rgb * 100.0, 1.0);
   }
-  if (hasTex2 > 0.0) {
+  /* if (hasTex2 > 0.0) {
     vec4 c = texture2D(tex2, texBounds2.xy + vUv * (texBounds2.zw - texBounds2.xy));
     gl_FragColor  += vec4(c.rgb*c.a, c.a);
     vec4 c2 = texture2D(depthTex2, texBounds1.xy + vUv * (texBounds1.zw - texBounds1.xy));
     gl_FragColor  += vec4(c2.rgb * 100.0, 1.0);
-  }
+  } */
   // if (gl_FragColor .a < 0.5) discard;
   // gl_FragColor  = vec4(vec3(0.0), 1.0);
   // gl_FragColor .r += 0.1;
@@ -847,6 +847,46 @@ void STDMETHODCALLTYPE MineGlClear(
         HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
         glGetProgramiv = (decltype(glGetProgramiv))GetProcAddress(libGlesV2, "glGetProgramiv");
       }
+      if (!glGetAttribLocation) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glGetAttribLocation = (decltype(glGetAttribLocation))GetProcAddress(libGlesV2, "glGetAttribLocation");
+      }
+      if (!glGetUniformLocation) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glGetUniformLocation = (decltype(glGetUniformLocation))GetProcAddress(libGlesV2, "glGetUniformLocation");
+      }
+      if (!glDeleteShader) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glDeleteShader = (decltype(glDeleteShader))GetProcAddress(libGlesV2, "glDeleteShader");
+      }
+      if (!glUseProgram) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glUseProgram = (decltype(glUseProgram))GetProcAddress(libGlesV2, "glUseProgram");
+      }
+      if (!glGenBuffers) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glGenBuffers = (decltype(glGenBuffers))GetProcAddress(libGlesV2, "glGenBuffers");
+      }
+      if (!glBindBuffer) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glBindBuffer = (decltype(glBindBuffer))GetProcAddress(libGlesV2, "glBindBuffer");
+      }
+      if (!glBufferData) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glBufferData = (decltype(glBufferData))GetProcAddress(libGlesV2, "glBufferData");
+      }
+      if (!glEnableVertexAttribArray) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glEnableVertexAttribArray = (decltype(glEnableVertexAttribArray))GetProcAddress(libGlesV2, "glEnableVertexAttribArray");
+      }
+      if (!glVertexAttribPointer) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glVertexAttribPointer = (decltype(glVertexAttribPointer))GetProcAddress(libGlesV2, "glVertexAttribPointer");
+      }
+      if (!glUniform1i) {
+        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+        glUniform1i = (decltype(glUniform1i))GetProcAddress(libGlesV2, "glUniform1i");
+      }
 
       if (!depthTexId) {
         Hijacker::ensureClientDevice();
@@ -923,6 +963,86 @@ void STDMETHODCALLTYPE MineGlClear(
           }
 
           getOut() << "generating depth 5 6 " << (void *)RealGlGetError() << std::endl;
+
+          GLuint positionLocation = glGetAttribLocation(depthProgram, "position");
+          if (positionLocation == -1) {
+            getOut() << "blit program failed to get attrib location for 'position'" << std::endl;
+            abort();
+          }
+          getOut() << "generating depth 5 7 " << (void *)RealGlGetError() << std::endl;
+          GLuint uvLocation = glGetAttribLocation(depthProgram, "uv");
+          if (uvLocation == -1) {
+            getOut() << "blit program failed to get attrib location for 'uv'" << std::endl;
+            abort();
+          }
+
+          getOut() << "generating depth 5 8 " << (void *)RealGlGetError() << std::endl;
+
+          GLuint texLocation = glGetUniformLocation(depthProgram, "tex");
+          // getOut() << "get location 1  " << texString << " " << texLocation << std::endl;
+          if (texLocation != -1) {
+            // 
+          } else {
+            getOut() << "blit program failed to get uniform location for 'tex'" << std::endl;
+            abort();
+          }
+          
+          getOut() << "generating depth 5 9 " << (void *)RealGlGetError() << std::endl;
+
+          // delete the shaders as they're linked into our program now and no longer necessary
+          glDeleteShader(composeVertex);
+          glDeleteShader(composeFragment);
+
+          getOut() << "generating depth 5 10 " << (void *)RealGlGetError() << std::endl;
+
+          glUseProgram(depthProgram);
+          
+          getOut() << "generating depth 11 " << (void *)RealGlGetError() << std::endl;
+
+          GLuint positionBuffer;
+          glGenBuffers(1, &positionBuffer);
+          glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+          getOut() << "generating depth 5 12 " << (void *)RealGlGetError() << std::endl;
+          static const float positions[] = {
+            -1.0f, 1.0f,
+            1.0f, 1.0f,
+            -1.0f, -1.0f,
+            1.0f, -1.0f,
+          };
+          glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+          getOut() << "generating depth 5 13 " << (void *)RealGlGetError() << std::endl;
+          glEnableVertexAttribArray(positionLocation);
+          getOut() << "generating depth 5 14 " << (void *)RealGlGetError() << std::endl;
+          glVertexAttribPointer(positionLocation, 2, GL_FLOAT, false, 0, 0);
+
+          // getOut() << "init program 8" << std::endl;
+
+          GLuint uvBuffer;
+          glGenBuffers(1, &uvBuffer);
+          glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+          static const float uvs[] = {
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f, 1.0f,
+          };
+          glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
+          glEnableVertexAttribArray(uvLocation);
+          glVertexAttribPointer(uvLocation, 2, GL_FLOAT, false, 0, 0);
+
+          getOut() << "generating depth 5 15 " << (void *)RealGlGetError() << std::endl;
+
+          GLuint indexBuffer;
+          glGenBuffers(1, &indexBuffer);
+          static const uint16_t indices[] = {0, 2, 1, 2, 3, 1};
+          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+          glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+          glUniform1i(texLocation, 0);
+
+          glBindVertexArray(oldVao);
+          glUseProgram(oldProgram);
+          glBindBuffer(GL_ARRAY_BUFFER, oldArrayBuffer);
         }
         {
           getOut() << "shared 1" << std::endl;
@@ -988,13 +1108,12 @@ void STDMETHODCALLTYPE MineGlClear(
           
           getOut() << "shared 4 " << (int)ok << std::endl;
           
-          EGLint pBufferAttributes[] =
-          {
-              EGL_WIDTH, desc.Width,
-              EGL_HEIGHT, desc.Height,
-              EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
-              EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
-              EGL_NONE
+          EGLint pBufferAttributes[] = {
+            EGL_WIDTH, desc.Width,
+            EGL_HEIGHT, desc.Height,
+            EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
+            EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
+            EGL_NONE
           };
           EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, sharedHandle, config, pBufferAttributes);
           if (surface == EGL_NO_SURFACE)
@@ -1035,10 +1154,12 @@ void STDMETHODCALLTYPE MineGlClear(
       getOut() << "depth count " << count << std::endl; */
 
       RealGlBindTexture(GL_TEXTURE_2D, oldTex);
-      // RealGlBindTexture(GL_TEXTURE_2D_MULTISAMPLE, oldTexMs);
       glBindFramebuffer(GL_READ_FRAMEBUFFER, oldReadFbo);
       glBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDrawFbo);
-      
+      glUseProgram(oldProgram);
+      glBindVertexArray(oldVao);
+      glBindBuffer(GL_ARRAY_BUFFER, oldArrayBuffer);
+
       /* GLint type;
       RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
       GLint rbo;
