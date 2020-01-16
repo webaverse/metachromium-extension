@@ -2245,7 +2245,7 @@ float PVRCompositor::GetCurrentGridAlpha() {
   >();
 }
 EVRCompositorError PVRCompositor::SetSkyboxOverride( VR_ARRAY_COUNT( unTextureCount ) const Texture_t *pTextures, uint32_t unTextureCount ) {
-  getOut() << "SetSkyboxOverride" << std::endl;
+  getOut() << "SetSkyboxOverride abort" << std::endl;
   abort();
   return VRCompositorError_None;
 }

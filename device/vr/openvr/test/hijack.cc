@@ -1440,7 +1440,7 @@ void STDMETHODCALLTYPE MineGlClear(
           NULL,
           false,
           false,
-          "Local\\OpenVrDepthFenceEvent"
+          (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(0)).c_str()
         );
         if (!frontDepthEvent) {
           getOut() << "failed to create front depth gl event " << (void *)frontDepthEvent << " " << (void *)GetLastError() << std::endl;
@@ -1935,48 +1935,16 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
         // XXX delete old resources
       }
       clientDepthHandleLatched = sharedDepthHandle;
-
-      Hijacker::ensureClientDevice();
       
       getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
-
-      {
-        ID3D11Resource *shDepthTexResource;
-        HRESULT hr = hijackerDevice->lpVtbl->OpenSharedResource(hijackerDevice, sharedDepthHandle, IID_ID3D11Resource, (void**)(&shDepthTexResource));
-
-        if (SUCCEEDED(hr)) {
-          hr = shDepthTexResource->lpVtbl->QueryInterface(shDepthTexResource, IID_ID3D11Texture2D, (void**)(&clientDepthTex));
-          
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
-            abort();
-          }
-        } else {
-          getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
-          abort();
-        }
-        shDepthTexResource->lpVtbl->Release(shDepthTexResource);
-      }
-      if (!clientDepthEvent) {
-        clientDepthEvent = OpenEventA(
-          GENERIC_ALL,
-          false,
-          "Local\\OpenVrDepthFenceEvent"
-        );
-        if (!clientDepthEvent) {
-          getOut() << "failed to open depth gl event " << (void *)clientDepthEvent << " " << (void *)GetLastError() << std::endl;
-        }
-      }
     }
     
-    getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;
+    // getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;
 
-    /* return ProxyTexture{
-      clientDepthTex,
-      clientDepthEvent
-    }; */
+    return ProxyTexture{
+      sharedDepthHandle,
+      0
+    };
   }
   // not found
   return ProxyTexture{
