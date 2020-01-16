@@ -93,11 +93,14 @@ std::ostream &getOut() {
     return std::cout;
   } */
 }
-void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex) {
+/* void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex) {
   vr::g_vrsystem->GetDXGIOutputInfo(pAdaterIndex);
-}
+} */
 void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex) {
   vr::g_pvrsystem->GetDXGIOutputInfo(pAdaterIndex);
+}
+void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight) {
+  vr::g_pvrsystem->GetRecommendedRenderTargetSize(pWidth, pHeight);
 }
 // constexpr bool tracing = true;
 constexpr bool tracing = false;

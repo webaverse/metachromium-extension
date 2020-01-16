@@ -5,9 +5,8 @@
 
 class ProxyTexture {
 public:
-  ID3D11Texture2D *texture;
-  void *readEvent;
-  bool isDirect;
+  void *texHandle;
+  size_t eventIndex;
 };
 
 class Hijacker {

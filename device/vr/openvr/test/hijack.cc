@@ -1,3 +1,4 @@
+#include <deque>
 #include <map>
 #include <string>
 
@@ -50,8 +51,16 @@ void main() {
 
 // dx
 // front
-std::map<ID3D11Texture2D *, ID3D11Texture2D *> texMap;
-std::vector<ID3D11Texture2D *> texOrder;
+ID3D11Texture2D *lastDepthTex = nullptr;
+ID3D11Resource *lastDepthTexResource = nullptr;
+D3D11_TEXTURE2D_DESC lastDescDepth{};
+// std::map<ID3D11Texture2D *, ID3D11Texture2D *> texMap;
+std::vector<ID3D11Texture2D *> texCache;
+std::vector<HANDLE> texSharedHandleCache;
+std::vector<ID3D11Fence *> fenceCache;
+std::vector<HANDLE> eventCache;
+std::deque<ProxyTexture> texOrder;
+std::deque<HANDLE> eventOrder;
 // client
 ID3D11Device5 *hijackerDevice = nullptr;
 ID3D11DeviceContext4 *hijackerContext = nullptr;
@@ -68,13 +77,7 @@ ID3D11Texture2D *depthTex = nullptr;
 GLuint depthVao = 0;
 GLsizei depthSamples = 0;
 GLenum depthInternalformat = 0;
-GLsizei depthWidth = 0;
-GLsizei depthHeight = 0;
 GLuint depthProgram = 0;
-size_t fenceValue = 0;
-ID3D11Fence *fence = nullptr;
-HANDLE frontSharedDepthHandle = NULL;
-HANDLE frontDepthEvent = NULL;
 // back
 HANDLE backSharedDepthHandle = NULL;
 // client
@@ -82,8 +85,18 @@ ID3D11Texture2D *clientDepthTex = nullptr;
 HANDLE clientDepthEvent = NULL;
 HANDLE clientDepthHandleLatched = NULL;
 
-void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
+// dx + gl
+// front
+uint32_t depthWidth = 0;
+uint32_t depthHeight = 0;
+size_t fenceValue = 0;
+ID3D11Fence *fence = nullptr;
+HANDLE frontSharedDepthHandle = NULL;
+HANDLE frontDepthEvent = NULL;
+
+// void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
 void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
+void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight);
 
 void checkDetourError(const char *label, LONG error) {
   if (error) {
@@ -109,96 +122,286 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
   ID3D11RenderTargetView * const *ppRenderTargetViews,
   ID3D11DepthStencilView *pDepthStencilView
 ) {
-  // getOut() << "intercept 1" << std::endl;
+  // getOut() << "RealOMSetRenderTargets 1" << std::endl;
 
-  if (NumViews > 0 && ppRenderTargetViews && pDepthStencilView) {
-    // getOut() << "intercept 2 " << NumViews << std::endl;
-    
-    ID3D11RenderTargetView * const pRenderTargetViews = *ppRenderTargetViews;
+  if (NumViews > 0 && ppRenderTargetViews && *ppRenderTargetViews && pDepthStencilView) {
+    /* ID3D11RenderTargetView * const pRenderTargetViews = *ppRenderTargetViews;
+    for (uint32_t i = 0; i < NumViews; i++) {
+      ID3D11Texture2D *tex = nullptr;
+      ID3D11Texture2D *depthTex = nullptr;
 
-    if (pRenderTargetViews) {
-      // getOut() << "intercept 2.1 " << (void *)pRenderTargetViews << std::endl;
-
-      for (uint32_t i = 0; i < NumViews; i++) {
-        ID3D11Texture2D *tex = nullptr;
-        ID3D11Texture2D *depthTex = nullptr;
-
-        // getOut() << "intercept 3 " << i << " " << NumViews << std::endl;
-
-        {
-          ID3D11RenderTargetView * const pRenderTargetView = pRenderTargetViews + i;
-          
-          // getOut() << "intercept 4.1 " << (void *)pRenderTargetView << std::endl;
-          
-          ID3D11Resource *texResource = nullptr;
-          pRenderTargetView->lpVtbl->GetResource(pRenderTargetView, &texResource);
-          // getOut() << "intercept 4.1 " << (void *)texResource << std::endl;
-          HRESULT hr = texResource->lpVtbl->QueryInterface(texResource, IID_ID3D11Texture2D, (void **)&tex);
-          // getOut() << "intercept 4.2 " << (void *)tex << std::endl;
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to get hijack texture resource: " << (void *)hr << std::endl;
-            abort();
-          }
-          texResource->lpVtbl->Release(texResource);
-        }
-        // getOut() << "intercept 5" << std::endl;
-        {
-          ID3D11Resource *depthTexResource = nullptr;
-          pDepthStencilView->lpVtbl->GetResource(pDepthStencilView, &depthTexResource);
-          HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
-          // getOut() << "intercept 6" << std::endl;
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
-            abort();
-          }
-          depthTexResource->lpVtbl->Release(depthTexResource);
-        }
+      {
+        ID3D11RenderTargetView * const pRenderTargetView = pRenderTargetViews + i;
         
-        /// getOut() << "intercept 7" << std::endl;
-        
-        auto iter = texMap.find(tex);
-        if (iter == texMap.end()) {
-          D3D11_TEXTURE2D_DESC desc;
-          tex->lpVtbl->GetDesc(tex, &desc);
-          D3D11_TEXTURE2D_DESC descDepth;
-          depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
-
-          /* getOut() << "add tex " <<
-            (void *)This << " | " <<
-            (void *)tex << " " << (void *)depthTex << " | " <<
-            desc.Width << " " << desc.Height << " " <<
-            desc.MipLevels << " " << desc.ArraySize << " " <<
-            desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-            desc.Format << " " <<
-            desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " | " <<
-            descDepth.Width << " " << descDepth.Height << " " <<
-            descDepth.MipLevels << " " << descDepth.ArraySize << " " <<
-            descDepth.SampleDesc.Count << " " << descDepth.SampleDesc.Quality << " " <<
-            descDepth.Format << " " <<
-            descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
-            std::endl; */
-
-          texMap.emplace(tex, depthTex);
-          texOrder.push_back(tex);
+        ID3D11Resource *texResource = nullptr;
+        pRenderTargetView->lpVtbl->GetResource(pRenderTargetView, &texResource);
+        HRESULT hr = texResource->lpVtbl->QueryInterface(texResource, IID_ID3D11Texture2D, (void **)&tex);
+        if (SUCCEEDED(hr)) {
+          // nothing
         } else {
-          tex->lpVtbl->Release(tex);
-          depthTex->lpVtbl->Release(depthTex);
+          getOut() << "failed to get hijack texture resource: " << (void *)hr << std::endl;
+          abort();
+        }
+        texResource->lpVtbl->Release(texResource);
+      }
+      {
+        ID3D11Resource *depthTexResource = nullptr;
+        pDepthStencilView->lpVtbl->GetResource(pDepthStencilView, &depthTexResource);
+        HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
+          abort();
+        }
+        depthTexResource->lpVtbl->Release(depthTexResource);
+      }
+      
+      // D3D11_TEXTURE2D_DESC desc;
+      // tex->lpVtbl->GetDesc(tex, &desc);
+      // D3D11_TEXTURE2D_DESC descDepth;
+      // depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
+      
+      auto iter = texMap.find(tex);
+      if (iter == texMap.end()) {
+        texMap.emplace(tex, depthTex);
+        texOrder.push_back(tex);
+      } else {
+        tex->lpVtbl->Release(tex);
+        depthTex->lpVtbl->Release(depthTex);
+      }
+    } */
+    
+    if (!depthWidth || !depthHeight) {
+      ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
+    }
+    
+    // getOut() << "RealOMSetRenderTargets 2" << std::endl;
+
+    ID3D11Texture2D *depthTex = nullptr;
+    ID3D11Resource *depthTexResource = nullptr;
+    pDepthStencilView->lpVtbl->GetResource(pDepthStencilView, &depthTexResource);
+    HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    D3D11_TEXTURE2D_DESC descDepth;
+    depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
+    
+    getOut() << "dx depth flags " <<
+      // (void *)depthTex << " " <<
+      descDepth.Width << " " << descDepth.Height << " " <<
+      descDepth.MipLevels << " " << descDepth.ArraySize << " " <<
+      descDepth.SampleDesc.Count << " " << descDepth.SampleDesc.Quality << " " <<
+      descDepth.Format << " " <<
+      descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
+      std::endl;
+    
+    if (
+      (lastDescDepth.Width == depthWidth && lastDescDepth.Height == depthHeight && lastDescDepth.SampleDesc.Count > 1) &&
+      (descDepth.Width != depthWidth || descDepth.Height != depthHeight || descDepth.SampleDesc.Count == 1)
+    ) {
+      // getOut() << "RealOMSetRenderTargets 8" << std::endl;
+
+      ID3D11DeviceContext4 *context4;
+      hr = This->lpVtbl->QueryInterface(This, IID_ID3D11DeviceContext4, (void **)&context4);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to get hijack context4: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      if (texCache.size() < texOrder.size() + 1) {
+        ID3D11Device *device;
+        This->lpVtbl->GetDevice(This, &device);
+        
+        // getOut() << "RealOMSetRenderTargets 9" << std::endl;
+        
+        ID3D11Device5 *device5;
+        hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "failed to get hijack device5: " << (void *)hr << std::endl;
+          abort();
         }
         
-        // getOut() << "intercept 8" << std::endl;
+        // getOut() << "RealOMSetRenderTargets 10" << std::endl;
+
+        {
+          ID3D11Texture2D *shDepthTex;
+          
+          // descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+          lastDescDepth.Usage = D3D11_USAGE_DEFAULT;
+          lastDescDepth.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+          // descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+          lastDescDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+          // descDepth.SampleDesc.Count = 1;
+
+          getOut() << "shared depth flags " <<
+            // (void *)depthTex << " " <<
+            lastDescDepth.Width << " " << lastDescDepth.Height << " " <<
+            lastDescDepth.MipLevels << " " << lastDescDepth.ArraySize << " " <<
+            lastDescDepth.SampleDesc.Count << " " << lastDescDepth.SampleDesc.Quality << " " <<
+            lastDescDepth.Format << " " <<
+            lastDescDepth.Usage << " " << lastDescDepth.BindFlags << " " << lastDescDepth.CPUAccessFlags << " " << lastDescDepth.MiscFlags <<
+            std::endl;
+
+          // getOut() << "RealOMSetRenderTargets 11" << std::endl;
+
+          hr = device->lpVtbl->CreateTexture2D(
+            device,
+            &lastDescDepth,
+            NULL,
+            &shDepthTex
+          );
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to create proxy depth texture: " << (void *)hr << std::endl;
+            abort();
+          }
+          
+          // getOut() << "RealOMSetRenderTargets 12" << std::endl;
+
+          IDXGIResource1 *shDepthTexResource;
+          hr = shDepthTex->lpVtbl->QueryInterface(shDepthTex, IID_IDXGIResource1, (void **)&shDepthTexResource);
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to get hijack shared depth resource: " << (void *)hr << std::endl;
+            abort();
+          }
+          
+          // getOut() << "RealOMSetRenderTargets 13" << std::endl;
+
+          HANDLE shDepthTexHandle;
+          hr = shDepthTexResource->lpVtbl->GetSharedHandle(shDepthTexResource, &shDepthTexHandle);
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to get hijack shared depth handle: " << (void *)hr << std::endl;
+            abort();
+          }
+          
+          // getOut() << "RealOMSetRenderTargets 14 " << (void *)shDepthTexHandle << std::endl;
+          
+          texCache.push_back(shDepthTex);
+          texSharedHandleCache.push_back(shDepthTexHandle);
+
+          // getOut() << "RealOMSetRenderTargets 15" << std::endl;
+
+          shDepthTexResource->lpVtbl->Release(shDepthTexResource);
+          
+          // getOut() << "RealOMSetRenderTargets 16" << std::endl;
+        }
+        // getOut() << "RealOMSetRenderTargets 17" << std::endl;
+        {
+          ID3D11Fence *depthFence;
+          hr = device5->lpVtbl->CreateFence(
+            device5,
+            0, // value
+            // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+            // D3D11_FENCE_FLAG_SHARED, // flags
+            D3D11_FENCE_FLAG_NONE, // flags
+            IID_ID3D11Fence, // interface
+            (void **)&depthFence // out
+          );
+          if (SUCCEEDED(hr)) {
+            // getOut() << "created fence " << (void *)fence << std::endl;
+            // nothing
+          } else {
+            getOut() << "failed to create depth fence" << std::endl;
+            abort();
+          }
+
+          fenceCache.push_back(depthFence);
+        }
+        // getOut() << "RealOMSetRenderTargets 18" << std::endl;
+        {
+          HANDLE depthEvent = CreateEventA(
+            NULL,
+            false,
+            false,
+            (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(eventCache.size())).c_str()
+          );
+          if (!depthEvent) {
+            getOut() << "failed to create front depth dx event " << (void *)frontDepthEvent << " " << (void *)GetLastError() << std::endl;
+            abort();
+          }
+          eventCache.push_back(depthEvent);
+        }
+        
+        // getOut() << "RealOMSetRenderTargets 19" << std::endl;
+
+        device->lpVtbl->Release(device);
+        device5->lpVtbl->Release(device5);
       }
+      
+      // getOut() << "RealOMSetRenderTargets 20" << std::endl;
+
+      size_t index = texOrder.size();
+      ID3D11Texture2D *&shDepthTex = texCache[index];
+      HANDLE &shDepthTexHandle = texSharedHandleCache[index];
+      ID3D11Fence *&depthFence = fenceCache[index];
+      HANDLE &depthEvent = eventCache[index];
+
+      ID3D11Resource *shDepthTexResource = nullptr;
+      hr = shDepthTex->lpVtbl->QueryInterface(shDepthTex, IID_ID3D11Resource, (void **)&shDepthTexResource);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to get hijack shared depth texture resource: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      // getOut() << "RealOMSetRenderTargets 21 " << (void *)shDepthTexHandle << std::endl;
+
+      This->lpVtbl->CopyResource(
+        This,
+        shDepthTexResource,
+        lastDepthTexResource
+      );
+
+      // getOut() << "RealOMSetRenderTargets 22" << std::endl;
+
+      ++fenceValue;
+      context4->lpVtbl->Signal(context4, depthFence, fenceValue);
+      depthFence->lpVtbl->SetEventOnCompletion(depthFence, fenceValue, depthEvent);
+
+      // getOut() << "RealOMSetRenderTargets 23" << std::endl;
+
+      texOrder.push_back(ProxyTexture{
+        shDepthTexHandle,
+        index
+      });
+      
+      getOut() << "push tex order " << texOrder.size() << " " << (void *)shDepthTexHandle << " " << (void *)depthTex << std::endl;
+      
+      // getOut() << "RealOMSetRenderTargets 24" << std::endl;
+
+      shDepthTexResource->lpVtbl->Release(shDepthTexResource);
     }
+
+    if (lastDepthTex) {
+      lastDepthTex->lpVtbl->Release(lastDepthTex);
+    }
+    lastDepthTex = depthTex;
+    if (lastDepthTexResource) {
+      lastDepthTexResource->lpVtbl->Release(lastDepthTexResource);
+    }
+    lastDepthTexResource = depthTexResource;
+    lastDescDepth = descDepth;
   }
   
-  // getOut() << "intercept 9" << std::endl;
+  // getOut() << "RealOMSetRenderTargets X" << std::endl;
   
   RealOMSetRenderTargets(This, NumViews, ppRenderTargetViews, pDepthStencilView);
-
-  // getOut() << "intercept 10" << std::endl;
 }
 void (STDMETHODCALLTYPE *RealOMSetDepthStencilState)(
   ID3D11DeviceContext *This,
@@ -1209,7 +1412,7 @@ void STDMETHODCALLTYPE MineGlClear(
           "Local\\OpenVrDepthFenceEvent"
         );
         if (!frontDepthEvent) {
-          getOut() << "failed to create front depth event " << (void *)frontDepthEvent << std::endl;
+          getOut() << "failed to create front depth gl event " << (void *)frontDepthEvent << " " << (void *)GetLastError() << std::endl;
           abort();
         }
       }
@@ -1250,7 +1453,7 @@ void STDMETHODCALLTYPE MineGlClear(
 
     getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
     
-    RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
+    /* RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
     std::vector<unsigned char> data(depthWidth * depthHeight * 4);
     // std::fill(data.begin(), data.end(), 2);
     RealGlReadPixels(0, 0, depthWidth, depthHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
@@ -1259,7 +1462,7 @@ void STDMETHODCALLTYPE MineGlClear(
       if (data[i] == 234) {
         count += data[i];
       }
-    }
+    } */
     
     getOut() << "generating depth 9 " << (void *)RealGlGetError() << std::endl;
 
@@ -1282,7 +1485,6 @@ void STDMETHODCALLTYPE MineGlClear(
     getOut() << "blit rbo " << type << " " << rbo << " " << oldDrawFbo << std::endl; */
 
     ++fenceValue;
-    // getOut() << "signal read event " << (std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << " " << fenceValue << std::endl;
     hijackerContext->lpVtbl->Signal(hijackerContext, fence, fenceValue);
     fence->lpVtbl->SetEventOnCompletion(fence, fenceValue, frontDepthEvent);
     
@@ -1686,18 +1888,13 @@ void Hijacker::hijackGl() {
 }
 ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit
   // local
-  auto iter = texMap.find(tex);
-  if (iter != texMap.end()) {
-    auto iter2 = std::find(texOrder.begin(), texOrder.end(), tex);
-    iter2--;
-    ID3D11Texture2D *tex2 = *iter2;
-    iter = texMap.find(tex2);
-    return ProxyTexture{
-      iter->second,
-      nullptr,
-      true
-    };
+  if (texOrder.size() > 0) {
+    ProxyTexture result = texOrder.front();
+    getOut() << "get tex order " << result.texHandle << std::endl;
+    texOrder.pop_front();
+    return result;
   }
+  getOut() << "get tex order no" << std::endl;
   // remote
   HANDLE sharedDepthHandle = fnp.call<
     kHijacker_GetDepth,
@@ -1739,6 +1936,9 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
           false,
           "Local\\OpenVrDepthFenceEvent"
         );
+        if (!clientDepthEvent) {
+          getOut() << "failed to open depth gl event " << (void *)clientDepthEvent << " " << (void *)GetLastError() << std::endl;
+        }
       }
     }
     
@@ -1746,24 +1946,23 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
 
     /* return ProxyTexture{
       clientDepthTex,
-      clientDepthEvent,
-      false
+      clientDepthEvent
     }; */
   }
   // not found
   return ProxyTexture{
     nullptr,
-    nullptr,
-    false
+    0
   };
 }
 void Hijacker::flushTextureLatches() {
-  if (texMap.size() > 0) {
+  texOrder.clear();
+  /* if (texMap.size() > 0) {
     for (auto iter : texMap) {
       iter.first->lpVtbl->Release(iter.first);
       iter.second->lpVtbl->Release(iter.second);
     }
     texMap.clear();
     texOrder.clear();
-  }
+  } */
 }

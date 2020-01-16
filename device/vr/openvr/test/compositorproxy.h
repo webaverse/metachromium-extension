@@ -67,6 +67,7 @@ public:
   std::vector<std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>> shaderResourceViews;
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<HANDLE> inShDepthDxShareHandles;
+  std::vector<size_t> inShDepthDxEventIndexes;
   std::vector<uintptr_t> inTexLatches;
   std::vector<uintptr_t> inDepthTexLatches;
   std::vector<GLuint> interopTexs;
@@ -84,12 +85,13 @@ public:
   std::vector<ID3D11Texture2D *> inBackTexs;
   // std::vector<HANDLE> inBackInteropHandles;
   std::vector<ID3D11Texture2D *> inBackDepthTexs;
+  std::vector<HANDLE> inBackDepthReadEvents;
   // std::vector<HANDLE> inBackDepthInteropHandles;
   std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<HANDLE> inBackDepthHandleLatches;
-  std::vector<std::tuple<EVREye, uint64_t, HANDLE>> inBackReadEventQueue;
+  std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;
