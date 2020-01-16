@@ -15,6 +15,9 @@
 #include "third_party/khronos/EGL/egl.h"
 #include "third_party/khronos/EGL/eglext.h"
 
+// externs
+extern Hijacker *g_hijacker;
+
 // constants
 char kHijacker_GetDepth[] = "Hijacker_GetDepth";
 char kHijacker_SetDepth[] = "Hijacker_SetDepth";
@@ -1283,6 +1286,12 @@ void STDMETHODCALLTYPE MineGlClear(
     hijackerContext->lpVtbl->Signal(hijackerContext, fence, fenceValue);
     fence->lpVtbl->SetEventOnCompletion(fence, fenceValue, frontDepthEvent);
     
+    g_hijacker->fnp.call<
+      kHijacker_SetDepth,
+      int,
+      HANDLE
+    >(frontSharedDepthHandle);
+    
     phase = 0;
   } else {
     phase = 0;
@@ -1675,7 +1684,7 @@ void Hijacker::hijackGl() {
     hijackedGl = true;
   }
 }
-std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client
+std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit
   // local
   auto iter = texMap.find(tex);
   if (iter != texMap.end()) {
@@ -1691,13 +1700,15 @@ std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Tex
     HANDLE
   >();
   if (sharedDepthHandle) {
-    if (clientDepthHandleLatched != backSharedDepthHandle) {
+    if (clientDepthHandleLatched != sharedDepthHandle) {
       if (clientDepthHandleLatched) {
         // XXX delete old resources
       }
       clientDepthHandleLatched = sharedDepthHandle;
 
       Hijacker::ensureClientDevice();
+      
+      getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
 
       {
         ID3D11Resource *shDepthTexResource;
@@ -1727,7 +1738,9 @@ std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Tex
       }
     }
     
-    return std::pair<ID3D11Texture2D *, HANDLE>(clientDepthTex, clientDepthEvent);
+    getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;
+
+    // return std::pair<ID3D11Texture2D *, HANDLE>(clientDepthTex, clientDepthEvent);
   }
   // not found
   return std::pair<ID3D11Texture2D *, HANDLE>(nullptr, nullptr);
