@@ -1782,8 +1782,10 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-    std::pair<ID3D11Texture2D *, HANDLE> depthTexPair = hijacker.getDepthTextureMatching(tex);
-    ID3D11Texture2D *depthTex = depthTexPair.first;
+    ProxyTexture &depthProxyTexture = hijacker.getDepthTextureMatching(tex);
+    ID3D11Texture2D *depthTex = depthProxyTexture.texture;
+    HANDLE depthReadEvent = depthProxyTexture.readEvent;
+    bool depthIsDirect = depthProxyTexture.isDirect;
     /* if (depthTex) {
       getOut() << "got depth tex " << (void *)depthTex << std::endl;
     } */

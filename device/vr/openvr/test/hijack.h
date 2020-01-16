@@ -3,6 +3,13 @@
 
 #include "device/vr/openvr/test/fnproxy.h"
 
+class ProxyTexture {
+public:
+  ID3D11Texture2D *texture;
+  void *readEvent;
+  bool isDirect;
+};
+
 class Hijacker {
 public:
   FnProxy fnp;
@@ -14,7 +21,7 @@ public:
   static void ensureClientDevice();
   void hijackDx(ID3D11DeviceContext *context);
   void hijackGl();
-  std::pair<ID3D11Texture2D *, HANDLE> getDepthTextureMatching(ID3D11Texture2D *tex);
+  ProxyTexture getDepthTextureMatching(ID3D11Texture2D *tex);
   void flushTextureLatches();
 };
 

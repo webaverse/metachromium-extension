@@ -1684,7 +1684,7 @@ void Hijacker::hijackGl() {
     hijackedGl = true;
   }
 }
-std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit
+ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit
   // local
   auto iter = texMap.find(tex);
   if (iter != texMap.end()) {
@@ -1692,7 +1692,11 @@ std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Tex
     iter2--;
     ID3D11Texture2D *tex2 = *iter2;
     iter = texMap.find(tex2);
-    return std::pair<ID3D11Texture2D *, HANDLE>(iter->second, nullptr);
+    return ProxyTexture{
+      iter->second,
+      nullptr,
+      true
+    };
   }
   // remote
   HANDLE sharedDepthHandle = fnp.call<
@@ -1740,10 +1744,18 @@ std::pair<ID3D11Texture2D *, HANDLE> Hijacker::getDepthTextureMatching(ID3D11Tex
     
     getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;
 
-    // return std::pair<ID3D11Texture2D *, HANDLE>(clientDepthTex, clientDepthEvent);
+    /* return ProxyTexture{
+      clientDepthTex,
+      clientDepthEvent,
+      false
+    }; */
   }
   // not found
-  return std::pair<ID3D11Texture2D *, HANDLE>(nullptr, nullptr);
+  return ProxyTexture{
+    nullptr,
+    nullptr,
+    false
+  };
 }
 void Hijacker::flushTextureLatches() {
   if (texMap.size() > 0) {
