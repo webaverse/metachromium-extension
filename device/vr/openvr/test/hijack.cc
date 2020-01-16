@@ -193,14 +193,14 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
     D3D11_TEXTURE2D_DESC descDepth;
     depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
     
-    getOut() << "dx depth flags " <<
+    /* getOut() << "dx depth flags " <<
       // (void *)depthTex << " " <<
       descDepth.Width << " " << descDepth.Height << " " <<
       descDepth.MipLevels << " " << descDepth.ArraySize << " " <<
       descDepth.SampleDesc.Count << " " << descDepth.SampleDesc.Quality << " " <<
       descDepth.Format << " " <<
       descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
-      std::endl;
+      std::endl; */
     
     if (
       (lastDescDepth.Width == depthWidth && lastDescDepth.Height == depthHeight && lastDescDepth.SampleDesc.Count > 1) &&
@@ -265,14 +265,14 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           lastDescDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
           // descDepth.SampleDesc.Count = 1;
 
-          getOut() << "shared depth flags " <<
+          /* getOut() << "shared depth flags " <<
             // (void *)depthTex << " " <<
             lastDescDepth.Width << " " << lastDescDepth.Height << " " <<
             lastDescDepth.MipLevels << " " << lastDescDepth.ArraySize << " " <<
             lastDescDepth.SampleDesc.Count << " " << lastDescDepth.SampleDesc.Quality << " " <<
             lastDescDepth.Format << " " <<
             lastDescDepth.Usage << " " << lastDescDepth.BindFlags << " " << lastDescDepth.CPUAccessFlags << " " << lastDescDepth.MiscFlags <<
-            std::endl;
+            std::endl; */
 
           // getOut() << "RealOMSetRenderTargets 11" << std::endl;
 
@@ -384,7 +384,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
 
       // getOut() << "RealOMSetRenderTargets 21 " << (void *)shDepthTexHandle << std::endl;
 
-      D3D11_TEXTURE2D_DESC desc;
+      /* D3D11_TEXTURE2D_DESC desc;
       lastDepthTex->lpVtbl->GetDesc(lastDepthTex, &desc);
       getOut() << "copy resource flags " <<
         // (void *)depthTex << " " <<
@@ -393,7 +393,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
         desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
         desc.Format << " " <<
         desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
-        std::endl;
+        std::endl; */
 
       This->lpVtbl->CopyResource(
         This,
@@ -414,9 +414,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
         index
       });
 
-      getOut() << "push tex order " << texOrder.size() << " " << (void *)shDepthTexHandle << " " << (void *)depthTex << std::endl;
-      
-      // getOut() << "RealOMSetRenderTargets 24" << std::endl;
+      // getOut() << "push tex order " << texOrder.size() << " " << (void *)shDepthTexHandle << " " << (void *)depthTex << std::endl;
 
       shDepthTexResource->lpVtbl->Release(shDepthTexResource);
     }
@@ -432,7 +430,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
     lastDescDepth = descDepth;
   }
   
-  // getOut() << "RealOMSetRenderTargets X" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealOMSetRenderTargets" << std::endl; });
   
   RealOMSetRenderTargets(This, NumViews, ppRenderTargetViews, pDepthStencilView);
 }
@@ -484,7 +482,7 @@ void STDMETHODCALLTYPE MineDraw(
   UINT VertexCount,
   UINT StartVertexLocation
 ) {
-  getOut() << "Draw" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "Draw" << std::endl; });
   RealDraw(This, VertexCount, StartVertexLocation);
 }
 void (STDMETHODCALLTYPE *RealDrawAuto)(
@@ -493,7 +491,7 @@ void (STDMETHODCALLTYPE *RealDrawAuto)(
 void STDMETHODCALLTYPE MineDrawAuto(
   ID3D11DeviceContext *This
 ) {
-  getOut() << "DrawAuto" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawAuto" << std::endl; });
   RealDrawAuto(This);
 }
 void (STDMETHODCALLTYPE *RealDrawIndexed)(
@@ -508,7 +506,7 @@ void STDMETHODCALLTYPE MineDrawIndexed(
   UINT StartIndexLocation,
   INT  BaseVertexLocation
 ) {
-  getOut() << "DrawIndexed" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexed" << std::endl; });
   RealDrawIndexed(This, IndexCount, StartIndexLocation, BaseVertexLocation);
 }
 void (STDMETHODCALLTYPE *RealDrawIndexedInstanced)(
@@ -527,7 +525,7 @@ void STDMETHODCALLTYPE MineDrawIndexedInstanced(
   INT  BaseVertexLocation,
   UINT StartInstanceLocation
 ) {
-  getOut() << "DrawIndexedInstanced" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstanced" << std::endl; });
   RealDrawIndexedInstanced(This, IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
 }
 void (STDMETHODCALLTYPE *RealDrawIndexedInstancedIndirect)(
@@ -540,7 +538,7 @@ void STDMETHODCALLTYPE MineDrawIndexedInstancedIndirect(
   ID3D11Buffer *pBufferForArgs,
   UINT         AlignedByteOffsetForArgs
 ) {
-  getOut() << "DrawIndexedInstancedIndirect" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstancedIndirect" << std::endl; });
   RealDrawIndexedInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
 }
 void (STDMETHODCALLTYPE *RealDrawInstanced)(
@@ -557,7 +555,7 @@ void STDMETHODCALLTYPE MineDrawInstanced(
   UINT StartVertexLocation,
   UINT StartInstanceLocation
 ) {
-  getOut() << "DrawInstanced" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawInstanced" << std::endl; });
   RealDrawInstanced(This, VertexCountPerInstance, InstanceCount, StartVertexLocation, StartInstanceLocation);
 }
 void (STDMETHODCALLTYPE *RealDrawInstancedIndirect)(
@@ -570,7 +568,7 @@ void STDMETHODCALLTYPE MineDrawInstancedIndirect(
   ID3D11Buffer *pBufferForArgs,
   UINT         AlignedByteOffsetForArgs
 ) {
-  getOut() << "DrawInstancedIndirect" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawInstancedIndirect" << std::endl; });
   RealDrawInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
 }
 void (STDMETHODCALLTYPE *RealClearRenderTargetView)(
@@ -583,7 +581,7 @@ void STDMETHODCALLTYPE MineClearRenderTargetView(
   ID3D11RenderTargetView *pRenderTargetView,
   const FLOAT         ColorRGBA[4]
 ) {
-  getOut() << "ClearRenderTargetView" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "ClearRenderTargetView" << std::endl; });
   RealClearRenderTargetView(This, pRenderTargetView, ColorRGBA);
 }
 void (STDMETHODCALLTYPE *RealClearDepthStencilView)(
@@ -600,7 +598,7 @@ void STDMETHODCALLTYPE MineClearDepthStencilView(
   FLOAT                  Depth,
   UINT8                  Stencil
 ) {
-  getOut() << "ClearDepthStencilView" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "ClearDepthStencilView" << std::endl; });
   RealClearDepthStencilView(This, pDepthStencilView, ClearFlags, Depth, Stencil);
 }
 void (STDMETHODCALLTYPE *RealClearState)(
@@ -609,7 +607,7 @@ void (STDMETHODCALLTYPE *RealClearState)(
 void STDMETHODCALLTYPE MineClearState(
   ID3D11DeviceContext *This
 ) {
-  getOut() << "ClearState" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "ClearState" << std::endl; });
   RealClearState(This);
 }
 void (STDMETHODCALLTYPE *RealClearView)(
@@ -626,7 +624,7 @@ void STDMETHODCALLTYPE MineClearView(
   const D3D11_RECT *pRect,
   UINT             NumRects
 ) {
-  getOut() << "ClearView" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "ClearView" << std::endl; });
   RealClearView(This, pView, Color, pRect, NumRects);
 }
 void (STDMETHODCALLTYPE *RealResolveSubresource)(
@@ -646,8 +644,8 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   UINT           SrcSubresource,
   DXGI_FORMAT    Format
 ) {
-  getOut() << "ResolveSubresource" << std::endl;
-  
+  TRACE("Hijack", [&]() { getOut() << "ResolveSubresource" << std::endl; });
+
   /* if (tmpTexture) {
     tmpTexture->lpVtbl->Release(tmpTexture);
     tmpTexture = nullptr;
@@ -698,7 +696,7 @@ void STDMETHODCALLTYPE MineGlGenFramebuffers(
  	GLuint * framebuffers
 ) {
   RealGlGenFramebuffers(n, framebuffers);
-  getOut() << "glGenFramebuffers " << n << " " << framebuffers[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glGenFramebuffers " << n << " " << framebuffers[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
 }
 void (STDMETHODCALLTYPE *RealGlBindFramebuffer)(
   GLenum target,
@@ -708,7 +706,7 @@ void STDMETHODCALLTYPE MineGlBindFramebuffer(
   GLenum target,
  	GLuint framebuffer
 ) {
-  getOut() << "glBindFramebuffer " << target << " " << framebuffer << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glBindFramebuffer " << target << " " << framebuffer << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   RealGlBindFramebuffer(target, framebuffer);
 }
 void (STDMETHODCALLTYPE *RealGlGenRenderbuffers)(
@@ -720,7 +718,7 @@ void STDMETHODCALLTYPE MineGlGenRenderbuffers(
  	GLuint * renderbuffers
 ) {
   RealGlGenRenderbuffers(n, renderbuffers);
-  getOut() << "glGenRenderbuffers " << n << " " << renderbuffers[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glGenRenderbuffers " << n << " " << renderbuffers[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
 }
 void (STDMETHODCALLTYPE *RealGlBindRenderbuffer)(
   GLenum target,
@@ -730,7 +728,7 @@ void STDMETHODCALLTYPE MineGlBindRenderbuffer(
   GLenum target,
  	GLuint renderbuffer
 ) {
-  getOut() << "glBindRenderbuffer " << target << " " << renderbuffer << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glBindRenderbuffer " << target << " " << renderbuffer << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   RealGlBindRenderbuffer(target, renderbuffer);
 }
 void (STDMETHODCALLTYPE *RealGlFramebufferTexture2D)(
@@ -747,7 +745,7 @@ void STDMETHODCALLTYPE MineGlFramebufferTexture2D(
  	GLuint texture,
  	GLint level
 ) {
-  getOut() << "glFramebufferTexture2D " << target << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glFramebufferTexture2D " << target << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   RealGlFramebufferTexture2D(target, attachment, textarget, texture, level);
 }
 void (STDMETHODCALLTYPE *RealGlFramebufferTexture2DMultisampleEXT)(
@@ -767,7 +765,7 @@ void STDMETHODCALLTYPE MineGlFramebufferTexture2DMultisampleEXT(
   GLsizei samples
 ) {
   glPhase = 1;
-  getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << textarget << " " << texture << " " << level << " " << samples << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << textarget << " " << texture << " " << level << " " << samples << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   RealGlFramebufferTexture2DMultisampleEXT(target, attachment, textarget, texture, level, samples);
 }
 void (STDMETHODCALLTYPE *RealGlFramebufferRenderbuffer)(
@@ -782,7 +780,7 @@ void STDMETHODCALLTYPE MineGlFramebufferRenderbuffer(
  	GLenum renderbuffertarget,
  	GLuint renderbuffer
 ) {
-  getOut() << "glFramebufferRenderbuffer " << target << " " << attachment << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glFramebufferRenderbuffer " << target << " " << attachment << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   RealGlFramebufferRenderbuffer(target, attachment, renderbuffertarget, renderbuffer);
 }
 void (STDMETHODCALLTYPE *RealGlRenderbufferStorage)(
@@ -809,7 +807,7 @@ void STDMETHODCALLTYPE MineGlRenderbufferStorageMultisampleEXT(
   depthInternalformat = internalformat;
   depthWidth = width;
   depthHeight = height;
-  getOut() << "glRenderbufferStorageMultisampleEXT " << target << " " << samples << " " << internalformat << " " << width << " " << height << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glRenderbufferStorageMultisampleEXT " << target << " " << samples << " " << internalformat << " " << width << " " << height << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   // RealGlRenderbufferStorage(target, internalformat, width, height);
   RealGlRenderbufferStorageMultisampleEXT(target, samples, internalformat, width, height);
 }
@@ -823,7 +821,7 @@ void STDMETHODCALLTYPE MineGlDiscardFramebufferEXT(
   GLsizei numAttachments, 
   const GLenum *attachments
 ) {
-  getOut() << "glDiscardFramebufferEXT" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glDiscardFramebufferEXT" << std::endl; });
   RealGlDiscardFramebufferEXT(target, numAttachments, attachments);
 }
 void (STDMETHODCALLTYPE *RealGlDiscardFramebufferEXTContextANGLE)(
@@ -836,7 +834,7 @@ void STDMETHODCALLTYPE MineGlDiscardFramebufferEXTContextANGLE(
   GLsizei numAttachments, 
   const GLenum *attachments
 ) {
-  getOut() << "glDiscardFramebufferEXTContextANGLE" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glDiscardFramebufferEXTContextANGLE" << std::endl; });
   RealGlDiscardFramebufferEXTContextANGLE(target, numAttachments, attachments);
 }
 void (STDMETHODCALLTYPE *RealGlInvalidateFramebuffer)(
@@ -849,7 +847,7 @@ void STDMETHODCALLTYPE MineGlInvalidateFramebuffer(
  	GLsizei numAttachments,
  	const GLenum *attachments
 ) {
-  getOut() << "glInvalidateFramebuffer" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "glInvalidateFramebuffer" << std::endl; });
   RealGlInvalidateFramebuffer(target, numAttachments, attachments);
 }
 void (STDMETHODCALLTYPE *RealDiscardFramebufferEXT)(
@@ -862,7 +860,7 @@ void STDMETHODCALLTYPE MineDiscardFramebufferEXT(
   GLsizei count,
   const GLenum* attachments
 ) {
-  getOut() << "DiscardFramebufferEXT" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DiscardFramebufferEXT" << std::endl; });
   RealDiscardFramebufferEXT(target, count, attachments);
 }
 void (STDMETHODCALLTYPE *RealGlGenTextures)(
@@ -928,7 +926,7 @@ void (STDMETHODCALLTYPE *RealGlRequestExtensionANGLE)(
 void STDMETHODCALLTYPE MineGlRequestExtensionANGLE(
   const GLchar *extension
 ) {
-  getOut() << "RealGlRequestExtensionANGLE " << extension << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealGlRequestExtensionANGLE " << extension << std::endl; });
   RealGlRequestExtensionANGLE(extension);
 }
 void (STDMETHODCALLTYPE *RealGlDeleteTextures)(
@@ -941,9 +939,9 @@ void STDMETHODCALLTYPE MineGlDeleteTextures(
 ) {
   RealGlDeleteTextures(n, textures);
   if (n > 0 && textures != NULL) {
-    getOut() << "RealGlDeleteTextures " << n << " " << textures[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+    TRACE("Hijack", [&]() { getOut() << "RealGlDeleteTextures " << n << " " << textures[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   } else {
-    getOut() << "RealGlDeleteTextures " << n << std::endl;
+    TRACE("Hijack", [&]() { getOut() << "RealGlDeleteTextures " << n << std::endl; });
   }
 }
 void (STDMETHODCALLTYPE *RealGlFenceSync)(
@@ -954,7 +952,7 @@ void STDMETHODCALLTYPE MineGlFenceSync(
   GLenum condition,
  	GLbitfield flags
 ) {
-  getOut() << "RealGlFenceSync" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealGlFenceSync" << std::endl; });
   RealGlFenceSync(condition, flags);
 }
 void (STDMETHODCALLTYPE *RealGlDeleteSync)(
@@ -963,7 +961,7 @@ void (STDMETHODCALLTYPE *RealGlDeleteSync)(
 void STDMETHODCALLTYPE MineGlDeleteSync(
   GLsync sync
 ) {
-  getOut() << "RealGlDeleteSync" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealGlDeleteSync" << std::endl; });
   RealGlDeleteSync(sync);
 }
 void (STDMETHODCALLTYPE *RealGlWaitSync)(
@@ -976,7 +974,7 @@ void STDMETHODCALLTYPE MineGlWaitSync(
  	GLbitfield flags,
  	GLuint64 timeout
 ) {
-  getOut() << "RealGlWaitSync" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealGlWaitSync" << std::endl; });
   RealGlWaitSync(sync, flags, timeout);
 }
 void (STDMETHODCALLTYPE *RealGlClientWaitSync)(
@@ -989,7 +987,7 @@ void STDMETHODCALLTYPE MineGlClientWaitSync(
  	GLbitfield flags,
  	GLuint64 timeout
 ) {
-  getOut() << "RealGlClientWaitSync" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealGlClientWaitSync" << std::endl; });
   RealGlClientWaitSync(sync, flags, timeout);
 }
 GLenum (STDMETHODCALLTYPE *RealGlDrawElements)(
@@ -1015,7 +1013,7 @@ void STDMETHODCALLTYPE MineGlClearColor(
   } else {
     glPhase = 0;
   }
-  getOut() << "RealGlClearColor " << red << " " << green << " " << blue << " " << alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealGlClearColor " << red << " " << green << " " << blue << " " << alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   RealGlClearColor(red, green, blue, alpha);
 }
 void (STDMETHODCALLTYPE *RealGlColorMask)(
@@ -1035,7 +1033,7 @@ void STDMETHODCALLTYPE MineGlColorMask(
   } else {
     glPhase = 0;
   }
-  getOut() << "RealGlColorMask " << (int)red << " " << (int)green << " " << (int)blue << " " << (int)alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealGlColorMask " << (int)red << " " << (int)green << " " << (int)blue << " " << (int)alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   RealGlColorMask(red, green, blue, alpha);
 }
 void (STDMETHODCALLTYPE *RealGlClear)(
@@ -1288,7 +1286,7 @@ void STDMETHODCALLTYPE MineGlClear(
         glGenVertexArrays(1, &depthVao);
         glBindVertexArray(depthVao);
         
-        getOut() << "generating depth 5 3 " << (void *)glCreateShader << " " << (void *)glShaderSource << " " << (void *)glCompileShader << " " << (void *)glGetShaderiv << " " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 3 " << (void *)glCreateShader << " " << (void *)glShaderSource << " " << (void *)glCompileShader << " " << (void *)glGetShaderiv << " " << (void *)RealGlGetError() << std::endl;
 
         // vertex shader
         GLuint composeVertex = glCreateShader(GL_VERTEX_SHADER);
@@ -1305,7 +1303,7 @@ void STDMETHODCALLTYPE MineGlClear(
           abort();
         };
         
-        getOut() << "generating depth 5 4 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 4 " << (void *)RealGlGetError() << std::endl;
 
         // fragment shader
         GLuint composeFragment = glCreateShader(GL_FRAGMENT_SHADER);
@@ -1321,7 +1319,7 @@ void STDMETHODCALLTYPE MineGlClear(
           abort();
         };
         
-        getOut() << "generating depth 5 5 " << (void *)glCreateProgram << " " << (void *)glAttachShader << " " << (void *)glLinkProgram << " " << (void *)glGetProgramiv << " " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 5 " << (void *)glCreateProgram << " " << (void *)glAttachShader << " " << (void *)glLinkProgram << " " << (void *)glGetProgramiv << " " << (void *)RealGlGetError() << std::endl;
 
         // shader program
         depthProgram = glCreateProgram();
@@ -1338,7 +1336,7 @@ void STDMETHODCALLTYPE MineGlClear(
           abort();
         }
 
-        getOut() << "generating depth 5 6 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 6 " << (void *)RealGlGetError() << std::endl;
 
         GLuint positionLocation = glGetAttribLocation(depthProgram, "position");
         if (positionLocation == -1) {
@@ -1352,7 +1350,7 @@ void STDMETHODCALLTYPE MineGlClear(
           abort();
         }
 
-        getOut() << "generating depth 5 8 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 8 " << (void *)RealGlGetError() << std::endl;
 
         GLuint texLocation = glGetUniformLocation(depthProgram, "tex");
         // getOut() << "get location 1  " << texString << " " << texLocation << std::endl;
@@ -1363,17 +1361,17 @@ void STDMETHODCALLTYPE MineGlClear(
           // abort();
         }
         
-        getOut() << "generating depth 5 9 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 9 " << (void *)RealGlGetError() << std::endl;
 
         // delete the shaders as they're linked into our program now and no longer necessary
         glDeleteShader(composeVertex);
         glDeleteShader(composeFragment);
 
-        getOut() << "generating depth 5 10 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 10 " << (void *)RealGlGetError() << std::endl;
 
         glUseProgram(depthProgram);
         
-        getOut() << "generating depth 11 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 11 " << (void *)RealGlGetError() << std::endl;
 
         GLuint positionBuffer;
         glGenBuffers(1, &positionBuffer);
@@ -1386,9 +1384,9 @@ void STDMETHODCALLTYPE MineGlClear(
           1.0f, -1.0f,
         };
         glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-        getOut() << "generating depth 5 13 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 13 " << (void *)RealGlGetError() << std::endl;
         glEnableVertexAttribArray(positionLocation);
-        getOut() << "generating depth 5 14 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 14 " << (void *)RealGlGetError() << std::endl;
         glVertexAttribPointer(positionLocation, 2, GL_FLOAT, false, 0, 0);
 
         // getOut() << "init program 8" << std::endl;
@@ -1406,7 +1404,7 @@ void STDMETHODCALLTYPE MineGlClear(
         glEnableVertexAttribArray(uvLocation);
         glVertexAttribPointer(uvLocation, 2, GL_FLOAT, false, 0, 0);
 
-        getOut() << "generating depth 5 15 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 15 " << (void *)RealGlGetError() << std::endl;
 
         GLuint indexBuffer;
         glGenBuffers(1, &indexBuffer);
@@ -1418,7 +1416,7 @@ void STDMETHODCALLTYPE MineGlClear(
           glUniform1i(texLocation, 0);
         }
         
-        getOut() << "generating depth 5 16 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 16 " << (void *)RealGlGetError() << std::endl;
       }
       {
         HRESULT hr = hijackerDevice->lpVtbl->CreateFence(
@@ -1453,10 +1451,10 @@ void STDMETHODCALLTYPE MineGlClear(
       RealGlBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
     }
     
-    getOut() << "generating depth 6 1 " << (void *)RealGlGetError() << std::endl;
+    // getOut() << "generating depth 6 1 " << (void *)RealGlGetError() << std::endl;
 
     RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthResolveFbo);
-    getOut() << "generating depth 6 2 " << (void *)RealGlGetError() << std::endl;
+    // getOut() << "generating depth 6 2 " << (void *)RealGlGetError() << std::endl;
     glBlitFramebufferANGLE(
       0, 0,
       depthWidth, depthHeight,
@@ -1466,7 +1464,7 @@ void STDMETHODCALLTYPE MineGlClear(
       GL_NEAREST
     );
     
-    getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
+    // getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
 
     RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthShFbo);
     glBindVertexArray(depthVao);
@@ -1484,7 +1482,7 @@ void STDMETHODCALLTYPE MineGlClear(
       (void *)0
     );
 
-    getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
+    // getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
     
     /* RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
     std::vector<unsigned char> data(depthWidth * depthHeight * 4);
@@ -1497,7 +1495,7 @@ void STDMETHODCALLTYPE MineGlClear(
       }
     } */
     
-    getOut() << "generating depth 9 " << (void *)RealGlGetError() << std::endl;
+    // getOut() << "generating depth 9 " << (void *)RealGlGetError() << std::endl;
 
     RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
     glActiveTexture(oldActiveTexture);
@@ -1509,7 +1507,7 @@ void STDMETHODCALLTYPE MineGlClear(
     glBindBuffer(GL_ARRAY_BUFFER, oldArrayBuffer);
     RealGlViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
     
-    getOut() << "generating depth 10 " << (void *)RealGlGetError() << std::endl;
+    // getOut() << "generating depth 10 " << (void *)RealGlGetError() << std::endl;
 
     /* GLint type;
     RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
@@ -1532,7 +1530,7 @@ void STDMETHODCALLTYPE MineGlClear(
     glPhase = 0;
   }
 
-  getOut() << "RealGlClear " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  // getOut() << "RealGlClear " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlClear(mask);
 }
 EGLBoolean (STDMETHODCALLTYPE *RealEGL_MakeCurrent)(
@@ -1923,11 +1921,9 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
   // local
   if (texOrder.size() > 0) {
     ProxyTexture result = texOrder.front();
-    getOut() << "get tex order " << result.texHandle << std::endl;
     texOrder.pop_front();
     return result;
   }
-  getOut() << "get tex order no" << std::endl;
   // remote
   HANDLE sharedDepthHandle = fnp.call<
     kHijacker_GetDepth,

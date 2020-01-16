@@ -1,54 +1,19 @@
 --------------------------------------------------------------------------------
-process start 00000000002F11AC 00000000000000B7
+process start 00000000006813FA 00000000000000B7
 core 2 openvr_api.dll
 core 3 00007FFCE7520000
 core 4
 core 5
 core 6
-vr_init 5440
+vr_init 18820
 classes init 1
 classes init 2
-create device 0 00000291743BE760
+create device 0 00000270E3F7C190
 got adapter desc 0N 0 51640
 got adapter desc 1M 0 54527
-create swap chain 00000000002F11AC
+create swap chain 00000000006813FA
 info queue query failed
 got desc N 0 51640
-init shader
-init render 1
-init render 2
-init render 3
-init render 4
-init render 5
-init render 6
-init render 7
-init render 8
-init render 9
-init render 10
-shader resource view tex 2168 2400 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent14996:0
-shader resource view tex 2168 2400 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent14996:1
-shader resource view depth 00000000C0006882 2168 2400 1 1 2 0 19 0 8 0 2
-shader resource view depth 0000000040006D02 2168 2400 1 1 2 0 19 0 8 0 2
-process exit
---------------------------------------------------------------------------------
-process start 0000000000791496 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FFCE7520000
-core 4
-core 5
-core 6
-vr_init 6724
-classes init 1
-classes init 2
-create device 0 000002015E219850
-got adapter desc 0N 0 51640
-got adapter desc 1M 0 54527
-create swap chain 0000000000791496
-info queue query failed
-got desc N 0 51640
-init shader
 init render 1
 init render 2
 init render 3 2168 2400
@@ -60,15 +25,10 @@ init render 8
 init render 9
 init render 10
 shader resource view tex 2168 2400 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent1880:0
+open backend event Local\OpenVrFenceEvent19144:0
 shader resource view tex 2168 2400 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent1880:1
-shader resource view depth 0000000040004402 2168 2400 1 1 2 0 19 0 8 0 2
-shader resource view depth 0000000080004142 2168 2400 1 1 2 0 19 0 8 0 2
-shader resource view tex 2168 2400 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent1880:0
-shader resource view depth 00000000C0003DC2 2168 2400 1 1 8 0 19 0 8 0 2
-shader resource view tex 2168 2400 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent1880:1
-shader resource view depth 00000000400038C2 2168 2400 1 1 8 0 19 0 8 0 2
-process exit
+open backend event Local\OpenVrFenceEvent19144:1
+shader resource view depth 2168 2400 1 1 2 0 19 0 8 0 2
+shader resource view depth 2168 2400 1 1 2 0 19 0 8 0 2
+shader resource view depth 2168 2400 1 1 8 0 19 0 8 0 2
+shader resource view depth 2168 2400 1 1 8 0 19 0 8 0 2

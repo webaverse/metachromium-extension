@@ -1058,7 +1058,7 @@ ETrackingUniverseOrigin PVRCompositor::GetTrackingSpace() {
 }
 EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
     VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
-  getOut() << "wait get poses" << std::endl;
+  // getOut() << "wait get poses" << std::endl;
   
   InfoQueueLog();
   
@@ -1480,7 +1480,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  getOut() << "submit client 1 " << std::endl;
+  // getOut() << "submit client 1 " << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint tex = (GLuint)pTexture->handle;
@@ -1558,8 +1558,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     D3D11_TEXTURE2D_DESC desc{};
     if (pTexture->eType == ETextureType::TextureType_DirectX) {
       ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-      
-      getOut() << "got submit tex " << (void *)tex << std::endl;
 
       // getOut() << "submit client 4" << std::endl;
 
@@ -1775,7 +1773,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     ProxyTexture &depthProxyTexture = hijacker.getDepthTextureMatching(tex);
     HANDLE depthTexHandle = depthProxyTexture.texHandle;
     size_t depthTexEventIndex = depthProxyTexture.eventIndex;
-    getOut() << "get matching depth tex " << (void *)depthTexHandle << " " << depthTexEventIndex << std::endl;
+    // getOut() << "get matching depth tex " << (void *)depthTexHandle << " " << depthTexEventIndex << std::endl;
     /* {
       // getOut() << "get tex view" << std::endl;
 
@@ -1840,7 +1838,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       sharedDepthHandle = depthTexHandle;
       sharedDepthEventIndex = depthTexEventIndex;
       
-      getOut() << "latch depth tex handle " << (void *)depthTexHandle << " " << (void *)depthTexEventIndex << std::endl;
+      // getOut() << "latch depth tex handle " << (void *)depthTexHandle << " " << (void *)depthTexEventIndex << std::endl;
 
       /* D3D11_TEXTURE2D_DESC descDepth;
       depthTex->GetDesc(&descDepth);
