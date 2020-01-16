@@ -60,6 +60,7 @@ GLuint depthResolveTexId = 0;
 GLuint depthTexId = 0;
 GLuint depthResolveFbo = 0;
 GLuint depthShFbo = 0;
+ID3D11Texture2D *depthTex = nullptr;
 GLuint depthVao = 0;
 GLsizei depthSamples = 0;
 GLenum depthInternalformat = 0;
@@ -941,11 +942,6 @@ void STDMETHODCALLTYPE MineGlClear(
 
       if (!depthTexId) {
         Hijacker::ensureClientDevice();
-        
-        /* HANDLE (*wglDXOpenDeviceNV)(void *dxDevice) = (HANDLE (*)(void *dxDevice))wglGetProcAddress("wglDXOpenDeviceNV");
-        getOut() << "make hijacker interop device 1 " << (void *)wglDXOpenDeviceNV << std::endl;
-        hijackerInteropDevice = wglDXOpenDeviceNV(hijackerDevice);
-        getOut() << "make hijacker interop device 2 " << (void *)hijackerInteropDevice << std::endl; */
 
         GLuint textures[2];
         RealGlGenTextures(2, textures);
@@ -955,40 +951,99 @@ void STDMETHODCALLTYPE MineGlClear(
         RealGlGenFramebuffers(2, fbos);
         depthResolveFbo = fbos[0];
         depthShFbo = fbos[1];
-        
-        // getOut() << "generating depth 1 1 " << (void *)RealGlGetError() << std::endl;
 
-        RealGlBindFramebuffer(GL_FRAMEBUFFER, depthResolveFbo);
-        // getOut() << "generating depth 1 2 " << (void *)RealGlGetError() << std::endl;
-        RealGlBindTexture(GL_TEXTURE_2D, depthResolveTexId);
-        // getOut() << "generating depth 1 3 " << (void *)RealGlGetError() << std::endl;
-        /* std::vector<uint32_t> data(depthWidth * depthHeight);
-        std::fill(data.begin(), data.end(), 0xFFFFFFFF); */
-        getOut() << "generating depth 1 4 " << (void *)RealGlGetError() << std::endl;
-        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL, depthWidth, depthHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
-        getOut() << "generating depth 1 5 " << (void *)RealGlGetError() << std::endl;
-        // RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        // getOut() << "generating depth 1 6 " << (void *)RealGlGetError() << std::endl;
-        RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthResolveTexId, 0);
-        // getOut() << "generating depth 1 7 " << (void *)RealGlGetError() << std::endl;
+        {
+          D3D11_TEXTURE2D_DESC desc{};
+          desc.Width = depthWidth;
+          desc.Height = depthHeight;
+          desc.MipLevels = desc.ArraySize = 1;
+          desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+          desc.SampleDesc.Count = 1;
+          desc.Usage = D3D11_USAGE_DEFAULT;
+          desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+          desc.CPUAccessFlags = 0;
+          desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+          HRESULT hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
+          {
+              // error handling code
+          }
 
-        RealGlBindFramebuffer(GL_FRAMEBUFFER, depthShFbo);
-        // getOut() << "generating depth 1 8 " << (void *)RealGlGetError() << std::endl;
-        RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
-        // getOut() << "generating depth 1 9 " << (void *)RealGlGetError() << std::endl;
-        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        // getOut() << "generating depth 1 10 " << (void *)RealGlGetError() << std::endl;
-        RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, depthTexId, 0);
-        getOut() << "generating depth 1 11 " << (void *)RealGlGetError() << std::endl;
+          IDXGIResource1 *dxgiResource;
+          hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource1, (void **)&dxgiResource);
+          if FAILED(hr)
+          {
+              // error handling code
+          }
 
+          hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &frontSharedDepthHandle);
+          if FAILED(hr)
+          {
+              // error handling code
+          }
+
+          EGLDisplay display = EGL_GetCurrentDisplay();
+          EGLConfig config;
+          EGLint numConfigs = 0;
+          EGLint attribList[] = {
+            // 32 bit color
+            EGL_RED_SIZE, 8,
+            EGL_GREEN_SIZE, 8,
+            EGL_BLUE_SIZE, 8,
+            EGL_ALPHA_SIZE, 8,
+            // at least 24 bit depth
+            EGL_DEPTH_SIZE, 0,
+            EGL_STENCIL_SIZE, 0,
+            // EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+            // want opengl-es 2.x conformant CONTEXT
+            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, 
+            EGL_NONE
+          };
+          EGLBoolean ok = EGL_ChooseConfig(
+            display,
+            attribList,
+            &config,
+            1,
+            &numConfigs
+          );
+
+          EGLint pBufferAttributes[] = {
+            EGL_WIDTH, desc.Width,
+            EGL_HEIGHT, desc.Height,
+            EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
+            EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
+            EGL_NONE
+          };
+          EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, frontSharedDepthHandle, config, pBufferAttributes);
+          if (surface == EGL_NO_SURFACE)
+          {
+              // error handling code
+          }
+
+          RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
+          EGL_BindTexImage(display, surface, EGL_BACK_BUFFER);
+        }
+        {
+          RealGlBindFramebuffer(GL_FRAMEBUFFER, depthResolveFbo);
+          RealGlBindTexture(GL_TEXTURE_2D, depthResolveTexId);
+          /* std::vector<uint32_t> data(depthWidth * depthHeight);
+          std::fill(data.begin(), data.end(), 0xFFFFFFFF); */
+          RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL, depthWidth, depthHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+          // RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+          RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthResolveTexId, 0);
+
+          RealGlBindFramebuffer(GL_FRAMEBUFFER, depthShFbo);
+          RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
+          RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+          RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, depthTexId, 0);
+        }
         {
           glGenVertexArrays(1, &depthVao);
           glBindVertexArray(depthVao);
@@ -1122,99 +1177,17 @@ void STDMETHODCALLTYPE MineGlClear(
           if (texLocation != -1) {
             glUniform1i(texLocation, 0);
           }
+          
+          getOut() << "generating depth 5 16 " << (void *)RealGlGetError() << std::endl;
         }
-        /* {
-          getOut() << "shared 1" << std::endl;
-          
-          ID3D11Texture2D *depthTex = nullptr;
-          D3D11_TEXTURE2D_DESC desc{};
-          desc.Width = depthWidth;
-          desc.Height = depthHeight;
-          desc.MipLevels = desc.ArraySize = 1;
-          desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-          desc.SampleDesc.Count = 1;
-          desc.Usage = D3D11_USAGE_DEFAULT;
-          desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-          desc.CPUAccessFlags = 0;
-          desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
-          HRESULT hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
-          {
-              // error handling code
-          }
-          
-          getOut() << "shared 2" << std::endl;
-          
-          IDXGIResource *dxgiResource;
-          hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource, (void **)&dxgiResource);
-          if FAILED(hr)
-          {
-              // error handling code
-          }
-          
-          HANDLE sharedHandle;
-          hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &sharedHandle);
-          if FAILED(hr)
-          {
-              // error handling code
-          }
-          
-          getOut() << "shared 3" << std::endl;
-
-          EGLDisplay display = EGL_GetCurrentDisplay();
-          EGLConfig config;
-          EGLint numConfigs = 0;
-          EGLint attribList[] = {
-            // 32 bit color
-            EGL_RED_SIZE, 8,
-            EGL_GREEN_SIZE, 8,
-            EGL_BLUE_SIZE, 8,
-            EGL_ALPHA_SIZE, 8,
-            // at least 24 bit depth
-            EGL_DEPTH_SIZE, 0,
-            EGL_STENCIL_SIZE, 0,
-            // EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            // want opengl-es 2.x conformant CONTEXT
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, 
-            EGL_NONE
-          };
-          EGLBoolean ok = EGL_ChooseConfig(
-            display,
-            attribList,
-            &config,
-            1,
-            &numConfigs
-          );
-          
-          getOut() << "shared 4 " << (int)ok << std::endl;
-          
-          EGLint pBufferAttributes[] = {
-            EGL_WIDTH, desc.Width,
-            EGL_HEIGHT, desc.Height,
-            EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
-            EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
-            EGL_NONE
-          };
-          EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, sharedHandle, config, pBufferAttributes);
-          if (surface == EGL_NO_SURFACE)
-          {
-              // error handling code
-          }
-          
-          getOut() << "shared 5" << std::endl;
-          
-          RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
-          EGL_BindTexImage(display, surface, EGL_BACK_BUFFER);
-        } */
         
         RealGlBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
-        RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, oldReadFbo);
-        RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDrawFbo);
       }
       
-      getOut() << "generating depth 5 " << (void *)RealGlGetError() << std::endl;
+      getOut() << "generating depth 6 1 " << (void *)RealGlGetError() << std::endl;
 
       RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthResolveFbo);
-      getOut() << "generating depth 6 " << (void *)RealGlGetError() << std::endl;
+      getOut() << "generating depth 6 2 " << (void *)RealGlGetError() << std::endl;
       glBlitFramebufferANGLE(
         0, 0,
         depthWidth, depthHeight,
@@ -1223,8 +1196,9 @@ void STDMETHODCALLTYPE MineGlClear(
         GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
         GL_NEAREST
       );
+      
+      getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
 
-      getOut() << "generating depth 7 1 " << depthWidth << " " << depthHeight << " " << (void *)RealGlGetError() << std::endl;
       RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthShFbo);
       glBindVertexArray(depthVao);
       glUseProgram(depthProgram);
@@ -1234,31 +1208,27 @@ void STDMETHODCALLTYPE MineGlClear(
       /* RealGlClearColor(0, 0, 0, 0);
       RealGlColorMask(true, true, true, true);
       RealGlClear(GL_COLOR_BUFFER_BIT); */
-      getOut() << "generating depth 7 2 " << (void *)RealGlGetError() << std::endl;
       RealGlDrawElements(
         GL_TRIANGLES,
         6,
         GL_UNSIGNED_SHORT,
         (void *)0
       );
-      
+
       getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
       
       RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
       std::vector<unsigned char> data(depthWidth * depthHeight * 4);
       // std::fill(data.begin(), data.end(), 2);
       RealGlReadPixels(0, 0, depthWidth, depthHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-      getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
       size_t count = 0;
       for (size_t i = 0; i < data.size(); i += 4) {
-        // if (data[i] == 234) {
+        if (data[i] == 234) {
           count += data[i];
-        // }
+        }
       }
-      getOut() << "depth count " <<
-        count << " " <<
-        (int)data[0] << " " << (int)data[1] << " " << (int)data[2] << " " << (int)data[3] <<
-        std::endl;
+      
+      getOut() << "generating depth 9 " << (void *)RealGlGetError() << std::endl;
 
       RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
       glActiveTexture(oldActiveTexture);
@@ -1269,6 +1239,8 @@ void STDMETHODCALLTYPE MineGlClear(
       glBindVertexArray(oldVao);
       glBindBuffer(GL_ARRAY_BUFFER, oldArrayBuffer);
       RealGlViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
+      
+      getOut() << "generating depth 10 " << (void *)RealGlGetError() << std::endl;
 
       /* GLint type;
       RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
