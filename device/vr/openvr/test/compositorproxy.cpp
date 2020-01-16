@@ -2713,6 +2713,7 @@ void PVRCompositor::InfoQueueLog() {
         getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
       }
     }
+    infoQueue->ClearStoredMessages();
   }
 }
 }
