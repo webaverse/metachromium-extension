@@ -2478,7 +2478,7 @@ void PVRCompositor::InitShader() {
     }
     // m_IB.Set(indexBuffer);
   }
-  getOut() << "init render 3" << std::endl;
+  getOut() << "init render 3 " << width << " " << height << std::endl;
   {
     float hw[] = {
       (float)width,
