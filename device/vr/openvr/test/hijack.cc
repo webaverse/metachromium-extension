@@ -56,6 +56,7 @@ ID3D11Resource *lastDepthTexResource = nullptr;
 D3D11_TEXTURE2D_DESC lastDescDepth{};
 // std::map<ID3D11Texture2D *, ID3D11Texture2D *> texMap;
 std::vector<ID3D11Texture2D *> texCache;
+uint32_t texCacheSamples = 0;
 std::vector<HANDLE> texSharedHandleCache;
 std::vector<ID3D11Fence *> fenceCache;
 std::vector<HANDLE> eventCache;
@@ -207,6 +208,27 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
     ) {
       // getOut() << "RealOMSetRenderTargets 8" << std::endl;
 
+      if (texCacheSamples != lastDescDepth.SampleDesc.Count) {
+        for (auto iter : texCache) {
+          iter->lpVtbl->Release(iter);
+        }
+        texCache.clear();
+        for (auto iter : texSharedHandleCache) {
+          CloseHandle(iter);
+        }
+        texSharedHandleCache.clear();
+        for (auto iter : fenceCache) {
+          iter->lpVtbl->Release(iter);
+        }
+        fenceCache.clear();
+        for (auto iter : eventCache) {
+          CloseHandle(iter);
+        }
+        eventCache.clear();
+
+        texCacheSamples = lastDescDepth.SampleDesc.Count;
+      }
+
       ID3D11DeviceContext4 *context4;
       hr = This->lpVtbl->QueryInterface(This, IID_ID3D11DeviceContext4, (void **)&context4);
       if (SUCCEEDED(hr)) {
@@ -296,7 +318,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
 
           // getOut() << "RealOMSetRenderTargets 15" << std::endl;
 
-          shDepthTexResource->lpVtbl->Release(shDepthTexResource);
+          // shDepthTexResource->lpVtbl->Release(shDepthTexResource);
           
           // getOut() << "RealOMSetRenderTargets 16" << std::endl;
         }
@@ -342,7 +364,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
         device->lpVtbl->Release(device);
         device5->lpVtbl->Release(device5);
       }
-      
+
       // getOut() << "RealOMSetRenderTargets 20" << std::endl;
 
       size_t index = texOrder.size();
@@ -362,6 +384,17 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
 
       // getOut() << "RealOMSetRenderTargets 21 " << (void *)shDepthTexHandle << std::endl;
 
+      D3D11_TEXTURE2D_DESC desc;
+      lastDepthTex->lpVtbl->GetDesc(lastDepthTex, &desc);
+      getOut() << "copy resource flags " <<
+        // (void *)depthTex << " " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
+        std::endl;
+
       This->lpVtbl->CopyResource(
         This,
         shDepthTexResource,
@@ -380,7 +413,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
         shDepthTexHandle,
         index
       });
-      
+
       getOut() << "push tex order " << texOrder.size() << " " << (void *)shDepthTexHandle << " " << (void *)depthTex << std::endl;
       
       // getOut() << "RealOMSetRenderTargets 24" << std::endl;
