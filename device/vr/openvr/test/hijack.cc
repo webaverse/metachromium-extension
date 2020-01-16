@@ -1,4 +1,5 @@
 #include <map>
+#include <string>
 
 #define CINTERFACE
 #define D3D11_NO_HELPERS
@@ -68,6 +69,7 @@ GLsizei depthWidth = 0;
 GLsizei depthHeight = 0;
 GLuint depthProgram = 0;
 size_t fenceValue = 0;
+ID3D11Fence *fence = nullptr;
 HANDLE frontSharedDepthHandle = NULL;
 HANDLE frontDepthEvent = NULL;
 // back
@@ -804,457 +806,488 @@ void STDMETHODCALLTYPE MineGlClear(
   GLbitfield mask
 ) {
   if (phase == 3) {
-    if (depthSamples != 0) {
-      if (!glActiveTexture) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glActiveTexture = (decltype(glActiveTexture))GetProcAddress(libGlesV2, "glActiveTexture");
-      }
-      if (!glTexStorage2DMultisample) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glTexStorage2DMultisample = (decltype(glTexStorage2DMultisample))GetProcAddress(libGlesV2, "glTexStorage2DMultisample");
-      }
-      if (!glFramebufferTexture2DMultisampleEXT) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glFramebufferTexture2DMultisampleEXT = (decltype(glFramebufferTexture2DMultisampleEXT))GetProcAddress(libGlesV2, "glFramebufferTexture2DMultisampleEXT");
-      }
-      if (!glGenFramebuffers) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glGenFramebuffers = (decltype(glGenFramebuffers))GetProcAddress(libGlesV2, "glGenFramebuffers");
-      }
-      if (!glBindFramebuffer) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glBindFramebuffer = (decltype(glBindFramebuffer))GetProcAddress(libGlesV2, "glBindFramebuffer");
-      }
-      if (!glBlitFramebuffer) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glBlitFramebuffer = (decltype(glBlitFramebuffer))GetProcAddress(libGlesV2, "glBlitFramebuffer");
-      }
-      if (!glBlitFramebufferANGLE) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glBlitFramebufferANGLE = (decltype(glBlitFramebuffer))GetProcAddress(libGlesV2, "glBlitFramebufferANGLE");
-      }
-      if (!glGenVertexArrays) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glGenVertexArrays = (decltype(glGenVertexArrays))GetProcAddress(libGlesV2, "glGenVertexArraysOES");
-      }
-      if (!glBindVertexArray) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glBindVertexArray = (decltype(glBindVertexArray))GetProcAddress(libGlesV2, "glBindVertexArrayOES");
-      }
-      if (!glCreateShader) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glCreateShader = (decltype(glCreateShader))GetProcAddress(libGlesV2, "glCreateShader");
-      }
-      if (!glShaderSource) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glShaderSource = (decltype(glShaderSource))GetProcAddress(libGlesV2, "glShaderSource");
-      }
-      if (!glCompileShader) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glCompileShader = (decltype(glCompileShader))GetProcAddress(libGlesV2, "glCompileShader");
-      }
-      if (!glGetShaderiv) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glGetShaderiv = (decltype(glGetShaderiv))GetProcAddress(libGlesV2, "glGetShaderiv");
-      }
-      if (!glGetShaderInfoLog) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glGetShaderInfoLog = (decltype(glGetShaderInfoLog))GetProcAddress(libGlesV2, "glGetShaderInfoLog");
-      }
-      if (!glCreateProgram) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glCreateProgram = (decltype(glCreateProgram))GetProcAddress(libGlesV2, "glCreateProgram");
-      }
-      if (!glAttachShader) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glAttachShader = (decltype(glAttachShader))GetProcAddress(libGlesV2, "glAttachShader");
-      }
-      if (!glLinkProgram) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glLinkProgram = (decltype(glLinkProgram))GetProcAddress(libGlesV2, "glLinkProgram");
-      }
-      if (!glGetProgramiv) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glGetProgramiv = (decltype(glGetProgramiv))GetProcAddress(libGlesV2, "glGetProgramiv");
-      }
-      if (!glGetAttribLocation) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glGetAttribLocation = (decltype(glGetAttribLocation))GetProcAddress(libGlesV2, "glGetAttribLocation");
-      }
-      if (!glGetUniformLocation) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glGetUniformLocation = (decltype(glGetUniformLocation))GetProcAddress(libGlesV2, "glGetUniformLocation");
-      }
-      if (!glDeleteShader) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glDeleteShader = (decltype(glDeleteShader))GetProcAddress(libGlesV2, "glDeleteShader");
-      }
-      if (!glUseProgram) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glUseProgram = (decltype(glUseProgram))GetProcAddress(libGlesV2, "glUseProgram");
-      }
-      if (!glGenBuffers) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glGenBuffers = (decltype(glGenBuffers))GetProcAddress(libGlesV2, "glGenBuffers");
-      }
-      if (!glBindBuffer) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glBindBuffer = (decltype(glBindBuffer))GetProcAddress(libGlesV2, "glBindBuffer");
-      }
-      if (!glBufferData) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glBufferData = (decltype(glBufferData))GetProcAddress(libGlesV2, "glBufferData");
-      }
-      if (!glEnableVertexAttribArray) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glEnableVertexAttribArray = (decltype(glEnableVertexAttribArray))GetProcAddress(libGlesV2, "glEnableVertexAttribArray");
-      }
-      if (!glVertexAttribPointer) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glVertexAttribPointer = (decltype(glVertexAttribPointer))GetProcAddress(libGlesV2, "glVertexAttribPointer");
-      }
-      if (!glUniform1i) {
-        HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
-        glUniform1i = (decltype(glUniform1i))GetProcAddress(libGlesV2, "glUniform1i");
-      }
-      
-      GLint oldActiveTexture;
-      RealGlGetIntegerv(GL_ACTIVE_TEXTURE, &oldActiveTexture);
-      glActiveTexture(GL_TEXTURE0);
-      GLint oldTexture2d;
-      RealGlGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTexture2d);
-      GLint oldFbo;
-      RealGlGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFbo);
-      GLint oldReadFbo;
-      RealGlGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &oldReadFbo);
-      GLint oldDrawFbo;
-      RealGlGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &oldDrawFbo);
-      GLint oldProgram;
-      RealGlGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
-      GLint oldVao;
-      RealGlGetIntegerv(GL_VERTEX_ARRAY_BINDING, &oldVao);
-      GLint oldArrayBuffer;
-      RealGlGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldArrayBuffer);
-      GLint oldViewport[4];
-      RealGlGetIntegerv(GL_VIEWPORT, oldViewport);
+    if (!glActiveTexture) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glActiveTexture = (decltype(glActiveTexture))GetProcAddress(libGlesV2, "glActiveTexture");
+    }
+    if (!glTexStorage2DMultisample) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glTexStorage2DMultisample = (decltype(glTexStorage2DMultisample))GetProcAddress(libGlesV2, "glTexStorage2DMultisample");
+    }
+    if (!glFramebufferTexture2DMultisampleEXT) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glFramebufferTexture2DMultisampleEXT = (decltype(glFramebufferTexture2DMultisampleEXT))GetProcAddress(libGlesV2, "glFramebufferTexture2DMultisampleEXT");
+    }
+    if (!glGenFramebuffers) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glGenFramebuffers = (decltype(glGenFramebuffers))GetProcAddress(libGlesV2, "glGenFramebuffers");
+    }
+    if (!glBindFramebuffer) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glBindFramebuffer = (decltype(glBindFramebuffer))GetProcAddress(libGlesV2, "glBindFramebuffer");
+    }
+    if (!glBlitFramebuffer) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glBlitFramebuffer = (decltype(glBlitFramebuffer))GetProcAddress(libGlesV2, "glBlitFramebuffer");
+    }
+    if (!glBlitFramebufferANGLE) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glBlitFramebufferANGLE = (decltype(glBlitFramebuffer))GetProcAddress(libGlesV2, "glBlitFramebufferANGLE");
+    }
+    if (!glGenVertexArrays) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glGenVertexArrays = (decltype(glGenVertexArrays))GetProcAddress(libGlesV2, "glGenVertexArraysOES");
+    }
+    if (!glBindVertexArray) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glBindVertexArray = (decltype(glBindVertexArray))GetProcAddress(libGlesV2, "glBindVertexArrayOES");
+    }
+    if (!glCreateShader) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glCreateShader = (decltype(glCreateShader))GetProcAddress(libGlesV2, "glCreateShader");
+    }
+    if (!glShaderSource) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glShaderSource = (decltype(glShaderSource))GetProcAddress(libGlesV2, "glShaderSource");
+    }
+    if (!glCompileShader) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glCompileShader = (decltype(glCompileShader))GetProcAddress(libGlesV2, "glCompileShader");
+    }
+    if (!glGetShaderiv) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glGetShaderiv = (decltype(glGetShaderiv))GetProcAddress(libGlesV2, "glGetShaderiv");
+    }
+    if (!glGetShaderInfoLog) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glGetShaderInfoLog = (decltype(glGetShaderInfoLog))GetProcAddress(libGlesV2, "glGetShaderInfoLog");
+    }
+    if (!glCreateProgram) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glCreateProgram = (decltype(glCreateProgram))GetProcAddress(libGlesV2, "glCreateProgram");
+    }
+    if (!glAttachShader) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glAttachShader = (decltype(glAttachShader))GetProcAddress(libGlesV2, "glAttachShader");
+    }
+    if (!glLinkProgram) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glLinkProgram = (decltype(glLinkProgram))GetProcAddress(libGlesV2, "glLinkProgram");
+    }
+    if (!glGetProgramiv) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glGetProgramiv = (decltype(glGetProgramiv))GetProcAddress(libGlesV2, "glGetProgramiv");
+    }
+    if (!glGetAttribLocation) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glGetAttribLocation = (decltype(glGetAttribLocation))GetProcAddress(libGlesV2, "glGetAttribLocation");
+    }
+    if (!glGetUniformLocation) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glGetUniformLocation = (decltype(glGetUniformLocation))GetProcAddress(libGlesV2, "glGetUniformLocation");
+    }
+    if (!glDeleteShader) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glDeleteShader = (decltype(glDeleteShader))GetProcAddress(libGlesV2, "glDeleteShader");
+    }
+    if (!glUseProgram) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glUseProgram = (decltype(glUseProgram))GetProcAddress(libGlesV2, "glUseProgram");
+    }
+    if (!glGenBuffers) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glGenBuffers = (decltype(glGenBuffers))GetProcAddress(libGlesV2, "glGenBuffers");
+    }
+    if (!glBindBuffer) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glBindBuffer = (decltype(glBindBuffer))GetProcAddress(libGlesV2, "glBindBuffer");
+    }
+    if (!glBufferData) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glBufferData = (decltype(glBufferData))GetProcAddress(libGlesV2, "glBufferData");
+    }
+    if (!glEnableVertexAttribArray) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glEnableVertexAttribArray = (decltype(glEnableVertexAttribArray))GetProcAddress(libGlesV2, "glEnableVertexAttribArray");
+    }
+    if (!glVertexAttribPointer) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glVertexAttribPointer = (decltype(glVertexAttribPointer))GetProcAddress(libGlesV2, "glVertexAttribPointer");
+    }
+    if (!glUniform1i) {
+      HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
+      glUniform1i = (decltype(glUniform1i))GetProcAddress(libGlesV2, "glUniform1i");
+    }
+    
+    GLint oldActiveTexture;
+    RealGlGetIntegerv(GL_ACTIVE_TEXTURE, &oldActiveTexture);
+    glActiveTexture(GL_TEXTURE0);
+    GLint oldTexture2d;
+    RealGlGetIntegerv(GL_TEXTURE_BINDING_2D, &oldTexture2d);
+    GLint oldFbo;
+    RealGlGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldFbo);
+    GLint oldReadFbo;
+    RealGlGetIntegerv(GL_READ_FRAMEBUFFER_BINDING, &oldReadFbo);
+    GLint oldDrawFbo;
+    RealGlGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING, &oldDrawFbo);
+    GLint oldProgram;
+    RealGlGetIntegerv(GL_CURRENT_PROGRAM, &oldProgram);
+    GLint oldVao;
+    RealGlGetIntegerv(GL_VERTEX_ARRAY_BINDING, &oldVao);
+    GLint oldArrayBuffer;
+    RealGlGetIntegerv(GL_ARRAY_BUFFER_BINDING, &oldArrayBuffer);
+    GLint oldViewport[4];
+    RealGlGetIntegerv(GL_VIEWPORT, oldViewport);
 
-      // getOut() << "get old X " << oldTex << " " << oldReadFbo << " " << oldDrawFbo << " " << oldProgram << " " << oldVao << " " << oldArrayBuffer << std::endl;
+    // getOut() << "get old X " << oldTex << " " << oldReadFbo << " " << oldDrawFbo << " " << oldProgram << " " << oldVao << " " << oldArrayBuffer << std::endl;
 
-      if (!depthTexId) {
-        Hijacker::ensureClientDevice();
+    if (!depthTexId) {
+      Hijacker::ensureClientDevice();
 
-        GLuint textures[2];
-        RealGlGenTextures(2, textures);
-        depthResolveTexId = textures[0];
-        depthTexId = textures[1];
-        GLuint fbos[2];
-        RealGlGenFramebuffers(2, fbos);
-        depthResolveFbo = fbos[0];
-        depthShFbo = fbos[1];
+      GLuint textures[2];
+      RealGlGenTextures(2, textures);
+      depthResolveTexId = textures[0];
+      depthTexId = textures[1];
+      GLuint fbos[2];
+      RealGlGenFramebuffers(2, fbos);
+      depthResolveFbo = fbos[0];
+      depthShFbo = fbos[1];
 
+      {
+        D3D11_TEXTURE2D_DESC desc{};
+        desc.Width = depthWidth;
+        desc.Height = depthHeight;
+        desc.MipLevels = desc.ArraySize = 1;
+        desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        desc.SampleDesc.Count = 1;
+        desc.Usage = D3D11_USAGE_DEFAULT;
+        desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+        desc.CPUAccessFlags = 0;
+        desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+        HRESULT hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
         {
-          D3D11_TEXTURE2D_DESC desc{};
-          desc.Width = depthWidth;
-          desc.Height = depthHeight;
-          desc.MipLevels = desc.ArraySize = 1;
-          desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-          desc.SampleDesc.Count = 1;
-          desc.Usage = D3D11_USAGE_DEFAULT;
-          desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-          desc.CPUAccessFlags = 0;
-          desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
-          HRESULT hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
-          {
-              // error handling code
-          }
-
-          IDXGIResource1 *dxgiResource;
-          hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource1, (void **)&dxgiResource);
-          if FAILED(hr)
-          {
-              // error handling code
-          }
-
-          hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &frontSharedDepthHandle);
-          if FAILED(hr)
-          {
-              // error handling code
-          }
-
-          EGLDisplay display = EGL_GetCurrentDisplay();
-          EGLConfig config;
-          EGLint numConfigs = 0;
-          EGLint attribList[] = {
-            // 32 bit color
-            EGL_RED_SIZE, 8,
-            EGL_GREEN_SIZE, 8,
-            EGL_BLUE_SIZE, 8,
-            EGL_ALPHA_SIZE, 8,
-            // at least 24 bit depth
-            EGL_DEPTH_SIZE, 0,
-            EGL_STENCIL_SIZE, 0,
-            // EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
-            // want opengl-es 2.x conformant CONTEXT
-            EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, 
-            EGL_NONE
-          };
-          EGLBoolean ok = EGL_ChooseConfig(
-            display,
-            attribList,
-            &config,
-            1,
-            &numConfigs
-          );
-
-          EGLint pBufferAttributes[] = {
-            EGL_WIDTH, desc.Width,
-            EGL_HEIGHT, desc.Height,
-            EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
-            EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
-            EGL_NONE
-          };
-          EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, frontSharedDepthHandle, config, pBufferAttributes);
-          if (surface == EGL_NO_SURFACE)
-          {
-              // error handling code
-          }
-
-          RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
-          EGL_BindTexImage(display, surface, EGL_BACK_BUFFER);
+            // error handling code
         }
-        {
-          RealGlBindFramebuffer(GL_FRAMEBUFFER, depthResolveFbo);
-          RealGlBindTexture(GL_TEXTURE_2D, depthResolveTexId);
-          /* std::vector<uint32_t> data(depthWidth * depthHeight);
-          std::fill(data.begin(), data.end(), 0xFFFFFFFF); */
-          RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL, depthWidth, depthHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
-          // RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-          RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthResolveTexId, 0);
 
-          RealGlBindFramebuffer(GL_FRAMEBUFFER, depthShFbo);
-          RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
-          RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-          RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-          RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, depthTexId, 0);
+        IDXGIResource1 *dxgiResource;
+        hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource1, (void **)&dxgiResource);
+        if FAILED(hr)
+        {
+            // error handling code
         }
+
+        hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &frontSharedDepthHandle);
+        if FAILED(hr)
         {
-          glGenVertexArrays(1, &depthVao);
-          glBindVertexArray(depthVao);
-          
-          getOut() << "generating depth 5 3 " << (void *)glCreateShader << " " << (void *)glShaderSource << " " << (void *)glCompileShader << " " << (void *)glGetShaderiv << " " << (void *)RealGlGetError() << std::endl;
+            // error handling code
+        }
 
-          // vertex shader
-          GLuint composeVertex = glCreateShader(GL_VERTEX_SHADER);
-          glShaderSource(composeVertex, 1, &depthVsh, NULL);
-          glCompileShader(composeVertex);
-          GLint success;
-          glGetShaderiv(composeVertex, GL_COMPILE_STATUS, &success);
-          if (!success) {
-            char infoLog[4096];
-            GLsizei length;
-            glGetShaderInfoLog(composeVertex, sizeof(infoLog), &length, infoLog);
-            infoLog[length] = '\0';
-            getOut() << "compose vertex shader compilation failed:\n" << infoLog << std::endl;
-            abort();
-          };
-          
-          getOut() << "generating depth 5 4 " << (void *)RealGlGetError() << std::endl;
+        EGLDisplay display = EGL_GetCurrentDisplay();
+        EGLConfig config;
+        EGLint numConfigs = 0;
+        EGLint attribList[] = {
+          // 32 bit color
+          EGL_RED_SIZE, 8,
+          EGL_GREEN_SIZE, 8,
+          EGL_BLUE_SIZE, 8,
+          EGL_ALPHA_SIZE, 8,
+          // at least 24 bit depth
+          EGL_DEPTH_SIZE, 0,
+          EGL_STENCIL_SIZE, 0,
+          // EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+          // want opengl-es 2.x conformant CONTEXT
+          EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, 
+          EGL_NONE
+        };
+        EGLBoolean ok = EGL_ChooseConfig(
+          display,
+          attribList,
+          &config,
+          1,
+          &numConfigs
+        );
 
-          // fragment shader
-          GLuint composeFragment = glCreateShader(GL_FRAGMENT_SHADER);
-          glShaderSource(composeFragment, 1, &depthFsh, NULL);
-          glCompileShader(composeFragment);
-          glGetShaderiv(composeFragment, GL_COMPILE_STATUS, &success);
-          if (!success) {
-            char infoLog[4096];
-            GLsizei length;
-            glGetShaderInfoLog(composeFragment, sizeof(infoLog), &length, infoLog);
-            infoLog[length] = '\0';
-            getOut() << "compose fragment shader compilation failed:\n" << infoLog << std::endl;
-            abort();
-          };
-          
-          getOut() << "generating depth 5 5 " << (void *)glCreateProgram << " " << (void *)glAttachShader << " " << (void *)glLinkProgram << " " << (void *)glGetProgramiv << " " << (void *)RealGlGetError() << std::endl;
+        EGLint pBufferAttributes[] = {
+          EGL_WIDTH, desc.Width,
+          EGL_HEIGHT, desc.Height,
+          EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
+          EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
+          EGL_NONE
+        };
+        EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, frontSharedDepthHandle, config, pBufferAttributes);
+        if (surface == EGL_NO_SURFACE)
+        {
+            // error handling code
+        }
 
-          // shader program
-          depthProgram = glCreateProgram();
-          glAttachShader(depthProgram, composeVertex);
-          glAttachShader(depthProgram, composeFragment);
-          glLinkProgram(depthProgram);
-          glGetProgramiv(depthProgram, GL_LINK_STATUS, &success);
-          if (!success) {
-            char infoLog[4096];
-            GLsizei length;
-            glGetShaderInfoLog(depthProgram, sizeof(infoLog), &length, infoLog);
-            infoLog[length] = '\0';
-            getOut() << "blit program linking failed\n" << infoLog << std::endl;
-            abort();
-          }
+        RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
+        EGL_BindTexImage(display, surface, EGL_BACK_BUFFER);
+      }
+      {
+        RealGlBindFramebuffer(GL_FRAMEBUFFER, depthResolveFbo);
+        RealGlBindTexture(GL_TEXTURE_2D, depthResolveTexId);
+        /* std::vector<uint32_t> data(depthWidth * depthHeight);
+        std::fill(data.begin(), data.end(), 0xFFFFFFFF); */
+        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL, depthWidth, depthHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+        // RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthResolveTexId, 0);
 
-          getOut() << "generating depth 5 6 " << (void *)RealGlGetError() << std::endl;
+        RealGlBindFramebuffer(GL_FRAMEBUFFER, depthShFbo);
+        RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
+        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, depthTexId, 0);
+      }
+      {
+        glGenVertexArrays(1, &depthVao);
+        glBindVertexArray(depthVao);
+        
+        getOut() << "generating depth 5 3 " << (void *)glCreateShader << " " << (void *)glShaderSource << " " << (void *)glCompileShader << " " << (void *)glGetShaderiv << " " << (void *)RealGlGetError() << std::endl;
 
-          GLuint positionLocation = glGetAttribLocation(depthProgram, "position");
-          if (positionLocation == -1) {
-            getOut() << "blit program failed to get attrib location for 'position'" << std::endl;
-            abort();
-          }
-          getOut() << "generating depth 5 7 " << (void *)RealGlGetError() << std::endl;
-          GLuint uvLocation = glGetAttribLocation(depthProgram, "uv");
-          if (uvLocation == -1) {
-            getOut() << "blit program failed to get attrib location for 'uv'" << std::endl;
-            abort();
-          }
+        // vertex shader
+        GLuint composeVertex = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(composeVertex, 1, &depthVsh, NULL);
+        glCompileShader(composeVertex);
+        GLint success;
+        glGetShaderiv(composeVertex, GL_COMPILE_STATUS, &success);
+        if (!success) {
+          char infoLog[4096];
+          GLsizei length;
+          glGetShaderInfoLog(composeVertex, sizeof(infoLog), &length, infoLog);
+          infoLog[length] = '\0';
+          getOut() << "compose vertex shader compilation failed:\n" << infoLog << std::endl;
+          abort();
+        };
+        
+        getOut() << "generating depth 5 4 " << (void *)RealGlGetError() << std::endl;
 
-          getOut() << "generating depth 5 8 " << (void *)RealGlGetError() << std::endl;
+        // fragment shader
+        GLuint composeFragment = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(composeFragment, 1, &depthFsh, NULL);
+        glCompileShader(composeFragment);
+        glGetShaderiv(composeFragment, GL_COMPILE_STATUS, &success);
+        if (!success) {
+          char infoLog[4096];
+          GLsizei length;
+          glGetShaderInfoLog(composeFragment, sizeof(infoLog), &length, infoLog);
+          infoLog[length] = '\0';
+          getOut() << "compose fragment shader compilation failed:\n" << infoLog << std::endl;
+          abort();
+        };
+        
+        getOut() << "generating depth 5 5 " << (void *)glCreateProgram << " " << (void *)glAttachShader << " " << (void *)glLinkProgram << " " << (void *)glGetProgramiv << " " << (void *)RealGlGetError() << std::endl;
 
-          GLuint texLocation = glGetUniformLocation(depthProgram, "tex");
-          // getOut() << "get location 1  " << texString << " " << texLocation << std::endl;
-          if (texLocation != -1) {
-            // 
-          } else {
-            getOut() << "blit program failed to get uniform location for 'tex'" << std::endl;
-            // abort();
-          }
-          
-          getOut() << "generating depth 5 9 " << (void *)RealGlGetError() << std::endl;
+        // shader program
+        depthProgram = glCreateProgram();
+        glAttachShader(depthProgram, composeVertex);
+        glAttachShader(depthProgram, composeFragment);
+        glLinkProgram(depthProgram);
+        glGetProgramiv(depthProgram, GL_LINK_STATUS, &success);
+        if (!success) {
+          char infoLog[4096];
+          GLsizei length;
+          glGetShaderInfoLog(depthProgram, sizeof(infoLog), &length, infoLog);
+          infoLog[length] = '\0';
+          getOut() << "blit program linking failed\n" << infoLog << std::endl;
+          abort();
+        }
 
-          // delete the shaders as they're linked into our program now and no longer necessary
-          glDeleteShader(composeVertex);
-          glDeleteShader(composeFragment);
+        getOut() << "generating depth 5 6 " << (void *)RealGlGetError() << std::endl;
 
-          getOut() << "generating depth 5 10 " << (void *)RealGlGetError() << std::endl;
+        GLuint positionLocation = glGetAttribLocation(depthProgram, "position");
+        if (positionLocation == -1) {
+          getOut() << "blit program failed to get attrib location for 'position'" << std::endl;
+          abort();
+        }
+        getOut() << "generating depth 5 7 " << (void *)RealGlGetError() << std::endl;
+        GLuint uvLocation = glGetAttribLocation(depthProgram, "uv");
+        if (uvLocation == -1) {
+          getOut() << "blit program failed to get attrib location for 'uv'" << std::endl;
+          abort();
+        }
 
-          glUseProgram(depthProgram);
-          
-          getOut() << "generating depth 11 " << (void *)RealGlGetError() << std::endl;
+        getOut() << "generating depth 5 8 " << (void *)RealGlGetError() << std::endl;
 
-          GLuint positionBuffer;
-          glGenBuffers(1, &positionBuffer);
-          glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-          getOut() << "generating depth 5 12 " << (void *)RealGlGetError() << std::endl;
-          static const float positions[] = {
-            -1.0f, 1.0f,
-            1.0f, 1.0f,
-            -1.0f, -1.0f,
-            1.0f, -1.0f,
-          };
-          glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-          getOut() << "generating depth 5 13 " << (void *)RealGlGetError() << std::endl;
-          glEnableVertexAttribArray(positionLocation);
-          getOut() << "generating depth 5 14 " << (void *)RealGlGetError() << std::endl;
-          glVertexAttribPointer(positionLocation, 2, GL_FLOAT, false, 0, 0);
-
-          // getOut() << "init program 8" << std::endl;
-
-          GLuint uvBuffer;
-          glGenBuffers(1, &uvBuffer);
-          glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-          static const float uvs[] = {
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-          };
-          glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
-          glEnableVertexAttribArray(uvLocation);
-          glVertexAttribPointer(uvLocation, 2, GL_FLOAT, false, 0, 0);
-
-          getOut() << "generating depth 5 15 " << (void *)RealGlGetError() << std::endl;
-
-          GLuint indexBuffer;
-          glGenBuffers(1, &indexBuffer);
-          static const uint16_t indices[] = {0, 2, 1, 2, 3, 1};
-          glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-          glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-          if (texLocation != -1) {
-            glUniform1i(texLocation, 0);
-          }
-          
-          getOut() << "generating depth 5 16 " << (void *)RealGlGetError() << std::endl;
+        GLuint texLocation = glGetUniformLocation(depthProgram, "tex");
+        // getOut() << "get location 1  " << texString << " " << texLocation << std::endl;
+        if (texLocation != -1) {
+          // 
+        } else {
+          getOut() << "blit program failed to get uniform location for 'tex'" << std::endl;
+          // abort();
         }
         
-        RealGlBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+        getOut() << "generating depth 5 9 " << (void *)RealGlGetError() << std::endl;
+
+        // delete the shaders as they're linked into our program now and no longer necessary
+        glDeleteShader(composeVertex);
+        glDeleteShader(composeFragment);
+
+        getOut() << "generating depth 5 10 " << (void *)RealGlGetError() << std::endl;
+
+        glUseProgram(depthProgram);
+        
+        getOut() << "generating depth 11 " << (void *)RealGlGetError() << std::endl;
+
+        GLuint positionBuffer;
+        glGenBuffers(1, &positionBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
+        getOut() << "generating depth 5 12 " << (void *)RealGlGetError() << std::endl;
+        static const float positions[] = {
+          -1.0f, 1.0f,
+          1.0f, 1.0f,
+          -1.0f, -1.0f,
+          1.0f, -1.0f,
+        };
+        glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+        getOut() << "generating depth 5 13 " << (void *)RealGlGetError() << std::endl;
+        glEnableVertexAttribArray(positionLocation);
+        getOut() << "generating depth 5 14 " << (void *)RealGlGetError() << std::endl;
+        glVertexAttribPointer(positionLocation, 2, GL_FLOAT, false, 0, 0);
+
+        // getOut() << "init program 8" << std::endl;
+
+        GLuint uvBuffer;
+        glGenBuffers(1, &uvBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
+        static const float uvs[] = {
+          0.0f, 0.0f,
+          1.0f, 0.0f,
+          0.0f, 1.0f,
+          1.0f, 1.0f,
+        };
+        glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(uvLocation);
+        glVertexAttribPointer(uvLocation, 2, GL_FLOAT, false, 0, 0);
+
+        getOut() << "generating depth 5 15 " << (void *)RealGlGetError() << std::endl;
+
+        GLuint indexBuffer;
+        glGenBuffers(1, &indexBuffer);
+        static const uint16_t indices[] = {0, 2, 1, 2, 3, 1};
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+        if (texLocation != -1) {
+          glUniform1i(texLocation, 0);
+        }
+        
+        getOut() << "generating depth 5 16 " << (void *)RealGlGetError() << std::endl;
       }
-      
-      getOut() << "generating depth 6 1 " << (void *)RealGlGetError() << std::endl;
-
-      RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthResolveFbo);
-      getOut() << "generating depth 6 2 " << (void *)RealGlGetError() << std::endl;
-      glBlitFramebufferANGLE(
-        0, 0,
-        depthWidth, depthHeight,
-        0, 0,
-        depthWidth, depthHeight,
-        GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
-        GL_NEAREST
-      );
-      
-      getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
-
-      RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthShFbo);
-      glBindVertexArray(depthVao);
-      glUseProgram(depthProgram);
-      glActiveTexture(GL_TEXTURE0);
-      RealGlBindTexture(GL_TEXTURE_2D, depthResolveTexId);
-      RealGlViewport(0, 0, depthWidth, depthHeight);
-      /* RealGlClearColor(0, 0, 0, 0);
-      RealGlColorMask(true, true, true, true);
-      RealGlClear(GL_COLOR_BUFFER_BIT); */
-      RealGlDrawElements(
-        GL_TRIANGLES,
-        6,
-        GL_UNSIGNED_SHORT,
-        (void *)0
-      );
-
-      getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
-      
-      RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
-      std::vector<unsigned char> data(depthWidth * depthHeight * 4);
-      // std::fill(data.begin(), data.end(), 2);
-      RealGlReadPixels(0, 0, depthWidth, depthHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-      size_t count = 0;
-      for (size_t i = 0; i < data.size(); i += 4) {
-        if (data[i] == 234) {
-          count += data[i];
+      {
+        HRESULT hr = hijackerDevice->lpVtbl->CreateFence(
+          hijackerDevice,
+          0, // value
+          // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+          // D3D11_FENCE_FLAG_SHARED, // flags
+          D3D11_FENCE_FLAG_NONE, // flags
+          IID_ID3D11Fence, // interface
+          (void **)&fence // out
+        );
+        if (SUCCEEDED(hr)) {
+          // getOut() << "created fence " << (void *)fence << std::endl;
+          // nothing
+        } else {
+          getOut() << "failed to create depth fence" << std::endl;
+          abort();
+        }
+        
+        frontDepthEvent = CreateEventA(
+          NULL,
+          false,
+          false,
+          "Local\\OpenVrDepthFenceEvent"
+        );
+        if (!frontDepthEvent) {
+          getOut() << "failed to create front depth event " << (void *)frontDepthEvent << std::endl;
+          abort();
         }
       }
       
-      getOut() << "generating depth 9 " << (void *)RealGlGetError() << std::endl;
-
-      RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
-      glActiveTexture(oldActiveTexture);
       RealGlBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
-      RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, oldReadFbo);
-      RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDrawFbo);
-      glUseProgram(oldProgram);
-      glBindVertexArray(oldVao);
-      glBindBuffer(GL_ARRAY_BUFFER, oldArrayBuffer);
-      RealGlViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
-      
-      getOut() << "generating depth 10 " << (void *)RealGlGetError() << std::endl;
-
-      /* GLint type;
-      RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
-      GLint rbo;
-      RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
-      getOut() << "blit rbo " << type << " " << rbo << " " << oldDrawFbo << std::endl; */
-    } else {
-      getOut() << "warning: do not know how to create blit copy target" << std::endl;
     }
+    
+    getOut() << "generating depth 6 1 " << (void *)RealGlGetError() << std::endl;
+
+    RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthResolveFbo);
+    getOut() << "generating depth 6 2 " << (void *)RealGlGetError() << std::endl;
+    glBlitFramebufferANGLE(
+      0, 0,
+      depthWidth, depthHeight,
+      0, 0,
+      depthWidth, depthHeight,
+      GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT,
+      GL_NEAREST
+    );
+    
+    getOut() << "generating depth 7 " << (void *)RealGlGetError() << std::endl;
+
+    RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthShFbo);
+    glBindVertexArray(depthVao);
+    glUseProgram(depthProgram);
+    glActiveTexture(GL_TEXTURE0);
+    RealGlBindTexture(GL_TEXTURE_2D, depthResolveTexId);
+    RealGlViewport(0, 0, depthWidth, depthHeight);
+    /* RealGlClearColor(0, 0, 0, 0);
+    RealGlColorMask(true, true, true, true);
+    RealGlClear(GL_COLOR_BUFFER_BIT); */
+    RealGlDrawElements(
+      GL_TRIANGLES,
+      6,
+      GL_UNSIGNED_SHORT,
+      (void *)0
+    );
+
+    getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
+    
+    RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
+    std::vector<unsigned char> data(depthWidth * depthHeight * 4);
+    // std::fill(data.begin(), data.end(), 2);
+    RealGlReadPixels(0, 0, depthWidth, depthHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
+    size_t count = 0;
+    for (size_t i = 0; i < data.size(); i += 4) {
+      if (data[i] == 234) {
+        count += data[i];
+      }
+    }
+    
+    getOut() << "generating depth 9 " << (void *)RealGlGetError() << std::endl;
+
+    RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
+    glActiveTexture(oldActiveTexture);
+    RealGlBindFramebuffer(GL_FRAMEBUFFER, oldFbo);
+    RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, oldReadFbo);
+    RealGlBindFramebuffer(GL_DRAW_FRAMEBUFFER, oldDrawFbo);
+    glUseProgram(oldProgram);
+    glBindVertexArray(oldVao);
+    glBindBuffer(GL_ARRAY_BUFFER, oldArrayBuffer);
+    RealGlViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);
+    
+    getOut() << "generating depth 10 " << (void *)RealGlGetError() << std::endl;
+
+    /* GLint type;
+    RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE, &type);
+    GLint rbo;
+    RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
+    getOut() << "blit rbo " << type << " " << rbo << " " << oldDrawFbo << std::endl; */
+
+    ++fenceValue;
+    // getOut() << "signal read event " << (std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << " " << fenceValue << std::endl;
+    hijackerContext->lpVtbl->Signal(hijackerContext, fence, fenceValue);
+    fence->lpVtbl->SetEventOnCompletion(fence, fenceValue, frontDepthEvent);
     
     phase = 0;
   } else {
     phase = 0;
   }
+
   getOut() << "RealGlClear " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlClear(mask);
 }
