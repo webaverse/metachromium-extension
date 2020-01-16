@@ -59,7 +59,7 @@ HANDLE hijackerInteropDevice = NULL;
 
 // gl
 // front
-int phase = 0;
+int glPhase = 0;
 GLuint depthResolveTexId = 0;
 GLuint depthTexId = 0;
 GLuint depthResolveFbo = 0;
@@ -530,7 +530,7 @@ void STDMETHODCALLTYPE MineGlFramebufferTexture2DMultisampleEXT(
   GLint level,
   GLsizei samples
 ) {
-  phase = 1;
+  glPhase = 1;
   getOut() << "glFramebufferTexture2DMultisampleEXT " << target << " " << attachment << " " << textarget << " " << texture << " " << level << " " << samples << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlFramebufferTexture2DMultisampleEXT(target, attachment, textarget, texture, level, samples);
 }
@@ -774,10 +774,10 @@ void STDMETHODCALLTYPE MineGlClearColor(
  	GLclampf blue,
  	GLclampf alpha
 ) {
-  if (phase == 2 && red == 0 && blue == 0 && green == 0 && alpha == 0) {
-    phase = 3;
+  if (glPhase == 2 && red == 0 && blue == 0 && green == 0 && alpha == 0) {
+    glPhase = 3;
   } else {
-    phase = 0;
+    glPhase = 0;
   }
   getOut() << "RealGlClearColor " << red << " " << green << " " << blue << " " << alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlClearColor(red, green, blue, alpha);
@@ -794,10 +794,10 @@ void STDMETHODCALLTYPE MineGlColorMask(
  	GLboolean blue,
  	GLboolean alpha
 ) {
-  if (phase == 1 && red == 1 && blue == 1 && green == 1 && alpha == 1) {
-    phase = 2;
+  if (glPhase == 1 && red == 1 && blue == 1 && green == 1 && alpha == 1) {
+    glPhase = 2;
   } else {
-    phase = 0;
+    glPhase = 0;
   }
   getOut() << "RealGlColorMask " << (int)red << " " << (int)green << " " << (int)blue << " " << (int)alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   RealGlColorMask(red, green, blue, alpha);
@@ -808,7 +808,7 @@ void (STDMETHODCALLTYPE *RealGlClear)(
 void STDMETHODCALLTYPE MineGlClear(
   GLbitfield mask
 ) {
-  if (phase == 3) {
+  if (glPhase == 3) {
     if (!glActiveTexture) {
       HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
       glActiveTexture = (decltype(glActiveTexture))GetProcAddress(libGlesV2, "glActiveTexture");
@@ -1292,9 +1292,9 @@ void STDMETHODCALLTYPE MineGlClear(
       HANDLE
     >(frontSharedDepthHandle);
     
-    phase = 0;
+    glPhase = 0;
   } else {
-    phase = 0;
+    glPhase = 0;
   }
 
   getOut() << "RealGlClear " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
@@ -1312,7 +1312,7 @@ EGLBoolean STDMETHODCALLTYPE MineEGL_MakeCurrent(
  	EGLSurface read,
  	EGLContext context
 ) {
-  phase = 0;
+  glPhase = 0;
   getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   return RealEGL_MakeCurrent(display, draw, read, context);
 }
