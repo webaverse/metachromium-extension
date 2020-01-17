@@ -15,6 +15,7 @@
 #include "device/vr/detours/detours.h"
 #include "third_party/khronos/EGL/egl.h"
 #include "third_party/khronos/EGL/eglext.h"
+#include "third_party/khronos/EGL/eglext_angle.h"
 
 // externs
 extern Hijacker *g_hijacker;
@@ -107,6 +108,7 @@ decltype(eglGetCurrentDisplay) *EGL_GetCurrentDisplay = nullptr;
 decltype(eglChooseConfig) *EGL_ChooseConfig = nullptr;
 decltype(eglCreatePbufferFromClientBuffer) *EGL_CreatePbufferFromClientBuffer = nullptr;
 decltype(eglBindTexImage) *EGL_BindTexImage = nullptr;
+decltype(eglGetError) *EGL_GetError = nullptr;
 
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
   ID3D11DeviceContext *This,
@@ -1196,27 +1198,33 @@ void STDMETHODCALLTYPE MineGlClear(
         desc.SampleDesc.Count = 1;
         desc.Usage = D3D11_USAGE_DEFAULT;
         desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-        desc.CPUAccessFlags = 0;
+        // desc.CPUAccessFlags = 0;
         desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
         HRESULT hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
-        {
-            // error handling code
+        if (FAILED(hr)) {
+          getOut() << "failed to create gl depth tex shared " << (void *)hr << std::endl;
+          abort();
         }
 
         IDXGIResource1 *dxgiResource;
         hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource1, (void **)&dxgiResource);
-        if FAILED(hr)
-        {
-            // error handling code
+        if (FAILED(hr)) {
+          getOut() << "failed to get gl depth tex shared resource " << (void *)hr << std::endl;
+          abort();
         }
 
         hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &frontSharedDepthHandle);
-        if FAILED(hr)
-        {
-            // error handling code
+        if (FAILED(hr)) {
+          getOut() << "failed to get gl depth tex shared handle " << (void *)hr << std::endl;
+          abort();
         }
 
         EGLDisplay display = EGL_GetCurrentDisplay();
+        if (display == EGL_NO_DISPLAY) {
+          getOut() << "failed to get EGL display" << std::endl;
+          abort();
+        }
+
         EGLConfig config;
         EGLint numConfigs = 0;
         EGLint attribList[] = {
@@ -1225,12 +1233,15 @@ void STDMETHODCALLTYPE MineGlClear(
           EGL_GREEN_SIZE, 8,
           EGL_BLUE_SIZE, 8,
           EGL_ALPHA_SIZE, 8,
+          // EGL_BUFFER_SIZE, 8,
           // at least 24 bit depth
           EGL_DEPTH_SIZE, 0,
           EGL_STENCIL_SIZE, 0,
-          // EGL_SURFACE_TYPE, EGL_WINDOW_BIT,
+          // EGL_SAMPLES, 1,
+          EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
           // want opengl-es 2.x conformant CONTEXT
-          EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT, 
+          EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+          // EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE,
           EGL_NONE
         };
         EGLBoolean ok = EGL_ChooseConfig(
@@ -1240,22 +1251,35 @@ void STDMETHODCALLTYPE MineGlClear(
           1,
           &numConfigs
         );
+        if (numConfigs == 0) {
+          getOut() << "failed to get EGL config" << std::endl;
+          abort();
+        }
 
         EGLint pBufferAttributes[] = {
           EGL_WIDTH, desc.Width,
           EGL_HEIGHT, desc.Height,
-          EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
-          EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
+          EGL_FLEXIBLE_SURFACE_COMPATIBILITY_SUPPORTED_ANGLE, EGL_TRUE,
+          // EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
+          // EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
           EGL_NONE
         };
-        EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, frontSharedDepthHandle, config, pBufferAttributes);
-        if (surface == EGL_NO_SURFACE)
         {
-            // error handling code
+          auto error = EGL_GetError();
+          if (error != EGL_SUCCESS) getOut() << "egl pre error " << (void *)error << std::endl;
+        }
+        EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_ANGLE, (EGLClientBuffer)depthTex, config, pBufferAttributes);
+        if (surface == EGL_NO_SURFACE) {
+          getOut() << "failed to get egl surface " << (void *)surface << " " << (void *)EGL_GetError() << std::endl;
+          abort();
         }
 
         RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
         EGL_BindTexImage(display, surface, EGL_BACK_BUFFER);
+        {
+          auto error = EGL_GetError();
+          if (error != EGL_SUCCESS) getOut() << "egl bind tex error " << (void *)error << std::endl;
+        }
       }
       {
         RealGlBindFramebuffer(GL_FRAMEBUFFER, depthResolveFbo);
@@ -1486,7 +1510,7 @@ void STDMETHODCALLTYPE MineGlClear(
 
     // getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
     
-    /* RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
+    RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
     std::vector<unsigned char> data(depthWidth * depthHeight * 4);
     // std::fill(data.begin(), data.end(), 2);
     RealGlReadPixels(0, 0, depthWidth, depthHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
@@ -1495,9 +1519,8 @@ void STDMETHODCALLTYPE MineGlClear(
       if (data[i] == 234) {
         count += data[i];
       }
-    } */
-    
-    // getOut() << "generating depth 9 " << (void *)RealGlGetError() << std::endl;
+    }
+    getOut() << "get real read pixels " << count << std::endl;
 
     RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
     glActiveTexture(oldActiveTexture);
@@ -1554,7 +1577,7 @@ EGLBoolean STDMETHODCALLTYPE MineEGL_MakeCurrent(
  	EGLContext context
 ) {
   glPhase = 0;
-  // getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   return RealEGL_MakeCurrent(display, draw, read, context);
 }
 /* BOOL (STDMETHODCALLTYPE *RealWglMakeCurrent)(
@@ -1761,12 +1784,15 @@ void Hijacker::hijackGl() {
   if (!hijackedGl) {
     HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
     HMODULE libOpenGl32 = LoadLibraryA("opengl32.dll");
+    HMODULE libEgl = LoadLibraryA("libegl.dll");
 
-    if (libGlesV2 != NULL && libOpenGl32 != NULL) {
-      EGL_GetCurrentDisplay = (decltype(EGL_GetCurrentDisplay))GetProcAddress(libGlesV2, "EGL_GetCurrentDisplay");
-      EGL_ChooseConfig = (decltype(EGL_ChooseConfig))GetProcAddress(libGlesV2, "EGL_ChooseConfig");
-      EGL_CreatePbufferFromClientBuffer = (decltype(EGL_CreatePbufferFromClientBuffer))GetProcAddress(libGlesV2, "EGL_CreatePbufferFromClientBuffer");
-      EGL_BindTexImage = (decltype(EGL_BindTexImage))GetProcAddress(libGlesV2, "EGL_BindTexImage");
+    if (libGlesV2 != NULL && libOpenGl32 != NULL && libEgl != NULL) {
+      decltype(RealEGL_MakeCurrent) EGL_MakeCurrent = (decltype(RealEGL_MakeCurrent))GetProcAddress(libEgl, "eglMakeCurrent");
+      EGL_GetCurrentDisplay = (decltype(EGL_GetCurrentDisplay))GetProcAddress(libEgl, "eglGetCurrentDisplay");
+      EGL_ChooseConfig = (decltype(EGL_ChooseConfig))GetProcAddress(libEgl, "eglChooseConfig");
+      EGL_CreatePbufferFromClientBuffer = (decltype(EGL_CreatePbufferFromClientBuffer))GetProcAddress(libEgl, "eglCreatePbufferFromClientBuffer");
+      EGL_BindTexImage = (decltype(EGL_BindTexImage))GetProcAddress(libEgl, "eglBindTexImage");
+      EGL_GetError = (decltype(EGL_GetError))GetProcAddress(libEgl, "eglGetError");
       
       decltype(RealGlGetIntegerv) glGetIntegerv = (decltype(RealGlGetIntegerv))GetProcAddress(libGlesV2, "glGetIntegerv");
       RealGlGetIntegerv = glGetIntegerv;
@@ -1803,7 +1829,6 @@ void Hijacker::hijackGl() {
       decltype(RealGlClear) glClear = (decltype(RealGlClear))GetProcAddress(libGlesV2, "glClear");
       decltype(RealGlClearColor) glClearColor = (decltype(RealGlClearColor))GetProcAddress(libGlesV2, "glClearColor");
       decltype(RealGlColorMask) glColorMask = (decltype(RealGlColorMask))GetProcAddress(libGlesV2, "glColorMask");
-      decltype(RealEGL_MakeCurrent) EGL_MakeCurrent = (decltype(RealEGL_MakeCurrent))GetProcAddress(libGlesV2, "EGL_MakeCurrent");
       // decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
       decltype(RealGlGetError) glGetError = (decltype(RealGlGetError))GetProcAddress(libGlesV2, "glGetError");
   

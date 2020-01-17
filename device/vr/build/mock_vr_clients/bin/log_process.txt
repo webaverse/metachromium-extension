@@ -1,17 +1,61 @@
 --------------------------------------------------------------------------------
-process start 00000000000E0B32 00000000000000B7
+process start 00000000008E0A6A 00000000000000B7
 core 2 openvr_api.dll
-core 3 00007FFF6C020000
+core 3 00007FFF66E30000
 core 4
 core 5
 core 6
-vr_init 17956
+vr_init 11816
 classes init 1
 classes init 2
-create device 0 000001F578B6DAB0
+process exit
+--------------------------------------------------------------------------------
+process start 0000000000090B94 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF66E30000
+core 4
+core 5
+core 6
+vr_init 6120
+classes init 1
+classes init 2
+process exit
+--------------------------------------------------------------------------------
+process start 0000000000420B78 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF624E0000
+core 4
+core 5
+core 6
+vr_init 908
+classes init 1
+classes init 2
+process exit
+--------------------------------------------------------------------------------
+process start 00000000000F0B96 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF65B20000
+core 4
+core 5
+core 6
+vr_init 16880
+classes init 1
+classes init 2
+process exit
+--------------------------------------------------------------------------------
+process start 00000000002A0A46 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF65B20000
+core 4
+core 5
+core 6
+vr_init 16096
+classes init 1
+classes init 2
+create device 0 000001B4C82BD6A0
 got adapter desc 0N 0 48684
 got adapter desc 1M 0 51590
-create swap chain 00000000000E0B32
+create swap chain 00000000002A0A46
 info queue query failed
 got desc N 0 48684
 init render 1
@@ -24,14 +68,74 @@ init render 7
 init render 8
 init render 9
 init render 10
-shader resource view tex 1068 2364 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent15864:0
-shader resource view depth 4272 2364 1 1 1 0 28 0 40 0 2
-shader resource view tex 1068 2364 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent15864:1
-shader resource view depth 4272 2364 1 1 1 0 28 0 40 0 2
 shader resource view tex 2136 2364 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent15864:0
+open backend event Local\OpenVrFenceEvent12656:0
 shader resource view tex 2136 2364 1 1 1 0 28 0 40 0 2
-open backend event Local\OpenVrFenceEvent15864:1
+open backend event Local\OpenVrFenceEvent12656:1
+process exit
+--------------------------------------------------------------------------------
+process start 00000000001E0BD4 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF66E30000
+core 4
+core 5
+core 6
+vr_init 15868
+classes init 1
+classes init 2
+process exit
+--------------------------------------------------------------------------------
+process start 00000000001A04FA 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF66E30000
+core 4
+core 5
+core 6
+vr_init 952
+classes init 1
+classes init 2
+process exit
+--------------------------------------------------------------------------------
+process start 00000000000D0BAA 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF66E30000
+core 4
+core 5
+core 6
+vr_init 4192
+classes init 1
+classes init 2
+process exit
+--------------------------------------------------------------------------------
+process start 0000000000810B3C 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF491B0000
+core 4
+core 5
+core 6
+vr_init 16540
+classes init 1
+classes init 2
+process exit
+--------------------------------------------------------------------------------
+process start 0000000000530B2A 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF66E30000
+core 4
+core 5
+core 6
+vr_init 12088
+classes init 1
+classes init 2
+process exit
+--------------------------------------------------------------------------------
+process start 0000000000440B50 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FFF66DF0000
+core 4
+core 5
+core 6
+vr_init 14948
+classes init 1
+classes init 2
 process exit
