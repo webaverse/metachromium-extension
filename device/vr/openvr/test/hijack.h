@@ -17,7 +17,7 @@ public:
   
   Hijacker(FnProxy &fnp);
 
-  static void ensureClientDevice();
+  // static void ensureClientDevice();
   void hijackDx(ID3D11DeviceContext *context);
   void hijackGl();
   ProxyTexture getDepthTextureMatching(ID3D11Texture2D *tex);

@@ -581,7 +581,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
           // shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
           // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
-          shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+          shaderDepthResourceViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
           shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
           shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
           shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;

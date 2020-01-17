@@ -13,6 +13,9 @@
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/detours/detours.h"
+
+#define EGL_EGLEXT_PROTOTYPES
+
 #include "third_party/khronos/EGL/egl.h"
 #include "third_party/khronos/EGL/eglext.h"
 #include "third_party/khronos/EGL/eglext_angle.h"
@@ -108,6 +111,9 @@ decltype(eglGetCurrentDisplay) *EGL_GetCurrentDisplay = nullptr;
 decltype(eglChooseConfig) *EGL_ChooseConfig = nullptr;
 decltype(eglCreatePbufferFromClientBuffer) *EGL_CreatePbufferFromClientBuffer = nullptr;
 decltype(eglBindTexImage) *EGL_BindTexImage = nullptr;
+decltype(eglQueryString) *EGL_QueryString = nullptr;
+decltype(eglQueryDisplayAttribEXT) *EGL_QueryDisplayAttribEXT = nullptr;
+decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
 
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
@@ -1178,7 +1184,47 @@ void STDMETHODCALLTYPE MineGlClear(
     // getOut() << "get old X " << oldTex << " " << oldReadFbo << " " << oldDrawFbo << " " << oldProgram << " " << oldVao << " " << oldArrayBuffer << std::endl;
 
     if (!depthTexId) {
-      Hijacker::ensureClientDevice();
+      // Hijacker::ensureClientDevice();
+
+      EGLDisplay display = EGL_GetCurrentDisplay();
+      if (display == EGL_NO_DISPLAY) {
+        getOut() << "failed to get EGL display" << std::endl;
+        abort();
+      }
+
+      HRESULT hr;
+      {
+        intptr_t egl_device_ptr = 0;
+        intptr_t device_ptr = 0;
+        getOut() << "get device 1 " << (void *)EGL_QueryDisplayAttribEXT << " " << EGL_QueryDeviceAttribEXT << std::endl;
+        EGLBoolean ok = (*((decltype(eglQueryDisplayAttribEXT) *)EGL_QueryDisplayAttribEXT))(display, EGL_DEVICE_EXT, &egl_device_ptr);
+        getOut() << "get device 2 " << (void *)egl_device_ptr << " " << (void *)ok << std::endl;
+        ok = EGL_QueryDeviceAttribEXT(reinterpret_cast<EGLDeviceEXT>(egl_device_ptr), EGL_D3D11_DEVICE_ANGLE, &device_ptr);
+          getOut() << "get device 3 " << (void *)device_ptr << " " << (void *)ok << std::endl;
+        ID3D11Device *d3d11_device = reinterpret_cast<ID3D11Device *>(device_ptr);
+
+        hr = d3d11_device->lpVtbl->QueryInterface(d3d11_device, IID_ID3D11Device5, (void **)&hijackerDevice);
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "device query failed" << std::endl;
+          abort();
+        }
+
+        getOut() << "ensure client device 5" << std::endl;
+
+        ID3D11DeviceContext3 *context3;
+        hijackerDevice->lpVtbl->GetImmediateContext3(hijackerDevice, &context3);
+        hr = context3->lpVtbl->QueryInterface(context3, IID_ID3D11DeviceContext4, (void **)&hijackerContext);
+        getOut() << "ensure client device 6" << std::endl;
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "context query failed" << std::endl;
+          abort();
+        }
+        context3->lpVtbl->Release(context3);
+      }
 
       GLuint textures[2];
       RealGlGenTextures(2, textures);
@@ -1194,13 +1240,13 @@ void STDMETHODCALLTYPE MineGlClear(
         desc.Width = depthWidth;
         desc.Height = depthHeight;
         desc.MipLevels = desc.ArraySize = 1;
-        desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
         desc.SampleDesc.Count = 1;
         desc.Usage = D3D11_USAGE_DEFAULT;
         desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
         // desc.CPUAccessFlags = 0;
         desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
-        HRESULT hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
+        hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
         if (FAILED(hr)) {
           getOut() << "failed to create gl depth tex shared " << (void *)hr << std::endl;
           abort();
@@ -1219,28 +1265,19 @@ void STDMETHODCALLTYPE MineGlClear(
           abort();
         }
 
-        EGLDisplay display = EGL_GetCurrentDisplay();
-        if (display == EGL_NO_DISPLAY) {
-          getOut() << "failed to get EGL display" << std::endl;
-          abort();
-        }
-
         EGLConfig config;
         EGLint numConfigs = 0;
         EGLint attribList[] = {
-          // 32 bit color
           EGL_RED_SIZE, 8,
           EGL_GREEN_SIZE, 8,
           EGL_BLUE_SIZE, 8,
           EGL_ALPHA_SIZE, 8,
           // EGL_BUFFER_SIZE, 8,
-          // at least 24 bit depth
           EGL_DEPTH_SIZE, 0,
           EGL_STENCIL_SIZE, 0,
           // EGL_SAMPLES, 1,
           EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-          // want opengl-es 2.x conformant CONTEXT
-          EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+          // EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
           // EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE,
           EGL_NONE
         };
@@ -1259,16 +1296,16 @@ void STDMETHODCALLTYPE MineGlClear(
         EGLint pBufferAttributes[] = {
           EGL_WIDTH, desc.Width,
           EGL_HEIGHT, desc.Height,
-          EGL_FLEXIBLE_SURFACE_COMPATIBILITY_SUPPORTED_ANGLE, EGL_TRUE,
-          // EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
-          // EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
+          // EGL_FLEXIBLE_SURFACE_COMPATIBILITY_SUPPORTED_ANGLE, EGL_TRUE,
+          EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
+          EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
           EGL_NONE
         };
         {
           auto error = EGL_GetError();
           if (error != EGL_SUCCESS) getOut() << "egl pre error " << (void *)error << std::endl;
         }
-        EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_ANGLE, (EGLClientBuffer)depthTex, config, pBufferAttributes);
+        EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, (EGLClientBuffer)frontSharedDepthHandle, config, pBufferAttributes);
         if (surface == EGL_NO_SURFACE) {
           getOut() << "failed to get egl surface " << (void *)surface << " " << (void *)EGL_GetError() << std::endl;
           abort();
@@ -1280,6 +1317,8 @@ void STDMETHODCALLTYPE MineGlClear(
           auto error = EGL_GetError();
           if (error != EGL_SUCCESS) getOut() << "egl bind tex error " << (void *)error << std::endl;
         }
+        
+        getOut() << "got texture" << std::endl;
       }
       {
         RealGlBindFramebuffer(GL_FRAMEBUFFER, depthResolveFbo);
@@ -1510,7 +1549,7 @@ void STDMETHODCALLTYPE MineGlClear(
 
     // getOut() << "generating depth 8 " << (void *)RealGlGetError() << std::endl;
     
-    RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
+    /* RealGlBindFramebuffer(GL_READ_FRAMEBUFFER, depthShFbo);
     std::vector<unsigned char> data(depthWidth * depthHeight * 4);
     // std::fill(data.begin(), data.end(), 2);
     RealGlReadPixels(0, 0, depthWidth, depthHeight, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
@@ -1520,7 +1559,7 @@ void STDMETHODCALLTYPE MineGlClear(
         count += data[i];
       }
     }
-    getOut() << "get real read pixels " << count << std::endl;
+    getOut() << "get real read pixels " << count << std::endl; */
 
     RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
     glActiveTexture(oldActiveTexture);
@@ -1577,7 +1616,7 @@ EGLBoolean STDMETHODCALLTYPE MineEGL_MakeCurrent(
  	EGLContext context
 ) {
   glPhase = 0;
-  getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  // getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   return RealEGL_MakeCurrent(display, draw, read, context);
 }
 /* BOOL (STDMETHODCALLTYPE *RealWglMakeCurrent)(
@@ -1625,7 +1664,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     return 0;
   });
 }
-void Hijacker::ensureClientDevice() {
+/* void Hijacker::ensureClientDevice() {
   if (!hijackerDevice) {
     getOut() << "ensure client device 1" << std::endl;
     int32_t adapterIndex;
@@ -1699,7 +1738,7 @@ void Hijacker::ensureClientDevice() {
     
     getOut() << "ensure client device 8" << std::endl;
   }
-}
+} */
 void Hijacker::hijackDx(ID3D11DeviceContext *context) {
   if (!hijacked) {
     ID3D11DeviceContext1 *context1;
@@ -1792,6 +1831,9 @@ void Hijacker::hijackGl() {
       EGL_ChooseConfig = (decltype(EGL_ChooseConfig))GetProcAddress(libEgl, "eglChooseConfig");
       EGL_CreatePbufferFromClientBuffer = (decltype(EGL_CreatePbufferFromClientBuffer))GetProcAddress(libEgl, "eglCreatePbufferFromClientBuffer");
       EGL_BindTexImage = (decltype(EGL_BindTexImage))GetProcAddress(libEgl, "eglBindTexImage");
+      EGL_QueryString = (decltype(EGL_QueryString))GetProcAddress(libEgl, "eglQueryString");
+      EGL_QueryDisplayAttribEXT = (decltype(EGL_QueryDisplayAttribEXT))GetProcAddress(libEgl, "eglQueryDisplayAttribEXT");
+      EGL_QueryDeviceAttribEXT = (decltype(EGL_QueryDeviceAttribEXT))GetProcAddress(libEgl, "eglQueryDeviceAttribEXT");
       EGL_GetError = (decltype(EGL_GetError))GetProcAddress(libEgl, "eglGetError");
       
       decltype(RealGlGetIntegerv) glGetIntegerv = (decltype(RealGlGetIntegerv))GetProcAddress(libGlesV2, "glGetIntegerv");
