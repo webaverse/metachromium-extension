@@ -1041,6 +1041,8 @@ void STDMETHODCALLTYPE MineGlColorMask(
   TRACE("Hijack", [&]() { getOut() << "RealGlColorMask " << (int)red << " " << (int)green << " " << (int)blue << " " << (int)alpha << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
   RealGlColorMask(red, green, blue, alpha);
 }
+void (STDMETHODCALLTYPE *RealGlFlush)(
+) = nullptr;
 void (STDMETHODCALLTYPE *RealGlClear)(
   GLbitfield mask
 ) = nullptr;
@@ -1277,8 +1279,8 @@ void STDMETHODCALLTYPE MineGlClear(
           EGL_STENCIL_SIZE, 0,
           // EGL_SAMPLES, 1,
           EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-          // EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-          // EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE,
+          EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
+          EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE,
           EGL_NONE
         };
         EGLBoolean ok = EGL_ChooseConfig(
@@ -1335,7 +1337,7 @@ void STDMETHODCALLTYPE MineGlClear(
 
         RealGlBindFramebuffer(GL_FRAMEBUFFER, depthShFbo);
         RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
-        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        // RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
         RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -1560,6 +1562,8 @@ void STDMETHODCALLTYPE MineGlClear(
       }
     }
     getOut() << "get real read pixels " << count << std::endl; */
+    
+    RealGlFlush();
 
     RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
     glActiveTexture(oldActiveTexture);
@@ -1871,6 +1875,7 @@ void Hijacker::hijackGl() {
       decltype(RealGlClear) glClear = (decltype(RealGlClear))GetProcAddress(libGlesV2, "glClear");
       decltype(RealGlClearColor) glClearColor = (decltype(RealGlClearColor))GetProcAddress(libGlesV2, "glClearColor");
       decltype(RealGlColorMask) glColorMask = (decltype(RealGlColorMask))GetProcAddress(libGlesV2, "glColorMask");
+      decltype(RealGlFlush) glFlush = (decltype(RealGlFlush))GetProcAddress(libGlesV2, "glFlush");
       // decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
       decltype(RealGlGetError) glGetError = (decltype(RealGlGetError))GetProcAddress(libGlesV2, "glGetError");
   
@@ -1987,6 +1992,8 @@ void Hijacker::hijackGl() {
       RealGlColorMask = glColorMask;
       error = DetourAttach(&(PVOID&)RealGlColorMask, MineGlColorMask);
       checkDetourError("RealGlColorMask", error);
+      
+      RealGlFlush = glFlush;
       
       RealEGL_MakeCurrent = EGL_MakeCurrent;
       error = DetourAttach(&(PVOID&)RealEGL_MakeCurrent, MineEGL_MakeCurrent);
