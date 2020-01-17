@@ -95,6 +95,14 @@ const char *hlsl = R"END(
 // float Height;
 //------------------------------------------------------------//
 
+cbuffer VS_CONSTANT_BUFFER : register(b0)
+{
+  float uMin;
+  float vMin;
+  float uMax;
+  float vMax;
+}
+
 cbuffer PS_CONSTANT_BUFFER : register(b0)
 {
   float width;
@@ -139,7 +147,8 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
   Output.Position = float4(inPos, 0, 1);
-  Output.Tex0 = inTex;
+  Output.Tex0 = float2(uMin + inTex.x * (uMax - uMin), vMin + inTex.y * (vMax - vMin));
+  // Output.Tex0 = float2(inTex.x, inTex.y);
   // Output.Tex1 = uint2(inTex) * uint2(width, height);
   return Output;
 }
@@ -150,6 +159,7 @@ float4 ps_main(VS_OUTPUT IN) : SV_TARGET
     // float4 result = float4(0, 0, 0, 1);
     // result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
     float4 result = float4(QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
+    // float4 result = float4(uMin, uMax, vMin, 1);
     return result;
 }
 
@@ -678,6 +688,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       }
 
       std::vector<ID3D11ShaderResourceView *> localShaderResourceViews;
+      std::vector<VRTextureBounds_t> localTextureBounds;
       size_t numLayers = 0;
       for (auto iter : inBackIndices) {
         EVREye e = iter.first.second;
@@ -689,6 +700,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           localShaderResourceViews.push_back(shaderResourceView);
           localShaderResourceViews.push_back(shaderDepthResourceView);
 
+          VRTextureBounds_t &textureBound = inBackTextureBounds[index];
+          localTextureBounds.push_back(textureBound);
+
           if (localShaderResourceViews.size()/2 >= MAX_LAYERS) {
             break;
           }
@@ -698,9 +712,14 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         localShaderResourceViews.push_back(nullptr);
       } */
 
-      /* const VRTextureBounds_t &textureBounds = inBackTextureBounds[index];
-      glUniform4f(texBoundsLocations[numLayers], textureBounds.uMin, textureBounds.vMin, textureBounds.uMax, textureBounds.vMax); */
+      // const VRTextureBounds_t &textureBounds = inBackTextureBounds[index];
+      // glUniform4f(texBoundsLocations[numLayers], textureBounds.uMin, textureBounds.vMin, textureBounds.uMax, textureBounds.vMax); */
+      if (localTextureBounds.size() > 0) {
+        // getOut() << "update texture bounds " << localTextureBounds[0].uMin << " " << localTextureBounds[0].uMax << " " << localTextureBounds[0].vMin << " " << localTextureBounds[0].vMax << std::endl;
+        context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds.data(), 0, 0);
+      }
 
+      // context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
       context->PSSetShaderResources(0, localShaderResourceViews.size(), localShaderResourceViews.data());
       D3D11_VIEWPORT viewport{
         0, // TopLeftX,
@@ -2130,7 +2149,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EColorSpace::ColorSpace_Auto,
     // pTexture->eColorSpace
   };
-  const bool flip = bounds.data()->vMax < bounds.data()->vMin;
+  const bool flip = bounds.data()->vMax > bounds.data()->vMin;
   *bounds.data() = VRTextureBounds_t{
     0.0f, flip ? 1.0f : 0.0f,
     1.0f, flip ? 0.0f : 1.0f
@@ -2481,6 +2500,8 @@ void PVRCompositor::InitShader() {
     // m_IB.Set(indexBuffer);
   }
   getOut() << "init render 3 " << width << " " << height << std::endl;
+  vsConstantBuffers.resize(1);
+  psConstantBuffers.resize(1);
   {
     float hw[] = {
       (float)width,
@@ -2492,6 +2513,7 @@ void PVRCompositor::InitShader() {
     D3D11_BUFFER_DESC cbDesc{};
     cbDesc.ByteWidth = sizeof(hw);
     cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+    // cbDesc.Usage = D3D11_USAGE_DEFAULT;
     cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     cbDesc.MiscFlags = 0;
@@ -2506,11 +2528,32 @@ void PVRCompositor::InitShader() {
     // Create the buffer.
     hr = device->CreateBuffer(
       &cbDesc,
-      &InitData, 
-      &constantBuffer
+      &InitData,
+      &psConstantBuffers[0]
     );
     if (FAILED(hr)) {
-      getOut() << "cbuf create failed: " << (void *)hr << std::endl;
+      getOut() << "main cbuf create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  {
+    D3D11_BUFFER_DESC cbDesc{};
+    cbDesc.ByteWidth = 4 * sizeof(float);
+    // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+    cbDesc.Usage = D3D11_USAGE_DEFAULT;
+    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    // cbDesc.MiscFlags = 0;
+    // cbDesc.StructureByteStride = 0;
+
+    // Create the buffer.
+    hr = device->CreateBuffer(
+      &cbDesc,
+      NULL, 
+      &vsConstantBuffers[0]
+    );
+    if (FAILED(hr)) {
+      getOut() << "uniform cbuf create failed: " << (void *)hr << std::endl;
       abort();
     }
   }
@@ -2629,7 +2672,7 @@ void PVRCompositor::InitShader() {
     context->IASetInputLayout(vertexLayout);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-    context->PSSetConstantBuffers(0, 1, &constantBuffer);
+    context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
   }
   getOut() << "init render 10" << std::endl;
 

@@ -39,7 +39,8 @@ public:
 
   ID3D11Buffer *vertexBuffer = nullptr;
   ID3D11Buffer *indexBuffer = nullptr;
-  ID3D11Buffer *constantBuffer = nullptr;
+  std::vector<ID3D11Buffer *> vsConstantBuffers;
+  std::vector<ID3D11Buffer *> psConstantBuffers;
   // ID3D11SamplerState *linearSampler = nullptr;
   ID3DBlob *vsBlob = nullptr;
   ID3D11VertexShader *vsShader = nullptr;

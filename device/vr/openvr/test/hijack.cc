@@ -1563,7 +1563,7 @@ void STDMETHODCALLTYPE MineGlClear(
     }
     getOut() << "get real read pixels " << count << std::endl; */
     
-    RealGlFlush();
+    // RealGlFlush();
 
     RealGlBindTexture(GL_TEXTURE_2D, oldTexture2d);
     glActiveTexture(oldActiveTexture);
