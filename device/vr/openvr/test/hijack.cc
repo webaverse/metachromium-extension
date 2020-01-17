@@ -20,8 +20,9 @@
 extern Hijacker *g_hijacker;
 
 // constants
-char kHijacker_GetDepth[] = "Hijacker_GetDepth";
-char kHijacker_SetDepth[] = "Hijacker_SetDepth";
+char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
+char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
+char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 
 const char *depthVsh = R"END(#version 100
 precision highp float;
@@ -58,8 +59,6 @@ D3D11_TEXTURE2D_DESC lastDescDepth{};
 std::vector<ID3D11Texture2D *> texCache;
 uint32_t texCacheSamples = 0;
 std::vector<HANDLE> texSharedHandleCache;
-std::vector<ID3D11Fence *> fenceCache;
-std::vector<HANDLE> eventCache;
 std::deque<ProxyTexture> texOrder;
 std::deque<HANDLE> eventOrder;
 // client
@@ -79,8 +78,6 @@ GLuint depthVao = 0;
 GLsizei depthSamples = 0;
 GLenum depthInternalformat = 0;
 GLuint depthProgram = 0;
-// back
-HANDLE backSharedDepthHandle = NULL;
 // client
 ID3D11Texture2D *clientDepthTex = nullptr;
 HANDLE clientDepthEvent = NULL;
@@ -91,9 +88,9 @@ HANDLE clientDepthHandleLatched = NULL;
 uint32_t depthWidth = 0;
 uint32_t depthHeight = 0;
 size_t fenceValue = 0;
-ID3D11Fence *fence = nullptr;
 HANDLE frontSharedDepthHandle = NULL;
-HANDLE frontDepthEvent = NULL;
+std::vector<ID3D11Fence *> fenceCache;
+std::vector<HANDLE> eventCache;
 
 // void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
 void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
@@ -353,7 +350,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
             (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(eventCache.size())).c_str()
           );
           if (!depthEvent) {
-            getOut() << "failed to create front depth dx event " << (void *)frontDepthEvent << " " << (void *)GetLastError() << std::endl;
+            getOut() << "failed to create front depth dx event " << (void *)GetLastError() << std::endl;
             abort();
           }
           eventCache.push_back(depthEvent);
@@ -1419,32 +1416,37 @@ void STDMETHODCALLTYPE MineGlClear(
         // getOut() << "generating depth 5 16 " << (void *)RealGlGetError() << std::endl;
       }
       {
-        HRESULT hr = hijackerDevice->lpVtbl->CreateFence(
-          hijackerDevice,
-          0, // value
-          // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
-          // D3D11_FENCE_FLAG_SHARED, // flags
-          D3D11_FENCE_FLAG_NONE, // flags
-          IID_ID3D11Fence, // interface
-          (void **)&fence // out
-        );
-        if (SUCCEEDED(hr)) {
-          // getOut() << "created fence " << (void *)fence << std::endl;
-          // nothing
-        } else {
-          getOut() << "failed to create depth fence" << std::endl;
-          abort();
-        }
-        
-        frontDepthEvent = CreateEventA(
-          NULL,
-          false,
-          false,
-          (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(0)).c_str()
-        );
-        if (!frontDepthEvent) {
-          getOut() << "failed to create front depth gl event " << (void *)frontDepthEvent << " " << (void *)GetLastError() << std::endl;
-          abort();
+        for (size_t i = 0; i < 2; i++) {
+          ID3D11Fence *fence;
+          HRESULT hr = hijackerDevice->lpVtbl->CreateFence(
+            hijackerDevice,
+            0, // value
+            // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+            // D3D11_FENCE_FLAG_SHARED, // flags
+            D3D11_FENCE_FLAG_NONE, // flags
+            IID_ID3D11Fence, // interface
+            (void **)&fence // out
+          );
+          if (SUCCEEDED(hr)) {
+            // getOut() << "created fence " << (void *)fence << std::endl;
+            // nothing
+          } else {
+            getOut() << "failed to create depth fence" << std::endl;
+            abort();
+          }
+          fenceCache.push_back(fence);
+ 
+          HANDLE depthEvent = CreateEventA(
+            NULL,
+            false,
+            false,
+            (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(i)).c_str()
+          );
+          if (!depthEvent) {
+            getOut() << "failed to create front depth gl event " << (void *)GetLastError() << std::endl;
+            abort();
+          }
+          eventCache.push_back(depthEvent);
         }
       }
       
@@ -1515,16 +1517,22 @@ void STDMETHODCALLTYPE MineGlClear(
     RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
     getOut() << "blit rbo " << type << " " << rbo << " " << oldDrawFbo << std::endl; */
 
-    ++fenceValue;
-    hijackerContext->lpVtbl->Signal(hijackerContext, fence, fenceValue);
-    fence->lpVtbl->SetEventOnCompletion(fence, fenceValue, frontDepthEvent);
-    
-    g_hijacker->fnp.call<
-      kHijacker_SetDepth,
-      int,
-      HANDLE
-    >(frontSharedDepthHandle);
-    
+    for (size_t i = 0; i < 2; i++) {
+      ID3D11Fence *&fence = fenceCache[i];
+      HANDLE &depthEvent = eventCache[i];
+      
+      ++fenceValue;
+      hijackerContext->lpVtbl->Signal(hijackerContext, fence, fenceValue);
+      fence->lpVtbl->SetEventOnCompletion(fence, fenceValue, depthEvent);
+      
+      g_hijacker->fnp.call<
+        kHijacker_QueueDepthTex,
+        int,
+        HANDLE,
+        size_t
+      >(frontSharedDepthHandle, i);
+    }
+
     glPhase = 0;
   } else {
     glPhase = 0;
@@ -1546,10 +1554,10 @@ EGLBoolean STDMETHODCALLTYPE MineEGL_MakeCurrent(
  	EGLContext context
 ) {
   glPhase = 0;
-  getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
+  // getOut() << "RealEGL_MakeCurrent " << (void *)display << " " << (void *)draw << " " << (void *)read << " " << (void *)context << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   return RealEGL_MakeCurrent(display, draw, read, context);
 }
-BOOL (STDMETHODCALLTYPE *RealWglMakeCurrent)(
+/* BOOL (STDMETHODCALLTYPE *RealWglMakeCurrent)(
   HDC arg1,
   HGLRC arg2
 ) = nullptr;
@@ -1559,21 +1567,38 @@ BOOL STDMETHODCALLTYPE MineWglMakeCurrent(
 ) {
   getOut() << "RealWglMakeCurrent" << (void *)arg1 << " " << (void *)arg2 << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl;
   return RealWglMakeCurrent(arg1, arg2);
-}
+} */
 
 Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
   fnp.reg<
-    kHijacker_GetDepth,
-    HANDLE
-  >([=]() {
-    return backSharedDepthHandle;
+    kHijacker_QueueDepthTex,
+    int,
+    HANDLE,
+    size_t
+  >([=](HANDLE shDepthTexHandle, size_t eventIndex) {
+    texOrder.push_back(ProxyTexture{
+      shDepthTexHandle,
+      eventIndex
+    });
+    return 0;
   });
   fnp.reg<
-    kHijacker_SetDepth,
-    int,
-    HANDLE
-  >([=](HANDLE depthHandle) {
-    backSharedDepthHandle = depthHandle;
+    kHijacker_ShiftDepthTex,
+    std::tuple<HANDLE, size_t>
+  >([=]() {
+    if (texOrder.size() > 0) {
+      ProxyTexture result = texOrder.front();
+      texOrder.pop_front();
+      return std::tuple<HANDLE, size_t>(result.texHandle, result.eventIndex);
+    } else {
+      return std::tuple<HANDLE, size_t>(nullptr, 0);
+    }
+  });
+  fnp.reg<
+    kHijacker_ClearDepthTex,
+    int
+  >([=]() {
+    texOrder.clear();
     return 0;
   });
 }
@@ -1779,7 +1804,7 @@ void Hijacker::hijackGl() {
       decltype(RealGlClearColor) glClearColor = (decltype(RealGlClearColor))GetProcAddress(libGlesV2, "glClearColor");
       decltype(RealGlColorMask) glColorMask = (decltype(RealGlColorMask))GetProcAddress(libGlesV2, "glColorMask");
       decltype(RealEGL_MakeCurrent) EGL_MakeCurrent = (decltype(RealEGL_MakeCurrent))GetProcAddress(libGlesV2, "EGL_MakeCurrent");
-      decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
+      // decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
       decltype(RealGlGetError) glGetError = (decltype(RealGlGetError))GetProcAddress(libGlesV2, "glGetError");
   
       LONG error = DetourTransactionBegin();
@@ -1900,10 +1925,10 @@ void Hijacker::hijackGl() {
       error = DetourAttach(&(PVOID&)RealEGL_MakeCurrent, MineEGL_MakeCurrent);
       checkDetourError("RealEGL_MakeCurrent", error);
       
-      RealWglMakeCurrent = wglMakeCurrent;
+      /* RealWglMakeCurrent = wglMakeCurrent;
       error = DetourAttach(&(PVOID&)RealWglMakeCurrent, MineWglMakeCurrent);
-      checkDetourError("RealWglMakeCurrent", error);
-      
+      checkDetourError("RealWglMakeCurrent", error); */
+
       RealGlGetError = glGetError;
       /* error = DetourAttach(&(PVOID&)RealGlGetError, MineGlGetError);
       checkDetourError("RealGlGetError", error); */
@@ -1925,10 +1950,12 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     return result;
   }
   // remote
-  HANDLE sharedDepthHandle = fnp.call<
-    kHijacker_GetDepth,
-    HANDLE
+  std::tuple<HANDLE, size_t> shiftResult = fnp.call<
+    kHijacker_ShiftDepthTex,
+    std::tuple<HANDLE, size_t>
   >();
+  HANDLE &sharedDepthHandle = std::get<0>(shiftResult);
+  size_t &eventIndex = std::get<1>(shiftResult);
   if (sharedDepthHandle) {
     if (clientDepthHandleLatched != sharedDepthHandle) {
       if (clientDepthHandleLatched) {
@@ -1943,7 +1970,7 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
 
     return ProxyTexture{
       sharedDepthHandle,
-      0
+      eventIndex
     };
   }
   // not found
@@ -1954,6 +1981,10 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
 }
 void Hijacker::flushTextureLatches() {
   texOrder.clear();
+  fnp.call<
+    kHijacker_ClearDepthTex,
+    int
+  >();
   /* if (texMap.size() > 0) {
     for (auto iter : texMap) {
       iter.first->lpVtbl->Release(iter.first);

@@ -126,7 +126,8 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
+Texture2D QuadDepthTexture : register(ps, t1);
+// Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
@@ -146,8 +147,9 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 float4 ps_main(VS_OUTPUT IN) : SV_TARGET
 {
     // float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
-    float4 result = float4(0, 0, 0, 1);
-    result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
+    // float4 result = float4(0, 0, 0, 1);
+    // result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
+    float4 result = float4(QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
     return result;
 }
 
@@ -552,7 +554,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
           if (SUCCEEDED(hr)) {
             hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTexIn));
-            
+
             if (SUCCEEDED(hr)) {
               // nothing
             } else {
@@ -575,10 +577,12 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
             desc.Format << " " <<
             desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
             std::endl;
-          
+
           D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
-          shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
-          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+          // shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
+          // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+          shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
           shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
           shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;
           HRESULT hr = device->CreateShaderResourceView(
@@ -601,7 +605,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
             (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(sharedDepthEventIndex)).c_str()
           );
           if (!depthReadEvent) {
-            getOut() << "failed to open backend depth read event" << std::endl;
+            getOut() << "failed to open backend depth read event " << (void *)sharedDepthEventIndex << std::endl;
             abort();
           }
         }
