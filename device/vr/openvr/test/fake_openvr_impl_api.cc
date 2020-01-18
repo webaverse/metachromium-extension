@@ -134,6 +134,7 @@ constexpr bool localLoop = false;
 
 void *shMem = nullptr;
 bool booted = false;
+uint64_t *pFrameCount = nullptr;
 // GLFWwindow **ppWindow;
 // size_t *pNumClients = nullptr;
 extern "C" {
@@ -292,6 +293,7 @@ BOOL WINAPI DllMain(
     shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
+    pFrameCount = (uint64_t *)shMem;
 
     g_fnp = new FnProxy();
     g_hijacker = new Hijacker(*g_fnp);

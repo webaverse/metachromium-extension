@@ -3,6 +3,8 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
 
+extern uint64_t *pFrameCount;
+
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
 char kIVRCompositor_GetTrackingSpace[] = "IVRCompositor::GetTrackingSpace";
@@ -134,8 +136,8 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-Texture2D QuadDepthTexture : register(ps, t1);
-// Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
+// Texture2D QuadDepthTexture : register(ps, t1);
+Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
@@ -156,9 +158,9 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 float4 ps_main(VS_OUTPUT IN) : SV_TARGET
 {
     // float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
-    // float4 result = float4(0, 0, 0, 1);
-    // result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
-    float4 result = float4(QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
+    float4 result = float4(0, 0, 0, 1);
+    result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
+    // float4 result = float4(QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
     // float4 result = float4(uMin, uMax, vMin, 1);
     return result;
 }
@@ -317,7 +319,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       D3D_FEATURE_LEVEL featureLevels[] = {
         D3D_FEATURE_LEVEL_11_1
       };
-      getOut() << "create swap chain " << (void *)g_hWnd << std::endl;
+      // getOut() << "create swap chain " << (void *)g_hWnd << std::endl;
       DXGI_SWAP_CHAIN_DESC swapChainDesc{};
       swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
       swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; 
@@ -333,7 +335,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         adapter, // pAdapter
         D3D_DRIVER_TYPE_HARDWARE, // DriverType
         NULL, // Software
-        0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
+        D3D11_CREATE_DEVICE_DEBUG, // Flags
         featureLevels, // pFeatureLevels
         ARRAYSIZE(featureLevels), // FeatureLevels
         D3D11_SDK_VERSION, // SDKVersion
@@ -590,9 +592,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
           D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
           // shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
-          // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
-          shaderDepthResourceViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+          shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+          // shaderDepthResourceViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+          // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
           shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
           shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;
           HRESULT hr = device->CreateShaderResourceView(
@@ -605,10 +608,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
             // nothing
           } else {
             getOut() << "failed to create depth shader resource view: " << (void *)hr << std::endl;
+            InfoQueueLog();
             abort();
           }
         }
-        {
+        /* {
           depthReadEvent = OpenEventA(
             GENERIC_ALL,
             false,
@@ -618,7 +622,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
             getOut() << "failed to open backend depth read event " << (void *)sharedDepthEventIndex << std::endl;
             abort();
           }
-        }
+        } */
+        depthReadEvent = NULL;
       } else {
         getOut() << "shader resource view depth clear" << std::endl;
 
@@ -676,14 +681,12 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       for (auto iter : inBackReadEventQueue) {
         EVREye &e = std::get<0>(iter);
         if (e == eEye) {
-          // getOut() << "wait for read pre " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
           HANDLE &readEvent = std::get<2>(iter);
           WaitForSingleObject(readEvent, INFINITE);
-          // getOut() << "wait for read post " << (std::to_string(std::get<0>(iter)) + std::string(":") + std::to_string((int)std::get<1>(iter))) << std::endl;
-          HANDLE &depthReadEvent = std::get<3>(iter);
+          /* HANDLE &depthReadEvent = std::get<3>(iter);
           if (depthReadEvent) {
             WaitForSingleObject(depthReadEvent, INFINITE);
-          }
+          } */
         }
       }
 
@@ -1081,11 +1084,13 @@ ETrackingUniverseOrigin PVRCompositor::GetTrackingSpace() {
 }
 EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
     VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
-  // getOut() << "wait get poses" << std::endl;
+  getOut() << "wait get poses" << std::endl;
   
   InfoQueueLog();
   
   hijacker.flushTextureLatches();
+  
+  (*pFrameCount)++;
   
   auto result = fnp.call<
     kIVRCompositor_WaitGetPoses,
@@ -1503,7 +1508,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  // getOut() << "submit client 1 " << std::endl;
+  getOut() << "submit client 1 " << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint tex = (GLuint)pTexture->handle;
@@ -1860,39 +1865,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
       sharedDepthHandle = depthTexHandle;
       sharedDepthEventIndex = depthTexEventIndex;
-      
-      // getOut() << "latch depth tex handle " << (void *)depthTexHandle << " " << (void *)depthTexEventIndex << std::endl;
-
-      /* D3D11_TEXTURE2D_DESC descDepth;
-      depthTex->GetDesc(&descDepth);
-      // descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
-      descDepth.Usage = D3D11_USAGE_DEFAULT;
-      descDepth.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-      // descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-      descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-      // descDepth.SampleDesc.Count = 1;
-
-      hr = device->CreateTexture2D(
-        &descDepth,
-        NULL,
-        &shDepthTex
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        getOut() << "failed to create shared depth texture: " << (void *)hr << std::endl;
-        abort();
-      }
-      
-      IDXGIResource1 *shDepthTexResource;
-      hr = shDepthTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shDepthTexResource);
-
-      if (SUCCEEDED(hr)) {
-        hr = shDepthTexResource->GetSharedHandle(&sharedDepthHandle);
-      } else {
-        getOut() << "failed to get shared depth texture handle: " << (void *)hr << std::endl;
-        abort();
-      } */
     }
 
     /* context->CopyResource(
@@ -2440,8 +2412,6 @@ void PVRCompositor::CacheWaitGetPoses() {
   inBackReadEventQueue.clear();
 }
 void PVRCompositor::InitShader() {
-  g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
-  
   float vertices[] = { // xyuv
     -1, -1, 0, 0,
     -1, 1, 0, 1,
@@ -2499,6 +2469,7 @@ void PVRCompositor::InitShader() {
     }
     // m_IB.Set(indexBuffer);
   }
+  g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
   getOut() << "init render 3 " << width << " " << height << std::endl;
   vsConstantBuffers.resize(1);
   psConstantBuffers.resize(1);
@@ -2673,6 +2644,7 @@ void PVRCompositor::InitShader() {
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
     context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
+    context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
   }
   getOut() << "init render 10" << std::endl;
 
