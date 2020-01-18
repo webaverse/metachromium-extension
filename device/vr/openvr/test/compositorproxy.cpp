@@ -104,13 +104,20 @@ cbuffer VS_CONSTANT_BUFFER : register(b0)
   float uMax;
   float vMax;
 }
+cbuffer VS_CONSTANT_BUFFER : register(b1)
+{
+  float eye;
+  float tmp1;
+  float tmp2;
+  float tmp3;
+}
 
 cbuffer PS_CONSTANT_BUFFER : register(b0)
 {
   float width;
   float height;
-  float tmp1;
-  float tmp2;
+  float tmp4;
+  float tmp5;
 }
 
 //------------------------------------------------------------//
@@ -149,7 +156,9 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
   Output.Position = float4(inPos, 0, 1);
-  Output.Tex0 = float2(uMin + inTex.x * (uMax - uMin), vMin + inTex.y * (vMax - vMin));
+  float w = uMax - uMin;
+  float h = vMax - vMin;
+  Output.Tex0 = float2(uMin + inTex.x*w + eye*w, vMin + inTex.y*h);
   // Output.Tex0 = float2(inTex.x, inTex.y);
   // Output.Tex1 = uint2(inTex) * uint2(width, height);
   return Output;
@@ -720,6 +729,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       if (localTextureBounds.size() > 0) {
         // getOut() << "update texture bounds " << localTextureBounds[0].uMin << " " << localTextureBounds[0].uMax << " " << localTextureBounds[0].vMin << " " << localTextureBounds[0].vMax << std::endl;
         context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds.data(), 0, 0);
+      }
+      {
+        float uniforms[] = {
+          (float)iEye,
+          0,
+          0,
+          0
+        };
+        context->UpdateSubresource(vsConstantBuffers[1], 0, 0, uniforms, 0, 0);
       }
 
       // context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
@@ -2121,7 +2139,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EColorSpace::ColorSpace_Auto,
     // pTexture->eColorSpace
   };
-  const bool flip = bounds.data()->vMax > bounds.data()->vMin;
+  const bool flip = bounds.data()->vMax < bounds.data()->vMin;
   *bounds.data() = VRTextureBounds_t{
     0.0f, flip ? 1.0f : 0.0f,
     1.0f, flip ? 0.0f : 1.0f
@@ -2471,7 +2489,7 @@ void PVRCompositor::InitShader() {
   }
   g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
   getOut() << "init render 3 " << width << " " << height << std::endl;
-  vsConstantBuffers.resize(1);
+  vsConstantBuffers.resize(2);
   psConstantBuffers.resize(1);
   {
     float hw[] = {
@@ -2522,6 +2540,27 @@ void PVRCompositor::InitShader() {
       &cbDesc,
       NULL, 
       &vsConstantBuffers[0]
+    );
+    if (FAILED(hr)) {
+      getOut() << "uniform cbuf create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  {
+    D3D11_BUFFER_DESC cbDesc{};
+    cbDesc.ByteWidth = 4 * sizeof(float);
+    // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+    cbDesc.Usage = D3D11_USAGE_DEFAULT;
+    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    // cbDesc.MiscFlags = 0;
+    // cbDesc.StructureByteStride = 0;
+
+    // Create the buffer.
+    hr = device->CreateBuffer(
+      &cbDesc,
+      NULL, 
+      &vsConstantBuffers[1]
     );
     if (FAILED(hr)) {
       getOut() << "uniform cbuf create failed: " << (void *)hr << std::endl;
