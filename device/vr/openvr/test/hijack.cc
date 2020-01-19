@@ -178,8 +178,10 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
       if (sbsDepthTex != depthTex) {
         sbsDepthTex = depthTex;
         
+        // getOut() << "set depth tex " << (void *)depthTex << std::endl;
+        
         IDXGIResource1 *dxgiResource;
-        hr = sbsDepthTex->lpVtbl->QueryInterface(sbsDepthTex, IID_IDXGIResource1, (void **)&dxgiResource);
+        hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource1, (void **)&dxgiResource);
         if (FAILED(hr)) {
           getOut() << "failed to get sbs depth tex shared resource " << (void *)hr << std::endl;
           abort();
@@ -513,7 +515,12 @@ void ensureDepthTexDrawn() {
       auto iter = texSharedHandleMap.find(sbsDepthTex);
       if (iter != texSharedHandleMap.end()) {
         HANDLE shHandle = iter->second;
-        texOrder.push_back(ProxyTexture{shHandle, 0});
+        bool texOrderContains = std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
+          return pt.texHandle == shHandle;
+        }) != texOrder.end();
+        if (!texOrderContains) {
+          texOrder.push_back(ProxyTexture{shHandle, 0});
+        }
       } else {
         getOut() << "failed to get registered share handle for depth texture" << std::endl;
         abort();

@@ -1234,3 +1234,54 @@ Sat Jan 18 2020 21:08:39.069 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD =
 Sat Jan 18 2020 21:08:39.069 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
 Sat Jan 18 2020 21:08:39.069 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
 Sat Jan 18 2020 21:08:39.146 - oculus: Prediction interval too high: 0.103364 s, clamping at 0.100000 s
+Sat Jan 18 2020 21:13:31.338 - 1 - Setting standby flag (timeSinceHmdIdle=300.003853, timeSinceDeviceActive=12176.399198 (0x1c59b311ad), timeout=300.000000
+Sat Jan 18 2020 21:13:31.338 - 2 - Setting standby flag (timeSinceHmdIdle=300.003853, timeSinceDeviceActive=12176.399198 (0x1c59b311ad), timeout=300.000000
+Sat Jan 18 2020 21:13:31.338 - 1 - entering standby
+Sat Jan 18 2020 21:13:31.338 - 2 - entering standby
+Sat Jan 18 2020 21:18:43.218 - CSharedResourceNamespaceServer sent namespace data: 5112
+Sat Jan 18 2020 21:18:43.229 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe (VRApplication_Scene) (Args: ) 2572 
+Sat Jan 18 2020 21:18:43.229 - StartSceneApplicationTransitionFromProcess( 2572, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe, )
+Sat Jan 18 2020 21:18:43.229 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe (VRApplication_Scene)
+Sat Jan 18 2020 21:18:43.229 - AppInfoManager.ProcessConnected BEGIN 2572 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 1 
+Sat Jan 18 2020 21:18:43.237 - SetApplicationPid appkey=system.generated.process.exe pid=2572, external transition
+Sat Jan 18 2020 21:18:43.237 - SetApplicationPid: Setting app system.generated.process.exe PID to 2572
+Sat Jan 18 2020 21:18:43.237 - AppInfoManager.ProcessConnected END
+Sat Jan 18 2020 21:18:43.237 - Enabling legacy input for system.generated.process.exe
+Sat Jan 18 2020 21:18:43.239 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Sat Jan 18 2020 21:18:43.239 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Sat Jan 18 2020 21:18:43.239 - 0 - leaving standby
+Sat Jan 18 2020 21:18:43.239 - Using existing HMD oculus.1PASH9AFEV9173
+Sat Jan 18 2020 21:18:43.239 - Processing message VRMsg_Connect from process (2572) took 0.0101 seconds
+Sat Jan 18 2020 21:18:48.394 - 0 - entering standby
+Sat Jan 18 2020 21:18:52.374 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Sat Jan 18 2020 21:18:52.378 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Sat Jan 18 2020 21:18:57.845 - 0 - leaving standby
+Sat Jan 18 2020 21:18:58.023 - oculus: IAD changed to 65.7mm
+Sat Jan 18 2020 21:18:58.023 - oculus: UpdateGeneratedState: IPD = 0.0657313, IAD = 0.0657313, screen_sep = 0.0717033
+Sat Jan 18 2020 21:18:58.024 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Sat Jan 18 2020 21:18:58.024 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Sat Jan 18 2020 21:18:58.079 - 2 - leaving standby
+Sat Jan 18 2020 21:18:58.280 - 1 - leaving standby
+Sat Jan 18 2020 21:18:59.655 - Remembering SetActionManifestPath call from system.generated.process.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Sat Jan 18 2020 21:18:59.657 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Sat Jan 18 2020 21:18:59.657 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Sat Jan 18 2020 21:18:59.657 - system.generated.process.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Sat Jan 18 2020 21:18:59.657 - system.generated.process.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Sat Jan 18 2020 21:18:59.695 - Unknown action set /actions/buggy
+Sat Jan 18 2020 21:18:59.695 - Unknown action set /actions/platformer
+Sat Jan 18 2020 21:18:59.697 - Unknown action set /actions/buggy
+Sat Jan 18 2020 21:18:59.698 - Unknown action set /actions/platformer
+Sat Jan 18 2020 21:19:23.549 - oculus: Prediction interval too high: 0.101277 s, clamping at 0.100000 s
+Sat Jan 18 2020 21:19:29.423 - Starting SteamVR Home launch because system.generated.process.exe exited after 46.185102 seconds
+Sat Jan 18 2020 21:19:29.427 - Closing pipe process (2572) because it was broken from the other end
+Sat Jan 18 2020 21:19:29.427 - Process process (2572) disconnected (Thread(0x000001C1C0D6D360/0x000)
+Sat Jan 18 2020 21:19:29.427 - oculus: CliD3D11CompositorClient::release 4
+Sat Jan 18 2020 21:19:29.427 - AppInfoManager.ProcessQuit processid=2572 eLaunchingApp=LaunchingApp_None
+Sat Jan 18 2020 21:19:29.427 - AppInfoManager.ProcessQuit: Clearing application system.generated.process.exe PID because 2572 has exited
+Sat Jan 18 2020 21:19:29.427 - oculus: CliD3D11CompositorClient::release 3
+Sat Jan 18 2020 21:19:34.428 - 0 - entering standby
+Sat Jan 18 2020 21:19:38.572 - oculus: IAD changed to 63.5mm
+Sat Jan 18 2020 21:19:38.572 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Sat Jan 18 2020 21:19:38.572 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Sat Jan 18 2020 21:19:38.572 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Sat Jan 18 2020 21:19:38.606 - oculus: Prediction interval too high: 0.106504 s, clamping at 0.100000 s
