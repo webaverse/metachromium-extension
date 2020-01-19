@@ -2547,8 +2547,13 @@ void PVRCompositor::CacheWaitGetPoses() {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
 
-  if (renderTargetDepthViews.size() >= 2) {
+  if (renderTargetViews.size() >= 2) {
+    float color[4] = {0, 0, 0, 0};
     for (int i = 0; i < 2; i++) {
+      context->ClearRenderTargetView(
+        renderTargetViews[i],
+        color
+      );
       context->ClearDepthStencilView(
         renderTargetDepthViews[i],
         D3D11_CLEAR_DEPTH,
