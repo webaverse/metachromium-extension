@@ -99,25 +99,29 @@ const char *hlsl = R"END(
 
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
-  float uMin;
-  float vMin;
-  float uMax;
-  float vMax;
+  float uMin1;
+  float vMin1;
+  float uMax1;
+  float vMax1;
+  float uMin2;
+  float vMin2;
+  float uMax2;
+  float vMax2;
 }
 cbuffer VS_CONSTANT_BUFFER : register(b1)
 {
-  float eye;
+  float eye1;
+  float eye2;
   float tmp1;
   float tmp2;
-  float tmp3;
 }
 
 cbuffer PS_CONSTANT_BUFFER : register(b0)
 {
   float width;
   float height;
+  float tmp3;
   float tmp4;
-  float tmp5;
 }
 
 //------------------------------------------------------------//
@@ -127,8 +131,8 @@ cbuffer PS_CONSTANT_BUFFER : register(b0)
 struct VS_OUTPUT
 {
    float4 Position: SV_POSITION;
-   float2 Tex0: TEXCOORD0;	
-   // uint2 Tex1: TEXCOORD1;	
+   float2 Tex1: TEXCOORD0;
+   float2 Tex2: TEXCOORD1;	
 };
 //------------------------------------------------------------//
 // Pixel Shader OUT struct
@@ -156,20 +160,27 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
   Output.Position = float4(inPos, 0, 1);
-  float w = uMax - uMin;
-  float h = vMax - vMin;
-  Output.Tex0 = float2(uMin + inTex.x*w + eye*w, vMin + inTex.y*h);
-  // Output.Tex0 = float2(inTex.x, inTex.y);
-  // Output.Tex1 = uint2(inTex) * uint2(width, height);
+  float w1 = uMax1 - uMin1;
+  float h1 = vMax1 - vMin1;
+  Output.Tex1 = float2(uMin1 + inTex.x*w + eye1*w, vMin1 + inTex.y*h);
+  float w2 = uMax2 - uMin2;
+  float h2 = vMax2 - vMin2;
+  Output.Tex2 = float2(uMin2 + inTex.x*w + eye2*w, vMin2 + inTex.y*h);
   return Output;
 }
 
 float4 ps_main(VS_OUTPUT IN) : SV_TARGET
 {
-    // float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
+    // float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex1).rgb, 1);
     float4 result = float4(0, 0, 0, 1);
-    result.rgb += QuadDepthTexture[uint2(IN.Tex0.x * width, IN.Tex0.y * height)];
-    // float4 result = float4(QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex0).rgb, 1);
+    float d1 = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+    float d2 = QuadDepthTexture[uint2(IN.Tex2.x * width, IN.Tex2.y * height)].r;
+    if (d1 <= d2) {
+      result.rgb = float3(d1, 0, 0);
+    } else {
+      result.rgb = float3(0, 0, d2);
+    }
+    // float4 result = float4(QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1).rgb, 1);
     // float4 result = float4(uMin, uMax, vMin, 1);
     return result;
 }
@@ -711,8 +722,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       }
 
       std::vector<ID3D11ShaderResourceView *> localShaderResourceViews;
-      std::vector<VRTextureBounds_t> localTextureBounds;
-      std::vector<float> localTextureFulls;
+      std::vector<VRTextureBounds_t> localTextureBounds(2);
+      std::vector<float> localTextureFulls(4);
       size_t numLayers = 0;
       for (auto iter : inBackIndices) {
         EVREye e = iter.first.second;
@@ -725,12 +736,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           localShaderResourceViews.push_back(shaderDepthResourceView);
 
           VRTextureBounds_t &textureBound = inBackTextureBounds[index];
-          localTextureBounds.push_back(textureBound);
+          localTextureBounds[numLayers] = textureBound;
 
           float &textureFull = inBackTextureFulls[index];
-          localTextureFulls.push_back(textureFull * iEye);
+          localTextureFulls[numLayers] = textureFull * iEye;
 
-          if (localShaderResourceViews.size()/2 >= MAX_LAYERS) {
+          numLayers++;
+          if (numLayers < MAX_LAYERS) {
+            continue;
+          } else {
             break;
           }
         }
@@ -739,18 +753,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         localShaderResourceViews.push_back(nullptr);
       } */
 
-      // const VRTextureBounds_t &textureBounds = inBackTextureBounds[index];
-      // glUniform4f(texBoundsLocations[numLayers], textureBounds.uMin, textureBounds.vMin, textureBounds.uMax, textureBounds.vMax); */
-      if (localTextureBounds.size() > 0) {
-        // getOut() << "update texture bounds " << localTextureBounds[0].uMin << " " << localTextureBounds[0].uMax << " " << localTextureBounds[0].vMin << " " << localTextureBounds[0].vMax << std::endl;
-        context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds.data(), 0, 0);
-      }
-      {
-        localTextureFulls.resize(4);
-        context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls.data(), 0, 0);
-      }
+      // getOut() << "update texture bounds " << localTextureBounds[0].uMin << " " << localTextureBounds[0].uMax << " " << localTextureBounds[0].vMin << " " << localTextureBounds[0].vMax << std::endl;
+      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds.data(), 0, 0);
+      context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls.data(), 0, 0);
 
-      // context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
       context->PSSetShaderResources(0, localShaderResourceViews.size(), localShaderResourceViews.data());
       D3D11_VIEWPORT viewport{
         0, // TopLeftX,
