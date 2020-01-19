@@ -208,8 +208,11 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
         dxgiResource->lpVtbl->Release(dxgiResource);
       }
       
+      getOut() << "set depth render target " << (void *)depthTex << std::endl;
+      
       sbsDepthTexLatched = true;
     } else {
+      getOut() << "other depth render target" << std::endl;
       sbsDepthTexLatched = false;
     }
     /* getOut() << "set depth render target solid " <<
@@ -519,6 +522,7 @@ void ensureDepthTexDrawn() {
           return pt.texHandle == shHandle;
         }) != texOrder.end();
         if (!texOrderContains) {
+          getOut() << "ensure drawn " << texOrder.size() << std::endl;
           texOrder.push_back(ProxyTexture{shHandle, 0});
         }
       } else {
@@ -529,7 +533,7 @@ void ensureDepthTexDrawn() {
   }
 }
 template <typename T>
-bool shouldDepthTexClear(T *view) {
+bool shouldDepthTexClear(T *view, size_t index) {
   ID3D11Resource *resource;
   view->lpVtbl->GetResource(view, &resource);
   
@@ -540,38 +544,44 @@ bool shouldDepthTexClear(T *view) {
   depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
 
   // bool result = (sbsDepthTex != depthTex);
-  bool result = !isSingleEyeDepthTex(descDepth) && !isDualEyeDepthTex(descDepth);
+  bool isSingle = isSingleEyeDepthTex(descDepth);
+  bool isDual = isDualEyeDepthTex(descDepth);
+  bool result = !isSingle && !isDual;
   if (!result) {
     if (isChrome) {
-      bool queueContains = g_hijacker->fnp.call<
-        kHijacker_QueueContains,
-        bool,
-        HANDLE
-      >(sbsDepthTexShHandle);
-      if (!queueContains) {
-        result = true;
-      }
-    } else {
-      HANDLE shHandle;
-      {
-        auto iter = texSharedHandleMap.find(sbsDepthTex);
-        if (iter != texSharedHandleMap.end()) {
-          shHandle = iter->second;
-        } else {
-          getOut() << "failed to get registered share handle for depth texture" << std::endl;
-          abort();
+      if (sbsDepthTexShHandle) {
+        bool queueContains = g_hijacker->fnp.call<
+          kHijacker_QueueContains,
+          bool,
+          HANDLE
+        >(sbsDepthTexShHandle);
+        if (!queueContains) {
+          result = true;
         }
       }
-      
-      auto iter = std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
-        return pt.texHandle == shHandle;
-      });
-      if (iter == texOrder.end()) {
-        result = true;
+    } else {
+      if (sbsDepthTex) {
+        HANDLE shHandle;
+        {
+          auto iter = texSharedHandleMap.find(sbsDepthTex);
+          if (iter != texSharedHandleMap.end()) {
+            shHandle = iter->second;
+          } else {
+            getOut() << "failed to get registered share handle for depth texture" << std::endl;
+            abort();
+          }
+        }
+
+        auto iter = std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
+          return pt.texHandle == shHandle;
+        });
+        if (iter == texOrder.end()) {
+          result = true;
+        }
       }
     }
   }
-  getOut() << "should clear depth tex " << (void *)depthTex << " " << result << std::endl;
+  getOut() << "should clear depth tex " << (void *)depthTex << " " << index << " " << isSingle << " " << isDual << " " << (void *)sbsDepthTex << " " << texSharedHandleMap.size() << " " << result << std::endl;
 
   depthTex->lpVtbl->Release(depthTex);
   resource->lpVtbl->Release(resource);
@@ -745,9 +755,8 @@ void STDMETHODCALLTYPE MineClearRenderTargetView(
   ID3D11RenderTargetView *pRenderTargetView,
   const FLOAT         ColorRGBA[4]
 ) {
-  TRACE("Hijack", [&]() { getOut() << "ClearRenderTargetView" << std::endl; });
+  getOut() << "ClearRenderTargetView" << std::endl;
   RealClearRenderTargetView(This, pRenderTargetView, ColorRGBA);
-  ensureDepthTexDrawn();
 }
 void (STDMETHODCALLTYPE *RealClearDepthStencilView)(
   ID3D11DeviceContext *This,
@@ -764,7 +773,7 @@ void STDMETHODCALLTYPE MineClearDepthStencilView(
   UINT8                  Stencil
 ) {
   TRACE("Hijack", [&]() { getOut() << "ClearDepthStencilView" << std::endl; });
-  if (shouldDepthTexClear(pDepthStencilView)) {
+  if (shouldDepthTexClear(pDepthStencilView, 0)) {
     RealClearDepthStencilView(This, pDepthStencilView, ClearFlags, Depth, Stencil);
   }
 }
@@ -792,9 +801,47 @@ void STDMETHODCALLTYPE MineClearView(
   UINT             NumRects
 ) {
   TRACE("Hijack", [&]() { getOut() << "ClearView" << std::endl; });
-  if (shouldDepthTexClear(pView)) {
+  if (shouldDepthTexClear(pView, 1)) {
     RealClearView(This, pView, Color, pRect, NumRects);
   }
+}
+void (STDMETHODCALLTYPE *RealCopyResource)(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource *pDstResource,
+  ID3D11Resource *pSrcResource
+) = nullptr;
+void STDMETHODCALLTYPE MineCopyResource(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource *pDstResource,
+  ID3D11Resource *pSrcResource
+) {
+  getOut() << "RealCopyResource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
+  RealCopyResource(This, pDstResource, pSrcResource);
+}
+void (STDMETHODCALLTYPE *RealCopySubresourceRegion)(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource  *pDstResource,
+  UINT            DstSubresource,
+  UINT            DstX,
+  UINT            DstY,
+  UINT            DstZ,
+  ID3D11Resource  *pSrcResource,
+  UINT            SrcSubresource,
+  const D3D11_BOX *pSrcBox
+) = nullptr;
+void STDMETHODCALLTYPE MineCopySubresourceRegion(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource  *pDstResource,
+  UINT            DstSubresource,
+  UINT            DstX,
+  UINT            DstY,
+  UINT            DstZ,
+  ID3D11Resource  *pSrcResource,
+  UINT            SrcSubresource,
+  const D3D11_BOX *pSrcBox
+) {
+  getOut() << "RealCopySubresourceRegion " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
+  RealCopySubresourceRegion(This, pDstResource, DstSubresource, DstX, DstY, DstZ, pSrcResource, SrcSubresource, pSrcBox);
 }
 void (STDMETHODCALLTYPE *RealResolveSubresource)(
   ID3D11DeviceContext1 *This,
@@ -812,7 +859,7 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   UINT           SrcSubresource,
   DXGI_FORMAT    Format
 ) {
-  TRACE("Hijack", [&]() { getOut() << "ResolveSubresource" << std::endl; });  
+  getOut() << "ResolveSubresource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
   RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateTexture2D)(
@@ -900,8 +947,8 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     D3D11_TEXTURE2D_DESC desc = *pDesc;
     desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-    getOut() << "create depth texture" << std::endl;
     auto hr = RealCreateTexture2D(This, &desc, pInitialData, ppTexture2D);
+    getOut() << "create depth texture " << (void *)(*ppTexture2D) << std::endl;
     if (FAILED(hr)) {
       getOut() << "failed to create texture 2d: " << (void *)hr << std::endl;
       abort();
@@ -2107,6 +2154,14 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     RealResolveSubresource = context1->lpVtbl->ResolveSubresource;
     error = DetourAttach(&(PVOID&)RealResolveSubresource, MineResolveSubresource);
     checkDetourError("RealResolveSubresource", error);
+    
+    RealCopyResource = context1->lpVtbl->CopyResource;
+    error = DetourAttach(&(PVOID&)RealCopyResource, MineCopyResource);
+    checkDetourError("RealCopyResource", error);
+
+    RealCopySubresourceRegion = context1->lpVtbl->CopySubresourceRegion;
+    error = DetourAttach(&(PVOID&)RealCopySubresourceRegion, MineCopySubresourceRegion);
+    checkDetourError("RealCopySubresourceRegion", error);
     
     RealCreateTexture2D = device->lpVtbl->CreateTexture2D;
     error = DetourAttach(&(PVOID&)RealCreateTexture2D, MineCreateTexture2D);

@@ -1591,6 +1591,12 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   float uMax = std::max(bounds.data()->uMin, bounds.data()->uMax);
   float vMin = std::min(bounds.data()->vMin, bounds.data()->vMax);
   float vMax = std::max(bounds.data()->vMin, bounds.data()->vMax);
+  if (uMax - uMin == 0) {
+    uMax = 1;
+  }
+  if (vMax - vMin == 0) {
+    vMax = 1;
+  }
 
   HRESULT hr;
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
@@ -1615,7 +1621,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     if (pTexture->eType == ETextureType::TextureType_DirectX) {
       ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
 
-      // getOut() << "submit client 4" << std::endl;
+      getOut() << "submit client dx " << uMin << " " << vMin << " " << uMax << " " << vMax << std::endl;
 
       tex->GetDesc(&desc);
       // getOut() << "old tex width " << desc.Width << " " << desc.Height << " " << (bounds.data()->uMax - bounds.data()->uMin) << " " << (bounds.data()->vMax - bounds.data()->vMin) << std::endl;
@@ -1625,6 +1631,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       desc.Height *= vMax - vMin;
     } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
       GLuint tex = (GLuint)pTexture->handle;
+
+      getOut() << "submit client gl" << std::endl;
 
       // glBindTexture(GL_TEXTURE_2D, tex);
       // GLint width, height;
@@ -1676,6 +1684,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // nothing
     } else {
       getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
+      InfoQueueLog();
       abort();
     }
     /* {
