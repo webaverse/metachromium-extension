@@ -1,1317 +1,390 @@
-Sat Jan 04 2020 02:47:52.240 - //==============================================================================================
-Sat Jan 04 2020 02:47:52.240 - ================================================================================================
-Sat Jan 04 2020 02:47:52.240 - ================================================================================================
-Sat Jan 04 2020 02:47:52.240 - vrcompositor.exe 1.9.16 startup with PID=29484, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Jan 04 2020 02:47:52.240 - VR compositor 1.9.16 (v1576990468) starting up
-Sat Jan 04 2020 02:47:52.316 - CSharedResourceNamespaceClient::Init(): received namespace data 25848
-Sat Jan 04 2020 02:47:52.329 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Jan 04 2020 02:47:52.330 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Jan 04 2020 02:47:52.330 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Jan 04 2020 02:47:52.331 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Jan 04 2020 02:47:52.332 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Jan 04 2020 02:47:52.335 - Events created
-Sat Jan 04 2020 02:47:52.343 - Found bad mirror window settings: 
-Sat Jan 04 2020 02:47:52.366 - CGraphicsDevice Init...
-Sat Jan 04 2020 02:47:52.366 - Headset is using driver direct mode
-Sat Jan 04 2020 02:47:53.000 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
-Sat Jan 04 2020 02:47:53.000 - ****************************************** Begin GPU speed ******************************************
-Sat Jan 04 2020 02:47:53.191 - MeasureGpuMegaPixelsPerSecond(): Returning 290 MP/sec. Total CPU time 0.19 seconds.
-Sat Jan 04 2020 02:47:53.203 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
-Sat Jan 04 2020 02:47:53.205 - GPU speed from average of 6 median samples: 288
-Sat Jan 04 2020 02:47:53.208 - ******************************************* End GPU speed *******************************************
-Sat Jan 04 2020 02:47:53.208 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
-Sat Jan 04 2020 02:47:53.208 - GPU speed being set at first generation HMD resolution 382 MP/sec
-Sat Jan 04 2020 02:47:53.208 - Raw ideal render target scale = 0.73
-Sat Jan 04 2020 02:47:53.209 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
-Sat Jan 04 2020 02:47:53.209 - Loading fonts/debug.spritefont
-Sat Jan 04 2020 02:47:53.215 - Creating samplers
-Sat Jan 04 2020 02:47:53.215 - Creating util resources
-Sat Jan 04 2020 02:47:53.215 - Creating/Updating distortion surfaces
-Sat Jan 04 2020 02:47:53.427 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Jan 04 2020 02:47:53.641 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Jan 04 2020 02:47:53.644 - Creating constant buffers
-Sat Jan 04 2020 02:47:53.644 - Creating layer texture (w=1552,h=1720)
-Sat Jan 04 2020 02:47:53.659 - Loading MC resources
-Sat Jan 04 2020 02:47:53.659 - Initializing timing resources
-Sat Jan 04 2020 02:47:53.659 - Initializing camera
-Sat Jan 04 2020 02:47:53.659 - Done initializing CGraphicsDevice resources
-Sat Jan 04 2020 02:47:53.660 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
-Sat Jan 04 2020 02:47:53.671 - Distort initialized
-Sat Jan 04 2020 02:47:53.683 - Set thread 000000000000065C priority to: 15
-Sat Jan 04 2020 02:47:53.683 - Set thread 0000000000000634 priority to: 15
-Sat Jan 04 2020 02:47:53.683 - Compositor render thread started
-Sat Jan 04 2020 02:47:53.683 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe 19604
-Sat Jan 04 2020 02:47:53.684 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Sat Jan 04 2020 02:47:53.684 - Startup Complete (1.366853 seconds)
-Sat Jan 04 2020 02:47:53.692 - Found 103 quads for Collision Bounds
-Sat Jan 04 2020 02:47:53.692 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sat Jan 04 2020 02:47:53.693 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sat Jan 04 2020 02:47:53.694 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sat Jan 04 2020 02:47:53.713 - Creating solid play area quad for compositor construct: 1.27 x 2.38
-Sat Jan 04 2020 02:47:53.936 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 7920
-Sat Jan 04 2020 02:47:55.248 - Closing pipe vrstartup (19604) because it was broken from the other end
-Sat Jan 04 2020 02:47:55.248 - Process vrstartup (19604) disconnected (Thread(0x0000020FE073BC90/0x000)
-Sat Jan 04 2020 02:47:55.248 - Lost pipe connection from vrstartup (19604)
-Sat Jan 04 2020 02:47:55.266 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 29188
-Sat Jan 04 2020 02:47:55.952 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 14052
-Sat Jan 04 2020 02:47:57.716 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15736
-Sat Jan 04 2020 02:47:57.728 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11856
-Sat Jan 04 2020 02:47:57.734 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 24780
-Sat Jan 04 2020 02:47:57.739 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18672
-Sat Jan 04 2020 02:47:57.750 - Processing message VRMsg_CompositorConnect from vrwebhelper (18672) took 0.0116 seconds
-Sat Jan 04 2020 02:47:57.764 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11456
-Sat Jan 04 2020 02:47:57.797 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 18928
-Sat Jan 04 2020 02:47:58.039 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 23796
-Sat Jan 04 2020 02:47:58.125 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 6208
-Sat Jan 04 2020 02:47:58.125 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 26544
-Sat Jan 04 2020 02:47:58.148 - External connection from C:\Program Files (x86)\Steam\Steam.exe 27996
-Sat Jan 04 2020 02:47:58.159 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 27284
-Sat Jan 04 2020 02:48:46.498 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 11476
-Sat Jan 04 2020 02:49:12.733 - Screenshot: HookScreenshot, 1 types
-Sat Jan 04 2020 02:49:14.816 - Screenshot: HookScreenshot, 1 types
-Sat Jan 04 2020 02:50:58.103 - Closing pipe process (11476) because it was broken from the other end
-Sat Jan 04 2020 02:50:58.103 - Process process (11476) disconnected (Thread(0x0000020FE073E900/0x000)
-Sat Jan 04 2020 02:50:58.103 - Lost pipe connection from process (11476)
-Sat Jan 04 2020 02:50:58.103 - ######################################################################
-Sat Jan 04 2020 02:50:58.103 - Cumulative stats for pid: 11476
-Sat Jan 04 2020 02:50:58.103 - Total.................. 72992 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:50:58.103 - Startup................   873 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:50:58.103 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:50:58.103 - Timed out. 62 total.... 72110 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:50:58.103 - ######################################################################
-Sat Jan 04 2020 02:50:58.103 - Total dropped frames: 0
-Sat Jan 04 2020 02:53:06.081 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 7236
-Sat Jan 04 2020 02:53:43.113 - Aborting GetDeltas(Compositor) disjoint! (n=1)
-Sat Jan 04 2020 02:53:47.695 - Aborting GetDeltas(CompositorPresent) disjoint! (n=1)
-Sat Jan 04 2020 02:54:06.469 - Closing pipe process (7236) because it was broken from the other end
-Sat Jan 04 2020 02:54:06.469 - Process process (7236) disconnected (Thread(0x0000020FE0A9D080/0x000)
-Sat Jan 04 2020 02:54:06.469 - Lost pipe connection from process (7236)
-Sat Jan 04 2020 02:54:06.469 - ######################################################################
-Sat Jan 04 2020 02:54:06.469 - Cumulative stats for pid: 7236
-Sat Jan 04 2020 02:54:06.469 - Total.................. 19856 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:54:06.469 - Startup................ 19856 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:54:06.469 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:54:06.469 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:54:06.469 - ######################################################################
-Sat Jan 04 2020 02:54:06.469 - Total dropped frames: 0
-Sat Jan 04 2020 02:55:11.733 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools\steamvr_tutorial\win64\steamvr_tutorial.exe 28020
-Sat Jan 04 2020 02:55:11.761 - Closing pipe steamvr_tutorial (28020) because it was broken from the other end
-Sat Jan 04 2020 02:55:11.761 - Process steamvr_tutorial (28020) disconnected (Thread(0x0000020FE0608870/0x000)
-Sat Jan 04 2020 02:55:11.761 - Lost pipe connection from steamvr_tutorial (28020)
-Sat Jan 04 2020 02:55:13.991 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools\steamvr_tutorial\win64\steamvr_tutorial.exe 28020
-Sat Jan 04 2020 02:55:17.248 - Screenshot: HookScreenshot, 1 types
-Sat Jan 04 2020 02:56:34.128 - Closing pipe steamvr_tutorial (28020) because it was broken from the other end
-Sat Jan 04 2020 02:56:34.128 - Process steamvr_tutorial (28020) disconnected (Thread(0x0000020FE0A9D350/0x000)
-Sat Jan 04 2020 02:56:34.128 - Lost pipe connection from steamvr_tutorial (28020)
-Sat Jan 04 2020 02:56:34.128 - ######################################################################
-Sat Jan 04 2020 02:56:34.128 - Cumulative stats for pid: 28020
-Sat Jan 04 2020 02:56:34.128 - Total..................  7398 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:56:34.128 - Startup................  7398 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:56:34.128 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:56:34.128 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Jan 04 2020 02:56:34.128 - ######################################################################
-Sat Jan 04 2020 02:56:34.128 - Total dropped frames: 0
-Sat Jan 04 2020 02:57:42.139 - Closing pipe vrdashboard (7920) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.139 - Process vrdashboard (7920) disconnected (Thread(0x0000020FD82AF260/0x000)
-Sat Jan 04 2020 02:57:42.139 - Lost pipe connection from vrdashboard (7920)
-Sat Jan 04 2020 02:57:42.264 - Closing pipe vrwebhelper (27284) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.265 - Process vrwebhelper (27284) disconnected (Thread(0x0000020FE06086C0/0x000)
-Sat Jan 04 2020 02:57:42.265 - Lost pipe connection from vrwebhelper (27284)
-Sat Jan 04 2020 02:57:42.333 - Closing pipe vrwebhelper (24780) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.333 - Process vrwebhelper (24780) disconnected (Thread(0x0000020FE04AA3D0/0x000)
-Sat Jan 04 2020 02:57:42.333 - Lost pipe connection from vrwebhelper (24780)
-Sat Jan 04 2020 02:57:42.399 - Closing pipe vrwebhelper (11856) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.399 - Process vrwebhelper (11856) disconnected (Thread(0x0000020FE04AA4F0/0x000)
-Sat Jan 04 2020 02:57:42.399 - Lost pipe connection from vrwebhelper (11856)
-Sat Jan 04 2020 02:57:42.485 - Closing pipe vrwebhelper (18672) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.485 - Process vrwebhelper (18672) disconnected (Thread(0x0000020FE0456F40/0x000)
-Sat Jan 04 2020 02:57:42.485 - Lost pipe connection from vrwebhelper (18672)
-Sat Jan 04 2020 02:57:42.492 - Closing pipe Steam (27996) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.492 - Process Steam (27996) disconnected (Thread(0x0000020FE06087E0/0x000)
-Sat Jan 04 2020 02:57:42.492 - Lost pipe connection from Steam (27996)
-Sat Jan 04 2020 02:57:42.492 - Destroying overlay 1600000013 valve.steam.bigpicture (Steam)from pid 27996 because that process disconnected
-Sat Jan 04 2020 02:57:42.492 - Destroying overlay 1700000014 valve.steam.bigpicture.thumb (Steam (Thumb))from pid 27996 because that process disconnected
-Sat Jan 04 2020 02:57:42.661 - Closing pipe vrwebhelper (23796) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.661 - Process vrwebhelper (23796) disconnected (Thread(0x0000020FE0608990/0x000)
-Sat Jan 04 2020 02:57:42.661 - Lost pipe connection from vrwebhelper (23796)
-Sat Jan 04 2020 02:57:42.661 - Closing pipe vrwebhelper (18928) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.661 - Process vrwebhelper (18928) disconnected (Thread(0x0000020FE04570F0/0x000)
-Sat Jan 04 2020 02:57:42.661 - Lost pipe connection from vrwebhelper (18928)
-Sat Jan 04 2020 02:57:42.745 - Closing pipe vrwebhelper (11456) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.745 - Process vrwebhelper (11456) disconnected (Thread(0x0000020FE0457A80/0x000)
-Sat Jan 04 2020 02:57:42.745 - Lost pipe connection from vrwebhelper (11456)
-Sat Jan 04 2020 02:57:42.805 - Closing pipe vrwebhelper (6208) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.805 - Process vrwebhelper (6208) disconnected (Thread(0x0000020FE0608900/0x000)
-Sat Jan 04 2020 02:57:42.805 - Lost pipe connection from vrwebhelper (6208)
-Sat Jan 04 2020 02:57:42.807 - Closing pipe vrwebhelper (26544) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.807 - Process vrwebhelper (26544) disconnected (Thread(0x0000020FE0608750/0x000)
-Sat Jan 04 2020 02:57:42.807 - Lost pipe connection from vrwebhelper (26544)
-Sat Jan 04 2020 02:57:42.830 - Closing pipe vrwebhelper (15736) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.830 - Process vrwebhelper (15736) disconnected (Thread(0x0000020FE04AA340/0x000)
-Sat Jan 04 2020 02:57:42.830 - Lost pipe connection from vrwebhelper (15736)
-Sat Jan 04 2020 02:57:42.883 - Closing pipe vrwebhelper (14052) because it was broken from the other end
-Sat Jan 04 2020 02:57:42.883 - Process vrwebhelper (14052) disconnected (Thread(0x0000020FE04AA220/0x000)
-Sat Jan 04 2020 02:57:42.883 - Lost pipe connection from vrwebhelper (14052)
-Sat Jan 04 2020 02:57:42.901 - VR compositor shutting down
-Sat Jan 04 2020 02:57:42.907 - Render thread ending
-Sat Jan 04 2020 02:57:42.907 - Signal thread ending
-Sat Jan 04 2020 02:57:42.918 - Process vrmonitor (29188) disconnected (Thread(0x0000020FE04AA2B0/0x000)
-Sat Jan 04 2020 02:57:42.918 - Ignoring LostPipeConnection from vrmonitor (29188) because compositor is shutting down
-Sat Jan 04 2020 02:57:42.989 - Listener thread ending
-Sat Jan 04 2020 02:57:42.990 - Cleaning up
-Sun Jan 12 2020 11:08:41.715 - //==============================================================================================
-Sun Jan 12 2020 11:08:41.715 - ================================================================================================
-Sun Jan 12 2020 11:08:41.715 - ================================================================================================
-Sun Jan 12 2020 11:08:41.715 - vrcompositor.exe 1.9.16 startup with PID=14568, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 12 2020 11:08:41.715 - VR compositor 1.9.16 (v1576990468) starting up
-Sun Jan 12 2020 11:08:41.820 - CSharedResourceNamespaceClient::Init(): received namespace data 8180
-Sun Jan 12 2020 11:08:41.841 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 12 2020 11:08:41.842 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 12 2020 11:08:41.842 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 12 2020 11:08:41.843 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 12 2020 11:08:41.845 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 12 2020 11:08:41.847 - Events created
-Sun Jan 12 2020 11:08:41.858 - Found bad mirror window settings: 
-Sun Jan 12 2020 11:08:41.891 - CGraphicsDevice Init...
-Sun Jan 12 2020 11:08:41.891 - Headset is using driver direct mode
-Sun Jan 12 2020 11:08:42.742 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
-Sun Jan 12 2020 11:08:42.742 - ****************************************** Begin GPU speed ******************************************
-Sun Jan 12 2020 11:08:42.962 - MeasureGpuMegaPixelsPerSecond(): Returning 764 MP/sec. Total CPU time 0.22 seconds.
-Sun Jan 12 2020 11:08:42.979 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
-Sun Jan 12 2020 11:08:42.980 - GPU speed from average of 6 median samples: 288
-Sun Jan 12 2020 11:08:42.981 - ******************************************* End GPU speed *******************************************
-Sun Jan 12 2020 11:08:42.982 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
-Sun Jan 12 2020 11:08:42.982 - GPU speed being set at first generation HMD resolution 382 MP/sec
-Sun Jan 12 2020 11:08:42.982 - Raw ideal render target scale = 0.73
-Sun Jan 12 2020 11:08:42.982 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
-Sun Jan 12 2020 11:08:42.982 - Loading fonts/debug.spritefont
-Sun Jan 12 2020 11:08:42.990 - Creating samplers
-Sun Jan 12 2020 11:08:42.990 - Creating util resources
-Sun Jan 12 2020 11:08:42.991 - Creating/Updating distortion surfaces
-Sun Jan 12 2020 11:08:43.196 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sun Jan 12 2020 11:08:43.412 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sun Jan 12 2020 11:08:43.414 - Creating constant buffers
-Sun Jan 12 2020 11:08:43.415 - Creating layer texture (w=1552,h=1720)
-Sun Jan 12 2020 11:08:43.437 - Loading MC resources
-Sun Jan 12 2020 11:08:43.437 - Initializing timing resources
-Sun Jan 12 2020 11:08:43.437 - Initializing camera
-Sun Jan 12 2020 11:08:43.437 - Done initializing CGraphicsDevice resources
-Sun Jan 12 2020 11:08:43.438 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
-Sun Jan 12 2020 11:08:43.450 - Distort initialized
-Sun Jan 12 2020 11:08:43.464 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Sun Jan 12 2020 11:08:43.466 - Set thread 00000000000005A8 priority to: 15
-Sun Jan 12 2020 11:08:43.466 - Set thread 0000000000000658 priority to: 15
-Sun Jan 12 2020 11:08:43.467 - Compositor render thread started
-Sun Jan 12 2020 11:08:43.467 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 13624
-Sun Jan 12 2020 11:08:43.469 - Startup Complete (1.647770 seconds)
-Sun Jan 12 2020 11:08:43.478 - Found 103 quads for Collision Bounds
-Sun Jan 12 2020 11:08:43.478 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sun Jan 12 2020 11:08:43.478 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sun Jan 12 2020 11:08:43.479 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sun Jan 12 2020 11:08:43.480 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sun Jan 12 2020 11:08:43.480 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sun Jan 12 2020 11:08:43.480 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sun Jan 12 2020 11:08:43.480 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sun Jan 12 2020 11:08:43.480 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sun Jan 12 2020 11:08:43.480 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sun Jan 12 2020 11:08:43.480 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sun Jan 12 2020 11:08:43.480 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sun Jan 12 2020 11:08:43.590 - Creating solid play area quad for compositor construct: 1.27 x 2.38
-Sun Jan 12 2020 11:08:43.746 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 2992
-Sun Jan 12 2020 11:08:45.298 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 11344
-Sun Jan 12 2020 11:08:46.047 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8868
-Sun Jan 12 2020 11:08:48.042 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 2564
-Sun Jan 12 2020 11:08:48.042 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10960
-Sun Jan 12 2020 11:08:48.140 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8320
-Sun Jan 12 2020 11:08:48.184 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11800
-Sun Jan 12 2020 11:08:48.191 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 2680
-Sun Jan 12 2020 11:08:48.283 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 6672
-Sun Jan 12 2020 11:08:48.287 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 13448
-Sun Jan 12 2020 11:08:48.296 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 7336
-Sun Jan 12 2020 11:08:48.307 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15648
-Sun Jan 12 2020 11:08:48.307 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 1484
-Sun Jan 12 2020 11:09:52.439 - Screenshot: HookScreenshot, 1 types
-Sun Jan 12 2020 11:10:45.556 - Closing pipe process (13624) because it was broken from the other end
-Sun Jan 12 2020 11:10:45.557 - Process process (13624) disconnected (Thread(0x00000222BACB9AF0/0x000)
-Sun Jan 12 2020 11:10:45.557 - Lost pipe connection from process (13624)
-Sun Jan 12 2020 11:10:45.557 - ######################################################################
-Sun Jan 12 2020 11:10:45.557 - Cumulative stats for pid: 13624
-Sun Jan 12 2020 11:10:45.557 - Total..................  3573 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 11:10:45.557 - Startup................    66 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 11:10:45.557 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 11:10:45.557 - Timed out.  4 total....   964 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 11:10:45.557 - ######################################################################
-Sun Jan 12 2020 11:10:45.557 - Total dropped frames: 0
-Sun Jan 12 2020 19:47:02.489 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sun Jan 12 2020 19:47:02.489 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sun Jan 12 2020 19:47:02.489 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sun Jan 12 2020 19:47:02.489 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sun Jan 12 2020 19:47:09.802 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 19:47:09.802 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 19:47:09.803 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 19:47:09.803 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 19:47:19.412 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 19:47:19.412 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 19:47:19.415 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 19:47:19.415 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eCommunications, device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 19:47:19.645 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 19:47:19.645 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eCommunications, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 19:47:19.677 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sun Jan 12 2020 19:47:19.677 - AUDIO: OnDefaultDeviceChanged: flow = eCapture, role = eCommunications, device = {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sun Jan 12 2020 19:47:19.722 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 19:47:19.722 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 19:47:19.874 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 19:47:19.874 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 19:47:48.204 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 19:47:48.204 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 19:47:48.204 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 19:47:48.204 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 19:52:48.330 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 17036
-Sun Jan 12 2020 19:53:09.124 - Found 103 quads for Collision Bounds
-Sun Jan 12 2020 19:53:09.124 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sun Jan 12 2020 19:53:09.124 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sun Jan 12 2020 19:53:09.124 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sun Jan 12 2020 19:53:09.124 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sun Jan 12 2020 19:53:09.124 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sun Jan 12 2020 19:53:09.124 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sun Jan 12 2020 19:53:09.124 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sun Jan 12 2020 19:53:09.124 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sun Jan 12 2020 19:53:09.124 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sun Jan 12 2020 19:53:09.125 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sun Jan 12 2020 19:53:09.126 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sun Jan 12 2020 19:53:24.755 - Closing pipe process (17036) because it was broken from the other end
-Sun Jan 12 2020 19:53:24.755 - Process process (17036) disconnected (Thread(0x00000222B2995BA0/0x000)
-Sun Jan 12 2020 19:53:24.755 - Lost pipe connection from process (17036)
-Sun Jan 12 2020 19:53:24.755 - ######################################################################
-Sun Jan 12 2020 19:53:24.755 - Cumulative stats for pid: 17036
-Sun Jan 12 2020 19:53:24.755 - Total..................  1995 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 19:53:24.755 - Startup................   108 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 19:53:24.755 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 19:53:24.755 - Timed out.  1 total....    72 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 19:53:24.755 - ######################################################################
-Sun Jan 12 2020 19:53:24.755 - Total dropped frames: 0
-Sun Jan 12 2020 20:09:04.342 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 17192
-Sun Jan 12 2020 20:09:05.534 - Closing pipe process (17192) because it was broken from the other end
-Sun Jan 12 2020 20:09:05.534 - Process process (17192) disconnected (Thread(0x00000222BAC11D80/0x000)
-Sun Jan 12 2020 20:09:05.534 - Lost pipe connection from process (17192)
-Sun Jan 12 2020 20:09:50.995 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 17236
-Sun Jan 12 2020 20:10:48.717 - Closing pipe process (17236) because it was broken from the other end
-Sun Jan 12 2020 20:10:48.717 - Process process (17236) disconnected (Thread(0x00000222B26A34B0/0x000)
-Sun Jan 12 2020 20:10:48.717 - Lost pipe connection from process (17236)
-Sun Jan 12 2020 20:10:48.717 - ######################################################################
-Sun Jan 12 2020 20:10:48.717 - Cumulative stats for pid: 17236
-Sun Jan 12 2020 20:10:48.717 - Total..................  3335 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:10:48.717 - Startup................    72 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:10:48.717 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:10:48.717 - Timed out.  1 total....   358 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:10:48.717 - ######################################################################
-Sun Jan 12 2020 20:10:48.717 - Total dropped frames: 1
-Sun Jan 12 2020 20:12:02.980 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 12904
-Sun Jan 12 2020 20:12:17.551 - Closing pipe process (12904) because it was broken from the other end
-Sun Jan 12 2020 20:12:17.551 - Process process (12904) disconnected (Thread(0x00000222B26A39C0/0x000)
-Sun Jan 12 2020 20:12:17.551 - Lost pipe connection from process (12904)
-Sun Jan 12 2020 20:12:17.551 - ######################################################################
-Sun Jan 12 2020 20:12:17.551 - Cumulative stats for pid: 12904
-Sun Jan 12 2020 20:12:17.551 - Total..................   447 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:12:17.551 - Startup................    73 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:12:17.551 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:12:17.551 - Timed out.  1 total....   151 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:12:17.551 - ######################################################################
-Sun Jan 12 2020 20:12:17.551 - Total dropped frames: 1
-Sun Jan 12 2020 20:15:25.283 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 16044
-Sun Jan 12 2020 20:17:13.759 - Closing pipe process (16044) because it was broken from the other end
-Sun Jan 12 2020 20:17:13.759 - Process process (16044) disconnected (Thread(0x00000222BAD130A0/0x000)
-Sun Jan 12 2020 20:17:13.759 - Lost pipe connection from process (16044)
-Sun Jan 12 2020 20:17:13.759 - ######################################################################
-Sun Jan 12 2020 20:17:13.759 - Cumulative stats for pid: 16044
-Sun Jan 12 2020 20:17:13.759 - Total..................  5923 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:17:13.759 - Startup................    73 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:17:13.759 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:17:13.759 - Timed out.  1 total....   407 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:17:13.759 - ######################################################################
-Sun Jan 12 2020 20:17:13.759 - Total dropped frames: 1
-Sun Jan 12 2020 20:21:06.838 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:06.838 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:06.838 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 20:21:06.838 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 20:21:06.839 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 20:21:06.840 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 20:21:07.024 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 20:21:07.024 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 20:21:07.188 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 20:21:07.188 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 20:21:14.005 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:14.005 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:14.008 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:14.008 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:14.008 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:14.008 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:14.216 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 20:21:14.216 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 20:21:14.216 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 20:21:14.216 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 20:21:14.383 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 20:21:14.383 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 20:21:14.567 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 20:21:14.567 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 20:21:31.061 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:31.061 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:31.191 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 20:21:31.191 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 20:21:31.362 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 20:21:31.362 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 20:21:34.310 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 20:21:34.310 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 20:21:34.434 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:34.434 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:34.580 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 20:21:34.580 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_ACTIVE (0x00000001), device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 20:21:44.649 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:44.649 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:44.650 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:21:44.650 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 20:23:03.282 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 14020
-Sun Jan 12 2020 20:23:45.651 - Closing pipe process (14020) because it was broken from the other end
-Sun Jan 12 2020 20:23:45.651 - Process process (14020) disconnected (Thread(0x00000222B2A094C0/0x000)
-Sun Jan 12 2020 20:23:45.651 - Lost pipe connection from process (14020)
-Sun Jan 12 2020 20:23:45.651 - ######################################################################
-Sun Jan 12 2020 20:23:45.651 - Cumulative stats for pid: 14020
-Sun Jan 12 2020 20:23:45.651 - Total..................  2205 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:23:45.651 - Startup................    73 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:23:45.651 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:23:45.651 - Timed out.  1 total....   240 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:23:45.651 - ######################################################################
-Sun Jan 12 2020 20:23:45.651 - Total dropped frames: 1
-Sun Jan 12 2020 20:31:44.511 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 10292
-Sun Jan 12 2020 20:31:57.741 - Closing pipe process (10292) because it was broken from the other end
-Sun Jan 12 2020 20:31:57.741 - Process process (10292) disconnected (Thread(0x00000222BADEB550/0x000)
-Sun Jan 12 2020 20:31:57.741 - Lost pipe connection from process (10292)
-Sun Jan 12 2020 20:37:18.869 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 11248
-Sun Jan 12 2020 20:37:40.919 - Closing pipe process (11248) because it was broken from the other end
-Sun Jan 12 2020 20:37:40.919 - Process process (11248) disconnected (Thread(0x00000222BAB7F250/0x000)
-Sun Jan 12 2020 20:37:40.919 - Lost pipe connection from process (11248)
-Sun Jan 12 2020 20:37:40.919 - ######################################################################
-Sun Jan 12 2020 20:37:40.919 - Cumulative stats for pid: 11248
-Sun Jan 12 2020 20:37:40.919 - Total..................  1319 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:37:40.919 - Startup................    72 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:37:40.919 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:37:40.919 - Timed out.  1 total....    86 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 20:37:40.919 - ######################################################################
-Sun Jan 12 2020 20:37:40.919 - Total dropped frames: 1
-Sun Jan 12 2020 21:13:21.853 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 6184
-Sun Jan 12 2020 21:13:23.041 - Closing pipe process (6184) because it was broken from the other end
-Sun Jan 12 2020 21:13:23.041 - Process process (6184) disconnected (Thread(0x00000222BAC12560/0x000)
-Sun Jan 12 2020 21:13:23.041 - Lost pipe connection from process (6184)
-Sun Jan 12 2020 21:13:34.895 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 7140
-Sun Jan 12 2020 21:13:35.780 - Closing pipe process (7140) because it was broken from the other end
-Sun Jan 12 2020 21:13:35.780 - Process process (7140) disconnected (Thread(0x00000222BACB9700/0x000)
-Sun Jan 12 2020 21:13:35.780 - Lost pipe connection from process (7140)
-Sun Jan 12 2020 21:13:44.915 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 3364
-Sun Jan 12 2020 21:14:22.200 - Closing pipe process (3364) because it was broken from the other end
-Sun Jan 12 2020 21:14:22.200 - Process process (3364) disconnected (Thread(0x00000222BACB9AF0/0x000)
-Sun Jan 12 2020 21:14:22.200 - Lost pipe connection from process (3364)
-Sun Jan 12 2020 21:14:36.295 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 7588
-Sun Jan 12 2020 21:15:43.578 - Closing pipe process (7588) because it was broken from the other end
-Sun Jan 12 2020 21:15:43.578 - Process process (7588) disconnected (Thread(0x00000222BAD12DD0/0x000)
-Sun Jan 12 2020 21:15:43.578 - Lost pipe connection from process (7588)
-Sun Jan 12 2020 21:15:43.578 - ######################################################################
-Sun Jan 12 2020 21:15:43.578 - Cumulative stats for pid: 7588
-Sun Jan 12 2020 21:15:43.578 - Total..................  4231 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 21:15:43.578 - Startup................    71 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 21:15:43.578 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 21:15:43.578 - Timed out.  1 total....   150 presents.    0 dropped.    0 reprojected
-Sun Jan 12 2020 21:15:43.578 - ######################################################################
-Sun Jan 12 2020 21:15:43.578 - Total dropped frames: 2
-Sun Jan 12 2020 21:34:47.683 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 12808
-Sun Jan 12 2020 21:34:48.648 - Closing pipe process (12808) because it was broken from the other end
-Sun Jan 12 2020 21:34:48.648 - Process process (12808) disconnected (Thread(0x00000222B2A0A120/0x000)
-Sun Jan 12 2020 21:34:48.648 - Lost pipe connection from process (12808)
-Sun Jan 12 2020 21:37:19.522 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 2064
-Sun Jan 12 2020 21:37:21.770 - Closing pipe process (2064) because it was broken from the other end
-Sun Jan 12 2020 21:37:21.770 - Process process (2064) disconnected (Thread(0x00000222B2A09A60/0x000)
-Sun Jan 12 2020 21:37:21.770 - Lost pipe connection from process (2064)
-Sun Jan 12 2020 21:37:57.786 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 17280
-Sun Jan 12 2020 21:37:58.882 - Closing pipe process (17280) because it was broken from the other end
-Sun Jan 12 2020 21:37:58.882 - Process process (17280) disconnected (Thread(0x00000222AE78F020/0x000)
-Sun Jan 12 2020 21:37:58.882 - Lost pipe connection from process (17280)
-Sun Jan 12 2020 21:53:28.491 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 14332
-Sun Jan 12 2020 21:53:30.634 - Closing pipe process (14332) because it was broken from the other end
-Sun Jan 12 2020 21:53:30.634 - Process process (14332) disconnected (Thread(0x00000222BAC48CA0/0x000)
-Sun Jan 12 2020 21:53:30.634 - Lost pipe connection from process (14332)
-Sun Jan 12 2020 21:56:06.139 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 9460
-Sun Jan 12 2020 21:56:13.469 - Closing pipe process (9460) because it was broken from the other end
-Sun Jan 12 2020 21:56:13.469 - Process process (9460) disconnected (Thread(0x00000222B2995BA0/0x000)
-Sun Jan 12 2020 21:56:13.469 - Lost pipe connection from process (9460)
-Sun Jan 12 2020 22:17:09.934 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 22:17:09.934 - AUDIO: OnDefaultDeviceChanged: flow = eCapture, role = eConsole, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 22:17:09.934 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 22:17:09.934 - AUDIO: OnDefaultDeviceChanged: flow = eCapture, role = eMultimedia, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 22:53:09.742 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 22:53:09.742 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 22:53:09.742 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 22:53:09.743 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 12 2020 22:53:37.933 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 22:53:37.933 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.0.00000000}.{683da12c-752a-4636-b450-3e37cd2a8c8b}
-Sun Jan 12 2020 22:53:38.063 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 22:53:38.063 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.0.00000000}.{ae6200b1-b76f-4dfe-ad5e-e8c7eff7d74d}
-Sun Jan 12 2020 22:53:38.196 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sun Jan 12 2020 22:53:38.196 - AUDIO: OnDefaultDeviceChanged: flow = eCapture, role = eConsole, device = {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sun Jan 12 2020 22:53:38.197 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sun Jan 12 2020 22:53:38.197 - AUDIO: OnDefaultDeviceChanged: flow = eCapture, role = eMultimedia, device = {0.0.1.00000000}.{44eadbf2-0934-40a1-8b7e-e6c5ca6e19ac}
-Sun Jan 12 2020 22:53:38.290 - AUDIO: AudioDeviceChangeNotice (noting refresh): 2, device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Sun Jan 12 2020 22:53:38.290 - AUDIO: OnDeviceStateChanged: DEVICE_STATE_UNPLUGGED (0x00000008), device = {0.0.1.00000000}.{f9d16e05-c7e1-4c7a-9e0e-6851a35a7f11}
-Mon Jan 13 2020 07:22:31.341 - Closing pipe vrwebhelper (8868) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.341 - Process vrwebhelper (8868) disconnected (Thread(0x00000222BADEB4C0/0x000)
-Mon Jan 13 2020 07:22:31.341 - Lost pipe connection from vrwebhelper (8868)
-Mon Jan 13 2020 07:22:31.341 - Destroying overlay 190000000A system.vrwebhelper.bindingcallouts (bindingcallouts)from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.341 - Destroying overlay 1A0000000B system.vrwebhelper.controllerbinding (controllerbinding)from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.341 - Destroying overlay 1B0000000C system.vrwebhelper.controllerbinding.thumb (controllerbinding (Thumb))from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.341 - Destroying overlay 1C0000000D system.keyboard (keyboard)from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.341 - Destroying overlay 1D0000000E system.messageoverlay (messageoverlay)from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.341 - Destroying overlay 1E0000000F system.messageoverlay.thumb (messageoverlay (Thumb))from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.341 - Destroying overlay 1F00000010 system.vrwebhelper.progressindicator (progressindicator)from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.341 - Destroying overlay 2000000011 system.settings (settings)from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.342 - Destroying overlay 2100000012 system.vrwebhelper.systemui (systemui)from pid 8868 because that process disconnected
-Mon Jan 13 2020 07:22:31.644 - Closing pipe vrwebhelper (2680) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.644 - Process vrwebhelper (2680) disconnected (Thread(0x00000222B2A0A5A0/0x000)
-Mon Jan 13 2020 07:22:31.644 - Lost pipe connection from vrwebhelper (2680)
-Mon Jan 13 2020 07:22:31.644 - Closing pipe vrwebhelper (11800) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.644 - Process vrwebhelper (11800) disconnected (Thread(0x00000222B2A09E50/0x000)
-Mon Jan 13 2020 07:22:31.644 - Lost pipe connection from vrwebhelper (11800)
-Mon Jan 13 2020 07:22:31.644 - Closing pipe vrwebhelper (7336) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.644 - Process vrwebhelper (7336) disconnected (Thread(0x00000222BAF5E570/0x000)
-Mon Jan 13 2020 07:22:31.644 - Lost pipe connection from vrwebhelper (7336)
-Mon Jan 13 2020 07:22:31.645 - Closing pipe vrwebhelper (8320) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.645 - Process vrwebhelper (8320) disconnected (Thread(0x00000222B2A09430/0x000)
-Mon Jan 13 2020 07:22:31.645 - Lost pipe connection from vrwebhelper (8320)
-Mon Jan 13 2020 07:22:31.648 - Closing pipe vrwebhelper (1484) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.648 - Process vrwebhelper (1484) disconnected (Thread(0x00000222BAF5E450/0x000)
-Mon Jan 13 2020 07:22:31.648 - Lost pipe connection from vrwebhelper (1484)
-Mon Jan 13 2020 07:22:31.738 - Closing pipe vrwebhelper (15648) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.738 - Process vrwebhelper (15648) disconnected (Thread(0x00000222BAD12D40/0x000)
-Mon Jan 13 2020 07:22:31.738 - Lost pipe connection from vrwebhelper (15648)
-Mon Jan 13 2020 07:22:31.751 - Closing pipe vrwebhelper (13448) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.751 - Process vrwebhelper (13448) disconnected (Thread(0x00000222BAF5E210/0x000)
-Mon Jan 13 2020 07:22:31.751 - Lost pipe connection from vrwebhelper (13448)
-Mon Jan 13 2020 07:22:31.817 - Closing pipe vrwebhelper (6672) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.817 - Process vrwebhelper (6672) disconnected (Thread(0x00000222BAF5E180/0x000)
-Mon Jan 13 2020 07:22:31.817 - Lost pipe connection from vrwebhelper (6672)
-Mon Jan 13 2020 07:22:31.824 - Closing pipe vrwebhelper (2564) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.824 - Process vrwebhelper (2564) disconnected (Thread(0x00000222BAD12CB0/0x000)
-Mon Jan 13 2020 07:22:31.824 - Lost pipe connection from vrwebhelper (2564)
-Mon Jan 13 2020 07:22:31.825 - Closing pipe vrwebhelper (10960) because it was broken from the other end
-Mon Jan 13 2020 07:22:31.825 - Process vrwebhelper (10960) disconnected (Thread(0x00000222B2A08AA0/0x000)
-Mon Jan 13 2020 07:22:31.825 - Lost pipe connection from vrwebhelper (10960)
-Sat Jan 18 2020 17:56:29.748 - //==============================================================================================
-Sat Jan 18 2020 17:56:29.748 - ================================================================================================
-Sat Jan 18 2020 17:56:29.748 - ================================================================================================
-Sat Jan 18 2020 17:56:29.748 - vrcompositor.exe 1.9.16 startup with PID=12144, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Jan 18 2020 17:56:29.749 - VR compositor 1.9.16 (v1576990468) starting up
-Sat Jan 18 2020 17:56:29.844 - CSharedResourceNamespaceClient::Init(): received namespace data 12988
-Sat Jan 18 2020 17:56:29.859 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Jan 18 2020 17:56:29.859 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Jan 18 2020 17:56:29.859 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Jan 18 2020 17:56:29.860 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Jan 18 2020 17:56:29.863 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Jan 18 2020 17:56:29.865 - Events created
-Sat Jan 18 2020 17:56:29.873 - Found bad mirror window settings: 
-Sat Jan 18 2020 17:56:29.898 - CGraphicsDevice Init...
-Sat Jan 18 2020 17:56:29.898 - Headset is using driver direct mode
-Sat Jan 18 2020 17:56:30.705 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
-Sat Jan 18 2020 17:56:30.705 - ****************************************** Begin GPU speed ******************************************
-Sat Jan 18 2020 17:56:30.866 - MeasureGpuMegaPixelsPerSecond(): Returning 651 MP/sec. Total CPU time 0.16 seconds.
-Sat Jan 18 2020 17:56:30.875 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
-Sat Jan 18 2020 17:56:30.876 - GPU speed from average of 6 median samples: 289
-Sat Jan 18 2020 17:56:30.877 - ******************************************* End GPU speed *******************************************
-Sat Jan 18 2020 17:56:30.877 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
-Sat Jan 18 2020 17:56:30.877 - GPU speed being set at first generation HMD resolution 382 MP/sec
-Sat Jan 18 2020 17:56:30.877 - Raw ideal render target scale = 0.73
-Sat Jan 18 2020 17:56:30.878 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
-Sat Jan 18 2020 17:56:30.878 - Loading fonts/debug.spritefont
-Sat Jan 18 2020 17:56:30.884 - Creating samplers
-Sat Jan 18 2020 17:56:30.884 - Creating util resources
-Sat Jan 18 2020 17:56:30.884 - Creating/Updating distortion surfaces
-Sat Jan 18 2020 17:56:31.082 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Jan 18 2020 17:56:31.284 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Jan 18 2020 17:56:31.286 - Creating constant buffers
-Sat Jan 18 2020 17:56:31.286 - Creating layer texture (w=1552,h=1720)
-Sat Jan 18 2020 17:56:31.930 - Loading MC resources
-Sat Jan 18 2020 17:56:31.930 - Initializing timing resources
-Sat Jan 18 2020 17:56:31.930 - Initializing camera
-Sat Jan 18 2020 17:56:31.930 - Done initializing CGraphicsDevice resources
-Sat Jan 18 2020 17:56:31.931 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
-Sat Jan 18 2020 17:56:31.956 - Distort initialized
-Sat Jan 18 2020 17:56:31.966 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Sat Jan 18 2020 17:56:31.967 - Set thread 0000000000000684 priority to: 15
-Sat Jan 18 2020 17:56:31.967 - Set thread 00000000000005AC priority to: 15
-Sat Jan 18 2020 17:56:31.967 - Compositor render thread started
-Sat Jan 18 2020 17:56:31.967 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 7860
-Sat Jan 18 2020 17:56:31.967 - Startup Complete (2.122579 seconds)
-Sat Jan 18 2020 17:56:31.980 - Found 103 quads for Collision Bounds
-Sat Jan 18 2020 17:56:31.981 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sat Jan 18 2020 17:56:31.981 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sat Jan 18 2020 17:56:31.982 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sat Jan 18 2020 17:56:32.286 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 4160
-Sat Jan 18 2020 17:56:33.640 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 9192
-Sat Jan 18 2020 17:56:33.848 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 13124
-Sat Jan 18 2020 17:56:35.789 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 9304
-Sat Jan 18 2020 17:56:35.789 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11396
-Sat Jan 18 2020 17:56:35.899 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10864
-Sat Jan 18 2020 17:56:35.915 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 12000
-Sat Jan 18 2020 17:56:36.003 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 3996
-Sat Jan 18 2020 17:56:36.025 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15844
-Sat Jan 18 2020 17:56:36.298 - External connection from C:\Program Files (x86)\Steam\Steam.exe 12404
-Sat Jan 18 2020 17:56:36.873 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 13264
-Sat Jan 18 2020 17:56:36.974 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 11288
-Sat Jan 18 2020 17:56:36.993 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10044
-Sat Jan 18 2020 17:56:37.011 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 7388
-Sat Jan 18 2020 17:57:02.169 - Creating solid play area quad for compositor construct: 1.27 x 2.38
-Sat Jan 18 2020 17:57:09.949 - Closing pipe vrwebhelper (10044) because it was broken from the other end
-Sat Jan 18 2020 17:57:09.950 - Process vrwebhelper (10044) disconnected (Thread(0x0000014BE2404230/0x000)
-Sat Jan 18 2020 17:57:09.950 - Lost pipe connection from vrwebhelper (10044)
-Sat Jan 18 2020 17:57:09.958 - Closing pipe vrwebhelper (11288) because it was broken from the other end
-Sat Jan 18 2020 17:57:09.958 - Process vrwebhelper (11288) disconnected (Thread(0x0000014BE2403FF0/0x000)
-Sat Jan 18 2020 17:57:09.958 - Lost pipe connection from vrwebhelper (11288)
-Sat Jan 18 2020 17:57:10.001 - Closing pipe vrwebhelper (12000) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.001 - Process vrwebhelper (12000) disconnected (Thread(0x0000014BE2470C40/0x000)
-Sat Jan 18 2020 17:57:10.001 - Lost pipe connection from vrwebhelper (12000)
-Sat Jan 18 2020 17:57:10.059 - Closing pipe vrwebhelper (9304) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.059 - Process vrwebhelper (9304) disconnected (Thread(0x0000014BE24475C0/0x000)
-Sat Jan 18 2020 17:57:10.059 - Lost pipe connection from vrwebhelper (9304)
-Sat Jan 18 2020 17:57:10.062 - Closing pipe vrdashboard (4160) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.062 - Process vrdashboard (4160) disconnected (Thread(0x0000014BE22A7D60/0x000)
-Sat Jan 18 2020 17:57:10.062 - Lost pipe connection from vrdashboard (4160)
-Sat Jan 18 2020 17:57:10.094 - Closing pipe vrwebhelper (11396) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.094 - Process vrwebhelper (11396) disconnected (Thread(0x0000014BE24476E0/0x000)
-Sat Jan 18 2020 17:57:10.094 - Lost pipe connection from vrwebhelper (11396)
-Sat Jan 18 2020 17:57:10.096 - Closing pipe vrwebhelper (7388) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.097 - Process vrwebhelper (7388) disconnected (Thread(0x0000014BE2447A40/0x000)
-Sat Jan 18 2020 17:57:10.097 - Lost pipe connection from vrwebhelper (7388)
-Sat Jan 18 2020 17:57:10.111 - Closing pipe vrwebhelper (10864) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.111 - Process vrwebhelper (10864) disconnected (Thread(0x0000014BE24710C0/0x000)
-Sat Jan 18 2020 17:57:10.111 - Lost pipe connection from vrwebhelper (10864)
-Sat Jan 18 2020 17:57:10.119 - Closing pipe vrwebhelper (13264) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.119 - Process vrwebhelper (13264) disconnected (Thread(0x0000014BE2403F60/0x000)
-Sat Jan 18 2020 17:57:10.119 - Lost pipe connection from vrwebhelper (13264)
-Sat Jan 18 2020 17:57:10.133 - Closing pipe vrwebhelper (15844) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.133 - Process vrwebhelper (15844) disconnected (Thread(0x0000014BE2447650/0x000)
-Sat Jan 18 2020 17:57:10.133 - Lost pipe connection from vrwebhelper (15844)
-Sat Jan 18 2020 17:57:10.165 - Closing pipe vrwebhelper (13124) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.165 - Process vrwebhelper (13124) disconnected (Thread(0x0000014BE2404470/0x000)
-Sat Jan 18 2020 17:57:10.165 - Lost pipe connection from vrwebhelper (13124)
-Sat Jan 18 2020 17:57:10.211 - Closing pipe vrwebhelper (3996) because it was broken from the other end
-Sat Jan 18 2020 17:57:10.211 - Process vrwebhelper (3996) disconnected (Thread(0x0000014BE2471810/0x000)
-Sat Jan 18 2020 17:57:10.211 - Lost pipe connection from vrwebhelper (3996)
-Sat Jan 18 2020 17:57:11.017 - Closing pipe Steam (12404) because it was broken from the other end
-Sat Jan 18 2020 17:57:11.017 - Process Steam (12404) disconnected (Thread(0x0000014BE2447530/0x000)
-Sat Jan 18 2020 17:57:11.017 - Lost pipe connection from Steam (12404)
-Sat Jan 18 2020 17:57:11.017 - Destroying overlay 1B00000013 valve.steam.bigpicture (Steam)from pid 12404 because that process disconnected
-Sat Jan 18 2020 17:57:11.017 - Destroying overlay 1C00000014 valve.steam.bigpicture.thumb (Steam (Thumb))from pid 12404 because that process disconnected
-Sat Jan 18 2020 17:57:11.716 - Closing pipe process (7860) because it was broken from the other end
-Sat Jan 18 2020 17:57:11.716 - Process process (7860) disconnected (Thread(0x0000014BE241FF70/0x000)
-Sat Jan 18 2020 17:57:11.716 - Lost pipe connection from process (7860)
-Sat Jan 18 2020 17:57:11.722 - Render thread ending
-Sat Jan 18 2020 17:57:11.722 - Signal thread ending
-Sat Jan 18 2020 17:57:11.733 - VR compositor shutting down
-Sat Jan 18 2020 17:57:11.762 - Listener thread ending
-Sat Jan 18 2020 17:57:11.773 - Process vrmonitor (9192) disconnected (Thread(0x0000014BE2403ED0/0x000)
-Sat Jan 18 2020 17:57:11.773 - Ignoring LostPipeConnection from vrmonitor (9192) because compositor is shutting down
-Sat Jan 18 2020 17:57:11.773 - Cleaning up
-Sat Jan 18 2020 17:57:15.258 - //==============================================================================================
-Sat Jan 18 2020 17:57:15.258 - ================================================================================================
-Sat Jan 18 2020 17:57:15.258 - ================================================================================================
-Sat Jan 18 2020 17:57:15.258 - vrcompositor.exe 1.9.16 startup with PID=12008, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Jan 18 2020 17:57:15.258 - VR compositor 1.9.16 (v1576990468) starting up
-Sat Jan 18 2020 17:57:15.324 - CSharedResourceNamespaceClient::Init(): received namespace data 696
-Sat Jan 18 2020 17:57:15.340 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sat Jan 18 2020 17:57:15.341 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sat Jan 18 2020 17:57:15.341 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sat Jan 18 2020 17:57:15.342 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sat Jan 18 2020 17:57:15.344 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sat Jan 18 2020 17:57:15.346 - Events created
-Sat Jan 18 2020 17:57:15.348 - Found bad mirror window settings: 
-Sat Jan 18 2020 17:57:15.376 - CGraphicsDevice Init...
-Sat Jan 18 2020 17:57:15.376 - Headset is using driver direct mode
-Sat Jan 18 2020 17:57:15.502 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
-Sat Jan 18 2020 17:57:15.502 - ****************************************** Begin GPU speed ******************************************
-Sat Jan 18 2020 17:57:15.690 - MeasureGpuMegaPixelsPerSecond(): Returning 759 MP/sec. Total CPU time 0.19 seconds.
-Sat Jan 18 2020 17:57:15.703 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
-Sat Jan 18 2020 17:57:15.704 - GPU speed from average of 6 median samples: 349
-Sat Jan 18 2020 17:57:15.706 - ******************************************* End GPU speed *******************************************
-Sat Jan 18 2020 17:57:15.706 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
-Sat Jan 18 2020 17:57:15.706 - GPU speed being set at first generation HMD resolution 382 MP/sec
-Sat Jan 18 2020 17:57:15.706 - Raw ideal render target scale = 0.73
-Sat Jan 18 2020 17:57:15.706 - New result of GetRecommendedRenderTargetSize for current app: 1552x1720
-Sat Jan 18 2020 17:57:15.706 - Loading fonts/debug.spritefont
-Sat Jan 18 2020 17:57:15.708 - Creating samplers
-Sat Jan 18 2020 17:57:15.708 - Creating util resources
-Sat Jan 18 2020 17:57:15.709 - Creating/Updating distortion surfaces
-Sat Jan 18 2020 17:57:15.897 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Jan 18 2020 17:57:16.091 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
-Sat Jan 18 2020 17:57:16.093 - Creating constant buffers
-Sat Jan 18 2020 17:57:16.093 - Creating layer texture (w=1552,h=1720)
-Sat Jan 18 2020 17:57:16.107 - Loading MC resources
-Sat Jan 18 2020 17:57:16.108 - Initializing timing resources
-Sat Jan 18 2020 17:57:16.108 - Initializing camera
-Sat Jan 18 2020 17:57:16.108 - Done initializing CGraphicsDevice resources
-Sat Jan 18 2020 17:57:16.109 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
-Sat Jan 18 2020 17:57:16.121 - Distort initialized
-Sat Jan 18 2020 17:57:16.134 - Set thread FFFFFFFFFFFFFFFE priority to: -15
-Sat Jan 18 2020 17:57:16.134 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrstartup.exe 14748
-Sat Jan 18 2020 17:57:16.134 - Set thread 000000000000065C priority to: 15
-Sat Jan 18 2020 17:57:16.134 - Compositor render thread started
-Sat Jan 18 2020 17:57:16.134 - Set thread 0000000000000684 priority to: 15
-Sat Jan 18 2020 17:57:16.135 - Startup Complete (0.809863 seconds)
-Sat Jan 18 2020 17:57:16.144 - Found 103 quads for Collision Bounds
-Sat Jan 18 2020 17:57:16.144 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sat Jan 18 2020 17:57:16.145 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sat Jan 18 2020 17:57:16.146 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sat Jan 18 2020 17:57:16.147 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sat Jan 18 2020 17:57:16.177 - Creating solid play area quad for compositor construct: 1.27 x 2.38
-Sat Jan 18 2020 17:57:16.412 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 13676
-Sat Jan 18 2020 17:57:16.789 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 16716
-Sat Jan 18 2020 17:57:17.201 - Closing pipe vrstartup (14748) because it was broken from the other end
-Sat Jan 18 2020 17:57:17.201 - Process vrstartup (14748) disconnected (Thread(0x000001E725946720/0x000)
-Sat Jan 18 2020 17:57:17.201 - Lost pipe connection from vrstartup (14748)
-Sat Jan 18 2020 17:57:17.733 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 16492
-Sat Jan 18 2020 17:57:19.720 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8476
-Sat Jan 18 2020 17:57:19.736 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15304
-Sat Jan 18 2020 17:57:19.777 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17020
-Sat Jan 18 2020 17:57:19.783 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15452
-Sat Jan 18 2020 17:57:19.793 - External connection from C:\Program Files (x86)\Steam\Steam.exe 12404
-Sat Jan 18 2020 17:57:19.825 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 9636
-Sat Jan 18 2020 17:57:19.846 - Processing message VRMsg_CompositorConnect from vrwebhelper (9636) took 0.0207 seconds
-Sat Jan 18 2020 17:57:19.853 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 6476
-Sat Jan 18 2020 17:57:20.065 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10124
-Sat Jan 18 2020 17:57:20.166 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4896
-Sat Jan 18 2020 17:57:20.226 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4664
-Sat Jan 18 2020 17:57:20.262 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4740
-Sat Jan 18 2020 17:57:30.521 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 16436
-Sat Jan 18 2020 17:57:39.997 - Found 103 quads for Collision Bounds
-Sat Jan 18 2020 17:57:39.997 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
-Sat Jan 18 2020 17:57:39.997 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
-Sat Jan 18 2020 17:57:39.998 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
-Sat Jan 18 2020 17:57:39.999 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
-Sat Jan 18 2020 17:57:39.999 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
-Sat Jan 18 2020 17:57:39.999 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
-Sat Jan 18 2020 17:58:16.644 - Closing pipe process (16436) because it was broken from the other end
-Sat Jan 18 2020 17:58:16.644 - Process process (16436) disconnected (Thread(0x000001E725947800/0x000)
-Sat Jan 18 2020 17:58:16.644 - Lost pipe connection from process (16436)
-Sat Jan 18 2020 17:58:16.644 - ######################################################################
-Sat Jan 18 2020 17:58:16.644 - Cumulative stats for pid: 16436
-Sat Jan 18 2020 17:58:16.644 - Total..................  1304 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 17:58:16.644 - Startup................    54 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 17:58:16.644 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 17:58:16.644 - Timed out.  1 total....    31 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 17:58:16.644 - ######################################################################
-Sat Jan 18 2020 17:58:16.644 - Total dropped frames: 0
-Sat Jan 18 2020 17:59:04.097 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 17956
-Sat Jan 18 2020 18:00:12.217 - Closing pipe process (17956) because it was broken from the other end
-Sat Jan 18 2020 18:00:12.217 - Process process (17956) disconnected (Thread(0x000001E725947800/0x000)
-Sat Jan 18 2020 18:00:12.217 - Lost pipe connection from process (17956)
-Sat Jan 18 2020 18:00:12.217 - ######################################################################
-Sat Jan 18 2020 18:00:12.217 - Cumulative stats for pid: 17956
-Sat Jan 18 2020 18:00:12.217 - Total..................  2239 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 18:00:12.217 - Startup................    36 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 18:00:12.217 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 18:00:12.217 - Timed out.  1 total....    46 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 18:00:12.217 - ######################################################################
-Sat Jan 18 2020 18:00:12.217 - Total dropped frames: 0
-Sat Jan 18 2020 18:12:28.903 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 11268
-Sat Jan 18 2020 18:13:27.939 - Closing pipe process (11268) because it was broken from the other end
-Sat Jan 18 2020 18:13:27.939 - Process process (11268) disconnected (Thread(0x000001E725866830/0x000)
-Sat Jan 18 2020 18:13:27.939 - Lost pipe connection from process (11268)
-Sat Jan 18 2020 18:13:27.939 - ######################################################################
-Sat Jan 18 2020 18:13:27.939 - Cumulative stats for pid: 11268
-Sat Jan 18 2020 18:13:27.939 - Total..................  1735 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 18:13:27.939 - Startup................   120 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 18:13:27.939 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 18:13:27.939 - Timed out.  2 total....   116 presents.    0 dropped.    0 reprojected
-Sat Jan 18 2020 18:13:27.939 - ######################################################################
-Sat Jan 18 2020 18:13:27.939 - Total dropped frames: 0
+Sat Jan 18 2020 18:26:38.686 - //==============================================================================================
+Sat Jan 18 2020 18:26:38.686 - ================================================================================================
+Sat Jan 18 2020 18:26:38.686 - ================================================================================================
+Sat Jan 18 2020 18:26:38.686 - vrcompositor.exe 1.9.16 startup with PID=7540, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Jan 18 2020 18:26:38.687 - VR compositor 1.9.16 (v1576990468) starting up
+Sat Jan 18 2020 18:26:38.764 - CSharedResourceNamespaceClient::Init(): received namespace data 5112
+Sat Jan 18 2020 18:26:38.778 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sat Jan 18 2020 18:26:38.779 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sat Jan 18 2020 18:26:38.779 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sat Jan 18 2020 18:26:38.780 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sat Jan 18 2020 18:26:38.781 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sat Jan 18 2020 18:26:38.783 - Events created
+Sat Jan 18 2020 18:26:38.785 - Found bad mirror window settings: 
+Sat Jan 18 2020 18:26:38.816 - CGraphicsDevice Init...
+Sat Jan 18 2020 18:26:38.817 - Headset is using driver direct mode
+Sat Jan 18 2020 18:26:38.917 - Updated HMD Prop_DisplayFrequency_Float to 72.000000
+Sat Jan 18 2020 18:26:38.917 - ****************************************** Begin GPU speed ******************************************
+Sat Jan 18 2020 18:26:39.083 - MeasureGpuMegaPixelsPerSecond(): Returning 760 MP/sec. Total CPU time 0.17 seconds.
+Sat Jan 18 2020 18:26:39.095 - GPU Vendor: "NVIDIA GeForce GTX 1080" GPU Driver: "26.21.14.3160"
+Sat Jan 18 2020 18:26:39.096 - GPU speed from average of 6 median samples: 427
+Sat Jan 18 2020 18:26:39.098 - ******************************************* End GPU speed *******************************************
+Sat Jan 18 2020 18:26:39.098 - HMD driver recommended: 1808x2000 72.0Hz HiddenArea(0.00%) = 520 MP/sec
+Sat Jan 18 2020 18:26:39.098 - Raw ideal render target scale = 0.82
+Sat Jan 18 2020 18:26:39.098 - New result of GetRecommendedRenderTargetSize for current app: 1636x1808
+Sat Jan 18 2020 18:26:39.098 - Loading fonts/debug.spritefont
+Sat Jan 18 2020 18:26:39.106 - Creating samplers
+Sat Jan 18 2020 18:26:39.107 - Creating util resources
+Sat Jan 18 2020 18:26:39.108 - Creating/Updating distortion surfaces
+Sat Jan 18 2020 18:26:39.300 - Warp mesh (left eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Sat Jan 18 2020 18:26:39.500 - Warp mesh (right eye) covers 99.91% of its viewport (shrink wrap saved 0.00%)
+Sat Jan 18 2020 18:26:39.502 - Creating constant buffers
+Sat Jan 18 2020 18:26:39.503 - Creating layer texture (w=1636,h=1808)
+Sat Jan 18 2020 18:26:39.518 - Loading MC resources
+Sat Jan 18 2020 18:26:39.518 - Initializing timing resources
+Sat Jan 18 2020 18:26:39.518 - Initializing camera
+Sat Jan 18 2020 18:26:39.518 - Done initializing CGraphicsDevice resources
+Sat Jan 18 2020 18:26:39.519 - Loading skybox texture async 'C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\backgrounds\aurorasky.png'
+Sat Jan 18 2020 18:26:39.530 - Distort initialized
+Sat Jan 18 2020 18:26:39.541 - Set thread FFFFFFFFFFFFFFFE priority to: -15
+Sat Jan 18 2020 18:26:39.541 - Set thread 0000000000000660 priority to: 15
+Sat Jan 18 2020 18:26:39.542 - Set thread 00000000000005B8 priority to: 15
+Sat Jan 18 2020 18:26:39.542 - Compositor render thread started
+Sat Jan 18 2020 18:26:39.542 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 16988
+Sat Jan 18 2020 18:26:39.542 - Startup Complete (0.777139 seconds)
+Sat Jan 18 2020 18:26:39.553 - Found 103 quads for Collision Bounds
+Sat Jan 18 2020 18:26:39.553 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Sat Jan 18 2020 18:26:39.553 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Sat Jan 18 2020 18:26:39.554 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Sat Jan 18 2020 18:26:39.555 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Sat Jan 18 2020 18:26:39.569 - Creating solid play area quad for compositor construct: 1.27 x 2.38
+Sat Jan 18 2020 18:26:39.781 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win32\vrdashboard.exe 16788
+Sat Jan 18 2020 18:26:40.986 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\win64\vrmonitor.exe 13076
+Sat Jan 18 2020 18:26:41.194 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8068
+Sat Jan 18 2020 18:26:42.824 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17400
+Sat Jan 18 2020 18:26:42.835 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 14836
+Sat Jan 18 2020 18:26:42.923 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 10772
+Sat Jan 18 2020 18:26:42.934 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 2344
+Sat Jan 18 2020 18:26:43.010 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 15144
+Sat Jan 18 2020 18:26:43.098 - External connection from C:\Program Files (x86)\Steam\Steam.exe 12404
+Sat Jan 18 2020 18:26:43.120 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 4468
+Sat Jan 18 2020 18:26:43.666 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 14692
+Sat Jan 18 2020 18:26:43.699 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 13304
+Sat Jan 18 2020 18:26:43.708 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 8264
+Sat Jan 18 2020 18:26:43.735 - External connection from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrwebhelper\win64\vrwebhelper.exe 17936
+Sat Jan 18 2020 18:26:55.044 - Found 103 quads for Collision Bounds
+Sat Jan 18 2020 18:26:55.044 - Found Collision Bounds info m_pChaperone->GetCollisionBoundsInfo( nQuadCount = 103 )
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 0 = 0.144523, 0.000000, -1.107183
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 1 = 0.236354, 0.000000, -1.110595
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 2 = 0.336354, 0.000000, -1.109205
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 3 = 0.386354, 0.000000, -1.103298
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 4 = 0.436354, 0.000000, -1.096061
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 5 = 0.486354, 0.000000, -1.092221
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 6 = 0.500980, 0.000000, -1.107183
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 7 = 0.536354, 0.000000, -1.140716
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 8 = 0.586354, 0.000000, -1.140545
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 9 = 0.636354, 0.000000, -1.106008
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 10 = 0.686354, 0.000000, -1.034896
+Sat Jan 18 2020 18:26:55.044 -    Collision Bounds 11 = 0.699343, 0.000000, -1.007183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 12 = 0.740196, 0.000000, -0.907183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 13 = 0.750013, 0.000000, -0.857183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 14 = 0.766134, 0.000000, -0.757183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 15 = 0.788940, 0.000000, -0.657183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 16 = 0.794627, 0.000000, -0.607183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 17 = 0.801280, 0.000000, -0.507183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 18 = 0.804174, 0.000000, -0.407183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 19 = 0.798051, 0.000000, -0.307183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 20 = 0.792663, 0.000000, -0.257183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 21 = 0.781802, 0.000000, -0.207183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 22 = 0.758383, 0.000000, -0.107183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 23 = 0.751062, 0.000000, -0.057183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 24 = 0.744309, 0.000000, 0.042817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 25 = 0.745340, 0.000000, 0.092817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 26 = 0.764098, 0.000000, 0.392817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 27 = 0.760824, 0.000000, 0.492817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 28 = 0.745763, 0.000000, 0.642817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 29 = 0.734903, 0.000000, 0.692817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 30 = 0.719217, 0.000000, 0.742817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 31 = 0.705482, 0.000000, 0.792817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 32 = 0.696325, 0.000000, 0.842817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 33 = 0.686354, 0.000000, 0.881980
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 34 = 0.665407, 0.000000, 0.942817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 35 = 0.651259, 0.000000, 0.992817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 36 = 0.636354, 0.000000, 1.063255
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 37 = 0.628067, 0.000000, 1.092817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 38 = 0.621687, 0.000000, 1.142817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 39 = 0.617598, 0.000000, 1.192817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 40 = 0.610856, 0.000000, 1.242817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 41 = 0.595494, 0.000000, 1.292817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 42 = 0.586354, 0.000000, 1.304875
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 43 = 0.550172, 0.000000, 1.342817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 44 = 0.536354, 0.000000, 1.353411
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 45 = 0.473259, 0.000000, 1.392817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 46 = 0.436354, 0.000000, 1.410230
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 47 = 0.377101, 0.000000, 1.442817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 48 = 0.336354, 0.000000, 1.456372
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 49 = 0.236354, 0.000000, 1.476274
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 50 = -0.213646, 0.000000, 1.546436
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 51 = -0.263646, 0.000000, 1.545201
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 52 = -0.363646, 0.000000, 1.547821
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 53 = -0.413646, 0.000000, 1.541902
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 54 = -0.553382, 0.000000, 1.492817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 55 = -0.563646, 0.000000, 1.487348
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 56 = -0.613646, 0.000000, 1.463767
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 57 = -0.664271, 0.000000, 1.442817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 58 = -0.718225, 0.000000, 1.392817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 59 = -0.763646, 0.000000, 1.310606
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 60 = -0.771558, 0.000000, 1.292817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 61 = -0.786859, 0.000000, 1.242817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 62 = -0.816948, 0.000000, 1.192817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 63 = -0.838098, 0.000000, 1.142817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 64 = -0.869239, 0.000000, 1.092817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 65 = -0.885857, 0.000000, 1.042817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 66 = -0.913646, 0.000000, 0.982647
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 67 = -0.926101, 0.000000, 0.942817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 68 = -0.977448, 0.000000, 0.692817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 69 = -0.986382, 0.000000, 0.642817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 70 = -1.013646, 0.000000, 0.581728
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 71 = -1.026732, 0.000000, 0.542817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 72 = -1.060342, 0.000000, 0.342817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 73 = -1.060463, 0.000000, 0.292817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 74 = -1.056466, 0.000000, 0.242817
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 75 = -1.013646, 0.000000, -0.062360
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 76 = -1.000922, 0.000000, -0.107183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 77 = -0.981423, 0.000000, -0.207183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 78 = -0.974731, 0.000000, -0.257183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 79 = -0.961583, 0.000000, -0.307183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 80 = -0.942051, 0.000000, -0.357183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 81 = -0.910644, 0.000000, -0.457183
+Sat Jan 18 2020 18:26:55.045 -    Collision Bounds 82 = -0.886629, 0.000000, -0.507183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 83 = -0.868316, 0.000000, -0.557183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 84 = -0.837919, 0.000000, -0.607183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 85 = -0.813646, 0.000000, -0.662334
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 86 = -0.788044, 0.000000, -0.707183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 87 = -0.770777, 0.000000, -0.757183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 88 = -0.763646, 0.000000, -0.773874
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 89 = -0.748112, 0.000000, -0.807183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 90 = -0.734044, 0.000000, -0.857183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 91 = -0.720828, 0.000000, -0.957183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 92 = -0.713646, 0.000000, -0.978288
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 93 = -0.701882, 0.000000, -1.007183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 94 = -0.668712, 0.000000, -1.057183
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 95 = -0.663646, 0.000000, -1.062248
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 96 = -0.613646, 0.000000, -1.079337
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 97 = -0.563646, 0.000000, -1.085700
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 98 = -0.513646, 0.000000, -1.083124
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 99 = -0.463646, 0.000000, -1.073616
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 100 = -0.313646, 0.000000, -1.072248
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 101 = -0.213646, 0.000000, -1.078702
+Sat Jan 18 2020 18:26:55.046 -    Collision Bounds 102 = -0.163646, 0.000000, -1.083803
+Sat Jan 18 2020 18:27:07.149 - Closing pipe process (16988) because it was broken from the other end
+Sat Jan 18 2020 18:27:07.149 - Process process (16988) disconnected (Thread(0x0000018FFA1B7640/0x000)
+Sat Jan 18 2020 18:27:07.149 - Lost pipe connection from process (16988)
+Sat Jan 18 2020 18:27:07.149 - ######################################################################
+Sat Jan 18 2020 18:27:07.149 - Cumulative stats for pid: 16988
+Sat Jan 18 2020 18:27:07.149 - Total..................  6225 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:27:07.149 - Startup................  6225 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:27:07.149 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:27:07.149 - Timed out.  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:27:07.149 - ######################################################################
+Sat Jan 18 2020 18:27:07.149 - Total dropped frames: 0
+Sat Jan 18 2020 18:27:10.243 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 11400
+Sat Jan 18 2020 18:29:09.818 - Closing pipe process (11400) because it was broken from the other end
+Sat Jan 18 2020 18:29:09.818 - Process process (11400) disconnected (Thread(0x0000018FF1C213B0/0x000)
+Sat Jan 18 2020 18:29:09.818 - Lost pipe connection from process (11400)
+Sat Jan 18 2020 18:29:09.818 - ######################################################################
+Sat Jan 18 2020 18:29:09.818 - Cumulative stats for pid: 11400
+Sat Jan 18 2020 18:29:09.818 - Total..................  4064 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:29:09.818 - Startup................    47 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:29:09.818 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:29:09.818 - Timed out.  1 total....    31 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:29:09.818 - ######################################################################
+Sat Jan 18 2020 18:29:09.818 - Total dropped frames: 0
+Sat Jan 18 2020 18:37:36.469 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 13776
+Sat Jan 18 2020 18:37:41.240 - Closing pipe process (13776) because it was broken from the other end
+Sat Jan 18 2020 18:37:41.240 - Process process (13776) disconnected (Thread(0x0000018FF9E24260/0x000)
+Sat Jan 18 2020 18:37:41.240 - Lost pipe connection from process (13776)
+Sat Jan 18 2020 18:53:54.059 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 11852
+Sat Jan 18 2020 18:54:10.093 - Screenshot: HookScreenshot, 1 types
+Sat Jan 18 2020 18:54:18.182 - Closing pipe process (11852) because it was broken from the other end
+Sat Jan 18 2020 18:54:18.182 - Process process (11852) disconnected (Thread(0x0000018FF1C21050/0x000)
+Sat Jan 18 2020 18:54:18.182 - Lost pipe connection from process (11852)
+Sat Jan 18 2020 18:54:18.182 - ######################################################################
+Sat Jan 18 2020 18:54:18.182 - Cumulative stats for pid: 11852
+Sat Jan 18 2020 18:54:18.182 - Total..................   511 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:54:18.182 - Startup................    42 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:54:18.182 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:54:18.182 - Timed out.  4 total....   241 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 18:54:18.182 - ######################################################################
+Sat Jan 18 2020 18:54:18.182 - Total dropped frames: 0
+Sat Jan 18 2020 19:04:51.280 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 16616
+Sat Jan 18 2020 19:05:02.964 - Screenshot: HookScreenshot, 1 types
+Sat Jan 18 2020 19:05:09.934 - Closing pipe process (16616) because it was broken from the other end
+Sat Jan 18 2020 19:05:09.934 - Process process (16616) disconnected (Thread(0x0000018FF9E24260/0x000)
+Sat Jan 18 2020 19:05:09.934 - Lost pipe connection from process (16616)
+Sat Jan 18 2020 19:05:09.934 - ######################################################################
+Sat Jan 18 2020 19:05:09.934 - Cumulative stats for pid: 16616
+Sat Jan 18 2020 19:05:09.934 - Total..................   460 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:05:09.934 - Startup................    38 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:05:09.934 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:05:09.935 - Timed out.  4 total....   221 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:05:09.935 - ######################################################################
+Sat Jan 18 2020 19:05:09.935 - Total dropped frames: 0
+Sat Jan 18 2020 19:15:03.472 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 6744
+Sat Jan 18 2020 19:15:16.042 - Screenshot: HookScreenshot, 1 types
+Sat Jan 18 2020 19:15:23.886 - Closing pipe process (6744) because it was broken from the other end
+Sat Jan 18 2020 19:15:23.886 - Process process (6744) disconnected (Thread(0x0000018FF9E23CC0/0x000)
+Sat Jan 18 2020 19:15:23.886 - Lost pipe connection from process (6744)
+Sat Jan 18 2020 19:15:23.886 - ######################################################################
+Sat Jan 18 2020 19:15:23.886 - Cumulative stats for pid: 6744
+Sat Jan 18 2020 19:15:23.886 - Total..................   521 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:15:23.886 - Startup................    30 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:15:23.886 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:15:23.886 - Timed out.  6 total....   255 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:15:23.886 - ######################################################################
+Sat Jan 18 2020 19:15:23.886 - Total dropped frames: 0
+Sat Jan 18 2020 19:19:07.137 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 2128
+Sat Jan 18 2020 19:19:17.412 - Screenshot: HookScreenshot, 1 types
+Sat Jan 18 2020 19:19:24.949 - Closing pipe process (2128) because it was broken from the other end
+Sat Jan 18 2020 19:19:24.949 - Process process (2128) disconnected (Thread(0x0000018FF9EC2520/0x000)
+Sat Jan 18 2020 19:19:24.949 - Lost pipe connection from process (2128)
+Sat Jan 18 2020 19:19:24.949 - ######################################################################
+Sat Jan 18 2020 19:19:24.949 - Cumulative stats for pid: 2128
+Sat Jan 18 2020 19:19:24.949 - Total..................   475 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:19:24.949 - Startup................    36 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:19:24.949 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:19:24.949 - Timed out.  4 total....   218 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:19:24.949 - ######################################################################
+Sat Jan 18 2020 19:19:24.949 - Total dropped frames: 0
+Sat Jan 18 2020 19:47:03.397 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 11472
+Sat Jan 18 2020 19:47:11.700 - Closing pipe process (11472) because it was broken from the other end
+Sat Jan 18 2020 19:47:11.700 - Process process (11472) disconnected (Thread(0x0000018FF1C213B0/0x000)
+Sat Jan 18 2020 19:47:11.700 - Lost pipe connection from process (11472)
+Sat Jan 18 2020 19:47:51.912 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 16992
+Sat Jan 18 2020 19:48:38.827 - Closing pipe process (16992) because it was broken from the other end
+Sat Jan 18 2020 19:48:38.827 - Process process (16992) disconnected (Thread(0x0000018FF9EC2A30/0x000)
+Sat Jan 18 2020 19:48:38.827 - Lost pipe connection from process (16992)
+Sat Jan 18 2020 19:48:38.827 - ######################################################################
+Sat Jan 18 2020 19:48:38.827 - Cumulative stats for pid: 16992
+Sat Jan 18 2020 19:48:38.827 - Total..................  1425 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:48:38.827 - Startup................    35 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:48:38.827 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:48:38.827 - Timed out.  3 total....    75 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:48:38.827 - ######################################################################
+Sat Jan 18 2020 19:48:38.827 - Total dropped frames: 0
+Sat Jan 18 2020 19:49:34.195 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 8100
+Sat Jan 18 2020 19:49:45.510 - Screenshot: HookScreenshot, 1 types
+Sat Jan 18 2020 19:49:59.228 - Closing pipe process (8100) because it was broken from the other end
+Sat Jan 18 2020 19:49:59.228 - Process process (8100) disconnected (Thread(0x0000018FF9EC2520/0x000)
+Sat Jan 18 2020 19:49:59.228 - Lost pipe connection from process (8100)
+Sat Jan 18 2020 19:49:59.228 - ######################################################################
+Sat Jan 18 2020 19:49:59.228 - Cumulative stats for pid: 8100
+Sat Jan 18 2020 19:49:59.228 - Total..................  1178 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:49:59.228 - Startup................    37 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:49:59.228 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:49:59.228 - Timed out.  1 total....   956 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:49:59.228 - ######################################################################
+Sat Jan 18 2020 19:49:59.228 - Total dropped frames: 0
+Sat Jan 18 2020 19:51:27.460 - External connection from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process.exe 2868
+Sat Jan 18 2020 19:51:36.479 - Screenshot: HookScreenshot, 1 types
+Sat Jan 18 2020 19:51:42.225 - Closing pipe process (2868) because it was broken from the other end
+Sat Jan 18 2020 19:51:42.225 - Process process (2868) disconnected (Thread(0x0000018FF9F04800/0x000)
+Sat Jan 18 2020 19:51:42.225 - Lost pipe connection from process (2868)
+Sat Jan 18 2020 19:51:42.225 - ######################################################################
+Sat Jan 18 2020 19:51:42.225 - Cumulative stats for pid: 2868
+Sat Jan 18 2020 19:51:42.225 - Total..................   717 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:51:42.225 - Startup................    65 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:51:42.225 - Loading...  0 total....     0 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:51:42.225 - Timed out.  1 total....   412 presents.    0 dropped.    0 reprojected
+Sat Jan 18 2020 19:51:42.225 - ######################################################################
+Sat Jan 18 2020 19:51:42.225 - Total dropped frames: 0

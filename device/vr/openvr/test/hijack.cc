@@ -26,6 +26,9 @@
 // externs
 extern Hijacker *g_hijacker;
 extern uint64_t *pFrameCount;
+extern bool isChrome;
+
+// globals
 uint64_t localFrameCount = 0;
 
 // constants
@@ -72,6 +75,7 @@ bool sbsDepthTexDrawn = false;
 std::vector<ID3D11Texture2D *> texCache;
 uint32_t texCacheSamples = 0;
 std::vector<HANDLE> texSharedHandleCache;
+std::map<ID3D11Texture2D *, HANDLE> texSharedHandleMap;
 std::deque<ProxyTexture> texOrder;
 std::deque<HANDLE> eventOrder;
 // client
@@ -125,7 +129,17 @@ decltype(eglQueryDisplayAttribEXT) *EGL_QueryDisplayAttribEXT = nullptr;
 decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
 
-bool isEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
+bool isSingleEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
+  if (!depthWidth) {
+    ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
+  }
+  return desc.Width == depthWidth &&
+    desc.Height == depthHeight &&
+    // desc.Format == DXGI_FORMAT_R24G8_TYPELESS &&
+    desc.SampleDesc.Count > 1 &&
+    (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
+}
+bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
   if (!depthWidth) {
     ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
   }
@@ -133,7 +147,7 @@ bool isEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     desc.Height == depthHeight &&
     // desc.Format == DXGI_FORMAT_R24G8_TYPELESS &&
     desc.SampleDesc.Count > 1 &&
-    (desc.BindFlags & D3D11_BIND_SHADER_RESOURCE) && (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
+    (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
   ID3D11DeviceContext *This,
@@ -147,8 +161,74 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
   ID3D11RenderTargetView * const *ppRenderTargetViews,
   ID3D11DepthStencilView *pDepthStencilView
 ) {
-  // getOut() << "RealOMSetRenderTargets 1" << std::endl;
+  if (pDepthStencilView) {
+    ID3D11Texture2D *depthTex = nullptr;
+    ID3D11Resource *depthTexResource = nullptr;
+    pDepthStencilView->lpVtbl->GetResource(pDepthStencilView, &depthTexResource);
+    HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
+      abort();
+    }
 
+    D3D11_TEXTURE2D_DESC desc;
+    depthTex->lpVtbl->GetDesc(depthTex, &desc);
+
+    if (isSingleEyeDepthTex(desc) || isDualEyeDepthTex(desc)) {
+      if (sbsDepthTex != depthTex) {
+        sbsDepthTex = depthTex;
+        
+        IDXGIResource1 *dxgiResource;
+        hr = sbsDepthTex->lpVtbl->QueryInterface(sbsDepthTex, IID_IDXGIResource1, (void **)&dxgiResource);
+        if (FAILED(hr)) {
+          getOut() << "failed to get sbs depth tex shared resource " << (void *)hr << std::endl;
+          abort();
+        }
+
+        HANDLE shHandle;
+        hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &shHandle);
+        if (FAILED(hr)) {
+          getOut() << "failed to get sbs depth tex shared handle " << (void *)hr << std::endl;
+          abort();
+        }
+        
+        getOut() << "latch depth share handle " << (void *)shHandle << std::endl;
+        
+        if (isChrome) {
+          sbsDepthTexShHandle = shHandle;
+        } else {
+          auto iter = texSharedHandleMap.find(depthTex);
+          if (iter == texSharedHandleMap.end()) {
+            texSharedHandleMap.emplace(depthTex, shHandle);
+            
+            dxgiResource->lpVtbl->Release(dxgiResource);
+          }
+        }
+        
+        dxgiResource->lpVtbl->Release(dxgiResource);
+      }
+      
+      sbsDepthTexLatched = true;
+    } else {
+      sbsDepthTexLatched = false;
+    }
+    /* getOut() << "set depth render target solid " <<
+      GetCurrentProcessId() << " " <<
+      (void *)depthTex << " " << sbsDepthTexLatched << " " <<
+      desc.Width << " " << depthWidth << " " << desc.Height << " " <<
+      desc.MipLevels << " " << desc.ArraySize << " " <<
+      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+      desc.Format << " " <<
+      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+      std::endl; */
+    
+    depthTex->lpVtbl->Release(depthTex);
+    depthTexResource->lpVtbl->Release(depthTexResource);
+  } else {
+    sbsDepthTexLatched = false;
+  }
   /* if (NumViews > 0 && ppRenderTargetViews && *ppRenderTargetViews && pDepthStencilView) {
     if (!depthWidth || !depthHeight) {
       ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
@@ -378,117 +458,6 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
     lastDescDepth = descDepth;
   } */
 
-  if (pDepthStencilView) {
-    /* auto pRenderTargetView = ppRenderTargetViews[0];
-
-    ID3D11Texture2D *tex = nullptr;
-    ID3D11Resource *texResource = nullptr;
-    pRenderTargetView->lpVtbl->GetResource(pRenderTargetView, &texResource);
-    HRESULT hr = texResource->lpVtbl->QueryInterface(texResource, IID_ID3D11Texture2D, (void **)&tex);
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
-      abort();
-    }
-
-    D3D11_TEXTURE2D_DESC desc{};
-    tex->lpVtbl->GetDesc(tex, &desc); */
-
-    ID3D11Texture2D *depthTex = nullptr;
-    ID3D11Resource *depthTexResource = nullptr;
-    pDepthStencilView->lpVtbl->GetResource(pDepthStencilView, &depthTexResource);
-    HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
-      abort();
-    }
-
-    // D3D11_TEXTURE2D_DESC descDepth;
-    // depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
-
-    D3D11_TEXTURE2D_DESC desc;
-    depthTex->lpVtbl->GetDesc(depthTex, &desc);
-
-    if (isEyeDepthTex(desc)) {
-      if (sbsDepthTex != depthTex) {
-        sbsDepthTex = depthTex;
-        
-        IDXGIResource1 *dxgiResource;
-        hr = sbsDepthTex->lpVtbl->QueryInterface(sbsDepthTex, IID_IDXGIResource1, (void **)&dxgiResource);
-        if (FAILED(hr)) {
-          getOut() << "failed to get sbs depth tex shared resource " << (void *)hr << std::endl;
-          abort();
-        }
-
-        hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &sbsDepthTexShHandle);
-        if (FAILED(hr)) {
-          getOut() << "failed to get sbs depth tex shared handle " << (void *)hr << std::endl;
-          abort();
-        }
-        
-        getOut() << "latch depth share handle " << (void *)sbsDepthTexShHandle << std::endl;
-        
-        dxgiResource->lpVtbl->Release(dxgiResource);
-      }
-      
-      sbsDepthTexLatched = true;
-    } else {
-      sbsDepthTexLatched = false;
-    }
-    getOut() << "set depth render target solid " <<
-      GetCurrentProcessId() << " " <<
-      (void *)depthTex << " " << sbsDepthTexLatched << " " <<
-      desc.Width << " " << depthWidth << " " << desc.Height << " " <<
-      desc.MipLevels << " " << desc.ArraySize << " " <<
-      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-      desc.Format << " " <<
-      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      // DXGI_FORMAT_D32_FLOAT << " " <<
-      // (desc.BindFlags & D3D11_BIND_SHADER_RESOURCE) << " " << (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL) << 
-      std::endl;
-    
-    depthTex->lpVtbl->Release(depthTex);
-    depthTexResource->lpVtbl->Release(depthTexResource);
-
-    /* getOut() << "RealOMSetRenderTargets tex " <<
-      (void *)pRenderTargetView << " " <<
-      desc.Width << " " << depthWidth*2 << " " << desc.Height << " " <<
-      desc.MipLevels << " " << desc.ArraySize << " " <<
-      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-      desc.Format << " " <<
-      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
-      std::endl;
-    if (
-      desc.Width == depthWidth*2 && desc.Height == depthHeight &&
-      desc.SampleDesc.Count == 4 &&
-      descDepth.Width == depthWidth*2 && descDepth.Height == depthHeight &&
-      descDepth.SampleDesc.Count == 4
-    ) {
-      getOut() << "RealOMSetRenderTargets tex " <<
-        (void *)tex << " " <<
-        desc.Width << " " << desc.Height << " " <<
-        desc.MipLevels << " " << desc.ArraySize << " " <<
-        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-        desc.Format << " " <<
-        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
-        std::endl;
-      getOut() << "RealOMSetRenderTargets depth " <<
-        (void *)depthTex << " " <<
-        descDepth.Width << " " << descDepth.Height << " " <<
-        descDepth.MipLevels << " " << descDepth.ArraySize << " " <<
-        descDepth.SampleDesc.Count << " " << descDepth.SampleDesc.Quality << " " <<
-        descDepth.Format << " " <<
-        descDepth.Usage << " " << descDepth.BindFlags << " " << descDepth.CPUAccessFlags << " " << descDepth.MiscFlags <<
-        std::endl;
-    } */
-  } else {
-    sbsDepthTexLatched = false;
-    getOut() << "set depth render target blank" << std::endl;
-  }
-  
   RealOMSetRenderTargets(This, NumViews, ppRenderTargetViews, pDepthStencilView);
 }
 void (STDMETHODCALLTYPE *RealOMSetDepthStencilState)(
@@ -530,21 +499,30 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
   RealOMSetDepthStencilState(This, pDepthStencilState, StencilRef);
 }
 void ensureDepthTexDrawn() {
-  getOut() << "draw" << std::endl;
   if (sbsDepthTexLatched) {
-    // getOut() << "remote queue depth handle " << (void *)sbsDepthTexShHandle << std::endl;
-    g_hijacker->fnp.call<
-      kHijacker_QueueDepthTex,
-      int,
-      HANDLE,
-      size_t
-    >(sbsDepthTexShHandle, 0);
-    g_hijacker->fnp.call<
-      kHijacker_QueueDepthTex,
-      int,
-      HANDLE,
-      size_t
-    >(sbsDepthTexShHandle, 1);
+    if (isChrome) {
+      g_hijacker->fnp.call<
+        kHijacker_QueueDepthTex,
+        int,
+        HANDLE,
+        size_t
+      >(sbsDepthTexShHandle, 0);
+      g_hijacker->fnp.call<
+        kHijacker_QueueDepthTex,
+        int,
+        HANDLE,
+        size_t
+      >(sbsDepthTexShHandle, 1);
+    } else {
+      auto iter = texSharedHandleMap.find(sbsDepthTex);
+      if (iter != texSharedHandleMap.end()) {
+        HANDLE &shHandle = iter->second;
+        texOrder.push_back(ProxyTexture{shHandle, 0});
+      } else {
+        getOut() << "failed to get registered share handle for depth texture" << std::endl;
+        abort();
+      }
+    }
   }
 }
 template <typename T>
@@ -559,8 +537,13 @@ bool shouldDepthTexClear(T *view) {
     
     ID3D11Texture2D *depthTex;
     resource->lpVtbl->QueryInterface(resource, IID_ID3D11Texture2D, (void **)&depthTex);
-    bool result = (sbsDepthTex != depthTex);
-    getOut() << "should clear depth tex " << GetCurrentProcessId() << " " << (void *)depthTex << " " << result << std::endl;
+    
+    D3D11_TEXTURE2D_DESC descDepth;
+    depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
+
+    // bool result = (sbsDepthTex != depthTex);
+    bool result = !isSingleEyeDepthTex(descDepth) && !isDualEyeDepthTex(descDepth);
+    getOut() << "should clear depth tex " << (void *)depthTex << " " << result << std::endl;
 
     depthTex->lpVtbl->Release(depthTex);
     resource->lpVtbl->Release(resource);
@@ -873,60 +856,27 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
     std::endl;
   return hr; */
-  if (isEyeDepthTex(*pDesc)) {
+
+  /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
+  bool isSingleEyeDepth = isSingleEyeDepthTex(desc);
+  bool isDualEyeDepth = isDualEyeDepthTex(desc);
+  getOut() << "create texture 2d " <<
+    desc.Width << " " << depthWidth << " " << desc.Height << " " <<
+    desc.MipLevels << " " << desc.ArraySize << " " <<
+    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+    desc.Format << " " <<
+    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+    isSingleEyeDepth << " " << isDualEyeDepth << " " <<
+    std::endl; */
+
+  if (isSingleEyeDepthTex(*pDesc) || isDualEyeDepthTex(*pDesc)) {
     D3D11_TEXTURE2D_DESC desc = *pDesc;
-    /* auto oldFormat = desc.Format;
-    if (desc.Format == DXGI_FORMAT_R24G8_TYPELESS) {
-      desc.Format = DXGI_FORMAT_R32G8X24_TYPELESS;
-    } */
+    desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-    // getOut() << "create eye depth tex " << oldFormat << " " << desc.Format << std::endl;
+    getOut() << "create depth texture" << std::endl;
     auto hr = RealCreateTexture2D(This, &desc, pInitialData, ppTexture2D);
     if (FAILED(hr)) {
       getOut() << "failed to create texture 2d: " << (void *)hr << std::endl;
-      
-      /* ID3D11InfoQueue *infoQueue;
-      HRESULT hr = This->lpVtbl->QueryInterface(This, IID_ID3D11InfoQueue, (void **)&infoQueue);
-      if (SUCCEEDED(hr)) {
-        infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
-      } else {
-        getOut() << "info queue query failed" << std::endl;
-        // abort();
-      }
-
-      UINT64 numStoredMessages = infoQueue->lpVtbl->GetNumStoredMessagesAllowedByRetrievalFilter(infoQueue);
-      for (UINT64 i = 0; i < numStoredMessages; i++) {
-        size_t messageSize = 0;
-        HRESULT hr = infoQueue->lpVtbl->GetMessage(
-          infoQueue,
-          i,
-          nullptr,
-          &messageSize
-        );
-        if (SUCCEEDED(hr)) {
-          D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
-          
-          hr = infoQueue->lpVtbl->GetMessage(
-            infoQueue,
-            i,
-            message,
-            &messageSize
-          );
-          if (SUCCEEDED(hr)) {
-            // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
-              getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
-            // }
-          } else {
-            getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
-          }
-          
-          free(message);
-        } else {
-          getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
-        }
-      }
-      infoQueue->lpVtbl->ClearStoredMessages(infoQueue); */
-      
       abort();
     }
     return hr;

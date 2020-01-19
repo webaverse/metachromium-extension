@@ -601,7 +601,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
           D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
           // shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
-          shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+          if (desc.Format == DXGI_FORMAT_R24G8_TYPELESS) {
+            shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
+          } else {
+            shaderDepthResourceViewDesc.Format = desc.Format;
+          }
           shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
           // shaderDepthResourceViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
           // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;

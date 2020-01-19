@@ -134,6 +134,7 @@ constexpr bool localLoop = false;
 
 void *shMem = nullptr;
 bool booted = false;
+bool isChrome = false;
 uint64_t *pFrameCount = nullptr;
 // GLFWwindow **ppWindow;
 // size_t *pNumClients = nullptr;
@@ -294,6 +295,15 @@ BOOL WINAPI DllMain(
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
     //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
     pFrameCount = (uint64_t *)shMem;
+    
+    char moduleFileName[MAX_PATH];
+    if (!GetModuleFileName(NULL, moduleFileName, sizeof(moduleFileName))) {
+      getOut() << "failed to get executable file name: " << (void *)GetLastError() << std::endl;
+      abort();
+    }
+    std::string moduleString(moduleFileName);
+    // getOut() << "exe file name: " << moduleFileName << std::endl;
+    isChrome = (moduleString.find("chrome.exe") != std::string::npos);
 
     g_fnp = new FnProxy();
     g_hijacker = new Hijacker(*g_fnp);
