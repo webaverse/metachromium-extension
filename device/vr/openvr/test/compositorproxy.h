@@ -109,7 +109,7 @@ public:
   std::vector<ID3D11Texture2D *> shTexOuts;
   std::vector<ID3D11Texture2D *> shDepthTexOuts;
   std::vector<ID3D11RenderTargetView *> renderTargetViews;
-  std::vector<ID3D11RenderTargetView *> renderTargetDepthViews;
+  std::vector<ID3D11DepthStencilView *> renderTargetDepthViews;
   // std::vector<HANDLE> shTexOutInteropHandles;
 
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);

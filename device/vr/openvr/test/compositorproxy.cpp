@@ -146,8 +146,8 @@ struct VS_OUTPUT
 // Pixel Shader OUT struct
 struct PS_OUTPUT
 {
-	float4 Color : SV_Target0;
-	float Depth : SV_Target1;
+	float4 Color : SV_Target;
+	float Depth : SV_Depth;
 };
 //------------------------------------------------------------//
 
@@ -157,10 +157,9 @@ struct PS_OUTPUT
 //Texture
 Texture2D QuadTexture : register(ps, t0);
 Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
-Texture2D DepthTexture : register(ps, t2);
 SamplerState QuadTextureSampler {
-  MipFilter = LINEAR; 
-	MinFilter = LINEAR; 
+  MipFilter = LINEAR;
+	MinFilter = LINEAR;
 	MagFilter = LINEAR;
 };
 //------------------------------------------------------------//
@@ -177,21 +176,23 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 
 PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
-  float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
   PS_OUTPUT result;
-  result.Color = float4(0, 0, 0, 1);
-  result.Color.rgb = float3(d, 0, 0);
-  return result;
+
+  float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+
+  result.Color = float4(d, 0, 0, 1);
+  result.Depth = d;
+
   /* float existingDepth = DepthTexture.Sample(QuadTextureSampler, IN.Tex1).r;
   if (d < existingDepth) {
-    PS_OUTPUT result;
     result.Color = float4(0, 0, 0, 1);
     result.Color.rgb = float3(d, 0, 0);
     result.Depth = d;
-    return result;
   } else {
     discard;
   } */
+
+  return result;
 }
 
 //------------------------------------------------------------//
@@ -752,8 +753,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
       ID3D11ShaderResourceView *localShaderResourceViews[3] = {
         shaderResourceViews[index].first,
-        shaderResourceViews[index].second,
-        nullptr
+        shaderResourceViews[index].second
       };
       VRTextureBounds_t localTextureBounds[2] = {
         inBackTextureBounds[index],
@@ -783,15 +783,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         1 // MaxDepth
       };
       context->RSSetViewports(1, &viewport);
-      ID3D11RenderTargetView *localRenderTargetViews[] = {
-        renderTargetViews[iEye],
-        renderTargetDepthViews[iEye],
-        nullptr
-      };
       context->OMSetRenderTargets(
-        ARRAYSIZE(localRenderTargetViews),
-        localRenderTargetViews,
-        nullptr // depthStencilView
+        1,
+        &renderTargetViews[iEye],
+        renderTargetDepthViews[iEye]
       );
       context->DrawIndexed(6, 0, 0);
       // context->Draw(4, 0);
@@ -2551,6 +2546,17 @@ void PVRCompositor::CacheWaitGetPoses() {
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
+
+  if (renderTargetDepthViews.size() >= 2) {
+    for (int i = 0; i < 2; i++) {
+      context->ClearDepthStencilView(
+        renderTargetDepthViews[i],
+        D3D11_CLEAR_DEPTH,
+        1,
+        0
+      );
+    }
+  }
 }
 void PVRCompositor::InitShader() {
   float vertices[] = { // xyuv
@@ -2832,15 +2838,14 @@ void PVRCompositor::InitShader() {
   depthDesc.Width = width;
   depthDesc.Height = height;
   depthDesc.ArraySize = 1;
-  depthDesc.Format = DXGI_FORMAT_R32_FLOAT;
+  depthDesc.Format = DXGI_FORMAT_R32_TYPELESS;
   depthDesc.SampleDesc.Count = 1;
   depthDesc.Usage = D3D11_USAGE_DEFAULT;
-  depthDesc.BindFlags = D3D11_BIND_RENDER_TARGET;
+  depthDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 
-  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDepthDesc{};
-  renderTargetViewDepthDesc.Format = DXGI_FORMAT_R32_FLOAT;
-  renderTargetViewDepthDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-  renderTargetViewDepthDesc.Texture2D.MipSlice = 0;
+  D3D11_DEPTH_STENCIL_VIEW_DESC renderTargetViewDepthDesc{};
+  renderTargetViewDepthDesc.Format = DXGI_FORMAT_D32_FLOAT;
+  renderTargetViewDepthDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 
   shTexOuts.resize(2);
   shDepthTexOuts.resize(2);
@@ -2886,7 +2891,7 @@ void PVRCompositor::InitShader() {
       abort();
     }
 
-    hr = device->CreateRenderTargetView(
+    hr = device->CreateDepthStencilView(
       shDepthTexOuts[i],
       &renderTargetViewDepthDesc,
       &renderTargetDepthViews[i]
@@ -2898,6 +2903,37 @@ void PVRCompositor::InitShader() {
       getOut() << "failed to create eye depth render target view: " << (void *)hr << std::endl;
       abort();
     }
+  }
+  {
+    D3D11_DEPTH_STENCIL_DESC dsDesc{};
+
+    // Depth test parameters
+    dsDesc.DepthEnable = true;
+    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+    dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+    // Stencil test parameters
+    dsDesc.StencilEnable = false;
+    /* dsDesc.StencilReadMask = 0xFF;
+    dsDesc.StencilWriteMask = 0xFF;
+
+    // Stencil operations if pixel is front-facing
+    dsDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+    dsDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+    dsDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+    dsDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+    // Stencil operations if pixel is back-facing
+    dsDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+    dsDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+    dsDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+    dsDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS; */
+
+    // Create depth stencil state
+    ID3D11DepthStencilState *pDSState;
+    device->CreateDepthStencilState(&dsDesc, &pDSState);
+    
+    context->OMSetDepthStencilState(pDSState, 1);
   }
 }
 void PVRCompositor::InfoQueueLog() {
