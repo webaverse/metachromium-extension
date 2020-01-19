@@ -112,16 +112,35 @@ cbuffer VS_CONSTANT_BUFFER : register(b1)
 {
   float eye1;
   float eye2;
-  float tmp1;
-  float tmp2;
+  float tmpvs21;
+  float tmpvs22;
+  float tmpvs23;
+  float tmpvs24;
+  float tmpvs25;
+  float tmpvs26;
 }
 
 cbuffer PS_CONSTANT_BUFFER : register(b0)
 {
   float width;
   float height;
-  float tmp3;
-  float tmp4;
+  float tmpps11;
+  float tmpps12;
+  float tmpps13;
+  float tmpps14;
+  float tmpps15;
+  float tmpps16;
+}
+cbuffer PS_CONSTANT_BUFFER : register(b1)
+{
+  float has1;
+  float has2;
+  float tmpps21;
+  float tmpps22;
+  float tmpps23;
+  float tmpps24;
+  float tmpps25;
+  float tmpps26;
 }
 
 //------------------------------------------------------------//
@@ -146,9 +165,10 @@ struct PS_OUTPUT
 // Textures / samplers
 //------------------------------------------------------------//
 //Texture
-Texture2D QuadTexture : register(ps, t0);
-// Texture2D QuadDepthTexture : register(ps, t1);
-Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
+Texture2D QuadTexture1 : register(ps, t0);
+Texture2DMS<float4> QuadDepthTexture1 : register(ps, t1);
+Texture2D QuadTexture2 : register(ps, t2);
+Texture2DMS<float4> QuadDepthTexture2 : register(ps, t3);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
@@ -162,19 +182,19 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   Output.Position = float4(inPos, 0, 1);
   float w1 = uMax1 - uMin1;
   float h1 = vMax1 - vMin1;
-  Output.Tex1 = float2(uMin1 + inTex.x*w + eye1*w, vMin1 + inTex.y*h);
+  Output.Tex1 = float2(uMin1 + inTex.x*w1 + eye1*w1, vMin1 + inTex.y*h1);
   float w2 = uMax2 - uMin2;
   float h2 = vMax2 - vMin2;
-  Output.Tex2 = float2(uMin2 + inTex.x*w + eye2*w, vMin2 + inTex.y*h);
+  Output.Tex2 = float2(uMin2 + inTex.x*w2 + eye2*w2, vMin2 + inTex.y*h2);
   return Output;
 }
 
 float4 ps_main(VS_OUTPUT IN) : SV_TARGET
 {
-    // float4 result = float4(QuadTexture.Sample(QuadTextureSampler, IN.Tex1).rgb, 1);
+    // float4 result = float4(QuadTexture1.Sample(QuadTextureSampler, IN.Tex1).rgb, 1);
     float4 result = float4(0, 0, 0, 1);
-    float d1 = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-    float d2 = QuadDepthTexture[uint2(IN.Tex2.x * width, IN.Tex2.y * height)].r;
+    float d1 = has1 > 0 ? QuadDepthTexture1[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r : 1;
+    float d2 = has2 > 0 ? QuadDepthTexture2[uint2(IN.Tex2.x * width, IN.Tex2.y * height)].r : 1;
     if (d1 <= d2) {
       result.rgb = float3(d1, 0, 0);
     } else {
@@ -188,7 +208,7 @@ float4 ps_main(VS_OUTPUT IN) : SV_TARGET
 //------------------------------------------------------------//
 )END";
 
-constexpr size_t MAX_LAYERS = 1;
+constexpr size_t MAX_LAYERS = 2;
 const EVREye EYES[] = {
   Eye_Left,
   Eye_Right,
@@ -721,9 +741,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         }
       }
 
-      std::vector<ID3D11ShaderResourceView *> localShaderResourceViews;
-      std::vector<VRTextureBounds_t> localTextureBounds(2);
-      std::vector<float> localTextureFulls(4);
+      ID3D11ShaderResourceView *localShaderResourceViews[MAX_LAYERS*2] = {};
+      VRTextureBounds_t localTextureBounds[2] = {};
+      float localTextureFulls[8] = {};
+      float localHas[8] = {};
       size_t numLayers = 0;
       for (auto iter : inBackIndices) {
         EVREye e = iter.first.second;
@@ -732,14 +753,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
           ID3D11ShaderResourceView *shaderResourceView = shaderResourceViews[index].first;
           ID3D11ShaderResourceView *shaderDepthResourceView = shaderResourceViews[index].second;
-          localShaderResourceViews.push_back(shaderResourceView);
-          localShaderResourceViews.push_back(shaderDepthResourceView);
+          localShaderResourceViews[numLayers*2] = shaderResourceView;
+          localShaderResourceViews[numLayers*2 + 1] = shaderDepthResourceView;
 
           VRTextureBounds_t &textureBound = inBackTextureBounds[index];
           localTextureBounds[numLayers] = textureBound;
 
           float &textureFull = inBackTextureFulls[index];
           localTextureFulls[numLayers] = textureFull * iEye;
+
+          localHas[numLayers] = 1;
 
           numLayers++;
           if (numLayers < MAX_LAYERS) {
@@ -754,10 +777,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       } */
 
       // getOut() << "update texture bounds " << localTextureBounds[0].uMin << " " << localTextureBounds[0].uMax << " " << localTextureBounds[0].vMin << " " << localTextureBounds[0].vMax << std::endl;
-      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds.data(), 0, 0);
-      context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls.data(), 0, 0);
+      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds, 0, 0);
+      context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls, 0, 0);
+      context->UpdateSubresource(psConstantBuffers[1], 0, 0, localHas, 0, 0);
 
-      context->PSSetShaderResources(0, localShaderResourceViews.size(), localShaderResourceViews.data());
+      context->PSSetShaderResources(0, numLayers*2, localShaderResourceViews);
       D3D11_VIEWPORT viewport{
         0, // TopLeftX,
         0, // TopLeftY,
@@ -2515,11 +2539,57 @@ void PVRCompositor::InitShader() {
   g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
   getOut() << "init render 3 " << width << " " << height << std::endl;
   vsConstantBuffers.resize(2);
-  psConstantBuffers.resize(1);
+  psConstantBuffers.resize(2);
+  {
+    D3D11_BUFFER_DESC cbDesc{};
+    cbDesc.ByteWidth = 8 * sizeof(float);
+    // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+    cbDesc.Usage = D3D11_USAGE_DEFAULT;
+    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    // cbDesc.MiscFlags = 0;
+    // cbDesc.StructureByteStride = 0;
+
+    // Create the buffer.
+    hr = device->CreateBuffer(
+      &cbDesc,
+      NULL, 
+      &vsConstantBuffers[0]
+    );
+    if (FAILED(hr)) {
+      getOut() << "vs cbuf 1 create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  {
+    D3D11_BUFFER_DESC cbDesc{};
+    cbDesc.ByteWidth = 8 * sizeof(float);
+    // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+    cbDesc.Usage = D3D11_USAGE_DEFAULT;
+    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    // cbDesc.MiscFlags = 0;
+    // cbDesc.StructureByteStride = 0;
+
+    // Create the buffer.
+    hr = device->CreateBuffer(
+      &cbDesc,
+      NULL, 
+      &vsConstantBuffers[1]
+    );
+    if (FAILED(hr)) {
+      getOut() << "vs cbuf 2 create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
   {
     float hw[] = {
       (float)width,
       (float)height,
+      0,
+      0,
+      0,
+      0,
       0,
       0
     };
@@ -2552,7 +2622,7 @@ void PVRCompositor::InitShader() {
   }
   {
     D3D11_BUFFER_DESC cbDesc{};
-    cbDesc.ByteWidth = 4 * sizeof(float);
+    cbDesc.ByteWidth = 8 * sizeof(float);
     // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
     cbDesc.Usage = D3D11_USAGE_DEFAULT;
     cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -2564,31 +2634,10 @@ void PVRCompositor::InitShader() {
     hr = device->CreateBuffer(
       &cbDesc,
       NULL, 
-      &vsConstantBuffers[0]
+      &psConstantBuffers[1]
     );
     if (FAILED(hr)) {
-      getOut() << "uniform cbuf create failed: " << (void *)hr << std::endl;
-      abort();
-    }
-  }
-  {
-    D3D11_BUFFER_DESC cbDesc{};
-    cbDesc.ByteWidth = 4 * sizeof(float);
-    // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
-    cbDesc.Usage = D3D11_USAGE_DEFAULT;
-    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    // cbDesc.MiscFlags = 0;
-    // cbDesc.StructureByteStride = 0;
-
-    // Create the buffer.
-    hr = device->CreateBuffer(
-      &cbDesc,
-      NULL, 
-      &vsConstantBuffers[1]
-    );
-    if (FAILED(hr)) {
-      getOut() << "uniform cbuf create failed: " << (void *)hr << std::endl;
+      getOut() << "ps cbuf 2 create failed: " << (void *)hr << std::endl;
       abort();
     }
   }
