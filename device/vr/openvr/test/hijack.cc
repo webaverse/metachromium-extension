@@ -127,10 +127,13 @@ decltype(eglQueryDisplayAttribEXT) *EGL_QueryDisplayAttribEXT = nullptr;
 decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
 
-bool isSingleEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
+void ensureDepthWidthHeight() {
   if (!depthWidth) {
     ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
   }
+}
+bool isSingleEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
+  ensureDepthWidthHeight();
   return desc.Width == depthWidth &&
     desc.Height == depthHeight &&
     // desc.Format == DXGI_FORMAT_R24G8_TYPELESS &&
@@ -522,8 +525,17 @@ void ensureDepthTexDrawn() {
           return pt.texHandle == shHandle;
         }) != texOrder.end();
         if (!texOrderContains) {
-          getOut() << "ensure drawn " << texOrder.size() << std::endl;
+          D3D11_TEXTURE2D_DESC descDepth;
+          sbsDepthTex->lpVtbl->GetDesc(sbsDepthTex, &descDepth);
+
+          ensureDepthWidthHeight();
+          bool isFull = descDepth.Width > depthWidth;
+
+          getOut() << "ensure drawn " << isFull << std::endl;
           texOrder.push_back(ProxyTexture{shHandle, 0});
+          if (isFull) {
+            texOrder.push_back(ProxyTexture{shHandle, 1});
+          }
         }
       } else {
         getOut() << "failed to get registered share handle for depth texture" << std::endl;
