@@ -90,6 +90,7 @@ public:
   // std::vector<HANDLE> inBackDepthInteropHandles;
   std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
+  std::vector<float> inBackTextureFulls;
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<HANDLE> inBackDepthHandleLatches;
   std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;

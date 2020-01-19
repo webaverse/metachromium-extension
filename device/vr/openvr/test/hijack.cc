@@ -25,16 +25,14 @@
 
 // externs
 extern Hijacker *g_hijacker;
-extern uint64_t *pFrameCount;
+// extern uint64_t *pFrameCount;
 extern bool isChrome;
-
-// globals
-uint64_t localFrameCount = 0;
 
 // constants
 char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
+char kHijacker_QueueContains[] = "Hijacker_QueueContains";
 
 const char *depthVsh = R"END(#version 100
 precision highp float;
@@ -202,8 +200,6 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           auto iter = texSharedHandleMap.find(depthTex);
           if (iter == texSharedHandleMap.end()) {
             texSharedHandleMap.emplace(depthTex, shHandle);
-            
-            dxgiResource->lpVtbl->Release(dxgiResource);
           }
         }
         
@@ -516,7 +512,7 @@ void ensureDepthTexDrawn() {
     } else {
       auto iter = texSharedHandleMap.find(sbsDepthTex);
       if (iter != texSharedHandleMap.end()) {
-        HANDLE &shHandle = iter->second;
+        HANDLE shHandle = iter->second;
         texOrder.push_back(ProxyTexture{shHandle, 0});
       } else {
         getOut() << "failed to get registered share handle for depth texture" << std::endl;
@@ -527,29 +523,53 @@ void ensureDepthTexDrawn() {
 }
 template <typename T>
 bool shouldDepthTexClear(T *view) {
-  uint64_t remoteFrameCount = *pFrameCount;
-  if (localFrameCount != remoteFrameCount) {
-    localFrameCount = remoteFrameCount;
-    return true;
-  } else {
-    ID3D11Resource *resource;
-    view->lpVtbl->GetResource(view, &resource);
-    
-    ID3D11Texture2D *depthTex;
-    resource->lpVtbl->QueryInterface(resource, IID_ID3D11Texture2D, (void **)&depthTex);
-    
-    D3D11_TEXTURE2D_DESC descDepth;
-    depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
+  ID3D11Resource *resource;
+  view->lpVtbl->GetResource(view, &resource);
+  
+  ID3D11Texture2D *depthTex;
+  resource->lpVtbl->QueryInterface(resource, IID_ID3D11Texture2D, (void **)&depthTex);
+  
+  D3D11_TEXTURE2D_DESC descDepth;
+  depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
 
-    // bool result = (sbsDepthTex != depthTex);
-    bool result = !isSingleEyeDepthTex(descDepth) && !isDualEyeDepthTex(descDepth);
-    getOut() << "should clear depth tex " << (void *)depthTex << " " << result << std::endl;
-
-    depthTex->lpVtbl->Release(depthTex);
-    resource->lpVtbl->Release(resource);
-    
-    return result;
+  // bool result = (sbsDepthTex != depthTex);
+  bool result = !isSingleEyeDepthTex(descDepth) && !isDualEyeDepthTex(descDepth);
+  if (!result) {
+    if (isChrome) {
+      bool queueContains = g_hijacker->fnp.call<
+        kHijacker_QueueContains,
+        bool,
+        HANDLE
+      >(sbsDepthTexShHandle);
+      if (!queueContains) {
+        result = true;
+      }
+    } else {
+      HANDLE shHandle;
+      {
+        auto iter = texSharedHandleMap.find(sbsDepthTex);
+        if (iter != texSharedHandleMap.end()) {
+          shHandle = iter->second;
+        } else {
+          getOut() << "failed to get registered share handle for depth texture" << std::endl;
+          abort();
+        }
+      }
+      
+      auto iter = std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
+        return pt.texHandle == shHandle;
+      });
+      if (iter == texOrder.end()) {
+        result = true;
+      }
+    }
   }
+  getOut() << "should clear depth tex " << (void *)depthTex << " " << result << std::endl;
+
+  depthTex->lpVtbl->Release(depthTex);
+  resource->lpVtbl->Release(resource);
+  
+  return result;
 }
 void (STDMETHODCALLTYPE *RealDraw)(
   ID3D11DeviceContext *This,
@@ -1912,6 +1932,15 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
   >([=]() {
     texOrder.clear();
     return 0;
+  });
+  fnp.reg<
+    kHijacker_QueueContains,
+    bool,
+    HANDLE
+  >([=](HANDLE handle) {
+    return std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
+      return pt.texHandle == handle;
+    }) != texOrder.end();
   });
 }
 /* void Hijacker::ensureClientDevice() {

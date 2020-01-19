@@ -3,7 +3,7 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
 
-extern uint64_t *pFrameCount;
+// extern uint64_t *pFrameCount;
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -447,6 +447,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       shaderResourceViews.resize(index+1, std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>(nullptr, nullptr));
       inBackReadEvents.resize(index+1, NULL);
       inBackTextureBounds.resize(index+1, VRTextureBounds_t{});
+      inBackTextureFulls.resize(index+1, 0);
       inBackHandleLatches.resize(index+1, NULL);
       inBackDepthHandleLatches.resize(index+1, NULL);
     }
@@ -463,6 +464,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     ID3D11ShaderResourceView *&shaderDepthResourceView = shaderResourceViews[index].second;
     HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     VRTextureBounds_t &textureBounds = inBackTextureBounds[index]; // interop texture handle
+    float &textureFull = inBackTextureFulls[index]; // depth texture is side-by-side
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
     HANDLE &depthHandleLatched = inBackDepthHandleLatches[index]; // remembered depth attachemnt
 
@@ -600,8 +602,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
             std::endl;
 
           D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
-          // shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
-          if (desc.Format == DXGI_FORMAT_R24G8_TYPELESS) {
+          if (desc.Format == DXGI_FORMAT_R32G8X24_TYPELESS) {
+            shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
+          } else if (desc.Format == DXGI_FORMAT_R24G8_TYPELESS) {
             shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
           } else {
             shaderDepthResourceViewDesc.Format = desc.Format;
@@ -624,6 +627,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
             InfoQueueLog();
             abort();
           }
+          
+          // getOut() << "set texture full " << desc.Width << " " << width << std::endl;
+          textureFull = desc.Width > width ? 1 : 0;
         }
         /* {
           depthReadEvent = OpenEventA(
@@ -641,6 +647,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         getOut() << "shader resource view depth clear" << std::endl;
 
         shaderDepthResourceView = nullptr;
+        textureFull = 0;
         depthReadEvent = NULL;
       }
     }
@@ -705,6 +712,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
       std::vector<ID3D11ShaderResourceView *> localShaderResourceViews;
       std::vector<VRTextureBounds_t> localTextureBounds;
+      std::vector<float> localTextureFulls;
       size_t numLayers = 0;
       for (auto iter : inBackIndices) {
         EVREye e = iter.first.second;
@@ -718,6 +726,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
           VRTextureBounds_t &textureBound = inBackTextureBounds[index];
           localTextureBounds.push_back(textureBound);
+
+          float &textureFull = inBackTextureFulls[index];
+          localTextureFulls.push_back(textureFull * iEye);
 
           if (localShaderResourceViews.size()/2 >= MAX_LAYERS) {
             break;
@@ -735,13 +746,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds.data(), 0, 0);
       }
       {
-        float uniforms[] = {
-          (float)iEye,
-          0,
-          0,
-          0
-        };
-        context->UpdateSubresource(vsConstantBuffers[1], 0, 0, uniforms, 0, 0);
+        localTextureFulls.resize(4);
+        context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls.data(), 0, 0);
       }
 
       // context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
@@ -1112,7 +1118,7 @@ EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArra
   
   hijacker.flushTextureLatches();
   
-  (*pFrameCount)++;
+  // (*pFrameCount)++;
   
   auto result = fnp.call<
     kIVRCompositor_WaitGetPoses,
@@ -2143,7 +2149,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EColorSpace::ColorSpace_Auto,
     // pTexture->eColorSpace
   };
-  const bool flip = bounds.data()->vMax < bounds.data()->vMin;
+  const bool flip = false; // bounds.data()->vMax < bounds.data()->vMin;
   *bounds.data() = VRTextureBounds_t{
     0.0f, flip ? 1.0f : 0.0f,
     1.0f, flip ? 0.0f : 1.0f
