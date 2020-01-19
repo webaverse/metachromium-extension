@@ -35,6 +35,7 @@ public:
   HWND hWnd;
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
+  HANDLE fenceHandle;
   uint64_t fenceValue = 0;
 
   ID3D11Buffer *vertexBuffer = nullptr;
@@ -73,7 +74,8 @@ public:
   std::vector<uintptr_t> inDepthTexLatches;
   std::vector<GLuint> interopTexs;
   std::vector<HANDLE> inReadInteropHandles;
-  std::vector<HANDLE> inReadEvents;
+  // std::vector<HANDLE> inReadEvents;
+  ID3D11Fence *remoteServerFence = nullptr;
   /* ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
@@ -86,14 +88,15 @@ public:
   std::vector<ID3D11Texture2D *> inBackTexs;
   // std::vector<HANDLE> inBackInteropHandles;
   std::vector<ID3D11Texture2D *> inBackDepthTexs;
-  std::vector<HANDLE> inBackDepthReadEvents;
+  // std::vector<HANDLE> inBackDepthReadEvents;
   // std::vector<HANDLE> inBackDepthInteropHandles;
-  std::vector<HANDLE> inBackReadEvents;
+  // std::vector<HANDLE> inBackReadEvents;
   std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<float> inBackTextureFulls;
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<HANDLE> inBackDepthHandleLatches;
-  std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
+  std::vector<ID3D11Fence *> inBackFences;
+  // std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;
@@ -104,7 +107,9 @@ public:
   // std::vector<GLuint> shTexOutIds;
   // std::vector<GLuint> texDepthIds;
   std::vector<ID3D11Texture2D *> shTexOuts;
+  std::vector<ID3D11Texture2D *> shDepthTexOuts;
   std::vector<ID3D11RenderTargetView *> renderTargetViews;
+  std::vector<ID3D11RenderTargetView *> renderTargetDepthViews;
   // std::vector<HANDLE> shTexOutInteropHandles;
 
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);

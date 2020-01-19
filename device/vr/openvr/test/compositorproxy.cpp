@@ -103,10 +103,10 @@ cbuffer VS_CONSTANT_BUFFER : register(b0)
   float vMin1;
   float uMax1;
   float vMax1;
-  float uMin2;
-  float vMin2;
-  float uMax2;
-  float vMax2;
+  float tmpvs11;
+  float tmpvs12;
+  float tmpvs13;
+  float tmpvs14;
 }
 cbuffer VS_CONSTANT_BUFFER : register(b1)
 {
@@ -131,17 +131,6 @@ cbuffer PS_CONSTANT_BUFFER : register(b0)
   float tmpps15;
   float tmpps16;
 }
-cbuffer PS_CONSTANT_BUFFER : register(b1)
-{
-  float has1;
-  float has2;
-  float tmpps21;
-  float tmpps22;
-  float tmpps23;
-  float tmpps24;
-  float tmpps25;
-  float tmpps26;
-}
 
 //------------------------------------------------------------//
 // Structs
@@ -157,7 +146,8 @@ struct VS_OUTPUT
 // Pixel Shader OUT struct
 struct PS_OUTPUT
 {
-	float4 Color : SV_Target;
+	float4 Color : SV_Target0;
+	float Depth : SV_Target1;
 };
 //------------------------------------------------------------//
 
@@ -165,10 +155,9 @@ struct PS_OUTPUT
 // Textures / samplers
 //------------------------------------------------------------//
 //Texture
-Texture2D QuadTexture1 : register(ps, t0);
-Texture2DMS<float4> QuadDepthTexture1 : register(ps, t1);
-Texture2D QuadTexture2 : register(ps, t2);
-Texture2DMS<float4> QuadDepthTexture2 : register(ps, t3);
+Texture2D QuadTexture : register(ps, t0);
+Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
+Texture2D DepthTexture : register(ps, t2);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR; 
 	MinFilter = LINEAR; 
@@ -183,32 +172,31 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   float w1 = uMax1 - uMin1;
   float h1 = vMax1 - vMin1;
   Output.Tex1 = float2(uMin1 + inTex.x*w1 + eye1*w1, vMin1 + inTex.y*h1);
-  float w2 = uMax2 - uMin2;
-  float h2 = vMax2 - vMin2;
-  Output.Tex2 = float2(uMin2 + inTex.x*w2 + eye2*w2, vMin2 + inTex.y*h2);
   return Output;
 }
 
-float4 ps_main(VS_OUTPUT IN) : SV_TARGET
+PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
-    // float4 result = float4(QuadTexture1.Sample(QuadTextureSampler, IN.Tex1).rgb, 1);
-    float4 result = float4(0, 0, 0, 1);
-    float d1 = has1 > 0 ? QuadDepthTexture1[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r : 1;
-    float d2 = has2 > 0 ? QuadDepthTexture2[uint2(IN.Tex2.x * width, IN.Tex2.y * height)].r : 1;
-    if (d1 <= d2) {
-      result.rgb = float3(d1, 0, 0);
-    } else {
-      result.rgb = float3(0, 0, d2);
-    }
-    // float4 result = float4(QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1).rgb, 1);
-    // float4 result = float4(uMin, uMax, vMin, 1);
+  float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+  PS_OUTPUT result;
+  result.Color = float4(0, 0, 0, 1);
+  result.Color.rgb = float3(d, 0, 0);
+  return result;
+  /* float existingDepth = DepthTexture.Sample(QuadTextureSampler, IN.Tex1).r;
+  if (d < existingDepth) {
+    PS_OUTPUT result;
+    result.Color = float4(0, 0, 0, 1);
+    result.Color.rgb = float3(d, 0, 0);
+    result.Depth = d;
     return result;
+  } else {
+    discard;
+  } */
 }
 
 //------------------------------------------------------------//
 )END";
 
-constexpr size_t MAX_LAYERS = 2;
 const EVREye EYES[] = {
   Eye_Left,
   Eye_Right,
@@ -317,6 +305,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
   >([=](ETextureType textureType) {
     // getOut() << "prepare submit server 1" << std::endl;
 
+    HRESULT hr;
     if (!device) {
       // device = (ID3D11Device *)pDevice;
 
@@ -328,7 +317,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
       Microsoft::WRL::ComPtr<IDXGIFactory1> dxgi_factory;
       IDXGIAdapter1 *adapter;
-      HRESULT hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), &dxgi_factory);
+      hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), &dxgi_factory);
       if (SUCCEEDED(hr)) {
         // nothing
       } else {
@@ -439,6 +428,40 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       InitShader();
     }
     
+    if (!fence) {
+      hr = device->CreateFence(
+        0, // value
+        // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+        // D3D11_FENCE_FLAG_SHARED, // flags
+        D3D11_FENCE_FLAG_SHARED, // flags
+        __uuidof(ID3D11Fence), // interface
+        (void **)&fence // out
+      );
+      if (SUCCEEDED(hr)) {
+        // getOut() << "created fence " << (void *)fence << std::endl;
+        // nothing
+      } else {
+        getOut() << "failed to create fence" << std::endl;
+        abort();
+      }
+
+      hr = fence->CreateSharedHandle(
+        NULL, // security attributes
+        GENERIC_ALL, // access
+        nullptr, // name
+        &fenceHandle // share handle
+      );
+      if (SUCCEEDED(hr)) {
+        getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
+        // nothing
+      } else {
+        getOut() << "failed to create fence share handle" << std::endl;
+        abort();
+      }
+      
+      // context->Flush();
+    }
+    
     // getOut() << "prepare submit server 20" << std::endl;
 
     // return fenceHandle;
@@ -446,17 +469,27 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
   });
   fnp.reg<
     kIVRCompositor_Submit,
-    EVRCompositorError,
+    std::tuple<uintptr_t, uintptr_t, uint64_t>,
     EVREye,
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags,
     uintptr_t,
-    size_t
-  >([=, &fnp](EVREye eEye, managed_binary<Texture_t> sharedTexture, managed_binary<VRTextureBounds_t> bounds, EVRSubmitFlags submitFlags, uintptr_t sharedDepthHandlePtr, size_t sharedDepthEventIndex) {
+    std::tuple<uintptr_t, uintptr_t, uint64_t>
+  >([=, &fnp](
+    EVREye eEye,
+    managed_binary<Texture_t> sharedTexture,
+    managed_binary<VRTextureBounds_t> bounds,
+    EVRSubmitFlags submitFlags,
+    uintptr_t sharedDepthHandlePtr,
+    std::tuple<uintptr_t, uintptr_t, uint64_t> fenceSpec
+  ) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
     HANDLE sharedDepthHandle = (HANDLE)sharedDepthHandlePtr;
+    DWORD clientProcessId = (DWORD)std::get<0>(fenceSpec);
+    HANDLE clientFenceHandle = (HANDLE)std::get<1>(fenceSpec);
+    uint64_t clientFenceValue = std::get<2>(fenceSpec);
 
     // getOut() << "submit server 1 " << fnp.remoteProcessId << " " << (int)eEye << " " << (void *)sharedDepthHandlePtr << " " << (void *)sharedDepthEventIndex << std::endl;
 
@@ -473,14 +506,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       inBackTexs.resize(index+1, NULL);
       // inBackInteropHandles.resize(index+1, NULL);
       inBackDepthTexs.resize(index+1, NULL);
-      inBackDepthReadEvents.resize(index+1, NULL);
+      // inBackDepthReadEvents.resize(index+1, NULL);
       // inBackDepthInteropHandles.resize(index+1, NULL);
       shaderResourceViews.resize(index+1, std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>(nullptr, nullptr));
-      inBackReadEvents.resize(index+1, NULL);
+      // inBackReadEvents.resize(index+1, NULL);
       inBackTextureBounds.resize(index+1, VRTextureBounds_t{});
       inBackTextureFulls.resize(index+1, 0);
       inBackHandleLatches.resize(index+1, NULL);
       inBackDepthHandleLatches.resize(index+1, NULL);
+      inBackFences.resize(index+1, NULL);
     }
     
     // getOut() << "submit server 2" << std::endl;
@@ -489,15 +523,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     ID3D11Texture2D *&shTexIn = inBackTexs[index]; // color texture
     // HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
     ID3D11Texture2D *&shDepthTexIn = inBackDepthTexs[index]; // depth texture
-    HANDLE &depthReadEvent = inBackDepthReadEvents[index]; // depth texture fence read event
+    // HANDLE &depthReadEvent = inBackDepthReadEvents[index]; // depth texture fence read event
     // HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
     ID3D11ShaderResourceView *&shaderResourceView = shaderResourceViews[index].first;
     ID3D11ShaderResourceView *&shaderDepthResourceView = shaderResourceViews[index].second;
-    HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
+    // HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     VRTextureBounds_t &textureBounds = inBackTextureBounds[index]; // interop texture handle
     float &textureFull = inBackTextureFulls[index]; // depth texture is side-by-side
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
     HANDLE &depthHandleLatched = inBackDepthHandleLatches[index]; // remembered depth attachemnt
+    ID3D11Fence *&clientFence = inBackFences[index]; // remembered client fence
 
     // getOut() << "submit server 3" << std::endl;
 
@@ -505,7 +540,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       // getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
       if (handleLatched) {
         // XXX delete old resources
-        // hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
+        // hr = device->OpenSharedResou rce(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
       }
       handleLatched = sharedHandle;
 
@@ -580,19 +615,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           abort();
         }
       }
-
-      getOut() << "open backend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
-      readEvent = OpenEventA(
-        GENERIC_ALL,
-        false,
-        (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))).c_str()
-      );
-      if (!readEvent) {
-        getOut() << "failed to open backend read event" << std::endl;
-        abort();
-      }
-
-      // getOut() << "submit server 7 " << (void *)readEvent << std::endl;
     }
 
     if (depthHandleLatched != sharedDepthHandle) {
@@ -662,30 +684,127 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           // getOut() << "set texture full " << desc.Width << " " << width << std::endl;
           textureFull = desc.Width > width ? 1 : 0;
         }
-        /* {
-          depthReadEvent = OpenEventA(
-            GENERIC_ALL,
-            false,
-            (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(sharedDepthEventIndex)).c_str()
-          );
-          if (!depthReadEvent) {
-            getOut() << "failed to open backend depth read event " << (void *)sharedDepthEventIndex << std::endl;
-            abort();
-          }
-        } */
-        depthReadEvent = NULL;
       } else {
         getOut() << "shader resource view depth clear" << std::endl;
 
         shaderDepthResourceView = nullptr;
         textureFull = 0;
-        depthReadEvent = NULL;
       }
+    }
+    
+    if (!clientFence) {
+      /* ID3D11Resource *fenceResource;
+      HRESULT hr = device->OpenSharedResource(fenceHandle, __uuidof(ID3D11Resource), (void**)(&fenceResource));
+
+      if (SUCCEEDED(hr)) {
+        hr = fenceResource->QueryInterface(__uuidof(ID3D11Fence), (void**)(&fence));
+        
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "failed to unpack shared fence: " << (void *)hr << " " << (void *)fenceHandle << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to unpack shared fence handle: " << (void *)hr << " " << (void *)fenceHandle << std::endl;
+        abort();
+      }
+      
+      (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str() */
+      
+      HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, clientProcessId);
+      HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
+      
+      HANDLE fenceHandle2;
+      BOOL ok = DuplicateHandle(
+        srcProcess,
+        clientFenceHandle,
+        dstProcess,
+        &fenceHandle2,
+        0,
+        false,
+        DUPLICATE_SAME_ACCESS
+      );
+      if (ok) {
+        HRESULT hr = device->OpenSharedFence(fenceHandle2, __uuidof(ID3D11Fence), (void **)&clientFence);
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          InfoQueueLog();
+          getOut() << "server fence resource unpack failed " << (void *)hr << " " << (void *)fenceHandle << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to duplicate fence handle " << GetLastError() << std::endl;
+      }
+      
+      CloseHandle(srcProcess);
+      CloseHandle(dstProcess);
     }
 
     textureBounds = *pBounds;
 
-    inBackReadEventQueue.push_back(std::tuple<EVREye, uint64_t, HANDLE, HANDLE>(eEye, fnp.remoteProcessId, readEvent, depthReadEvent));
+    getOut() << "server render 1" << std::endl;
+
+    // render
+    {
+      int iEye = eEye == Eye_Left ? 0 : 1;
+
+      context->Wait(clientFence, clientFenceValue);
+
+      ID3D11ShaderResourceView *localShaderResourceViews[3] = {
+        shaderResourceViews[index].first,
+        shaderResourceViews[index].second,
+        nullptr
+      };
+      VRTextureBounds_t localTextureBounds[2] = {
+        inBackTextureBounds[index],
+        VRTextureBounds_t{}
+      };
+      float localTextureFulls[8] = {
+        textureFull * iEye,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      };
+
+      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds, 0, 0);
+      context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls, 0, 0);
+
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+      D3D11_VIEWPORT viewport{
+        0, // TopLeftX,
+        0, // TopLeftY,
+        width, // Width,
+        height, // Height,
+        0, // MinDepth,
+        1 // MaxDepth
+      };
+      context->RSSetViewports(1, &viewport);
+      ID3D11RenderTargetView *localRenderTargetViews[] = {
+        renderTargetViews[iEye],
+        renderTargetDepthViews[iEye],
+        nullptr
+      };
+      context->OMSetRenderTargets(
+        ARRAYSIZE(localRenderTargetViews),
+        localRenderTargetViews,
+        nullptr // depthStencilView
+      );
+      context->DrawIndexed(6, 0, 0);
+      // context->Draw(4, 0);
+    }
+    
+    getOut() << "server render 2" << std::endl;
+
+    ++fenceValue;
+    context->Signal(fence.Get(), fenceValue);
+
+    getOut() << "server render 3" << std::endl;
 
     /* if (!fence) {
       ID3D11Resource *fenceResource;
@@ -716,7 +835,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     
     // getOut() << "submit server 9" << std::endl;
 
-    return VRCompositorError_None;
+    return std::tuple<uintptr_t, uintptr_t, uint64_t>((uintptr_t)GetCurrentProcessId(), (uintptr_t)fenceHandle, fenceValue);
   });
   fnp.reg<
     kIVRCompositor_FlushSubmit,
@@ -726,81 +845,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
     for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
       EVREye eEye = EYES[iEye];
-      
-      // getOut() << "flush submit server 2" << std::endl;
-
-      for (auto iter : inBackReadEventQueue) {
-        EVREye &e = std::get<0>(iter);
-        if (e == eEye) {
-          HANDLE &readEvent = std::get<2>(iter);
-          WaitForSingleObject(readEvent, INFINITE);
-          /* HANDLE &depthReadEvent = std::get<3>(iter);
-          if (depthReadEvent) {
-            WaitForSingleObject(depthReadEvent, INFINITE);
-          } */
-        }
-      }
-
-      ID3D11ShaderResourceView *localShaderResourceViews[MAX_LAYERS*2] = {};
-      VRTextureBounds_t localTextureBounds[2] = {};
-      float localTextureFulls[8] = {};
-      float localHas[8] = {};
-      size_t numLayers = 0;
-      for (auto iter : inBackIndices) {
-        EVREye e = iter.first.second;
-        if (e == eEye) {
-          size_t &index = iter.second;
-
-          ID3D11ShaderResourceView *shaderResourceView = shaderResourceViews[index].first;
-          ID3D11ShaderResourceView *shaderDepthResourceView = shaderResourceViews[index].second;
-          localShaderResourceViews[numLayers*2] = shaderResourceView;
-          localShaderResourceViews[numLayers*2 + 1] = shaderDepthResourceView;
-
-          VRTextureBounds_t &textureBound = inBackTextureBounds[index];
-          localTextureBounds[numLayers] = textureBound;
-
-          float &textureFull = inBackTextureFulls[index];
-          localTextureFulls[numLayers] = textureFull * iEye;
-
-          localHas[numLayers] = 1;
-
-          numLayers++;
-          if (numLayers < MAX_LAYERS) {
-            continue;
-          } else {
-            break;
-          }
-        }
-      }
-      /* for (size_t i = numLayers; i < MAX_LAYERS; i++) {
-        localShaderResourceViews.push_back(nullptr);
-      } */
-
-      // getOut() << "update texture bounds " << localTextureBounds[0].uMin << " " << localTextureBounds[0].uMax << " " << localTextureBounds[0].vMin << " " << localTextureBounds[0].vMax << std::endl;
-      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds, 0, 0);
-      context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls, 0, 0);
-      context->UpdateSubresource(psConstantBuffers[1], 0, 0, localHas, 0, 0);
-
-      context->PSSetShaderResources(0, numLayers*2, localShaderResourceViews);
-      D3D11_VIEWPORT viewport{
-        0, // TopLeftX,
-        0, // TopLeftY,
-        width, // Width,
-        height, // Height,
-        0, // MinDepth,
-        1 // MaxDepth
-      };
-      context->RSSetViewports(1, &viewport);
-      context->OMSetRenderTargets(
-        1,
-        &renderTargetViews[iEye],
-        // depthStencilView
-        nullptr
-      );
-      context->DrawIndexed(6, 0, 0);
-      // context->Draw(4, 0);
-      
-      // getOut() << "flush submit server 2 " << " " << (void *)hInteropDevice << std::endl;
 
       Texture_t texture{
         (void *)shTexOuts[iEye],
@@ -815,12 +859,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       // getOut() << "gl submit 2 " << glGetError() << std::endl;
       auto result = vrcompositor->Submit(eEye, &texture, &bounds, EVRSubmitFlags::Submit_Default);
       // getOut() << "compositor submit result " << (void *)result << std::endl;
-      // vrcompositor->PostPresentHandoff();
     }
-
-    // getOut() << "flush submit server 10 " << inBackReadEventQueue.size() << std::endl;
-
-    inBackReadEventQueue.clear();
+    
+    vrcompositor->PostPresentHandoff();
     
     swapChain->Present(0, 0);
 
@@ -1511,7 +1552,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
       0, // value
       // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
       // D3D11_FENCE_FLAG_SHARED, // flags
-      D3D11_FENCE_FLAG_NONE, // flags
+      D3D11_FENCE_FLAG_SHARED, // flags
       __uuidof(ID3D11Fence), // interface
       (void **)&fence // out
     );
@@ -1526,7 +1567,13 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
     /* hr = fence->CreateSharedHandle(
       NULL, // security attributes
       GENERIC_ALL, // access
-      L"Local\\OpenVrProxyFence", // name
+      (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
+      &clientFence // share handle
+    ); */
+    hr = fence->CreateSharedHandle(
+      NULL, // security attributes
+      GENERIC_ALL, // access
+      NULL, // (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
       &fenceHandle // share handle
     );
     if (SUCCEEDED(hr)) {
@@ -1535,7 +1582,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
     } else {
       getOut() << "failed to create fence share handle" << std::endl;
       abort();
-    } */
+    }
     
     // context->Flush();
   }
@@ -1601,7 +1648,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     inDepthTexLatches.resize(index+1, NULL);
     interopTexs.resize(index+1, NULL);
     inReadInteropHandles.resize(index+1, NULL);
-    inReadEvents.resize(index+1, NULL);
+    // inReadEvents.resize(index+1, NULL);
   }
   
   // getOut() << "submit client 2" << std::endl;
@@ -1636,7 +1683,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
   HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
   size_t &sharedDepthEventIndex = inShDepthDxEventIndexes[index]; // dx depth event index
-  HANDLE &readEvent = inReadEvents[index]; // fence event
+  // HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
   uintptr_t &depthTextureLatched = inDepthTexLatches[index]; // remembered depth attachemnt
 
@@ -1828,21 +1875,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         getOut() << "failed to get shared texture: " << (void *)hr << std::endl;
         abort();
       }
-    }
-
-    getOut() << "open frontend event " << (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))) << std::endl;
-    readEvent = CreateEventA(
-      NULL,
-      false,
-      false,
-      (std::string("Local\\OpenVrFenceEvent") + std::to_string(std::get<0>(key)) + std::string(":") + std::to_string((int)std::get<1>(key))).c_str()
-    );
-
-    // getOut() << "submit client 13" << std::endl;
-    
-    if (!readEvent) {
-      getOut() << "failed to open frontend event" << std::endl;
-      abort();
     }
     
     // getOut() << "submit client 14" << std::endl;
@@ -2169,11 +2201,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     abort();
   }
 
-  // getOut() << "submit client 18 " << (void *)context.Get() << " " << (void *)fence.Get() << " " << (void *)readEvent << std::endl;
-
   ++fenceValue;
   context->Signal(fence.Get(), fenceValue);
-  fence->SetEventOnCompletion(fenceValue, readEvent);
   // context->Flush();
 
   // getOut() << "submit client 19 " << (void *)sharedHandle << " " << (void *)pTexture << std::endl;
@@ -2194,20 +2223,72 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     1.0f, flip ? 0.0f : 1.0f
   };
 
+  getOut() << "client submit 1" << std::endl;
   auto result = fnp.call<
     kIVRCompositor_Submit,
-    EVRCompositorError,
+    std::tuple<uintptr_t, uintptr_t, uint64_t>,
     EVREye,
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags,
     uintptr_t,
-    size_t
-  >(eEye, std::move(sharedTexture), std::move(bounds), EVRSubmitFlags::Submit_Default, (uintptr_t)sharedDepthHandle, sharedDepthEventIndex);
+    std::tuple<uintptr_t, uintptr_t, uint64_t>
+  >(
+    eEye,
+    std::move(sharedTexture),
+    std::move(bounds),
+    EVRSubmitFlags::Submit_Default,
+    (uintptr_t)sharedDepthHandle,
+    std::tuple<uintptr_t, uintptr_t, uint64_t>(
+      (uintptr_t)GetCurrentProcessId(),
+      (uintptr_t)fenceHandle,
+      fenceValue
+    )
+  );
+  getOut() << "client submit 2" << std::endl;
+  DWORD serverProcessId = std::get<0>(result);
+  HANDLE serverFenceHandle = (HANDLE)std::get<1>(result);
+  uint64_t serverFenceValue = std::get<2>(result);
+  
+  if (!remoteServerFence) {
+    getOut() << "open remote server fence " << (void *)serverProcessId << " " << (void *)serverFenceHandle << " " << (void *)serverFenceValue << std::endl;
+
+    HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, serverProcessId);
+    HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
+    
+    HANDLE fenceHandle2;
+    BOOL ok = DuplicateHandle(
+      srcProcess,
+      serverFenceHandle,
+      dstProcess,
+      &fenceHandle2,
+      0,
+      false,
+      DUPLICATE_SAME_ACCESS
+    );
+    if (ok) {
+      HRESULT hr = device->OpenSharedFence(fenceHandle2, __uuidof(ID3D11Fence), (void **)&remoteServerFence);
+      if (SUCCEEDED(hr)) {
+        // nothing
+        getOut() << "got server fence handle ok " << std::endl;
+      } else {
+        InfoQueueLog();
+        getOut() << "remote server fence resource unpack failed " << (void *)hr << " " << (void *)fenceHandle2 << std::endl;
+        abort();
+      }
+    } else {
+      getOut() << "failed to duplicate fence handle " << GetLastError() << std::endl;
+    }
+    
+    CloseHandle(srcProcess);
+    CloseHandle(dstProcess);
+  }
+  
+  context->Wait(remoteServerFence, serverFenceValue);
 
   // getOut() << "submit client 23" << std::endl;
 
-  return result;
+  return VRCompositorError_None;
 }
 void PVRCompositor::FlushSubmit() {
   // getOut() << "flush submit client 1" << std::endl;
@@ -2476,7 +2557,6 @@ void PVRCompositor::CacheWaitGetPoses() {
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
-  inBackReadEventQueue.clear();
 }
 void PVRCompositor::InitShader() {
   float vertices[] = { // xyuv
@@ -2539,7 +2619,7 @@ void PVRCompositor::InitShader() {
   g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
   getOut() << "init render 3 " << width << " " << height << std::endl;
   vsConstantBuffers.resize(2);
-  psConstantBuffers.resize(2);
+  psConstantBuffers.resize(1);
   {
     D3D11_BUFFER_DESC cbDesc{};
     cbDesc.ByteWidth = 8 * sizeof(float);
@@ -2617,27 +2697,6 @@ void PVRCompositor::InitShader() {
     );
     if (FAILED(hr)) {
       getOut() << "main cbuf create failed: " << (void *)hr << std::endl;
-      abort();
-    }
-  }
-  {
-    D3D11_BUFFER_DESC cbDesc{};
-    cbDesc.ByteWidth = 8 * sizeof(float);
-    // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
-    cbDesc.Usage = D3D11_USAGE_DEFAULT;
-    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    // cbDesc.MiscFlags = 0;
-    // cbDesc.StructureByteStride = 0;
-
-    // Create the buffer.
-    hr = device->CreateBuffer(
-      &cbDesc,
-      NULL, 
-      &psConstantBuffers[1]
-    );
-    if (FAILED(hr)) {
-      getOut() << "ps cbuf 2 create failed: " << (void *)hr << std::endl;
       abort();
     }
   }
@@ -2766,28 +2825,33 @@ void PVRCompositor::InitShader() {
   desc.Height = height;
   desc.ArraySize = 1;
   desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-  // desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
   desc.SampleDesc.Count = 1;
   desc.Usage = D3D11_USAGE_DEFAULT;
-  // desc.BindFlags = D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET;
-  // desc.BindFlags = 40; // D3D11_BIND_DEPTH_STENCIL
-  desc.BindFlags = D3D11_BIND_RENDER_TARGET; // D3D11_BIND_DEPTH_STENCIL
-  // desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
-  // desc.MiscFlags = 0; 
-  // getOut() << "gl init 6 " << width << " " << height << " " << (void *)device.Get() << " " << glGetError() << std::endl;
-  /* getOut() << "get texture desc back " << (int)eEye << " " << desc.Width << " " << desc.Height << " " <<
-    pBounds->uMin << " " << pBounds->vMin << " " <<
-    pBounds->uMax << " " << pBounds->vMax << " " <<
-    std::endl; */
-
+  desc.BindFlags = D3D11_BIND_RENDER_TARGET;
+  
   D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
   renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
   renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
   renderTargetViewDesc.Texture2D.MipSlice = 0;
+  
+  D3D11_TEXTURE2D_DESC depthDesc{};
+  depthDesc.Width = width;
+  depthDesc.Height = height;
+  depthDesc.ArraySize = 1;
+  depthDesc.Format = DXGI_FORMAT_R32_FLOAT;
+  depthDesc.SampleDesc.Count = 1;
+  depthDesc.Usage = D3D11_USAGE_DEFAULT;
+  depthDesc.BindFlags = D3D11_BIND_RENDER_TARGET;
+
+  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDepthDesc{};
+  renderTargetViewDepthDesc.Format = DXGI_FORMAT_R32_FLOAT;
+  renderTargetViewDepthDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+  renderTargetViewDepthDesc.Texture2D.MipSlice = 0;
 
   shTexOuts.resize(2);
+  shDepthTexOuts.resize(2);
   renderTargetViews.resize(2);
-  // getOut() << "interop 1" << std::endl;
+  renderTargetDepthViews.resize(2);
   for (int i = 0; i < 2; i++) {
     hr = device->CreateTexture2D(
       &desc,
@@ -2797,7 +2861,9 @@ void PVRCompositor::InitShader() {
     if (SUCCEEDED(hr)) {
       // nothing
     } else {
+      InfoQueueLog();
       getOut() << "failed to create eye texture: " << (void *)hr << std::endl;
+      abort();
     }
 
     hr = device->CreateRenderTargetView(
@@ -2808,7 +2874,35 @@ void PVRCompositor::InitShader() {
     if (SUCCEEDED(hr)) {
       // nothing
     } else {
-      getOut() << "failed to create render target view: " << (void *)hr << std::endl;
+      InfoQueueLog();
+      getOut() << "failed to create eye render target view: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    hr = device->CreateTexture2D(
+      &depthDesc,
+      NULL,
+      &shDepthTexOuts[i]
+    );
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      InfoQueueLog();
+      getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    hr = device->CreateRenderTargetView(
+      shDepthTexOuts[i],
+      &renderTargetViewDepthDesc,
+      &renderTargetDepthViews[i]
+    );
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      InfoQueueLog();
+      getOut() << "failed to create eye depth render target view: " << (void *)hr << std::endl;
+      abort();
     }
   }
 }
