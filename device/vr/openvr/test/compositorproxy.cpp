@@ -744,8 +744,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
     textureBounds = *pBounds;
 
-    getOut() << "server render 1" << std::endl;
-
     // render
     {
       int iEye = eEye == Eye_Left ? 0 : 1;
@@ -798,13 +796,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       context->DrawIndexed(6, 0, 0);
       // context->Draw(4, 0);
     }
-    
-    getOut() << "server render 2" << std::endl;
 
     ++fenceValue;
     context->Signal(fence.Get(), fenceValue);
-
-    getOut() << "server render 3" << std::endl;
 
     /* if (!fence) {
       ID3D11Resource *fenceResource;

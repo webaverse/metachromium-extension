@@ -105,7 +105,6 @@ uint32_t depthHeight = 0;
 size_t fenceValue = 0;
 HANDLE frontSharedDepthHandle = NULL;
 std::vector<ID3D11Fence *> fenceCache;
-std::vector<HANDLE> eventCache;
 
 // void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
 void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
@@ -1816,18 +1815,6 @@ void handleGlClearHack() {
             abort();
           }
           fenceCache.push_back(fence);
- 
-          HANDLE depthEvent = CreateEventA(
-            NULL,
-            false,
-            false,
-            (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(i)).c_str()
-          );
-          if (!depthEvent) {
-            getOut() << "failed to create front depth gl event " << (void *)GetLastError() << std::endl;
-            abort();
-          }
-          eventCache.push_back(depthEvent);
         }
       }
       
@@ -1901,18 +1888,18 @@ void handleGlClearHack() {
 
     for (size_t i = 0; i < 2; i++) {
       ID3D11Fence *&fence = fenceCache[i];
-      HANDLE &depthEvent = eventCache[i];
+      // HANDLE &depthEvent = eventCache[i];
       
       ++fenceValue;
       hijackerContext->lpVtbl->Signal(hijackerContext, fence, fenceValue);
-      fence->lpVtbl->SetEventOnCompletion(fence, fenceValue, depthEvent);
+      // fence->lpVtbl->SetEventOnCompletion(fence, fenceValue, depthEvent);
       
       g_hijacker->fnp.call<
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
         size_t
-      >(frontSharedDepthHandle, i);
+      >(frontSharedDepthHandle, 0);
     }
 
     glPhase = 0;
@@ -1974,7 +1961,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
         shDepthTexHandle,
         eventIndex
       });
-      getOut() << "push tex order " << texOrder.size() << std::endl;
+      // getOut() << "push tex order " << texOrder.size() << std::endl;
     }
     return 0;
   });
@@ -1982,11 +1969,10 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     kHijacker_ShiftDepthTex,
     std::tuple<HANDLE, size_t>
   >([=]() {
-    getOut() << "shift tex order " << texOrder.size() << std::endl;
+    // getOut() << "shift tex order " << texOrder.size() << std::endl;
     if (texOrder.size() > 0) {
       ProxyTexture result = texOrder.front();
       texOrder.pop_front();
-      getOut() << "shift tex order result " << (void *)result.texHandle << std::endl;
       return std::tuple<HANDLE, size_t>(result.texHandle, result.eventIndex);
     } else {
       return std::tuple<HANDLE, size_t>(nullptr, 0);
