@@ -111,6 +111,9 @@ int WINAPI WinMain(
   ShowWindow(g_hWnd, SW_SHOW);
 
   getOut() << "process start " << (void *)g_hWnd << " " << (void *)GetLastError() << std::endl;
+  
+  shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
+  pFrameCount = (uint64_t *)shMem;
 
   wrapExternalOpenVr([&]() -> void {
     // only look in the override

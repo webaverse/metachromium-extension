@@ -17,7 +17,8 @@
 
 extern std::string dllDir;
 extern void *shMem;
-extern size_t *pBooted;
+// extern size_t *pBooted;
+extern uint64_t *pFrameCount;
 // extern GLFWwindow **ppWindow;
 // extern size_t *pNumClients;
 extern std::string logSuffix;

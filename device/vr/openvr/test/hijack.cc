@@ -25,8 +25,11 @@
 
 // externs
 extern Hijacker *g_hijacker;
-// extern uint64_t *pFrameCount;
+extern uint64_t *pFrameCount;
 extern bool isChrome;
+
+// globals
+uint64_t localFrameCount = 0;
 
 // constants
 char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
@@ -561,7 +564,12 @@ bool shouldDepthTexClear(T *view, size_t index) {
   bool result = !isSingle && !isDual;
   if (!result) {
     if (isChrome) {
-      if (sbsDepthTexShHandle) {
+      uint64_t remoteFrameCount = *pFrameCount;
+      if (remoteFrameCount != localFrameCount) {
+        result = true;
+        localFrameCount = remoteFrameCount;
+      }
+      /* if (sbsDepthTexShHandle) {
         bool queueContains = g_hijacker->fnp.call<
           kHijacker_QueueContains,
           bool,
@@ -570,7 +578,7 @@ bool shouldDepthTexClear(T *view, size_t index) {
         if (!queueContains) {
           result = true;
         }
-      }
+      } */
     } else {
       if (sbsDepthTex) {
         HANDLE shHandle;

@@ -3,7 +3,8 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
 
-// extern uint64_t *pFrameCount;
+// externs
+extern uint64_t *pFrameCount;
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -1147,8 +1148,6 @@ EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArra
   InfoQueueLog();
   
   hijacker.flushTextureLatches();
-  
-  // (*pFrameCount)++;
   
   auto result = fnp.call<
     kIVRCompositor_WaitGetPoses,
@@ -2470,12 +2469,13 @@ bool PVRCompositor::IsCurrentSceneFocusAppLoading() {
   >();
 }
 void PVRCompositor::CacheWaitGetPoses() {
-  // getOut() << "CacheWaitGetPoses 1" << std::endl;
   EVRCompositorError error = vrcompositor->WaitGetPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), cachedGamePoses, ARRAYSIZE(cachedGamePoses));
-  // getOut() << "CacheWaitGetPoses 2" << std::endl;
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
+  
+  (*pFrameCount)++;
+  
   inBackReadEventQueue.clear();
 }
 void PVRCompositor::InitShader() {
