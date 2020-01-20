@@ -153,29 +153,22 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
-float pmLeft = 0;
-float pmRight = 0;
-float pmTop = 0;
-float pmBottom = 0;
+bool havePma = false;
 float pma = 0;
 float pmb = 0;
-/* uint32_t a1 = 0;
-uint32_t a2 = 0;
-uint32_t b1 = 0;
-uint32_t b2 = 0; */
+bool haveZBufferParams = false;
+float zBufferParams[4] = {};
 void ensureProjectionMatrixSpec() {
-  if (pmLeft == 0) {
+  if (!havePma) {
+    float pmLeft;
+    float pmRight;
+    float pmTop;
+    float pmBottom;
     ProxyGetProjectionRaw(vr::Eye_Left, &pmLeft, &pmRight, &pmTop, &pmBottom);
     pma = std::abs((pmRight+pmLeft) / (pmRight-pmLeft));
     pmb = std::abs((pmTop+pmBottom) / (pmTop-pmBottom));
-    /* a1 = *reinterpret_cast<uint32_t *>(&a);
-    b1 = *reinterpret_cast<uint32_t *>(&b);
-    a *= -1;
-    b *= -1;
-    a2 = *reinterpret_cast<uint32_t *>(&a);
-    b2 = *reinterpret_cast<uint32_t *>(&b); */
-    
-    getOut() << "looking for " << pma << " " << pmb << std::endl;
+    havePma = true;
+    // getOut() << "looking for " << pma << " " << pmb << std::endl;
   }
 }
 inline bool isWithinDelta(float a, float target) {
@@ -996,45 +989,52 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
 ) {
   // getOut() << "" << std::endl;
 
-  ID3D11Buffer *buffer;
-  pDstResource->lpVtbl->QueryInterface(pDstResource, IID_ID3D11Buffer, (void **)&buffer);
-  if (buffer) {
-    D3D11_BUFFER_DESC desc;
-    buffer->lpVtbl->GetDesc(buffer, &desc);
-    getOut() << "RealUpdateSubresource " << (void *)pDstResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << std::endl;
-    if ((desc.BindFlags & D3D11_BIND_CONSTANT_BUFFER) && desc.ByteWidth < 4000) {
-      getOut() << "  ";
-      for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
-        getOut() << ((float *)pSrcData)[i] << " ";
-      }
-      getOut() << std::endl;
-      getOut() << "  ";
-      for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
-        getOut() << ((uint32_t *)pSrcData)[i] << " ";
-      }
-      getOut() << std::endl;
-    }
+  if (!haveZBufferParams) {
+    ID3D11Buffer *buffer;
+    HRESULT hr = pDstResource->lpVtbl->QueryInterface(pDstResource, IID_ID3D11Buffer, (void **)&buffer);
+    if (SUCCEEDED(hr)) {
+      D3D11_BUFFER_DESC desc;
+      buffer->lpVtbl->GetDesc(buffer, &desc);
+      /* getOut() << "RealUpdateSubresource " << (void *)pDstResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << std::endl;
+      if ((desc.BindFlags & D3D11_BIND_CONSTANT_BUFFER) && desc.ByteWidth < 4000) {
+        getOut() << "  ";
+        for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
+          getOut() << ((float *)pSrcData)[i] << " ";
+        }
+        getOut() << std::endl;
+        getOut() << "  ";
+        for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
+          getOut() << ((uint32_t *)pSrcData)[i] << " ";
+        }
+        getOut() << std::endl;
+      } */
 
-    float projectionMatrix[16];
-    if (desc.ByteWidth < 512 && findProjectionMatrix(pSrcData, desc.ByteWidth, projectionMatrix)) {
-      getOut() << "found projection matrix: ";
-      for (size_t i = 0; i < 16; i++) {
-        getOut() << projectionMatrix[i] << " ";
-      }
-      getOut() << std::endl;
-      
-      float nearValue;
-      float farValue;
-      getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue);
-      getOut() << "get near far " << nearValue << " " << farValue << std::endl;
-      
-      float zBufferParams[4];
-      getZBufferParamsFromNearFar(nearValue, farValue, zBufferParams);
-      getOut() << "get z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
-    }
+      if (desc.ByteWidth < 512) {
+        float projectionMatrix[16];
+        if (findProjectionMatrix(pSrcData, desc.ByteWidth, projectionMatrix)) {
+          getOut() << "found projection matrix: ";
+          for (size_t i = 0; i < 16; i++) {
+            getOut() << projectionMatrix[i] << " ";
+          }
+          getOut() << std::endl;
+          
+          float nearValue;
+          float farValue;
+          getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue);
+          getOut() << "get near far " << nearValue << " " << farValue << std::endl;
+          
+          float zBufferParams[4];
+          getZBufferParamsFromNearFar(nearValue, farValue, zBufferParams);
+          getOut() << "get z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
 
-    buffer->lpVtbl->Release(buffer);
+          haveZBufferParams = true;
+        }
+      }
+
+      buffer->lpVtbl->Release(buffer);
+    }
   }
+
   RealUpdateSubresource(This, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateBuffer)(
