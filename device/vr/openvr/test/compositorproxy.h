@@ -107,10 +107,13 @@ public:
   // std::vector<GLuint> shTexOutIds;
   // std::vector<GLuint> texDepthIds;
   std::vector<ID3D11Texture2D *> shTexOuts;
-  std::vector<ID3D11Texture2D *> shDepthTexOuts;
+  std::vector<ID3D11Texture2D *> shDepthTexFrontOuts;
+  std::vector<ID3D11Texture2D *> shDepthTexBackOuts;
   std::vector<ID3D11RenderTargetView *> renderTargetViews;
-  std::vector<ID3D11DepthStencilView *> renderTargetDepthViews;
-  // std::vector<HANDLE> shTexOutInteropHandles;
+  std::vector<ID3D11RenderTargetView *> renderTargetDepthFrontViews;
+  std::vector<ID3D11RenderTargetView *> renderTargetDepthBackViews;
+  std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
+  std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
