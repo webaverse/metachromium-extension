@@ -244,6 +244,28 @@ void getZBufferParamsFromNearFar(float nearValue, float farValue, float zBufferP
   zBufferParams[2] = (1.0f-farValue/nearValue)/farValue;
   zBufferParams[3] = (farValue/nearValue)/farValue;
 }
+bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
+  float projectionMatrix[16];
+  if (findProjectionMatrix(data, size, projectionMatrix)) {
+    getOut() << "found projection matrix: ";
+    for (size_t i = 0; i < 16; i++) {
+      getOut() << projectionMatrix[i] << " ";
+    }
+    getOut() << std::endl;
+    
+    float nearValue;
+    float farValue;
+    getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue);
+    getOut() << "got near far " << nearValue << " " << farValue << std::endl;
+
+    getZBufferParamsFromNearFar(nearValue, farValue, zBufferParams);
+    getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+
+    return true;
+  } else {
+    return false;
+  }
+}
 
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
   ID3D11DeviceContext *This,
@@ -987,8 +1009,6 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
   UINT            SrcRowPitch,
   UINT            SrcDepthPitch
 ) {
-  // getOut() << "" << std::endl;
-
   if (!haveZBufferParams) {
     ID3D11Buffer *buffer;
     HRESULT hr = pDstResource->lpVtbl->QueryInterface(pDstResource, IID_ID3D11Buffer, (void **)&buffer);
@@ -1009,26 +1029,8 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
         getOut() << std::endl;
       } */
 
-      if (desc.ByteWidth < 512) {
-        float projectionMatrix[16];
-        if (findProjectionMatrix(pSrcData, desc.ByteWidth, projectionMatrix)) {
-          getOut() << "found projection matrix: ";
-          for (size_t i = 0; i < 16; i++) {
-            getOut() << projectionMatrix[i] << " ";
-          }
-          getOut() << std::endl;
-          
-          float nearValue;
-          float farValue;
-          getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue);
-          getOut() << "get near far " << nearValue << " " << farValue << std::endl;
-          
-          float zBufferParams[4];
-          getZBufferParamsFromNearFar(nearValue, farValue, zBufferParams);
-          getOut() << "get z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
-
-          haveZBufferParams = true;
-        }
+      if (desc.ByteWidth < 512 && tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams)) {
+        haveZBufferParams = true;
       }
 
       buffer->lpVtbl->Release(buffer);
@@ -1049,13 +1051,9 @@ HRESULT STDMETHODCALLTYPE MineCreateBuffer(
   const D3D11_SUBRESOURCE_DATA *pInitialData,
   ID3D11Buffer                 **ppBuffer
 ) {
-  auto result = RealCreateBuffer(This, pDesc, pInitialData, ppBuffer);
-  if (pDesc->BindFlags & D3D11_BIND_CONSTANT_BUFFER) {
-    getOut() << "RealCreateBuffer " << (void *)(*ppBuffer) << " " << pDesc->ByteWidth << " " << pDesc->StructureByteStride << std::endl;
-  }
-  return result;
+  return RealCreateBuffer(This, pDesc, pInitialData, ppBuffer);
 }
-std::map<ID3D11Resource *, D3D11_MAPPED_SUBRESOURCE> resources;
+std::map<ID3D11Resource *, std::pair<void *, size_t>> cbufs;
 HRESULT (STDMETHODCALLTYPE *RealMap)(
   ID3D11DeviceContext1 *This,
   ID3D11Resource           *pResource,
@@ -1072,9 +1070,31 @@ HRESULT STDMETHODCALLTYPE MineMap(
   UINT                     MapFlags,
   D3D11_MAPPED_SUBRESOURCE *pMappedResource
 ) {
-  auto result = RealMap(This, pResource, Subresource, MapType, MapFlags, pMappedResource);
-  resources[pResource] = *pMappedResource;
-  return result;
+  HRESULT hr = RealMap(This, pResource, Subresource, MapType, MapFlags, pMappedResource);
+  if (!haveZBufferParams && SUCCEEDED(hr)) {
+    D3D11_RESOURCE_DIMENSION dim;
+    pResource->lpVtbl->GetType(pResource, &dim);
+
+    if (dim == D3D11_RESOURCE_DIMENSION_BUFFER) {
+      ID3D11Buffer *buffer;
+      HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Buffer, (void **)&buffer);
+
+      if (SUCCEEDED(hr)) {
+        D3D11_BUFFER_DESC desc;
+        buffer->lpVtbl->GetDesc(buffer, &desc);
+
+        if (desc.ByteWidth < 512) {
+          cbufs[pResource] = std::pair<void *, size_t>(pMappedResource->pData, desc.ByteWidth);
+        }
+        
+        buffer->lpVtbl->Release(buffer);
+      } else {
+        getOut() << "failed to get cbuf buffer view " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+  }
+  return hr;
 }
 void (STDMETHODCALLTYPE *RealUnmap)(
   ID3D11DeviceContext1 *This,
@@ -1087,27 +1107,32 @@ void STDMETHODCALLTYPE MineUnmap(
   UINT           Subresource
 ) {
   // getOut() << "RealUnmap " << (void *)pResource << std::endl;
-  
-  const D3D11_MAPPED_SUBRESOURCE *pMappedResource = &resources[pResource];
-  
-  ID3D11Buffer *buffer;
-  pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Buffer, (void **)&buffer);
-  if (buffer) {
-    D3D11_BUFFER_DESC desc;
-    buffer->lpVtbl->GetDesc(buffer, &desc);
-    getOut() << "RealUnmap " << (void *)pResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << " " << pMappedResource->RowPitch << " " << pMappedResource->DepthPitch << std::endl;
-    if (desc.ByteWidth < 4000) {
-      getOut() << "  ";
-      for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
-        getOut() << ((float *)pMappedResource->pData)[i] << " ";
+
+  if (!haveZBufferParams) {
+    auto iter = cbufs.find(pResource);
+    
+    if (iter != cbufs.end()) {
+      const std::pair<void *, size_t> &bufferSpec = iter->second;
+      
+      /* getOut() << "RealUnmap " << (void *)pResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << " " << pMappedResource->RowPitch << " " << pMappedResource->DepthPitch << std::endl;
+      if (desc.ByteWidth < 4000) {
+        getOut() << "  ";
+        for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
+          getOut() << ((float *)pMappedResource->pData)[i] << " ";
+        }
+        getOut() << std::endl;
+      } */
+
+      if (tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams)) {
+        haveZBufferParams = true;
+
+        cbufs.clear();
+      } else {
+        cbufs.erase(pResource);
       }
-      getOut() << std::endl;
     }
-    buffer->lpVtbl->Release(buffer);
   }
-  
-  resources.erase(pResource);
-  
+
   RealUnmap(This, pResource, Subresource);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateTexture2D)(
