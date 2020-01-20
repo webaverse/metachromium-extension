@@ -892,7 +892,24 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
   UINT            SrcRowPitch,
   UINT            SrcDepthPitch
 ) {
-  getOut() << "RealUpdateSubresource" << std::endl;
+  // getOut() << "" << std::endl;
+
+  ID3D11Buffer *buffer;
+  pDstResource->lpVtbl->QueryInterface(pDstResource, IID_ID3D11Buffer, (void **)&buffer);
+  if (buffer) {
+    D3D11_BUFFER_DESC desc;
+    buffer->lpVtbl->GetDesc(buffer, &desc);
+    getOut() << "RealUpdateSubresource " << (void *)pDstResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << std::endl;
+    if ((desc.BindFlags & D3D11_BIND_CONSTANT_BUFFER) && desc.ByteWidth < 4000) {
+      getOut() << "  ";
+      for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
+        getOut() << ((float *)pSrcData)[i] << " ";
+      }
+      getOut() << std::endl;
+    }
+    
+    buffer->lpVtbl->Release(buffer);
+  }
   RealUpdateSubresource(This, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateBuffer)(
@@ -913,7 +930,7 @@ HRESULT STDMETHODCALLTYPE MineCreateBuffer(
   }
   return result;
 }
-std::map<ID3D11Resource *, D3D11_MAPPED_SUBRESOURCE *> resources;
+std::map<ID3D11Resource *, D3D11_MAPPED_SUBRESOURCE> resources;
 HRESULT (STDMETHODCALLTYPE *RealMap)(
   ID3D11DeviceContext1 *This,
   ID3D11Resource           *pResource,
@@ -931,7 +948,7 @@ HRESULT STDMETHODCALLTYPE MineMap(
   D3D11_MAPPED_SUBRESOURCE *pMappedResource
 ) {
   auto result = RealMap(This, pResource, Subresource, MapType, MapFlags, pMappedResource);
-  // resources[pResource] = pMappedResource;
+  resources[pResource] = *pMappedResource;
   return result;
 }
 void (STDMETHODCALLTYPE *RealUnmap)(
@@ -946,7 +963,7 @@ void STDMETHODCALLTYPE MineUnmap(
 ) {
   // getOut() << "RealUnmap " << (void *)pResource << std::endl;
   
-  /* D3D11_MAPPED_SUBRESOURCE *pMappedResource = resources[pResource];
+  const D3D11_MAPPED_SUBRESOURCE *pMappedResource = &resources[pResource];
   
   ID3D11Buffer *buffer;
   pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Buffer, (void **)&buffer);
@@ -954,7 +971,7 @@ void STDMETHODCALLTYPE MineUnmap(
     D3D11_BUFFER_DESC desc;
     buffer->lpVtbl->GetDesc(buffer, &desc);
     getOut() << "RealUnmap " << (void *)pResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << " " << pMappedResource->RowPitch << " " << pMappedResource->DepthPitch << std::endl;
-    if (desc.ByteWidth < 3000) {
+    if (desc.ByteWidth < 4000) {
       getOut() << "  ";
       for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
         getOut() << ((float *)pMappedResource->pData)[i] << " ";
@@ -964,7 +981,7 @@ void STDMETHODCALLTYPE MineUnmap(
     buffer->lpVtbl->Release(buffer);
   }
   
-  resources.erase(pResource); */
+  resources.erase(pResource);
   
   RealUnmap(This, pResource, Subresource);
 }

@@ -186,33 +186,29 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   return Output;
 }
 
-static const float4x4 projectionMatrix = {0.917286, -0, 0, 0, 0, -0.833537, 0, 0, -0.174072, 0.106141, 9.53674e-07, -1, 0, -0, 0.02, 0};
+// Unity
+/* static const float4x4 projectionMatrix = {0.917286, -0, 0, 0, 0, -0.833537, 0, 0, -0.174072, 0.106141, 9.53674e-07, -1, 0, -0, 0.02, 0};
 static const float m32 = projectionMatrix[3][2];
 static const float m22 = projectionMatrix[2][2];
-static const float near = m32 / (m22 + 1.0);
+static const float near = m32 / (m22 + 1);
 static const float far = m32 / (m22);
-static const float4 _ZBufferParams = float4(-1+far/near, 1, (-1+far/near)/far, 1/far);
-// static const float4 _ZBufferParams = float4(1-far/near, far/near, (1-far/near)/far, (far/near)/far);
-inline float Linear01Depth( float z )
-{
+static const float4 _ZBufferParams = float4(-1+far/near, 1, (-1+far/near)/far, 1/far); */
+
+// Chrome
+static const float4x4 projectionMatrixRaw = {0.917286, 0, -0.174072, 0, 0, 0.833537, -0.106141, 0, 0, 0, -1.0002, -0.20002, 0, 0, -1, 0};
+static const float4x4 projectionMatrix = transpose(projectionMatrixRaw);
+static const float m32 = projectionMatrix[3][2];
+static const float m22 = projectionMatrix[2][2];
+static const float near = m32 / (m22 - 1);
+static const float far = m32 / (m22 + 1);
+static const float4 _ZBufferParams = float4(1-far/near, far/near, (1-far/near)/far, (far/near)/far);
+
+inline float Linear01Depth( float z ) {
   return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
 }
-inline float LinearEyeDepth( float z )
-{
+inline float LinearEyeDepth( float z ) {
   return 1.0 / (_ZBufferParams.z * z + _ZBufferParams.w);
 }
-/* float LinearEyeDepth2( float rawdepth )
-{
-    float _NearClip = far;
-    float _FarClip = near;
-    float x, y, z, w;
-    x = -1.0 + _NearClip/ _FarClip;
-    y = 1;
-    z = x / _NearClip;
-    w = 1 / _NearClip;
- 
-  return 1.0 / (z * rawdepth + w);
-} */
 
 PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
