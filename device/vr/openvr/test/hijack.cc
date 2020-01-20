@@ -184,29 +184,34 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
       int j = i + 4;
       if (j < numElements) {
         const float &e2 = ((const float *)data)[j];
+
         if (isWithinDelta(e2, pmb)) {
           int startIndex = i - 2;
           int endIndex = startIndex + 16;
           if (startIndex >= 0 && endIndex < numElements) {
-            // needs transpose
-            const float *src = &((const float *)data)[startIndex];
-            outProjectionMatrix[0] = src[0];
-            outProjectionMatrix[1] = src[4];
-            outProjectionMatrix[2] = src[8];
-            outProjectionMatrix[3] = src[12];
-            outProjectionMatrix[4] = src[1];
-            outProjectionMatrix[5] = src[5];
-            outProjectionMatrix[6] = src[9];
-            outProjectionMatrix[7] = src[13];
-            outProjectionMatrix[8] = src[2];
-            outProjectionMatrix[9] = src[6];
-            outProjectionMatrix[10] = src[10];
-            outProjectionMatrix[11] = src[14];
-            outProjectionMatrix[12] = src[3];
-            outProjectionMatrix[13] = src[7];
-            outProjectionMatrix[14] = src[11];
-            outProjectionMatrix[15] = src[15];
-            return true;
+            const float &e3 = ((const float *)data)[startIndex + 14];
+
+            if (e3 == -1.0f) {
+              // needs transpose
+              const float *src = &((const float *)data)[startIndex];
+              outProjectionMatrix[0] = src[0];
+              outProjectionMatrix[1] = src[4];
+              outProjectionMatrix[2] = src[8];
+              outProjectionMatrix[3] = src[12];
+              outProjectionMatrix[4] = src[1];
+              outProjectionMatrix[5] = src[5];
+              outProjectionMatrix[6] = src[9];
+              outProjectionMatrix[7] = src[13];
+              outProjectionMatrix[8] = src[2];
+              outProjectionMatrix[9] = src[6];
+              outProjectionMatrix[10] = src[10];
+              outProjectionMatrix[11] = src[14];
+              outProjectionMatrix[12] = src[3];
+              outProjectionMatrix[13] = src[7];
+              outProjectionMatrix[14] = src[11];
+              outProjectionMatrix[15] = src[15];
+              return true;
+            }
           }
         }
       }
@@ -214,12 +219,17 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
       j = i + 1;
       if (j < numElements) {
         const float &e2 = ((const float *)data)[j];
+
         if (isWithinDelta(e2, pmb)) {
           int startIndex = i - 8;
           int endIndex = startIndex + 16;
           if (startIndex >= 0 && endIndex < numElements) {
-            memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
-            return true;
+            const float &e3 = ((const float *)data)[startIndex + 11];
+
+            if (e3 == -1.0f) {
+              memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
+              return true;
+            }
           }
         }
       }
@@ -247,21 +257,35 @@ void getZBufferParamsFromNearFar(float nearValue, float farValue, float zBufferP
 bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
   float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
-    getOut() << "found projection matrix: ";
-    for (size_t i = 0; i < 16; i++) {
-      getOut() << projectionMatrix[i] << " ";
-    }
-    getOut() << std::endl;
-    
     float nearValue;
     float farValue;
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue);
-    getOut() << "got near far " << nearValue << " " << farValue << std::endl;
 
-    getZBufferParamsFromNearFar(nearValue, farValue, zBufferParams);
-    getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+    if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
+      getOut() << "found projection matrix: ";
+      for (size_t i = 0; i < 16; i++) {
+        getOut() << projectionMatrix[i] << " ";
+      }
+      getOut() << std::endl;
+      
+      getOut() << "got near far " << nearValue << " " << farValue << std::endl;
 
-    return true;
+      getZBufferParamsFromNearFar(nearValue, farValue, zBufferParams);
+      getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+
+      return true;
+    } else {
+      getOut() << "found projection matrix: ";
+      for (size_t i = 0; i < 16; i++) {
+        getOut() << projectionMatrix[i] << " ";
+      }
+      getOut() << std::endl;
+      
+      getOut() << "bad near far " << nearValue << " " << farValue << std::endl;
+      abort();
+
+      return false;
+    }
   } else {
     return false;
   }
