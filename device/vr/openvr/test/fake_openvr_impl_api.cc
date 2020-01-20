@@ -105,6 +105,9 @@ void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex) {
 void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight) {
   vr::g_pvrsystem->GetRecommendedRenderTargetSize(pWidth, pHeight);
 }
+void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom) {
+  vr::g_pvrsystem->GetProjectionRaw(eye, pfLeft, pfRight, pfTop, pfBottom);
+}
 // constexpr bool tracing = true;
 constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {

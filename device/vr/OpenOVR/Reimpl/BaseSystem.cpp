@@ -32,7 +32,7 @@ BaseSystem::BaseSystem() {
 
 void BaseSystem::GetRecommendedRenderTargetSize(uint32_t * width, uint32_t * height) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::GetRecommendedRenderTargetSize" << std::endl; });
-  return g_pvrsystem->GetRecommendedRenderTargetSize(width, height);
+  g_pvrsystem->GetRecommendedRenderTargetSize(width, height);
 }
 
 HmdMatrix44_t BaseSystem::GetProjectionMatrix(EVREye eye, float znear, float zfar) {
@@ -41,8 +41,9 @@ HmdMatrix44_t BaseSystem::GetProjectionMatrix(EVREye eye, float znear, float zfa
 }
 
 void BaseSystem::GetProjectionRaw(EVREye eye, float * pfLeft, float * pfRight, float * pfTop, float * pfBottom) {
-  getOut() << "BaseSystem::GetProjectionRaw" << std::endl;
-	return g_pvrsystem->GetProjectionRaw(eye, pfLeft, pfRight, pfTop, pfBottom);
+  TRACE("BaseSystem", []() { getOut() << "BaseSystem::GetProjectionRaw" << std::endl; });
+	g_pvrsystem->GetProjectionRaw(eye, pfLeft, pfRight, pfTop, pfBottom);
+  // getOut() << "BaseSystem::GetProjectionRaw " << (int)eye << " " << *pfLeft << " " << *pfRight << " " << *pfTop << " " << *pfBottom << std::endl;
 }
 
 bool BaseSystem::ComputeDistortion(EVREye eEye, float fU, float fV, DistortionCoordinates_t * out) {
@@ -67,12 +68,12 @@ int32_t BaseSystem::GetD3D9AdapterIndex() {
 
 void BaseSystem::GetDXGIOutputInfo(int32_t * adapterIndex) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::GetDXGIOutputInfo" << std::endl; });
-  return g_pvrsystem->GetDXGIOutputInfo(adapterIndex);
+  g_pvrsystem->GetDXGIOutputInfo(adapterIndex);
 }
 
 void BaseSystem::GetOutputDevice(uint64_t * pnDevice, ETextureType textureType, VkInstance_T * pInstance) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::GetOutputDevice" << std::endl; });
-  return g_pvrsystem->GetOutputDevice(pnDevice, textureType, pInstance);
+  g_pvrsystem->GetOutputDevice(pnDevice, textureType, pInstance);
 }
 
 bool BaseSystem::IsDisplayOnDesktop() {
@@ -88,7 +89,7 @@ bool BaseSystem::SetDisplayVisibility(bool bIsVisibleOnDesktop) {
 void BaseSystem::GetDeviceToAbsoluteTrackingPose(ETrackingUniverseOrigin toOrigin, float predictedSecondsToPhotonsFromNow,
   	TrackedDevicePose_t * poseArray, uint32_t poseArrayCount) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::GetDeviceToAbsoluteTrackingPose" << std::endl; });
-  return g_pvrsystem->GetDeviceToAbsoluteTrackingPose(toOrigin, predictedSecondsToPhotonsFromNow, poseArray, poseArrayCount);
+  g_pvrsystem->GetDeviceToAbsoluteTrackingPose(toOrigin, predictedSecondsToPhotonsFromNow, poseArray, poseArrayCount);
 }
 
 HmdMatrix34_t BaseSystem::GetSeatedZeroPoseToStandingAbsoluteTrackingPose() {
@@ -115,7 +116,7 @@ EDeviceActivityLevel BaseSystem::GetTrackedDeviceActivityLevel(vr::TrackedDevice
 
 void BaseSystem::ApplyTransform(TrackedDevicePose_t * pOutputPose, const TrackedDevicePose_t * pTrackedDevicePose, const HmdMatrix34_t * pTransform) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::ApplyTransform" << std::endl; });
-	return g_pvrsystem->ApplyTransform(pOutputPose, pTrackedDevicePose, pTransform);
+	g_pvrsystem->ApplyTransform(pOutputPose, pTrackedDevicePose, pTransform);
 }
 
 vr::TrackedDeviceIndex_t BaseSystem::GetTrackedDeviceIndexForControllerRole(vr::ETrackedControllerRole unDeviceType) {
@@ -207,7 +208,7 @@ bool BaseSystem::ShouldApplicationReduceRenderingWork() {
 }
 
 void BaseSystem::CheckControllerEvents(TrackedDeviceIndex_t hand, VRControllerState_t &last) {
-	return g_pvrsystem->CheckControllerEvents(hand, last);
+	g_pvrsystem->CheckControllerEvents(hand, last);
 } */
 
 bool BaseSystem::PollNextEvent(VREvent_t * pEvent, uint32_t uncbVREvent) {
@@ -246,7 +247,7 @@ bool BaseSystem::GetControllerStateWithPose(ETrackingUniverseOrigin eOrigin, vr:
 
 void BaseSystem::TriggerHapticPulse(vr::TrackedDeviceIndex_t unControllerDeviceIndex, uint32_t unAxisId, unsigned short usDurationMicroSec) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::TriggerHapticPulse" << std::endl; });
-	return g_pvrsystem->TriggerHapticPulse(unControllerDeviceIndex, unAxisId, usDurationMicroSec);
+	g_pvrsystem->TriggerHapticPulse(unControllerDeviceIndex, unAxisId, usDurationMicroSec);
 }
 
 const char * BaseSystem::GetButtonIdNameFromEnum(EVRButtonId eButtonId) {
@@ -269,7 +270,7 @@ bool BaseSystem::CaptureInputFocus() {
 void BaseSystem::ReleaseInputFocus() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::ReleaseInputFocus" << std::endl; });
   getOut() << "abort BaseSystem::ReleaseInputFocus" << std::endl; abort();
-	// return g_pvrsystem->ReleaseInputFocus();
+	// g_pvrsystem->ReleaseInputFocus();
 }
 
 bool BaseSystem::IsInputFocusCapturedByAnotherProcess() {
@@ -291,13 +292,13 @@ vr::EVRFirmwareError BaseSystem::PerformFirmwareUpdate(vr::TrackedDeviceIndex_t 
 
 void BaseSystem::AcknowledgeQuit_Exiting() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::AcknowledgeQuit_Exiting" << std::endl; });
-	return g_pvrsystem->AcknowledgeQuit_Exiting();
+	g_pvrsystem->AcknowledgeQuit_Exiting();
 }
 
 void BaseSystem::AcknowledgeQuit_UserPrompt() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::AcknowledgeQuit_UserPrompt" << std::endl; });
   getOut() << "abort BaseSystem::AcknowledgeQuit_UserPrompt" << std::endl; abort();
-	// return g_pvrsystem->AcknowledgeQuit_UserPrompt();
+	// g_pvrsystem->AcknowledgeQuit_UserPrompt();
 }
 
 uint32_t BaseSystem::GetAppContainerFilePaths(VR_OUT_STRING() char *pchBuffer, uint32_t unBufferSize) {
@@ -325,16 +326,16 @@ HmdMatrix44_t BaseSystem::GetProjectionMatrix(EVREye eye, float znear, float zfa
 void BaseSystem::PerformanceTestEnableCapture(bool bEnable) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::PerformanceTestEnableCapture" << std::endl; });
   getOut() << "abort BaseSystem::PerformanceTestEnableCapture" << std::endl; abort();
-	// return g_pvrsystem->PerformanceTestEnableCapture(bEnable);
+	// g_pvrsystem->PerformanceTestEnableCapture(bEnable);
 }
 
 void BaseSystem::PerformanceTestReportFidelityLevelChange(int nFidelityLevel) {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::PerformanceTestReportFidelityLevelChange" << std::endl; });
   getOut() << "abort BaseSystem::PerformanceTestReportFidelityLevelChange" << std::endl; abort();
-	// return g_pvrsystem->PerformanceTestReportFidelityLevelChange(nFidelityLevel);
+	// g_pvrsystem->PerformanceTestReportFidelityLevelChange(nFidelityLevel);
 }
 
 void BaseSystem::ResetSeatedZeroPose() {
   TRACE("BaseSystem", []() { getOut() << "BaseSystem::ResetSeatedZeroPose" << std::endl; });
-	return g_pvrsystem->ResetSeatedZeroPose();
+	g_pvrsystem->ResetSeatedZeroPose();
 }

@@ -1235,3 +1235,423 @@ Mon Jan 20 2020 13:31:16.913 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Le
 Mon Jan 20 2020 13:31:16.913 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
 Mon Jan 20 2020 13:31:16.913 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
 Mon Jan 20 2020 13:31:16.967 - oculus: Prediction interval too high: 0.102245 s, clamping at 0.100000 s
+Mon Jan 20 2020 13:36:06.278 - 1 - Setting standby flag (timeSinceHmdIdle=300.007773, timeSinceDeviceActive=157531.339221 (0x16ec7fec252), timeout=300.000000
+Mon Jan 20 2020 13:36:06.278 - 2 - Setting standby flag (timeSinceHmdIdle=300.007773, timeSinceDeviceActive=157531.339221 (0x16ec7fec252), timeout=300.000000
+Mon Jan 20 2020 13:36:06.278 - 1 - entering standby
+Mon Jan 20 2020 13:36:06.278 - 2 - entering standby
+Mon Jan 20 2020 13:47:13.604 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 13:47:13.605 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 8900 
+Mon Jan 20 2020 13:47:13.605 - StartSceneApplicationTransitionFromProcess( 8900, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 13:47:13.605 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 13:47:13.605 - AppInfoManager.ProcessConnected BEGIN 8900 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 13:47:13.614 - SetApplicationPid appkey=system.generated.process4.exe pid=8900, external transition
+Mon Jan 20 2020 13:47:13.614 - SetApplicationPid: Setting app system.generated.process4.exe PID to 8900
+Mon Jan 20 2020 13:47:13.614 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 13:47:13.614 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 13:47:13.617 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 13:47:13.617 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 13:47:13.617 - 0 - leaving standby
+Mon Jan 20 2020 13:47:13.617 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 13:47:13.617 - Processing message VRMsg_Connect from process4 (8900) took 0.0116 seconds
+Mon Jan 20 2020 13:47:18.697 - 0 - entering standby
+Mon Jan 20 2020 13:47:19.813 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 13:47:19.818 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 13:47:41.235 - Remembering SetActionManifestPath call from system.generated.process4.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Jan 20 2020 13:47:41.236 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Jan 20 2020 13:47:41.236 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Jan 20 2020 13:47:41.237 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Jan 20 2020 13:47:41.237 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Jan 20 2020 13:47:41.244 - Unknown action set /actions/buggy
+Mon Jan 20 2020 13:47:41.244 - Unknown action set /actions/platformer
+Mon Jan 20 2020 13:47:41.247 - Unknown action set /actions/buggy
+Mon Jan 20 2020 13:47:41.247 - Unknown action set /actions/platformer
+Mon Jan 20 2020 13:47:49.478 - Closing pipe process4 (8900) because it was broken from the other end
+Mon Jan 20 2020 13:47:49.478 - Process process4 (8900) disconnected (Thread(0x000002295F4DFEC0/0x000)
+Mon Jan 20 2020 13:47:49.478 - 0 - leaving standby
+Mon Jan 20 2020 13:47:49.478 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 13:47:49.478 - AppInfoManager.ProcessQuit processid=8900 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 13:47:49.478 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 8900 has exited
+Mon Jan 20 2020 13:47:49.479 - Starting SteamVR Home launch because system.generated.process4.exe exited after 35.864559 seconds
+Mon Jan 20 2020 13:47:49.479 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 13:47:54.486 - 0 - entering standby
+Mon Jan 20 2020 13:48:57.769 - 0 - leaving standby
+Mon Jan 20 2020 13:48:57.870 - oculus: IAD changed to 65.8mm
+Mon Jan 20 2020 13:48:57.870 - oculus: UpdateGeneratedState: IPD = 0.0657991, IAD = 0.0657991, screen_sep = 0.0717711
+Mon Jan 20 2020 13:49:00.596 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Jan 20 2020 13:49:00.652 - 1 - leaving standby
+Mon Jan 20 2020 13:49:00.680 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Jan 20 2020 13:49:00.694 - 2 - leaving standby
+Mon Jan 20 2020 13:49:01.302 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 13:49:01.304 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 13780 
+Mon Jan 20 2020 13:49:01.304 - StartSceneApplicationTransitionFromProcess( 13780, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 13:49:01.304 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 13:49:01.304 - AppInfoManager.ProcessConnected BEGIN 13780 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 13:49:01.314 - SetApplicationPid appkey=system.generated.process4.exe pid=13780, external transition
+Mon Jan 20 2020 13:49:01.314 - SetApplicationPid: Setting app system.generated.process4.exe PID to 13780
+Mon Jan 20 2020 13:49:01.315 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 13:49:01.315 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 13:49:01.318 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 13:49:01.318 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 13:49:01.318 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 13:49:01.318 - Processing message VRMsg_Connect from process4 (13780) took 0.0137 seconds
+Mon Jan 20 2020 13:49:14.722 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 13:49:14.726 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 13:49:20.041 - Remembering SetActionManifestPath call from system.generated.process4.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Jan 20 2020 13:49:20.043 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Jan 20 2020 13:49:20.043 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Jan 20 2020 13:49:20.043 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Jan 20 2020 13:49:20.043 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Jan 20 2020 13:49:20.124 - Unknown action set /actions/buggy
+Mon Jan 20 2020 13:49:20.125 - Unknown action set /actions/platformer
+Mon Jan 20 2020 13:49:20.127 - Unknown action set /actions/buggy
+Mon Jan 20 2020 13:49:20.128 - Unknown action set /actions/platformer
+Mon Jan 20 2020 13:49:27.725 - oculus: Prediction interval too high: 0.100672 s, clamping at 0.100000 s
+Mon Jan 20 2020 13:49:32.908 - Closing pipe process4 (13780) because it was broken from the other end
+Mon Jan 20 2020 13:49:32.908 - Process process4 (13780) disconnected (Thread(0x000002295F4DFFE0/0x000)
+Mon Jan 20 2020 13:49:32.909 - AppInfoManager.ProcessQuit processid=13780 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 13:49:32.909 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 13780 has exited
+Mon Jan 20 2020 13:49:32.909 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 13:49:32.909 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 13:49:32.911 - Starting SteamVR Home launch because system.generated.process4.exe exited after 31.596828 seconds
+Mon Jan 20 2020 13:49:37.911 - 0 - entering standby
+Mon Jan 20 2020 13:49:42.684 - oculus: IAD changed to 63.5mm
+Mon Jan 20 2020 13:49:42.684 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Jan 20 2020 13:49:42.684 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Jan 20 2020 13:49:42.684 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Jan 20 2020 13:49:42.759 - oculus: Prediction interval too high: 0.109542 s, clamping at 0.100000 s
+Mon Jan 20 2020 13:54:32.914 - 1 - Setting standby flag (timeSinceHmdIdle=300.004826, timeSinceDeviceActive=158637.975039 (0x1715b99fbf3), timeout=300.000000
+Mon Jan 20 2020 13:54:32.914 - 2 - Setting standby flag (timeSinceHmdIdle=300.004826, timeSinceDeviceActive=158637.975039 (0x1715b99fbf3), timeout=300.000000
+Mon Jan 20 2020 13:54:32.914 - 1 - entering standby
+Mon Jan 20 2020 13:54:32.914 - 2 - entering standby
+Mon Jan 20 2020 13:57:00.181 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 13:57:00.192 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 18692 
+Mon Jan 20 2020 13:57:00.192 - StartSceneApplicationTransitionFromProcess( 18692, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 13:57:00.192 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 13:57:00.192 - AppInfoManager.ProcessConnected BEGIN 18692 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 13:57:00.200 - SetApplicationPid appkey=system.generated.process4.exe pid=18692, external transition
+Mon Jan 20 2020 13:57:00.200 - SetApplicationPid: Setting app system.generated.process4.exe PID to 18692
+Mon Jan 20 2020 13:57:00.200 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 13:57:00.200 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 13:57:00.203 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 13:57:00.203 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 13:57:00.203 - 0 - leaving standby
+Mon Jan 20 2020 13:57:00.203 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 13:57:00.203 - Processing message VRMsg_Connect from process4 (18692) took 0.0106 seconds
+Mon Jan 20 2020 13:57:05.290 - 0 - entering standby
+Mon Jan 20 2020 13:57:06.869 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 13:57:06.873 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 13:57:11.503 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 11.302788 seconds
+Mon Jan 20 2020 13:57:11.506 - Closing pipe process4 (18692) because it was broken from the other end
+Mon Jan 20 2020 13:57:11.506 - Process process4 (18692) disconnected (Thread(0x000002295F4DFF50/0x000)
+Mon Jan 20 2020 13:57:11.506 - 0 - leaving standby
+Mon Jan 20 2020 13:57:11.507 - AppInfoManager.ProcessQuit processid=18692 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 13:57:11.507 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 18692 has exited
+Mon Jan 20 2020 13:57:11.507 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 13:57:11.507 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 13:57:16.614 - 0 - entering standby
+Mon Jan 20 2020 13:57:21.508 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 14:02:46.280 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 14:02:46.291 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 1888 
+Mon Jan 20 2020 14:02:46.292 - StartSceneApplicationTransitionFromProcess( 1888, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 14:02:46.292 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 14:02:46.292 - AppInfoManager.ProcessConnected BEGIN 1888 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 14:02:46.301 - SetApplicationPid appkey=system.generated.process4.exe pid=1888, external transition
+Mon Jan 20 2020 14:02:46.301 - SetApplicationPid: Setting app system.generated.process4.exe PID to 1888
+Mon Jan 20 2020 14:02:46.301 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 14:02:46.302 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 14:02:46.305 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 14:02:46.305 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 14:02:46.305 - 0 - leaving standby
+Mon Jan 20 2020 14:02:46.305 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 14:02:46.305 - Processing message VRMsg_Connect from process4 (1888) took 0.0137 seconds
+Mon Jan 20 2020 14:02:50.768 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 14:02:50.772 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 14:02:53.337 - 0 - entering standby
+Mon Jan 20 2020 14:02:55.632 - Closing pipe process4 (1888) because it was broken from the other end
+Mon Jan 20 2020 14:02:55.632 - Process process4 (1888) disconnected (Thread(0x00000229612FE600/0x000)
+Mon Jan 20 2020 14:02:55.633 - 0 - leaving standby
+Mon Jan 20 2020 14:02:55.633 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 9.331797 seconds
+Mon Jan 20 2020 14:02:55.633 - AppInfoManager.ProcessQuit processid=1888 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 14:02:55.633 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 1888 has exited
+Mon Jan 20 2020 14:02:55.633 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 14:02:55.633 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 14:03:00.639 - 0 - entering standby
+Mon Jan 20 2020 14:03:05.634 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 14:03:55.230 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 14:03:55.237 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 12492 
+Mon Jan 20 2020 14:03:55.237 - StartSceneApplicationTransitionFromProcess( 12492, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 14:03:55.237 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 14:03:55.237 - AppInfoManager.ProcessConnected BEGIN 12492 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 14:03:55.245 - SetApplicationPid appkey=system.generated.process4.exe pid=12492, external transition
+Mon Jan 20 2020 14:03:55.245 - SetApplicationPid: Setting app system.generated.process4.exe PID to 12492
+Mon Jan 20 2020 14:03:55.245 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 14:03:55.245 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 14:03:55.248 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 14:03:55.248 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 14:03:55.248 - 0 - leaving standby
+Mon Jan 20 2020 14:03:55.249 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 14:03:55.249 - Processing message VRMsg_Connect from process4 (12492) took 0.0113 seconds
+Mon Jan 20 2020 14:03:59.674 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 14:03:59.678 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 14:04:00.350 - 0 - entering standby
+Mon Jan 20 2020 14:04:21.564 - Remembering SetActionManifestPath call from system.generated.process4.exe: file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/actions.json
+Mon Jan 20 2020 14:04:21.565 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Jan 20 2020 14:04:21.565 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Jan 20 2020 14:04:21.565 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/bindings_oculus_touch.json
+Mon Jan 20 2020 14:04:21.565 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/Space%20Pirate%20Trainer%20VR/binding_rift.json
+Mon Jan 20 2020 14:04:21.643 - Unknown action set /actions/buggy
+Mon Jan 20 2020 14:04:21.644 - Unknown action set /actions/platformer
+Mon Jan 20 2020 14:04:21.645 - Unknown action set /actions/buggy
+Mon Jan 20 2020 14:04:21.646 - Unknown action set /actions/platformer
+Mon Jan 20 2020 14:04:30.214 - Closing pipe process4 (12492) because it was broken from the other end
+Mon Jan 20 2020 14:04:30.214 - Process process4 (12492) disconnected (Thread(0x000002295F7A0080/0x000)
+Mon Jan 20 2020 14:04:30.214 - 0 - leaving standby
+Mon Jan 20 2020 14:04:30.214 - AppInfoManager.ProcessQuit processid=12492 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 14:04:30.214 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 12492 has exited
+Mon Jan 20 2020 14:04:30.214 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 14:04:30.214 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 14:04:30.215 - Starting SteamVR Home launch because system.generated.process4.exe exited after 34.970169 seconds
+Mon Jan 20 2020 14:04:35.223 - 0 - entering standby
+Mon Jan 20 2020 16:09:17.653 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:09:17.664 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 18948 
+Mon Jan 20 2020 16:09:17.664 - StartSceneApplicationTransitionFromProcess( 18948, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:09:17.664 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:09:17.664 - AppInfoManager.ProcessConnected BEGIN 18948 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:09:17.673 - SetApplicationPid appkey=system.generated.process4.exe pid=18948, external transition
+Mon Jan 20 2020 16:09:17.673 - SetApplicationPid: Setting app system.generated.process4.exe PID to 18948
+Mon Jan 20 2020 16:09:17.673 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:09:17.673 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:09:17.676 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:09:17.676 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:09:17.676 - 0 - leaving standby
+Mon Jan 20 2020 16:09:17.676 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:09:17.676 - Processing message VRMsg_Connect from process4 (18948) took 0.0118 seconds
+Mon Jan 20 2020 16:09:22.704 - 0 - entering standby
+Mon Jan 20 2020 16:09:24.512 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:09:24.517 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:09:29.164 - Closing pipe process4 (18948) because it was broken from the other end
+Mon Jan 20 2020 16:09:29.164 - Process process4 (18948) disconnected (Thread(0x000002295F79EC40/0x000)
+Mon Jan 20 2020 16:09:29.164 - 0 - leaving standby
+Mon Jan 20 2020 16:09:29.165 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:09:29.165 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 11.491451 seconds
+Mon Jan 20 2020 16:09:29.165 - AppInfoManager.ProcessQuit processid=18948 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:09:29.165 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 18948 has exited
+Mon Jan 20 2020 16:09:29.166 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:09:34.210 - 0 - entering standby
+Mon Jan 20 2020 16:09:39.165 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 16:11:12.871 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:11:12.882 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 20012 
+Mon Jan 20 2020 16:11:12.882 - StartSceneApplicationTransitionFromProcess( 20012, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:11:12.882 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:11:12.882 - AppInfoManager.ProcessConnected BEGIN 20012 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:11:12.891 - SetApplicationPid appkey=system.generated.process4.exe pid=20012, external transition
+Mon Jan 20 2020 16:11:12.891 - SetApplicationPid: Setting app system.generated.process4.exe PID to 20012
+Mon Jan 20 2020 16:11:12.891 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:11:12.891 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:11:12.893 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:11:12.893 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:11:12.894 - 0 - leaving standby
+Mon Jan 20 2020 16:11:12.894 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:11:12.894 - Processing message VRMsg_Connect from process4 (20012) took 0.0115 seconds
+Mon Jan 20 2020 16:11:17.920 - 0 - entering standby
+Mon Jan 20 2020 16:11:18.435 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:11:18.438 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:11:22.537 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 9.645947 seconds
+Mon Jan 20 2020 16:11:22.540 - Closing pipe process4 (20012) because it was broken from the other end
+Mon Jan 20 2020 16:11:22.540 - Process process4 (20012) disconnected (Thread(0x0000022961303CA0/0x000)
+Mon Jan 20 2020 16:11:22.540 - 0 - leaving standby
+Mon Jan 20 2020 16:11:22.540 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:11:22.541 - AppInfoManager.ProcessQuit processid=20012 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:11:22.541 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 20012 has exited
+Mon Jan 20 2020 16:11:22.541 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:11:27.544 - 0 - entering standby
+Mon Jan 20 2020 16:11:32.546 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 16:14:19.749 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:14:19.756 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 8704 
+Mon Jan 20 2020 16:14:19.756 - StartSceneApplicationTransitionFromProcess( 8704, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:14:19.756 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:14:19.756 - AppInfoManager.ProcessConnected BEGIN 8704 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:14:19.765 - SetApplicationPid appkey=system.generated.process4.exe pid=8704, external transition
+Mon Jan 20 2020 16:14:19.765 - SetApplicationPid: Setting app system.generated.process4.exe PID to 8704
+Mon Jan 20 2020 16:14:19.765 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:14:19.766 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:14:19.768 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:14:19.768 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:14:19.768 - 0 - leaving standby
+Mon Jan 20 2020 16:14:19.768 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:14:19.768 - Processing message VRMsg_Connect from process4 (8704) took 0.0117 seconds
+Mon Jan 20 2020 16:14:24.870 - 0 - entering standby
+Mon Jan 20 2020 16:14:28.676 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:14:28.679 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:14:33.865 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 14.099388 seconds
+Mon Jan 20 2020 16:14:33.868 - Closing pipe process4 (8704) because it was broken from the other end
+Mon Jan 20 2020 16:14:33.868 - Process process4 (8704) disconnected (Thread(0x000002295F855BD0/0x000)
+Mon Jan 20 2020 16:14:33.868 - 0 - leaving standby
+Mon Jan 20 2020 16:14:33.869 - AppInfoManager.ProcessQuit processid=8704 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:14:33.869 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 8704 has exited
+Mon Jan 20 2020 16:14:33.869 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:14:33.869 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:14:38.876 - 0 - entering standby
+Mon Jan 20 2020 16:14:43.873 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 16:15:51.453 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:15:51.460 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 8036 
+Mon Jan 20 2020 16:15:51.460 - StartSceneApplicationTransitionFromProcess( 8036, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:15:51.460 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:15:51.460 - AppInfoManager.ProcessConnected BEGIN 8036 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:15:51.469 - SetApplicationPid appkey=system.generated.process4.exe pid=8036, external transition
+Mon Jan 20 2020 16:15:51.469 - SetApplicationPid: Setting app system.generated.process4.exe PID to 8036
+Mon Jan 20 2020 16:15:51.469 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:15:51.469 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:15:51.471 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:15:51.471 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:15:51.471 - 0 - leaving standby
+Mon Jan 20 2020 16:15:51.471 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:15:51.471 - Processing message VRMsg_Connect from process4 (8036) took 0.0107 seconds
+Mon Jan 20 2020 16:15:56.587 - 0 - entering standby
+Mon Jan 20 2020 16:15:57.072 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:15:57.076 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:16:03.763 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 12.294054 seconds
+Mon Jan 20 2020 16:16:03.767 - Closing pipe process4 (8036) because it was broken from the other end
+Mon Jan 20 2020 16:16:03.767 - Process process4 (8036) disconnected (Thread(0x000002295F79E2B0/0x000)
+Mon Jan 20 2020 16:16:03.767 - 0 - leaving standby
+Mon Jan 20 2020 16:16:03.767 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:16:03.767 - AppInfoManager.ProcessQuit processid=8036 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:16:03.767 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 8036 has exited
+Mon Jan 20 2020 16:16:03.767 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:16:08.772 - 0 - entering standby
+Mon Jan 20 2020 16:16:13.768 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 16:25:05.227 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:25:05.239 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 2380 
+Mon Jan 20 2020 16:25:05.239 - StartSceneApplicationTransitionFromProcess( 2380, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:25:05.239 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:25:05.239 - AppInfoManager.ProcessConnected BEGIN 2380 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:25:05.247 - SetApplicationPid appkey=system.generated.process4.exe pid=2380, external transition
+Mon Jan 20 2020 16:25:05.247 - SetApplicationPid: Setting app system.generated.process4.exe PID to 2380
+Mon Jan 20 2020 16:25:05.247 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:25:05.248 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:25:05.250 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:25:05.250 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:25:05.250 - 0 - leaving standby
+Mon Jan 20 2020 16:25:05.250 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:25:05.250 - Processing message VRMsg_Connect from process4 (2380) took 0.0115 seconds
+Mon Jan 20 2020 16:25:10.341 - 0 - entering standby
+Mon Jan 20 2020 16:25:12.282 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:25:12.285 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:25:17.563 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 12.316646 seconds
+Mon Jan 20 2020 16:25:17.568 - Closing pipe process4 (2380) because it was broken from the other end
+Mon Jan 20 2020 16:25:17.568 - Process process4 (2380) disconnected (Thread(0x000002295F925F70/0x000)
+Mon Jan 20 2020 16:25:17.568 - 0 - leaving standby
+Mon Jan 20 2020 16:25:17.568 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:25:17.568 - AppInfoManager.ProcessQuit processid=2380 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:25:17.568 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 2380 has exited
+Mon Jan 20 2020 16:25:17.568 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:25:22.593 - 0 - entering standby
+Mon Jan 20 2020 16:25:27.566 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 16:28:08.830 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:28:08.841 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 5300 
+Mon Jan 20 2020 16:28:08.841 - StartSceneApplicationTransitionFromProcess( 5300, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:28:08.841 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:28:08.841 - AppInfoManager.ProcessConnected BEGIN 5300 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:28:08.851 - SetApplicationPid appkey=system.generated.process4.exe pid=5300, external transition
+Mon Jan 20 2020 16:28:08.851 - SetApplicationPid: Setting app system.generated.process4.exe PID to 5300
+Mon Jan 20 2020 16:28:08.851 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:28:08.851 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:28:08.853 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:28:08.853 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:28:08.853 - 0 - leaving standby
+Mon Jan 20 2020 16:28:08.853 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:28:08.853 - Processing message VRMsg_Connect from process4 (5300) took 0.0123 seconds
+Mon Jan 20 2020 16:28:13.987 - 0 - entering standby
+Mon Jan 20 2020 16:28:16.027 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:28:16.030 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:28:20.230 - Closing pipe process4 (5300) because it was broken from the other end
+Mon Jan 20 2020 16:28:20.230 - Process process4 (5300) disconnected (Thread(0x000002296A464690/0x000)
+Mon Jan 20 2020 16:28:20.230 - 0 - leaving standby
+Mon Jan 20 2020 16:28:20.230 - AppInfoManager.ProcessQuit processid=5300 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:28:20.230 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 11.379446 seconds
+Mon Jan 20 2020 16:28:20.230 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 5300 has exited
+Mon Jan 20 2020 16:28:20.230 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:28:20.230 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:28:25.285 - 0 - entering standby
+Mon Jan 20 2020 16:28:30.237 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 16:31:54.400 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:31:54.401 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 10620 
+Mon Jan 20 2020 16:31:54.401 - StartSceneApplicationTransitionFromProcess( 10620, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:31:54.401 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:31:54.401 - AppInfoManager.ProcessConnected BEGIN 10620 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:31:54.411 - SetApplicationPid appkey=system.generated.process4.exe pid=10620, external transition
+Mon Jan 20 2020 16:31:54.411 - SetApplicationPid: Setting app system.generated.process4.exe PID to 10620
+Mon Jan 20 2020 16:31:54.411 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:31:54.411 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:31:54.413 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:31:54.413 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:31:54.413 - 0 - leaving standby
+Mon Jan 20 2020 16:31:54.413 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:31:54.414 - Processing message VRMsg_Connect from process4 (10620) took 0.0123 seconds
+Mon Jan 20 2020 16:31:59.469 - 0 - entering standby
+Mon Jan 20 2020 16:32:02.691 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:32:02.695 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:32:07.902 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 13.490723 seconds
+Mon Jan 20 2020 16:32:07.904 - Closing pipe process4 (10620) because it was broken from the other end
+Mon Jan 20 2020 16:32:07.904 - Process process4 (10620) disconnected (Thread(0x000002295F856050/0x000)
+Mon Jan 20 2020 16:32:07.904 - 0 - leaving standby
+Mon Jan 20 2020 16:32:07.905 - AppInfoManager.ProcessQuit processid=10620 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:32:07.905 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 10620 has exited
+Mon Jan 20 2020 16:32:07.905 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:32:07.905 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:32:12.950 - 0 - entering standby
+Mon Jan 20 2020 16:32:17.902 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 16:40:59.124 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:40:59.129 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 3932 
+Mon Jan 20 2020 16:40:59.129 - StartSceneApplicationTransitionFromProcess( 3932, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:40:59.129 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:40:59.129 - AppInfoManager.ProcessConnected BEGIN 3932 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:40:59.138 - SetApplicationPid appkey=system.generated.process4.exe pid=3932, external transition
+Mon Jan 20 2020 16:40:59.138 - SetApplicationPid: Setting app system.generated.process4.exe PID to 3932
+Mon Jan 20 2020 16:40:59.138 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:40:59.138 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:40:59.141 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:40:59.141 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:40:59.141 - 0 - leaving standby
+Mon Jan 20 2020 16:40:59.141 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:40:59.141 - Processing message VRMsg_Connect from process4 (3932) took 0.012 seconds
+Mon Jan 20 2020 16:41:04.255 - 0 - entering standby
+Mon Jan 20 2020 16:41:05.099 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:41:05.103 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:41:08.843 - Closing pipe process4 (3932) because it was broken from the other end
+Mon Jan 20 2020 16:41:08.843 - Process process4 (3932) disconnected (Thread(0x00000229612FE3C0/0x000)
+Mon Jan 20 2020 16:41:08.843 - 0 - leaving standby
+Mon Jan 20 2020 16:41:08.843 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:41:08.843 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 9.705989 seconds
+Mon Jan 20 2020 16:41:08.844 - AppInfoManager.ProcessQuit processid=3932 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:41:08.844 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 3932 has exited
+Mon Jan 20 2020 16:41:08.844 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:41:13.945 - 0 - entering standby
+Mon Jan 20 2020 16:41:18.851 - Starting home app after 10.000000 seconds
+Mon Jan 20 2020 16:46:18.761 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 16:46:18.768 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 12752 
+Mon Jan 20 2020 16:46:18.768 - StartSceneApplicationTransitionFromProcess( 12752, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 16:46:18.768 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 16:46:18.768 - AppInfoManager.ProcessConnected BEGIN 12752 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 16:46:18.777 - SetApplicationPid appkey=system.generated.process4.exe pid=12752, external transition
+Mon Jan 20 2020 16:46:18.777 - SetApplicationPid: Setting app system.generated.process4.exe PID to 12752
+Mon Jan 20 2020 16:46:18.777 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 16:46:18.777 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 16:46:18.779 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 16:46:18.779 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 16:46:18.779 - 0 - leaving standby
+Mon Jan 20 2020 16:46:18.779 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 16:46:18.779 - Processing message VRMsg_Connect from process4 (12752) took 0.0113 seconds
+Mon Jan 20 2020 16:46:23.797 - 0 - entering standby
+Mon Jan 20 2020 16:46:24.348 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 16:46:24.352 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 16:46:29.177 - Delaying SteamVR Home launch because system.generated.process4.exe ran for only 10.399754 seconds
+Mon Jan 20 2020 16:46:29.181 - Closing pipe process4 (12752) because it was broken from the other end
+Mon Jan 20 2020 16:46:29.181 - Process process4 (12752) disconnected (Thread(0x000002295F925EE0/0x000)
+Mon Jan 20 2020 16:46:29.181 - 0 - leaving standby
+Mon Jan 20 2020 16:46:29.181 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 16:46:29.181 - AppInfoManager.ProcessQuit processid=12752 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 16:46:29.181 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 12752 has exited
+Mon Jan 20 2020 16:46:29.181 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 16:46:34.185 - 0 - entering standby
+Mon Jan 20 2020 16:46:39.182 - Starting home app after 10.000000 seconds

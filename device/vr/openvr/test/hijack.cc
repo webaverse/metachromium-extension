@@ -15,6 +15,7 @@
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/detours/detours.h"
+#include "third_party/openvr/src/headers/openvr.h"
 
 #define EGL_EGLEXT_PROTOTYPES
 
@@ -110,6 +111,7 @@ std::vector<ID3D11Fence *> fenceCache;
 // void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
 void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
 void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight);
+void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom);
 
 void checkDetourError(const char *label, LONG error) {
   if (error) {
@@ -150,6 +152,106 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     desc.SampleDesc.Count > 1 &&
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
+
+float pmLeft = 0;
+float pmRight = 0;
+float pmTop = 0;
+float pmBottom = 0;
+float pma = 0;
+float pmb = 0;
+/* uint32_t a1 = 0;
+uint32_t a2 = 0;
+uint32_t b1 = 0;
+uint32_t b2 = 0; */
+void ensureProjectionMatrixSpec() {
+  if (pmLeft == 0) {
+    ProxyGetProjectionRaw(vr::Eye_Left, &pmLeft, &pmRight, &pmTop, &pmBottom);
+    pma = std::abs((pmRight+pmLeft) / (pmRight-pmLeft));
+    pmb = std::abs((pmTop+pmBottom) / (pmTop-pmBottom));
+    /* a1 = *reinterpret_cast<uint32_t *>(&a);
+    b1 = *reinterpret_cast<uint32_t *>(&b);
+    a *= -1;
+    b *= -1;
+    a2 = *reinterpret_cast<uint32_t *>(&a);
+    b2 = *reinterpret_cast<uint32_t *>(&b); */
+    
+    getOut() << "looking for " << pma << " " << pmb << std::endl;
+  }
+}
+inline bool isWithinDelta(float a, float target) {
+  return std::abs(target - std::abs(a)) < 0.000001f;
+}
+bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMatrix) {
+  ensureProjectionMatrixSpec();
+
+  int numElements = (int)size / sizeof(float);
+  for (int i = 0; i < numElements; i++) {
+    const float &e1 = ((const float *)data)[i];
+    if (isWithinDelta(e1, pma)) {
+      int j = i + 4;
+      if (j < numElements) {
+        const float &e2 = ((const float *)data)[j];
+        if (isWithinDelta(e2, pmb)) {
+          int startIndex = i - 2;
+          int endIndex = startIndex + 16;
+          if (startIndex >= 0 && endIndex < numElements) {
+            // needs transpose
+            const float *src = &((const float *)data)[startIndex];
+            outProjectionMatrix[0] = src[0];
+            outProjectionMatrix[1] = src[4];
+            outProjectionMatrix[2] = src[8];
+            outProjectionMatrix[3] = src[12];
+            outProjectionMatrix[4] = src[1];
+            outProjectionMatrix[5] = src[5];
+            outProjectionMatrix[6] = src[9];
+            outProjectionMatrix[7] = src[13];
+            outProjectionMatrix[8] = src[2];
+            outProjectionMatrix[9] = src[6];
+            outProjectionMatrix[10] = src[10];
+            outProjectionMatrix[11] = src[14];
+            outProjectionMatrix[12] = src[3];
+            outProjectionMatrix[13] = src[7];
+            outProjectionMatrix[14] = src[11];
+            outProjectionMatrix[15] = src[15];
+            return true;
+          }
+        }
+      }
+      
+      j = i + 1;
+      if (j < numElements) {
+        const float &e2 = ((const float *)data)[j];
+        if (isWithinDelta(e2, pmb)) {
+          int startIndex = i - 8;
+          int endIndex = startIndex + 16;
+          if (startIndex >= 0 && endIndex < numElements) {
+            memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
+            return true;
+          }
+        }
+      }
+    }
+  }
+  return false;
+}
+void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNear, float *pFar) {
+  float m32 = projectionMatrix[14];
+  float m22 = projectionMatrix[10];
+  if (m22 > 0) {
+    *pNear = m32 / (m22 + 1);
+    *pFar = m32 / m22;
+  } else {
+    *pNear = m32 / (m22 - 1);
+    *pFar = m32 / (m22 + 1);
+  }
+}
+void getZBufferParamsFromNearFar(float nearValue, float farValue, float zBufferParams[4]) {
+  zBufferParams[0] = 1.0f-farValue/nearValue;
+  zBufferParams[1] = farValue/nearValue;
+  zBufferParams[2] = (1.0f-farValue/nearValue)/farValue;
+  zBufferParams[3] = (farValue/nearValue)/farValue;
+}
+
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
   ID3D11DeviceContext *This,
   UINT                   NumViews,
@@ -531,7 +633,7 @@ void ensureDepthTexDrawn() {
           ensureDepthWidthHeight();
           bool isFull = descDepth.Width > depthWidth;
 
-          getOut() << "ensure drawn " << isFull << std::endl;
+          // getOut() << "ensure drawn " << isFull << std::endl;
           texOrder.push_back(ProxyTexture{shHandle, 0});
           if (isFull) {
             texOrder.push_back(ProxyTexture{shHandle, 1});
@@ -906,8 +1008,31 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
         getOut() << ((float *)pSrcData)[i] << " ";
       }
       getOut() << std::endl;
+      getOut() << "  ";
+      for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
+        getOut() << ((uint32_t *)pSrcData)[i] << " ";
+      }
+      getOut() << std::endl;
     }
-    
+
+    float projectionMatrix[16];
+    if (desc.ByteWidth < 512 && findProjectionMatrix(pSrcData, desc.ByteWidth, projectionMatrix)) {
+      getOut() << "found projection matrix: ";
+      for (size_t i = 0; i < 16; i++) {
+        getOut() << projectionMatrix[i] << " ";
+      }
+      getOut() << std::endl;
+      
+      float nearValue;
+      float farValue;
+      getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue);
+      getOut() << "get near far " << nearValue << " " << farValue << std::endl;
+      
+      float zBufferParams[4];
+      getZBufferParamsFromNearFar(nearValue, farValue, zBufferParams);
+      getOut() << "get z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+    }
+
     buffer->lpVtbl->Release(buffer);
   }
   RealUpdateSubresource(This, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
