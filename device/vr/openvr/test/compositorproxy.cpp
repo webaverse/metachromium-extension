@@ -4,6 +4,7 @@
 #include "device/vr/openvr/test/hijack.h"
 
 // extern uint64_t *pFrameCount;
+extern bool isChrome;
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -134,11 +135,11 @@ cbuffer PS_CONSTANT_BUFFER : register(b0)
 
 cbuffer PS_CONSTANT_BUFFER : register(b1)
 {
+  float zMin;
+  float zMax;
   float4 depthColor;
   float tmpps21;
   float tmpps22;
-  float tmpps23;
-  float tmpps24;
 }
 
 //------------------------------------------------------------//
@@ -189,7 +190,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
 
-  float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+  float d = zMin + QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r * (zMax - zMin);
   float existingDepth = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
   // result.Color = float4(d, d, d, 1) * depthColor;
@@ -488,18 +489,21 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags,
-    uintptr_t,
+    std::tuple<uintptr_t, float, float>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >([=, &fnp](
     EVREye eEye,
     managed_binary<Texture_t> sharedTexture,
     managed_binary<VRTextureBounds_t> bounds,
     EVRSubmitFlags submitFlags,
-    uintptr_t sharedDepthHandlePtr,
+    std::tuple<uintptr_t, float, float> depthSpec,
     std::tuple<uintptr_t, uintptr_t, uint64_t> fenceSpec
   ) {
     Texture_t *pTexture = sharedTexture.data();
     VRTextureBounds_t *pBounds = bounds.data();
+    uintptr_t sharedDepthHandlePtr = std::get<0>(depthSpec);
+    float zMin = std::get<1>(depthSpec);
+    float zMax = std::get<2>(depthSpec);
     HANDLE sharedDepthHandle = (HANDLE)sharedDepthHandlePtr;
     DWORD clientProcessId = (DWORD)std::get<0>(fenceSpec);
     HANDLE clientFenceHandle = (HANDLE)std::get<1>(fenceSpec);
@@ -787,11 +791,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls, 0, 0);
 
       float localDepthColors[8] = {
+        zMin,
+        zMax,
         (index <= 1) ? 1 : 0,
         0,
         (index <= 1) ? 0 : 1,
         1,
-        0, 0, 0, 0
+        0, 0
       };
       context->UpdateSubresource(psConstantBuffers[1], 0, 0, localDepthColors, 0, 0);
 
@@ -2255,6 +2261,14 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   };
 
   getOut() << "client submit 1" << std::endl;
+  float zMin, zMax;
+  if (isChrome) {
+    zMin = 0;
+    zMax = 1;
+  } else {
+    zMin = 1;
+    zMax = 0;
+  }
   auto result = fnp.call<
     kIVRCompositor_Submit,
     std::tuple<uintptr_t, uintptr_t, uint64_t>,
@@ -2262,14 +2276,14 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags,
-    uintptr_t,
+    std::tuple<uintptr_t, float, float>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >(
     eEye,
     std::move(sharedTexture),
     std::move(bounds),
     EVRSubmitFlags::Submit_Default,
-    (uintptr_t)sharedDepthHandle,
+    std::tuple<uintptr_t, float, float>((uintptr_t)sharedDepthHandle, zMin, zMax),
     std::tuple<uintptr_t, uintptr_t, uint64_t>(
       (uintptr_t)GetCurrentProcessId(),
       (uintptr_t)fenceHandle,
