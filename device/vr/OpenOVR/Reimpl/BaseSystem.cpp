@@ -41,7 +41,7 @@ HmdMatrix44_t BaseSystem::GetProjectionMatrix(EVREye eye, float znear, float zfa
 }
 
 void BaseSystem::GetProjectionRaw(EVREye eye, float * pfLeft, float * pfRight, float * pfTop, float * pfBottom) {
-  TRACE("BaseSystem", []() { getOut() << "BaseSystem::GetProjectionRaw" << std::endl; });
+  getOut() << "BaseSystem::GetProjectionRaw" << std::endl;
 	return g_pvrsystem->GetProjectionRaw(eye, pfLeft, pfRight, pfTop, pfBottom);
 }
 
@@ -318,7 +318,7 @@ DistortionCoordinates_t BaseSystem::ComputeDistortion(EVREye eEye, float fU, flo
 }
 
 HmdMatrix44_t BaseSystem::GetProjectionMatrix(EVREye eye, float znear, float zfar, EGraphicsAPIConvention convention) {
-  TRACE("BaseSystem", []() { getOut() << "BaseSystem::GetProjectionMatrix" << std::endl; });
+  getOut() << "BaseSystem::GetProjectionMatrix " << znear << " " << zfar << std::endl;
 	return g_pvrsystem->GetProjectionMatrix(eye, znear, zfar);
 }
 

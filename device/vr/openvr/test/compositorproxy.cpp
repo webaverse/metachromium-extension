@@ -186,12 +186,41 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   return Output;
 }
 
+static const float4x4 projectionMatrix = {0.917286, -0, 0, 0, 0, -0.833537, 0, 0, -0.174072, 0.106141, 9.53674e-07, -1, 0, -0, 0.02, 0};
+static const float m32 = projectionMatrix[3][2];
+static const float m22 = projectionMatrix[2][2];
+static const float near = m32 / (m22 + 1.0);
+static const float far = m32 / (m22);
+static const float4 _ZBufferParams = float4(-1+far/near, 1, (-1+far/near)/far, 1/far);
+// static const float4 _ZBufferParams = float4(1-far/near, far/near, (1-far/near)/far, (far/near)/far);
+inline float Linear01Depth( float z )
+{
+  return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
+}
+inline float LinearEyeDepth( float z )
+{
+  return 1.0 / (_ZBufferParams.z * z + _ZBufferParams.w);
+}
+/* float LinearEyeDepth2( float rawdepth )
+{
+    float _NearClip = far;
+    float _FarClip = near;
+    float x, y, z, w;
+    x = -1.0 + _NearClip/ _FarClip;
+    y = 1;
+    z = x / _NearClip;
+    w = 1 / _NearClip;
+ 
+  return 1.0 / (z * rawdepth + w);
+} */
+
 PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
 
-  float d = zMin + QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r * (zMax - zMin);
-  float existingDepth = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
+  float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+  d = near + LinearEyeDepth(d);
+  float existingDepth = 0; // DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
   // result.Color = float4(d, d, d, 1) * depthColor;
   result.Color = float4(d, 0, existingDepth*0.2, 1);
@@ -2689,6 +2718,11 @@ void PVRCompositor::InitShader() {
     // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
     // cbDesc.MiscFlags = 0;
     // cbDesc.StructureByteStride = 0;
+
+    // x = -1+far/near
+    // y = 1
+    // z = x/far
+    // w = 1/far
 
     // Create the buffer.
     hr = device->CreateBuffer(

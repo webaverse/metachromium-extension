@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <algorithm>
+#include <iomanip>
 
 #define CINTERFACE
 #define D3D11_NO_HELPERS
@@ -873,6 +874,100 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   getOut() << "ResolveSubresource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
   RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
 }
+void (STDMETHODCALLTYPE *RealUpdateSubresource)(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource  *pDstResource,
+  UINT            DstSubresource,
+  const D3D11_BOX *pDstBox,
+  const void      *pSrcData,
+  UINT            SrcRowPitch,
+  UINT            SrcDepthPitch
+) = nullptr;
+void STDMETHODCALLTYPE MineUpdateSubresource(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource  *pDstResource,
+  UINT            DstSubresource,
+  const D3D11_BOX *pDstBox,
+  const void      *pSrcData,
+  UINT            SrcRowPitch,
+  UINT            SrcDepthPitch
+) {
+  getOut() << "RealUpdateSubresource" << std::endl;
+  RealUpdateSubresource(This, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
+}
+HRESULT (STDMETHODCALLTYPE *RealCreateBuffer)(
+  ID3D11Device *This,
+  const D3D11_BUFFER_DESC      *pDesc,
+  const D3D11_SUBRESOURCE_DATA *pInitialData,
+  ID3D11Buffer                 **ppBuffer
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MineCreateBuffer(
+  ID3D11Device *This,
+  const D3D11_BUFFER_DESC      *pDesc,
+  const D3D11_SUBRESOURCE_DATA *pInitialData,
+  ID3D11Buffer                 **ppBuffer
+) {
+  auto result = RealCreateBuffer(This, pDesc, pInitialData, ppBuffer);
+  if (pDesc->BindFlags & D3D11_BIND_CONSTANT_BUFFER) {
+    getOut() << "RealCreateBuffer " << (void *)(*ppBuffer) << " " << pDesc->ByteWidth << " " << pDesc->StructureByteStride << std::endl;
+  }
+  return result;
+}
+std::map<ID3D11Resource *, D3D11_MAPPED_SUBRESOURCE *> resources;
+HRESULT (STDMETHODCALLTYPE *RealMap)(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource           *pResource,
+  UINT                     Subresource,
+  D3D11_MAP                MapType,
+  UINT                     MapFlags,
+  D3D11_MAPPED_SUBRESOURCE *pMappedResource
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MineMap(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource           *pResource,
+  UINT                     Subresource,
+  D3D11_MAP                MapType,
+  UINT                     MapFlags,
+  D3D11_MAPPED_SUBRESOURCE *pMappedResource
+) {
+  auto result = RealMap(This, pResource, Subresource, MapType, MapFlags, pMappedResource);
+  // resources[pResource] = pMappedResource;
+  return result;
+}
+void (STDMETHODCALLTYPE *RealUnmap)(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource *pResource,
+  UINT           Subresource
+) = nullptr;
+void STDMETHODCALLTYPE MineUnmap(
+  ID3D11DeviceContext1 *This,
+  ID3D11Resource *pResource,
+  UINT           Subresource
+) {
+  // getOut() << "RealUnmap " << (void *)pResource << std::endl;
+  
+  /* D3D11_MAPPED_SUBRESOURCE *pMappedResource = resources[pResource];
+  
+  ID3D11Buffer *buffer;
+  pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Buffer, (void **)&buffer);
+  if (buffer) {
+    D3D11_BUFFER_DESC desc;
+    buffer->lpVtbl->GetDesc(buffer, &desc);
+    getOut() << "RealUnmap " << (void *)pResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << " " << pMappedResource->RowPitch << " " << pMappedResource->DepthPitch << std::endl;
+    if (desc.ByteWidth < 3000) {
+      getOut() << "  ";
+      for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
+        getOut() << ((float *)pMappedResource->pData)[i] << " ";
+      }
+      getOut() << std::endl;
+    }
+    buffer->lpVtbl->Release(buffer);
+  }
+  
+  resources.erase(pResource); */
+  
+  RealUnmap(This, pResource, Subresource);
+}
 HRESULT (STDMETHODCALLTYPE *RealCreateTexture2D)(
   ID3D11Device *This,
   const D3D11_TEXTURE2D_DESC   *pDesc,
@@ -959,7 +1054,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
     auto hr = RealCreateTexture2D(This, &desc, pInitialData, ppTexture2D);
-    getOut() << "create depth texture " << (void *)(*ppTexture2D) << std::endl;
+    getOut() << "create depth texture " << (void *)(*ppTexture2D) << " " << desc.Width << " " << desc.Height << std::endl;
     if (FAILED(hr)) {
       getOut() << "failed to create texture 2d: " << (void *)hr << std::endl;
       abort();
@@ -2152,6 +2247,22 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     RealResolveSubresource = context1->lpVtbl->ResolveSubresource;
     error = DetourAttach(&(PVOID&)RealResolveSubresource, MineResolveSubresource);
     checkDetourError("RealResolveSubresource", error);
+    
+    RealUpdateSubresource = context1->lpVtbl->UpdateSubresource;
+    error = DetourAttach(&(PVOID&)RealUpdateSubresource, MineUpdateSubresource);
+    checkDetourError("RealUpdateSubresource", error);
+    
+    RealCreateBuffer = device->lpVtbl->CreateBuffer;
+    error = DetourAttach(&(PVOID&)RealCreateBuffer, MineCreateBuffer);
+    checkDetourError("RealCreateBuffer", error);
+    
+    RealMap = context1->lpVtbl->Map;
+    error = DetourAttach(&(PVOID&)RealMap, MineMap);
+    checkDetourError("RealMap", error);
+    
+    RealUnmap = context1->lpVtbl->Unmap;
+    error = DetourAttach(&(PVOID&)RealUnmap, MineUnmap);
+    checkDetourError("RealUnmap", error);
     
     RealCopyResource = context1->lpVtbl->CopyResource;
     error = DetourAttach(&(PVOID&)RealCopyResource, MineCopyResource);
