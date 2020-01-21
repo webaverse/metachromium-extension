@@ -322,28 +322,81 @@ EVROverlayError PVROverlay::GetOverlayWidthInMeters(VROverlayHandle_t ulOverlayH
   return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float fMinDistanceInMeters, float fMaxDistanceInMeters) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayAutoCurveDistanceRangeInMeters,
+    EVROverlayError,
+    float,
+    float
+  >(ulOverlayHandle, fMinDistanceInMeters, fMaxDistanceInMeters);
 }
 EVROverlayError PVROverlay::GetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float *pfMinDistanceInMeters, float *pfMaxDistanceInMeters) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayAutoCurveDistanceRangeInMeters,
+    std::tuple<EVROverlayError, float, float>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *pfMinDistanceInMeters = std::get<1>(result);
+  *pfMaxDistanceInMeters = std::get<2>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTextureColorSpace(VROverlayHandle_t ulOverlayHandle, EColorSpace eTextureColorSpace) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayTextureColorSpace,
+    EVROverlayError,
+    VROverlayHandle_t,
+    EColorSpace
+  >(ulOverlayHandle, eTextureColorSpace);
 }
 EVROverlayError PVROverlay::GetOverlayTextureColorSpace(VROverlayHandle_t ulOverlayHandle, EColorSpace *peTextureColorSpace) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayAutoCurveDistanceRangeInMeters,
+    std::tuple<EVROverlayError, EColorSpace>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *peTextureColorSpace = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTextureBounds(VROverlayHandle_t ulOverlayHandle, const VRTextureBounds_t *pOverlayTextureBounds) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayTextureBounds,
+    EVROverlayError,
+    VROverlayHandle_t,
+    VRTextureBounds_t
+  >(ulOverlayHandle, *pOverlayTextureBounds);
 }
 EVROverlayError PVROverlay::GetOverlayTextureBounds(VROverlayHandle_t ulOverlayHandle, VRTextureBounds_t *pOverlayTextureBounds) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayTextureBounds,
+    std::tuple<EVROverlayError, VRTextureBounds_t>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *pOverlayTextureBounds = std::get<1>(result);
+  return std::get<0>(result);
 }
 uint32_t PVROverlay::GetOverlayRenderModel(VROverlayHandle_t ulOverlayHandle, char *pchValue, uint32_t unBufferSize, HmdColor_t *pColor, EVROverlayError *pError) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayRenderModel,
+    std::tuple<uint32_t, managed_binary<char>, HmdColor_t, EVROverlayError>,
+    VROverlayHandle_t,
+    uint32_t
+  >(ulOverlayHandle, unBufferSize);
+  memcpy(pchValue, std::get<1>(result).data(), std::get<1>(result).size());
+  *pColor = std::get<2>(result);
+  if (pError) {
+    *pError = std::get<3>(result);
+  }
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayRenderModel(VROverlayHandle_t ulOverlayHandle, const char *pchRenderModel, const HmdColor_t *pColor) {
-
+  managed_binary<char> renderModel(strlen(pchRenderModel)+1);
+  memcpy(renderModel.data(), pchRenderModel, renderModel.size());
+  return fnp.call<
+    kIVROverlay_SetOverlayRenderModel,
+    EVROverlayError,
+    VROverlayHandle_t,
+    managed_binary<char>,
+    HmdColor_t
+  >(ulOverlayHandle, std::move(renderModel), *pColor);
 }
 EVROverlayError PVROverlay::GetOverlayTransformType(VROverlayHandle_t ulOverlayHandle, VROverlayTransformType *peTransformType) {
 
