@@ -827,6 +827,92 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=]() {
     return vroverlay->GetPrimaryDashboardDevice();
   });
+  fnp.reg<
+    kIVROverlay_ShowKeyboard,
+    EVROverlayError,
+    EGamepadTextInputMode,
+    EGamepadTextInputLineMode,
+    managed_binary<char>,
+    uint32_t,
+    managed_binary<char>,
+    bool,
+    uint64_t
+  >([=](EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, managed_binary<char> description, uint32_t unCharMax, managed_binary<char> existingText, bool bUseMinimalMode, uint64_t uUserValue) {
+    return vroverlay->ShowKeyboard(eInputMode, eLineInputMode, description.data(), unCharMax, existingText.data(), bUseMinimalMode, uUserValue);
+  });
+  fnp.reg<
+    kIVROverlay_ShowKeyboardForOverlay,
+    EVROverlayError,
+    VROverlayHandle_t,
+    EGamepadTextInputMode,
+    EGamepadTextInputLineMode,
+    managed_binary<char>,
+    uint32_t,
+    managed_binary<char>,
+    bool,
+    uint64_t
+  >([=](VROverlayHandle_t ulOverlayHandle, EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, managed_binary<char> description, uint32_t unCharMax, managed_binary<char> existingText, bool bUseMinimalMode, uint64_t uUserValue) {
+    return vroverlay->ShowKeyboardForOverlay(ulOverlayHandle, eInputMode, eLineInputMode, description.data(), unCharMax, existingText.data(), bUseMinimalMode, uUserValue);
+  });
+  fnp.reg<
+    kIVROverlay_GetKeyboardText,
+    std::tuple<uint32_t, managed_binary<char>>,
+    uint32_t
+  >([=](uint32_t cchText) {
+    managed_binary<char> text(cchText);
+    auto result = vroverlay->GetKeyboardText(text.data(), cchText);
+    return std::tuple<uint32_t, managed_binary<char>>(
+      cchText,
+      std::move(text)
+    );
+  });
+  fnp.reg<
+    kIVROverlay_HideKeyboard,
+    int
+  >([=]() {
+    vroverlay->HideKeyboard();
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_SetKeyboardTransformAbsolute,
+    int,
+    ETrackingUniverseOrigin,
+    HmdMatrix34_t
+  >([=](ETrackingUniverseOrigin eTrackingOrigin, HmdMatrix34_t matTrackingOriginToKeyboardTransform) {
+    vroverlay->SetKeyboardTransformAbsolute(eTrackingOrigin, &matTrackingOriginToKeyboardTransform);
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_SetKeyboardPositionForOverlay,
+    int,
+    VROverlayHandle_t,
+    HmdRect2_t
+  >([=](VROverlayHandle_t ulOverlayHandle, HmdRect2_t avoidRect) {
+    vroverlay->SetKeyboardPositionForOverlay(ulOverlayHandle, avoidRect);
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayIntersectionMask,
+    EVROverlayError,
+    VROverlayHandle_t,
+    managed_binary<vr::VROverlayIntersectionMaskPrimitive_t>,
+    uint32_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, managed_binary<vr::VROverlayIntersectionMaskPrimitive_t> maskPrimitives, uint32_t unNumMaskPrimitives, uint32_t unPrimitiveSize) {
+    return vroverlay->SetOverlayIntersectionMask(ulOverlayHandle, maskPrimitives.data(), unNumMaskPrimitives, unPrimitiveSize);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayFlags,
+    std::tuple<EVROverlayError, uint32_t>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    uint32_t flags;
+    auto error = vroverlay->GetOverlayFlags(ulOverlayHandle, &flags);
+    return std::tuple<EVROverlayError, uint32_t>(
+      error,
+      flags
+    );
+  });
   // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
@@ -1515,7 +1601,7 @@ uint32_t PVROverlay::GetKeyboardText(char *pchText, uint32_t cchText) {
     kIVROverlay_GetKeyboardText,
     std::tuple<uint32_t, managed_binary<char>>,
     uint32_t
-  >(ulOverlayHandle);
+  >(cchText);
   memcpy(pchText, std::get<1>(result).data(), std::get<1>(result).size());
   return std::get<0>(result);
 }
