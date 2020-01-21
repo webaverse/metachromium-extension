@@ -165,6 +165,102 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
       error
     );
   });
+  fnp.reg<
+    kIVROverlay_SetOverlayName,
+    EVROverlayError,
+    VROverlayHandle_t,
+    managed_binary<char>
+  >([=](VROverlayHandle_t ulOverlayHandle, managed_binary<char> name) {
+    return vroverlay->SetOverlayName(ulOverlayHandle, name.data());
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayImageData,
+    std:tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>,
+    VROverlayHandle_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unBufferSize) {
+    managed_binary<char> buffer(unBufferSize);
+    uint32_t width;
+    uint32_t height;
+    auto error = vroverlay->GetOverlayImageData(ulOverlayHandle, buffer.data(), &width, &height);
+    return std:tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>(
+      error,
+      std::move(buffer),
+      width,
+      height
+    );
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayErrorNameFromEnum,
+    int
+  >([=]() {
+    getOut() << "GetOverlayErrorNameFromEnum abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayRenderingPid,
+    EVROverlayError,
+    VROverlayHandle_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unPID) {
+    return vroverlay->SetOverlayRenderingPid(ulOverlayHandle, unPID);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayRenderingPid,
+    uint32_t,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    return vroverlay->GetOverlayRenderingPid(ulOverlayHandle);
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayFlag,
+    EVROverlayError,
+    VROverlayHandle_t,
+    VROverlayFlags,
+    bool
+  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayFlags eOverlayFlag, bool bEnabled) {
+    return vroverlay->SetOverlayFlag(ulOverlayHandle, eOverlayFlag, bEnabled);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayFlag,
+    std::tuple<EVROverlayError, bool>,
+    VROverlayHandle_t,
+    VROverlayFlags
+  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayFlags eOverlayFlag) {
+    bool enabled;
+    auto error = vroverlay->GetOverlayFlag(ulOverlayHandle, eOverlayFlag, &enabled);
+    return std::tuple<EVROverlayError, bool>(
+      error,
+      enabled
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayColor,
+    EVROverlayError,
+    VROverlayHandle_t,
+    float,
+    float,
+    float
+  >([=](VROverlayHandle_t ulOverlayHandle, float fRed, float fGreen, float fBlue) {
+    return vroverlay->SetOverlayColor(ulOverlayHandle, fRed, fGreen, fBlue);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayColor,
+    std::tuple<EVROverlayError, float, float, float>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    float red;
+    float green;
+    float blue;
+    return vroverlay->GetOverlayColor(ulOverlayHandle, &red, &green, &blue);
+    return std::tuple<EVROverlayError, float, float, float>(
+      error,
+      red,
+      green,
+      blue
+    );
+  });
   // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
@@ -257,7 +353,8 @@ EVROverlayError PVROverlay::GetOverlayImageData(VROverlayHandle_t ulOverlayHandl
   auto result = fnp.call<
     kIVROverlay_GetOverlayImageData,
     std:tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>,
-    VROverlayHandle_t
+    VROverlayHandle_t,
+    uint32_t
   >(ulOverlayHandle, unBufferSize);
   memcpy(pvBuffer, std::get<1>(result).data(), std::get<1>(result).size());
   *punWidth = std::get<2>(result);
@@ -266,6 +363,7 @@ EVROverlayError PVROverlay::GetOverlayImageData(VROverlayHandle_t ulOverlayHandl
 }
 const char *PVROverlay::GetOverlayErrorNameFromEnum(EVROverlayError error) {
   getOut() << "GetOverlayErrorNameFromEnum abort" << std::endl;
+  abort();
   return "";
 }
 EVROverlayError PVROverlay::SetOverlayRenderingPid(VROverlayHandle_t ulOverlayHandle, uint32_t unPID) {
