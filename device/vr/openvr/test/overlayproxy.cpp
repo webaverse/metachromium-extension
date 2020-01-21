@@ -675,6 +675,82 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=](EOverlayDirection eDirection, VROverlayHandle_t ulFrom) {
     return vroverlay->MoveGamepadFocusToNeighbor(eDirection, ulFrom);
   });
+  fnp.reg<
+    kIVROverlay_SetOverlayDualAnalogTransform,
+    EVROverlayError,
+    VROverlayHandle_t,
+    EDualAnalogWhich,
+    HmdVector2_t,
+    float
+  >([=](VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, HmdVector2_t vCenter, float fRadius) {
+    return vroverlay->SetOverlayDualAnalogTransform(eDirection, eWhich, vCenter, fRadius);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayDualAnalogTransform,
+    std::tuple<EVROverlayError, HmdVector2_t, float>,
+    VROverlayHandle_t,
+    EDualAnalogWhich
+  >([=](VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich) {
+    HmdVector2_t center;
+    float radius;
+    auto error = vroverlay->GetOverlayDualAnalogTransform,(ulOverlay, eWhich, &center, &radius);
+    return std::tuple<EVROverlayError, HmdVector2_t, float>(
+      error,
+      center,
+      radius
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayTexture,
+    int
+  >([=](VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich) {
+    getOut() << "SetOverlayTexture abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_ClearOverlayTexture,
+    EVROverlayError,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlay) {
+    return vroverlay->ClearOverlayTexture,(ulOverlay);
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayRaw,
+    EVROverlayError,
+    int
+  >([=]() {
+    getOut() << "SetOverlayRaw abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayFromFile,
+    EVROverlayError,
+    int
+  >([=]() {
+    getOut() << "SetOverlayFromFile abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayTexture,
+    EVROverlayError,
+    int
+  >([=]() {
+    getOut() << "GetOverlayTexture abort" << std::endl;
+    abort();
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_ReleaseNativeOverlayHandle,
+    EVROverlayError,
+    int
+  >([=]() {
+    getOut() << "ReleaseNativeOverlayHandle abort" << std::endl;
+    abort();
+    return 0;
+  });
   // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
@@ -1207,7 +1283,7 @@ EVROverlayError PVROverlay::SetOverlayDualAnalogTransform(VROverlayHandle_t ulOv
     EDualAnalogWhich,
     HmdVector2_t,
     float
-  >(ulOverlay, vCenter, fRadius);
+  >(ulOverlay, eWhich, vCenter, fRadius);
 }
 EVROverlayError PVROverlay::GetOverlayDualAnalogTransform(VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, HmdVector2_t *pvCenter, float *pfRadius) {
   auto result = fnp.call<
@@ -1215,7 +1291,7 @@ EVROverlayError PVROverlay::GetOverlayDualAnalogTransform(VROverlayHandle_t ulOv
     std::tuple<EVROverlayError, HmdVector2_t, float>,
     VROverlayHandle_t,
     EDualAnalogWhich
-  >(ulOverlayHandle, eWhich);
+  >(ulOverlay, eWhich);
   *pvCenter = std::get<1>(result);
   *pfRadius = std::get<2>(result);
   return std::get<0>(result);
