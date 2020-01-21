@@ -241,16 +241,31 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
   }
   return false;
 }
+// 0.917286, 0, 0, 0, 0, 0.833537, 0, 0, -0.174072, -0.106141, -1.0002, -1, 0, 0, -0.20002, 0
+// 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
+// 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 5.00083e-05 -1 0 -0 0.0500025 0
+// 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 -5.06639e-07 -1 0 -0 0.0005 0 
 void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNear, float *pFar, bool *pReversed) {
-  float m32 = projectionMatrix[14];
+  /* float m32 = projectionMatrix[14];
   float m22 = projectionMatrix[10];
-  if (m22 > 0) {
-    *pNear = m32 / (m22 + 1);
+  if (m22 < -1.0f) {
+    m22 += 1.0f;
+  } else if (m22 > 1.0f) {
+    m22 -= 1.0f;
+  }
+  *pReversed = (m32 > 0);
+  m32 = std::abs(m32);
+  m22 = std::abs(m22); */
+
+  float m32 = std::abs(projectionMatrix[14]);
+  float m22 = std::abs(projectionMatrix[10]);
+  if (m22 < 1.0f) {
+    *pNear = m32 / (m22 + 1.0f);
     *pFar = m32 / m22;
     *pReversed = true;
   } else {
-    *pNear = m32 / (m22 - 1);
-    *pFar = m32 / (m22 + 1);
+    *pNear = m32 / (m22 + 1.0f);
+    *pFar = m32 / (m22 - 1.0f);
     *pReversed = false;
   }
 }
