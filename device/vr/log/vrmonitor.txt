@@ -1,936 +1,140 @@
-Sun Jan 19 2020 21:46:08.894 - //==============================================================================================
-Sun Jan 19 2020 21:46:08.894 - ================================================================================================
-Sun Jan 19 2020 21:46:08.894 - ================================================================================================
-Sun Jan 19 2020 21:46:08.894 - vrmonitor.exe 1.9.16 startup with PID=1452, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 19 2020 21:46:08.895 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sun Jan 19 2020 21:46:08.895 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sun Jan 19 2020 21:46:09.212 - AUDIO: Refreshing audio devices
-Sun Jan 19 2020 21:46:09.240 - AUDIO: Detected 18 playback and 16 record devices
-Sun Jan 19 2020 21:46:09.247 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sun Jan 19 2020 21:46:09.247 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sun Jan 19 2020 21:46:09.247 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 19 2020 21:46:09.247 - Default Record Audio Device: ,  (Comm)
-Sun Jan 19 2020 21:46:09.248 - [System] Prepare operating system environment
-Sun Jan 19 2020 21:46:09.248 - [System] Setting power settings to minimum power savings.
-Sun Jan 19 2020 21:46:09.266 - [System] Detected first setup.
-Sun Jan 19 2020 21:46:09.270 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sun Jan 19 2020 21:46:09.376 - [System] Runtime: 1576990468 250820  STEAMVR
-Sun Jan 19 2020 21:46:09.819 - VR_Init failed with Hmd Not Found (108)
-Sun Jan 19 2020 21:46:09.822 - [Steam] Attempt to connect to Steam
-Sun Jan 19 2020 21:46:09.831 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sun Jan 19 2020 21:46:09.831 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sun Jan 19 2020 21:46:09.831 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sun Jan 19 2020 21:46:09.832 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sun Jan 19 2020 21:46:09.836 - CSharedResourceNamespaceClient::Init(): received namespace data 19216
-Sun Jan 19 2020 21:46:09.837 - [Audio] Audio init
-Sun Jan 19 2020 21:46:10.983 - [Status] Graphics driver version is 431.60.
-Sun Jan 19 2020 21:46:10.990 - [Status Alert] Headset Not Detected (108)
-Sun Jan 19 2020 21:46:10.997 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sun Jan 19 2020 21:46:11.001 - [Status Alert] Headset Not Detected (108)
-Sun Jan 19 2020 21:46:11.008 - [Steam] Connected to Steam in 0.15 seconds.
-Sun Jan 19 2020 21:46:11.008 - [System] Runtime: 1576990468 250820  STEAMVR
-Sun Jan 19 2020 21:46:11.009 - [Steam] Connect to Steam finished: check for dismissable warnings
-Sun Jan 19 2020 21:46:11.043 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_NotReady'.
-Sun Jan 19 2020 21:46:19.263 - [System] System is running for 10 seconds.
-Sun Jan 19 2020 21:47:04.153 - Open URL vrmonitor://reboothmd
-Sun Jan 19 2020 21:47:04.155 - [System] Transition from 'SteamVRSystemState_NotReady' to 'SteamVRSystemState_Restart'.
-Sun Jan 19 2020 21:47:04.163 - [System] Quit gracefully: Waiting for process quitting...
-Sun Jan 19 2020 21:47:04.515 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Sun Jan 19 2020 21:47:04.515 - [Audio] Audio shutdown!
-Sun Jan 19 2020 21:47:05.751 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 0 in 0 frames
-Sun Jan 19 2020 21:47:05.757 - [System] Restore operating system environment
-Sun Jan 19 2020 21:47:05.757 - [System] Restore power settings to previous power savings.
-Sun Jan 19 2020 21:47:08.513 - //==============================================================================================
-Sun Jan 19 2020 21:47:08.513 - ================================================================================================
-Sun Jan 19 2020 21:47:08.513 - ================================================================================================
-Sun Jan 19 2020 21:47:08.513 - vrmonitor.exe 1.9.16 startup with PID=2984, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 19 2020 21:47:08.515 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Sun Jan 19 2020 21:47:08.515 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Sun Jan 19 2020 21:47:08.582 - AUDIO: Refreshing audio devices
-Sun Jan 19 2020 21:47:08.645 - AUDIO: Detected 18 playback and 16 record devices
-Sun Jan 19 2020 21:47:08.657 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Sun Jan 19 2020 21:47:08.657 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Sun Jan 19 2020 21:47:08.657 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Sun Jan 19 2020 21:47:08.657 - Default Record Audio Device: ,  (Comm)
-Sun Jan 19 2020 21:47:08.658 - [System] Prepare operating system environment
-Sun Jan 19 2020 21:47:08.658 - [System] Setting power settings to minimum power savings.
-Sun Jan 19 2020 21:47:08.689 - [System] Detected first setup.
-Sun Jan 19 2020 21:47:08.693 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Sun Jan 19 2020 21:47:08.833 - [System] Runtime: 1576990468 250820  STEAMVR
-Sun Jan 19 2020 21:47:09.002 - VR_Init successful
-Sun Jan 19 2020 21:47:09.805 - [Steam] Attempt to connect to Steam
-Sun Jan 19 2020 21:47:09.811 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Sun Jan 19 2020 21:47:09.811 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Sun Jan 19 2020 21:47:09.812 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Sun Jan 19 2020 21:47:09.812 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Sun Jan 19 2020 21:47:09.814 - CSharedResourceNamespaceClient::Init(): received namespace data 19708
-Sun Jan 19 2020 21:47:09.815 - [Audio] Audio init
-Sun Jan 19 2020 21:47:11.011 - [Status] Graphics driver version is 431.60.
-Sun Jan 19 2020 21:47:11.052 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Sun Jan 19 2020 21:47:11.061 - [Steam] Connected to Steam in 0.11 seconds.
-Sun Jan 19 2020 21:47:11.062 - [System] Runtime: 1576990468 250820  STEAMVR
-Sun Jan 19 2020 21:47:11.062 - [Steam] Connect to Steam finished: check for dismissable warnings
-Sun Jan 19 2020 21:47:11.106 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 21:47:18.684 - [System] System is running for 10 seconds.
-Sun Jan 19 2020 21:48:27.034 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 21:50:59.033 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 21:51:04.029 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 21:51:06.030 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 21:51:11.029 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 21:51:43.029 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 21:51:49.032 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 21:51:50.028 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 21:56:29.032 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 22:33:45.029 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 22:35:00.029 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 22:42:36.030 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 22:42:41.032 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 22:42:53.030 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 22:42:58.029 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 22:56:06.028 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 22:56:13.031 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 22:56:16.030 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 22:56:22.031 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 22:56:34.032 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 22:56:39.033 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:19:33.032 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:19:38.029 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:19:51.029 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:19:56.030 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:27:33.029 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:27:52.034 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:29:15.030 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:29:25.029 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:30:01.032 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:30:06.028 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:30:19.028 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:30:24.032 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:33:24.028 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:33:29.030 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:33:56.032 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:34:01.028 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:34:43.029 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:34:48.028 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:35:03.029 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:35:08.033 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:39:04.029 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:39:09.029 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Sun Jan 19 2020 23:39:27.030 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Sun Jan 19 2020 23:39:32.030 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 00:09:39.032 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 00:09:44.031 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 00:10:46.032 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 00:10:51.030 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 00:11:07.032 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 00:11:12.032 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 00:14:17.030 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 00:14:23.032 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 00:14:56.028 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 00:15:01.030 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 00:25:25.030 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 00:25:36.031 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 00:26:02.333 - [System] Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 00:26:02.337 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 00:26:03.186 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 00:26:03.186 - [Audio] Audio shutdown!
-Mon Jan 20 2020 00:26:03.548 - Drops over entire run:-  1 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 39983 in 39984 frames
-Mon Jan 20 2020 00:26:03.555 - [System] Restore operating system environment
-Mon Jan 20 2020 00:26:03.555 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 00:26:06.462 - //==============================================================================================
-Mon Jan 20 2020 00:26:06.462 - ================================================================================================
-Mon Jan 20 2020 00:26:06.462 - ================================================================================================
-Mon Jan 20 2020 00:26:06.462 - vrmonitor.exe 1.9.16 startup with PID=6412, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 00:26:06.464 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 00:26:06.464 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 00:26:06.532 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 00:26:06.611 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 00:26:06.627 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 00:26:06.628 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 00:26:06.628 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 00:26:06.628 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 00:26:06.629 - [System] Prepare operating system environment
-Mon Jan 20 2020 00:26:06.629 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 00:26:06.669 - [System] Detected first setup.
-Mon Jan 20 2020 00:26:06.673 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 00:26:06.807 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 00:26:06.961 - VR_Init successful
-Mon Jan 20 2020 00:26:07.833 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 00:26:07.840 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 00:26:07.841 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 00:26:07.841 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 00:26:07.842 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 00:26:07.848 - CSharedResourceNamespaceClient::Init(): received namespace data 10120
-Mon Jan 20 2020 00:26:07.849 - [Audio] Audio init
-Mon Jan 20 2020 00:26:09.021 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 00:26:09.052 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 00:26:09.064 - [Steam] Connected to Steam in 0.12 seconds.
-Mon Jan 20 2020 00:26:09.065 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 00:26:09.065 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 00:26:09.122 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 00:26:16.671 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 00:27:33.047 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 01:22:48.047 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 01:23:09.044 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:11:28.046 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:11:33.046 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:11:54.045 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:11:59.045 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:30:42.044 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:36:15.046 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:37:05.044 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:37:10.047 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:37:13.043 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:39:13.046 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:39:20.046 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:39:26.047 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:40:16.047 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:40:21.047 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:40:52.047 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:40:57.048 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:40:59.044 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:41:42.046 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:41:45.047 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:41:50.047 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:41:55.044 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:42:00.048 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:42:03.043 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 09:42:27.048 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 09:59:50.048 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:00:00.047 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:00:32.045 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:00:38.048 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:01:04.045 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:01:09.045 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:01:13.045 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:02:03.048 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:02:05.047 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:02:10.044 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:03:53.044 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:03:58.046 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:03:59.044 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:04:19.046 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:04:20.047 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:04:25.047 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:08:20.047 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:08:25.045 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:08:28.045 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:09:31.049 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:09:34.044 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:09:39.047 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:12:52.047 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:12:57.048 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:12:59.044 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:13:39.628 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:13:39.630 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:13:41.451 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:13:41.451 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:13:41.990 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 44367 in 44367 frames
-Mon Jan 20 2020 10:13:41.994 - [System] Restore operating system environment
-Mon Jan 20 2020 10:13:41.994 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:13:46.084 - //==============================================================================================
-Mon Jan 20 2020 10:13:46.084 - ================================================================================================
-Mon Jan 20 2020 10:13:46.084 - ================================================================================================
-Mon Jan 20 2020 10:13:46.085 - vrmonitor.exe 1.9.16 startup with PID=19424, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:13:46.086 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:13:46.086 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:13:46.730 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:13:46.816 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:13:46.827 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:13:46.827 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:13:46.827 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:13:46.827 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:13:46.828 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:13:46.828 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:13:46.853 - [System] Detected first setup.
-Mon Jan 20 2020 10:13:46.859 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:13:47.014 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:13:47.169 - VR_Init successful
-Mon Jan 20 2020 10:13:48.109 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:13:48.115 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:13:48.115 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:13:48.116 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:13:48.116 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:13:48.119 - CSharedResourceNamespaceClient::Init(): received namespace data 6896
-Mon Jan 20 2020 10:13:48.120 - [Audio] Audio init
-Mon Jan 20 2020 10:13:49.328 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:13:49.406 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:13:49.424 - [Steam] Connected to Steam in 0.16 seconds.
-Mon Jan 20 2020 10:13:49.425 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:13:49.425 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:13:49.529 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:13:56.846 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:14:07.358 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:14:31.356 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:14:36.359 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:14:38.356 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:17:09.358 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:19:07.357 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:19:12.358 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:19:22.356 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:20:11.711 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:20:11.714 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:20:12.685 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:20:12.685 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:20:13.192 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 25102 in 25102 frames
-Mon Jan 20 2020 10:20:13.198 - [System] Restore operating system environment
-Mon Jan 20 2020 10:20:13.198 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:20:16.134 - //==============================================================================================
-Mon Jan 20 2020 10:20:16.135 - ================================================================================================
-Mon Jan 20 2020 10:20:16.135 - ================================================================================================
-Mon Jan 20 2020 10:20:16.135 - vrmonitor.exe 1.9.16 startup with PID=3280, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:20:16.137 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:20:16.137 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:20:16.227 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:20:16.337 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:20:16.353 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:20:16.353 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:20:16.353 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:20:16.353 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:20:16.354 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:20:16.354 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:20:16.383 - [System] Detected first setup.
-Mon Jan 20 2020 10:20:16.390 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:20:16.515 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:20:16.668 - VR_Init successful
-Mon Jan 20 2020 10:20:17.569 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:20:17.576 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:20:17.578 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:20:17.578 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:20:17.579 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:20:17.588 - CSharedResourceNamespaceClient::Init(): received namespace data 10328
-Mon Jan 20 2020 10:20:17.589 - [Audio] Audio init
-Mon Jan 20 2020 10:20:18.804 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:20:18.831 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:20:18.840 - [Steam] Connected to Steam in 0.16 seconds.
-Mon Jan 20 2020 10:20:18.841 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:20:18.841 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:20:18.904 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:20:26.372 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:21:39.865 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:21:39.867 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:21:40.505 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:21:40.505 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:21:40.889 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 6208 in 6208 frames
-Mon Jan 20 2020 10:21:40.894 - [System] Restore operating system environment
-Mon Jan 20 2020 10:21:40.894 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:21:44.167 - //==============================================================================================
-Mon Jan 20 2020 10:21:44.167 - ================================================================================================
-Mon Jan 20 2020 10:21:44.167 - ================================================================================================
-Mon Jan 20 2020 10:21:44.167 - vrmonitor.exe 1.9.16 startup with PID=21388, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:21:44.169 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:21:44.169 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:21:44.239 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:21:44.292 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:21:44.308 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:21:44.308 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:21:44.308 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:21:44.308 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:21:44.311 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:21:44.311 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:21:44.355 - [System] Detected first setup.
-Mon Jan 20 2020 10:21:44.358 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:21:44.501 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:21:44.679 - VR_Init successful
-Mon Jan 20 2020 10:21:45.687 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:21:45.693 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:21:45.694 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:21:45.694 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:21:45.695 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:21:45.707 - CSharedResourceNamespaceClient::Init(): received namespace data 14184
-Mon Jan 20 2020 10:21:45.708 - [Audio] Audio init
-Mon Jan 20 2020 10:21:47.042 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:21:47.078 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:21:47.090 - [Steam] Connected to Steam in 0.14 seconds.
-Mon Jan 20 2020 10:21:47.091 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:21:47.092 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:21:47.137 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:21:54.356 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:22:51.870 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:22:51.872 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:22:57.015 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:22:57.015 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:22:57.903 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 5814 in 5814 frames
-Mon Jan 20 2020 10:22:57.906 - [System] Restore operating system environment
-Mon Jan 20 2020 10:22:57.907 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:23:00.677 - //==============================================================================================
-Mon Jan 20 2020 10:23:00.677 - ================================================================================================
-Mon Jan 20 2020 10:23:00.677 - ================================================================================================
-Mon Jan 20 2020 10:23:00.677 - vrmonitor.exe 1.9.16 startup with PID=10128, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:23:00.679 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:23:00.679 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:23:00.781 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:23:00.845 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:23:00.857 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:23:00.857 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:23:00.857 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:23:00.857 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:23:00.859 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:23:00.859 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:23:00.966 - [System] Detected first setup.
-Mon Jan 20 2020 10:23:00.970 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:23:01.108 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:23:01.270 - VR_Init successful
-Mon Jan 20 2020 10:23:02.162 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:23:02.182 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:23:02.183 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:23:02.184 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:23:02.185 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:23:02.188 - CSharedResourceNamespaceClient::Init(): received namespace data 16876
-Mon Jan 20 2020 10:23:02.189 - [Audio] Audio init
-Mon Jan 20 2020 10:23:03.526 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:23:03.556 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:23:03.566 - [Steam] Connected to Steam in 0.11 seconds.
-Mon Jan 20 2020 10:23:03.567 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:23:03.567 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:23:03.624 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:23:10.547 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:23:10.967 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:23:11.549 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:23:47.561 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_ShutdownRequested'.
-Mon Jan 20 2020 10:23:47.573 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:23:49.185 - [System] Transition from 'SteamVRSystemState_ShutdownRequested' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:23:49.185 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:23:50.701 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 3282 in 3282 frames
-Mon Jan 20 2020 10:23:50.706 - [System] Restore operating system environment
-Mon Jan 20 2020 10:23:50.706 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:24:24.925 - //==============================================================================================
-Mon Jan 20 2020 10:24:24.925 - ================================================================================================
-Mon Jan 20 2020 10:24:24.925 - ================================================================================================
-Mon Jan 20 2020 10:24:24.925 - vrmonitor.exe 1.9.16 startup with PID=21492, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:24:24.927 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:24:24.927 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:24:24.999 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:24:25.094 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:24:25.107 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:24:25.107 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:24:25.107 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:24:25.107 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:24:25.110 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:24:25.110 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:24:25.145 - [System] Detected first setup.
-Mon Jan 20 2020 10:24:25.150 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:24:25.280 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:24:25.449 - VR_Init successful
-Mon Jan 20 2020 10:24:26.598 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:24:26.606 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:24:26.607 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:24:26.608 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:24:26.609 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:24:26.613 - CSharedResourceNamespaceClient::Init(): received namespace data 9412
-Mon Jan 20 2020 10:24:26.614 - [Audio] Audio init
-Mon Jan 20 2020 10:24:27.777 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:24:27.797 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:24:27.810 - [Steam] Connected to Steam in 0.20 seconds.
-Mon Jan 20 2020 10:24:27.811 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:24:27.811 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:24:27.874 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:24:35.141 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:25:15.156 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:25:15.158 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:25:15.731 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:25:15.731 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:25:17.910 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 7691 in 7691 frames
-Mon Jan 20 2020 10:25:17.914 - [System] Restore operating system environment
-Mon Jan 20 2020 10:25:17.914 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:25:19.226 - //==============================================================================================
-Mon Jan 20 2020 10:25:19.226 - ================================================================================================
-Mon Jan 20 2020 10:25:19.226 - ================================================================================================
-Mon Jan 20 2020 10:25:19.226 - vrmonitor.exe 1.9.16 startup with PID=7416, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:25:19.227 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:25:19.227 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:25:19.274 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:25:19.306 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:25:19.314 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:25:19.314 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:25:19.314 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:25:19.314 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:25:19.315 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:25:19.315 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:25:19.333 - [System] Detected first setup.
-Mon Jan 20 2020 10:25:19.335 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:25:19.429 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:25:20.388 - VR_Init failed with Hmd Not Found (108)
-Mon Jan 20 2020 10:25:20.390 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:25:20.402 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:25:20.402 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:25:20.403 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:25:20.403 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:25:20.407 - CSharedResourceNamespaceClient::Init(): received namespace data 20720
-Mon Jan 20 2020 10:25:20.408 - [Audio] Audio init
-Mon Jan 20 2020 10:25:21.549 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:25:21.554 - [Status Alert] Headset Not Detected (108)
-Mon Jan 20 2020 10:25:21.562 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:25:21.565 - [Status Alert] Headset Not Detected (108)
-Mon Jan 20 2020 10:25:21.570 - [Steam] Connected to Steam in 0.12 seconds.
-Mon Jan 20 2020 10:25:21.571 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:25:21.571 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:25:21.591 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_NotReady'.
-Mon Jan 20 2020 10:25:29.328 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:27:05.534 - Open URL vrmonitor://reboothmd
-Mon Jan 20 2020 10:27:05.535 - [System] Transition from 'SteamVRSystemState_NotReady' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:27:05.541 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:27:05.732 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:27:05.732 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:27:06.080 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 0 in 0 frames
-Mon Jan 20 2020 10:27:06.089 - [System] Restore operating system environment
-Mon Jan 20 2020 10:27:06.089 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:27:08.678 - //==============================================================================================
-Mon Jan 20 2020 10:27:08.678 - ================================================================================================
-Mon Jan 20 2020 10:27:08.678 - ================================================================================================
-Mon Jan 20 2020 10:27:08.678 - vrmonitor.exe 1.9.16 startup with PID=20668, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:27:08.680 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:27:08.680 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:27:08.733 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:27:08.792 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:27:08.803 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:27:08.803 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:27:08.803 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:27:08.803 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:27:08.804 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:27:08.804 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:27:08.837 - [System] Detected first setup.
-Mon Jan 20 2020 10:27:08.841 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:27:08.961 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:27:09.101 - VR_Init successful
-Mon Jan 20 2020 10:27:09.879 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:27:09.885 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:27:09.885 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:27:09.886 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:27:09.887 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:27:09.889 - CSharedResourceNamespaceClient::Init(): received namespace data 20568
-Mon Jan 20 2020 10:27:09.890 - [Audio] Audio init
-Mon Jan 20 2020 10:27:11.083 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:27:11.111 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:27:11.120 - [Steam] Connected to Steam in 0.13 seconds.
-Mon Jan 20 2020 10:27:11.121 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:27:11.121 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:27:11.184 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:27:18.825 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:28:29.833 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:28:29.843 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:28:32.623 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:28:32.623 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:28:33.026 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 11947 in 11947 frames
-Mon Jan 20 2020 10:28:33.031 - [System] Restore operating system environment
-Mon Jan 20 2020 10:28:33.031 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:28:35.779 - //==============================================================================================
-Mon Jan 20 2020 10:28:35.779 - ================================================================================================
-Mon Jan 20 2020 10:28:35.779 - ================================================================================================
-Mon Jan 20 2020 10:28:35.779 - vrmonitor.exe 1.9.16 startup with PID=16440, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:28:35.781 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:28:35.781 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:28:35.899 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:28:35.966 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:28:35.977 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:28:35.977 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:28:35.977 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:28:35.977 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:28:35.980 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:28:35.980 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:28:36.011 - [System] Detected first setup.
-Mon Jan 20 2020 10:28:36.017 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:28:36.187 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:28:36.374 - VR_Init successful
-Mon Jan 20 2020 10:28:37.319 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:28:37.330 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:28:37.330 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:28:37.331 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:28:37.332 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:28:37.335 - CSharedResourceNamespaceClient::Init(): received namespace data 21100
-Mon Jan 20 2020 10:28:37.336 - [Audio] Audio init
-Mon Jan 20 2020 10:28:38.744 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:28:38.775 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:28:38.785 - [Steam] Connected to Steam in 0.15 seconds.
-Mon Jan 20 2020 10:28:38.786 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:28:38.786 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:28:38.846 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:28:46.015 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:28:48.763 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:29:21.763 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:30:02.762 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:31:47.763 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:31:52.766 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:31:55.763 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:32:31.765 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:34:14.765 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:34:19.763 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:34:20.766 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:35:03.762 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:37:18.763 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:37:23.763 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:37:25.763 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:37:43.314 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:37:43.316 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:37:48.422 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:37:48.422 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:37:48.861 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 17353 in 17353 frames
-Mon Jan 20 2020 10:37:48.866 - [System] Restore operating system environment
-Mon Jan 20 2020 10:37:48.866 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:37:51.634 - //==============================================================================================
-Mon Jan 20 2020 10:37:51.634 - ================================================================================================
-Mon Jan 20 2020 10:37:51.634 - ================================================================================================
-Mon Jan 20 2020 10:37:51.634 - vrmonitor.exe 1.9.16 startup with PID=11396, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:37:51.636 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:37:51.636 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:37:51.700 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:37:51.766 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:37:51.778 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:37:51.778 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:37:51.778 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:37:51.778 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:37:51.780 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:37:51.780 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:37:51.812 - [System] Detected first setup.
-Mon Jan 20 2020 10:37:51.818 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:37:51.954 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:37:52.103 - VR_Init successful
-Mon Jan 20 2020 10:37:53.090 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:37:53.097 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:37:53.098 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:37:53.099 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:37:53.099 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:37:53.111 - CSharedResourceNamespaceClient::Init(): received namespace data 10028
-Mon Jan 20 2020 10:37:53.112 - [Audio] Audio init
-Mon Jan 20 2020 10:37:54.373 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:37:54.396 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:37:54.409 - [Steam] Connected to Steam in 0.14 seconds.
-Mon Jan 20 2020 10:37:54.409 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:37:54.410 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:37:54.484 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:38:00.407 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:38:01.811 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:38:02.406 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:38:49.556 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:38:49.558 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:38:50.218 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:38:50.219 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:38:51.556 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 5948 in 5948 frames
-Mon Jan 20 2020 10:38:51.562 - [System] Restore operating system environment
-Mon Jan 20 2020 10:38:51.562 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:38:52.857 - //==============================================================================================
-Mon Jan 20 2020 10:38:52.857 - ================================================================================================
-Mon Jan 20 2020 10:38:52.857 - ================================================================================================
-Mon Jan 20 2020 10:38:52.857 - vrmonitor.exe 1.9.16 startup with PID=7120, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:38:52.858 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:38:52.858 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:38:52.898 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:38:52.926 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:38:52.932 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:38:52.932 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:38:52.932 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:38:52.932 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:38:52.934 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:38:52.934 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:38:52.950 - [System] Detected first setup.
-Mon Jan 20 2020 10:38:52.953 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:38:53.045 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:38:54.012 - VR_Init failed with Hmd Not Found (108)
-Mon Jan 20 2020 10:38:54.014 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:38:54.024 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:38:54.025 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:38:54.025 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:38:54.026 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:38:54.031 - CSharedResourceNamespaceClient::Init(): received namespace data 11372
-Mon Jan 20 2020 10:38:54.032 - [Audio] Audio init
-Mon Jan 20 2020 10:38:55.207 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:38:55.211 - [Status Alert] Headset Not Detected (108)
-Mon Jan 20 2020 10:38:55.219 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:38:55.223 - [Status Alert] Headset Not Detected (108)
-Mon Jan 20 2020 10:38:55.228 - [Steam] Connected to Steam in 0.13 seconds.
-Mon Jan 20 2020 10:38:55.229 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:38:55.229 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:38:55.251 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_NotReady'.
-Mon Jan 20 2020 10:39:02.952 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:39:08.330 - Open URL vrmonitor://reboothmd
-Mon Jan 20 2020 10:39:08.331 - [System] Transition from 'SteamVRSystemState_NotReady' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:39:08.336 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:39:08.576 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:39:08.576 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:39:10.023 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 0 in 0 frames
-Mon Jan 20 2020 10:39:10.082 - [System] Restore operating system environment
-Mon Jan 20 2020 10:39:10.082 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:39:11.503 - //==============================================================================================
-Mon Jan 20 2020 10:39:11.503 - ================================================================================================
-Mon Jan 20 2020 10:39:11.503 - ================================================================================================
-Mon Jan 20 2020 10:39:11.503 - vrmonitor.exe 1.9.16 startup with PID=18688, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:39:11.504 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:39:11.504 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:39:11.545 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:39:11.573 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:39:11.580 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:39:11.581 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:39:11.581 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:39:11.581 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:39:11.582 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:39:11.582 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:39:11.599 - [System] Detected first setup.
-Mon Jan 20 2020 10:39:11.601 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:39:11.703 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:39:12.043 - VR_Init failed with Hmd Not Found (108)
-Mon Jan 20 2020 10:39:12.047 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:39:12.058 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:39:12.059 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:39:12.059 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:39:12.060 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:39:12.068 - CSharedResourceNamespaceClient::Init(): received namespace data 16588
-Mon Jan 20 2020 10:39:12.069 - [Audio] Audio init
-Mon Jan 20 2020 10:39:13.201 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:39:13.205 - [Status Alert] Headset Not Detected (108)
-Mon Jan 20 2020 10:39:13.211 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:39:13.215 - [Status Alert] Headset Not Detected (108)
-Mon Jan 20 2020 10:39:13.220 - [Steam] Connected to Steam in 0.13 seconds.
-Mon Jan 20 2020 10:39:13.221 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:39:13.221 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:39:13.245 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_NotReady'.
-Mon Jan 20 2020 10:39:21.591 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:40:41.994 - Open URL vrmonitor://reboothmd
-Mon Jan 20 2020 10:40:41.996 - [System] Transition from 'SteamVRSystemState_NotReady' to 'SteamVRSystemState_Restart'.
-Mon Jan 20 2020 10:40:42.002 - [System] Quit gracefully: Waiting for process quitting...
-Mon Jan 20 2020 10:40:42.185 - [System] Transition from 'SteamVRSystemState_Restart' to 'SteamVRSystemState_Shutdown'.
-Mon Jan 20 2020 10:40:42.185 - [Audio] Audio shutdown!
-Mon Jan 20 2020 10:40:42.483 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 0 in 0 frames
-Mon Jan 20 2020 10:40:42.490 - [System] Restore operating system environment
-Mon Jan 20 2020 10:40:42.490 - [System] Restore power settings to previous power savings.
-Mon Jan 20 2020 10:40:45.160 - //==============================================================================================
-Mon Jan 20 2020 10:40:45.160 - ================================================================================================
-Mon Jan 20 2020 10:40:45.160 - ================================================================================================
-Mon Jan 20 2020 10:40:45.160 - vrmonitor.exe 1.9.16 startup with PID=14884, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Jan 20 2020 10:40:45.163 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
-Mon Jan 20 2020 10:40:45.163 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
-Mon Jan 20 2020 10:40:45.223 - AUDIO: Refreshing audio devices
-Mon Jan 20 2020 10:40:45.277 - AUDIO: Detected 18 playback and 16 record devices
-Mon Jan 20 2020 10:40:45.306 - Default Playback Audio Devices: {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}, {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81} (Comm)
-Mon Jan 20 2020 10:40:45.306 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
-Mon Jan 20 2020 10:40:45.306 - 	-->System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
-Mon Jan 20 2020 10:40:45.306 - Default Record Audio Device: ,  (Comm)
-Mon Jan 20 2020 10:40:45.308 - [System] Prepare operating system environment
-Mon Jan 20 2020 10:40:45.308 - [System] Setting power settings to minimum power savings.
-Mon Jan 20 2020 10:40:45.335 - [System] Detected first setup.
-Mon Jan 20 2020 10:40:45.339 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
-Mon Jan 20 2020 10:40:45.453 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:40:45.598 - VR_Init successful
-Mon Jan 20 2020 10:40:46.389 - [Steam] Attempt to connect to Steam
-Mon Jan 20 2020 10:40:46.395 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:40:46.396 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:40:46.396 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:40:46.397 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
-Mon Jan 20 2020 10:40:46.408 - CSharedResourceNamespaceClient::Init(): received namespace data 19392
-Mon Jan 20 2020 10:40:46.409 - [Audio] Audio init
-Mon Jan 20 2020 10:40:47.597 - [Status] Graphics driver version is 431.60.
-Mon Jan 20 2020 10:40:47.624 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
-Mon Jan 20 2020 10:40:47.633 - [Steam] Connected to Steam in 0.11 seconds.
-Mon Jan 20 2020 10:40:47.634 - [System] Runtime: 1576990468 250820  STEAMVR
-Mon Jan 20 2020 10:40:47.634 - [Steam] Connect to Steam finished: check for dismissable warnings
-Mon Jan 20 2020 10:40:47.701 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:40:55.325 - [System] System is running for 10 seconds.
-Mon Jan 20 2020 10:46:09.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:46:13.621 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:46:23.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:56:27.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:56:32.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 10:56:34.629 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 10:57:00.628 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:08:51.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:09:51.631 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:09:53.627 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:09:58.631 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:14:43.626 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:14:50.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:15:08.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:15:13.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:15:14.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:16:26.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:16:32.626 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:16:37.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:17:31.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:17:36.627 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:17:38.625 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:18:05.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:22:42.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:22:47.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:22:48.629 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:23:51.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:34:05.625 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:34:10.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:34:14.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:34:35.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:49:21.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:49:26.629 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 11:49:33.629 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 11:49:58.630 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:23:18.628 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:23:23.628 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:23:31.630 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:24:05.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:40:24.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:40:29.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:40:40.630 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:40:45.629 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:41:31.628 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:41:41.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:41:44.625 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:41:49.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:46:19.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:46:24.626 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:46:27.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:46:32.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:47:42.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:47:47.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:47:52.621 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:47:57.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:54:13.628 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:54:18.627 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:54:23.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:54:28.628 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 12:58:35.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 12:59:08.628 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:29:51.629 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:29:56.626 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:29:57.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:30:02.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:30:43.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:30:48.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:30:51.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:31:11.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:47:13.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:47:19.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:47:49.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:47:54.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:48:58.621 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:49:38.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:57:00.627 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:57:05.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 13:57:11.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 13:57:16.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 14:02:46.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 14:02:53.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 14:02:56.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 14:03:01.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 14:03:55.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 14:04:00.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 14:04:30.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 14:04:35.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:09:18.621 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:09:23.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:09:29.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:09:34.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:11:13.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:11:18.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:11:22.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:11:27.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:14:20.621 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:14:25.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:14:34.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:14:39.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:15:51.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:15:56.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:16:04.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:16:09.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:25:05.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:25:10.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:25:17.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:25:22.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:28:09.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:28:14.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:28:20.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:28:25.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:31:54.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:31:59.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:32:08.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:32:13.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:40:59.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:41:04.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:41:09.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:41:14.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:46:19.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:46:24.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 16:46:29.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 16:46:34.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:00:33.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:00:38.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:00:45.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:00:50.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:21:07.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:21:13.630 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:21:16.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:21:21.630 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:22:37.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:22:42.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:22:51.629 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:22:56.629 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:24:29.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:24:34.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:25:07.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:25:12.625 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:29:09.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:29:14.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:29:44.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:29:49.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:31:12.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:31:17.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:32:05.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:32:10.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:42:09.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:42:14.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:42:43.621 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:42:48.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:43:57.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:44:02.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:44:27.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:44:32.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:45:48.625 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:45:53.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 17:46:21.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 17:46:26.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 18:22:00.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 18:22:06.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 18:22:13.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 18:22:18.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 18:23:38.625 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 18:23:43.627 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 18:23:50.628 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 18:24:14.629 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 18:27:15.629 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 18:27:20.621 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 18:27:25.632 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 18:27:41.631 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 19:07:54.628 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 19:07:59.629 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 19:08:03.629 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 19:08:31.630 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:03:45.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:03:50.630 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:05:23.624 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:06:35.630 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:06:39.630 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:06:44.630 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:09:23.630 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:09:28.629 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:09:46.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:09:51.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:10:17.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:10:22.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:12:37.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:12:42.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:12:55.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:13:00.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:15:09.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:15:14.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:15:26.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:15:31.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:21:51.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:21:56.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:22:01.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:23:01.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:23:05.623 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:23:10.624 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:29:03.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:29:08.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:29:56.622 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:30:01.622 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:30:06.621 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:33:27.623 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:47:16.631 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:47:21.630 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
-Mon Jan 20 2020 21:47:26.629 - [System] Unknown Transition from 'SteamVRSystemState_Standby' to 'SteamVRSystemState_Ready'.
-Mon Jan 20 2020 21:47:56.628 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Standby'.
+Tue Jan 21 2020 14:37:31.326 - //==============================================================================================
+Tue Jan 21 2020 14:37:31.326 - ================================================================================================
+Tue Jan 21 2020 14:37:31.326 - ================================================================================================
+Tue Jan 21 2020 14:37:31.326 - vrmonitor.exe 1.9.16 startup with PID=13972, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 14:37:31.328 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
+Tue Jan 21 2020 14:37:31.328 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
+Tue Jan 21 2020 14:37:31.390 - AUDIO: Refreshing audio devices
+Tue Jan 21 2020 14:37:31.463 - AUDIO: Detected 18 playback and 16 record devices
+Tue Jan 21 2020 14:37:31.478 - Default Playback Audio Devices: {0.0.0.00000000}.{04674bd7-dd4d-4110-aad5-b6bc0ff1cf2a}, {0.0.0.00000000}.{04674bd7-dd4d-4110-aad5-b6bc0ff1cf2a} (Comm)
+Tue Jan 21 2020 14:37:31.478 - 	-->Headphones (Rift Audio),0,Headphones,Rift Audio,VID_2833/PID_0330,USB\VID_2833&PID_0330&MI_00\7&16b38097&0&0000,{0.0.0.00000000}.{04674bd7-dd4d-4110-aad5-b6bc0ff1cf2a}
+Tue Jan 21 2020 14:37:31.478 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
+Tue Jan 21 2020 14:37:31.478 - 	System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Tue Jan 21 2020 14:37:31.478 - Default Record Audio Device: {0.0.1.00000000}.{19678368-8579-4b6b-a8f4-7219d0382d7b}, {0.0.1.00000000}.{19678368-8579-4b6b-a8f4-7219d0382d7b} (Comm)
+Tue Jan 21 2020 14:37:31.478 - 	-->Microphone (Rift Audio),0,Microphone,Rift Audio,VID_2833/PID_0330,USB\VID_2833&PID_0330&MI_00\7&16b38097&0&0000,{0.0.1.00000000}.{19678368-8579-4b6b-a8f4-7219d0382d7b}
+Tue Jan 21 2020 14:37:31.481 - [System] Prepare operating system environment
+Tue Jan 21 2020 14:37:31.481 - [System] Setting power settings to minimum power savings.
+Tue Jan 21 2020 14:37:31.505 - [System] Detected first setup.
+Tue Jan 21 2020 14:37:31.509 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
+Tue Jan 21 2020 14:37:31.632 - [System] Runtime: 1576990468 250820  STEAMVR
+Tue Jan 21 2020 14:37:31.781 - VR_Init successful
+Tue Jan 21 2020 14:37:32.622 - [Steam] Attempt to connect to Steam
+Tue Jan 21 2020 14:37:32.628 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
+Tue Jan 21 2020 14:37:32.629 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
+Tue Jan 21 2020 14:37:32.629 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
+Tue Jan 21 2020 14:37:32.630 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
+Tue Jan 21 2020 14:37:32.637 - CSharedResourceNamespaceClient::Init(): received namespace data 23188
+Tue Jan 21 2020 14:37:32.638 - [Audio] Audio init
+Tue Jan 21 2020 14:37:33.831 - [Status] Graphics driver version is 431.60.
+Tue Jan 21 2020 14:37:40.922 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 14:37:40.931 - [Steam] Connected to Steam in 0.16 seconds.
+Tue Jan 21 2020 14:37:40.932 - [System] Runtime: 1576990468 250820  STEAMVR
+Tue Jan 21 2020 14:37:40.932 - [Steam] Connect to Steam finished: check for dismissable warnings
+Tue Jan 21 2020 14:37:40.949 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Tue Jan 21 2020 14:37:41.498 - [System] System is running for 10 seconds.
+Tue Jan 21 2020 14:38:11.954 - [Status Warning Added WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 14:38:11.954 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 14:39:39.950 - [Status Warning Added WMHD317J1012AK_Camera0 Base Station(1)] Searching...
+Tue Jan 21 2020 14:39:42.953 - [Status Warning Removed WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 14:39:42.953 - [Status Warning Removed WMHD317J1012AK_Camera0 Base Station(1)] Searching...
+Tue Jan 21 2020 14:39:42.953 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Tue Jan 21 2020 14:41:52.951 - [Status Warning Added WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 14:41:52.951 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 14:41:57.950 - [Status Warning Removed WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 14:41:57.950 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Tue Jan 21 2020 14:42:12.952 - [Status Warning Added WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 14:42:12.952 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 14:42:25.953 - [Status Warning Removed WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 14:42:25.953 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Tue Jan 21 2020 14:44:53.953 - [Status Warning Added WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 14:44:53.953 - [Status Warning Added WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 14:46:09.950 - [Status Warning Removed WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 14:46:10.950 - [Status Warning Removed WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 14:46:40.951 - [Status Warning Added WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 14:46:40.951 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 14:46:50.952 - [Status Warning Added WMHD317J1012AK_Camera1 Base Station(4)] Searching...
+Tue Jan 21 2020 14:47:09.952 - [Status Warning Added WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 14:47:10.953 - [Status Warning Removed WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 14:47:10.953 - [Status Warning Removed WMHD317J1012AK_Camera1 Base Station(4)] Searching...
+Tue Jan 21 2020 14:47:10.954 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Tue Jan 21 2020 14:47:11.953 - [Status Warning Added WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 14:47:16.950 - [Status Warning Removed WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 14:47:16.950 - [Status Warning Removed WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 14:47:41.951 - [Status Warning Added WMHD317J1012AK_Camera1 Base Station(4)] Searching...
+Tue Jan 21 2020 14:47:54.949 - [Status Warning Removed WMHD317J1012AK_Camera1 Base Station(4)] Searching...
+Tue Jan 21 2020 14:50:52.951 - [Status Warning Added WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 14:50:52.951 - [Status Warning Added WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 14:52:05.952 - [Status Warning Removed WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 14:52:18.953 - [Status Warning Added WMHD317J1012AK_Camera0 Base Station(1)] Searching...
+Tue Jan 21 2020 14:52:32.949 - [Status Warning Removed WMHD317J1012AK_Camera0 Base Station(1)] Searching...
+Tue Jan 21 2020 14:52:40.685 - Quitting SteamVR at the request of a driver
+Tue Jan 21 2020 14:52:40.685 - [System] Quit gracefully: Waiting for process quitting...
+Tue Jan 21 2020 14:52:43.004 - [System] Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Shutdown'.
+Tue Jan 21 2020 14:52:43.004 - [Audio] Audio shutdown!
+Tue Jan 21 2020 14:52:43.437 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Tue Jan 21 2020 14:52:43.437 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eConsole, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Tue Jan 21 2020 14:52:43.440 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Tue Jan 21 2020 14:52:43.440 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eMultimedia, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Tue Jan 21 2020 14:52:43.462 - AUDIO: AudioDeviceChangeNotice (noting refresh): 4, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Tue Jan 21 2020 14:52:43.462 - AUDIO: OnDefaultDeviceChanged: flow = eRender, role = eCommunications, device = {0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Tue Jan 21 2020 14:52:43.561 - Drops over entire run:-  0 single frame-  0 2 frame-  0 3 frame-  0 4 or more- Total 71054 in 71054 frames
+Tue Jan 21 2020 14:52:43.565 - [System] Restore operating system environment
+Tue Jan 21 2020 14:52:43.565 - [System] Restore power settings to previous power savings.
+Tue Jan 21 2020 15:00:38.904 - //==============================================================================================
+Tue Jan 21 2020 15:00:38.905 - ================================================================================================
+Tue Jan 21 2020 15:00:38.905 - ================================================================================================
+Tue Jan 21 2020 15:00:38.905 - vrmonitor.exe 1.9.16 startup with PID=7548, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 15:00:38.906 - Tools Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\tools exists.
+Tue Jan 21 2020 15:00:38.907 - Demo Path: C:\Program Files (x86)\Steam\steamapps\common\SteamVR\demo exists.
+Tue Jan 21 2020 15:00:38.992 - AUDIO: Refreshing audio devices
+Tue Jan 21 2020 15:00:39.064 - AUDIO: Detected 18 playback and 16 record devices
+Tue Jan 21 2020 15:00:39.076 - Default Playback Audio Devices: {0.0.0.00000000}.{04674bd7-dd4d-4110-aad5-b6bc0ff1cf2a}, {0.0.0.00000000}.{04674bd7-dd4d-4110-aad5-b6bc0ff1cf2a} (Comm)
+Tue Jan 21 2020 15:00:39.076 - 	-->Headphones (Rift Audio),0,Headphones,Rift Audio,VID_2833/PID_0330,USB\VID_2833&PID_0330&MI_00\7&16b38097&0&0000,{0.0.0.00000000}.{04674bd7-dd4d-4110-aad5-b6bc0ff1cf2a}
+Tue Jan 21 2020 15:00:39.076 - 	Headphones (Oculus Virtual Audio Device),0,Headphones,Oculus Virtual Audio Device,VID_0000/PID_0000,ROOT\MEDIA\0000,{0.0.0.00000000}.{9a45b79c-f35a-4017-be0f-17a6482b6726}
+Tue Jan 21 2020 15:00:39.076 - 	System (Realtek High Definition Audio),0,System,Realtek High Definition Audio,VID_0000/PID_0000,HDAUDIO\FUNC_01&VEN_10EC&DEV_0298&SUBSYS_1A586750&REV_1001\4&379d94f&0&0001,{0.0.0.00000000}.{c8cee691-29fc-49ba-8ec9-6b2925803f81}
+Tue Jan 21 2020 15:00:39.076 - Default Record Audio Device: {0.0.1.00000000}.{19678368-8579-4b6b-a8f4-7219d0382d7b}, {0.0.1.00000000}.{19678368-8579-4b6b-a8f4-7219d0382d7b} (Comm)
+Tue Jan 21 2020 15:00:39.076 - 	-->Microphone (Rift Audio),0,Microphone,Rift Audio,VID_2833/PID_0330,USB\VID_2833&PID_0330&MI_00\7&16b38097&0&0000,{0.0.1.00000000}.{19678368-8579-4b6b-a8f4-7219d0382d7b}
+Tue Jan 21 2020 15:00:39.077 - [System] Prepare operating system environment
+Tue Jan 21 2020 15:00:39.077 - [System] Setting power settings to minimum power savings.
+Tue Jan 21 2020 15:00:39.121 - [System] Detected first setup.
+Tue Jan 21 2020 15:00:39.125 - [System] Transition from 'SteamVRSystemState_Off' to 'SteamVRSystemState_Startup'.
+Tue Jan 21 2020 15:00:39.255 - [System] Runtime: 1576990468 250820  STEAMVR
+Tue Jan 21 2020 15:00:39.427 - VR_Init successful
+Tue Jan 21 2020 15:00:40.709 - [Steam] Attempt to connect to Steam
+Tue Jan 21 2020 15:00:40.717 - Add Json firmware manifest from {htc}/firmware/manifest.vrfirmware
+Tue Jan 21 2020 15:00:40.718 - Add Json firmware manifest from {indexcontroller}/firmware/manifest.vrfirmware
+Tue Jan 21 2020 15:00:40.718 - Add Json firmware manifest from {indexhmd}/firmware/manifest.vrfirmware
+Tue Jan 21 2020 15:00:40.719 - Add Json firmware manifest from {lighthouse}/firmware/manifest.vrfirmware
+Tue Jan 21 2020 15:00:40.721 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Tue Jan 21 2020 15:00:40.721 - CSharedResourceNamespaceClient::Init(): received namespace data 5224
+Tue Jan 21 2020 15:00:40.722 - [Audio] Audio init
+Tue Jan 21 2020 15:00:41.924 - [Status] Graphics driver version is 431.60.
+Tue Jan 21 2020 15:00:41.949 - [System] Transition from 'SteamVRSystemState_Startup' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 15:00:41.959 - [Steam] Connected to Steam in 0.19 seconds.
+Tue Jan 21 2020 15:00:41.960 - [System] Runtime: 1576990468 250820  STEAMVR
+Tue Jan 21 2020 15:00:41.960 - [Steam] Connect to Steam finished: check for dismissable warnings
+Tue Jan 21 2020 15:00:42.028 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Tue Jan 21 2020 15:00:49.124 - [System] System is running for 10 seconds.
+Tue Jan 21 2020 15:00:49.950 - [Status Warning Added WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 15:01:17.951 - [Status Warning Removed WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 15:01:54.259 - [System] Runtime: 1576990468 250820  STEAMVR
+Tue Jan 21 2020 15:05:05.952 - [Status Warning Added WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 15:05:05.952 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 15:05:51.953 - [Status Warning Added WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 15:05:51.953 - [Status Warning Added WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 15:06:27.952 - [Status Warning Removed WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 15:06:27.952 - [Status Warning Removed WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 15:06:27.952 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Tue Jan 21 2020 15:06:43.952 - [Status Warning Added WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 15:06:43.952 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 15:07:29.950 - [Status Warning Added WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 15:09:51.952 - [Status Warning Removed WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 15:10:52.951 - [Status Warning Added WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 15:13:26.951 - [Status Warning Removed WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 15:13:26.952 - [System] Transition from 'SteamVRSystemState_Connecting' to 'SteamVRSystemState_Ready'.
+Tue Jan 21 2020 15:13:34.951 - [Status Warning Removed WMHD317J1012AK_Controller_Left Controller(2)] Searching...
+Tue Jan 21 2020 15:13:34.951 - [Status Warning Removed WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 15:14:28.950 - [Status Warning Added WMHD317J1012AK_Controller_Right Controller(3)] Searching...
+Tue Jan 21 2020 15:14:45.952 - [Status Warning Added WMHD317J1012AK Headset(0)] Searching...
+Tue Jan 21 2020 15:14:45.952 - [System] Unknown Transition from 'SteamVRSystemState_Ready' to 'SteamVRSystemState_Connecting'.
+Tue Jan 21 2020 15:15:31.950 - [Status Warning Added WMHD317J1012AK_Controller_Left Controller(2)] Searching...
