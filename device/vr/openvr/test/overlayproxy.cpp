@@ -562,21 +562,51 @@ EVROverlayError PVROverlay::SetOverlayMouseScale(VROverlayHandle_t ulOverlayHand
   >(ulOverlayHandle, *pvecMouseScale);
 }
 bool PVROverlay::ComputeOverlayIntersection(VROverlayHandle_t ulOverlayHandle, const vr::VROverlayIntersectionParams_t *pParams, vr::VROverlayIntersectionResults_t *pResults) {
-
+  auto result = fnp.call<
+    kIVROverlay_ComputeOverlayIntersection,
+    std::tuple<bool, vr::VROverlayIntersectionResults_t>,
+    VROverlayHandle_t,
+    vr::VROverlayIntersectionParams_t
+  >(ulOverlayHandle, *pParams);
+  *pResults = std::get<1>(result);
+  return std::get<0>(result);
 }
 bool PVROverlay::HandleControllerOverlayInteractionAsMouse(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unControllerDeviceIndex) {
-
+  return fnp.call<
+    kIVROverlay_ComputeOverlayIntersection,
+    bool,
+    VROverlayHandle_t,
+    TrackedDeviceIndex_t
+  >(ulOverlayHandle, unControllerDeviceIndex);
 }
 bool PVROverlay::IsHoverTargetOverlay(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_IsHoverTargetOverlay,
+    bool,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
 }
 VROverlayHandle_t PVROverlay::GetGamepadFocusOverlay() {
-
+  return fnp.call<
+    kIVROverlay_GetGamepadFocusOverlay,
+    VROverlayHandle_t
+  >();
 }
 EVROverlayError PVROverlay::SetGamepadFocusOverlay(VROverlayHandle_t ulNewFocusOverlay) {
+  return fnp.call<
+    kIVROverlay_SetGamepadFocusOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >(ulNewFocusOverlay);
 }
 EVROverlayError PVROverlay::SetOverlayNeighbor(EOverlayDirection eDirection, VROverlayHandle_t ulFrom, VROverlayHandle_t ulTo) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayNeighbor,
+    EVROverlayError,
+    EOverlayDirection,
+    VROverlayHandle_t,
+    VROverlayHandle_t
+  >(eDirection, ulFrom, ulTo);
 }
 EVROverlayError PVROverlay::MoveGamepadFocusToNeighbor(EOverlayDirection eDirection, VROverlayHandle_t ulFrom) {
 
