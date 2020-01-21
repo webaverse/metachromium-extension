@@ -246,9 +246,8 @@ EVROverlayError PVROverlay::GetOverlayColor(VROverlayHandle_t ulOverlayHandle, f
   auto result = fnp.call<
     kIVROverlay_GetOverlayColor,
     std::tuple<EVROverlayError, float, float, float>,
-    VROverlayHandle_t,
-    VROverlayFlags
-  >(ulOverlayHandle, eOverlayFlag);
+    VROverlayHandle_t
+  >(ulOverlayHandle);
   *pfRed = std::get<1>(result);
   *pfGreen = std::get<2>(result);
   *pfBlue = std::get<3>(result);
@@ -266,29 +265,61 @@ EVROverlayError PVROverlay::GetOverlayAlpha(VROverlayHandle_t ulOverlayHandle, f
   auto result = fnp.call<
     kIVROverlay_GetOverlayAlpha,
     std::tuple<EVROverlayError, float>,
-    VROverlayHandle_t,
-    VROverlayFlags
+    VROverlayHandle_t
   >(ulOverlayHandle);
   *pfAlpha = std::get<1>(result);
   return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTexelAspect(VROverlayHandle_t ulOverlayHandle, float fTexelAspect) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayTexelAspect,
+    EVROverlayError,
+    VROverlayHandle_t,
+    float
+  >(ulOverlayHandle, fTexelAspect);
 }
 EVROverlayError PVROverlay::GetOverlayTexelAspect(VROverlayHandle_t ulOverlayHandle, float *pfTexelAspect) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayTexelAspect,
+    std::tuple<EVROverlayError, float>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *pfTexelAspect = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlaySortOrder(VROverlayHandle_t ulOverlayHandle, uint32_t unSortOrder) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlaySortOrder,
+    EVROverlayError,
+    VROverlayHandle_t,
+    uint32_t
+  >(ulOverlayHandle, unSortOrder);
 }
 EVROverlayError PVROverlay::GetOverlaySortOrder(VROverlayHandle_t ulOverlayHandle, uint32_t *punSortOrder) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlaySortOrder,
+    std::tuple<EVROverlayError, uint32_t>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *punSortOrder = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayWidthInMeters(VROverlayHandle_t ulOverlayHandle, float fWidthInMeters) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayWidthInMeters,
+    EVROverlayError,
+    VROverlayHandle_t,
+    float
+  >(ulOverlayHandle, fWidthInMeters);
 }
 EVROverlayError PVROverlay::GetOverlayWidthInMeters(VROverlayHandle_t ulOverlayHandle, float *pfWidthInMeters) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayWidthInMeters,
+    std::tuple<EVROverlayError, float>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *pfWidthInMeters = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float fMinDistanceInMeters, float fMaxDistanceInMeters) {
 
