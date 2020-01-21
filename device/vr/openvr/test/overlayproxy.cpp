@@ -1522,8 +1522,7 @@ EVROverlayError PVROverlay::GetOverlayDualAnalogTransform(VROverlayHandle_t ulOv
   return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTexture(VROverlayHandle_t ulOverlayHandle, const Texture_t *pTexture) {
-  getOut() << "SetOverlayTexture abort" << std::endl;
-  abort();
+  getOut() << "SetOverlayTexture not implemented" << std::endl;
   return VROverlayError_None;
 }
 EVROverlayError PVROverlay::ClearOverlayTexture(VROverlayHandle_t ulOverlayHandle) {
@@ -1534,11 +1533,13 @@ EVROverlayError PVROverlay::ClearOverlayTexture(VROverlayHandle_t ulOverlayHandl
   >(ulOverlayHandle);
 }
 EVROverlayError PVROverlay::SetOverlayRaw(VROverlayHandle_t ulOverlayHandle, void *pvBuffer, uint32_t unWidth, uint32_t unHeight, uint32_t unDepth) {
-  getOut() << "SetOverlayRaw not implemented" << std::endl;
+  getOut() << "SetOverlayRaw abort" << std::endl;
+  abort();
   return VROverlayError_None;
 }
 EVROverlayError PVROverlay::SetOverlayFromFile(VROverlayHandle_t ulOverlayHandle, const char *pchFilePath) {
-  getOut() << "SetOverlayFromFile not implemented" << std::endl;
+  getOut() << "SetOverlayFromFile abort" << std::endl;
+  abort();
   return VROverlayError_None;
 }
 EVROverlayError PVROverlay::GetOverlayTexture(VROverlayHandle_t ulOverlayHandle, void **pNativeTextureHandle, void *pNativeTextureRef, uint32_t *pWidth, uint32_t *pHeight, uint32_t *pNativeFormat, ETextureType *pAPIType, EColorSpace *pColorSpace, VRTextureBounds_t *pTextureBounds) {
