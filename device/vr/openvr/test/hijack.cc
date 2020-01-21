@@ -192,6 +192,8 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
             const float &e3 = ((const float *)data)[startIndex + 14];
 
             if (e3 == -1.0f) {
+              // 0.917286 0 -0.174072 0 0 0.833537 -0.106141 0 0 0 -1.0002 -0.20002 0 0 -1 0
+              
               // needs transpose
               const float *src = &((const float *)data)[startIndex];
               outProjectionMatrix[0] = src[0];
@@ -227,6 +229,8 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
             const float &e3 = ((const float *)data)[startIndex + 11];
 
             if (e3 == -1.0f) {
+              // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
+              
               memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
               return true;
             }
