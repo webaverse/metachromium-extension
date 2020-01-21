@@ -26,6 +26,8 @@ char kIVROverlay_SetOverlaySortOrder[] = "Input::SetOverlaySortOrder";
 char kIVROverlay_GetOverlaySortOrder[] = "Input::GetOverlaySortOrder";
 char kIVROverlay_SetOverlayWidthInMeters[] = "Input::SetOverlayWidthInMeters";
 char kIVROverlay_GetOverlayWidthInMeters[] = "Input::GetOverlayWidthInMeters";
+char kIVROverlay_SetOverlayCurvature[] = "Input::SetOverlayCurvature";
+char kIVROverlay_GetOverlayCurvature[] = "Input::GetOverlayCurvature";
 char kIVROverlay_SetOverlayAutoCurveDistanceRangeInMeters[] = "Input::SetOverlayAutoCurveDistanceRangeInMeters";
 char kIVROverlay_GetOverlayAutoCurveDistanceRangeInMeters[] = "Input::GetOverlayAutoCurveDistanceRangeInMeters";
 char kIVROverlay_SetOverlayTextureColorSpace[] = "Input::SetOverlayTextureColorSpace";
@@ -55,10 +57,10 @@ char kIVROverlay_SetOverlayMouseScale[] = "Input::SetOverlayMouseScale";
 char kIVROverlay_ComputeOverlayIntersection[] = "Input::ComputeOverlayIntersection";
 char kIVROverlay_HandleControllerOverlayInteractionAsMouse[] = "Input::HandleControllerOverlayInteractionAsMouse";
 char kIVROverlay_IsHoverTargetOverlay[] = "Input::IsHoverTargetOverlay";
-char kIVROverlay_GetGamepadFocusOverlay[] = "Input::GetGamepadFocusOverlay";
-char kIVROverlay_SetGamepadFocusOverlay[] = "Input::SetGamepadFocusOverlay";
-char kIVROverlay_SetOverlayNeighbor[] = "Input::SetOverlayNeighbor";
-char kIVROverlay_MoveGamepadFocusToNeighbor[] = "Input::MoveGamepadFocusToNeighbor";
+// char kIVROverlay_GetGamepadFocusOverlay[] = "Input::GetGamepadFocusOverlay";
+// char kIVROverlay_SetGamepadFocusOverlay[] = "Input::SetGamepadFocusOverlay";
+// char kIVROverlay_SetOverlayNeighbor[] = "Input::SetOverlayNeighbor";
+// char kIVROverlay_MoveGamepadFocusToNeighbor[] = "Input::MoveGamepadFocusToNeighbor";
 char kIVROverlay_SetOverlayDualAnalogTransform[] = "Input::SetOverlayDualAnalogTransform";
 char kIVROverlay_GetOverlayDualAnalogTransform[] = "Input::GetOverlayDualAnalogTransform";
 char kIVROverlay_SetOverlayTexture[] = "Input::SetOverlayTexture";
@@ -97,7 +99,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
 
     return std::tuple<EVROverlayError, VROverlayHandle_t>(
       error,
-      overlayHadle
+      overlayHandle
     );
   });
   fnp.reg<
@@ -111,7 +113,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
 
     return std::tuple<EVROverlayError, VROverlayHandle_t>(
       error,
-      overlayHadle
+      overlayHandle
     );
   });
   fnp.reg<
@@ -123,17 +125,19 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   });
   fnp.reg<
     kIVROverlay_SetHighQualityOverlay,
-    EVROverlayError,
-    VROverlayHandle_t
-  >([=](VROverlayHandle_t ulOverlayHandle) {
-    return vroverlay->SetHighQualityOverlay(ulOverlayHandle);
+    int
+  >([=]() {
+    getOut() << "SetHighQualityOverlay abort" << std::endl;
+    abort();
+    return 0;
   });
   fnp.reg<
     kIVROverlay_GetHighQualityOverlay,
-    EVROverlayError,
-    VROverlayHandle_t
+    int
   >([=]() {
-    return vroverlay->GetHighQualityOverlay();
+    getOut() << "GetHighQualityOverlay abort" << std::endl;
+    abort();
+    return 0;
   });
   fnp.reg<
     kIVROverlay_GetOverlayKey,
@@ -175,15 +179,15 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   });
   fnp.reg<
     kIVROverlay_GetOverlayImageData,
-    std:tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>,
+    std::tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>,
     VROverlayHandle_t,
     uint32_t
   >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unBufferSize) {
     managed_binary<char> buffer(unBufferSize);
     uint32_t width;
     uint32_t height;
-    auto error = vroverlay->GetOverlayImageData(ulOverlayHandle, buffer.data(), &width, &height);
-    return std:tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>(
+    auto error = vroverlay->GetOverlayImageData(ulOverlayHandle, buffer.data(), unBufferSize, &width, &height);
+    return std::tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>(
       error,
       std::move(buffer),
       width,
@@ -276,7 +280,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=](VROverlayHandle_t ulOverlayHandle) {
     float alpha;
     auto error = vroverlay->GetOverlayAlpha(ulOverlayHandle, &alpha);
-    std::tuple<EVROverlayError, float>(
+    return std::tuple<EVROverlayError, float>(
       error,
       alpha
     );
@@ -333,7 +337,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     kIVROverlay_GetOverlayWidthInMeters,
     std::tuple<EVROverlayError, float>,
     VROverlayHandle_t
-  >([=](VROverlayHandle_t ulOverlayHandle, float fWidthInMeters) {
+  >([=](VROverlayHandle_t ulOverlayHandle) {
     float widthInMeters;
     auto error = vroverlay->GetOverlayWidthInMeters(ulOverlayHandle, &widthInMeters);
     return std::tuple<EVROverlayError, float>(
@@ -342,26 +346,40 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     );
   });
   fnp.reg<
-    kIVROverlay_SetOverlayAutoCurveDistanceRangeInMeters,
+    kIVROverlay_SetOverlayCurvature,
     EVROverlayError,
-    float,
+    VROverlayHandle_t,
     float
-  >([=](VROverlayHandle_t ulOverlayHandle, float fMinDistanceInMeters, float fMaxDistanceInMeters) {
-    return vroverlay->SetOverlayAutoCurveDistanceRangeInMeters(ulOverlayHandle, fMinDistanceInMeters, fMaxDistanceInMeters);
+  >([=](VROverlayHandle_t ulOverlayHandle, float fCurvature) {
+    return vroverlay->SetOverlayCurvature(ulOverlayHandle, fCurvature);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayCurvature,
+    std::tuple<EVROverlayError, float>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    float fCurvature;
+    auto error = vroverlay->GetOverlayCurvature(ulOverlayHandle, &fCurvature);
+    return std::tuple<EVROverlayError, float>(
+      error,
+      fCurvature
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayAutoCurveDistanceRangeInMeters,
+    int
+  >([=]() {
+    getOut() << "SetOverlayAutoCurveDistanceRangeInMeters abort" << std::endl;
+    abort();
+    return 0;
   });
   fnp.reg<
     kIVROverlay_GetOverlayAutoCurveDistanceRangeInMeters,
-    std::tuple<EVROverlayError, float, float>,
-    VROverlayHandle_t
-  >([=](VROverlayHandle_t ulOverlayHandle) {
-    float minDistanceInMeters;
-    float maxDistanceInMeters;
-    auto error = vroverlay->GetOverlayAutoCurveDistanceRangeInMeters(ulOverlayHandle, &minDistanceInMeters, &maxDistanceInMeters);
-    return std::tuple<EVROverlayError, float, float>(
-      error,
-      minDistanceInMeters,
-      maxDistanceInMeters
-    );
+    int
+  >([=]() {
+    getOut() << "SetOverlayAutoCurveDistanceRangeInMeters abort" << std::endl;
+    abort();
+    return 0;
   });
   fnp.reg<
     kIVROverlay_SetOverlayTextureColorSpace,
@@ -412,7 +430,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     managed_binary<char> buffer(unBufferSize);
     HmdColor_t color;
     EVROverlayError error;
-    auto result = vroverlay->GetOverlayRenderModel(ulOverlayHandle, buffer.data(), unBuferSize, &color, &error);
+    auto result = vroverlay->GetOverlayRenderModel(ulOverlayHandle, buffer.data(), unBufferSize, &color, &error);
     return std::tuple<uint32_t, managed_binary<char>, HmdColor_t, EVROverlayError>(
       result,
       std::move(buffer),
@@ -501,9 +519,9 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     std::tuple<EVROverlayError, TrackedDeviceIndex_t, managed_binary<char>>,
     VROverlayHandle_t,
     uint32_t
-  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t unDeviceIndex, uint32_t unComponentNameSize) {
+  >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unComponentNameSize) {
     TrackedDeviceIndex_t deviceIndex;
-    managed_binary<char> componentName(componentName);
+    managed_binary<char> componentName(unComponentNameSize);
     auto error = vroverlay->GetOverlayTransformTrackedDeviceComponent(ulOverlayHandle, &deviceIndex, componentName.data(), unComponentNameSize);
     return std::tuple<EVROverlayError, TrackedDeviceIndex_t, managed_binary<char>>(
       error,
@@ -515,7 +533,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     kIVROverlay_GetOverlayTransformOverlayRelative,
     std::tuple<EVROverlayError, VROverlayHandle_t, HmdMatrix34_t>,
     VROverlayHandle_t
-  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t unDeviceIndex, uint32_t unComponentNameSize) {
+  >([=](VROverlayHandle_t ulOverlayHandle) {
     VROverlayHandle_t overlayHandleParent;
     HmdMatrix34_t matParentOverlayToOverlayTransform;
     auto error = vroverlay->GetOverlayTransformOverlayRelative(ulOverlayHandle, &overlayHandleParent, &matParentOverlayToOverlayTransform);
@@ -562,7 +580,12 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     ETrackingUniverseOrigin,
     HmdVector2_t
   >([=](VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, HmdVector2_t coordinatesInOverlay) {
-    return vroverlay->GetTransformForOverlayCoordinates(ulOverlayHandle, eTrackingOrigin, coordinatesInOverlay);
+    HmdMatrix34_t matTransform;
+    auto error = vroverlay->GetTransformForOverlayCoordinates(ulOverlayHandle, eTrackingOrigin, coordinatesInOverlay, &matTransform);
+    return std::tuple<EVROverlayError, HmdMatrix34_t>(
+      error,
+      matTransform
+    );
   });
   fnp.reg<
     kIVROverlay_PollNextOverlayEvent,
@@ -575,7 +598,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     return std::tuple<bool, VREvent_t>(
       result,
       event
-    ;)
+    );
   });
   fnp.reg<
     kIVROverlay_GetOverlayInputMethod,
@@ -584,7 +607,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=](VROverlayHandle_t ulOverlayHandle) {
     VROverlayInputMethod inputMethod;
     auto error = vroverlay->GetOverlayInputMethod(ulOverlayHandle, &inputMethod);
-    return std::tuple<bool, VREvent_t>(
+    return std::tuple<EVROverlayError, VROverlayInputMethod>(
       error,
       inputMethod
     );
@@ -624,7 +647,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     vr::VROverlayIntersectionParams_t
   >([=](VROverlayHandle_t ulOverlayHandle, VROverlayIntersectionParams_t params) {
     vr::VROverlayIntersectionResults_t results;
-    auto result = vroverlay->ComputeOverlayIntersection(ulOverlayHandle, &params);
+    auto result = vroverlay->ComputeOverlayIntersection(ulOverlayHandle, &params, &results);
     return std::tuple<bool, vr::VROverlayIntersectionResults_t>(
       result,
       results
@@ -632,11 +655,11 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   });
   fnp.reg<
     kIVROverlay_HandleControllerOverlayInteractionAsMouse,
-    bool,
-    VROverlayHandle_t,
-    TrackedDeviceIndex_t
-  >([=](VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unControllerDeviceIndex) {
-    return vroverlay->HandleControllerOverlayInteractionAsMouse(ulOverlayHandle, unControllerDeviceIndex);
+    int
+  >([=]() {
+    getOut() << "HandleControllerOverlayInteractionAsMouse abort" << std::endl;
+    abort();
+    return 0;
   });
   fnp.reg<
     kIVROverlay_IsHoverTargetOverlay,
@@ -645,18 +668,21 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=](VROverlayHandle_t ulOverlayHandle) {
     return vroverlay->IsHoverTargetOverlay(ulOverlayHandle);
   });
-  fnp.reg<
+  /* fnp.reg<
     kIVROverlay_GetGamepadFocusOverlay,
-    VROverlayHandle_t
+    int
   >([=]() {
-    return vroverlay->GetGamepadFocusOverlay();
+    getOut() << "GetGamepadFocusOverlay abort" << std::endl;
+    abort();
+    return 0;
   });
   fnp.reg<
     kIVROverlay_SetGamepadFocusOverlay,
-    EVROverlayError,
-    VROverlayHandle_t
-  >([=](VROverlayHandle_t ulNewFocusOverlay) {
-    return vroverlay->SetGamepadFocusOverlay(ulNewFocusOverlay);
+    int
+  >([=]() {
+    getOut() << "SetGamepadFocusOverlay abort" << std::endl;
+    abort();
+    return 0;
   });
   fnp.reg<
     kIVROverlay_SetOverlayNeighbor,
@@ -674,7 +700,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     VROverlayHandle_t
   >([=](EOverlayDirection eDirection, VROverlayHandle_t ulFrom) {
     return vroverlay->MoveGamepadFocusToNeighbor(eDirection, ulFrom);
-  });
+  }); */
   fnp.reg<
     kIVROverlay_SetOverlayDualAnalogTransform,
     EVROverlayError,
@@ -683,7 +709,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     HmdVector2_t,
     float
   >([=](VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, HmdVector2_t vCenter, float fRadius) {
-    return vroverlay->SetOverlayDualAnalogTransform(eDirection, eWhich, vCenter, fRadius);
+    return vroverlay->SetOverlayDualAnalogTransform(ulOverlay, eWhich, &vCenter, fRadius);
   });
   fnp.reg<
     kIVROverlay_GetOverlayDualAnalogTransform,
@@ -693,7 +719,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=](VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich) {
     HmdVector2_t center;
     float radius;
-    auto error = vroverlay->GetOverlayDualAnalogTransform,(ulOverlay, eWhich, &center, &radius);
+    auto error = vroverlay->GetOverlayDualAnalogTransform(ulOverlay, eWhich, &center, &radius);
     return std::tuple<EVROverlayError, HmdVector2_t, float>(
       error,
       center,
@@ -703,7 +729,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   fnp.reg<
     kIVROverlay_SetOverlayTexture,
     int
-  >([=](VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich) {
+  >([=]() {
     getOut() << "SetOverlayTexture abort" << std::endl;
     abort();
     return 0;
@@ -713,11 +739,10 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     EVROverlayError,
     VROverlayHandle_t
   >([=](VROverlayHandle_t ulOverlay) {
-    return vroverlay->ClearOverlayTexture,(ulOverlay);
+    return vroverlay->ClearOverlayTexture(ulOverlay);
   });
   fnp.reg<
     kIVROverlay_SetOverlayRaw,
-    EVROverlayError,
     int
   >([=]() {
     getOut() << "SetOverlayRaw abort" << std::endl;
@@ -726,7 +751,6 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   });
   fnp.reg<
     kIVROverlay_SetOverlayFromFile,
-    EVROverlayError,
     int
   >([=]() {
     getOut() << "SetOverlayFromFile abort" << std::endl;
@@ -735,7 +759,6 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   });
   fnp.reg<
     kIVROverlay_GetOverlayTexture,
-    EVROverlayError,
     int
   >([=]() {
     getOut() << "GetOverlayTexture abort" << std::endl;
@@ -744,7 +767,6 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   });
   fnp.reg<
     kIVROverlay_ReleaseNativeOverlayHandle,
-    EVROverlayError,
     int
   >([=]() {
     getOut() << "ReleaseNativeOverlayHandle abort" << std::endl;
@@ -758,8 +780,8 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=](VROverlayHandle_t ulOverlayHandle) {
     uint32_t width;
     uint32_t height;
-    auto error = vroverlay->GetOverlayDualAnalogTransform,(ulOverlayHandle, &width, &height);
-    return std::tuple<EVROverlayError, HmdVector2_t, float>(
+    auto error = vroverlay->GetOverlayTextureSize(ulOverlayHandle, &width, &height);
+    return std::tuple<EVROverlayError, uint32_t, uint32_t>(
       error,
       width,
       height
@@ -774,7 +796,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     VROverlayHandle_t mainHandle;
     VROverlayHandle_t thumbnailHandle;
     auto error = vroverlay->CreateDashboardOverlay(overlayKey.data(), overlayFriendlyName.data(), &mainHandle, &thumbnailHandle);
-    return std::tuple<EVROverlayError, HmdVector2_t, float>(
+    return std::tuple<EVROverlayError, VROverlayHandle_t, VROverlayHandle_t>(
       error,
       mainHandle,
       thumbnailHandle
@@ -783,7 +805,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   fnp.reg<
     kIVROverlay_IsDashboardVisible,
     bool
-  >([=](managed_binary<char> overlayKey, managed_binary<char> overlayFriendlyName) {
+  >([=]() {
     return vroverlay->IsDashboardVisible();
   });
   fnp.reg<
@@ -833,11 +855,18 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     EGamepadTextInputMode,
     EGamepadTextInputLineMode,
     managed_binary<char>,
-    uint32_t,
     managed_binary<char>,
-    bool,
-    uint64_t
-  >([=](EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, managed_binary<char> description, uint32_t unCharMax, managed_binary<char> existingText, bool bUseMinimalMode, uint64_t uUserValue) {
+    std::tuple<uint32_t, bool, uint64_t>
+  >([=](
+    EGamepadTextInputMode eInputMode,
+    EGamepadTextInputLineMode eLineInputMode,
+    managed_binary<char> description,
+    managed_binary<char> existingText,
+    std::tuple<uint32_t, bool, uint64_t> options
+  ) {
+    uint32_t unCharMax = std::get<0>(options);
+    bool bUseMinimalMode = std::get<1>(options);
+    uint64_t uUserValue = std::get<2>(options);
     return vroverlay->ShowKeyboard(eInputMode, eLineInputMode, description.data(), unCharMax, existingText.data(), bUseMinimalMode, uUserValue);
   });
   fnp.reg<
@@ -847,11 +876,19 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     EGamepadTextInputMode,
     EGamepadTextInputLineMode,
     managed_binary<char>,
-    uint32_t,
     managed_binary<char>,
-    bool,
-    uint64_t
-  >([=](VROverlayHandle_t ulOverlayHandle, EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, managed_binary<char> description, uint32_t unCharMax, managed_binary<char> existingText, bool bUseMinimalMode, uint64_t uUserValue) {
+    std::tuple<uint32_t, bool, uint64_t>
+  >([=](
+    VROverlayHandle_t ulOverlayHandle,
+    EGamepadTextInputMode eInputMode,
+    EGamepadTextInputLineMode eLineInputMode,
+    managed_binary<char> description,
+    managed_binary<char> existingText,
+    std::tuple<uint32_t, bool, uint64_t> options
+   ) {
+    uint32_t unCharMax = std::get<0>(options);
+    bool bUseMinimalMode = std::get<1>(options);
+    uint64_t uUserValue = std::get<2>(options);
     return vroverlay->ShowKeyboardForOverlay(ulOverlayHandle, eInputMode, eLineInputMode, description.data(), unCharMax, existingText.data(), bUseMinimalMode, uUserValue);
   });
   fnp.reg<
@@ -937,6 +974,7 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     int
   >([=]() {
     vroverlay->CloseMessageOverlay();
+    return 0;
   });
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
@@ -976,11 +1014,9 @@ EVROverlayError PVROverlay::DestroyOverlay(VROverlayHandle_t ulOverlayHandle) {
   >(ulOverlayHandle);
 }
 EVROverlayError PVROverlay::SetHighQualityOverlay(VROverlayHandle_t ulOverlayHandle) {
-  return fnp.call<
-    kIVROverlay_SetHighQualityOverlay,
-    EVROverlayError,
-    VROverlayHandle_t
-  >(ulOverlayHandle);
+  getOut() << "SetHighQualityOverlay abort" << std::endl;
+  abort();
+  return VROverlayError_None;
 }
 VROverlayHandle_t PVROverlay::GetHighQualityOverlay() {
   return fnp.call<
@@ -1028,7 +1064,7 @@ EVROverlayError PVROverlay::SetOverlayName(VROverlayHandle_t ulOverlayHandle, co
 EVROverlayError PVROverlay::GetOverlayImageData(VROverlayHandle_t ulOverlayHandle, void *pvBuffer, uint32_t unBufferSize, uint32_t *punWidth, uint32_t *punHeight) {
   auto result = fnp.call<
     kIVROverlay_GetOverlayImageData,
-    std:tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>,
+    std::tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>,
     VROverlayHandle_t,
     uint32_t
   >(ulOverlayHandle, unBufferSize);
@@ -1165,23 +1201,32 @@ EVROverlayError PVROverlay::GetOverlayWidthInMeters(VROverlayHandle_t ulOverlayH
   *pfWidthInMeters = std::get<1>(result);
   return std::get<0>(result);
 }
-EVROverlayError PVROverlay::SetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float fMinDistanceInMeters, float fMaxDistanceInMeters) {
+EVROverlayError PVROverlay::SetOverlayCurvature( VROverlayHandle_t ulOverlayHandle, float fCurvature ) {
   return fnp.call<
-    kIVROverlay_SetOverlayAutoCurveDistanceRangeInMeters,
+    kIVROverlay_SetOverlayCurvature,
     EVROverlayError,
-    float,
+    VROverlayHandle_t,
     float
-  >(ulOverlayHandle, fMinDistanceInMeters, fMaxDistanceInMeters);
+  >(ulOverlayHandle, fCurvature);
 }
-EVROverlayError PVROverlay::GetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float *pfMinDistanceInMeters, float *pfMaxDistanceInMeters) {
+EVROverlayError PVROverlay::GetOverlayCurvature( VROverlayHandle_t ulOverlayHandle, float *pfCurvature ) {
   auto result = fnp.call<
-    kIVROverlay_GetOverlayAutoCurveDistanceRangeInMeters,
-    std::tuple<EVROverlayError, float, float>,
+    kIVROverlay_GetOverlayCurvature,
+    std::tuple<EVROverlayError, float>,
     VROverlayHandle_t
   >(ulOverlayHandle);
-  *pfMinDistanceInMeters = std::get<1>(result);
-  *pfMaxDistanceInMeters = std::get<2>(result);
+  *pfCurvature = std::get<1>(result);
   return std::get<0>(result);
+}
+EVROverlayError PVROverlay::SetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float fMinDistanceInMeters, float fMaxDistanceInMeters) {
+  getOut() << "SetOverlayAutoCurveDistanceRangeInMeters abort" << std::endl;
+  abort();
+  return VROverlayError_None;
+}
+EVROverlayError PVROverlay::GetOverlayAutoCurveDistanceRangeInMeters(VROverlayHandle_t ulOverlayHandle, float *pfMinDistanceInMeters, float *pfMaxDistanceInMeters) {
+  getOut() << "GetOverlayAutoCurveDistanceRangeInMeters abort" << std::endl;
+  abort();
+  return VROverlayError_None;
 }
 EVROverlayError PVROverlay::SetOverlayTextureColorSpace(VROverlayHandle_t ulOverlayHandle, EColorSpace eTextureColorSpace) {
   return fnp.call<
@@ -1247,7 +1292,7 @@ EVROverlayError PVROverlay::GetOverlayTransformType(VROverlayHandle_t ulOverlayH
     kIVROverlay_GetOverlayTransformType,
     std::tuple<EVROverlayError, VROverlayTransformType>,
     VROverlayHandle_t
-  >(ulOverlayHandle, unBufferSize);
+  >(ulOverlayHandle);
   *peTransformType = std::get<1>(result);
   return std::get<0>(result);
 }
@@ -1307,16 +1352,16 @@ EVROverlayError PVROverlay::GetOverlayTransformTrackedDeviceComponent(VROverlayH
     VROverlayHandle_t,
     uint32_t
   >(ulOverlayHandle, unComponentNameSize);
-  *punTrackedDevice = std::get<1>(result);
+  *punDeviceIndex = std::get<1>(result);
   memcpy(pchComponentName, std::get<2>(result).data(), std::get<2>(result).size());
   return std::get<0>(result);
 }
-EVROverlayError GetOverlayTransformOverlayRelative(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t *ulOverlayHandleParent, HmdMatrix34_t *pmatParentOverlayToOverlayTransform) {
+EVROverlayError PVROverlay::GetOverlayTransformOverlayRelative(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t *ulOverlayHandleParent, HmdMatrix34_t *pmatParentOverlayToOverlayTransform) {
   auto result = fnp.call<
     kIVROverlay_GetOverlayTransformOverlayRelative,
     std::tuple<EVROverlayError, VROverlayHandle_t, HmdMatrix34_t>,
     VROverlayHandle_t
-  >(ulOverlayHandle, unComponentNameSize);
+  >(ulOverlayHandle);
   *ulOverlayHandleParent = std::get<1>(result);
   *pmatParentOverlayToOverlayTransform = std::get<2>(result);
   return std::get<0>(result);
@@ -1417,12 +1462,9 @@ bool PVROverlay::ComputeOverlayIntersection(VROverlayHandle_t ulOverlayHandle, c
   return std::get<0>(result);
 }
 bool PVROverlay::HandleControllerOverlayInteractionAsMouse(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unControllerDeviceIndex) {
-  return fnp.call<
-    kIVROverlay_HandleControllerOverlayInteractionAsMouse,
-    bool,
-    VROverlayHandle_t,
-    TrackedDeviceIndex_t
-  >(ulOverlayHandle, unControllerDeviceIndex);
+  getOut() << "HandleControllerOverlayInteractionAsMouse abort" << std::endl;
+  abort();
+  return false;
 }
 bool PVROverlay::IsHoverTargetOverlay(VROverlayHandle_t ulOverlayHandle) {
   return fnp.call<
@@ -1431,18 +1473,15 @@ bool PVROverlay::IsHoverTargetOverlay(VROverlayHandle_t ulOverlayHandle) {
     VROverlayHandle_t
   >(ulOverlayHandle);
 }
-VROverlayHandle_t PVROverlay::GetGamepadFocusOverlay() {
-  return fnp.call<
-    kIVROverlay_GetGamepadFocusOverlay,
-    VROverlayHandle_t
-  >();
+/* VROverlayHandle_t PVROverlay::GetGamepadFocusOverlay() {
+  getOut() << "GetGamepadFocusOverlay abort" << std::endl;
+  abort();
+  return 0;
 }
 EVROverlayError PVROverlay::SetGamepadFocusOverlay(VROverlayHandle_t ulNewFocusOverlay) {
-  return fnp.call<
-    kIVROverlay_SetGamepadFocusOverlay,
-    EVROverlayError,
-    VROverlayHandle_t
-  >(ulNewFocusOverlay);
+  getOut() << "SetGamepadFocusOverlay abort" << std::endl;
+  abort();
+  return 0;
 }
 EVROverlayError PVROverlay::SetOverlayNeighbor(EOverlayDirection eDirection, VROverlayHandle_t ulFrom, VROverlayHandle_t ulTo) {
   return fnp.call<
@@ -1460,8 +1499,8 @@ EVROverlayError PVROverlay::MoveGamepadFocusToNeighbor(EOverlayDirection eDirect
     EOverlayDirection,
     VROverlayHandle_t
   >(eDirection, ulFrom);
-}
-EVROverlayError PVROverlay::SetOverlayDualAnalogTransform(VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, const HmdVector2_t & vCenter, float fRadius) {
+} */
+EVROverlayError PVROverlay::SetOverlayDualAnalogTransform(VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, const HmdVector2_t * vCenter, float fRadius) {
   return fnp.call<
     kIVROverlay_SetOverlayDualAnalogTransform,
     EVROverlayError,
@@ -1469,7 +1508,7 @@ EVROverlayError PVROverlay::SetOverlayDualAnalogTransform(VROverlayHandle_t ulOv
     EDualAnalogWhich,
     HmdVector2_t,
     float
-  >(ulOverlay, eWhich, vCenter, fRadius);
+  >(ulOverlay, eWhich, *vCenter, fRadius);
 }
 EVROverlayError PVROverlay::GetOverlayDualAnalogTransform(VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, HmdVector2_t *pvCenter, float *pfRadius) {
   auto result = fnp.call<
@@ -1483,7 +1522,8 @@ EVROverlayError PVROverlay::GetOverlayDualAnalogTransform(VROverlayHandle_t ulOv
   return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTexture(VROverlayHandle_t ulOverlayHandle, const Texture_t *pTexture) {
-  getOut() << "SetOverlayTexture not implemented" << std::endl;
+  getOut() << "SetOverlayTexture abort" << std::endl;
+  abort();
   return VROverlayError_None;
 }
 EVROverlayError PVROverlay::ClearOverlayTexture(VROverlayHandle_t ulOverlayHandle) {
@@ -1491,7 +1531,7 @@ EVROverlayError PVROverlay::ClearOverlayTexture(VROverlayHandle_t ulOverlayHandl
     kIVROverlay_ClearOverlayTexture,
     EVROverlayError,
     VROverlayHandle_t
-  >(ulOverlay);
+  >(ulOverlayHandle);
 }
 EVROverlayError PVROverlay::SetOverlayRaw(VROverlayHandle_t ulOverlayHandle, void *pvBuffer, uint32_t unWidth, uint32_t unHeight, uint32_t unDepth) {
   getOut() << "SetOverlayRaw not implemented" << std::endl;
@@ -1595,11 +1635,9 @@ EVROverlayError PVROverlay::ShowKeyboard(EGamepadTextInputMode eInputMode, EGame
     EGamepadTextInputMode,
     EGamepadTextInputLineMode,
     managed_binary<char>,
-    uint32_t,
     managed_binary<char>,
-    bool,
-    uint64_t
-  >(eInputMode, eLineInputMode, std::move(description), unCharMax, std::move(existingText), bUseMinimalMode, uUserValue);
+    std::tuple<uint32_t, bool, uint64_t>
+  >(eInputMode, eLineInputMode, std::move(description), std::move(existingText), std::tuple<uint32_t, bool, uint64_t>(unCharMax, bUseMinimalMode, uUserValue));
 }
 EVROverlayError PVROverlay::ShowKeyboardForOverlay(VROverlayHandle_t ulOverlayHandle, EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, const char *pchDescription, uint32_t unCharMax, const char *pchExistingText, bool bUseMinimalMode, uint64_t uUserValue) {
   managed_binary<char> description(strlen(pchDescription)+1);
@@ -1614,11 +1652,9 @@ EVROverlayError PVROverlay::ShowKeyboardForOverlay(VROverlayHandle_t ulOverlayHa
     EGamepadTextInputMode,
     EGamepadTextInputLineMode,
     managed_binary<char>,
-    uint32_t,
     managed_binary<char>,
-    bool,
-    uint64_t
-  >(ulOverlayHandle, eInputMode, eLineInputMode, std::move(description), unCharMax, std::move(existingText), bUseMinimalMode, uUserValue);
+    std::tuple<uint32_t, bool, uint64_t>
+  >(ulOverlayHandle, eInputMode, eLineInputMode, std::move(description), std::move(existingText), std::tuple<uint32_t, bool, uint64_t>(unCharMax, bUseMinimalMode, uUserValue));
 }
 uint32_t PVROverlay::GetKeyboardText(char *pchText, uint32_t cchText) {
   auto result = fnp.call<

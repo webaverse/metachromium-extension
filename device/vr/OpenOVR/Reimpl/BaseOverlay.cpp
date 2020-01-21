@@ -10,7 +10,7 @@
 #include "BaseCompositor.h"
 #include "static_bases.gen.h"
 // #include "Misc/Config.h"
-#include "Misc/ScopeGuard.h"
+// #include "Misc/ScopeGuard.h"
 
 using namespace std;
 // using Vec3 = OVR::Vector3f;
@@ -241,25 +241,25 @@ bool BaseOverlay::IsHoverTargetOverlay(VROverlayHandle_t ulOverlayHandle) {
 }
 VROverlayHandle_t BaseOverlay::GetGamepadFocusOverlay() {
   TRACE("BaseOverlay", []() { getOut() << "BaseOverlay::FindOverlay" << std::endl; });
-  getOut() << "abort BaseOverlay::GetGamepadFocusOverlay" << std::endl; abort();
+  getOut() << "BaseOverlay::GetGamepadFocusOverlay abort" << std::endl; abort();
   return VROverlayHandle_t();
 	// return g_pvroverlay->GetGamepadFocusOverlay();
 }
 EVROverlayError BaseOverlay::SetGamepadFocusOverlay(VROverlayHandle_t ulNewFocusOverlay) {
   TRACE("BaseOverlay", []() { getOut() << "BaseOverlay::FindOverlay" << std::endl; });
-  getOut() << "abort BaseOverlay::SetGamepadFocusOverlay" << std::endl; abort();
+  getOut() << "BaseOverlay::SetGamepadFocusOverlay abort" << std::endl; abort();
   return VROverlayError_None;
 	// return g_pvroverlay->SetGamepadFocusOverlay(ulNewFocusOverlay);
 }
 EVROverlayError BaseOverlay::SetOverlayNeighbor(EOverlayDirection eDirection, VROverlayHandle_t ulFrom, VROverlayHandle_t ulTo) {
   TRACE("BaseOverlay", []() { getOut() << "BaseOverlay::FindOverlay" << std::endl; });
-  getOut() << "abort BaseOverlay::SetOverlayNeighbor" << std::endl; abort();
+  getOut() << "BaseOverlay::SetOverlayNeighbor abort" << std::endl; abort();
   return VROverlayError_None;
 	// return g_pvroverlay->SetOverlayNeighbor(eDirection, ulFrom, ulTo);
 }
 EVROverlayError BaseOverlay::MoveGamepadFocusToNeighbor(EOverlayDirection eDirection, VROverlayHandle_t ulFrom) {
   TRACE("BaseOverlay", []() { getOut() << "BaseOverlay::FindOverlay" << std::endl; });
-  getOut() << "abort BaseOverlay::MoveGamepadFocusToNeighbor" << std::endl; abort();
+  getOut() << "BaseOverlay::MoveGamepadFocusToNeighbor abort" << std::endl; abort();
   return VROverlayError_None;
 	// return g_pvroverlay->MoveGamepadFocusToNeighbor(eDirection, ulFrom);
 }
