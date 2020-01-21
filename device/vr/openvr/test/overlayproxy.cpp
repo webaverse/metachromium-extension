@@ -751,6 +751,82 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     abort();
     return 0;
   });
+  fnp.reg<
+    kIVROverlay_GetOverlayTextureSize,
+    std::tuple<EVROverlayError, uint32_t, uint32_t>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    uint32_t width;
+    uint32_t height;
+    auto error = vroverlay->GetOverlayDualAnalogTransform,(ulOverlayHandle, &width, &height);
+    return std::tuple<EVROverlayError, HmdVector2_t, float>(
+      error,
+      width,
+      height
+    );
+  });
+  fnp.reg<
+    kIVROverlay_CreateDashboardOverlay,
+    std::tuple<EVROverlayError, VROverlayHandle_t, VROverlayHandle_t>,
+    managed_binary<char>,
+    managed_binary<char>
+  >([=](managed_binary<char> overlayKey, managed_binary<char> overlayFriendlyName) {
+    VROverlayHandle_t mainHandle;
+    VROverlayHandle_t thumbnailHandle;
+    auto error = vroverlay->CreateDashboardOverlay(overlayKey.data(), overlayFriendlyName.data(), &mainHandle, &thumbnailHandle);
+    return std::tuple<EVROverlayError, HmdVector2_t, float>(
+      error,
+      mainHandle,
+      thumbnailHandle
+    );
+  });
+  fnp.reg<
+    kIVROverlay_IsDashboardVisible,
+    bool
+  >([=](managed_binary<char> overlayKey, managed_binary<char> overlayFriendlyName) {
+    return vroverlay->IsDashboardVisible();
+  });
+  fnp.reg<
+    kIVROverlay_IsActiveDashboardOverlay,
+    bool,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    return vroverlay->IsActiveDashboardOverlay(ulOverlayHandle);
+  });
+  fnp.reg<
+    kIVROverlay_SetDashboardOverlaySceneProcess,
+    EVROverlayError,
+    VROverlayHandle_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unProcessId) {
+    return vroverlay->SetDashboardOverlaySceneProcess(ulOverlayHandle, unProcessId);
+  });
+  fnp.reg<
+    kIVROverlay_GetDashboardOverlaySceneProcess,
+    std::tuple<EVROverlayError, uint32_t>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    uint32_t processId;
+    auto error = vroverlay->GetDashboardOverlaySceneProcess(ulOverlayHandle, &processId);
+    return std::tuple<EVROverlayError, uint32_t>(
+      error,
+      processId
+    );
+  });
+  fnp.reg<
+    kIVROverlay_ShowDashboard,
+    int,
+    managed_binary<char>
+  >([=](managed_binary<char> overlayToShow) {
+    vroverlay->ShowDashboard(overlayToShow.data());
+    return 0;
+  });
+  fnp.reg<
+    kIVROverlay_GetPrimaryDashboardDevice,
+    TrackedDeviceIndex_t
+  >([=]() {
+    return vroverlay->GetPrimaryDashboardDevice();
+  });
   // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
@@ -1344,7 +1420,8 @@ EVROverlayError PVROverlay::CreateDashboardOverlay(const char *pchOverlayKey, co
   auto result = fnp.call<
     kIVROverlay_CreateDashboardOverlay,
     std::tuple<EVROverlayError, VROverlayHandle_t, VROverlayHandle_t>,
-    VROverlayHandle_t
+    managed_binary<char>,
+    managed_binary<char>
   >(std::move(overlayKey), std::move(overlayFriendlyName));
   *pMainHandle = std::get<1>(result);
   *pThumbnailHandle = std::get<2>(result);
