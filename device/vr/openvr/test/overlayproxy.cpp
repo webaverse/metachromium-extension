@@ -97,49 +97,114 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     return vrinput->SetActionManifestPath(actionManifestPath.data());
   });
 }
-EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t * pOverlayHandle) {
-  // getOut() << "set action manifest path client 1 " << pchActionManifestPath << std::endl;
-  managed_binary<char> actionManifestPath(strlen(pchActionManifestPath)+1);
-  // getOut() << "set action manifest path client 2" << std::endl;
-  memcpy(actionManifestPath.data(), pchActionManifestPath, actionManifestPath.size());
-  // getOut() << "set action manifest path client 3" << std::endl;
-  auto result = fnp.call<
-    kIVRInput_SetActionManifestPath,
-    vr::EVRInputError,
-    managed_binary<char>
-  >(std::move(actionManifestPath));
-  // getOut() << "set action manifest path client 4 " << result << std::endl;
-  return result;
-}
-EVROverlayError PVROverlay::CreateOverlay(const char *pchOverlayKey, const char *pchOverlayName, VROverlayHandle_t * pOverlayHandle) {
+EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
+  managed_binary<char> overlayKey(strlen(pchOverlayKey)+1);
+  memcpy(overlayKey.data(), pchOverlayKey, overlayKey.size());
 
+  auto result = fnp.call<
+    kIVROverlay_FindOverlay,
+    std::tuple<EVROverlayError, VROverlayHandle_t>,
+    managed_binary<char>
+  >(std::move(overlayKey));
+
+  *pOverlayHandle = std::get<1>(result);
+  return std::get<0>(result);
+}
+EVROverlayError PVROverlay::CreateOverlay(const char *pchOverlayKey, const char *pchOverlayName, VROverlayHandle_t *pOverlayHandle) {
+  managed_binary<char> overlayKey(strlen(pchOverlayKey)+1);
+  memcpy(overlayKey.data(), pchOverlayKey, overlayKey.size());
+  managed_binary<char> overlayName(strlen(pchOverlayName)+1);
+  memcpy(overlayName.data(), pchOverlayName, overlayName.size());
+
+  auto result = fnp.call<
+    kIVROverlay_CreateOverlay,
+    std::tuple<EVROverlayError, VROverlayHandle_t>,
+    managed_binary<char>,
+    managed_binary<char>
+  >(std::move(overlayKey), std::move(overlayName));
+
+  *pOverlayHandle = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::DestroyOverlay(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_DestroyOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
 }
 EVROverlayError PVROverlay::SetHighQualityOverlay(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_SetHighQualityOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
 }
 VROverlayHandle_t PVROverlay::GetHighQualityOverlay() {
-
+  return fnp.call<
+    kIVROverlay_GetHighQualityOverlay,
+    VROverlayHandle_t
+  >();
 }
-uint32_t PVROverlay::GetOverlayKey(VROverlayHandle_t ulOverlayHandle, char *pchValue, uint32_t unBufferSize, EVROverlayError *pError = 0L) {
-
+uint32_t PVROverlay::GetOverlayKey(VROverlayHandle_t ulOverlayHandle, char *pchValue, uint32_t unBufferSize, EVROverlayError *pError) {
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayKey,
+    std::tuple<uint32_t, managed_binary<char>, EVROverlayError>,
+    VROverlayHandle_t,
+    uint32_t
+  >(ulOverlayHandle, unBufferSize);
+  memcpy(pchValue, std::get<1>(result).data(), std::get<1>(result).size());
+  if (pError) {
+    *pError = std::get<2>(result);
+  }
+  return std::get<0>(result);
 }
-uint32_t PVROverlay::GetOverlayName(VROverlayHandle_t ulOverlayHandle, char *pchValue, uint32_t unBufferSize, EVROverlayError *pError = 0L) {
-
+uint32_t PVROverlay::GetOverlayName(VROverlayHandle_t ulOverlayHandle, char *pchValue, uint32_t unBufferSize, EVROverlayError *pError) {
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayName,
+    std::tuple<uint32_t, managed_binary<char>, EVROverlayError>,
+    VROverlayHandle_t,
+    uint32_t
+  >(ulOverlayHandle, unBufferSize);
+  memcpy(pchValue, std::get<1>(result).data(), std::get<1>(result).size());
+  if (pError) {
+    *pError = std::get<2>(result);
+  }
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayName(VROverlayHandle_t ulOverlayHandle, const char *pchName) {
+  managed_binary<char> name(strlen(pchName)+1);
+  memcpy(name.data(), pchName, name.size());
 
+  return fnp.call<
+    kIVROverlay_SetOverlayName,
+    EVROverlayError,
+    VROverlayHandle_t,
+    managed_binary<char>
+  >(ulOverlayHandle, std::move(name));
 }
 EVROverlayError PVROverlay::GetOverlayImageData(VROverlayHandle_t ulOverlayHandle, void *pvBuffer, uint32_t unBufferSize, uint32_t *punWidth, uint32_t *punHeight) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayImageData,
+    std:tuple<EVROverlayError, managed_binary<char>, uint32_t, uint32_t>,
+    VROverlayHandle_t
+  >(ulOverlayHandle, unBufferSize);
+  memcpy(pvBuffer, std::get<1>(result).data(), std::get<1>(result).size());
+  *punWidth = std::get<2>(result);
+  *punHeight = std::get<3>(result);
+  return std::get<0>(result);
 }
 const char *PVROverlay::GetOverlayErrorNameFromEnum(EVROverlayError error) {
-
+  getOut() << "GetOverlayErrorNameFromEnum abort" << std::endl;
+  return "";
 }
 EVROverlayError PVROverlay::SetOverlayRenderingPid(VROverlayHandle_t ulOverlayHandle, uint32_t unPID) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayRenderingPid,
+    EVROverlayError,
+    VROverlayHandle_t,
+    uint32_t
+  >(ulOverlayHandle, unPID);
 }
 uint32_t PVROverlay::GetOverlayRenderingPid(VROverlayHandle_t ulOverlayHandle) {
 
@@ -357,6 +422,6 @@ VRMessageOverlayResponse PVROverlay::ShowMessageOverlay(const char* pchText, con
 
 }
 void PVROverlay::CloseMessageOverlay() {
-  
+
 }
 }
