@@ -913,7 +913,31 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
       flags
     );
   });
-  // XXX
+  fnp.reg<
+    kIVROverlay_ShowMessageOverlay,
+    VRMessageOverlayResponse,
+    managed_binary<char>,
+    managed_binary<char>,
+    managed_binary<char>,
+    managed_binary<char>,
+    managed_binary<char>,
+    managed_binary<char>
+  >([=](managed_binary<char> text, managed_binary<char> caption, managed_binary<char> button0Text, managed_binary<char> button1Text, managed_binary<char> button2Text, managed_binary<char> button3Text) {
+    return vroverlay->ShowMessageOverlay(
+      text.data(),
+      caption.data(),
+      button0Text.data(),
+      button1Text.size() > 0 ? button1Text.data() : nullptr,
+      button2Text.size() > 0 ? button2Text.data() : nullptr,
+      button3Text.size() > 0 ? button3Text.data() : nullptr
+    );
+  });
+  fnp.reg<
+    kIVROverlay_CloseMessageOverlay,
+    int
+  >([=]() {
+    vroverlay->CloseMessageOverlay();
+  });
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
   managed_binary<char> overlayKey(strlen(pchOverlayKey)+1);
@@ -1649,23 +1673,34 @@ EVROverlayError PVROverlay::GetOverlayFlags(VROverlayHandle_t ulOverlayHandle, u
   *pFlags = std::get<1>(result);
   return std::get<0>(result);
 }
-VRMessageOverlayResponse PVROverlay::ShowMessageOverlay(const char* pchText, const char* pchCaption, const char* pchButton0Text, const char* pchButton1Text = nullptr, const char* pchButton2Text = nullptr, const char* pchButton3Text = nullptr) {
-  managed_binary<char> text(pchText ? strlen(pchText)+1 : 0);
+VRMessageOverlayResponse PVROverlay::ShowMessageOverlay(const char* pchText, const char* pchCaption, const char* pchButton0Text, const char* pchButton1Text, const char* pchButton2Text, const char* pchButton3Text) {
+  managed_binary<char> text(strlen(pchText)+1);
   memcpy(text.data(), pchText, text.size());
-  managed_binary<char> caption(pchCaption ? strlen(pchCaption)+1 : 0);
+  managed_binary<char> caption(strlen(pchCaption)+1);
   memcpy(caption.data(), pchCaption, caption.size());
-  managed_binary<char> button0Text(pchButton0Text ? strlen(pchButton0Text)+1 : 0);
+  managed_binary<char> button0Text(strlen(pchButton0Text)+1);
   memcpy(button0Text.data(), pchButton0Text, button0Text.size());
   managed_binary<char> button1Text(pchButton1Text ? strlen(pchButton1Text)+1 : 0);
-  memcpy(button1Text.data(), pchButton1Text, button1Text.size());
+  if (pchButton1Text) {
+    memcpy(button1Text.data(), pchButton1Text, button1Text.size());
+  }
   managed_binary<char> button2Text(pchButton2Text ? strlen(pchButton2Text)+1 : 0);
-  memcpy(button2Text.data(), pchButton2Text, button2Text.size());
+  if (pchButton2Text) {
+    memcpy(button2Text.data(), pchButton2Text, button2Text.size());
+  }
   managed_binary<char> button3Text(pchButton3Text ? strlen(pchButton3Text)+1 : 0);
-  memcpy(button3Text.data(), pchButton3Text, button3Text.size());
+  if (pchButton3Text) {
+    memcpy(button3Text.data(), pchButton3Text, button3Text.size());
+  }
 
   return fnp.call<
     kIVROverlay_ShowMessageOverlay,
     VRMessageOverlayResponse,
+    managed_binary<char>,
+    managed_binary<char>,
+    managed_binary<char>,
+    managed_binary<char>,
+    managed_binary<char>,
     managed_binary<char>
   >(std::move(text), std::move(caption), std::move(button0Text), std::move(button1Text), std::move(button2Text), std::move(button3Text));
 }
