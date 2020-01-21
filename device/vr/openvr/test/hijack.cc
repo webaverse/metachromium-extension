@@ -241,29 +241,39 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
   }
   return false;
 }
-void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNear, float *pFar) {
+void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNear, float *pFar, bool *pReversed) {
   float m32 = projectionMatrix[14];
   float m22 = projectionMatrix[10];
   if (m22 > 0) {
     *pNear = m32 / (m22 + 1);
     *pFar = m32 / m22;
+    *pReversed = true;
   } else {
     *pNear = m32 / (m22 - 1);
     *pFar = m32 / (m22 + 1);
+    *pReversed = false;
   }
 }
-void getZBufferParamsFromNearFar(float nearValue, float farValue, float zBufferParams[4]) {
-  zBufferParams[0] = 1.0f-farValue/nearValue;
-  zBufferParams[1] = farValue/nearValue;
-  zBufferParams[2] = (1.0f-farValue/nearValue)/farValue;
-  zBufferParams[3] = (farValue/nearValue)/farValue;
+void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed, float zBufferParams[4]) {
+  if (reversed) {
+    zBufferParams[0] = -1.0f+farValue/nearValue;
+    zBufferParams[1] = 1.0f;
+    zBufferParams[2] = (-1.0f+farValue/nearValue)/farValue;
+    zBufferParams[3] = 1.0f/farValue;
+  } else {
+    zBufferParams[0] = 1.0f-farValue/nearValue;
+    zBufferParams[1] = farValue/nearValue;
+    zBufferParams[2] = (1.0f-farValue/nearValue)/farValue;
+    zBufferParams[3] = (farValue/nearValue)/farValue;
+  }
 }
 bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
   float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
     float nearValue;
     float farValue;
-    getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue);
+    bool reversed;
+    getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
 
     if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
       getOut() << "found projection matrix: ";
@@ -274,7 +284,7 @@ bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
       
       getOut() << "got near far " << nearValue << " " << farValue << std::endl;
 
-      getZBufferParamsFromNearFar(nearValue, farValue, zBufferParams);
+      getZBufferParamsFromNearFar(nearValue, farValue, reversed, zBufferParams);
       getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
 
       return true;

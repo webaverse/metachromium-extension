@@ -2290,7 +2290,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     1.0f, flip ? 0.0f : 1.0f
   };
 
-  getOut() << "client submit 1" << std::endl;
+  // getOut() << "client submit 1" << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
@@ -2319,13 +2319,13 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       fenceValue
     )
   );
-  getOut() << "client submit 2" << std::endl;
+  // getOut() << "client submit 2" << std::endl;
   DWORD serverProcessId = std::get<0>(result);
   HANDLE serverFenceHandle = (HANDLE)std::get<1>(result);
   uint64_t serverFenceValue = std::get<2>(result);
   
   if (!remoteServerFence) {
-    getOut() << "open remote server fence " << (void *)serverProcessId << " " << (void *)serverFenceHandle << " " << (void *)serverFenceValue << std::endl;
+    // getOut() << "open remote server fence " << (void *)serverProcessId << " " << (void *)serverFenceHandle << " " << (void *)serverFenceValue << std::endl;
 
     HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, serverProcessId);
     HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
