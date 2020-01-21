@@ -2374,3 +2374,78 @@ Mon Jan 20 2020 21:30:37.579 - oculus: CliD3D11CompositorClient::release 4
 Mon Jan 20 2020 21:30:37.579 - AppInfoManager.ProcessQuit processid=17180 eLaunchingApp=LaunchingApp_None
 Mon Jan 20 2020 21:30:37.579 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 17180 has exited
 Mon Jan 20 2020 21:30:37.579 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 21:32:29.192 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 21:32:29.203 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 22064 
+Mon Jan 20 2020 21:32:29.203 - StartSceneApplicationTransitionFromProcess( 22064, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 21:32:29.203 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 21:32:29.203 - AppInfoManager.ProcessConnected BEGIN 22064 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 21:32:29.217 - SetApplicationPid appkey=system.generated.process4.exe pid=22064, external transition
+Mon Jan 20 2020 21:32:29.217 - SetApplicationPid: Setting app system.generated.process4.exe PID to 22064
+Mon Jan 20 2020 21:32:29.217 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 21:32:29.217 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 21:32:29.219 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 21:32:29.219 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 21:32:29.219 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 21:32:29.219 - Processing message VRMsg_Connect from process4 (22064) took 0.0161 seconds
+Mon Jan 20 2020 21:32:45.719 - SetApplicationPid appkey=steam.app.438100 pid=20060, external transition
+Mon Jan 20 2020 21:32:45.719 - SetApplicationPid: Setting app steam.app.438100 PID to 20060
+Mon Jan 20 2020 21:32:49.728 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 21:32:49.732 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 21:33:15.804 - oculus: Prediction interval too high: 0.101786 s, clamping at 0.100000 s
+Mon Jan 20 2020 21:33:20.878 - Closing pipe process4 (22064) because it was broken from the other end
+Mon Jan 20 2020 21:33:20.878 - Process process4 (22064) disconnected (Thread(0x000002295F79F0C0/0x000)
+Mon Jan 20 2020 21:33:20.878 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 21:33:20.878 - AppInfoManager.ProcessQuit processid=22064 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 21:33:20.878 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 22064 has exited
+Mon Jan 20 2020 21:33:20.878 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 21:33:20.878 - Starting SteamVR Home launch because system.generated.process4.exe exited after 51.661140 seconds
+Mon Jan 20 2020 21:33:27.332 - 0 - entering standby
+Mon Jan 20 2020 21:33:30.761 - oculus: IAD changed to 63.5mm
+Mon Jan 20 2020 21:33:30.761 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Jan 20 2020 21:33:30.761 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Jan 20 2020 21:33:30.761 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Jan 20 2020 21:33:30.849 - oculus: Prediction interval too high: 0.107729 s, clamping at 0.100000 s
+Mon Jan 20 2020 21:38:22.327 - 1 - Setting standby flag (timeSinceHmdIdle=300.001450, timeSinceDeviceActive=186467.388109 (0x1b227396bfe), timeout=300.000000
+Mon Jan 20 2020 21:38:22.327 - 2 - Setting standby flag (timeSinceHmdIdle=300.001450, timeSinceDeviceActive=186467.388109 (0x1b227396bfe), timeout=300.000000
+Mon Jan 20 2020 21:38:22.327 - 1 - entering standby
+Mon Jan 20 2020 21:38:22.327 - 2 - entering standby
+Mon Jan 20 2020 21:47:15.772 - CSharedResourceNamespaceServer sent namespace data: 19392
+Mon Jan 20 2020 21:47:15.778 - New Connect message from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene) (Args: ) 7532 
+Mon Jan 20 2020 21:47:15.778 - StartSceneApplicationTransitionFromProcess( 7532, C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe, )
+Mon Jan 20 2020 21:47:15.778 - Creating builtin app for C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe (VRApplication_Scene)
+Mon Jan 20 2020 21:47:15.778 - AppInfoManager.ProcessConnected BEGIN 7532 C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process4.exe 1 
+Mon Jan 20 2020 21:47:15.787 - SetApplicationPid appkey=system.generated.process4.exe pid=7532, external transition
+Mon Jan 20 2020 21:47:15.787 - SetApplicationPid: Setting app system.generated.process4.exe PID to 7532
+Mon Jan 20 2020 21:47:15.787 - AppInfoManager.ProcessConnected END
+Mon Jan 20 2020 21:47:15.787 - Enabling legacy input for system.generated.process4.exe
+Mon Jan 20 2020 21:47:15.789 - system.generated.process4.exe (oculus_touch) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_touch.json
+Mon Jan 20 2020 21:47:15.790 - system.generated.process4.exe (rift) attempting to load default config from file:///C:/Program%20Files%20%28x86%29/Steam/steamapps/common/SteamVR/drivers/oculus/resources/input/legacy_bindings_rift.json
+Mon Jan 20 2020 21:47:15.790 - 0 - leaving standby
+Mon Jan 20 2020 21:47:15.790 - Using existing HMD oculus.1PASH9AFEV9173
+Mon Jan 20 2020 21:47:15.790 - Processing message VRMsg_Connect from process4 (7532) took 0.0117 seconds
+Mon Jan 20 2020 21:47:20.910 - 0 - entering standby
+Mon Jan 20 2020 21:47:24.527 - SetApplicationPid appkey=steam.app.438100 pid=21656, external transition
+Mon Jan 20 2020 21:47:24.527 - SetApplicationPid: Setting app steam.app.438100 PID to 21656
+Mon Jan 20 2020 21:47:25.756 - 0 - leaving standby
+Mon Jan 20 2020 21:47:25.854 - oculus: IAD changed to 65.8mm
+Mon Jan 20 2020 21:47:25.854 - oculus: UpdateGeneratedState: IPD = 0.0657991, IAD = 0.0657991, screen_sep = 0.0717711
+Mon Jan 20 2020 21:47:26.863 - oculus: CliD3D11CompositorClient::addD3DRef 3
+Mon Jan 20 2020 21:47:26.867 - oculus: CliD3D11CompositorClient::addD3DRef 4
+Mon Jan 20 2020 21:47:28.365 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state connected.
+Mon Jan 20 2020 21:47:28.417 - 1 - leaving standby
+Mon Jan 20 2020 21:47:28.443 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state connected.
+Mon Jan 20 2020 21:47:28.469 - 2 - leaving standby
+Mon Jan 20 2020 21:47:44.303 - oculus: Prediction interval too high: 0.103577 s, clamping at 0.100000 s
+Mon Jan 20 2020 21:47:48.530 - Closing pipe process4 (7532) because it was broken from the other end
+Mon Jan 20 2020 21:47:48.530 - Process process4 (7532) disconnected (Thread(0x000002295F7EB820/0x000)
+Mon Jan 20 2020 21:47:48.531 - AppInfoManager.ProcessQuit processid=7532 eLaunchingApp=LaunchingApp_None
+Mon Jan 20 2020 21:47:48.531 - AppInfoManager.ProcessQuit: Clearing application system.generated.process4.exe PID because 7532 has exited
+Mon Jan 20 2020 21:47:48.531 - oculus: CliD3D11CompositorClient::release 4
+Mon Jan 20 2020 21:47:48.531 - oculus: CliD3D11CompositorClient::release 3
+Mon Jan 20 2020 21:47:48.531 - Starting SteamVR Home launch because system.generated.process4.exe exited after 32.743931 seconds
+Mon Jan 20 2020 21:47:55.719 - 0 - entering standby
+Mon Jan 20 2020 21:47:59.353 - oculus: IAD changed to 63.5mm
+Mon Jan 20 2020 21:47:59.353 - oculus: UpdateGeneratedState: IPD = 0.0635, IAD = 0.0635, screen_sep = 0.069472
+Mon Jan 20 2020 21:47:59.353 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Left controller state disconnected.
+Mon Jan 20 2020 21:47:59.353 - oculus: Oculus touch 1PASH9AFEV9173_Controller_Right controller state disconnected.
+Mon Jan 20 2020 21:47:59.353 - oculus: Prediction interval too high: 0.100063 s, clamping at 0.100000 s
