@@ -88,13 +88,19 @@ char kIVROverlay_CloseMessageOverlay[] = "Input::CloseMessageOverlay";
 
 PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverlay), fnp(fnp) {
   fnp.reg<
-    kIVRInput_SetActionManifestPath,
-    vr::EVRInputError,
+    kIVROverlay_FindOverlay,
+    std::tuple<EVROverlayError, VROverlayHandle_t>,
     managed_binary<char>
-  >([=](managed_binary<char> actionManifestPath) {
-    // getOut() << "set action manifest path" << actionManifestPath.data() << std::endl;
-    return vrinput->SetActionManifestPath(actionManifestPath.data());
+  >([=](managed_binary<char> overlayKey) {
+    VROverlayHandle_t overlayHandle;
+    auto error = vroverlay->FindOverlay(overlayKey.data(), &overlayHandle);
+
+    return std::tuple<EVROverlayError, VROverlayHandle_t>(
+      error,
+      overlayHadle
+    );
   });
+  // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
   managed_binary<char> overlayKey(strlen(pchOverlayKey)+1);
