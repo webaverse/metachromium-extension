@@ -372,11 +372,11 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
         dxgiResource->lpVtbl->Release(dxgiResource);
       }
       
-      getOut() << "set depth render target " << (void *)depthTex << std::endl;
+      // getOut() << "set depth render target " << (void *)depthTex << std::endl;
       
       sbsDepthTexLatched = true;
     } else {
-      getOut() << "other depth render target" << std::endl;
+      // getOut() << "other depth render target" << std::endl;
       sbsDepthTexLatched = false;
     }
     /* getOut() << "set depth render target solid " <<
@@ -756,7 +756,7 @@ bool shouldDepthTexClear(T *view, size_t index) {
       }
     }
   }
-  getOut() << "should clear depth tex " << (void *)depthTex << " " << index << " " << isSingle << " " << isDual << " " << (void *)sbsDepthTex << " " << texSharedHandleMap.size() << " " << result << std::endl;
+  // getOut() << "should clear depth tex " << (void *)depthTex << " " << index << " " << isSingle << " " << isDual << " " << (void *)sbsDepthTex << " " << texSharedHandleMap.size() << " " << result << std::endl;
 
   depthTex->lpVtbl->Release(depthTex);
   resource->lpVtbl->Release(resource);
@@ -773,7 +773,7 @@ void STDMETHODCALLTYPE MineDraw(
   UINT VertexCount,
   UINT StartVertexLocation
 ) {
-  getOut() << "Draw " << VertexCount << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "Draw " << VertexCount << std::endl; });
   RealDraw(This, VertexCount, StartVertexLocation);
   ensureDepthTexDrawn();
 }
@@ -783,7 +783,7 @@ void (STDMETHODCALLTYPE *RealDrawAuto)(
 void STDMETHODCALLTYPE MineDrawAuto(
   ID3D11DeviceContext *This
 ) {
-  getOut() << "DrawAuto" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawAuto" << std::endl; });
   RealDrawAuto(This);
   ensureDepthTexDrawn();
 }
@@ -799,7 +799,7 @@ void STDMETHODCALLTYPE MineDrawIndexed(
   UINT StartIndexLocation,
   INT  BaseVertexLocation
 ) {
-  getOut() << "DrawIndexed " << IndexCount << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexed " << IndexCount << std::endl; });
   RealDrawIndexed(This, IndexCount, StartIndexLocation, BaseVertexLocation);
   ensureDepthTexDrawn();
 }
@@ -819,7 +819,7 @@ void STDMETHODCALLTYPE MineDrawIndexedInstanced(
   INT  BaseVertexLocation,
   UINT StartInstanceLocation
 ) {
-  getOut() << "DrawIndexedInstanced " << IndexCountPerInstance << " " << InstanceCount << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstanced " << IndexCountPerInstance << " " << InstanceCount << std::endl; });
   RealDrawIndexedInstanced(This, IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
   ensureDepthTexDrawn();
 }
@@ -833,7 +833,7 @@ void STDMETHODCALLTYPE MineDrawIndexedInstancedIndirect(
   ID3D11Buffer *pBufferForArgs,
   UINT         AlignedByteOffsetForArgs
 ) {
-  getOut() << "DrawIndexedInstancedIndirect" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstancedIndirect" << std::endl; });
   RealDrawIndexedInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
   ensureDepthTexDrawn();
 }
@@ -851,7 +851,7 @@ void STDMETHODCALLTYPE MineDrawInstanced(
   UINT StartVertexLocation,
   UINT StartInstanceLocation
 ) {
-  getOut() << "DrawInstanced " << VertexCountPerInstance << " " << InstanceCount << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawInstanced " << VertexCountPerInstance << " " << InstanceCount << std::endl; });
   RealDrawInstanced(This, VertexCountPerInstance, InstanceCount, StartVertexLocation, StartInstanceLocation);
   ensureDepthTexDrawn();
 }
@@ -865,7 +865,7 @@ void STDMETHODCALLTYPE MineDrawInstancedIndirect(
   ID3D11Buffer *pBufferForArgs,
   UINT         AlignedByteOffsetForArgs
 ) {
-  getOut() << "DrawInstancedIndirect" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawInstancedIndirect" << std::endl; });
   RealDrawInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
   ensureDepthTexDrawn();
 }
@@ -898,27 +898,25 @@ HRESULT STDMETHODCALLTYPE MineCreateDepthStencilView(
 ) {
   TRACE("Hijack", [&]() { getOut() << "CreateDepthStencilView" << std::endl; });
   
-  ID3D11Texture2D *depthTex = nullptr;
-  HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&depthTex);
-  if (SUCCEEDED(hr)) {
-    // nothing
-  } else {
-    getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
-    abort();
-  }
+  /* {
+    ID3D11Texture2D *depthTex = nullptr;
+    HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&depthTex);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
+      abort();
+    }
 
-  D3D11_TEXTURE2D_DESC descDepth;
-  depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
-  
-  getOut() << "CreateDepthStencilView " << pDesc->Format << " " << descDepth.Format << std::endl;
-  
-  depthTex->lpVtbl->Release(depthTex);
-  
-  hr = RealCreateDepthStencilView(This, pResource, pDesc, ppDepthStencilView);
-  if (FAILED(hr)) {
-    getOut() << "CreateDepthStencilView failed " << pDesc->Format << " " << descDepth.Format << std::endl;
-  }
-  return hr;
+    D3D11_TEXTURE2D_DESC descDepth;
+    depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
+    
+    getOut() << "CreateDepthStencilView " << pDesc->Format << " " << descDepth.Format << std::endl;
+    
+    depthTex->lpVtbl->Release(depthTex);
+  } */
+
+  return RealCreateDepthStencilView(This, pResource, pDesc, ppDepthStencilView);
 }
 void (STDMETHODCALLTYPE *RealClearRenderTargetView)(
   ID3D11DeviceContext *This,
@@ -930,7 +928,7 @@ void STDMETHODCALLTYPE MineClearRenderTargetView(
   ID3D11RenderTargetView *pRenderTargetView,
   const FLOAT         ColorRGBA[4]
 ) {
-  getOut() << "ClearRenderTargetView" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "ClearRenderTargetView" << std::endl; });
   RealClearRenderTargetView(This, pRenderTargetView, ColorRGBA);
 }
 void (STDMETHODCALLTYPE *RealClearDepthStencilView)(
@@ -990,7 +988,7 @@ void STDMETHODCALLTYPE MineCopyResource(
   ID3D11Resource *pDstResource,
   ID3D11Resource *pSrcResource
 ) {
-  getOut() << "RealCopyResource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealCopyResource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl; });
   RealCopyResource(This, pDstResource, pSrcResource);
 }
 void (STDMETHODCALLTYPE *RealCopySubresourceRegion)(
@@ -1015,7 +1013,7 @@ void STDMETHODCALLTYPE MineCopySubresourceRegion(
   UINT            SrcSubresource,
   const D3D11_BOX *pSrcBox
 ) {
-  getOut() << "RealCopySubresourceRegion " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealCopySubresourceRegion " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl; });
   RealCopySubresourceRegion(This, pDstResource, DstSubresource, DstX, DstY, DstZ, pSrcResource, SrcSubresource, pSrcBox);
 }
 void (STDMETHODCALLTYPE *RealResolveSubresource)(
@@ -1034,7 +1032,7 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   UINT           SrcSubresource,
   DXGI_FORMAT    Format
 ) {
-  getOut() << "ResolveSubresource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "ResolveSubresource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl; });
   RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
 }
 void (STDMETHODCALLTYPE *RealUpdateSubresource)(
