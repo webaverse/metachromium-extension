@@ -473,6 +473,110 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=](VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unTrackedDevice, HmdMatrix34_t matTrackingOriginToOverlayTransform) {
     return vroverlay->SetOverlayTransformTrackedDeviceRelative(ulOverlayHandle, unTrackedDevice, &matTrackingOriginToOverlayTransform);
   });
+  fnp.reg<
+    kIVROverlay_GetOverlayTransformTrackedDeviceRelative,
+    std::tuple<EVROverlayError, TrackedDeviceIndex_t, HmdMatrix34_t>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    TrackedDeviceIndex_t trackedDevice;
+    HmdMatrix34_t matTrackingOriginToOverlayTransform;
+    auto error = vroverlay->GetOverlayTransformTrackedDeviceRelative(ulOverlayHandle, &trackedDevice, &matTrackingOriginToOverlayTransform);
+    return std::tuple<EVROverlayError, TrackedDeviceIndex_t, HmdMatrix34_t>(
+      error,
+      trackedDevice,
+      matTrackingOriginToOverlayTransform
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayTransformTrackedDeviceComponent,
+    EVROverlayError,
+    VROverlayHandle_t,
+    TrackedDeviceIndex_t,
+    managed_binary<char>
+  >([=](VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unDeviceIndex, managed_binary<char> name) {
+    return vroverlay->SetOverlayTransformTrackedDeviceComponent(ulOverlayHandle, unDeviceIndex, name.data());
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayTransformTrackedDeviceComponent,
+    std::tuple<EVROverlayError, TrackedDeviceIndex_t, managed_binary<char>>,
+    VROverlayHandle_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t unDeviceIndex, uint32_t unComponentNameSize) {
+    TrackedDeviceIndex_t deviceIndex;
+    managed_binary<char> componentName(componentName);
+    auto error = vroverlay->GetOverlayTransformTrackedDeviceComponent(ulOverlayHandle, &deviceIndex, componentName.data(), unComponentNameSize);
+    return std::tuple<EVROverlayError, TrackedDeviceIndex_t, managed_binary<char>>(
+      error,
+      deviceIndex,
+      std::move(componentName)
+    );
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayTransformOverlayRelative,
+    std::tuple<EVROverlayError, VROverlayHandle_t, HmdMatrix34_t>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t unDeviceIndex, uint32_t unComponentNameSize) {
+    VROverlayHandle_t overlayHandleParent;
+    HmdMatrix34_t matParentOverlayToOverlayTransform;
+    auto error = vroverlay->GetOverlayTransformOverlayRelative(ulOverlayHandle, &overlayHandleParent, &matParentOverlayToOverlayTransform);
+    return std::tuple<EVROverlayError, VROverlayHandle_t, HmdMatrix34_t>(
+      error,
+      overlayHandleParent,
+      matParentOverlayToOverlayTransform
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayTransformOverlayRelative,
+    EVROverlayError,
+    VROverlayHandle_t,
+    VROverlayHandle_t,
+    HmdMatrix34_t
+  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t ulOverlayHandleParent, HmdMatrix34_t matParentOverlayToOverlayTransform) {
+    return vroverlay->SetOverlayTransformOverlayRelative(ulOverlayHandle, ulOverlayHandleParent, &matParentOverlayToOverlayTransform);
+  });
+  fnp.reg<
+    kIVROverlay_ShowOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    return vroverlay->ShowOverlay(ulOverlayHandle);
+  });
+  fnp.reg<
+    kIVROverlay_HideOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    return vroverlay->HideOverlay(ulOverlayHandle);
+  });
+  fnp.reg<
+    kIVROverlay_IsOverlayVisible,
+    bool,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    return vroverlay->IsOverlayVisible(ulOverlayHandle);
+  });
+  fnp.reg<
+    kIVROverlay_GetTransformForOverlayCoordinates,
+    std::tuple<EVROverlayError, HmdMatrix34_t>,
+    VROverlayHandle_t,
+    ETrackingUniverseOrigin,
+    HmdVector2_t
+  >([=](VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, HmdVector2_t coordinatesInOverlay) {
+    return vroverlay->GetTransformForOverlayCoordinates(ulOverlayHandle, eTrackingOrigin, coordinatesInOverlay);
+  });
+  fnp.reg<
+    kIVROverlay_PollNextOverlayEvent,
+    std::tuple<bool, VREvent_t>,
+    VROverlayHandle_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, uint32_t uncbVREvent) {
+    VREvent_t event;
+    auto result = vroverlay->PollNextOverlayEvent(ulOverlayHandle, &event, uncbVREvent);
+    return std::tuple<bool, VREvent_t>(
+      result,
+      event
+    ;)
+  });
   // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
@@ -838,7 +942,7 @@ EVROverlayError PVROverlay::SetOverlayTransformTrackedDeviceComponent(VROverlayH
 }
 EVROverlayError PVROverlay::GetOverlayTransformTrackedDeviceComponent(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t *punDeviceIndex, char *pchComponentName, uint32_t unComponentNameSize) {
   auto result = fnp.call<
-    kIVROverlay_GetOverlayTransformTrackedDeviceRelative,
+    kIVROverlay_GetOverlayTransformTrackedDeviceComponent,
     std::tuple<EVROverlayError, TrackedDeviceIndex_t, managed_binary<char>>,
     VROverlayHandle_t,
     uint32_t
@@ -861,6 +965,7 @@ EVROverlayError PVROverlay::SetOverlayTransformOverlayRelative(VROverlayHandle_t
   return fnp.call<
     kIVROverlay_SetOverlayTransformOverlayRelative,
     EVROverlayError,
+    VROverlayHandle_t,
     VROverlayHandle_t,
     HmdMatrix34_t
   >(ulOverlayHandle, ulOverlayHandleParent, *pmatParentOverlayToOverlayTransform);
@@ -893,7 +998,7 @@ EVROverlayError PVROverlay::GetTransformForOverlayCoordinates(VROverlayHandle_t 
     VROverlayHandle_t,
     ETrackingUniverseOrigin,
     HmdVector2_t
-  >(ulOverlayHandle, coordinatesInOverlay);
+  >(ulOverlayHandle, eTrackingOrigin, coordinatesInOverlay);
   *pmatTransform = std::get<1>(result);
   return std::get<0>(result);
 }
