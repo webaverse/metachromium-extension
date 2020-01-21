@@ -676,25 +676,65 @@ EVROverlayError PVROverlay::GetOverlayTextureSize(VROverlayHandle_t ulOverlayHan
   return std::get<0>(result);
 }
 EVROverlayError PVROverlay::CreateDashboardOverlay(const char *pchOverlayKey, const char *pchOverlayFriendlyName, VROverlayHandle_t * pMainHandle, VROverlayHandle_t *pThumbnailHandle) {
+  managed_binary<char> overlayKey(strlen(pchOverlayKey)+1);
+  memcpy(overlayKey.data(), pchOverlayKey, overlayKey.size());
+  managed_binary<char> overlayFriendlyName(strlen(pchOverlayFriendlyName)+1);
+  memcpy(overlayFriendlyName.data(), pchOverlayFriendlyName, overlayFriendlyName.size());
 
+  auto result = fnp.call<
+    kIVROverlay_CreateDashboardOverlay,
+    std::tuple<EVROverlayError, VROverlayHandle_t, VROverlayHandle_t>,
+    VROverlayHandle_t
+  >(std::move(overlayKey), std::move(overlayFriendlyName));
+  *pMainHandle = std::get<1>(result);
+  *pThumbnailHandle = std::get<2>(result);
+  return std::get<0>(result);
 }
 bool PVROverlay::IsDashboardVisible() {
-
+  return fnp.call<
+    kIVROverlay_IsDashboardVisible,
+    bool
+  >();
 }
 bool PVROverlay::IsActiveDashboardOverlay(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_IsActiveDashboardOverlay,
+    bool,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
 }
 EVROverlayError PVROverlay::SetDashboardOverlaySceneProcess(VROverlayHandle_t ulOverlayHandle, uint32_t unProcessId) {
-
+  return fnp.call<
+    kIVROverlay_SetDashboardOverlaySceneProcess,
+    EVROverlayError,
+    VROverlayHandle_t,
+    uint32_t
+  >(ulOverlayHandle, unProcessId);
 }
 EVROverlayError PVROverlay::GetDashboardOverlaySceneProcess(VROverlayHandle_t ulOverlayHandle, uint32_t *punProcessId) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetDashboardOverlaySceneProcess,
+    std::tuple<EVROverlayError, uint32_t>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *punProcessId = std::get<1>(result);
+  return std::get<0>(result);
 }
 void PVROverlay::ShowDashboard(const char *pchOverlayToShow) {
+  managed_binary<char> overlayToShow(strlen(pchOverlayToShow)+1);
+  memcpy(overlayToShow.data(), pchOverlayToShow, overlayToShow.size());
 
+  fnp.call<
+    kIVROverlay_ShowDashboard,
+    int,
+    managed_binary<char>
+  >(std::move(overlayToShow));
 }
 TrackedDeviceIndex_t PVROverlay::GetPrimaryDashboardDevice() {
-
+  return fnp.call<
+    kIVROverlay_GetPrimaryDashboardDevice,
+    TrackedDeviceIndex_t
+  >();
 }
 EVROverlayError PVROverlay::ShowKeyboard(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, const char *pchDescription, uint32_t unCharMax, const char *pchExistingText, bool bUseMinimalMode, uint64_t uUserValue) {
 
