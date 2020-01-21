@@ -207,25 +207,70 @@ EVROverlayError PVROverlay::SetOverlayRenderingPid(VROverlayHandle_t ulOverlayHa
   >(ulOverlayHandle, unPID);
 }
 uint32_t PVROverlay::GetOverlayRenderingPid(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_GetOverlayRenderingPid,
+    uint32_t,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
 }
 EVROverlayError PVROverlay::SetOverlayFlag(VROverlayHandle_t ulOverlayHandle, VROverlayFlags eOverlayFlag, bool bEnabled) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayFlag,
+    EVROverlayError,
+    VROverlayHandle_t,
+    VROverlayFlags,
+    bool
+  >(ulOverlayHandle, eOverlayFlag, bEnabled);
 }
 EVROverlayError PVROverlay::GetOverlayFlag(VROverlayHandle_t ulOverlayHandle, VROverlayFlags eOverlayFlag, bool *pbEnabled) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayFlag,
+    std::tuple<EVROverlayError, bool>,
+    VROverlayHandle_t,
+    VROverlayFlags
+  >(ulOverlayHandle, eOverlayFlag);
+  *pbEnabled = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayColor(VROverlayHandle_t ulOverlayHandle, float fRed, float fGreen, float fBlue) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayColor,
+    EVROverlayError,
+    VROverlayHandle_t,
+    float,
+    float,
+    float
+  >(ulOverlayHandle, fRed, fGreen, fBlue);
 }
 EVROverlayError PVROverlay::GetOverlayColor(VROverlayHandle_t ulOverlayHandle, float *pfRed, float *pfGreen, float *pfBlue) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayColor,
+    std::tuple<EVROverlayError, float, float, float>,
+    VROverlayHandle_t,
+    VROverlayFlags
+  >(ulOverlayHandle, eOverlayFlag);
+  *pfRed = std::get<1>(result);
+  *pfGreen = std::get<2>(result);
+  *pfBlue = std::get<3>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayAlpha(VROverlayHandle_t ulOverlayHandle, float fAlpha) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayAlpha,
+    EVROverlayError,
+    VROverlayHandle_t,
+    float
+  >(ulOverlayHandle, fAlpha);
 }
 EVROverlayError PVROverlay::GetOverlayAlpha(VROverlayHandle_t ulOverlayHandle, float *pfAlpha) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayAlpha,
+    std::tuple<EVROverlayError, float>,
+    VROverlayHandle_t,
+    VROverlayFlags
+  >(ulOverlayHandle);
+  *pfAlpha = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTexelAspect(VROverlayHandle_t ulOverlayHandle, float fTexelAspect) {
 
