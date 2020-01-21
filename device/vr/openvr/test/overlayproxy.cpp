@@ -737,33 +737,119 @@ TrackedDeviceIndex_t PVROverlay::GetPrimaryDashboardDevice() {
   >();
 }
 EVROverlayError PVROverlay::ShowKeyboard(EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, const char *pchDescription, uint32_t unCharMax, const char *pchExistingText, bool bUseMinimalMode, uint64_t uUserValue) {
+  managed_binary<char> description(strlen(pchDescription)+1);
+  memcpy(description.data(), pchDescription, description.size());
+  managed_binary<char> existingText(strlen(pchExistingText)+1);
+  memcpy(existingText.data(), pchExistingText, existingText.size());
 
+  return fnp.call<
+    kIVROverlay_ShowKeyboard,
+    EVROverlayError,
+    EGamepadTextInputMode,
+    EGamepadTextInputLineMode,
+    managed_binary<char>,
+    uint32_t,
+    managed_binary<char>,
+    bool,
+    uint64_t
+  >(eInputMode, eLineInputMode, std::move(description), unCharMax, std::move(existingText), bUseMinimalMode, uUserValue);
 }
 EVROverlayError PVROverlay::ShowKeyboardForOverlay(VROverlayHandle_t ulOverlayHandle, EGamepadTextInputMode eInputMode, EGamepadTextInputLineMode eLineInputMode, const char *pchDescription, uint32_t unCharMax, const char *pchExistingText, bool bUseMinimalMode, uint64_t uUserValue) {
+  managed_binary<char> description(strlen(pchDescription)+1);
+  memcpy(description.data(), pchDescription, description.size());
+  managed_binary<char> existingText(strlen(pchExistingText)+1);
+  memcpy(existingText.data(), pchExistingText, existingText.size());
 
+  return fnp.call<
+    kIVROverlay_ShowKeyboardForOverlay,
+    EVROverlayError,
+    VROverlayHandle_t,
+    EGamepadTextInputMode,
+    EGamepadTextInputLineMode,
+    managed_binary<char>,
+    uint32_t,
+    managed_binary<char>,
+    bool,
+    uint64_t
+  >(ulOverlayHandle, eInputMode, eLineInputMode, std::move(description), unCharMax, std::move(existingText), bUseMinimalMode, uUserValue);
 }
 uint32_t PVROverlay::GetKeyboardText(char *pchText, uint32_t cchText) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetKeyboardText,
+    std::tuple<uint32_t, managed_binary<char>>,
+    uint32_t
+  >(ulOverlayHandle);
+  memcpy(pchText, std::get<1>(result).data(), std::get<1>(result).size());
+  return std::get<0>(result);
 }
 void PVROverlay::HideKeyboard() {
-
+  fnp.call<
+    kIVROverlay_HideKeyboard,
+    int
+  >();
 }
 void PVROverlay::SetKeyboardTransformAbsolute(ETrackingUniverseOrigin eTrackingOrigin, const HmdMatrix34_t *pmatTrackingOriginToKeyboardTransform) {
-
+  fnp.call<
+    kIVROverlay_SetKeyboardTransformAbsolute,
+    int,
+    ETrackingUniverseOrigin,
+    HmdMatrix34_t
+  >(eTrackingOrigin, *pmatTrackingOriginToKeyboardTransform);
 }
 void PVROverlay::SetKeyboardPositionForOverlay(VROverlayHandle_t ulOverlayHandle, HmdRect2_t avoidRect) {
-
+  fnp.call<
+    kIVROverlay_SetKeyboardPositionForOverlay,
+    int,
+    VROverlayHandle_t,
+    HmdRect2_t
+  >(ulOverlayHandle, avoidRect);
 }
-EVROverlayError PVROverlay::SetOverlayIntersectionMask(VROverlayHandle_t ulOverlayHandle, vr::VROverlayIntersectionMaskPrimitive_t *pMaskPrimitives, uint32_t unNumMaskPrimitives, uint32_t unPrimitiveSize = sizeof(vr::VROverlayIntersectionMaskPrimitive_t)) {
+EVROverlayError PVROverlay::SetOverlayIntersectionMask(VROverlayHandle_t ulOverlayHandle, vr::VROverlayIntersectionMaskPrimitive_t *pMaskPrimitives, uint32_t unNumMaskPrimitives, uint32_t unPrimitiveSize) {
+  managed_binary<vr::VROverlayIntersectionMaskPrimitive_t> maskPrimitives(unNumMaskPrimitives);
+  memcpy(maskPrimitives.data(), pMaskPrimitives, maskPrimitives.size() * sizeof(vr::VROverlayIntersectionMaskPrimitive_t));
 
+  return fnp.call<
+    kIVROverlay_SetOverlayIntersectionMask,
+    EVROverlayError,
+    VROverlayHandle_t,
+    managed_binary<vr::VROverlayIntersectionMaskPrimitive_t>,
+    uint32_t,
+    uint32_t
+  >(ulOverlayHandle, std::move(maskPrimitives), unNumMaskPrimitives, unPrimitiveSize);
 }
 EVROverlayError PVROverlay::GetOverlayFlags(VROverlayHandle_t ulOverlayHandle, uint32_t *pFlags) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayFlags,
+    std::tuple<EVROverlayError, uint32_t>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *pFlags = std::get<1>(result);
+  return std::get<0>(result);
 }
 VRMessageOverlayResponse PVROverlay::ShowMessageOverlay(const char* pchText, const char* pchCaption, const char* pchButton0Text, const char* pchButton1Text = nullptr, const char* pchButton2Text = nullptr, const char* pchButton3Text = nullptr) {
+  managed_binary<char> text(pchText ? strlen(pchText)+1 : 0);
+  memcpy(text.data(), pchText, text.size());
+  managed_binary<char> caption(pchCaption ? strlen(pchCaption)+1 : 0);
+  memcpy(caption.data(), pchCaption, caption.size());
+  managed_binary<char> button0Text(pchButton0Text ? strlen(pchButton0Text)+1 : 0);
+  memcpy(button0Text.data(), pchButton0Text, button0Text.size());
+  managed_binary<char> button1Text(pchButton1Text ? strlen(pchButton1Text)+1 : 0);
+  memcpy(button1Text.data(), pchButton1Text, button1Text.size());
+  managed_binary<char> button2Text(pchButton2Text ? strlen(pchButton2Text)+1 : 0);
+  memcpy(button2Text.data(), pchButton2Text, button2Text.size());
+  managed_binary<char> button3Text(pchButton3Text ? strlen(pchButton3Text)+1 : 0);
+  memcpy(button3Text.data(), pchButton3Text, button3Text.size());
 
+  return fnp.call<
+    kIVROverlay_ShowMessageOverlay,
+    VRMessageOverlayResponse,
+    managed_binary<char>
+  >(std::move(text), std::move(caption), std::move(button0Text), std::move(button1Text), std::move(button2Text), std::move(button3Text));
 }
 void PVROverlay::CloseMessageOverlay() {
-
+  fnp.call<
+    kIVROverlay_CloseMessageOverlay,
+    int
+  >();
 }
 }
