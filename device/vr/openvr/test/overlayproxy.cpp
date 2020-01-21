@@ -309,6 +309,100 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
   >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unSortOrder) {
     return vroverlay->SetOverlaySortOrder(ulOverlayHandle, unSortOrder);
   });
+  fnp.reg<
+    kIVROverlay_GetOverlaySortOrder,
+    std::tuple<EVROverlayError, uint32_t>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    uint32_t sortOrder;
+    auto error = vroverlay->GetOverlaySortOrder(ulOverlayHandle, &sortOrder);
+    return std::tuple<EVROverlayError, uint32_t>(
+      error,
+      sortOrder
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayWidthInMeters,
+    EVROverlayError,
+    VROverlayHandle_t,
+    float
+  >([=](VROverlayHandle_t ulOverlayHandle, float fWidthInMeters) {
+    return vroverlay->SetOverlayWidthInMeters(ulOverlayHandle, fWidthInMeters);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayWidthInMeters,
+    std::tuple<EVROverlayError, float>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle, float fWidthInMeters) {
+    float widthInMeters;
+    auto error = vroverlay->GetOverlayWidthInMeters(ulOverlayHandle, &widthInMeters);
+    return std::tuple<EVROverlayError, float>(
+      error,
+      widthInMeters
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayAutoCurveDistanceRangeInMeters,
+    EVROverlayError,
+    float,
+    float
+  >([=](VROverlayHandle_t ulOverlayHandle, float fMinDistanceInMeters, float fMaxDistanceInMeters) {
+    return vroverlay->SetOverlayAutoCurveDistanceRangeInMeters(ulOverlayHandle, fMinDistanceInMeters, fMaxDistanceInMeters);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayAutoCurveDistanceRangeInMeters,
+    std::tuple<EVROverlayError, float, float>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    float minDistanceInMeters;
+    float maxDistanceInMeters;
+    auto error = vroverlay->GetOverlayAutoCurveDistanceRangeInMeters(ulOverlayHandle, &minDistanceInMeters, &maxDistanceInMeters);
+    return std::tuple<EVROverlayError, float, float>(
+      error,
+      minDistanceInMeters,
+      maxDistanceInMeters
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayTextureColorSpace,
+    EVROverlayError,
+    VROverlayHandle_t,
+    EColorSpace
+  >([=](VROverlayHandle_t ulOverlayHandle, EColorSpace eTextureColorSpace) {
+    return vroverlay->SetOverlayTextureColorSpace(ulOverlayHandle, eTextureColorSpace);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayTextureColorSpace,
+    std::tuple<EVROverlayError, EColorSpace>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    EColorSpace textureColorSpace;
+    auto error = vroverlay->GetOverlayTextureColorSpace(ulOverlayHandle, &textureColorSpace);
+    return std::tuple<EVROverlayError, EColorSpace>(
+      error,
+      textureColorSpace
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayTextureBounds,
+    EVROverlayError,
+    VROverlayHandle_t,
+    VRTextureBounds_t
+  >([=](VROverlayHandle_t ulOverlayHandle, VRTextureBounds_t overlayTextureBounds) {
+    return vroverlay->SetOverlayTextureBounds(ulOverlayHandle, &overlayTextureBounds);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayTextureBounds,
+    std::tuple<EVROverlayError, VRTextureBounds_t>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    VRTextureBounds_t overlayTextureBounds;
+    auto error = vroverlay->GetOverlayTextureBounds(ulOverlayHandle, &overlayTextureBounds);
+    return std::tuple<EVROverlayError, VRTextureBounds_t>(
+      error,
+      overlayTextureBounds
+    );
+  });
   // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
@@ -565,7 +659,7 @@ EVROverlayError PVROverlay::SetOverlayTextureColorSpace(VROverlayHandle_t ulOver
 }
 EVROverlayError PVROverlay::GetOverlayTextureColorSpace(VROverlayHandle_t ulOverlayHandle, EColorSpace *peTextureColorSpace) {
   auto result = fnp.call<
-    kIVROverlay_GetOverlayAutoCurveDistanceRangeInMeters,
+    kIVROverlay_GetOverlayTextureColorSpace,
     std::tuple<EVROverlayError, EColorSpace>,
     VROverlayHandle_t
   >(ulOverlayHandle);
