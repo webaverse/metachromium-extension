@@ -253,13 +253,61 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
     float red;
     float green;
     float blue;
-    return vroverlay->GetOverlayColor(ulOverlayHandle, &red, &green, &blue);
+    auto error = vroverlay->GetOverlayColor(ulOverlayHandle, &red, &green, &blue);
     return std::tuple<EVROverlayError, float, float, float>(
       error,
       red,
       green,
       blue
     );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayAlpha,
+    EVROverlayError,
+    VROverlayHandle_t,
+    float
+  >([=](VROverlayHandle_t ulOverlayHandle, float fAlpha) {
+    return vroverlay->SetOverlayAlpha(ulOverlayHandle, fAlpha);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayAlpha,
+    std::tuple<EVROverlayError, float>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    float alpha;
+    auto error = vroverlay->GetOverlayAlpha(ulOverlayHandle, &alpha);
+    std::tuple<EVROverlayError, float>(
+      error,
+      alpha
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayTexelAspect,
+    EVROverlayError,
+    VROverlayHandle_t,
+    float
+  >([=](VROverlayHandle_t ulOverlayHandle, float fTexelAspect) {
+    return vroverlay->SetOverlayTexelAspect(ulOverlayHandle, fTexelAspect);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayTexelAspect,
+    std::tuple<EVROverlayError, float>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    float texelAspect;
+    auto error = vroverlay->GetOverlayTexelAspect(ulOverlayHandle, &texelAspect);
+    return std::tuple<EVROverlayError, float>(
+      error,
+      texelAspect
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlaySortOrder,
+    EVROverlayError,
+    VROverlayHandle_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unSortOrder) {
+    return vroverlay->SetOverlaySortOrder(ulOverlayHandle, unSortOrder);
   });
   // XXX
 }
