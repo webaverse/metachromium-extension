@@ -100,6 +100,71 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
       overlayHadle
     );
   });
+  fnp.reg<
+    kIVROverlay_CreateOverlay,
+    std::tuple<EVROverlayError, VROverlayHandle_t>,
+    managed_binary<char>,
+    managed_binary<char>
+  >([=](managed_binary<char> overlayKey, managed_binary<char> overlayName) {
+    VROverlayHandle_t overlayHandle;
+    auto error = vroverlay->CreateOverlay(overlayKey.data(), overlayName.data(), &overlayHandle);
+
+    return std::tuple<EVROverlayError, VROverlayHandle_t>(
+      error,
+      overlayHadle
+    );
+  });
+  fnp.reg<
+    kIVROverlay_DestroyOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    return vroverlay->DestroyOverlay(ulOverlayHandle);
+  });
+  fnp.reg<
+    kIVROverlay_SetHighQualityOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    return vroverlay->SetHighQualityOverlay(ulOverlayHandle);
+  });
+  fnp.reg<
+    kIVROverlay_GetHighQualityOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >([=]() {
+    return vroverlay->GetHighQualityOverlay();
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayKey,
+    std::tuple<uint32_t, managed_binary<char>, EVROverlayError>,
+    VROverlayHandle_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unBufferSize) {
+    managed_binary<char> buffer(unBufferSize);
+    EVROverlayError error;
+    auto result = vroverlay->GetOverlayKey(ulOverlayHandle, buffer.data(), unBufferSize, &error);
+    return std::tuple<uint32_t, managed_binary<char>, EVROverlayError>(
+      result,
+      std::move(buffer),
+      error
+    );
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayName,
+    std::tuple<uint32_t, managed_binary<char>, EVROverlayError>,
+    VROverlayHandle_t,
+    uint32_t
+  >([=](VROverlayHandle_t ulOverlayHandle, uint32_t unBufferSize) {
+    managed_binary<char> buffer(unBufferSize);
+    EVROverlayError error;
+    auto result = vroverlay->GetOverlayName(ulOverlayHandle, buffer.data(), unBufferSize, &error);
+    return std::tuple<uint32_t, managed_binary<char>, EVROverlayError>(
+      result,
+      std::move(buffer),
+      error
+    );
+  });
   // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
