@@ -268,6 +268,12 @@ void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed,
   }
 }
 bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
+  /* getOut() << "looking for projection matrix:\n  ";
+  for (size_t i = 0; i < size / sizeof(float); i++) {
+    getOut() << ((float *)data)[i] << " ";
+  }
+  getOut() << std::endl; */
+  
   float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
     float nearValue;
