@@ -577,6 +577,104 @@ PVROverlay::PVROverlay(IVROverlay *vroverlay, FnProxy &fnp) : vroverlay(vroverla
       event
     ;)
   });
+  fnp.reg<
+    kIVROverlay_GetOverlayInputMethod,
+    std::tuple<EVROverlayError, VROverlayInputMethod>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    VROverlayInputMethod inputMethod;
+    auto error = vroverlay->GetOverlayInputMethod(ulOverlayHandle, &inputMethod);
+    return std::tuple<bool, VREvent_t>(
+      error,
+      inputMethod
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayInputMethod,
+    EVROverlayError,
+    VROverlayHandle_t,
+    VROverlayInputMethod
+  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayInputMethod eInputMethod) {
+    return vroverlay->SetOverlayInputMethod(ulOverlayHandle, eInputMethod);
+  });
+  fnp.reg<
+    kIVROverlay_GetOverlayMouseScale,
+    std::tuple<EVROverlayError, HmdVector2_t>,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    HmdVector2_t mouseScale;
+    auto error = vroverlay->GetOverlayMouseScale(ulOverlayHandle, &mouseScale);
+    return std::tuple<EVROverlayError, HmdVector2_t>(
+      error,
+      mouseScale
+    );
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayMouseScale,
+    EVROverlayError,
+    VROverlayHandle_t,
+    HmdVector2_t
+  >([=](VROverlayHandle_t ulOverlayHandle, HmdVector2_t mouseScale) {
+    return vroverlay->GetOverlayMouseScale(ulOverlayHandle, &mouseScale);
+  });
+  fnp.reg<
+    kIVROverlay_ComputeOverlayIntersection,
+    std::tuple<bool, vr::VROverlayIntersectionResults_t>,
+    VROverlayHandle_t,
+    vr::VROverlayIntersectionParams_t
+  >([=](VROverlayHandle_t ulOverlayHandle, VROverlayIntersectionParams_t params) {
+    vr::VROverlayIntersectionResults_t results;
+    auto result = vroverlay->ComputeOverlayIntersection(ulOverlayHandle, &params);
+    return std::tuple<bool, vr::VROverlayIntersectionResults_t>(
+      result,
+      results
+    );
+  });
+  fnp.reg<
+    kIVROverlay_HandleControllerOverlayInteractionAsMouse,
+    bool,
+    VROverlayHandle_t,
+    TrackedDeviceIndex_t
+  >([=](VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unControllerDeviceIndex) {
+    return vroverlay->HandleControllerOverlayInteractionAsMouse(ulOverlayHandle, unControllerDeviceIndex);
+  });
+  fnp.reg<
+    kIVROverlay_IsHoverTargetOverlay,
+    bool,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulOverlayHandle) {
+    return vroverlay->IsHoverTargetOverlay(ulOverlayHandle);
+  });
+  fnp.reg<
+    kIVROverlay_GetGamepadFocusOverlay,
+    VROverlayHandle_t
+  >([=]() {
+    return vroverlay->GetGamepadFocusOverlay();
+  });
+  fnp.reg<
+    kIVROverlay_SetGamepadFocusOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >([=](VROverlayHandle_t ulNewFocusOverlay) {
+    return vroverlay->SetGamepadFocusOverlay(ulNewFocusOverlay);
+  });
+  fnp.reg<
+    kIVROverlay_SetOverlayNeighbor,
+    EVROverlayError,
+    EOverlayDirection,
+    VROverlayHandle_t,
+    VROverlayHandle_t
+  >([=](EOverlayDirection eDirection, VROverlayHandle_t ulFrom, VROverlayHandle_t ulTo) {
+    return vroverlay->SetOverlayNeighbor(eDirection, ulFrom, ulTo);
+  });
+  fnp.reg<
+    kIVROverlay_MoveGamepadFocusToNeighbor,
+    EVROverlayError,
+    EOverlayDirection,
+    VROverlayHandle_t
+  >([=](EOverlayDirection eDirection, VROverlayHandle_t ulFrom) {
+    return vroverlay->MoveGamepadFocusToNeighbor(eDirection, ulFrom);
+  });
   // XXX
 }
 EVROverlayError PVROverlay::FindOverlay(const char *pchOverlayKey, VROverlayHandle_t *pOverlayHandle) {
@@ -1024,7 +1122,7 @@ EVROverlayError PVROverlay::GetOverlayInputMethod(VROverlayHandle_t ulOverlayHan
 EVROverlayError PVROverlay::SetOverlayInputMethod(VROverlayHandle_t ulOverlayHandle, VROverlayInputMethod eInputMethod) {
   return fnp.call<
     kIVROverlay_SetOverlayInputMethod,
-    std::tuple<EVROverlayError, VROverlayInputMethod>,
+    EVROverlayError,
     VROverlayHandle_t,
     VROverlayInputMethod
   >(ulOverlayHandle, eInputMethod);
@@ -1058,7 +1156,7 @@ bool PVROverlay::ComputeOverlayIntersection(VROverlayHandle_t ulOverlayHandle, c
 }
 bool PVROverlay::HandleControllerOverlayInteractionAsMouse(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unControllerDeviceIndex) {
   return fnp.call<
-    kIVROverlay_ComputeOverlayIntersection,
+    kIVROverlay_HandleControllerOverlayInteractionAsMouse,
     bool,
     VROverlayHandle_t,
     TrackedDeviceIndex_t
