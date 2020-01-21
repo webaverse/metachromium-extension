@@ -6,7 +6,7 @@
 class ProxyTexture {
 public:
   void *texHandle;
-  size_t eventIndex;
+  std::tuple<float, float, float, float> zBufferParams;
 };
 
 class Hijacker {

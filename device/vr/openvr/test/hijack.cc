@@ -650,14 +650,16 @@ void ensureDepthTexDrawn() {
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        size_t
-      >(sbsDepthTexShHandle, 0);
+        size_t,
+        std::tuple<float, float, float, float>
+      >(sbsDepthTexShHandle, 0, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3]));
       g_hijacker->fnp.call<
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        size_t
-      >(sbsDepthTexShHandle, 1);
+        size_t,
+        std::tuple<float, float, float, float>
+      >(sbsDepthTexShHandle, 1, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3]));
     } else {
       auto iter = texSharedHandleMap.find(sbsDepthTex);
       if (iter != texSharedHandleMap.end()) {
@@ -673,9 +675,9 @@ void ensureDepthTexDrawn() {
           bool isFull = descDepth.Width > depthWidth;
 
           // getOut() << "ensure drawn " << isFull << std::endl;
-          texOrder.push_back(ProxyTexture{shHandle, 0});
+          texOrder.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
           if (isFull) {
-            texOrder.push_back(ProxyTexture{shHandle, 1});
+            texOrder.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
           }
         }
       } else {
@@ -2184,8 +2186,9 @@ void handleGlClearHack() {
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        size_t
-      >(frontSharedDepthHandle, 0);
+        size_t,
+        std::tuple<float, float, float, float>
+      >(frontSharedDepthHandle, 0, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3]));
     }
 
     glPhase = 0;
@@ -2237,15 +2240,16 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     kHijacker_QueueDepthTex,
     int,
     HANDLE,
-    size_t
-  >([=](HANDLE shDepthTexHandle, size_t eventIndex) {
+    size_t,
+    std::tuple<float, float, float, float>
+  >([=](HANDLE shDepthTexHandle, size_t eventIndex, std::tuple<float, float, float, float> zBuffer) {
     size_t count = std::count_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == shDepthTexHandle;
     });
     if (count < 2) {
       texOrder.push_back(ProxyTexture{
         shDepthTexHandle,
-        eventIndex
+        zBuffer
       });
       // getOut() << "push tex order " << texOrder.size() << std::endl;
     }
@@ -2253,15 +2257,15 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
   });
   fnp.reg<
     kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, size_t>
+    std::tuple<HANDLE, float, float, float, float>
   >([=]() {
     // getOut() << "shift tex order " << texOrder.size() << std::endl;
     if (texOrder.size() > 0) {
       ProxyTexture result = texOrder.front();
       texOrder.pop_front();
-      return std::tuple<HANDLE, size_t>(result.texHandle, result.eventIndex);
+      return std::tuple<HANDLE, float, float, float, float>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), std::get<2>(result.zBufferParams), std::get<3>(result.zBufferParams));
     } else {
-      return std::tuple<HANDLE, size_t>(nullptr, 0);
+      return std::tuple<HANDLE, float, float, float, float>{};
     }
   });
   fnp.reg<
@@ -2677,12 +2681,16 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     return result;
   }
   // remote
-  std::tuple<HANDLE, size_t> shiftResult = fnp.call<
+  std::tuple<HANDLE, float, float, float, float> shiftResult = fnp.call<
     kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, size_t>
+    std::tuple<HANDLE, float, float, float, float>
   >();
   HANDLE &sharedDepthHandle = std::get<0>(shiftResult);
-  size_t &eventIndex = std::get<1>(shiftResult);
+  float zbx = std::get<1>(shiftResult);
+  float zby = std::get<2>(shiftResult);
+  float zbz = std::get<3>(shiftResult);
+  float zbw = std::get<4>(shiftResult);
+
   if (sharedDepthHandle) {
     if (clientDepthHandleLatched != sharedDepthHandle) {
       if (clientDepthHandleLatched) {
@@ -2697,13 +2705,13 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
 
     return ProxyTexture{
       sharedDepthHandle,
-      eventIndex
+      std::tuple<float, float, float, float>(zbx, zby, zbz, zbw)
     };
   }
   // not found
   return ProxyTexture{
     nullptr,
-    0
+    std::tuple<float, float, float, float>{}
   };
 }
 void Hijacker::flushTextureLatches() {
