@@ -153,6 +153,7 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
+constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 1500;
 bool havePma = false;
 float pma = 0;
 float pmb = 0;
@@ -1073,7 +1074,7 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
         getOut() << std::endl;
       } */
 
-      if (desc.ByteWidth < 512 && tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams)) {
+      if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE && tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams)) {
         haveZBufferParams = true;
       }
 
@@ -1127,7 +1128,7 @@ HRESULT STDMETHODCALLTYPE MineMap(
         D3D11_BUFFER_DESC desc;
         buffer->lpVtbl->GetDesc(buffer, &desc);
 
-        if (desc.ByteWidth < 512) {
+        if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
           cbufs[pResource] = std::pair<void *, size_t>(pMappedResource->pData, desc.ByteWidth);
         }
         
