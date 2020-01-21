@@ -61,7 +61,6 @@ char kIVROverlay_SetOverlayNeighbor[] = "Input::SetOverlayNeighbor";
 char kIVROverlay_MoveGamepadFocusToNeighbor[] = "Input::MoveGamepadFocusToNeighbor";
 char kIVROverlay_SetOverlayDualAnalogTransform[] = "Input::SetOverlayDualAnalogTransform";
 char kIVROverlay_GetOverlayDualAnalogTransform[] = "Input::GetOverlayDualAnalogTransform";
-char kIVROverlay_SetOverlayDualAnalogTransform[] = "Input::SetOverlayDualAnalogTransform";
 char kIVROverlay_SetOverlayTexture[] = "Input::SetOverlayTexture";
 char kIVROverlay_ClearOverlayTexture[] = "Input::ClearOverlayTexture";
 char kIVROverlay_SetOverlayRaw[] = "Input::SetOverlayRaw";
@@ -609,37 +608,72 @@ EVROverlayError PVROverlay::SetOverlayNeighbor(EOverlayDirection eDirection, VRO
   >(eDirection, ulFrom, ulTo);
 }
 EVROverlayError PVROverlay::MoveGamepadFocusToNeighbor(EOverlayDirection eDirection, VROverlayHandle_t ulFrom) {
-
+  return fnp.call<
+    kIVROverlay_MoveGamepadFocusToNeighbor,
+    EVROverlayError,
+    EOverlayDirection,
+    VROverlayHandle_t
+  >(eDirection, ulFrom);
 }
 EVROverlayError PVROverlay::SetOverlayDualAnalogTransform(VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, const HmdVector2_t & vCenter, float fRadius) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayDualAnalogTransform,
+    EVROverlayError,
+    VROverlayHandle_t,
+    EDualAnalogWhich,
+    HmdVector2_t,
+    float
+  >(ulOverlay, vCenter, fRadius);
 }
 EVROverlayError PVROverlay::GetOverlayDualAnalogTransform(VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, HmdVector2_t *pvCenter, float *pfRadius) {
-
-}
-EVROverlayError PVROverlay::SetOverlayDualAnalogTransform(VROverlayHandle_t ulOverlay, EDualAnalogWhich eWhich, const HmdVector2_t *pvCenter, float fRadius) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayDualAnalogTransform,
+    std::tuple<EVROverlayError, HmdVector2_t, float>,
+    VROverlayHandle_t,
+    EDualAnalogWhich
+  >(ulOverlayHandle, eWhich);
+  *pvCenter = std::get<1>(result);
+  *pfRadius = std::get<2>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTexture(VROverlayHandle_t ulOverlayHandle, const Texture_t *pTexture) {
-
+  getOut() << "SetOverlayTexture not implemented" << std::endl;
+  return VROverlayError_None;
 }
 EVROverlayError PVROverlay::ClearOverlayTexture(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_ClearOverlayTexture,
+    EVROverlayError,
+    VROverlayHandle_t
+  >(ulOverlay);
 }
 EVROverlayError PVROverlay::SetOverlayRaw(VROverlayHandle_t ulOverlayHandle, void *pvBuffer, uint32_t unWidth, uint32_t unHeight, uint32_t unDepth) {
-
+  getOut() << "SetOverlayRaw not implemented" << std::endl;
+  return VROverlayError_None;
 }
 EVROverlayError PVROverlay::SetOverlayFromFile(VROverlayHandle_t ulOverlayHandle, const char *pchFilePath) {
-
+  getOut() << "SetOverlayFromFile not implemented" << std::endl;
+  return VROverlayError_None;
 }
 EVROverlayError PVROverlay::GetOverlayTexture(VROverlayHandle_t ulOverlayHandle, void **pNativeTextureHandle, void *pNativeTextureRef, uint32_t *pWidth, uint32_t *pHeight, uint32_t *pNativeFormat, ETextureType *pAPIType, EColorSpace *pColorSpace, VRTextureBounds_t *pTextureBounds) {
-
+  getOut() << "GetOverlayTexture abort" << std::endl;
+  abort();
+  return VROverlayError_None;
 }
 EVROverlayError PVROverlay::ReleaseNativeOverlayHandle(VROverlayHandle_t ulOverlayHandle, void *pNativeTextureHandle) {
-
+  getOut() << "ReleaseNativeOverlayHandle abort" << std::endl;
+  abort();
+  return VROverlayError_None;
 }
 EVROverlayError PVROverlay::GetOverlayTextureSize(VROverlayHandle_t ulOverlayHandle, uint32_t *pWidth, uint32_t *pHeight) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayTextureSize,
+    std::tuple<EVROverlayError, uint32_t, uint32_t>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *pWidth = std::get<1>(result);
+  *pHeight = std::get<2>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::CreateDashboardOverlay(const char *pchOverlayKey, const char *pchOverlayFriendlyName, VROverlayHandle_t * pMainHandle, VROverlayHandle_t *pThumbnailHandle) {
 
