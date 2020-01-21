@@ -215,20 +215,20 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 
   float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
   d = /* near + */LinearEyeDepth(d);
-  float existingDepth = 0; // DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
+  float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
-  // result.Color = float4(d, d, d, 1) * depthColor;
-  result.Color = float4(d, 0, existingDepth*0.2, 1);
-  result.Depth = d;
-
-  /* float existingDepth = DepthTexture.Sample(QuadTextureSampler, IN.Tex1).r;
-  if (d < existingDepth) {
-    result.Color = float4(0, 0, 0, 1);
-    result.Color.rgb = float3(d, 0, 0);
+  if (d < e) {
+    result.Color = float4(d, 0, 0, 1);
     result.Depth = d;
   } else {
-    discard;
-  } */
+    result.Color = float4(0, 0, e, 1);
+    result.Depth = e;
+    // discard;
+  }
+
+  /* float existingDepth = DepthTexture.Sample(QuadTextureSampler, IN.Tex1).r;
+  result.Color = float4(d, 0, existingDepth*0.2, 1);
+  result.Depth = d; */
 
   return result;
 }
@@ -403,7 +403,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         adapter, // pAdapter
         D3D_DRIVER_TYPE_HARDWARE, // DriverType
         NULL, // Software
-        D3D11_CREATE_DEVICE_DEBUG, // Flags
+        0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
         featureLevels, // pFeatureLevels
         ARRAYSIZE(featureLevels), // FeatureLevels
         D3D11_SDK_VERSION, // SDKVersion

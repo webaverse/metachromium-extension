@@ -1,5 +1,6 @@
 #include <deque>
 #include <map>
+#include <set>
 #include <string>
 #include <algorithm>
 #include <iomanip>
@@ -77,6 +78,7 @@ uint32_t texCacheSamples = 0;
 std::vector<HANDLE> texSharedHandleCache;
 std::map<ID3D11Texture2D *, HANDLE> texSharedHandleMap;
 std::deque<ProxyTexture> texOrder;
+std::set<void *> seenDepthTexs;
 std::deque<HANDLE> eventOrder;
 // client
 ID3D11Device5 *hijackerDevice = nullptr;
@@ -153,6 +155,7 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
+constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 1500;
 bool havePma = false;
 float pma = 0;
 float pmb = 0;
@@ -283,6 +286,12 @@ void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed,
   }
 }
 bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
+  /* getOut() << "looking for projection matrix:\n  ";
+  for (size_t i = 0; i < size / sizeof(float); i++) {
+    getOut() << ((float *)data)[i] << " ";
+  }
+  getOut() << std::endl; */
+  
   float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
     float nearValue;
@@ -291,18 +300,34 @@ bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
 
     if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
-      getOut() << "found projection matrix: ";
-      for (size_t i = 0; i < 16; i++) {
-        getOut() << projectionMatrix[i] << " ";
+      float newZBufferParams[4];
+      getZBufferParamsFromNearFar(nearValue, farValue, reversed, newZBufferParams);
+
+      if (
+        newZBufferParams[0] != zBufferParams[0] ||
+        newZBufferParams[1] != zBufferParams[1] ||
+        newZBufferParams[2] != zBufferParams[2] ||
+        newZBufferParams[3] != zBufferParams[3]
+      ) {
+        zBufferParams[0] = newZBufferParams[0];
+        zBufferParams[1] = newZBufferParams[1];
+        zBufferParams[2] = newZBufferParams[2];
+        zBufferParams[3] = newZBufferParams[3];
+        
+        getOut() << "found projection matrix: ";
+        for (size_t i = 0; i < 16; i++) {
+          getOut() << projectionMatrix[i] << " ";
+        }
+        getOut() << std::endl;
+        
+        getOut() << "got near far " << nearValue << " " << farValue << std::endl;
+        
+        getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+
+        return true;
+      } else {
+        return false;
       }
-      getOut() << std::endl;
-      
-      getOut() << "got near far " << nearValue << " " << farValue << std::endl;
-
-      getZBufferParamsFromNearFar(nearValue, farValue, reversed, zBufferParams);
-      getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
-
-      return true;
     } else {
       getOut() << "found projection matrix: ";
       for (size_t i = 0; i < 16; i++) {
@@ -381,11 +406,11 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
         dxgiResource->lpVtbl->Release(dxgiResource);
       }
       
-      getOut() << "set depth render target " << (void *)depthTex << std::endl;
+      // getOut() << "set depth render target " << (void *)depthTex << std::endl;
       
       sbsDepthTexLatched = true;
     } else {
-      getOut() << "other depth render target" << std::endl;
+      // getOut() << "other depth render target" << std::endl;
       sbsDepthTexLatched = false;
     }
     /* getOut() << "set depth render target solid " <<
@@ -693,6 +718,12 @@ void ensureDepthTexDrawn() {
       auto iter = texSharedHandleMap.find(sbsDepthTex);
       if (iter != texSharedHandleMap.end()) {
         HANDLE shHandle = iter->second;
+        
+        if (seenDepthTexs.find(shHandle) == seenDepthTexs.end()) {
+          getOut() << "new depth tex " << shHandle << std::endl;
+          seenDepthTexs.insert(shHandle);
+        }
+        
         bool texOrderContains = std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
           return pt.texHandle == shHandle;
         }) != texOrder.end();
@@ -765,7 +796,7 @@ bool shouldDepthTexClear(T *view, size_t index) {
       }
     }
   }
-  getOut() << "should clear depth tex " << (void *)depthTex << " " << index << " " << isSingle << " " << isDual << " " << (void *)sbsDepthTex << " " << texSharedHandleMap.size() << " " << result << std::endl;
+  // getOut() << "should clear depth tex " << (void *)depthTex << " " << index << " " << isSingle << " " << isDual << " " << (void *)sbsDepthTex << " " << texSharedHandleMap.size() << " " << result << std::endl;
 
   depthTex->lpVtbl->Release(depthTex);
   resource->lpVtbl->Release(resource);
@@ -782,7 +813,7 @@ void STDMETHODCALLTYPE MineDraw(
   UINT VertexCount,
   UINT StartVertexLocation
 ) {
-  getOut() << "Draw " << VertexCount << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "Draw " << VertexCount << std::endl; });
   RealDraw(This, VertexCount, StartVertexLocation);
   ensureDepthTexDrawn();
 }
@@ -792,7 +823,7 @@ void (STDMETHODCALLTYPE *RealDrawAuto)(
 void STDMETHODCALLTYPE MineDrawAuto(
   ID3D11DeviceContext *This
 ) {
-  getOut() << "DrawAuto" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawAuto" << std::endl; });
   RealDrawAuto(This);
   ensureDepthTexDrawn();
 }
@@ -808,7 +839,7 @@ void STDMETHODCALLTYPE MineDrawIndexed(
   UINT StartIndexLocation,
   INT  BaseVertexLocation
 ) {
-  getOut() << "DrawIndexed " << IndexCount << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexed " << IndexCount << std::endl; });
   RealDrawIndexed(This, IndexCount, StartIndexLocation, BaseVertexLocation);
   ensureDepthTexDrawn();
 }
@@ -828,7 +859,7 @@ void STDMETHODCALLTYPE MineDrawIndexedInstanced(
   INT  BaseVertexLocation,
   UINT StartInstanceLocation
 ) {
-  getOut() << "DrawIndexedInstanced " << IndexCountPerInstance << " " << InstanceCount << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstanced " << IndexCountPerInstance << " " << InstanceCount << std::endl; });
   RealDrawIndexedInstanced(This, IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
   ensureDepthTexDrawn();
 }
@@ -842,7 +873,7 @@ void STDMETHODCALLTYPE MineDrawIndexedInstancedIndirect(
   ID3D11Buffer *pBufferForArgs,
   UINT         AlignedByteOffsetForArgs
 ) {
-  getOut() << "DrawIndexedInstancedIndirect" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstancedIndirect" << std::endl; });
   RealDrawIndexedInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
   ensureDepthTexDrawn();
 }
@@ -860,7 +891,7 @@ void STDMETHODCALLTYPE MineDrawInstanced(
   UINT StartVertexLocation,
   UINT StartInstanceLocation
 ) {
-  getOut() << "DrawInstanced " << VertexCountPerInstance << " " << InstanceCount << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawInstanced " << VertexCountPerInstance << " " << InstanceCount << std::endl; });
   RealDrawInstanced(This, VertexCountPerInstance, InstanceCount, StartVertexLocation, StartInstanceLocation);
   ensureDepthTexDrawn();
 }
@@ -874,7 +905,7 @@ void STDMETHODCALLTYPE MineDrawInstancedIndirect(
   ID3D11Buffer *pBufferForArgs,
   UINT         AlignedByteOffsetForArgs
 ) {
-  getOut() << "DrawInstancedIndirect" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "DrawInstancedIndirect" << std::endl; });
   RealDrawInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
   ensureDepthTexDrawn();
 }
@@ -907,27 +938,25 @@ HRESULT STDMETHODCALLTYPE MineCreateDepthStencilView(
 ) {
   TRACE("Hijack", [&]() { getOut() << "CreateDepthStencilView" << std::endl; });
   
-  ID3D11Texture2D *depthTex = nullptr;
-  HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&depthTex);
-  if (SUCCEEDED(hr)) {
-    // nothing
-  } else {
-    getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
-    abort();
-  }
+  /* {
+    ID3D11Texture2D *depthTex = nullptr;
+    HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&depthTex);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
+      abort();
+    }
 
-  D3D11_TEXTURE2D_DESC descDepth;
-  depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
-  
-  getOut() << "CreateDepthStencilView " << pDesc->Format << " " << descDepth.Format << std::endl;
-  
-  depthTex->lpVtbl->Release(depthTex);
-  
-  hr = RealCreateDepthStencilView(This, pResource, pDesc, ppDepthStencilView);
-  if (FAILED(hr)) {
-    getOut() << "CreateDepthStencilView failed " << pDesc->Format << " " << descDepth.Format << std::endl;
-  }
-  return hr;
+    D3D11_TEXTURE2D_DESC descDepth;
+    depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
+    
+    getOut() << "CreateDepthStencilView " << pDesc->Format << " " << descDepth.Format << std::endl;
+    
+    depthTex->lpVtbl->Release(depthTex);
+  } */
+
+  return RealCreateDepthStencilView(This, pResource, pDesc, ppDepthStencilView);
 }
 void (STDMETHODCALLTYPE *RealClearRenderTargetView)(
   ID3D11DeviceContext *This,
@@ -939,7 +968,7 @@ void STDMETHODCALLTYPE MineClearRenderTargetView(
   ID3D11RenderTargetView *pRenderTargetView,
   const FLOAT         ColorRGBA[4]
 ) {
-  getOut() << "ClearRenderTargetView" << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "ClearRenderTargetView" << std::endl; });
   RealClearRenderTargetView(This, pRenderTargetView, ColorRGBA);
 }
 void (STDMETHODCALLTYPE *RealClearDepthStencilView)(
@@ -999,7 +1028,7 @@ void STDMETHODCALLTYPE MineCopyResource(
   ID3D11Resource *pDstResource,
   ID3D11Resource *pSrcResource
 ) {
-  getOut() << "RealCopyResource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealCopyResource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl; });
   RealCopyResource(This, pDstResource, pSrcResource);
 }
 void (STDMETHODCALLTYPE *RealCopySubresourceRegion)(
@@ -1024,7 +1053,7 @@ void STDMETHODCALLTYPE MineCopySubresourceRegion(
   UINT            SrcSubresource,
   const D3D11_BOX *pSrcBox
 ) {
-  getOut() << "RealCopySubresourceRegion " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "RealCopySubresourceRegion " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl; });
   RealCopySubresourceRegion(This, pDstResource, DstSubresource, DstX, DstY, DstZ, pSrcResource, SrcSubresource, pSrcBox);
 }
 void (STDMETHODCALLTYPE *RealResolveSubresource)(
@@ -1043,7 +1072,7 @@ void STDMETHODCALLTYPE MineResolveSubresource(
   UINT           SrcSubresource,
   DXGI_FORMAT    Format
 ) {
-  getOut() << "ResolveSubresource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl;
+  TRACE("Hijack", [&]() { getOut() << "ResolveSubresource " << (void *)pDstResource << " " << (void *)pSrcResource << std::endl; });
   RealResolveSubresource(This, pDstResource, DstSubresource, pSrcResource, SrcSubresource, Format);
 }
 void (STDMETHODCALLTYPE *RealUpdateSubresource)(
@@ -1084,7 +1113,7 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
         getOut() << std::endl;
       } */
 
-      if (desc.ByteWidth < 512 && tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams)) {
+      if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE && tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams)) {
         haveZBufferParams = true;
       }
 
@@ -1138,7 +1167,7 @@ HRESULT STDMETHODCALLTYPE MineMap(
         D3D11_BUFFER_DESC desc;
         buffer->lpVtbl->GetDesc(buffer, &desc);
 
-        if (desc.ByteWidth < 512) {
+        if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
           cbufs[pResource] = std::pair<void *, size_t>(pMappedResource->pData, desc.ByteWidth);
         }
         
@@ -1179,12 +1208,12 @@ void STDMETHODCALLTYPE MineUnmap(
       } */
 
       if (tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams)) {
-        haveZBufferParams = true;
+        // haveZBufferParams = true;
 
-        cbufs.clear();
-      } else {
+        // cbufs.clear();
+      } // else {
         cbufs.erase(pResource);
-      }
+      // }
     }
   }
 
