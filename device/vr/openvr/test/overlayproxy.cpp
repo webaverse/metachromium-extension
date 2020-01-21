@@ -446,43 +446,120 @@ EVROverlayError PVROverlay::GetOverlayTransformTrackedDeviceRelative(VROverlayHa
   return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTransformTrackedDeviceComponent(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t unDeviceIndex, const char *pchComponentName) {
-
+  managed_binary<char> name(strlen(pchComponentName)+1);
+  memcpy(name.data(), pchComponentName, name.size());
+  return fnp.call<
+    kIVROverlay_SetOverlayTransformTrackedDeviceComponent,
+    EVROverlayError,
+    VROverlayHandle_t,
+    TrackedDeviceIndex_t,
+    managed_binary<char>
+  >(ulOverlayHandle, unDeviceIndex, std::move(name));
 }
 EVROverlayError PVROverlay::GetOverlayTransformTrackedDeviceComponent(VROverlayHandle_t ulOverlayHandle, TrackedDeviceIndex_t *punDeviceIndex, char *pchComponentName, uint32_t unComponentNameSize) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayTransformTrackedDeviceRelative,
+    std::tuple<EVROverlayError, TrackedDeviceIndex_t, managed_binary<char>>,
+    VROverlayHandle_t,
+    uint32_t
+  >(ulOverlayHandle, unComponentNameSize);
+  *punTrackedDevice = std::get<1>(result);
+  memcpy(pchComponentName, std::get<2>(result).data(), std::get<2>(result).size());
+  return std::get<0>(result);
 }
 EVROverlayError GetOverlayTransformOverlayRelative(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t *ulOverlayHandleParent, HmdMatrix34_t *pmatParentOverlayToOverlayTransform) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayTransformOverlayRelative,
+    std::tuple<EVROverlayError, VROverlayHandle_t, HmdMatrix34_t>,
+    VROverlayHandle_t
+  >(ulOverlayHandle, unComponentNameSize);
+  *ulOverlayHandleParent = std::get<1>(result);
+  *pmatParentOverlayToOverlayTransform = std::get<2>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayTransformOverlayRelative(VROverlayHandle_t ulOverlayHandle, VROverlayHandle_t ulOverlayHandleParent, const HmdMatrix34_t *pmatParentOverlayToOverlayTransform) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayTransformOverlayRelative,
+    EVROverlayError,
+    VROverlayHandle_t,
+    HmdMatrix34_t
+  >(ulOverlayHandle, ulOverlayHandleParent, *pmatParentOverlayToOverlayTransform);
 }
 EVROverlayError PVROverlay::ShowOverlay(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_ShowOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
 }
 EVROverlayError PVROverlay::HideOverlay(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_HideOverlay,
+    EVROverlayError,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
 }
 bool PVROverlay::IsOverlayVisible(VROverlayHandle_t ulOverlayHandle) {
-
+  return fnp.call<
+    kIVROverlay_IsOverlayVisible,
+    bool,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
 }
 EVROverlayError PVROverlay::GetTransformForOverlayCoordinates(VROverlayHandle_t ulOverlayHandle, ETrackingUniverseOrigin eTrackingOrigin, HmdVector2_t coordinatesInOverlay, HmdMatrix34_t *pmatTransform) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetTransformForOverlayCoordinates,
+    std::tuple<EVROverlayError, HmdMatrix34_t>,
+    VROverlayHandle_t,
+    ETrackingUniverseOrigin,
+    HmdVector2_t
+  >(ulOverlayHandle, coordinatesInOverlay);
+  *pmatTransform = std::get<1>(result);
+  return std::get<0>(result);
 }
 bool PVROverlay::PollNextOverlayEvent(VROverlayHandle_t ulOverlayHandle, VREvent_t *pEvent, uint32_t uncbVREvent) {
-
+  auto result = fnp.call<
+    kIVROverlay_PollNextOverlayEvent,
+    std::tuple<bool, VREvent_t>,
+    VROverlayHandle_t,
+    uint32_t
+  >(ulOverlayHandle, uncbVREvent);
+  *pEvent = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::GetOverlayInputMethod(VROverlayHandle_t ulOverlayHandle, VROverlayInputMethod *peInputMethod) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayInputMethod,
+    std::tuple<EVROverlayError, VROverlayInputMethod>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *peInputMethod = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayInputMethod(VROverlayHandle_t ulOverlayHandle, VROverlayInputMethod eInputMethod) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayInputMethod,
+    std::tuple<EVROverlayError, VROverlayInputMethod>,
+    VROverlayHandle_t,
+    VROverlayInputMethod
+  >(ulOverlayHandle, eInputMethod);
 }
 EVROverlayError PVROverlay::GetOverlayMouseScale(VROverlayHandle_t ulOverlayHandle, HmdVector2_t *pvecMouseScale) {
-
+  auto result = fnp.call<
+    kIVROverlay_GetOverlayMouseScale,
+    std::tuple<EVROverlayError, HmdVector2_t>,
+    VROverlayHandle_t
+  >(ulOverlayHandle);
+  *pvecMouseScale = std::get<1>(result);
+  return std::get<0>(result);
 }
 EVROverlayError PVROverlay::SetOverlayMouseScale(VROverlayHandle_t ulOverlayHandle, const HmdVector2_t *pvecMouseScale) {
-
+  return fnp.call<
+    kIVROverlay_SetOverlayMouseScale,
+    EVROverlayError,
+    VROverlayHandle_t,
+    HmdVector2_t
+  >(ulOverlayHandle, *pvecMouseScale);
 }
 bool PVROverlay::ComputeOverlayIntersection(VROverlayHandle_t ulOverlayHandle, const vr::VROverlayIntersectionParams_t *pParams, vr::VROverlayIntersectionResults_t *pResults) {
 
