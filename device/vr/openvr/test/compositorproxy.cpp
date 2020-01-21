@@ -535,7 +535,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     HANDLE clientFenceHandle = (HANDLE)std::get<1>(fenceSpec);
     uint64_t clientFenceValue = std::get<2>(fenceSpec);
 
-    getOut() << "submit server 1 " << zbx << " " << zby << " " << zbz << " " << zbw << std::endl;
+    // getOut() << "submit server 1 " << zbx << " " << zby << " " << zbz << " " << zbw << std::endl;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteProcessId, eEye);
     auto iter = inBackIndices.find(key);

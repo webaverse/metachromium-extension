@@ -1796,11 +1796,11 @@ void handleGlClearHack() {
       {
         intptr_t egl_device_ptr = 0;
         intptr_t device_ptr = 0;
-        getOut() << "get device 1 " << (void *)EGL_QueryDisplayAttribEXT << " " << EGL_QueryDeviceAttribEXT << std::endl;
+        // getOut() << "get device 1 " << (void *)EGL_QueryDisplayAttribEXT << " " << EGL_QueryDeviceAttribEXT << std::endl;
         EGLBoolean ok = (*((decltype(eglQueryDisplayAttribEXT) *)EGL_QueryDisplayAttribEXT))(display, EGL_DEVICE_EXT, &egl_device_ptr);
-        getOut() << "get device 2 " << (void *)egl_device_ptr << " " << (void *)ok << std::endl;
+        // getOut() << "get device 2 " << (void *)egl_device_ptr << " " << (void *)ok << std::endl;
         ok = EGL_QueryDeviceAttribEXT(reinterpret_cast<EGLDeviceEXT>(egl_device_ptr), EGL_D3D11_DEVICE_ANGLE, &device_ptr);
-        getOut() << "get device 3 " << (void *)device_ptr << " " << (void *)ok << " " << GetLastError() << std::endl;
+        // getOut() << "get device 3 " << (void *)device_ptr << " " << (void *)ok << " " << GetLastError() << std::endl;
         ID3D11Device *d3d11_device = reinterpret_cast<ID3D11Device *>(device_ptr);
 
         hr = d3d11_device->lpVtbl->QueryInterface(d3d11_device, IID_ID3D11Device5, (void **)&hijackerDevice);
@@ -1923,7 +1923,7 @@ void handleGlClearHack() {
           if (error != EGL_SUCCESS) getOut() << "egl bind tex error " << (void *)error << std::endl;
         }
         
-        getOut() << "got texture" << std::endl;
+        // getOut() << "got texture" << std::endl;
       }
       {
         RealGlBindFramebuffer(GL_FRAMEBUFFER, depthResolveFbo);
@@ -2008,7 +2008,7 @@ void handleGlClearHack() {
           getOut() << "blit program failed to get attrib location for 'position'" << std::endl;
           abort();
         }
-        getOut() << "generating depth 5 7 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 7 " << (void *)RealGlGetError() << std::endl;
         GLuint uvLocation = glGetAttribLocation(depthProgram, "uv");
         if (uvLocation == -1) {
           getOut() << "blit program failed to get attrib location for 'uv'" << std::endl;
@@ -2041,7 +2041,7 @@ void handleGlClearHack() {
         GLuint positionBuffer;
         glGenBuffers(1, &positionBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-        getOut() << "generating depth 5 12 " << (void *)RealGlGetError() << std::endl;
+        // getOut() << "generating depth 5 12 " << (void *)RealGlGetError() << std::endl;
         static const float positions[] = {
           -1.0f, 1.0f,
           1.0f, 1.0f,
