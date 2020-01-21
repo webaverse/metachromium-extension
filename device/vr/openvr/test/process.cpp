@@ -197,6 +197,7 @@ int WINAPI WinMain(
   vr::PVRSettings settings(vr::g_vrsettings, fnp);
   vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
   vr::PVRApplications applications(vr::g_vrapplications, fnp);
+  vr::PVROverlay overlay(vr::g_vroverlay, fnp);
   while (live) {
     DWORD result = MsgWaitForMultipleObjects(
       1,

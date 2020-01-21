@@ -80,6 +80,7 @@ PVRChaperoneSetup *g_pvrchaperonesetup = nullptr;
 PVRSettings *g_pvrsettings = nullptr;
 PVRRenderModels *g_pvrrendermodels = nullptr;
 PVRApplications *g_pvrapplications = nullptr;
+PVROverlay *g_pvroverlay = nullptr;
 }
 
 std::string dllDir;
@@ -323,6 +324,7 @@ BOOL WINAPI DllMain(
     vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *g_fnp);
     vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
     vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
+    vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
     
     g_hijacker->hijackGl();
 

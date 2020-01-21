@@ -14,6 +14,7 @@
 #include "device/vr/openvr/test/settingsproxy.h"
 #include "device/vr/openvr/test/rendermodelsproxy.h"
 #include "device/vr/openvr/test/applicationsproxy.h"
+#include "device/vr/openvr/test/overlayproxy.h"
 
 extern std::string dllDir;
 extern void *shMem;
@@ -48,6 +49,7 @@ namespace vr {
   extern PVRSettings *g_pvrsettings;
   extern PVRRenderModels *g_pvrrendermodels;
   extern PVRApplications *g_pvrapplications;
+  extern PVROverlay *g_pvroverlay;
 }
 
 extern "C" {
