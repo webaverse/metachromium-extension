@@ -1,6 +1,6 @@
 #include <deque>
 #include <map>
-#include <set>
+// #include <set>
 #include <string>
 #include <algorithm>
 #include <iomanip>
@@ -77,8 +77,9 @@ std::vector<ID3D11Texture2D *> texCache;
 uint32_t texCacheSamples = 0;
 std::vector<HANDLE> texSharedHandleCache;
 std::map<ID3D11Texture2D *, HANDLE> texSharedHandleMap;
-std::deque<ProxyTexture> texOrder;
-std::set<void *> seenDepthTexs;
+std::deque<ProxyTexture> texQueue;
+std::map<HANDLE, size_t> texSortOrder;
+// std::set<void *> seenDepthTexs;
 std::deque<HANDLE> eventOrder;
 // client
 ID3D11Device5 *hijackerDevice = nullptr;
@@ -159,7 +160,7 @@ constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 1500;
 bool havePma = false;
 float pma = 0;
 float pmb = 0;
-bool haveZBufferParams = false;
+// bool haveZBufferParams = false;
 float zBufferParams[4] = {};
 void ensureProjectionMatrixSpec() {
   if (!havePma) {
@@ -300,34 +301,19 @@ bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
 
     if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
-      float newZBufferParams[4];
-      getZBufferParamsFromNearFar(nearValue, farValue, reversed, newZBufferParams);
-
-      if (
-        newZBufferParams[0] != zBufferParams[0] ||
-        newZBufferParams[1] != zBufferParams[1] ||
-        newZBufferParams[2] != zBufferParams[2] ||
-        newZBufferParams[3] != zBufferParams[3]
-      ) {
-        zBufferParams[0] = newZBufferParams[0];
-        zBufferParams[1] = newZBufferParams[1];
-        zBufferParams[2] = newZBufferParams[2];
-        zBufferParams[3] = newZBufferParams[3];
-        
-        getOut() << "found projection matrix: ";
-        for (size_t i = 0; i < 16; i++) {
-          getOut() << projectionMatrix[i] << " ";
-        }
-        getOut() << std::endl;
-        
-        getOut() << "got near far " << nearValue << " " << farValue << std::endl;
-        
-        getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
-
-        return true;
-      } else {
-        return false;
+      getZBufferParamsFromNearFar(nearValue, farValue, reversed, zBufferParams);
+      
+      /* getOut() << "found projection matrix: ";
+      for (size_t i = 0; i < 16; i++) {
+        getOut() << projectionMatrix[i] << " ";
       }
+      getOut() << std::endl;
+      
+      getOut() << "got near far " << nearValue << " " << farValue << std::endl;
+      
+      getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl; */
+
+      return true;
     } else {
       getOut() << "found projection matrix: ";
       for (size_t i = 0; i < 16; i++) {
@@ -719,15 +705,15 @@ void ensureDepthTexDrawn() {
       if (iter != texSharedHandleMap.end()) {
         HANDLE shHandle = iter->second;
         
-        if (seenDepthTexs.find(shHandle) == seenDepthTexs.end()) {
+        /* if (seenDepthTexs.find(shHandle) == seenDepthTexs.end()) {
           getOut() << "new depth tex " << shHandle << std::endl;
           seenDepthTexs.insert(shHandle);
-        }
+        } */
         
-        bool texOrderContains = std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
+        bool texQueueContains = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
           return pt.texHandle == shHandle;
-        }) != texOrder.end();
-        if (!texOrderContains) {
+        }) != texQueue.end();
+        if (!texQueueContains) {
           D3D11_TEXTURE2D_DESC descDepth;
           sbsDepthTex->lpVtbl->GetDesc(sbsDepthTex, &descDepth);
 
@@ -735,9 +721,18 @@ void ensureDepthTexDrawn() {
           bool isFull = descDepth.Width > depthWidth;
 
           // getOut() << "ensure drawn " << isFull << std::endl;
-          texOrder.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
+          texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
           if (isFull) {
-            texOrder.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
+            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
+          }
+          
+          {
+            auto iter = texSortOrder.find(shHandle);
+            if (iter == texSortOrder.end()) {
+              size_t sortIndex = texSortOrder.size();
+              texSortOrder.insert(std::pair<HANDLE, size_t>(shHandle, sortIndex));
+              // XXX clean up sort order tracking on texture destroy
+            }
           }
         }
       } else {
@@ -787,10 +782,10 @@ bool shouldDepthTexClear(T *view, size_t index) {
           }
         }
 
-        auto iter = std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
+        auto iter = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
           return pt.texHandle == shHandle;
         });
-        if (iter == texOrder.end()) {
+        if (iter == texQueue.end()) {
           result = true;
         }
       }
@@ -1093,33 +1088,20 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
   UINT            SrcRowPitch,
   UINT            SrcDepthPitch
 ) {
-  if (!haveZBufferParams) {
+  // if (!haveZBufferParams) {
     ID3D11Buffer *buffer;
     HRESULT hr = pDstResource->lpVtbl->QueryInterface(pDstResource, IID_ID3D11Buffer, (void **)&buffer);
     if (SUCCEEDED(hr)) {
       D3D11_BUFFER_DESC desc;
       buffer->lpVtbl->GetDesc(buffer, &desc);
-      /* getOut() << "RealUpdateSubresource " << (void *)pDstResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << std::endl;
-      if ((desc.BindFlags & D3D11_BIND_CONSTANT_BUFFER) && desc.ByteWidth < 4000) {
-        getOut() << "  ";
-        for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
-          getOut() << ((float *)pSrcData)[i] << " ";
-        }
-        getOut() << std::endl;
-        getOut() << "  ";
-        for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
-          getOut() << ((uint32_t *)pSrcData)[i] << " ";
-        }
-        getOut() << std::endl;
-      } */
 
       if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE && tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams)) {
-        haveZBufferParams = true;
+        // haveZBufferParams = true;
       }
 
       buffer->lpVtbl->Release(buffer);
     }
-  }
+  // }
 
   RealUpdateSubresource(This, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
 }
@@ -1155,7 +1137,7 @@ HRESULT STDMETHODCALLTYPE MineMap(
   D3D11_MAPPED_SUBRESOURCE *pMappedResource
 ) {
   HRESULT hr = RealMap(This, pResource, Subresource, MapType, MapFlags, pMappedResource);
-  if (!haveZBufferParams && SUCCEEDED(hr)) {
+  if (/*!haveZBufferParams && */SUCCEEDED(hr)) {
     D3D11_RESOURCE_DIMENSION dim;
     pResource->lpVtbl->GetType(pResource, &dim);
 
@@ -1192,7 +1174,7 @@ void STDMETHODCALLTYPE MineUnmap(
 ) {
   // getOut() << "RealUnmap " << (void *)pResource << std::endl;
 
-  if (!haveZBufferParams) {
+  // if (!haveZBufferParams) {
     auto iter = cbufs.find(pResource);
     
     if (iter != cbufs.end()) {
@@ -1215,7 +1197,7 @@ void STDMETHODCALLTYPE MineUnmap(
         cbufs.erase(pResource);
       // }
     }
-  }
+  // }
 
   RealUnmap(This, pResource, Subresource);
 }
@@ -2301,26 +2283,40 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     size_t,
     std::tuple<float, float, float, float>
   >([=](HANDLE shDepthTexHandle, size_t eventIndex, std::tuple<float, float, float, float> zBuffer) {
-    size_t count = std::count_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
+    /* size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == shDepthTexHandle;
+    }); */
+    texQueue.push_back(ProxyTexture{
+      shDepthTexHandle,
+      zBuffer
     });
-    if (count < 2) {
-      texOrder.push_back(ProxyTexture{
-        shDepthTexHandle,
-        zBuffer
-      });
-      // getOut() << "push tex order " << texOrder.size() << std::endl;
+    // getOut() << "push tex order " << texQueue.size() << std::endl;
+    {
+      auto iter = texSortOrder.find(shDepthTexHandle);
+      if (iter == texSortOrder.end()) {
+        size_t sortIndex = texSortOrder.size();
+        texSortOrder.insert(std::pair<HANDLE, size_t>(shDepthTexHandle, sortIndex));
+        // XXX clean up sort order tracking on texture destroy
+      }
     }
+    
     return 0;
   });
   fnp.reg<
     kHijacker_ShiftDepthTex,
     std::tuple<HANDLE, float, float, float, float>
   >([=]() {
-    // getOut() << "shift tex order " << texOrder.size() << std::endl;
-    if (texOrder.size() > 0) {
-      ProxyTexture result = texOrder.front();
-      texOrder.pop_front();
+    // getOut() << "shift tex order " << texQueue.size() << std::endl;
+    if (texQueue.size() > 0) {
+      std::sort(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &a, const ProxyTexture &b) -> bool {
+        return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
+      });
+      if (texQueue.size() > 2) {
+        texQueue.resize(2);
+      }
+      
+      ProxyTexture result = texQueue.front();
+      texQueue.pop_front();
       return std::tuple<HANDLE, float, float, float, float>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), std::get<2>(result.zBufferParams), std::get<3>(result.zBufferParams));
     } else {
       return std::tuple<HANDLE, float, float, float, float>{};
@@ -2330,7 +2326,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     kHijacker_ClearDepthTex,
     int
   >([=]() {
-    texOrder.clear();
+    texQueue.clear();
     return 0;
   });
   fnp.reg<
@@ -2338,9 +2334,9 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     bool,
     HANDLE
   >([=](HANDLE handle) {
-    return std::find_if(texOrder.begin(), texOrder.end(), [&](const ProxyTexture &pt) -> bool {
+    return std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == handle;
-    }) != texOrder.end();
+    }) != texQueue.end();
   });
 }
 /* void Hijacker::ensureClientDevice() {
@@ -2733,9 +2729,16 @@ void Hijacker::hijackGl() {
 }
 ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit
   // local
-  if (texOrder.size() > 0) {
-    ProxyTexture result = texOrder.front();
-    texOrder.pop_front();
+  if (texQueue.size() > 0) {
+    std::sort(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &a, const ProxyTexture &b) -> bool {
+      return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
+    });
+    if (texQueue.size() > 2) {
+      texQueue.resize(2);
+    }
+    
+    ProxyTexture result = texQueue.front();
+    texQueue.pop_front();
     return result;
   }
   // remote
@@ -2773,7 +2776,7 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
   };
 }
 void Hijacker::flushTextureLatches() {
-  texOrder.clear();
+  texQueue.clear();
   fnp.call<
     kHijacker_ClearDepthTex,
     int
@@ -2784,6 +2787,6 @@ void Hijacker::flushTextureLatches() {
       iter.second->lpVtbl->Release(iter.second);
     }
     texMap.clear();
-    texOrder.clear();
+    texQueue.clear();
   } */
 }
