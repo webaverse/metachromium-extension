@@ -220,19 +220,22 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   float reversed = _ZBufferParams.y;
 
   float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  d = -near + LinearEyeDepth(d);
+  d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
+  // d = LinearEyeDepth(d*2.0 - 1.0);
   // d = LinearEyeDepth(d);
-  // d = ProjectionEyeDepth(d);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
   // result.Color = float4(d, 0, 0, 1);
   // result.Depth = d;
 
-  if (d < e) {
-    result.Color = float4(d, reversed, 0, 1);
+  if (d < 0.5) {
+    result.Color = float4(d, 0, 0, 1);
+    result.Depth = d;
+  } else if (d < 1) {
+    result.Color = float4(0, d, 0, 1);
     result.Depth = d;
   } else {
-    result.Color = float4(0, reversed, e, 1);
+    result.Color = float4(0, 0, d, 1);
     result.Depth = e;
     // discard;
   }
@@ -1688,7 +1691,7 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   // getOut() << "prepare submit client 4" << std::endl;
 }
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-  getOut() << "submit client 1 " << std::endl;
+  // getOut() << "submit client 1 " << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint tex = (GLuint)pTexture->handle;
@@ -2301,7 +2304,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     1.0f, flip ? 0.0f : 1.0f
   };
 
-  // getOut() << "client submit 1" << std::endl;
+  getOut() << "client submit 1 " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << " " << std::get<2>(clientZBufferParams) << " " << std::get<3>(clientZBufferParams) << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,

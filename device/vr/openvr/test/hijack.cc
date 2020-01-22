@@ -156,7 +156,7 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
-constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 1500;
+constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 8000;
 bool havePma = false;
 float pma = 0;
 float pmb = 0;
@@ -183,6 +183,8 @@ inline bool isWithinDelta(float a, float target) {
 }
 bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMatrix) {
   ensureProjectionMatrixSpec();
+  
+  bool found = false;
 
   int numElements = (int)size / sizeof(float);
   for (int i = 0; i < numElements; i++) {
@@ -219,7 +221,7 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
               outProjectionMatrix[13] = src[7];
               outProjectionMatrix[14] = src[11];
               outProjectionMatrix[15] = src[15];
-              return true;
+              found = true;
             }
           }
         }
@@ -239,19 +241,21 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
               // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
               
               memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
-              return true;
+              found = true;
             }
           }
         }
       }
     }
   }
-  return false;
+  return found;
 }
 // 0.917286, 0, 0, 0, 0, 0.833537, 0, 0, -0.174072, -0.106141, -1.0002, -1, 0, 0, -0.20002, 0
 // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
 // 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 5.00083e-05 -1 0 -0 0.0500025 0
 // 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 -5.06639e-07 -1 0 -0 0.0005 0 
+// 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 0.000100017 -1 0 -0 0.010001 0 
+// 1.20009 -0 0 0 0 -1.00808 0 0 0.147 0.112538 9.53674e-07 -1 0 -0 0.02 0 
 void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNear, float *pFar, bool *pReversed) {
   /* float m32 = projectionMatrix[14];
   float m22 = projectionMatrix[10];
@@ -266,7 +270,10 @@ void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNe
 
   float m32 = std::abs(projectionMatrix[14]);
   float m22 = std::abs(projectionMatrix[10]);
-  if (m22 < 1.0f) {
+  if (!isChrome) {
+    if (m22 > 1.0f) {
+      m22 -= 1.0f;
+    }
     *pNear = m32 / (m22 + 1.0f);
     *pFar = m32 / m22;
     *pReversed = true;
@@ -365,27 +372,42 @@ void multiplyMatrices(const float a[16], const float b[16], float out[16]) {
 }
 const float biasMatrix[16] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
 void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed, float projectionMatrix[16], float zBufferParams[4]) {
-  if (reversed) {
+  // if (reversed) {
+    getOut() << "projection matrix: ";
+    for (size_t i = 0; i < 16; i++) {
+      getOut() << projectionMatrix[i] << " ";
+    }
+    getOut() << std::endl;
+    
+    // nearValue *= 2.0;
+    // farValue /= 2.0;
+    
+    float c1 = farValue / nearValue;
+    float c0 = 1.0f - c1;
+    
     zBufferParams[0] = nearValue;
-    zBufferParams[1] = 1.0f;
-    zBufferParams[2] = (-1.0f+farValue/nearValue)/farValue;
-    zBufferParams[3] = 1.0f/farValue;
-  } else {
-    /* float biasedProjectionMatrix[16];
-    multiplyMatrices(projectionMatrix, biasMatrix, biasedProjectionMatrix);
-    float biasedProjectionMatrixInverse[16];
-    getMatrixInverse(biasedProjectionMatrix, biasedProjectionMatrixInverse); */
-    float projectionMatrixInverse[16];
-    getMatrixInverse(projectionMatrix, projectionMatrixInverse);
-
+    zBufferParams[1] = reversed ? 1.0f : 0.0f;
+    zBufferParams[2] = c0/farValue; // c0/farValue;
+    zBufferParams[3] = c1/farValue;
+    
+    getOut() << "near 1 " << nearValue << " " << farValue << " " << reversed << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+  /* } else {
+    getOut() << "projection matrix: ";
+    for (size_t i = 0; i < 16; i++) {
+      getOut() << projectionMatrix[i] << " ";
+    }
+    getOut() << std::endl;
+    
+    float c1 = (1.0 - farValue / nearValue) / 2.0;
+    float c0 = (1.0 + farValue / nearValue) / 2.0;
+    
     zBufferParams[0] = nearValue;
     zBufferParams[1] = 0.0f;
-    zBufferParams[2] = projectionMatrixInverse[11];
-    zBufferParams[3] = projectionMatrixInverse[15];
+    zBufferParams[2] = c0/farValue;
+    zBufferParams[3] = c1/farValue;
     
-    zBufferParams[3] -= zBufferParams[2];
-    zBufferParams[2] *= 2.0f;
-  }
+    getOut() << "near 2 " << nearValue << " " << farValue << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+  } */
 }
 bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
   /* getOut() << "looking for projection matrix:\n  ";
@@ -1401,6 +1423,32 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
   } else {
     return RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
   }
+}
+HRESULT (STDMETHODCALLTYPE *RealCreateRasterizerState)(
+  ID3D11Device *This,
+  const D3D11_RASTERIZER_DESC *pRasterizerDesc,
+  ID3D11RasterizerState       **ppRasterizerState
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MineCreateRasterizerState(
+  ID3D11Device *This,
+  const D3D11_RASTERIZER_DESC *pRasterizerDesc,
+  ID3D11RasterizerState       **ppRasterizerState
+) {
+  *ppRasterizerState = nullptr;
+  auto hr = RealCreateRasterizerState(This, pRasterizerDesc, ppRasterizerState);
+  // getOut() << "RealCreateRasterizerState " << (void *)(*ppRasterizerState) << " " << pRasterizerDesc->DepthBias << " " << pRasterizerDesc->DepthBiasClamp << " " << pRasterizerDesc->SlopeScaledDepthBias << " " << pRasterizerDesc->DepthClipEnable << std::endl;
+  return hr;
+}
+void (STDMETHODCALLTYPE *RealRSSetState)(
+  ID3D11DeviceContext1 *This,
+  ID3D11RasterizerState *pRasterizerState
+) = nullptr;
+void STDMETHODCALLTYPE MineRSSetState(
+  ID3D11DeviceContext1 *This,
+  ID3D11RasterizerState *pRasterizerState
+) {
+  // getOut() << "RealRSSetState " << (void *)pRasterizerState << std::endl;
+  return RealRSSetState(This, pRasterizerState);
 }
 
 BOOL (STDMETHODCALLTYPE *RealGlGetIntegerv)(
@@ -2629,6 +2677,14 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     RealCreateTexture2D = device->lpVtbl->CreateTexture2D;
     error = DetourAttach(&(PVOID&)RealCreateTexture2D, MineCreateTexture2D);
     checkDetourError("RealCreateTexture2D", error);
+    
+    RealCreateRasterizerState  = device->lpVtbl->CreateRasterizerState;
+    error = DetourAttach(&(PVOID&)RealCreateRasterizerState , MineCreateRasterizerState);
+    checkDetourError("RealCreateRasterizerState", error);
+
+    RealRSSetState = context1->lpVtbl->RSSetState;
+    error = DetourAttach(&(PVOID&)RealRSSetState, MineRSSetState);
+    checkDetourError("RealRSSetState", error);
 
     error = DetourTransactionCommit();
     checkDetourError("DetourTransactionCommit", error);
