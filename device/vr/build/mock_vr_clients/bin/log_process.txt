@@ -1,14 +1,14 @@
 --------------------------------------------------------------------------------
-process start 00000000005D0B36 00000000000000B7
+process start 00000000004329C6 00000000000000B7
 core 2 openvr_api.dll
-core 3 00007FF8697F0000
+core 3 00007FF8561B0000
 core 4
 core 5
 core 6
-vr_init 23668
+vr_init 24468
 classes init 1
 classes init 2
-create device 0 00000266875EE660
+create device 0 000002CE526B7400
 got adapter desc 0N 0 50531
 got adapter desc 1M 0 53443
 info queue query failed
@@ -23,159 +23,101 @@ init render 7
 init render 8
 init render 9
 init render 10
-create shared fence handle 00000000000006B8
-shader resource view tex 3248 1940 1 1 1 0 28 0 40 0 2
+create shared fence handle 0000000000000664
+shader resource view tex 812 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 3248 1940 1 1 4 4294967295 44 0 72 0 2
+shader resource view tex 812 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 3248 1940 1 1 4 4294967295 44 0 72 0 2
 shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
-shader resource view depth clear
-shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
-shader resource view depth clear
 shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
-shader resource view depth clear
-shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
-shader resource view depth clear
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
 process exit
 --------------------------------------------------------------------------------
-process start 00000000002629E2 00000000000000B7
+process start 0000000000670A6A 00000000000000B7
 core 2 openvr_api.dll
-core 3 00007FF858B50000
+core 3 00007FF8561B0000
 core 4
 core 5
 core 6
-vr_init 21444
+vr_init 25392
 classes init 1
 classes init 2
-create device 0 000002230A6E1AD0
+create device 0 0000018318C9B230
+got adapter desc 0N 0 50531
+got adapter desc 1M 0 53443
+info queue query failed
+got desc N 0 50531
+init render 1
+init render 2
+init render 3 1624 1940
+init render 4
+init render 5
+init render 6
+init render 7
+init render 8
+init render 9
+init render 10
+create shared fence handle 0000000000000688
+shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 1624 1940 1 1 8 0 19 0 72 0 2
+shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 1624 1940 1 1 8 0 19 0 72 0 2
+server GetLiveCollisionBoundsInfo 1 0 0
+server GetLiveCollisionBoundsInfo 2 0 112
+server GetLiveCollisionBoundsInfo 1 112 112
+server GetLiveCollisionBoundsInfo 2 112 112
+shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
+shader resource view depth clear
+shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
+shader resource view depth clear
+shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 1624 1940 1 1 8 0 19 0 72 0 2
+shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 1624 1940 1 1 8 0 19 0 72 0 2
+process exit
+--------------------------------------------------------------------------------
+process start 00000000003836C6 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FF834A90000
+core 4
+core 5
+core 6
+vr_init 11468
+classes init 1
+classes init 2
+create device 0 00000226D9BC6850
+got adapter desc 0N 0 50531
+got adapter desc 1M 0 53443
+info queue query failed
+got desc N 0 50531
+init render 1
+init render 2
+init render 3 1624 1940
+init render 4
+init render 5
+init render 6
+init render 7
+init render 8
+init render 9
+init render 10
+create shared fence handle 0000000000000654
+shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 1624 1940 1 1 8 0 19 0 72 0 2
+shader resource view depth 1624 1940 1 1 8 0 19 0 72 0 2
+process exit
+--------------------------------------------------------------------------------
+process start 0000000000780A66 00000000000000B7
+core 2 openvr_api.dll
+core 3 00007FF819D70000
+core 4
+core 5
+core 6
+vr_init 23968
+classes init 1
+classes init 2
+create device 0 000001E095C49E90
 got adapter desc 0N 0 50531
 got adapter desc 1M 0 53443
 info queue query failed
@@ -191,187 +133,12 @@ init render 8
 init render 9
 init render 10
 create shared fence handle 0000000000000668
-shader resource view tex 3248 1940 1 1 1 0 28 0 40 0 2
+shader resource view tex 812 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 3248 1940 1 1 4 4294967295 44 0 72 0 2
+shader resource view tex 812 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 3248 1940 1 1 4 4294967295 44 0 72 0 2
 shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
-shader resource view depth clear
-shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
-shader resource view depth clear
 shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
-shader resource view depth clear
-shader resource view tex 812 970 1 1 1 0 28 0 40 0 2
-shader resource view depth clear
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-process exit
---------------------------------------------------------------------------------
-process start 00000000003D36CA 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF8697F0000
-core 4
-core 5
-core 6
-vr_init 9892
-classes init 1
-classes init 2
-create device 0 000001F499CCE3C0
-got adapter desc 0N 0 50531
-got adapter desc 1M 0 53443
-info queue query failed
-got desc N 0 50531
-init render 1
-init render 2
-init render 3 1624 1940
-init render 4
-init render 5
-init render 6
-init render 7
-init render 8
-init render 9
-init render 10
-create shared fence handle 00000000000005E8
 shader resource view tex 3248 1940 1 1 1 0 28 0 40 0 2
 shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
 shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
@@ -416,9 +183,6 @@ compositor WaitGetPoses error: 0000000000000065
 compositor WaitGetPoses error: 0000000000000065
 compositor WaitGetPoses error: 0000000000000065
 compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
 shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
 shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
 compositor WaitGetPoses error: 0000000000000065
@@ -476,18 +240,8 @@ compositor WaitGetPoses error: 0000000000000065
 compositor WaitGetPoses error: 0000000000000065
 compositor WaitGetPoses error: 0000000000000065
 compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
-compositor WaitGetPoses error: 0000000000000065
 shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
 shader resource view depth 3248 1940 1 1 8 0 19 0 72 0 2
-compositor WaitGetPoses error: 0000000000000065
 compositor WaitGetPoses error: 0000000000000065
 compositor WaitGetPoses error: 0000000000000065
 process exit

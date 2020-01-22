@@ -162,6 +162,9 @@ float pma = 0;
 float pmb = 0;
 // bool haveZBufferParams = false;
 float zBufferParams[4] = {};
+/* float nv = 0;
+float fv = 0;
+bool rv = false; */
 void ensureProjectionMatrixSpec() {
   if (!havePma) {
     float pmLeft;
@@ -273,17 +276,115 @@ void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNe
     *pReversed = false;
   }
 }
-void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed, float zBufferParams[4]) {
+void getMatrixInverse(const float in[16], float out[16]) {
+  float *te = out;
+  const float *me = in;
+
+  const float n11 = me[ 0 ], n21 = me[ 1 ], n31 = me[ 2 ], n41 = me[ 3 ],
+    n12 = me[ 4 ], n22 = me[ 5 ], n32 = me[ 6 ], n42 = me[ 7 ],
+    n13 = me[ 8 ], n23 = me[ 9 ], n33 = me[ 10 ], n43 = me[ 11 ],
+    n14 = me[ 12 ], n24 = me[ 13 ], n34 = me[ 14 ], n44 = me[ 15 ],
+
+    t11 = n23 * n34 * n42 - n24 * n33 * n42 + n24 * n32 * n43 - n22 * n34 * n43 - n23 * n32 * n44 + n22 * n33 * n44,
+    t12 = n14 * n33 * n42 - n13 * n34 * n42 - n14 * n32 * n43 + n12 * n34 * n43 + n13 * n32 * n44 - n12 * n33 * n44,
+    t13 = n13 * n24 * n42 - n14 * n23 * n42 + n14 * n22 * n43 - n12 * n24 * n43 - n13 * n22 * n44 + n12 * n23 * n44,
+    t14 = n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34;
+
+  const float det = n11 * t11 + n21 * t12 + n31 * t13 + n41 * t14;
+
+  if ( det == 0.0f ) {
+
+    getOut() << "warning: can't invert matrix, determinant is 0" << std::endl;
+
+    for (int i = 0; i < 16; i++) {
+      if (i % 5 == 0) {
+        out[i] = 1;
+      } else {
+        out[i] = 0;
+      }
+    }
+
+  }
+
+  const float detInv = 1.0f / det;
+
+  te[ 0 ] = t11 * detInv;
+  te[ 1 ] = ( n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44 ) * detInv;
+  te[ 2 ] = ( n22 * n34 * n41 - n24 * n32 * n41 + n24 * n31 * n42 - n21 * n34 * n42 - n22 * n31 * n44 + n21 * n32 * n44 ) * detInv;
+  te[ 3 ] = ( n23 * n32 * n41 - n22 * n33 * n41 - n23 * n31 * n42 + n21 * n33 * n42 + n22 * n31 * n43 - n21 * n32 * n43 ) * detInv;
+
+  te[ 4 ] = t12 * detInv;
+  te[ 5 ] = ( n13 * n34 * n41 - n14 * n33 * n41 + n14 * n31 * n43 - n11 * n34 * n43 - n13 * n31 * n44 + n11 * n33 * n44 ) * detInv;
+  te[ 6 ] = ( n14 * n32 * n41 - n12 * n34 * n41 - n14 * n31 * n42 + n11 * n34 * n42 + n12 * n31 * n44 - n11 * n32 * n44 ) * detInv;
+  te[ 7 ] = ( n12 * n33 * n41 - n13 * n32 * n41 + n13 * n31 * n42 - n11 * n33 * n42 - n12 * n31 * n43 + n11 * n32 * n43 ) * detInv;
+
+  te[ 8 ] = t13 * detInv;
+  te[ 9 ] = ( n14 * n23 * n41 - n13 * n24 * n41 - n14 * n21 * n43 + n11 * n24 * n43 + n13 * n21 * n44 - n11 * n23 * n44 ) * detInv;
+  te[ 10 ] = ( n12 * n24 * n41 - n14 * n22 * n41 + n14 * n21 * n42 - n11 * n24 * n42 - n12 * n21 * n44 + n11 * n22 * n44 ) * detInv;
+  te[ 11 ] = ( n13 * n22 * n41 - n12 * n23 * n41 - n13 * n21 * n42 + n11 * n23 * n42 + n12 * n21 * n43 - n11 * n22 * n43 ) * detInv;
+
+  te[ 12 ] = t14 * detInv;
+  te[ 13 ] = ( n13 * n24 * n31 - n14 * n23 * n31 + n14 * n21 * n33 - n11 * n24 * n33 - n13 * n21 * n34 + n11 * n23 * n34 ) * detInv;
+  te[ 14 ] = ( n14 * n22 * n31 - n12 * n24 * n31 - n14 * n21 * n32 + n11 * n24 * n32 + n12 * n21 * n34 - n11 * n22 * n34 ) * detInv;
+  te[ 15 ] = ( n12 * n23 * n31 - n13 * n22 * n31 + n13 * n21 * n32 - n11 * n23 * n32 - n12 * n21 * n33 + n11 * n22 * n33 ) * detInv;
+}
+void multiplyMatrices(const float a[16], const float b[16], float out[16]) {
+  const float *ae = a;
+  const float *be = b;
+  float *te = out;
+
+  const float a11 = ae[ 0 ], a12 = ae[ 4 ], a13 = ae[ 8 ], a14 = ae[ 12 ];
+  const float a21 = ae[ 1 ], a22 = ae[ 5 ], a23 = ae[ 9 ], a24 = ae[ 13 ];
+  const float a31 = ae[ 2 ], a32 = ae[ 6 ], a33 = ae[ 10 ], a34 = ae[ 14 ];
+  const float a41 = ae[ 3 ], a42 = ae[ 7 ], a43 = ae[ 11 ], a44 = ae[ 15 ];
+
+  const float b11 = be[ 0 ], b12 = be[ 4 ], b13 = be[ 8 ], b14 = be[ 12 ];
+  const float b21 = be[ 1 ], b22 = be[ 5 ], b23 = be[ 9 ], b24 = be[ 13 ];
+  const float b31 = be[ 2 ], b32 = be[ 6 ], b33 = be[ 10 ], b34 = be[ 14 ];
+  const float b41 = be[ 3 ], b42 = be[ 7 ], b43 = be[ 11 ], b44 = be[ 15 ];
+
+  te[ 0 ] = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41;
+  te[ 4 ] = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42;
+  te[ 8 ] = a11 * b13 + a12 * b23 + a13 * b33 + a14 * b43;
+  te[ 12 ] = a11 * b14 + a12 * b24 + a13 * b34 + a14 * b44;
+
+  te[ 1 ] = a21 * b11 + a22 * b21 + a23 * b31 + a24 * b41;
+  te[ 5 ] = a21 * b12 + a22 * b22 + a23 * b32 + a24 * b42;
+  te[ 9 ] = a21 * b13 + a22 * b23 + a23 * b33 + a24 * b43;
+  te[ 13 ] = a21 * b14 + a22 * b24 + a23 * b34 + a24 * b44;
+
+  te[ 2 ] = a31 * b11 + a32 * b21 + a33 * b31 + a34 * b41;
+  te[ 6 ] = a31 * b12 + a32 * b22 + a33 * b32 + a34 * b42;
+  te[ 10 ] = a31 * b13 + a32 * b23 + a33 * b33 + a34 * b43;
+  te[ 14 ] = a31 * b14 + a32 * b24 + a33 * b34 + a34 * b44;
+
+  te[ 3 ] = a41 * b11 + a42 * b21 + a43 * b31 + a44 * b41;
+  te[ 7 ] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
+  te[ 11 ] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
+  te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+}
+const float biasMatrix[16] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
+void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed, float projectionMatrix[16], float zBufferParams[4]) {
   if (reversed) {
-    zBufferParams[0] = -1.0f+farValue/nearValue;
+    zBufferParams[0] = nearValue;
     zBufferParams[1] = 1.0f;
     zBufferParams[2] = (-1.0f+farValue/nearValue)/farValue;
     zBufferParams[3] = 1.0f/farValue;
   } else {
-    zBufferParams[0] = 1.0f-farValue/nearValue;
-    zBufferParams[1] = farValue/nearValue;
-    zBufferParams[2] = (1.0f-farValue/nearValue)/farValue;
-    zBufferParams[3] = (farValue/nearValue)/farValue;
+    /* float biasedProjectionMatrix[16];
+    multiplyMatrices(projectionMatrix, biasMatrix, biasedProjectionMatrix);
+    float biasedProjectionMatrixInverse[16];
+    getMatrixInverse(biasedProjectionMatrix, biasedProjectionMatrixInverse); */
+    float projectionMatrixInverse[16];
+    getMatrixInverse(projectionMatrix, projectionMatrixInverse);
+
+    zBufferParams[0] = nearValue;
+    zBufferParams[1] = 0.0f;
+    zBufferParams[2] = projectionMatrixInverse[11];
+    zBufferParams[3] = projectionMatrixInverse[15];
+    
+    zBufferParams[3] -= zBufferParams[2];
+    zBufferParams[2] *= 2.0f;
   }
 }
 bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
@@ -301,7 +402,7 @@ bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
 
     if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
-      getZBufferParamsFromNearFar(nearValue, farValue, reversed, zBufferParams);
+      getZBufferParamsFromNearFar(nearValue, farValue, reversed, projectionMatrix, zBufferParams);
       
       /* getOut() << "found projection matrix: ";
       for (size_t i = 0; i < 16; i++) {
@@ -309,9 +410,13 @@ bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
       }
       getOut() << std::endl;
       
-      getOut() << "got near far " << nearValue << " " << farValue << std::endl;
+      getOut() << "got near far " << nearValue << " " << farValue << " " << reversed << std::endl;
       
-      getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl; */
+      getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+      
+      nv = nearValue;
+      fv = farValue;
+      rv = reversed; */
 
       return true;
     } else {
@@ -720,7 +825,7 @@ void ensureDepthTexDrawn() {
           ensureDepthWidthHeight();
           bool isFull = descDepth.Width > depthWidth;
 
-          // getOut() << "ensure drawn " << isFull << std::endl;
+          // getOut() << "ensure drawn " << texQueue.size() << " " << nv << " " << fv << " " << rv << std::endl;
           texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
           if (isFull) {
             texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});

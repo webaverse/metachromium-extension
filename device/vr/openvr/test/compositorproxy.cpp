@@ -208,20 +208,31 @@ static const float4 _ZBufferParams = float4(1-far/near, far/near, (1-far/near)/f
 inline float LinearEyeDepth( float z ) {
   return 1.0 / (_ZBufferParams.z * z + _ZBufferParams.w);
 }
+/* inline float ProjectionEyeDepth(float z) {
+  return 1.0 / (_ZBufferParams.z * z + _ZBufferParams.w);
+} */
 
 PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
 
+  float near = _ZBufferParams.x;
+  float reversed = _ZBufferParams.y;
+
   float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  d = /* near + */LinearEyeDepth(d);
+  d = -near + LinearEyeDepth(d);
+  // d = LinearEyeDepth(d);
+  // d = ProjectionEyeDepth(d);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
+  // result.Color = float4(d, 0, 0, 1);
+  // result.Depth = d;
+
   if (d < e) {
-    result.Color = float4(d, 0, 0, 1);
+    result.Color = float4(d, reversed, 0, 1);
     result.Depth = d;
   } else {
-    result.Color = float4(0, 0, e, 1);
+    result.Color = float4(0, reversed, e, 1);
     result.Depth = e;
     // discard;
   }
