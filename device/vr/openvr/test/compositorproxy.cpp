@@ -1133,7 +1133,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     int,
     bool
   >([=](bool bSuspend) {
-    vrcompositor->SuspendRendering(bSuspend);
+    // vrcompositor->SuspendRendering(bSuspend);
     return 0;
   });
   fnp.reg<
