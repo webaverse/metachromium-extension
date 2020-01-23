@@ -92,7 +92,6 @@ public:
   // std::vector<HANDLE> inBackDepthReadEvents;
   // std::vector<HANDLE> inBackDepthInteropHandles;
   // std::vector<HANDLE> inBackReadEvents;
-  std::vector<VRTextureBounds_t> inBackTextureBounds;
   std::vector<float> inBackTextureFulls;
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<HANDLE> inBackDepthHandleLatches;

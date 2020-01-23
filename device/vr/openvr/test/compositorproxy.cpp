@@ -102,25 +102,14 @@ const char *hlsl = R"END(
 
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
-  float uMin1;
-  float vMin1;
-  float uMax1;
-  float vMax1;
+  float flip;
+  float eye1;
   float tmpvs11;
   float tmpvs12;
   float tmpvs13;
   float tmpvs14;
-}
-cbuffer VS_CONSTANT_BUFFER : register(b1)
-{
-  float eye1;
-  float eye2;
-  float tmpvs21;
-  float tmpvs22;
-  float tmpvs23;
-  float tmpvs24;
-  float tmpvs25;
-  float tmpvs26;
+  float tmpvs15;
+  float tmpvs16;
 }
 
 cbuffer PS_CONSTANT_BUFFER : register(b0)
@@ -180,10 +169,8 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
   Output.Position = float4(inPos, 0, 1);
-  Output.Uv = float2(inTex.x, 1-inTex.y);
-  float w1 = uMax1 - uMin1;
-  float h1 = vMax1 - vMin1;
-  Output.Tex1 = float2(uMin1 + inTex.x*w1 + eye1*w1, vMin1 + inTex.y*h1);
+  Output.Uv = float2(inTex.x, (flip > 0) ? inTex.y : (1-inTex.y));
+  Output.Tex1 = float2(inTex.x + eye1, inTex.y);
   return Output;
 }
 
@@ -240,7 +227,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   } */
 
   if (d < e) {
-    result.Color = float4(d, 0, 0, 1);
+    result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
     result.Depth = d;
   } else {
     result.Color = float4(0, 0, e, 1);
@@ -528,20 +515,19 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     std::tuple<uintptr_t, uintptr_t, uint64_t>,
     EVREye,
     managed_binary<Texture_t>,
-    managed_binary<VRTextureBounds_t>,
+    bool,
     EVRSubmitFlags,
     std::tuple<uintptr_t, float, float>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >([=, &fnp](
     EVREye eEye,
     managed_binary<Texture_t> sharedTexture,
-    managed_binary<VRTextureBounds_t> bounds,
+    bool flip,
     EVRSubmitFlags submitFlags,
     std::tuple<uintptr_t, float, float> depthSpec,
     std::tuple<uintptr_t, uintptr_t, uint64_t> fenceSpec
   ) {
     Texture_t *pTexture = sharedTexture.data();
-    VRTextureBounds_t *pBounds = bounds.data();
     uintptr_t sharedDepthHandlePtr = std::get<0>(depthSpec);
     HANDLE sharedDepthHandle = (HANDLE)sharedDepthHandlePtr;
     float zbx = std::get<1>(depthSpec);
@@ -569,7 +555,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       // inBackDepthInteropHandles.resize(index+1, NULL);
       shaderResourceViews.resize(index+1, std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>(nullptr, nullptr));
       // inBackReadEvents.resize(index+1, NULL);
-      inBackTextureBounds.resize(index+1, VRTextureBounds_t{});
       inBackTextureFulls.resize(index+1, 0);
       inBackHandleLatches.resize(index+1, NULL);
       inBackDepthHandleLatches.resize(index+1, NULL);
@@ -587,7 +572,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     ID3D11ShaderResourceView *&shaderResourceView = shaderResourceViews[index].first;
     ID3D11ShaderResourceView *&shaderDepthResourceView = shaderResourceViews[index].second;
     // HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
-    VRTextureBounds_t &textureBounds = inBackTextureBounds[index]; // interop texture handle
     float &textureFull = inBackTextureFulls[index]; // depth texture is side-by-side
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
     HANDLE &depthHandleLatched = inBackDepthHandleLatches[index]; // remembered depth attachemnt
@@ -801,8 +785,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       CloseHandle(dstProcess);
     }
 
-    textureBounds = *pBounds;
-
     // render
     {
       int iEye = eEye == Eye_Left ? 0 : 1;
@@ -814,13 +796,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         shaderResourceViews[index].second,
         depthShaderFrontResourceViews[iEye]
       };
-      VRTextureBounds_t localTextureBounds[2] = {
-        inBackTextureBounds[index],
-        VRTextureBounds_t{}
-      };
       float localTextureFulls[8] = {
+        flip ? 1.0f : 0.0f,
         textureFull * iEye,
-        0,
         0,
         0,
         0,
@@ -828,8 +806,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         0,
         0
       };
-      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureBounds, 0, 0);
-      context->UpdateSubresource(vsConstantBuffers[1], 0, 0, localTextureFulls, 0, 0);
+      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureFulls, 0, 0);
 
       float localDepthColors[8] = {
         zbx,
@@ -1733,21 +1710,21 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   
   // getOut() << "submit client 2" << std::endl;
 
-  managed_binary<VRTextureBounds_t> bounds(1);
+  VRTextureBounds_t bounds;
   // getOut() << "submit client 23 " << bounds.size() << " " << (void *)pBounds << std::endl;
   if (pBounds) {
-    *bounds.data() = *pBounds;
+    bounds = *pBounds;
   } else {
-    *bounds.data() = VRTextureBounds_t{
+    bounds = VRTextureBounds_t{
       0.0f, 0.0f,
       1.0f, 1.0f
     };
   }
   
-  float uMin = std::min(bounds.data()->uMin, bounds.data()->uMax);
-  float uMax = std::max(bounds.data()->uMin, bounds.data()->uMax);
-  float vMin = std::min(bounds.data()->vMin, bounds.data()->vMax);
-  float vMax = std::max(bounds.data()->vMin, bounds.data()->vMax);
+  float uMin = std::min(bounds.uMin, bounds.uMax);
+  float uMax = std::max(bounds.uMin, bounds.uMax);
+  float vMin = std::min(bounds.vMin, bounds.vMax);
+  float vMax = std::max(bounds.vMin, bounds.vMax);
   if (uMax - uMin == 0) {
     uMax = 1;
   }
@@ -2299,27 +2276,27 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EColorSpace::ColorSpace_Auto,
     // pTexture->eColorSpace
   };
-  const bool flip = false; // bounds.data()->vMax < bounds.data()->vMin;
-  *bounds.data() = VRTextureBounds_t{
+  const bool flip = bounds.vMax < bounds.vMin;
+  /* *bounds.data() = VRTextureBounds_t{
     0.0f, flip ? 1.0f : 0.0f,
     1.0f, flip ? 0.0f : 1.0f
-  };
+  }; */
 
-  getOut() << "client submit 1 " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << std::endl;
+  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
     std::tuple<uintptr_t, uintptr_t, uint64_t>,
     EVREye,
     managed_binary<Texture_t>,
-    managed_binary<VRTextureBounds_t>,
+    bool,
     EVRSubmitFlags,
     std::tuple<uintptr_t, float, float>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >(
     eEye,
     std::move(sharedTexture),
-    std::move(bounds),
+    flip,
     EVRSubmitFlags::Submit_Default,
     std::tuple<uintptr_t, float, float>(
       (uintptr_t)sharedDepthHandle,
@@ -2719,7 +2696,7 @@ void PVRCompositor::InitShader() {
   }
   g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
   getOut() << "init render 3 " << width << " " << height << std::endl;
-  vsConstantBuffers.resize(2);
+  vsConstantBuffers.resize(1);
   psConstantBuffers.resize(2);
   {
     D3D11_BUFFER_DESC cbDesc{};
@@ -2744,27 +2721,6 @@ void PVRCompositor::InitShader() {
     );
     if (FAILED(hr)) {
       getOut() << "vs cbuf 1 create failed: " << (void *)hr << std::endl;
-      abort();
-    }
-  }
-  {
-    D3D11_BUFFER_DESC cbDesc{};
-    cbDesc.ByteWidth = 8 * sizeof(float);
-    // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
-    cbDesc.Usage = D3D11_USAGE_DEFAULT;
-    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    // cbDesc.MiscFlags = 0;
-    // cbDesc.StructureByteStride = 0;
-
-    // Create the buffer.
-    hr = device->CreateBuffer(
-      &cbDesc,
-      NULL, 
-      &vsConstantBuffers[1]
-    );
-    if (FAILED(hr)) {
-      getOut() << "vs cbuf 2 create failed: " << (void *)hr << std::endl;
       abort();
     }
   }
