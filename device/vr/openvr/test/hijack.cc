@@ -115,6 +115,7 @@ std::vector<ID3D11Fence *> fenceCache;
 void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
 void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight);
 void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom);
+float ProxyGetFloat(const char *pchSection, const char *pchSettingsKey, vr::EVRSettingsError *peError);
 
 void checkDetourError(const char *label, LONG error) {
   if (error) {
@@ -156,12 +157,13 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
-constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 10000;
+constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 1500;
 bool havePma = false;
 float pma = 0;
 float pmb = 0;
+float pmIpd = 0;
 // bool haveZBufferParams = false;
-float zBufferParams[4] = {};
+float zBufferParams[5] = {};
 /* float nv = 0;
 float fv = 0;
 bool rv = false; */
@@ -172,9 +174,19 @@ void ensureProjectionMatrixSpec() {
     float pmTop;
     float pmBottom;
     ProxyGetProjectionRaw(vr::Eye_Left, &pmLeft, &pmRight, &pmTop, &pmBottom);
-    getOut() << "got lrtb " << pmLeft << " " << pmRight << " " << pmTop << " " << pmBottom << std::endl;
     pma = std::abs((pmRight+pmLeft) / (pmRight-pmLeft));
     pmb = std::abs((pmTop+pmBottom) / (pmTop-pmBottom));
+
+    vr::EVRSettingsError error;
+    pmIpd = ProxyGetFloat("steamvr", "ipd", &error);
+    if (error != vr::VRSettingsError_None) {
+      getOut() << "failed to get steamvr ipd" << std::endl;
+      abort();
+      // pmIpd = 0.065f;
+    }
+    
+    getOut() << "got lrtb ipd " << pmLeft << " " << pmRight << " " << pmTop << " " << pmBottom << " " << pmIpd << std::endl;
+    
     havePma = true;
     // getOut() << "looking for " << pma << " " << pmb << std::endl;
   }
@@ -182,10 +194,8 @@ void ensureProjectionMatrixSpec() {
 inline bool isWithinDelta(float a, float target) {
   return std::abs(target - std::abs(a)) < 0.000001f;
 }
-bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMatrix) {
+bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMatrix, bool *foundViewMatrix, float *outViewMatrixLeft, float *outViewMatrixRight) {
   ensureProjectionMatrixSpec();
-  
-  bool found = false;
 
   int numElements = (int)size / sizeof(float);
   for (int i = 0; i < numElements; i++) {
@@ -222,8 +232,28 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
               outProjectionMatrix[13] = src[7];
               outProjectionMatrix[14] = src[11];
               outProjectionMatrix[15] = src[15];
-              found = true;
-              return found;
+              
+              int nextStartIndex1 = startIndex + 16;
+              int nextStartIndex2 = nextStartIndex1 + 16;
+              int nextEndIndex = nextStartIndex2 + 16;
+              if (
+                nextEndIndex < numElements &&
+                ((const float *)data)[nextStartIndex1 + 3] == 0.0f &&
+                ((const float *)data)[nextStartIndex1 + 7] == 0.0f &&
+                ((const float *)data)[nextStartIndex1 + 11] == 0.0f &&
+                ((const float *)data)[nextStartIndex1 + 15] == 1.0f &&
+                ((const float *)data)[nextStartIndex2 + 3] == 0.0f &&
+                ((const float *)data)[nextStartIndex2 + 7] == 0.0f &&
+                ((const float *)data)[nextStartIndex2 + 11] == 0.0f &&
+                ((const float *)data)[nextStartIndex2 + 15] == 1.0f
+              ) {
+                memcpy(outViewMatrixLeft, &(((const float *)data)[nextStartIndex1]), 16 * sizeof(float));
+                memcpy(outViewMatrixRight, &(((const float *)data)[nextStartIndex2]), 16 * sizeof(float));
+                *foundViewMatrix = true;
+              } else {
+                *foundViewMatrix = false;
+              }
+              return true;
             }
           }
         }
@@ -243,15 +273,35 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
               // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
               
               memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
-              found = true;
-              return found;
+
+              int nextStartIndex1 = startIndex + 16;
+              int nextStartIndex2 = nextStartIndex1 + 16;
+              int nextEndIndex = nextStartIndex2 + 16;
+              if (
+                nextEndIndex < numElements &&
+                ((const float *)data)[nextStartIndex1 + 3] == 0.0f &&
+                ((const float *)data)[nextStartIndex1 + 7] == 0.0f &&
+                ((const float *)data)[nextStartIndex1 + 11] == 0.0f &&
+                ((const float *)data)[nextStartIndex1 + 15] == 1.0f &&
+                ((const float *)data)[nextStartIndex2 + 3] == 0.0f &&
+                ((const float *)data)[nextStartIndex2 + 7] == 0.0f &&
+                ((const float *)data)[nextStartIndex2 + 11] == 0.0f &&
+                ((const float *)data)[nextStartIndex2 + 15] == 1.0f
+              ) {
+                memcpy(outViewMatrixLeft, &(((const float *)data)[nextStartIndex1]), 16 * sizeof(float));
+                memcpy(outViewMatrixRight, &(((const float *)data)[nextStartIndex2]), 16 * sizeof(float));
+                *foundViewMatrix = true;
+              } else {
+                *foundViewMatrix = false;
+              }
+              return true;
             }
           }
         }
       }
     }
   }
-  return found;
+  return false;
 }
 // 0.917286, 0, 0, 0, 0, 0.833537, 0, 0, -0.174072, -0.106141, -1.0002, -1, 0, 0, -0.20002, 0
 // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
@@ -373,18 +423,9 @@ void multiplyMatrices(const float a[16], const float b[16], float out[16]) {
   te[ 11 ] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
   te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 }
-const float biasMatrix[16] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
-void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed, float projectionMatrix[16], float zBufferParams[4]) {
+// const float biasMatrix[16] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
+void getZBufferParams(float nearValue, float farValue, bool reversed, const float *viewMatrixLeft, const float *viewMatrixRight, float zBufferParams[5]) {
   // if (reversed) {
-    getOut() << "projection matrix: ";
-    for (size_t i = 0; i < 16; i++) {
-      getOut() << projectionMatrix[i] << " ";
-    }
-    getOut() << std::endl;
-    
-    // nearValue *= 2.0;
-    // farValue /= 2.0;
-    
     float c1 = farValue / nearValue;
     float c0 = 1.0f - c1;
     
@@ -392,8 +433,20 @@ void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed,
     zBufferParams[1] = reversed ? 1.0f : 0.0f;
     zBufferParams[2] = c0/farValue; // c0/farValue;
     zBufferParams[3] = c1/farValue;
+
+    float scale;
+    if (viewMatrixLeft && viewMatrixRight) {
+      float dx = viewMatrixLeft[12] - viewMatrixRight[12];
+      float dy = viewMatrixLeft[13] - viewMatrixRight[13];
+      float dz = viewMatrixLeft[14] - viewMatrixRight[14];
+      float appIpd = std::sqrt(dx*dx + dy*dy + dz*dz);
+      scale = pmIpd / appIpd;
+    } else {
+      scale = 1.0f;
+    }
+    zBufferParams[4] = scale;
     
-    getOut() << "near 1 " << nearValue << " " << farValue << " " << reversed << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+    getOut() << "near " << nearValue << " " << farValue << " " << reversed << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << " " << zBufferParams[4] << std::endl;
   /* } else {
     getOut() << "projection matrix: ";
     for (size_t i = 0; i < 16; i++) {
@@ -409,7 +462,7 @@ void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed,
     zBufferParams[2] = c0/farValue;
     zBufferParams[3] = c1/farValue;
     
-    getOut() << "near 2 " << nearValue << " " << farValue << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+    getOut() << "near " << nearValue << " " << farValue << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
   } */
 }
 bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
@@ -420,22 +473,25 @@ bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
   getOut() << std::endl;
   
   float projectionMatrix[16];
-  if (findProjectionMatrix(data, size, projectionMatrix)) {
+  bool foundViewMatrix;
+  float viewMatrixLeft[16];
+  float viewMatrixRight[16];
+  if (findProjectionMatrix(data, size, projectionMatrix, &foundViewMatrix, viewMatrixLeft, viewMatrixRight)) {
     float nearValue;
     float farValue;
     bool reversed;
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
 
     if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
-      getZBufferParamsFromNearFar(nearValue, farValue, reversed, projectionMatrix, zBufferParams);
+      getZBufferParams(nearValue, farValue, reversed, foundViewMatrix ? viewMatrixLeft : nullptr, foundViewMatrix ? viewMatrixRight : nullptr, zBufferParams);
       
-      /* getOut() << "found projection matrix: ";
+      getOut() << "found projection matrix: ";
       for (size_t i = 0; i < 16; i++) {
         getOut() << projectionMatrix[i] << " ";
       }
       getOut() << std::endl;
       
-      getOut() << "got near far " << nearValue << " " << farValue << " " << reversed << std::endl;
+      /* getOut() << "got near far " << nearValue << " " << farValue << " " << reversed << std::endl;
       
       getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
       

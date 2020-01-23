@@ -109,6 +109,9 @@ void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight) {
 void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom) {
   vr::g_pvrsystem->GetProjectionRaw(eye, pfLeft, pfRight, pfTop, pfBottom);
 }
+float ProxyGetFloat(const char *pchSection, const char *pchSettingsKey, vr::EVRSettingsError *peError) {
+  return vr::g_pvrsettings->GetFloat(pchSection, pchSettingsKey, peError);
+}
 // constexpr bool tracing = true;
 constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {
