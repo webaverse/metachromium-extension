@@ -328,7 +328,7 @@ void getZBufferParams(float nearValue, float farValue, bool reversed, float scal
     zBufferParams[1] /= scale;
   }
   
-  getOut() << "z buffer params " << nearValue << " " << farValue << " " << reversed << " " << scale << " " << zBufferParams[0] << " " << zBufferParams[1] << std::endl;
+  // getOut() << "z buffer params " << nearValue << " " << farValue << " " << reversed << " " << scale << " " << zBufferParams[0] << " " << zBufferParams[1] << std::endl;
 }
 void getScaleFromViewMatrix(const float *viewMatrixLeft, const float *viewMatrixRight, float *scale) {
   if (viewMatrixLeft && viewMatrixRight) {
