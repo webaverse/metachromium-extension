@@ -112,8 +112,8 @@ void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float 
 float ProxyGetFloat(const char *pchSection, const char *pchSettingsKey, vr::EVRSettingsError *peError) {
   return vr::g_pvrsettings->GetFloat(pchSection, pchSettingsKey, peError);
 }
-// constexpr bool tracing = true;
-constexpr bool tracing = false;
+constexpr bool tracing = true;
+// constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {
   if (tracing) {
     fn();

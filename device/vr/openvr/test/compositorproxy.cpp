@@ -200,32 +200,14 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
 
-  // float near = _ZBufferParams.x;
-  // float reversed = _ZBufferParams.y;
+  result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+  result.Depth = 1;
 
-  float depthScale = 1000;
+  /* float depthScale = 1000;
 
   float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
   d = LinearEyeDepth(d);
-  // d /= depthScale;
-  // d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
-  /* if (reversed > 0) {
-    d *= 1.464304;
-  } */
-  // d = LinearEyeDepth(d*2.0 - 1.0);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
-
-  /* if (d < 0.5) {
-    result.Color = float4(d, 0, 0, 1);
-    result.Depth = d;
-  } else if (d < 1) {
-    result.Color = float4(0, d, 0, 1);
-    result.Depth = d;
-  } else {
-    result.Color = float4(0, 0, d, 1);
-    result.Depth = e;
-    // discard;
-  } */
 
   if (e == 1.0 || d < (e*depthScale)) {
     result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
@@ -234,7 +216,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
     // result.Color = float4(0, 0, e, 1);
     // result.Depth = e;
     discard;
-  }
+  } */
 
   return result;
 }
@@ -796,7 +778,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       ID3D11ShaderResourceView *localShaderResourceViews[3] = {
         shaderResourceViews[index].first,
         shaderResourceViews[index].second,
-        depthShaderFrontResourceViews[iEye]
+        nullptr // depthShaderFrontResourceViews[iEye]
       };
       float localTextureFulls[8] = {
         flip ? 1.0f : 0.0f,
@@ -844,7 +826,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       context->DrawIndexed(6, 0, 0);
       // context->Draw(4, 0);
       
-      {
+      context->PSSetShaderResources(0, 0, nullptr);
+      
+      /* {
         float depthColor[4] = {1, 0, 0, 0};
         context->ClearRenderTargetView(
           renderTargetDepthFrontViews[iEye],
@@ -858,7 +842,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         auto temp2 = renderTargetDepthFrontViews[iEye];
         renderTargetDepthFrontViews[iEye] = renderTargetDepthBackViews[iEye];
         renderTargetDepthBackViews[iEye] = temp2;
-      }
+      } */
     }
 
     ++fenceValue;
@@ -2287,7 +2271,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     1.0f, flip ? 0.0f : 1.0f
   }; */
 
-  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << std::endl;
+  getOut() << "client submit " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
@@ -2374,7 +2358,7 @@ void PVRCompositor::ClearLastSubmittedFrame() {
   >();
 }
 void PVRCompositor::PostPresentHandoff() {
-  // getOut() << "post present handoff client 1" << std::endl;
+  getOut() << "post present handoff client" << std::endl;
   fnp.call<
     kIVRCompositor_PostPresentHandoff,
     int

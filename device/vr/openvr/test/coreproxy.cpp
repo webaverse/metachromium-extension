@@ -67,8 +67,6 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
         // getOut() << "wait sems order new size " << waitSemsOrder.size() << std::endl; */
       }
     }
-    
-    // getOut() << "pre wait 2 " << submitSemsOrder.size() << " " << (id | WAIT_MASK) << " " << id << std::endl;
 
     // bool foundPendingSubmit = false;
     {
@@ -103,11 +101,8 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
       submitSemsOrder.push_back(unlockProcessId);
       submitSemsOrder.push_back(unlockProcessId);
     }
-    /* auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), id);
-    // getOut() << "iter distance " << id << " " << waitSemsOrder.size() << " " << (iter != waitSemsOrder.end()) << " " << std::distance(waitSemsOrder.begin(), iter) << std::endl;
-    bool doRealWait = std::distance(waitSemsOrder.begin(), iter) == 0; */
 
-    // getOut() << "pre wait 3 " << submitSemsOrder.size() << " " << nextSemId << " " << id << std::endl;
+    getOut() << "pre wait " << processIds.size() << " " << waitSemsOrder.size() << " " << submitSemsOrder.size() << std::endl;
 
     return remoteProcessId;
   });
@@ -136,7 +131,7 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     // auto iter = std::find(submitSemsOrder.begin(), submitSemsOrder.end(), id);
     // getOut() << "do submit " << std::distance(submitSemsOrder.begin(), iter) << " " << submitSemsOrder.size() << std::endl;
     
-    // getOut() << "pre submit " << doRealSubmit << std::endl;
+    getOut() << "pre submit " << doQueueSubmit << " " << doRealSubmit << std::endl;
 
     return std::tuple<bool, bool>(
       // nextSemId,

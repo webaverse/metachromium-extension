@@ -1117,21 +1117,18 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
   UINT            SrcRowPitch,
   UINT            SrcDepthPitch
 ) {
-  // if (!haveZBufferParams) {
-    ID3D11Buffer *buffer;
-    HRESULT hr = pDstResource->lpVtbl->QueryInterface(pDstResource, IID_ID3D11Buffer, (void **)&buffer);
-    if (SUCCEEDED(hr)) {
-      D3D11_BUFFER_DESC desc;
-      buffer->lpVtbl->GetDesc(buffer, &desc);
+  /* ID3D11Buffer *buffer;
+  HRESULT hr = pDstResource->lpVtbl->QueryInterface(pDstResource, IID_ID3D11Buffer, (void **)&buffer);
+  if (SUCCEEDED(hr)) {
+    D3D11_BUFFER_DESC desc;
+    buffer->lpVtbl->GetDesc(buffer, &desc);
 
-      if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
-        tryLatchZBufferParams(pSrcData, desc.ByteWidth);
-        // haveZBufferParams = true;
-      }
-
-      buffer->lpVtbl->Release(buffer);
+    if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
+      tryLatchZBufferParams(pSrcData, desc.ByteWidth);
     }
-  // }
+
+    buffer->lpVtbl->Release(buffer);
+  } */
 
   RealUpdateSubresource(This, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
 }
@@ -1167,7 +1164,7 @@ HRESULT STDMETHODCALLTYPE MineMap(
   D3D11_MAPPED_SUBRESOURCE *pMappedResource
 ) {
   HRESULT hr = RealMap(This, pResource, Subresource, MapType, MapFlags, pMappedResource);
-  if (/*!haveZBufferParams && */SUCCEEDED(hr)) {
+  /* if (SUCCEEDED(hr)) {
     D3D11_RESOURCE_DIMENSION dim;
     pResource->lpVtbl->GetType(pResource, &dim);
 
@@ -1189,7 +1186,7 @@ HRESULT STDMETHODCALLTYPE MineMap(
         abort();
       }
     }
-  }
+  } */
   return hr;
 }
 void (STDMETHODCALLTYPE *RealUnmap)(
@@ -1202,33 +1199,14 @@ void STDMETHODCALLTYPE MineUnmap(
   ID3D11Resource *pResource,
   UINT           Subresource
 ) {
-  // getOut() << "RealUnmap " << (void *)pResource << std::endl;
+  /* auto iter = cbufs.find(pResource);
+  if (iter != cbufs.end()) {
+    const std::pair<void *, size_t> &bufferSpec = iter->second;
 
-  // if (!haveZBufferParams) {
-    auto iter = cbufs.find(pResource);
-    
-    if (iter != cbufs.end()) {
-      const std::pair<void *, size_t> &bufferSpec = iter->second;
-      
-      /* getOut() << "RealUnmap " << (void *)pResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << " " << pMappedResource->RowPitch << " " << pMappedResource->DepthPitch << std::endl;
-      if (desc.ByteWidth < 4000) {
-        getOut() << "  ";
-        for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
-          getOut() << ((float *)pMappedResource->pData)[i] << " ";
-        }
-        getOut() << std::endl;
-      } */
+    tryLatchZBufferParams(bufferSpec.first, bufferSpec.second);
 
-      tryLatchZBufferParams(bufferSpec.first, bufferSpec.second);
-      // if (tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams)) {
-        // haveZBufferParams = true;
-
-        // cbufs.clear();
-      // } // else {
-        cbufs.erase(pResource);
-      // }
-    }
-  // }
+    cbufs.erase(pResource);
+  } */
 
   RealUnmap(This, pResource, Subresource);
 }
@@ -1244,75 +1222,6 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
   const D3D11_SUBRESOURCE_DATA *pInitialData,
   ID3D11Texture2D              **ppTexture2D
 ) {
-  /* D3D11_TEXTURE2D_DESC desc = *pDesc;
-  
-  if (!depthWidth || !depthHeight) {
-    ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
-  }
-  bool isSbsDepthTex = false;
-  if (
-    desc.Width == depthWidth*2 && desc.Height == depthHeight &&
-    desc.SampleDesc.Count == 4
-  ) {
-    if (desc.Format == DXGI_FORMAT_R24G8_TYPELESS && (desc.BindFlags & D3D11_BIND_SHADER_RESOURCE) && (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL)) {
-      if (!sbsDepthTex) {
-        desc.Format = DXGI_FORMAT_R32G8X24_TYPELESS;
-        desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-        isSbsDepthTex = true;
-        getOut() << "pre create depth tex " << std::endl;
-      } else {
-        sbsDepthTex->lpVtbl->AddRef(sbsDepthTex);
-        *ppTexture2D = sbsDepthTex;
-        getOut() << "reuse depth tex " << (void *)sbsDepthTex << std::endl;
-      }
-    }
-  }
-  HRESULT hr = RealCreateTexture2D(This, &desc, pInitialData, ppTexture2D);
-  
-  if (SUCCEEDED(hr)) {
-    if (isSbsDepthTex) {
-      sbsDepthTex = *ppTexture2D;
-      sbsDepthTex->lpVtbl->AddRef(sbsDepthTex);
-      getOut() << "create depth tex " << (void *)sbsDepthTex << std::endl;
-
-      IDXGIResource1 *dxgiResource;
-      hr = sbsDepthTex->lpVtbl->QueryInterface(sbsDepthTex, IID_IDXGIResource1, (void **)&dxgiResource);
-      if (FAILED(hr)) {
-        getOut() << "failed to get sbs depth tex shared resource " << (void *)hr << std::endl;
-        abort();
-      }
-
-      hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &sbsDepthTexShHandle);
-      if (FAILED(hr)) {
-        getOut() << "failed to get sbs depth tex shared handle " << (void *)hr << std::endl;
-        abort();
-      }
-      
-      dxgiResource->lpVtbl->Release(dxgiResource);
-    }
-  }
-  getOut() << "CreateTexture2D " <<
-    (void *)(*ppTexture2D) << " " <<
-    desc.Width << " " << desc.Height << " " <<
-    desc.MipLevels << " " << pDesc->ArraySize << " " <<
-    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-    desc.Format << " " <<
-    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    std::endl;
-  return hr; */
-
-  /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
-  bool isSingleEyeDepth = isSingleEyeDepthTex(desc);
-  bool isDualEyeDepth = isDualEyeDepthTex(desc);
-  getOut() << "create texture 2d " <<
-    desc.Width << " " << depthWidth << " " << desc.Height << " " <<
-    desc.MipLevels << " " << desc.ArraySize << " " <<
-    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-    desc.Format << " " <<
-    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    isSingleEyeDepth << " " << isDualEyeDepth << " " <<
-    std::endl; */
-
   if (isSingleEyeDepthTex(*pDesc) || isDualEyeDepthTex(*pDesc)) {
     D3D11_TEXTURE2D_DESC desc = *pDesc;
     desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;

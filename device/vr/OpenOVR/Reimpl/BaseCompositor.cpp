@@ -286,7 +286,9 @@ void BaseCompositor::CompositorDumpImages() {
 
 bool BaseCompositor::ShouldAppRenderWithLowResources() {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ShouldAppRenderWithLowResources" << std::endl; });
-	return g_pvrcompositor->ShouldAppRenderWithLowResources();
+	auto result = g_pvrcompositor->ShouldAppRenderWithLowResources();
+  getOut() << "ShouldAppRenderWithLowResources " << result << std::endl;
+  return result;
 }
 
 void BaseCompositor::ForceInterleavedReprojectionOn(bool bOverride) {
