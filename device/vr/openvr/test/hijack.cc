@@ -342,27 +342,27 @@ void getScaleFromViewMatrix(const float *viewMatrixLeft, const float *viewMatrix
   }
 }
 void tryLatchZBufferParams(const void *data, size_t size) {
-  getOut() << "looking for matrix:\n  ";
+  /* getOut() << "looking for matrix:\n  ";
   for (size_t i = 0; i < size / sizeof(float); i++) {
     getOut() << ((float *)data)[i] << " ";
   }
-  getOut() << std::endl;
+  getOut() << std::endl; */
   
   float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
-    getOut() << "found projection matrix: ";
+    /* getOut() << "found projection matrix: ";
     for (size_t i = 0; i < 16; i++) {
       getOut() << projectionMatrix[i] << " ";
     }
-    getOut() << std::endl;
-    
+    getOut() << std::endl; */
+
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
   }
 
   float viewMatrixLeft[16];
   float viewMatrixRight[16];
   if (findViewMatrix(data, size, viewMatrixLeft, viewMatrixRight)) {
-    getOut() << "found view matrix: ";
+    /* getOut() << "found view matrix: ";
     for (size_t i = 0; i < 16; i++) {
       getOut() << viewMatrixLeft[i] << " ";
     }
@@ -370,7 +370,7 @@ void tryLatchZBufferParams(const void *data, size_t size) {
     for (size_t i = 0; i < 16; i++) {
       getOut() << viewMatrixRight[i] << " ";
     }
-    getOut() << std::endl;
+    getOut() << std::endl; */
     
     getScaleFromViewMatrix(viewMatrixLeft, viewMatrixRight, &scale);
   }
@@ -421,7 +421,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           abort();
         }
         
-        getOut() << "latch depth share handle " << (void *)shHandle << std::endl;
+        // getOut() << "latch depth share handle " << (void *)shHandle << std::endl;
         
         if (isChrome) {
           sbsDepthTexShHandle = shHandle;
@@ -1338,10 +1338,10 @@ HRESULT STDMETHODCALLTYPE MineCreateRasterizerState(
   const D3D11_RASTERIZER_DESC *pRasterizerDesc,
   ID3D11RasterizerState       **ppRasterizerState
 ) {
-  *ppRasterizerState = nullptr;
-  auto hr = RealCreateRasterizerState(This, pRasterizerDesc, ppRasterizerState);
-  getOut() << "RealCreateRasterizerState " << (void *)(*ppRasterizerState) << " " << pRasterizerDesc->DepthBias << " " << pRasterizerDesc->DepthBiasClamp << " " << pRasterizerDesc->SlopeScaledDepthBias << " " << pRasterizerDesc->DepthClipEnable << std::endl;
-  return hr;
+  // *ppRasterizerState = nullptr;
+  return RealCreateRasterizerState(This, pRasterizerDesc, ppRasterizerState);
+  // getOut() << "RealCreateRasterizerState " << (void *)(*ppRasterizerState) << " " << pRasterizerDesc->DepthBias << " " << pRasterizerDesc->DepthBiasClamp << " " << pRasterizerDesc->SlopeScaledDepthBias << " " << pRasterizerDesc->DepthClipEnable << std::endl;
+  // return hr;
 }
 void (STDMETHODCALLTYPE *RealRSSetState)(
   ID3D11DeviceContext1 *This,
@@ -1351,7 +1351,7 @@ void STDMETHODCALLTYPE MineRSSetState(
   ID3D11DeviceContext1 *This,
   ID3D11RasterizerState *pRasterizerState
 ) {
-  getOut() << "RealRSSetState " << (void *)pRasterizerState << std::endl;
+  // getOut() << "RealRSSetState " << (void *)pRasterizerState << std::endl;
   return RealRSSetState(This, pRasterizerState);
 }
 
