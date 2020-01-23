@@ -156,7 +156,7 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
-constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 8000;
+constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 10000;
 bool havePma = false;
 float pma = 0;
 float pmb = 0;
@@ -172,6 +172,7 @@ void ensureProjectionMatrixSpec() {
     float pmTop;
     float pmBottom;
     ProxyGetProjectionRaw(vr::Eye_Left, &pmLeft, &pmRight, &pmTop, &pmBottom);
+    getOut() << "got lrtb " << pmLeft << " " << pmRight << " " << pmTop << " " << pmBottom << std::endl;
     pma = std::abs((pmRight+pmLeft) / (pmRight-pmLeft));
     pmb = std::abs((pmTop+pmBottom) / (pmTop-pmBottom));
     havePma = true;
@@ -222,6 +223,7 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
               outProjectionMatrix[14] = src[11];
               outProjectionMatrix[15] = src[15];
               found = true;
+              return found;
             }
           }
         }
@@ -242,6 +244,7 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
               
               memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
               found = true;
+              return found;
             }
           }
         }
@@ -410,11 +413,11 @@ void getZBufferParamsFromNearFar(float nearValue, float farValue, bool reversed,
   } */
 }
 bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
-  /* getOut() << "looking for projection matrix:\n  ";
+  getOut() << "looking for projection matrix:\n  ";
   for (size_t i = 0; i < size / sizeof(float); i++) {
     getOut() << ((float *)data)[i] << " ";
   }
-  getOut() << std::endl; */
+  getOut() << std::endl;
   
   float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
@@ -935,7 +938,7 @@ void STDMETHODCALLTYPE MineDraw(
   UINT VertexCount,
   UINT StartVertexLocation
 ) {
-  TRACE("Hijack", [&]() { getOut() << "Draw " << VertexCount << std::endl; });
+  getOut() << "Draw " << VertexCount << std::endl;
   RealDraw(This, VertexCount, StartVertexLocation);
   ensureDepthTexDrawn();
 }
@@ -945,7 +948,7 @@ void (STDMETHODCALLTYPE *RealDrawAuto)(
 void STDMETHODCALLTYPE MineDrawAuto(
   ID3D11DeviceContext *This
 ) {
-  TRACE("Hijack", [&]() { getOut() << "DrawAuto" << std::endl; });
+  getOut() << "DrawAuto" << std::endl;
   RealDrawAuto(This);
   ensureDepthTexDrawn();
 }
@@ -961,7 +964,7 @@ void STDMETHODCALLTYPE MineDrawIndexed(
   UINT StartIndexLocation,
   INT  BaseVertexLocation
 ) {
-  TRACE("Hijack", [&]() { getOut() << "DrawIndexed " << IndexCount << std::endl; });
+  getOut() << "DrawIndexed " << IndexCount << std::endl;
   RealDrawIndexed(This, IndexCount, StartIndexLocation, BaseVertexLocation);
   ensureDepthTexDrawn();
 }
@@ -981,7 +984,7 @@ void STDMETHODCALLTYPE MineDrawIndexedInstanced(
   INT  BaseVertexLocation,
   UINT StartInstanceLocation
 ) {
-  TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstanced " << IndexCountPerInstance << " " << InstanceCount << std::endl; });
+  getOut() << "DrawIndexedInstanced " << IndexCountPerInstance << " " << InstanceCount << std::endl;
   RealDrawIndexedInstanced(This, IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
   ensureDepthTexDrawn();
 }
@@ -995,7 +998,7 @@ void STDMETHODCALLTYPE MineDrawIndexedInstancedIndirect(
   ID3D11Buffer *pBufferForArgs,
   UINT         AlignedByteOffsetForArgs
 ) {
-  TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstancedIndirect" << std::endl; });
+  getOut() << "DrawIndexedInstancedIndirect" << std::endl;
   RealDrawIndexedInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
   ensureDepthTexDrawn();
 }
@@ -1013,7 +1016,7 @@ void STDMETHODCALLTYPE MineDrawInstanced(
   UINT StartVertexLocation,
   UINT StartInstanceLocation
 ) {
-  TRACE("Hijack", [&]() { getOut() << "DrawInstanced " << VertexCountPerInstance << " " << InstanceCount << std::endl; });
+  getOut() << "DrawInstanced " << VertexCountPerInstance << " " << InstanceCount << std::endl;
   RealDrawInstanced(This, VertexCountPerInstance, InstanceCount, StartVertexLocation, StartInstanceLocation);
   ensureDepthTexDrawn();
 }
@@ -1027,7 +1030,7 @@ void STDMETHODCALLTYPE MineDrawInstancedIndirect(
   ID3D11Buffer *pBufferForArgs,
   UINT         AlignedByteOffsetForArgs
 ) {
-  TRACE("Hijack", [&]() { getOut() << "DrawInstancedIndirect" << std::endl; });
+  getOut() << "DrawInstancedIndirect" << std::endl;
   RealDrawInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
   ensureDepthTexDrawn();
 }
@@ -1436,7 +1439,7 @@ HRESULT STDMETHODCALLTYPE MineCreateRasterizerState(
 ) {
   *ppRasterizerState = nullptr;
   auto hr = RealCreateRasterizerState(This, pRasterizerDesc, ppRasterizerState);
-  // getOut() << "RealCreateRasterizerState " << (void *)(*ppRasterizerState) << " " << pRasterizerDesc->DepthBias << " " << pRasterizerDesc->DepthBiasClamp << " " << pRasterizerDesc->SlopeScaledDepthBias << " " << pRasterizerDesc->DepthClipEnable << std::endl;
+  getOut() << "RealCreateRasterizerState " << (void *)(*ppRasterizerState) << " " << pRasterizerDesc->DepthBias << " " << pRasterizerDesc->DepthBiasClamp << " " << pRasterizerDesc->SlopeScaledDepthBias << " " << pRasterizerDesc->DepthClipEnable << std::endl;
   return hr;
 }
 void (STDMETHODCALLTYPE *RealRSSetState)(
@@ -1447,7 +1450,7 @@ void STDMETHODCALLTYPE MineRSSetState(
   ID3D11DeviceContext1 *This,
   ID3D11RasterizerState *pRasterizerState
 ) {
-  // getOut() << "RealRSSetState " << (void *)pRasterizerState << std::endl;
+  getOut() << "RealRSSetState " << (void *)pRasterizerState << std::endl;
   return RealRSSetState(This, pRasterizerState);
 }
 
@@ -2894,6 +2897,7 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     std::sort(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &a, const ProxyTexture &b) -> bool {
       return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
     });
+    // getOut() << "shift tex queue " << texQueue.size() << std::endl;
     if (texQueue.size() > 2) {
       texQueue.resize(2);
     }

@@ -221,6 +221,9 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 
   float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
   d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
+  if (reversed > 0) {
+    d *= 1.464304;
+  }
   // d = LinearEyeDepth(d*2.0 - 1.0);
   // d = LinearEyeDepth(d);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
@@ -228,7 +231,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   // result.Color = float4(d, 0, 0, 1);
   // result.Depth = d;
 
-  if (d < 0.5) {
+  /* if (d < 0.5) {
     result.Color = float4(d, 0, 0, 1);
     result.Depth = d;
   } else if (d < 1) {
@@ -238,11 +241,15 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
     result.Color = float4(0, 0, d, 1);
     result.Depth = e;
     // discard;
-  }
+  } */
 
-  /* float existingDepth = DepthTexture.Sample(QuadTextureSampler, IN.Tex1).r;
-  result.Color = float4(d, 0, existingDepth*0.2, 1);
-  result.Depth = d; */
+  if (d < e) {
+    result.Color = float4(d, 0, 0, 1);
+    result.Depth = d;
+  } else {
+    result.Color = float4(0, 0, e, 1);
+    result.Depth = d;
+  }
 
   return result;
 }
