@@ -69,7 +69,7 @@ public:
   std::vector<std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>> shaderResourceViews;
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<HANDLE> inShDepthDxShareHandles;
-  std::vector<std::tuple<float, float, float, float>> inClientZBufferParams;
+  std::vector<std::tuple<float, float>> inClientZBufferParams;
   // std::vector<size_t> inShDepthDxEventIndexes;
   std::vector<uintptr_t> inTexLatches;
   std::vector<uintptr_t> inDepthTexLatches;

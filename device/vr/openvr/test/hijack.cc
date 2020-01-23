@@ -163,7 +163,10 @@ float pma = 0;
 float pmb = 0;
 float pmIpd = 0;
 // bool haveZBufferParams = false;
-float zBufferParams[5] = {};
+float nearValue = 0;
+float farValue = 0;
+bool reversed = false;
+float scale = 1.0f;
 /* float nv = 0;
 float fv = 0;
 bool rv = false; */
@@ -409,17 +412,25 @@ void multiplyMatrices(const float a[16], const float b[16], float out[16]) {
   te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 }
 // const float biasMatrix[16] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
-void getZBufferParams(float nearValue, float farValue, bool reversed, float zBufferParams[5]) {
+void getZBufferParams(float nearValue, float farValue, bool reversed, float scale, float zBufferParams[2]) {
   // if (reversed) {
     float c1 = farValue / nearValue;
     float c0 = 1.0f - c1;
     
-    zBufferParams[0] = nearValue;
-    zBufferParams[1] = reversed ? 1.0f : 0.0f;
-    zBufferParams[2] = c0/farValue; // c0/farValue;
-    zBufferParams[3] = c1/farValue;
+    zBufferParams[0] = c0/farValue; // c0/farValue;
+    zBufferParams[1] = c1/farValue;
     
-    getOut() << "near " << nearValue << " " << farValue << " " << reversed << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
+    if (reversed) {
+      zBufferParams[1] += zBufferParams[0];
+      zBufferParams[0] *= -1.0f;
+    }
+    
+    if (scale != 1.0f) {
+      zBufferParams[0] /= scale;
+      zBufferParams[1] /= scale;
+    }
+    
+    getOut() << "z buffer params " << nearValue << " " << farValue << " " << reversed << " " << scale << " " << zBufferParams[0] << " " << zBufferParams[1] << std::endl;
   /* } else {
     getOut() << "projection matrix: ";
     for (size_t i = 0; i < 16; i++) {
@@ -438,22 +449,18 @@ void getZBufferParams(float nearValue, float farValue, bool reversed, float zBuf
     getOut() << "near " << nearValue << " " << farValue << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
   } */
 }
-void getZBufferParams2(const float *viewMatrixLeft, const float *viewMatrixRight, float zBufferParams[5]) {
-  float scale;
+void getScaleFromViewMatrix(const float *viewMatrixLeft, const float *viewMatrixRight, float *scale) {
   if (viewMatrixLeft && viewMatrixRight) {
     float dx = viewMatrixLeft[12] - viewMatrixRight[12];
     float dy = viewMatrixLeft[13] - viewMatrixRight[13];
     float dz = viewMatrixLeft[14] - viewMatrixRight[14];
     float appIpd = std::sqrt(dx*dx + dy*dy + dz*dz);
-    scale = pmIpd / appIpd;
+    *scale = pmIpd / appIpd;
   } else {
-    scale = 1.0f;
+    *scale = 1.0f;
   }
-  zBufferParams[4] = scale;
-  
-  getOut() << "scale " << scale << std::endl;
 }
-void tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
+void tryLatchZBufferParams(const void *data, size_t size) {
   getOut() << "looking for matrix:\n  ";
   for (size_t i = 0; i < size / sizeof(float); i++) {
     getOut() << ((float *)data)[i] << " ";
@@ -462,27 +469,16 @@ void tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
   
   float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
-    float nearValue;
-    float farValue;
-    bool reversed;
+    getOut() << "found projection matrix: ";
+    for (size_t i = 0; i < 16; i++) {
+      getOut() << projectionMatrix[i] << " ";
+    }
+    getOut() << std::endl;
+    
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
 
-    if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
+    /* if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
       getZBufferParams(nearValue, farValue, reversed, zBufferParams);
-      
-      getOut() << "found projection matrix: ";
-      for (size_t i = 0; i < 16; i++) {
-        getOut() << projectionMatrix[i] << " ";
-      }
-      getOut() << std::endl;
-      
-      /* getOut() << "got near far " << nearValue << " " << farValue << " " << reversed << std::endl;
-      
-      getOut() << "got z buffer params " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
-      
-      nv = nearValue;
-      fv = farValue;
-      rv = reversed; */
     } else {
       getOut() << "found projection matrix: ";
       for (size_t i = 0; i < 16; i++) {
@@ -492,7 +488,7 @@ void tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
       
       getOut() << "bad near far " << nearValue << " " << farValue << std::endl;
       abort();
-    }
+    } */
   }
 
   float viewMatrixLeft[16];
@@ -508,7 +504,7 @@ void tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
     }
     getOut() << std::endl;
     
-    getZBufferParams2(viewMatrixLeft, viewMatrixRight, zBufferParams);
+    getScaleFromViewMatrix(viewMatrixLeft, viewMatrixRight, &scale);
   }
 }
 
@@ -867,20 +863,23 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
 void ensureDepthTexDrawn() {
   if (sbsDepthTexLatched) {
     if (isChrome) {
+      float zBufferParams[2];
+      getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
+      
       g_hijacker->fnp.call<
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
         size_t,
-        std::tuple<float, float, float, float>
-      >(sbsDepthTexShHandle, 0, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3]));
+        std::tuple<float, float>
+      >(sbsDepthTexShHandle, 0, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]));
       g_hijacker->fnp.call<
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
         size_t,
-        std::tuple<float, float, float, float>
-      >(sbsDepthTexShHandle, 1, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3]));
+        std::tuple<float, float>
+      >(sbsDepthTexShHandle, 1, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]));
     } else {
       auto iter = texSharedHandleMap.find(sbsDepthTex);
       if (iter != texSharedHandleMap.end()) {
@@ -901,10 +900,12 @@ void ensureDepthTexDrawn() {
           ensureDepthWidthHeight();
           bool isFull = descDepth.Width > depthWidth;
 
-          // getOut() << "ensure drawn " << texQueue.size() << " " << nv << " " << fv << " " << rv << std::endl;
-          texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
+          float zBufferParams[2];
+          getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
+
+          texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1])});
           if (isFull) {
-            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3])});
+            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1])});
           }
           
           {
@@ -1277,7 +1278,7 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
       buffer->lpVtbl->GetDesc(buffer, &desc);
 
       if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
-        tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams);
+        tryLatchZBufferParams(pSrcData, desc.ByteWidth);
         // haveZBufferParams = true;
       }
 
@@ -1371,7 +1372,7 @@ void STDMETHODCALLTYPE MineUnmap(
         getOut() << std::endl;
       } */
 
-      tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams);
+      tryLatchZBufferParams(bufferSpec.first, bufferSpec.second);
       // if (tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams)) {
         // haveZBufferParams = true;
 
@@ -2430,14 +2431,17 @@ void handleGlClearHack() {
       ++fenceValue;
       hijackerContext->lpVtbl->Signal(hijackerContext, fence, fenceValue);
       // fence->lpVtbl->SetEventOnCompletion(fence, fenceValue, depthEvent);
-      
+
+      float zBufferParams[2];
+      getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
+
       g_hijacker->fnp.call<
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
         size_t,
-        std::tuple<float, float, float, float>
-      >(frontSharedDepthHandle, 0, std::tuple<float, float, float, float>(zBufferParams[0], zBufferParams[1], zBufferParams[2], zBufferParams[3]));
+        std::tuple<float, float>
+      >(frontSharedDepthHandle, 0, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]));
     }
 
     glPhase = 0;
@@ -2490,14 +2494,14 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     int,
     HANDLE,
     size_t,
-    std::tuple<float, float, float, float>
-  >([=](HANDLE shDepthTexHandle, size_t eventIndex, std::tuple<float, float, float, float> zBuffer) {
+    std::tuple<float, float>
+  >([=](HANDLE shDepthTexHandle, size_t eventIndex, std::tuple<float, float> zBufferParams) {
     /* size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == shDepthTexHandle;
     }); */
     texQueue.push_back(ProxyTexture{
       shDepthTexHandle,
-      zBuffer
+      zBufferParams
     });
     // getOut() << "push tex order " << texQueue.size() << std::endl;
     {
@@ -2513,7 +2517,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
   });
   fnp.reg<
     kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, float, float, float, float>
+    std::tuple<HANDLE, float, float>
   >([=]() {
     // getOut() << "shift tex order " << texQueue.size() << std::endl;
     if (texQueue.size() > 0) {
@@ -2526,9 +2530,9 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
       
       ProxyTexture result = texQueue.front();
       texQueue.pop_front();
-      return std::tuple<HANDLE, float, float, float, float>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), std::get<2>(result.zBufferParams), std::get<3>(result.zBufferParams));
+      return std::tuple<HANDLE, float, float>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams));
     } else {
-      return std::tuple<HANDLE, float, float, float, float>{};
+      return std::tuple<HANDLE, float, float>{};
     }
   });
   fnp.reg<
@@ -2960,15 +2964,13 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     return result;
   }
   // remote
-  std::tuple<HANDLE, float, float, float, float> shiftResult = fnp.call<
+  std::tuple<HANDLE, float, float> shiftResult = fnp.call<
     kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, float, float, float, float>
+    std::tuple<HANDLE, float, float>
   >();
   HANDLE &sharedDepthHandle = std::get<0>(shiftResult);
   float zbx = std::get<1>(shiftResult);
   float zby = std::get<2>(shiftResult);
-  float zbz = std::get<3>(shiftResult);
-  float zbw = std::get<4>(shiftResult);
 
   if (sharedDepthHandle) {
     if (clientDepthHandleLatched != sharedDepthHandle) {
@@ -2984,13 +2986,13 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
 
     return ProxyTexture{
       sharedDepthHandle,
-      std::tuple<float, float, float, float>(zbx, zby, zbz, zbw)
+      std::tuple<float, float>(zbx, zby)
     };
   }
   // not found
   return ProxyTexture{
     nullptr,
-    std::tuple<float, float, float, float>{}
+    std::tuple<float, float>{}
   };
 }
 void Hijacker::flushTextureLatches() {

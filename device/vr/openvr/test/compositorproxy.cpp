@@ -137,8 +137,10 @@ cbuffer PS_CONSTANT_BUFFER : register(b0)
 
 cbuffer PS_CONSTANT_BUFFER : register(b1)
 {
-  float4 _ZBufferParams;
+  float2 _ZBufferParams;
   float4 depthColor;
+  float tmpps21;
+  float tmpps22;
 }
 
 //------------------------------------------------------------//
@@ -202,30 +204,24 @@ static const float near = m32 / (m22 - 1);
 static const float far = m32 / (m22 + 1);
 static const float4 _ZBufferParams = float4(1-far/near, far/near, (1-far/near)/far, (far/near)/far); */
 
-/* inline float Linear01Depth( float z ) {
-  return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
-} */
 inline float LinearEyeDepth( float z ) {
-  return 1.0 / (_ZBufferParams.z * z + _ZBufferParams.w);
+  return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
 }
-/* inline float ProjectionEyeDepth(float z) {
-  return 1.0 / (_ZBufferParams.z * z + _ZBufferParams.w);
-} */
 
 PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
 
-  float near = _ZBufferParams.x;
-  float reversed = _ZBufferParams.y;
+  // float near = _ZBufferParams.x;
+  // float reversed = _ZBufferParams.y;
 
   float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
+  d = LinearEyeDepth(d);
+  // d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
   /* if (reversed > 0) {
     d *= 1.464304;
   } */
   // d = LinearEyeDepth(d*2.0 - 1.0);
-  // d = LinearEyeDepth(d);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
   // result.Color = float4(d, 0, 0, 1);
@@ -534,14 +530,14 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags,
-    std::tuple<uintptr_t, float, float, float, float>,
+    std::tuple<uintptr_t, float, float>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >([=, &fnp](
     EVREye eEye,
     managed_binary<Texture_t> sharedTexture,
     managed_binary<VRTextureBounds_t> bounds,
     EVRSubmitFlags submitFlags,
-    std::tuple<uintptr_t, float, float, float, float> depthSpec,
+    std::tuple<uintptr_t, float, float> depthSpec,
     std::tuple<uintptr_t, uintptr_t, uint64_t> fenceSpec
   ) {
     Texture_t *pTexture = sharedTexture.data();
@@ -550,8 +546,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     HANDLE sharedDepthHandle = (HANDLE)sharedDepthHandlePtr;
     float zbx = std::get<1>(depthSpec);
     float zby = std::get<2>(depthSpec);
-    float zbz = std::get<3>(depthSpec);
-    float zbw = std::get<4>(depthSpec);
     DWORD clientProcessId = (DWORD)std::get<0>(fenceSpec);
     HANDLE clientFenceHandle = (HANDLE)std::get<1>(fenceSpec);
     uint64_t clientFenceValue = std::get<2>(fenceSpec);
@@ -840,12 +834,12 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       float localDepthColors[8] = {
         zbx,
         zby,
-        zbz,
-        zbw,
         (index <= 1) ? 1 : 0,
         0,
         (index <= 1) ? 0 : 1,
         1,
+        0,
+        0
       };
       context->UpdateSubresource(psConstantBuffers[1], 0, 0, localDepthColors, 0, 0);
 
@@ -1728,7 +1722,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // inDxDepthTexs3.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
     inShDepthDxShareHandles.resize(index+1, NULL);
-    inClientZBufferParams.resize(index+1, std::tuple<float, float, float, float>{});
+    inClientZBufferParams.resize(index+1, std::tuple<float, float>{});
     // inShDepthDxEventIndexes.resize(index+1, 0);
     inTexLatches.resize(index+1, NULL);
     inDepthTexLatches.resize(index+1, NULL);
@@ -1768,7 +1762,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   // ID3D11Texture2D *&shDepthTex3 = inDxDepthTexs3[index]; // shared dx depth texture 3
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
   HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
-  std::tuple<float, float, float, float> &clientZBufferParams = inClientZBufferParams[index]; // dx depth interop handle
+  std::tuple<float, float> &clientZBufferParams = inClientZBufferParams[index]; // dx depth interop handle
   // size_t &sharedDepthEventIndex = inShDepthDxEventIndexes[index]; // dx depth event index
   // HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
@@ -1986,7 +1980,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
     ProxyTexture &depthProxyTexture = hijacker.getDepthTextureMatching(tex);
     HANDLE &depthTexHandle = depthProxyTexture.texHandle;
-    std::tuple<float, float, float, float> &localZBufferParams = depthProxyTexture.zBufferParams;
+    std::tuple<float, float> &localZBufferParams = depthProxyTexture.zBufferParams;
     // getOut() << "get matching depth tex " << (void *)depthTexHandle << " " << depthTexEventIndex << std::endl;
     /* {
       // getOut() << "get tex view" << std::endl;
@@ -2311,7 +2305,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     1.0f, flip ? 0.0f : 1.0f
   };
 
-  getOut() << "client submit 1 " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << " " << std::get<2>(clientZBufferParams) << " " << std::get<3>(clientZBufferParams) << std::endl;
+  getOut() << "client submit 1 " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
@@ -2320,19 +2314,17 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     managed_binary<Texture_t>,
     managed_binary<VRTextureBounds_t>,
     EVRSubmitFlags,
-    std::tuple<uintptr_t, float, float, float, float>,
+    std::tuple<uintptr_t, float, float>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >(
     eEye,
     std::move(sharedTexture),
     std::move(bounds),
     EVRSubmitFlags::Submit_Default,
-    std::tuple<uintptr_t, float, float, float, float>(
+    std::tuple<uintptr_t, float, float>(
       (uintptr_t)sharedDepthHandle,
       std::get<0>(clientZBufferParams),
-      std::get<1>(clientZBufferParams),
-      std::get<2>(clientZBufferParams),
-      std::get<3>(clientZBufferParams)
+      std::get<1>(clientZBufferParams)
     ),
     std::tuple<uintptr_t, uintptr_t, uint64_t>(
       (uintptr_t)GetCurrentProcessId(),
