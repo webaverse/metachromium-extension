@@ -98,6 +98,7 @@ const char *hlsl = R"END(
 //------------------------------------------------------------//
 // float Width;
 // float Height;
+// float depthScale = 1000;
 //------------------------------------------------------------//
 
 cbuffer VS_CONSTANT_BUFFER : register(b0)
@@ -202,17 +203,17 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   // float near = _ZBufferParams.x;
   // float reversed = _ZBufferParams.y;
 
+  float depthScale = 1000;
+
   float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
   d = LinearEyeDepth(d);
+  // d /= depthScale;
   // d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
   /* if (reversed > 0) {
     d *= 1.464304;
   } */
   // d = LinearEyeDepth(d*2.0 - 1.0);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
-
-  // result.Color = float4(d, 0, 0, 1);
-  // result.Depth = d;
 
   /* if (d < 0.5) {
     result.Color = float4(d, 0, 0, 1);
@@ -226,12 +227,13 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
     // discard;
   } */
 
-  if (d < e) {
+  if (e == 1.0 || d < (e*depthScale)) {
     result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
-    result.Depth = d;
+    result.Depth = d/depthScale;
   } else {
-    result.Color = float4(0, 0, e, 1);
-    result.Depth = d;
+    // result.Color = float4(0, 0, e, 1);
+    // result.Depth = e;
+    discard;
   }
 
   return result;
