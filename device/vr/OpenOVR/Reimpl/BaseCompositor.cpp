@@ -266,7 +266,7 @@ bool BaseCompositor::CanRenderScene() {
 
 void BaseCompositor::ShowMirrorWindow() {
   TRACE("BaseCompositor", []() { getOut() << "BaseCompositor::ShowMirrorWindow" << std::endl; });
-	return g_vrcompositor->ShowMirrorWindow();
+	return g_pvrcompositor->ShowMirrorWindow();
 }
 
 void BaseCompositor::HideMirrorWindow() {
