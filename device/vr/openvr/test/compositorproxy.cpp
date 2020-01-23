@@ -944,26 +944,29 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
   });
   fnp.reg<
     kIVRCompositor_GetFrameTiming,
-    std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
-    managed_binary<Compositor_FrameTiming>,
+    std::tuple<bool, Compositor_FrameTiming>,
     uint32_t
-  >([=](managed_binary<Compositor_FrameTiming> timing, uint32_t unFramesAgo) {
+  >([=](uint32_t unFramesAgo) {
+    Compositor_FrameTiming timing;
+    timing.m_nSize = sizeof(Compositor_FrameTiming);
     // getOut() << "server get frame timing 1" << std::endl;
     // managed_binary<Compositor_FrameTiming> timing(1);
-    bool result = vrcompositor->GetFrameTiming(timing.data(), unFramesAgo);
+    bool result = vrcompositor->GetFrameTiming(&timing, unFramesAgo);
     // getOut() << "server get frame timing 2" << std::endl;
-    return std::tuple<bool, managed_binary<Compositor_FrameTiming>>(
+    return std::tuple<bool, Compositor_FrameTiming>(
       result,
-      std::move(timing)
+      timing
     );
   });
   fnp.reg<
     kIVRCompositor_GetFrameTimings,
     std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
-    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >([=](managed_binary<Compositor_FrameTiming> timings, int32_t nFrames) {
-    // managed_binary<Compositor_FrameTiming> timings(nFrames);
+  >([=](int32_t nFrames) {
+    managed_binary<Compositor_FrameTiming> timings(nFrames);
+    for (uint32_t i = 0; i < nFrames; i++) {
+      timings.data()[i].m_nSize = sizeof(Compositor_FrameTiming);
+    }
     uint32_t result = vrcompositor->GetFrameTimings(timings.data(), nFrames);
     return std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>(
       result,
@@ -2379,31 +2382,61 @@ void PVRCompositor::PostPresentHandoff() {
   // getOut() << "post present handoff client 2" << std::endl;
 }
 bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo ) {
-  managed_binary<Compositor_FrameTiming> timing(1);
-  *timing.data() = *pTiming;
-  // getOut() << "get frame timing 1" << std::endl;
   auto result = fnp.call<
     kIVRCompositor_GetFrameTiming,
-    std::tuple<bool, managed_binary<Compositor_FrameTiming>>,
-    managed_binary<Compositor_FrameTiming>,
+    std::tuple<bool, Compositor_FrameTiming>,
     uint32_t
-  >(std::move(timing), unFramesAgo);
-  // getOut() << "get frame timing 2 " << (void *)pTiming << std::endl;
-  *pTiming = *std::get<1>(result).data();
-  // getOut() << "get frame timing 3" << std::endl;
+  >(unFramesAgo);
+  memcpy(pTiming, &std::get<1>(result), pTiming->m_nSize);
+
+  /* getOut() << "get frame timing " <<
+    std::get<1>(result).m_nSize << " " <<
+    std::get<1>(result).m_nFrameIndex << " " <<
+    std::get<1>(result).m_nNumFramePresents << " " <<
+    std::get<1>(result).m_nNumMisPresented << " " <<
+    std::get<1>(result).m_nNumDroppedFrames << " " <<
+    std::get<1>(result).m_nReprojectionFlags << " " <<
+    std::get<1>(result).m_flSystemTimeInSeconds << " " <<
+
+    std::get<1>(result).m_flPreSubmitGpuMs << " " <<
+    std::get<1>(result).m_flPostSubmitGpuMs << " " <<
+    std::get<1>(result).m_flTotalRenderGpuMs << " " <<
+    std::get<1>(result).m_flCompositorRenderGpuMs << " " <<
+    std::get<1>(result).m_flCompositorRenderCpuMs << " " <<
+    std::get<1>(result).m_flCompositorIdleCpuMs << " " <<
+
+    std::get<1>(result).m_flClientFrameIntervalMs << " " <<
+    std::get<1>(result).m_flPresentCallCpuMs << " " <<
+    std::get<1>(result).m_flWaitForPresentCpuMs << " " <<
+    std::get<1>(result).m_flSubmitFrameMs << " " <<
+
+    std::get<1>(result).m_flWaitGetPosesCalledMs << " " <<
+    std::get<1>(result).m_flNewPosesReadyMs << " " <<
+    std::get<1>(result).m_flNewFrameReadyMs << " " <<
+    std::get<1>(result).m_flCompositorUpdateStartMs << " " <<
+    std::get<1>(result).m_flCompositorUpdateEndMs << " " <<
+    std::get<1>(result).m_flCompositorRenderStartMs << " " <<
+
+    // m_HmdPose << " " <<
+
+    std::get<1>(result).m_nNumVSyncsReadyForUse << " " <<
+    std::get<1>(result).m_nNumVSyncsToFirstView << " " <<
+    std::endl; */
+
   return std::get<0>(result);
 }
 uint32_t PVRCompositor::GetFrameTimings( VR_ARRAY_COUNT( nFrames ) Compositor_FrameTiming *pTiming, uint32_t nFrames ) {
-  managed_binary<Compositor_FrameTiming> timings(nFrames);
-  memcpy(timings.data(), (void *)pTiming, nFrames * sizeof(Compositor_FrameTiming));
   auto result = fnp.call<
     kIVRCompositor_GetFrameTimings,
     std::tuple<uint32_t, managed_binary<Compositor_FrameTiming>>,
-    managed_binary<Compositor_FrameTiming>,
     uint32_t
-  >(std::move(timings), nFrames);
-  memcpy((void *)pTiming, (void *)std::get<1>(result).data(), std::get<1>(result).size() * sizeof(Compositor_FrameTiming));
-  return std::get<0>(result);
+  >(nFrames);
+  uint32_t numResults = std::get<0>(result);
+  for (uint32_t i = 0; i < numResults; i++) {
+    memcpy(pTiming, std::get<1>(result).data(), pTiming->m_nSize);
+    pTiming = (Compositor_FrameTiming *)(((char *)pTiming) + pTiming->m_nSize);
+  }
+  return numResults;
 }
 float PVRCompositor::GetFrameTimeRemaining() {
   return fnp.call<
