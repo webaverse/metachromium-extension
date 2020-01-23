@@ -194,7 +194,7 @@ void ensureProjectionMatrixSpec() {
 inline bool isWithinDelta(float a, float target) {
   return std::abs(target - std::abs(a)) < 0.000001f;
 }
-bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMatrix, bool *foundViewMatrix, float *outViewMatrixLeft, float *outViewMatrixRight) {
+bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMatrix) {
   ensureProjectionMatrixSpec();
 
   int numElements = (int)size / sizeof(float);
@@ -232,27 +232,6 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
               outProjectionMatrix[13] = src[7];
               outProjectionMatrix[14] = src[11];
               outProjectionMatrix[15] = src[15];
-              
-              int nextStartIndex1 = startIndex + 16;
-              int nextStartIndex2 = nextStartIndex1 + 16;
-              int nextEndIndex = nextStartIndex2 + 16;
-              if (
-                nextEndIndex < numElements &&
-                ((const float *)data)[nextStartIndex1 + 3] == 0.0f &&
-                ((const float *)data)[nextStartIndex1 + 7] == 0.0f &&
-                ((const float *)data)[nextStartIndex1 + 11] == 0.0f &&
-                ((const float *)data)[nextStartIndex1 + 15] == 1.0f &&
-                ((const float *)data)[nextStartIndex2 + 3] == 0.0f &&
-                ((const float *)data)[nextStartIndex2 + 7] == 0.0f &&
-                ((const float *)data)[nextStartIndex2 + 11] == 0.0f &&
-                ((const float *)data)[nextStartIndex2 + 15] == 1.0f
-              ) {
-                memcpy(outViewMatrixLeft, &(((const float *)data)[nextStartIndex1]), 16 * sizeof(float));
-                memcpy(outViewMatrixRight, &(((const float *)data)[nextStartIndex2]), 16 * sizeof(float));
-                *foundViewMatrix = true;
-              } else {
-                *foundViewMatrix = false;
-              }
               return true;
             }
           }
@@ -273,27 +252,6 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
               // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
               
               memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
-
-              int nextStartIndex1 = startIndex + 16;
-              int nextStartIndex2 = nextStartIndex1 + 16;
-              int nextEndIndex = nextStartIndex2 + 16;
-              if (
-                nextEndIndex < numElements &&
-                ((const float *)data)[nextStartIndex1 + 3] == 0.0f &&
-                ((const float *)data)[nextStartIndex1 + 7] == 0.0f &&
-                ((const float *)data)[nextStartIndex1 + 11] == 0.0f &&
-                ((const float *)data)[nextStartIndex1 + 15] == 1.0f &&
-                ((const float *)data)[nextStartIndex2 + 3] == 0.0f &&
-                ((const float *)data)[nextStartIndex2 + 7] == 0.0f &&
-                ((const float *)data)[nextStartIndex2 + 11] == 0.0f &&
-                ((const float *)data)[nextStartIndex2 + 15] == 1.0f
-              ) {
-                memcpy(outViewMatrixLeft, &(((const float *)data)[nextStartIndex1]), 16 * sizeof(float));
-                memcpy(outViewMatrixRight, &(((const float *)data)[nextStartIndex2]), 16 * sizeof(float));
-                *foundViewMatrix = true;
-              } else {
-                *foundViewMatrix = false;
-              }
               return true;
             }
           }
@@ -302,6 +260,33 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
     }
   }
   return false;
+}
+bool findViewMatrix(const void *data, size_t size, float *outViewMatrixLeft, float *outViewMatrixRight) {
+  ensureProjectionMatrixSpec();
+  
+  int numElements = (int)size / sizeof(float);
+  
+  int nextStartIndex1 = 16*2;
+  int nextStartIndex2 = nextStartIndex1 + 16;
+  int nextEndIndex = nextStartIndex2 + 16;
+  if (
+    nextEndIndex < numElements &&
+    ((const float *)data)[nextStartIndex1] != 1.0f &&
+    ((const float *)data)[nextStartIndex1 + 3] == 0.0f &&
+    ((const float *)data)[nextStartIndex1 + 7] == 0.0f &&
+    ((const float *)data)[nextStartIndex1 + 11] == 0.0f &&
+    ((const float *)data)[nextStartIndex1 + 15] == 1.0f &&
+    ((const float *)data)[nextStartIndex2 + 3] == 0.0f &&
+    ((const float *)data)[nextStartIndex2 + 7] == 0.0f &&
+    ((const float *)data)[nextStartIndex2 + 11] == 0.0f &&
+    ((const float *)data)[nextStartIndex2 + 15] == 1.0f
+  ) {
+    memcpy(outViewMatrixLeft, &(((const float *)data)[nextStartIndex1]), 16 * sizeof(float));
+    memcpy(outViewMatrixRight, &(((const float *)data)[nextStartIndex2]), 16 * sizeof(float));
+    return true;
+  } else {
+    return false;
+  }
 }
 // 0.917286, 0, 0, 0, 0, 0.833537, 0, 0, -0.174072, -0.106141, -1.0002, -1, 0, 0, -0.20002, 0
 // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
@@ -424,7 +409,7 @@ void multiplyMatrices(const float a[16], const float b[16], float out[16]) {
   te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 }
 // const float biasMatrix[16] = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f};
-void getZBufferParams(float nearValue, float farValue, bool reversed, const float *viewMatrixLeft, const float *viewMatrixRight, float zBufferParams[5]) {
+void getZBufferParams(float nearValue, float farValue, bool reversed, float zBufferParams[5]) {
   // if (reversed) {
     float c1 = farValue / nearValue;
     float c0 = 1.0f - c1;
@@ -433,20 +418,8 @@ void getZBufferParams(float nearValue, float farValue, bool reversed, const floa
     zBufferParams[1] = reversed ? 1.0f : 0.0f;
     zBufferParams[2] = c0/farValue; // c0/farValue;
     zBufferParams[3] = c1/farValue;
-
-    float scale;
-    if (viewMatrixLeft && viewMatrixRight) {
-      float dx = viewMatrixLeft[12] - viewMatrixRight[12];
-      float dy = viewMatrixLeft[13] - viewMatrixRight[13];
-      float dz = viewMatrixLeft[14] - viewMatrixRight[14];
-      float appIpd = std::sqrt(dx*dx + dy*dy + dz*dz);
-      scale = pmIpd / appIpd;
-    } else {
-      scale = 1.0f;
-    }
-    zBufferParams[4] = scale;
     
-    getOut() << "near " << nearValue << " " << farValue << " " << reversed << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << " " << zBufferParams[4] << std::endl;
+    getOut() << "near " << nearValue << " " << farValue << " " << reversed << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
   /* } else {
     getOut() << "projection matrix: ";
     for (size_t i = 0; i < 16; i++) {
@@ -465,25 +438,37 @@ void getZBufferParams(float nearValue, float farValue, bool reversed, const floa
     getOut() << "near " << nearValue << " " << farValue << " " << zBufferParams[0] << " " << zBufferParams[1] << " " << zBufferParams[2] << " " << zBufferParams[3] << std::endl;
   } */
 }
-bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
-  getOut() << "looking for projection matrix:\n  ";
+void getZBufferParams2(const float *viewMatrixLeft, const float *viewMatrixRight, float zBufferParams[5]) {
+  float scale;
+  if (viewMatrixLeft && viewMatrixRight) {
+    float dx = viewMatrixLeft[12] - viewMatrixRight[12];
+    float dy = viewMatrixLeft[13] - viewMatrixRight[13];
+    float dz = viewMatrixLeft[14] - viewMatrixRight[14];
+    float appIpd = std::sqrt(dx*dx + dy*dy + dz*dz);
+    scale = pmIpd / appIpd;
+  } else {
+    scale = 1.0f;
+  }
+  zBufferParams[4] = scale;
+  
+  getOut() << "scale " << scale << std::endl;
+}
+void tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]) {
+  getOut() << "looking for matrix:\n  ";
   for (size_t i = 0; i < size / sizeof(float); i++) {
     getOut() << ((float *)data)[i] << " ";
   }
   getOut() << std::endl;
   
   float projectionMatrix[16];
-  bool foundViewMatrix;
-  float viewMatrixLeft[16];
-  float viewMatrixRight[16];
-  if (findProjectionMatrix(data, size, projectionMatrix, &foundViewMatrix, viewMatrixLeft, viewMatrixRight)) {
+  if (findProjectionMatrix(data, size, projectionMatrix)) {
     float nearValue;
     float farValue;
     bool reversed;
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
 
     if (nearValue > 0.0 && farValue > 0.0 && (farValue - nearValue) >= 10.0f) {
-      getZBufferParams(nearValue, farValue, reversed, foundViewMatrix ? viewMatrixLeft : nullptr, foundViewMatrix ? viewMatrixRight : nullptr, zBufferParams);
+      getZBufferParams(nearValue, farValue, reversed, zBufferParams);
       
       getOut() << "found projection matrix: ";
       for (size_t i = 0; i < 16; i++) {
@@ -498,8 +483,6 @@ bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
       nv = nearValue;
       fv = farValue;
       rv = reversed; */
-
-      return true;
     } else {
       getOut() << "found projection matrix: ";
       for (size_t i = 0; i < 16; i++) {
@@ -509,11 +492,23 @@ bool tryLatchZBufferParams(const void *data, size_t size, float zBufferParams[4]
       
       getOut() << "bad near far " << nearValue << " " << farValue << std::endl;
       abort();
-
-      return false;
     }
-  } else {
-    return false;
+  }
+
+  float viewMatrixLeft[16];
+  float viewMatrixRight[16];
+  if (findViewMatrix(data, size, viewMatrixLeft, viewMatrixRight)) {
+    getOut() << "found view matrix: ";
+    for (size_t i = 0; i < 16; i++) {
+      getOut() << viewMatrixLeft[i] << " ";
+    }
+    getOut() << " : ";
+    for (size_t i = 0; i < 16; i++) {
+      getOut() << viewMatrixRight[i] << " ";
+    }
+    getOut() << std::endl;
+    
+    getZBufferParams2(viewMatrixLeft, viewMatrixRight, zBufferParams);
   }
 }
 
@@ -1281,7 +1276,8 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
       D3D11_BUFFER_DESC desc;
       buffer->lpVtbl->GetDesc(buffer, &desc);
 
-      if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE && tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams)) {
+      if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
+        tryLatchZBufferParams(pSrcData, desc.ByteWidth, zBufferParams);
         // haveZBufferParams = true;
       }
 
@@ -1375,11 +1371,12 @@ void STDMETHODCALLTYPE MineUnmap(
         getOut() << std::endl;
       } */
 
-      if (tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams)) {
+      tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams);
+      // if (tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams)) {
         // haveZBufferParams = true;
 
         // cbufs.clear();
-      } // else {
+      // } // else {
         cbufs.erase(pResource);
       // }
     }

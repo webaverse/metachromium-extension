@@ -221,9 +221,9 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 
   float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
   d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
-  if (reversed > 0) {
+  /* if (reversed > 0) {
     d *= 1.464304;
-  }
+  } */
   // d = LinearEyeDepth(d*2.0 - 1.0);
   // d = LinearEyeDepth(d);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
