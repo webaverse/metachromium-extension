@@ -431,7 +431,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           }
         }
         
-        dxgiResource->lpVtbl->Release(dxgiResource);
+        // dxgiResource->lpVtbl->Release(dxgiResource);
       }
       
       // getOut() << "set depth render target " << (void *)depthTex << std::endl;
