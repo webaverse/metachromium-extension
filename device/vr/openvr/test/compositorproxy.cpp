@@ -157,12 +157,13 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
+// Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
+Texture2D QuadDepthTexture : register(ps, t1);
 Texture2D DepthTexture : register(ps, t2);
 SamplerState QuadTextureSampler {
-  MipFilter = LINEAR;
-	MinFilter = LINEAR;
-	MagFilter = LINEAR;
+  MipFilter = NONE;
+	MinFilter = POINT;
+	MagFilter = POINT;
 };
 //------------------------------------------------------------//
 
@@ -205,7 +206,8 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 
   float depthScale = 1000;
 
-  float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+  // float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+  float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
   d = LinearEyeDepth(d);
   // d /= depthScale;
   // d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
@@ -707,9 +709,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           } else {
             shaderDepthResourceViewDesc.Format = desc.Format;
           }
-          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
-          // shaderDepthResourceViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-          // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+          // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
           shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
           shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;
           HRESULT hr = device->CreateShaderResourceView(
@@ -1700,6 +1701,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
     inDxTexs.resize(index+1, NULL);
     inDxDepthTexs.resize(index+1, NULL);
+    inDxDepthResolveTexs.resize(index+1, NULL);
+    inDxDepthResolveHandles.resize(index+1, NULL);
     // inDxDepthTexs2.resize(index+1, NULL);
     // inDxDepthTexs3.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
@@ -1740,6 +1743,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   HRESULT hr;
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
   ID3D11Texture2D *&shDepthTex = inDxDepthTexs[index]; // shared dx depth texture
+  ID3D11Texture2D *&shDepthResolveTex = inDxDepthResolveTexs[index]; // shared dx depth texture
+  HANDLE &shDepthResolveHandle = inDxDepthResolveHandles[index]; // shared dx depth handle
   /// ID3D11Texture2D *&shDepthTex2 = inDxDepthTexs2[index]; // shared dx depth texture 2
   // ID3D11Texture2D *&shDepthTex3 = inDxDepthTexs3[index]; // shared dx depth texture 3
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
@@ -2025,9 +2030,110 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       }
       depthTextureLatched = (uintptr_t)depthTexHandle;
 
-      sharedDepthHandle = depthTexHandle;
-      // sharedDepthEventIndex = depthTexEventIndex;
+      {
+        ID3D11Resource *shDepthTexResource;
+        HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
+
+        if (SUCCEEDED(hr)) {
+          hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTex));
+          
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to unpack shared depth texture: " << (void *)hr << " " << (void *)depthTexHandle << std::endl;
+            abort();
+          }
+        } else {
+          getOut() << "failed to unpack shared depth texture handle: " << (void *)hr << " " << (void *)depthTexHandle << std::endl;
+          abort();
+        }
+
+        /* shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
+        if (shTexInInteropHandle) {
+          // nothing
+        } else {
+          // C007006E
+          getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shTexIn << " " << shTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
+          abort();
+        } */
+        shDepthTexResource->Release();
+      }
+
+      D3D11_TEXTURE2D_DESC depthDesc;
+      shDepthTex->GetDesc(&depthDesc);
+
+      // depthDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
+
+      getOut() << "shared tex flags " <<
+        depthDesc.Width << " " << depthDesc.Height << " " <<
+        depthDesc.MipLevels << " " << depthDesc.ArraySize << " " <<
+        depthDesc.SampleDesc.Count << " " << depthDesc.SampleDesc.Quality << " " <<
+        depthDesc.Format << " " <<
+        depthDesc.Usage << " " << depthDesc.BindFlags << " " << depthDesc.CPUAccessFlags << " " << depthDesc.MiscFlags <<
+        std::endl;
+
+      depthDesc.SampleDesc.Count = 1;
+      depthDesc.SampleDesc.Quality = 0;
+      depthDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+      depthDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+
+      // getOut() << "submit client 5" << std::endl;
+
+      hr = device->CreateTexture2D(
+        &depthDesc,
+        NULL,
+        &shDepthResolveTex
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "failed to create shared depth resolve texture: " << (void *)hr << std::endl;
+        InfoQueueLog();
+        abort();
+      }
+
+      {
+        IDXGIResource1 *shDepthResolveTexResource;
+        hr = shDepthResolveTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shDepthResolveTexResource);
+
+        if (SUCCEEDED(hr)) {
+          hr = shDepthResolveTexResource->GetSharedHandle(&shDepthResolveHandle);
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to get shared depth resolve texture handle: " << (void *)hr << std::endl;
+            abort();
+          }
+        } else {
+          getOut() << "failed to get shared depth resolve texture: " << (void *)hr << std::endl;
+          abort();
+        }
+      }
     }
+    if (shDepthTex) {
+      D3D11_TEXTURE2D_DESC depthDesc;
+      shDepthTex->GetDesc(&depthDesc);
+
+      DXGI_FORMAT resolveFormat;
+      if (depthDesc.Format == DXGI_FORMAT_R32G8X24_TYPELESS) {
+        resolveFormat = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
+      } else if (depthDesc.Format = DXGI_FORMAT_R24G8_TYPELESS) {
+        resolveFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+      } else {
+        getOut() "unknown depth texture resolve format: " << depthDesc.Format << std::endl;
+        abort();
+      }
+
+      context->ResolveSubresource(
+        shDepthResolveTex,
+        0,
+        shDepthTex,
+        0,
+        resolveFormat
+      );
+    }
+
     clientZBufferParams = localZBufferParams;
 
     /* context->CopyResource(
@@ -2304,7 +2410,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     flip,
     EVRSubmitFlags::Submit_Default,
     std::tuple<uintptr_t, float, float>(
-      (uintptr_t)sharedDepthHandle,
+      (uintptr_t)shDepthResolveHandle,
       std::get<0>(clientZBufferParams),
       std::get<1>(clientZBufferParams)
     ),

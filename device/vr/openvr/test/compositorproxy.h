@@ -64,6 +64,8 @@ public:
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
   std::vector<ID3D11Texture2D *> inDxDepthTexs;
+  std::vector<ID3D11Texture2D *> inDxDepthResolveTexs;
+  std::vector<HANDLE> inDxDepthResolveHandles;
   // std::vector<ID3D11Texture2D *> inDxDepthTexs2;
   // std::vector<ID3D11Texture2D *> inDxDepthTexs3;
   std::vector<std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>> shaderResourceViews;
