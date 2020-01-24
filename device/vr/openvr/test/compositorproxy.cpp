@@ -2031,7 +2031,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
       {
         ID3D11Resource *shDepthTexResource;
-        HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
+        HRESULT hr = device->OpenSharedResource(depthTexHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
 
         if (SUCCEEDED(hr)) {
           hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTex));
