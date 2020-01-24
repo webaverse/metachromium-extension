@@ -804,7 +804,8 @@ bool shouldDepthTexClear(T *view, size_t index) {
   bool result = !isSingle && !isDual;
   if (!result) {
     if (isChrome) {
-      if (depthTex == sbsDepthTex) {
+      getOut() << "chrome check " << (void *)depthTex << " " << (void *)sbsDepthTex << " " << (void *)sbsDepthTexShHandle << std::endl;
+      if (sbsDepthTexShHandle) {
         bool queueContains = g_hijacker->fnp.call<
           kHijacker_QueueContains,
           bool,
