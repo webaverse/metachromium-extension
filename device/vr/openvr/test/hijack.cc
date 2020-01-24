@@ -384,6 +384,79 @@ void tryLatchZBufferParams(const void *data, size_t size) {
   }
 }
 
+HRESULT (STDMETHODCALLTYPE *RealD3D11CreateDeviceAndSwapChain)(
+  IDXGIAdapter               *pAdapter,
+  D3D_DRIVER_TYPE            DriverType,
+  HMODULE                    Software,
+  UINT                       Flags,
+  const D3D_FEATURE_LEVEL    *pFeatureLevels,
+  UINT                       FeatureLevels,
+  UINT                       SDKVersion,
+  const DXGI_SWAP_CHAIN_DESC *pSwapChainDesc,
+  IDXGISwapChain             **ppSwapChain,
+  ID3D11Device               **ppDevice,
+  D3D_FEATURE_LEVEL          *pFeatureLevel,
+  ID3D11DeviceContext        **ppImmediateContext
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MineD3D11CreateDeviceAndSwapChain(
+  IDXGIAdapter               *pAdapter,
+  D3D_DRIVER_TYPE            DriverType,
+  HMODULE                    Software,
+  UINT                       Flags,
+  const D3D_FEATURE_LEVEL    *pFeatureLevels,
+  UINT                       FeatureLevels,
+  UINT                       SDKVersion,
+  const DXGI_SWAP_CHAIN_DESC *pSwapChainDesc,
+  IDXGISwapChain             **ppSwapChain,
+  ID3D11Device               **ppDevice,
+  D3D_FEATURE_LEVEL          *pFeatureLevel,
+  ID3D11DeviceContext        **ppImmediateContext
+) {
+  getOut() << "create device and swap chain" << std::endl;
+  return RealD3D11CreateDeviceAndSwapChain(pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, pSwapChainDesc, ppSwapChain, ppDevice, pFeatureLevel, ppImmediateContext);
+}
+HRESULT (STDMETHODCALLTYPE *RealD3D11CreateDevice)(
+  IDXGIAdapter            *pAdapter,
+  D3D_DRIVER_TYPE         DriverType,
+  HMODULE                 Software,
+  UINT                    Flags,
+  const D3D_FEATURE_LEVEL *pFeatureLevels,
+  UINT                    FeatureLevels,
+  UINT                    SDKVersion,
+  ID3D11Device            **ppDevice,
+  D3D_FEATURE_LEVEL       *pFeatureLevel,
+  ID3D11DeviceContext     **ppImmediateContext
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MineD3D11CreateDevice(
+  IDXGIAdapter            *pAdapter,
+  D3D_DRIVER_TYPE         DriverType,
+  HMODULE                 Software,
+  UINT                    Flags,
+  const D3D_FEATURE_LEVEL *pFeatureLevels,
+  UINT                    FeatureLevels,
+  UINT                    SDKVersion,
+  ID3D11Device            **ppDevice,
+  D3D_FEATURE_LEVEL       *pFeatureLevel,
+  ID3D11DeviceContext     **ppImmediateContext
+) {
+  getOut() << "create device" << std::endl;
+  return RealD3D11CreateDevice(pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, ppDevice, pFeatureLevel, ppImmediateContext);
+}
+
+void (STDMETHODCALLTYPE *RealOMGetRenderTargets)(
+  ID3D11DeviceContext *This,
+  UINT                   NumViews,
+  ID3D11RenderTargetView **ppRenderTargetViews,
+  ID3D11DepthStencilView **ppDepthStencilView
+) = nullptr;
+void STDMETHODCALLTYPE MineOMGetRenderTargets(
+  ID3D11DeviceContext *This,
+  UINT                   NumViews,
+  ID3D11RenderTargetView **ppRenderTargetViews,
+  ID3D11DepthStencilView **ppDepthStencilView
+) {
+  RealOMGetRenderTargets(This, NumViews, ppRenderTargetViews, ppDepthStencilView);
+}
 void (STDMETHODCALLTYPE *RealOMSetRenderTargets)(
   ID3D11DeviceContext *This,
   UINT                   NumViews,
@@ -396,6 +469,8 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
   ID3D11RenderTargetView * const *ppRenderTargetViews,
   ID3D11DepthStencilView *pDepthStencilView
 ) {
+  // getOut() << "RealOMSetRenderTargets" << std::endl;
+  
   if (pDepthStencilView) {
     ID3D11Texture2D *depthTex = nullptr;
     ID3D11Resource *depthTexResource = nullptr;
@@ -422,9 +497,9 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           abort();
         }
 
-        HANDLE shHandle;
+        HANDLE shHandle = NULL;
         hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &shHandle);
-        if (FAILED(hr)) {
+        if (FAILED(hr) || !shHandle) {
           getOut() << "failed to get sbs depth tex shared handle " << (void *)hr << std::endl;
           abort();
         }
@@ -1003,7 +1078,28 @@ HRESULT STDMETHODCALLTYPE MineCreateDepthStencilView(
   const D3D11_DEPTH_STENCIL_VIEW_DESC *pDesc,
   ID3D11DepthStencilView              **ppDepthStencilView
 ) {
-  TRACE("Hijack", [&]() { getOut() << "CreateDepthStencilView" << std::endl; });
+  ID3D11Texture2D *depthTex = nullptr;
+  HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&depthTex);
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
+    abort();
+  }
+  
+  D3D11_TEXTURE2D_DESC desc;
+  depthTex->lpVtbl->GetDesc(depthTex, &desc);
+  
+  getOut() << "CreateDepthStencilView " << (void *)pResource <<
+    desc.Width << " " << desc.Height << " " <<
+    desc.MipLevels << " " << desc.ArraySize << " " <<
+    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+    desc.Format << " " <<
+    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+    std::endl;
+  
+  depthTex->lpVtbl->Release(depthTex);
+
   return RealCreateDepthStencilView(This, pResource, pDesc, ppDepthStencilView);
 }
 void (STDMETHODCALLTYPE *RealClearRenderTargetView)(
@@ -1318,7 +1414,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
   getOut() << "CreateTexture2D " <<
     (void *)(*ppTexture2D) << " " <<
     desc.Width << " " << desc.Height << " " <<
-    desc.MipLevels << " " << pDesc->ArraySize << " " <<
+    desc.MipLevels << " " << desc.ArraySize << " " <<
     desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
     desc.Format << " " <<
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
@@ -1337,28 +1433,36 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     isSingleEyeDepth << " " << isDualEyeDepth << " " <<
     std::endl; */
 
-  D3D11_TEXTURE2D_DESC desc = *pDesc;
-  getOut() << "create texture 2d " <<
-    desc.Width << " " << desc.Height << " " <<
-    desc.MipLevels << " " << desc.ArraySize << " " <<
-    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-    desc.Format << " " <<
-    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    std::endl;
-
   if (isSingleEyeDepthTex(*pDesc) || isDualEyeDepthTex(*pDesc)) {
     D3D11_TEXTURE2D_DESC desc = *pDesc;
     desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
     auto hr = RealCreateTexture2D(This, &desc, pInitialData, ppTexture2D);
-    getOut() << "create depth texture " << (void *)(*ppTexture2D) << " " << desc.Width << " " << desc.Height << std::endl;
+    getOut() << "create texture 2d depth " <<
+      (void *)(*ppTexture2D) << " " <<
+      desc.Width << " " << desc.Height << " " <<
+      desc.MipLevels << " " << desc.ArraySize << " " <<
+      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+      desc.Format << " " <<
+      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+      std::endl;
     if (FAILED(hr)) {
       getOut() << "failed to create texture 2d: " << (void *)hr << std::endl;
       abort();
     }
     return hr;
   } else {
-    return RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
+    auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
+    const D3D11_TEXTURE2D_DESC &desc = *pDesc;
+    getOut() << "create texture 2d normal " <<
+      (void *)(*ppTexture2D) << " " <<
+      desc.Width << " " << desc.Height << " " <<
+      desc.MipLevels << " " << desc.ArraySize << " " <<
+      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+      desc.Format << " " <<
+      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+      std::endl;
+    return hr;
   }
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateRasterizerState)(
@@ -1453,7 +1557,7 @@ void STDMETHODCALLTYPE MineGlGenRenderbuffers(
   d3d11_device->lpVtbl->GetImmediateContext(d3d11_device, &context);
   // getOut() << "get device renderbuffers 4 " << (void *)context << " " << GetLastError() << std::endl;
   g_hijacker->hijackDx(context);
-  // getOut() << "get device renderbuffers 5" << std::endl;
+  // getOut() << "get device renderbuffers 5" << std::endl; */
   
   RealGlGenRenderbuffers(n, renderbuffers);
   TRACE("Hijack", [&]() { getOut() << "glGenRenderbuffers " << n << " " << renderbuffers[0] << " " << GetCurrentProcessId() << ":" << GetCurrentThreadId() << std::endl; });
@@ -2507,8 +2611,72 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     getOut() << "ensure client device 8" << std::endl;
   }
 } */
+void Hijacker::hijackPre() {
+  if (!hijackedDx) {
+    /* getOut() << "hijack pre 1" << std::endl;
+    
+    Microsoft::WRL::ComPtr<IDXGIFactory1> dxgi_factory;
+    IDXGIAdapter *adapter;
+    hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), &dxgi_factory);
+    dxgi_factory->EnumAdapters(adapterIndex, &adapter);
+    
+    adapter->lpVtbl->Release(adapter);
+    
+    getOut() << "hijack pre 2" << std::endl; */
+    
+    /* getOut() << "hijack pre 1" << std::endl;
+    ID3D11Device *deviceBasic;
+    ID3D11DeviceContext *contextBasic;
+    D3D_FEATURE_LEVEL featureLevels[] = {
+      D3D_FEATURE_LEVEL_11_1
+    };
+    HRESULT hr = D3D11CreateDevice(
+      NULL, // pAdapter
+      D3D_DRIVER_TYPE_HARDWARE, // DriverType
+      NULL, // Software
+      0, // Flags
+      featureLevels, // pFeatureLevels
+      ARRAYSIZE(featureLevels), // FeatureLevels
+      D3D11_SDK_VERSION, // SDKVersion
+      &deviceBasic, // ppDevice
+      NULL, // pFeatureLevel
+      &contextBasic // ppImmediateContext
+    );
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "hijack dx device creation failed " << (void *)hr << std::endl;
+      abort();
+    }
+    hijackDx(contextBasic);
+    
+    getOut() << "hijack pre 2" << std::endl; */
+    
+    /* getOut() << "hijack pre 1" << std::endl;
+    LONG error = DetourTransactionBegin();
+    checkDetourError("DetourTransactionBegin", error);
+
+    error = DetourUpdateThread(GetCurrentThread());
+    checkDetourError("DetourUpdateThread", error);
+    
+    RealD3D11CreateDeviceAndSwapChain = D3D11CreateDeviceAndSwapChain;
+    getOut() << "hijack pre 2 " << (void *)RealD3D11CreateDeviceAndSwapChain << std::endl;
+    error = DetourAttach(&(PVOID&)RealD3D11CreateDeviceAndSwapChain, MineD3D11CreateDeviceAndSwapChain);
+    checkDetourError("RealD3D11CreateDeviceAndSwapChain", error);
+    
+    RealD3D11CreateDevice = D3D11CreateDevice;
+    getOut() << "hijack pre 3 " << (void *)RealD3D11CreateDevice << std::endl;
+    error = DetourAttach(&(PVOID&)RealD3D11CreateDevice, MineD3D11CreateDevice);
+    checkDetourError("RealD3D11CreateDevice", error);
+  
+    error = DetourTransactionCommit();
+    checkDetourError("DetourTransactionCommit", error);
+
+    getOut() << "hijack pre 4" << std::endl; */
+  }
+}
 void Hijacker::hijackDx(ID3D11DeviceContext *context) {
-  if (!hijacked) {
+  if (!hijackedDx) {
     ID3D11DeviceContext1 *context1;
     HRESULT hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext1, (void **)&context1);
     if (SUCCEEDED(hr)) {
@@ -2519,6 +2687,8 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     
     ID3D11Device *device;
     context->lpVtbl->GetDevice(context, &device);
+    
+    getOut() << "got device " << (void *)device << std::endl;
 
     LONG error = DetourTransactionBegin();
     checkDetourError("DetourTransactionBegin", error);
@@ -2526,11 +2696,15 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     error = DetourUpdateThread(GetCurrentThread());
     checkDetourError("DetourUpdateThread", error);
     
+    RealOMGetRenderTargets = context->lpVtbl->OMGetRenderTargets;
+    error = DetourAttach(&(PVOID&)RealOMGetRenderTargets, MineOMGetRenderTargets);
+    checkDetourError("RealOMGetRenderTargets", error);
+    
     RealOMSetRenderTargets = context->lpVtbl->OMSetRenderTargets;
     error = DetourAttach(&(PVOID&)RealOMSetRenderTargets, MineOMSetRenderTargets);
     checkDetourError("RealOMSetRenderTargets", error);
 
-    RealOMSetDepthStencilState = context->lpVtbl->OMSetDepthStencilState;
+    /* RealOMSetDepthStencilState = context->lpVtbl->OMSetDepthStencilState;
     error = DetourAttach(&(PVOID&)RealOMSetDepthStencilState, MineOMSetDepthStencilState);
     checkDetourError("RealOMSetDepthStencilState", error);
 
@@ -2624,7 +2798,7 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
 
     RealRSSetState = context1->lpVtbl->RSSetState;
     error = DetourAttach(&(PVOID&)RealRSSetState, MineRSSetState);
-    checkDetourError("RealRSSetState", error);
+    checkDetourError("RealRSSetState", error); */
 
     error = DetourTransactionCommit();
     checkDetourError("DetourTransactionCommit", error);
@@ -2632,7 +2806,7 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     context1->lpVtbl->Release(context1);
     device->lpVtbl->Release(device);
 
-    hijacked = true;
+    hijackedDx = true;
   }
 }
 void Hijacker::hijackGl() {

@@ -12,12 +12,14 @@ public:
 class Hijacker {
 public:
   FnProxy fnp;
-  bool hijacked = false;
+  // bool hijackedPre = false;
+  bool hijackedDx = false;
   bool hijackedGl = false;
   
   Hijacker(FnProxy &fnp);
 
   // static void ensureClientDevice();
+  void hijackPre();
   void hijackDx(ID3D11DeviceContext *context);
   void hijackGl();
   ProxyTexture getDepthTextureMatching(ID3D11Texture2D *tex);

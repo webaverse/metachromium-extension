@@ -586,6 +586,8 @@ void PVRSystem::GetDXGIOutputInfo(int32_t *pnAdapterIndex) {
   getOut() << "GetDXGIOutputInfo 2" << std::endl;
   *pnAdapterIndex = result;
   getOut() << "GetDXGIOutputInfo 3" << std::endl;
+  
+  g_hijacker->hijackPre();
 }
 void PVRSystem::GetOutputDevice(uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance) {
   getOut() << "GetOutputDevice abort" << std::endl;

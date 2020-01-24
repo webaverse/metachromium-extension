@@ -115,8 +115,8 @@ void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float 
 float ProxyGetFloat(const char *pchSection, const char *pchSettingsKey, vr::EVRSettingsError *peError) {
   return vr::g_pvrsettings->GetFloat(pchSection, pchSettingsKey, peError);
 }
-// constexpr bool tracing = true;
-constexpr bool tracing = false;
+constexpr bool tracing = true;
+// constexpr bool tracing = false;
 void TRACE(const char *module, const std::function<void()> &fn) {
   if (tracing) {
     fn();
@@ -146,6 +146,7 @@ Hijacker *g_hijacker = nullptr;
 constexpr bool localLoop = false;
 
 void *shMem = nullptr;
+// bool hijacked = false;
 bool booted = false;
 bool isChrome = false;
 // uint64_t *pFrameCount = nullptr;
@@ -168,6 +169,36 @@ extern "C" {
     // size_t &id = *((size_t *)shMem + 1);
     // getOut() << "core 1 " << interface_name << std::endl;
 
+    /* std::string ivrsystemString("IVRClientCore");
+    if (!hijacked && std::string(interface_name).substr(0, ivrsystemString.size()) == ivrsystemString) {
+      Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
+      Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
+      D3D_FEATURE_LEVEL featureLevels[] = {
+        D3D_FEATURE_LEVEL_11_1
+      };
+      HRESULT hr = D3D11CreateDevice(
+        NULL, // pAdapter
+        D3D_DRIVER_TYPE_HARDWARE, // DriverType
+        NULL, // Software
+        0, // Flags
+        featureLevels, // pFeatureLevels
+        ARRAYSIZE(featureLevels), // FeatureLevels
+        D3D11_SDK_VERSION, // SDKVersion
+        &deviceBasic, // ppDevice
+        NULL, // pFeatureLevel
+        &contextBasic // ppImmediateContext
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        getOut() << "hijack dx device creation failed " << (void *)hr << std::endl;
+        abort();
+      }
+      g_hijacker->hijackDx(contextBasic.Get());
+      g_hijacker->hijackGl();
+      
+      hijacked = true;
+    } */
     if (!booted) {
       if (localLoop) {
         wrapExternalOpenVr([&]() -> void {
@@ -332,6 +363,7 @@ BOOL WINAPI DllMain(
     vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
     vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
     
+    // g_hijacker->hijackPre();
     g_hijacker->hijackGl();
 
     // getOut() << "init dll 0" << std::endl;

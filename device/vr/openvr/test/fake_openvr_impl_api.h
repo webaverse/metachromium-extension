@@ -23,6 +23,8 @@ extern void *shMem;
 // extern size_t *pNumClients;
 extern std::string logSuffix;
 extern HWND g_hWnd;
+extern FnProxy *g_fnp;
+extern Hijacker *g_hijacker;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
 

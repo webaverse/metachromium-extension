@@ -2061,6 +2061,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         depthDesc.Format << " " <<
         depthDesc.Usage << " " << depthDesc.BindFlags << " " << depthDesc.CPUAccessFlags << " " << depthDesc.MiscFlags <<
         std::endl;
+      
+      depthDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
       hr = device->CreateTexture2D(
         &depthDesc,
@@ -2093,13 +2095,13 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         }
       } */
     }
-    /* if (shDepthTex) {
-      getOut() << "copy depth tex resource " << (void *)depthTexHandle << std::endl;
+    if (shDepthTex) {
+      /* getOut() << "copy depth tex resource " << (void *)depthTexHandle << std::endl;
       context->CopyResource(
         shDepthResolveTex,
         shDepthTex
-      );
-    } */
+      ); */
+    }
 
     clientZBufferParams = localZBufferParams;
 
@@ -2373,7 +2375,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EVRSubmitFlags::Submit_Default,
     std::tuple<uintptr_t, float, float>(
       // (uintptr_t)shDepthResolveHandle,
-      0, // depthTextureLatched,
+      depthTextureLatched,
       std::get<0>(clientZBufferParams),
       std::get<1>(clientZBufferParams)
     ),

@@ -5,12 +5,37 @@ init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\m
 get interface IVRClientCore_002
 init 3 IVRClientCore_002
 create interface IVRClientCore_002
-init 7 IVRClientCore_002 0000000000A04A40
+init 7 IVRClientCore_002 00000000013F86D0
 get generic interface IVRSystem_015
 create interface IVRSystem_015
+BaseSystem::GetDXGIOutputInfo
 GetDXGIOutputInfo 1
 GetDXGIOutputInfo 2
 GetDXGIOutputInfo 3
+hijack pre 1
+hijack pre 2 00007FF8561EAA2F
+hijack pre 3 00007FF8561EAA29
+hijack pre 4
+core client cleanup
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+failed to load gl hijack libs: 0000000000000000 00007FF86B9A0000 126
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+dll main 2create interface 
+IVRClientCore_002
+init 7 IVRClientCore_002 00000000007B5BF0
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+BaseSystem::GetDXGIOutputInfo
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+hijack pre 1
+hijack pre 3 00007FF8561EA909
+hijack pre 4
 core client cleanup
 dll main 0
 --------------------------------------------------------------------------------
@@ -20,14 +45,90 @@ init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\m
 get interface IVRClientCore_002
 init 3 IVRClientCore_002
 create interface IVRClientCore_002
-init 7 IVRClientCore_002 000000000F36AFD0
+init 7 IVRClientCore_002 0000000001124E00
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+BaseSystem::GetDXGIOutputInfo
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+hijack pre 1
+hijack pre 4
+core client cleanup
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+failed to load gl hijack libs: 0000000000000000 00007FF86B9A0000 126
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 000000001149C110
 get generic interface IVRSystem_015
 create interface IVRSystem_015
 get generic interface IVRChaperone_003
 create interface IVRChaperone_003
 get generic interface IVRCompositor_019
 create interface IVRCompositor_019
+BaseCompositor::WaitGetPoses
 wait get poses
+BaseCompositor::GetFrameTiming
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetControllerRoleForTrackedDeviceIndex
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetControllerRoleForTrackedDeviceIndex
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetControllerRoleForTrackedDeviceIndex
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetControllerRoleForTrackedDeviceIndex
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetInt32TrackedDeviceProperty
+BaseSystem::GetHiddenAreaMesh
+BaseSystem::GetHiddenAreaMesh
+BaseSystem::IsTrackedDeviceConnected
+BaseSystem::GetStringTrackedDeviceProperty
+BaseSystem::GetStringTrackedDeviceProperty
+BaseSystem::GetStringTrackedDeviceProperty
+BaseSystem::GetStringTrackedDeviceProperty
+BaseSystem::GetRecommendedRenderTargetSize
+BaseCompositor::ShouldAppRenderWithLowResources
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetFloatTrackedDeviceProperty
 dll main 2
 dll main 2
 dll main 2
@@ -36,219 +137,247 @@ get generic interface IVRCompositor_020
 create interface IVRCompositor_020
 get generic interface IVROverlay_016
 create interface IVROverlay_016
+dll main 3
 get generic interface FnTable:IVRSystem_016
 create interface FnTable:IVRSystem_016
 create interface IVRSystem_016
-dll main 3
+dll main 2
+BaseSystem::GetStringTrackedDeviceProperty
+BaseSystem::GetStringTrackedDeviceProperty
+BaseSystem::GetStringTrackedDeviceProperty
+BaseSystem::GetStringTrackedDeviceProperty
 get generic interface FnTable:IVRCompositor_020
 create interface FnTable:IVRCompositor_020
 create interface IVRCompositor_020
 get generic interface FnTable:IVROverlay_016
 create interface FnTable:IVROverlay_016
 create interface IVROverlay_016
-dll main 2
+BaseSystem::GetRecommendedRenderTargetSize
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetEyeToHeadTransform
+BaseSystem::GetEyeToHeadTransform
 get generic interface FnTable:IVRScreenshots_001
 create interface FnTable:IVRScreenshots_001
 create interface IVRScreenshots_001
+BaseScreenshots::HookScreenshot
 get generic interface FnTable:IVRSettings_002
 create interface FnTable:IVRSettings_002
 create interface IVRSettings_002
+BaseSettings::GetBool
+BaseSystem::GetControllerState
+BaseSystem::GetControllerState
+BaseSystem::GetTrackedDeviceIndexForControllerRole
+BaseSystem::GetTrackedDeviceIndexForControllerRole
 dll main 3
 dll main 2
+BaseSystem::GetStringTrackedDeviceProperty
+BaseSystem::GetStringTrackedDeviceProperty
 dll main 2
 dll main 2
 dll main 2
 dll main 2
+dll main 2
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::GetTrackedDeviceIndexForControllerRole
+BaseSystem::GetTrackedDeviceIndexForControllerRole
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseSystem::PollNextEvent
+BaseCompositor::GetFrameTiming
+BaseSystem::GetFloatTrackedDeviceProperty
+BaseSystem::GetControllerState
+BaseSystem::GetControllerState
 dll main 2
 dll main 3
-dll main 2
 dll main 3
 dll main 3
+BaseCompositor::GetLastPoses
+BaseSystem::GetEyeToHeadTransform
+BaseSystem::GetEyeToHeadTransform
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceIndexForControllerRole
+BaseSystem::GetTrackedDeviceIndexForControllerRole
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceIndexForControllerRole
+BaseSystem::GetTrackedDeviceIndexForControllerRole
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseCompositor::CanRenderScene
+BaseCompositor::SetTrackingSpace
+BaseSystem::GetRecommendedRenderTargetSize
+BaseCompositor::ShouldAppRenderWithLowResources
+BaseCompositor::Submit
 info queue query failed
-create shared fence handle 0000000000000B18
+got device 000000000703F468
+create shared fence handle 0000000000000B00
+BaseSystem::GetControllerState
 submit client dx 0 0 1 1
 shared tex flags 1624 1940 1 1 1 0 28 0 40 0 2
-create texture 2d 1624 1940 1 1 1 0 28 0 40 0 2 
-client submit 1 1 0 0
-got server fence handle ok 
-submit client dx 0 0 1 1
-shared tex flags 1624 1940 1 1 1 0 28 0 40 0 2
-create texture 2d 1624 1940 1 1 1 0 28 0 40 0 2 
-client submit 1 1 0 0
-unlatch depth tex bad size 1024 768 1 1 1 0 19 0 64 0 0 
-dll main 2
-dll main 2
-wait get poses
-unlatch depth tex bad size 2048 2048 1 1 1 0 19 0 72 0 0 
-clear depth tex 00000000113B2020
-got lrtb ipd -0.955764 0.710781 -1.10362 0.880347 0.063
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000dll main 
-2ensure depth tex drawn 0000000000000000
+BaseSystem::GetControllerState
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+BaseSystem::GetControllerStateWithPose
+client submit 1 BaseSystem::GetControllerStateWithPose
+1 0 0
+BaseSystem::GetControllerStateWithPose
+BaseSystem::PollNextEventgot server fence handle ok 
 
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-ensure depth tex drawn 0000000000000000
-unlatch depth tex no depth
+BaseCompositor::Submit
+BaseCompositor::GetFrameTiming
+submit client dx 0 0 1 1BaseSystem::GetFloatTrackedDeviceProperty
+
+shared tex flags 1624 1940 1 1 1 0 28 0 40 0 2
+client submit 1 1 0 0
+unlatch depth tex bad size 1024 768 1 1 1 0 19 0 64 0 0 
 dll main 2
-ensure depth tex drawn 0000000000000000
-unlatch depth tex bad size 1024 1024 1 1 1 0 19 0 72 0 0 
-ensure depth tex drawn 0000000000000000
+dll main 2
+BaseCompositor::WaitGetPoses
+wait get poses
+BaseCompositor::GetFrameTiming
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetControllerRoleForTrackedDeviceIndex
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetControllerRoleForTrackedDeviceIndex
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetControllerRoleForTrackedDeviceIndex
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetControllerRoleForTrackedDeviceIndex
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+BaseSystem::GetTrackedDeviceClass
+dll main 2
+dll main 3
+dll main 2
+dll main 2
+dll main 2
+dll main 2
+BaseSystem::GetControllerState
+BaseSystem::GetControllerState
+BaseCompositor::GetLastPoses
+BaseSystem::GetEyeToHeadTransform
+BaseSystem::GetEyeToHeadTransform
 unlatch depth tex bad size 2048 2048 1 1 1 0 19 0 72 0 0 
+unlatch depth tex no depth
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseSystem::GetProjectionRaw
+BaseCompositor::CanRenderScene
+BaseCompositor::SetTrackingSpace
+unlatch depth tex bad size 1024 1024 1 1 1 0 19 0 72 0 0 
+BaseSystem::GetRecommendedRenderTargetSize
+unlatch depth tex bad size 2048 2048 1 1 1 0 19 0 72 0 0 
+unlatch depth tex bad size 1024 768 1 1BaseCompositor::ShouldAppRenderWithLowResources 1 0 19 0 64 0 0 
+
 unlatch depth tex bad size 1024 768 1 1 1 0 19 0 64 0 0 
-unlatch depth tex bad size 1024 768 1 1 1 0 19 0 64 0 0 
-latch depth share handle 00000000113B8060 0000000000000000
-emplace tex share handle 00000000113B8060 0000000000000000
-clear depth tex 00000000113B8060
-ensure depth tex drawn 00000000113B8060
-got sbs texture with no share handle: 00000000113B8060
+failed to get sbs depth tex shared handle 0000000000000000
+--------------------------------------------------------------------------------
+dll main 1
+failed to load gl hijack libs: 0000000000000000 00007FF86B9A0000 126
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 0000000001064720
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+BaseSystem::GetDXGIOutputInfo
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+hijack pre 1
+hijack pre 2 00007FF874920000
+hijack pre 3 00007FF8749369A0
+hijack pre 4
+core client cleanup
+dll main 0
+--------------------------------------------------------------------------------
+dll main 1
+failed to load gl hijack libs: 0000000000000000 00007FF86B9A0000 126
+init dll C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+get interface IVRClientCore_002
+init 3 IVRClientCore_002
+create interface IVRClientCore_002
+init 7 IVRClientCore_002 0000000001574A70
+dll main 2
+get generic interface IVRSystem_015
+create interface IVRSystem_015
+BaseSystem::GetDXGIOutputInfo
+GetDXGIOutputInfo 1
+GetDXGIOutputInfo 2
+GetDXGIOutputInfo 3
+hijack pre 1
+hijack pre 2 00007FF874936B00
+hijack pre 4
+core client cleanup
+dll main 0
