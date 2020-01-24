@@ -839,7 +839,9 @@ bool shouldDepthTexClear(T *view, size_t index) {
       }
     }
   }
-  // getOut() << "should clear depth tex " << (void *)depthTex << " " << index << " " << isSingle << " " << isDual << " " << (void *)sbsDepthTex << " " << texSharedHandleMap.size() << " " << result << std::endl;
+  /* if (result) {
+    getOut() << "clear depth tex " << (void *)depthTex << std::endl;
+  } */
 
   depthTex->lpVtbl->Release(depthTex);
   resource->lpVtbl->Release(resource);
@@ -2826,7 +2828,7 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
       }
       clientDepthHandleLatched = sharedDepthHandle;
       
-      getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
+      // getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
     }
     
     // getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;
