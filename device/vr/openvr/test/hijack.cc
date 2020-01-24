@@ -71,7 +71,6 @@ D3D11_TEXTURE2D_DESC lastDescDepth{};
 // ID3D11Texture2D *sbsTex = nullptr;
 ID3D11Texture2D *sbsDepthTex = nullptr;
 HANDLE sbsDepthTexShHandle = NULL;
-bool sbsDepthTexLatched = false;
 bool sbsDepthTexDrawn = false;
 std::vector<ID3D11Texture2D *> texCache;
 uint32_t texCacheSamples = 0;
@@ -436,11 +435,9 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
       }
       
       // getOut() << "set depth render target " << (void *)depthTex << std::endl;
-      
-      sbsDepthTexLatched = true;
     } else {
       // getOut() << "other depth render target" << std::endl;
-      sbsDepthTexLatched = false;
+      sbsDepthTex = nullptr;
     }
     /* getOut() << "set depth render target solid " <<
       GetCurrentProcessId() << " " <<
@@ -455,7 +452,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
     depthTex->lpVtbl->Release(depthTex);
     depthTexResource->lpVtbl->Release(depthTexResource);
   } else {
-    sbsDepthTexLatched = false;
+    sbsDepthTex = nullptr;
   }
   /* if (NumViews > 0 && ppRenderTargetViews && *ppRenderTargetViews && pDepthStencilView) {
     if (!depthWidth || !depthHeight) {
@@ -727,7 +724,7 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
   RealOMSetDepthStencilState(This, pDepthStencilState, StencilRef);
 }
 void ensureDepthTexDrawn() {
-  if (sbsDepthTexLatched) {
+  if (sbsDepthTex) {
     if (isChrome) {
       float zBufferParams[2];
       getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
@@ -807,7 +804,7 @@ bool shouldDepthTexClear(T *view, size_t index) {
   bool result = !isSingle && !isDual;
   if (!result) {
     if (isChrome) {
-      if (sbsDepthTexShHandle) {
+      if (depthTex == sbsDepthTex) {
         bool queueContains = g_hijacker->fnp.call<
           kHijacker_QueueContains,
           bool,
@@ -818,24 +815,22 @@ bool shouldDepthTexClear(T *view, size_t index) {
         }
       }
     } else {
-      if (sbsDepthTex) {
-        HANDLE shHandle;
-        {
-          auto iter = texSharedHandleMap.find(sbsDepthTex);
-          if (iter != texSharedHandleMap.end()) {
-            shHandle = iter->second;
-          } else {
-            getOut() << "failed to get registered share handle for depth texture" << std::endl;
-            abort();
-          }
+      HANDLE shHandle;
+      {
+        auto iter = texSharedHandleMap.find(depthTex);
+        if (iter != texSharedHandleMap.end()) {
+          shHandle = iter->second;
+        } else {
+          getOut() << "failed to get registered share handle for depth texture" << std::endl;
+          abort();
         }
+      }
 
-        auto iter = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
-          return pt.texHandle == shHandle;
-        });
-        if (iter == texQueue.end()) {
-          result = true;
-        }
+      auto iter = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
+        return pt.texHandle == shHandle;
+      });
+      if (iter == texQueue.end()) {
+        result = true;
       }
     }
   }
