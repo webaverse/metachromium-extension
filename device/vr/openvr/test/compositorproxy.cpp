@@ -2048,22 +2048,11 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
           abort();
         }
 
-        /* shTexInInteropHandle = wglDXRegisterObjectNV(hInteropDevice, shTexIn, shTexInId, GL_TEXTURE_2D, WGL_ACCESS_READ_ONLY_NV);
-        if (shTexInInteropHandle) {
-          // nothing
-        } else {
-          // C007006E
-          getOut() << "failed to get shared interop handle " << (void *)hInteropDevice << " " << shTexIn << " " << shTexInId << " " << glGetError() << " " << GetLastError() << std::endl;
-          abort();
-        } */
         shDepthTexResource->Release();
       }
 
       D3D11_TEXTURE2D_DESC depthDesc;
       shDepthTex->GetDesc(&depthDesc);
-
-      // depthDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-      // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
 
       getOut() << "shared depth tex flags " <<
         depthDesc.Width << " " << depthDesc.Height << " " <<
@@ -2072,11 +2061,6 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         depthDesc.Format << " " <<
         depthDesc.Usage << " " << depthDesc.BindFlags << " " << depthDesc.CPUAccessFlags << " " << depthDesc.MiscFlags <<
         std::endl;
-
-      // depthDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-      // depthDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-
-      // getOut() << "submit client 5" << std::endl;
 
       hr = device->CreateTexture2D(
         &depthDesc,
