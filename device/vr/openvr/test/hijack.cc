@@ -139,20 +139,29 @@ void ensureDepthWidthHeight() {
 }
 bool isSingleEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
   ensureDepthWidthHeight();
+  
+  /* if (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL) {
+    getOut() << "check depth tex " <<
+      desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
+      desc.MipLevels << " " << desc.ArraySize << " " <<
+      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+      desc.Format << " " <<
+      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+      std::endl;
+  } */
+
   return desc.Width == depthWidth &&
     desc.Height == depthHeight &&
     // desc.Format == DXGI_FORMAT_R24G8_TYPELESS &&
-    desc.SampleDesc.Count > 1 &&
+    // desc.SampleDesc.Count > 1 &&
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
-  if (!depthWidth) {
-    ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
-  }
+  ensureDepthWidthHeight();
   return desc.Width == depthWidth*2 &&
     desc.Height == depthHeight &&
     // desc.Format == DXGI_FORMAT_R24G8_TYPELESS &&
-    desc.SampleDesc.Count > 1 &&
+    // desc.SampleDesc.Count > 1 &&
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
@@ -420,7 +429,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           abort();
         }
         
-        // getOut() << "latch depth share handle " << (void *)sbsDepthTex << " " << (void *)shHandle << std::endl;
+        getOut() << "latch depth share handle " << (void *)sbsDepthTex << " " << (void *)shHandle << std::endl;
         
         if (isChrome) {
           sbsDepthTexShHandle = shHandle;
@@ -429,6 +438,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           if (iter == texSharedHandleMap.end()) {
             texSharedHandleMap.emplace(depthTex, shHandle);
           }
+          getOut() << "emplace tex share handle " << depthTex << " " << shHandle << std::endl;
         }
         
         // dxgiResource->lpVtbl->Release(dxgiResource);
@@ -436,7 +446,13 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
       
       // getOut() << "set depth render target " << (void *)depthTex << std::endl;
     } else {
-      // getOut() << "other depth render target" << std::endl;
+      getOut() << "unlatch depth tex bad size " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+        std::endl;
       sbsDepthTex = nullptr;
     }
     /* getOut() << "set depth render target solid " <<
@@ -452,6 +468,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
     depthTex->lpVtbl->Release(depthTex);
     depthTexResource->lpVtbl->Release(depthTexResource);
   } else {
+    getOut() << "unlatch depth tex no depth" << std::endl;
     sbsDepthTex = nullptr;
   }
   /* if (NumViews > 0 && ppRenderTargetViews && *ppRenderTargetViews && pDepthStencilView) {
@@ -724,6 +741,8 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
   RealOMSetDepthStencilState(This, pDepthStencilState, StencilRef);
 }
 void ensureDepthTexDrawn() {
+  getOut() << "ensure depth tex drawn " << (void *)sbsDepthTex << std::endl;
+
   if (sbsDepthTex) {
     if (isChrome) {
       float zBufferParams[2];
@@ -748,6 +767,11 @@ void ensureDepthTexDrawn() {
       if (iter != texSharedHandleMap.end()) {
         HANDLE shHandle = iter->second;
         
+        if (!shHandle) {
+          getOut() << "got sbs texture with no share handle: " << (void *)sbsDepthTex << std::endl;
+          abort();
+        }
+        
         /* if (seenDepthTexs.find(shHandle) == seenDepthTexs.end()) {
           getOut() << "new depth tex " << shHandle << std::endl;
           seenDepthTexs.insert(shHandle);
@@ -765,6 +789,8 @@ void ensureDepthTexDrawn() {
 
           float zBufferParams[2];
           getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
+          
+          getOut() << "queue depth tex " << (void *)sbsDepthTex << " " << shHandle << " " << descDepth.Width << " " << depthWidth << " " << isFull << std::endl;
 
           texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1])});
           if (isFull) {
@@ -835,9 +861,9 @@ bool shouldDepthTexClear(T *view, size_t index) {
       }
     }
   }
-  /* if (result) {
+  if (result) {
     getOut() << "clear depth tex " << (void *)depthTex << std::endl;
-  } */
+  }
 
   depthTex->lpVtbl->Release(depthTex);
   resource->lpVtbl->Release(resource);
@@ -1310,6 +1336,15 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
     isSingleEyeDepth << " " << isDualEyeDepth << " " <<
     std::endl; */
+
+  D3D11_TEXTURE2D_DESC desc = *pDesc;
+  getOut() << "create texture 2d " <<
+    desc.Width << " " << desc.Height << " " <<
+    desc.MipLevels << " " << desc.ArraySize << " " <<
+    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+    desc.Format << " " <<
+    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+    std::endl;
 
   if (isSingleEyeDepthTex(*pDesc) || isDualEyeDepthTex(*pDesc)) {
     D3D11_TEXTURE2D_DESC desc = *pDesc;
@@ -2799,12 +2834,12 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     std::sort(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &a, const ProxyTexture &b) -> bool {
       return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
     });
-    // getOut() << "shift tex queue " << texQueue.size() << std::endl;
     if (texQueue.size() > 2) {
       texQueue.resize(2);
     }
     
     ProxyTexture result = texQueue.front();
+    getOut() << "shift tex queue " << (void *)result.texHandle << " " << texQueue.size() << std::endl;
     texQueue.pop_front();
     return result;
   }

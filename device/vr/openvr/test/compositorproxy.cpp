@@ -217,7 +217,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   // d = LinearEyeDepth(d*2.0 - 1.0);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
-  /* if (d < 0.5) {
+  if (d < 0.5) {
     result.Color = float4(d, 0, 0, 1);
     result.Depth = d;
   } else if (d < 1) {
@@ -226,16 +226,16 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   } else {
     result.Color = float4(0, 0, d, 1);
     result.Depth = e;
-  } */
+  }
 
-  if (e == 1.0 || d < (e*depthScale)) {
+  /* if (e == 1.0 || d < (e*depthScale)) {
     result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
     result.Depth = d/depthScale;
   } else {
     // result.Color = float4(0, 0, e, 1);
     // result.Depth = e;
     discard;
-  }
+  } */
 
   return result;
 }
@@ -2373,7 +2373,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     EVRSubmitFlags::Submit_Default,
     std::tuple<uintptr_t, float, float>(
       // (uintptr_t)shDepthResolveHandle,
-      depthTextureLatched,
+      0, // depthTextureLatched,
       std::get<0>(clientZBufferParams),
       std::get<1>(clientZBufferParams)
     ),
