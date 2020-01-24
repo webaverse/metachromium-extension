@@ -226,7 +226,6 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   } else {
     result.Color = float4(0, 0, d, 1);
     result.Depth = e;
-    // discard;
   } */
 
   if (e == 1.0 || d < (e*depthScale)) {
