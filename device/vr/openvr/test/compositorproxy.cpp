@@ -157,8 +157,8 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-// Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
-Texture2D QuadDepthTexture : register(ps, t1);
+Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
+// Texture2D QuadDepthTexture : register(ps, t1);
 Texture2D DepthTexture : register(ps, t2);
 SamplerState QuadTextureSampler {
   MipFilter = NONE;
@@ -206,8 +206,8 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 
   float depthScale = 1000;
 
-  // float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
+  float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+  // float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
   d = LinearEyeDepth(d);
   // d /= depthScale;
   // d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
@@ -708,8 +708,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           } else {
             shaderDepthResourceViewDesc.Format = desc.Format;
           }
-          // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
-          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+          // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
           shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
           shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;
           HRESULT hr = device->CreateShaderResourceView(
@@ -2073,10 +2073,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         depthDesc.Usage << " " << depthDesc.BindFlags << " " << depthDesc.CPUAccessFlags << " " << depthDesc.MiscFlags <<
         std::endl;
 
-      depthDesc.SampleDesc.Count = 1;
-      depthDesc.SampleDesc.Quality = 0;
-      depthDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-      depthDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+      // depthDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+      // depthDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
       // getOut() << "submit client 5" << std::endl;
 
@@ -2112,34 +2110,14 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       }
     }
     if (shDepthTex) {
-      D3D11_TEXTURE2D_DESC depthDesc;
-      shDepthTex->GetDesc(&depthDesc);
-
-      DXGI_FORMAT resolveFormat;
-      if (depthDesc.Format == DXGI_FORMAT_R32G8X24_TYPELESS) {
-        resolveFormat = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
-      } else if (depthDesc.Format = DXGI_FORMAT_R24G8_TYPELESS) {
-        resolveFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
-      } else {
-        getOut() << "unknown depth texture resolve format: " << depthDesc.Format << std::endl;
-        abort();
-      }
-
-      context->ResolveSubresource(
+      getOut() << "copy depth tex resource " << (void *)depthTexHandle << std::endl;
+      /* context->CopyResource(
         shDepthResolveTex,
-        0,
-        shDepthTex,
-        0,
-        resolveFormat
-      );
+        shDepthTex
+      ); */
     }
 
     clientZBufferParams = localZBufferParams;
-
-    /* context->CopyResource(
-      shDepthTex,
-      depthTex
-    ); */
 
     /* context->CopySubresourceRegion(
       shDepthTex,
@@ -2410,7 +2388,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     flip,
     EVRSubmitFlags::Submit_Default,
     std::tuple<uintptr_t, float, float>(
-      (uintptr_t)shDepthResolveHandle,
+      // (uintptr_t)shDepthResolveHandle,
+      depthTextureLatched,
       std::get<0>(clientZBufferParams),
       std::get<1>(clientZBufferParams)
     ),
