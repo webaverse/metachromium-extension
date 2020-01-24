@@ -2030,7 +2030,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       }
       depthTextureLatched = (uintptr_t)depthTexHandle;
 
-      {
+      /* {
         ID3D11Resource *shDepthTexResource;
         HRESULT hr = device->OpenSharedResource(depthTexHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
 
@@ -2091,15 +2091,15 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
           getOut() << "failed to get shared depth resolve texture: " << (void *)hr << std::endl;
           abort();
         }
-      }
+      } */
     }
-    if (shDepthTex) {
+    /* if (shDepthTex) {
       getOut() << "copy depth tex resource " << (void *)depthTexHandle << std::endl;
-      /* context->CopyResource(
+      context->CopyResource(
         shDepthResolveTex,
         shDepthTex
-      ); */
-    }
+      );
+    } */
 
     clientZBufferParams = localZBufferParams;
 
