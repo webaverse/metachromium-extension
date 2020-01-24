@@ -863,6 +863,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
     ++fenceValue;
     context->Signal(fence.Get(), fenceValue);
+    context->Flush();
 
     /* if (!fence) {
       ID3D11Resource *fenceResource;
@@ -2372,7 +2373,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
   ++fenceValue;
   context->Signal(fence.Get(), fenceValue);
-  // context->Flush();
+  context->Flush();
 
   // getOut() << "submit client 19 " << (void *)sharedHandle << " " << (void *)pTexture << std::endl;
 
