@@ -2121,7 +2121,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       } else if (depthDesc.Format = DXGI_FORMAT_R24G8_TYPELESS) {
         resolveFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
       } else {
-        getOut() "unknown depth texture resolve format: " << depthDesc.Format << std::endl;
+        getOut() << "unknown depth texture resolve format: " << depthDesc.Format << std::endl;
         abort();
       }
 
