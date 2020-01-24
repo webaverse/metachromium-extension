@@ -2064,7 +2064,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       // depthDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
       // desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
 
-      getOut() << "shared tex flags " <<
+      getOut() << "shared depth tex flags " <<
         depthDesc.Width << " " << depthDesc.Height << " " <<
         depthDesc.MipLevels << " " << depthDesc.ArraySize << " " <<
         depthDesc.SampleDesc.Count << " " << depthDesc.SampleDesc.Quality << " " <<
