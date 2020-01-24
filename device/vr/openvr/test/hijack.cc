@@ -421,7 +421,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           abort();
         }
         
-        // getOut() << "latch depth share handle " << (void *)shHandle << std::endl;
+        getOut() << "latch depth share handle " << (void *)sbsDepthTex << " " << (void *)shHandle << std::endl;
         
         if (isChrome) {
           sbsDepthTexShHandle = shHandle;
