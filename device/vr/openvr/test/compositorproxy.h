@@ -1,9 +1,8 @@
 #ifndef _openvr_compositorproxy_h_
 #define _openvr_compositorproxy_h_
 
-// #include <deque>
-
 #include <D3D11_4.h>
+#include <d3dcompiler.h>
 #include <DXGI1_4.h>
 #include <wrl.h>
 
@@ -11,11 +10,13 @@
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/openvr/test/fnproxy.h"
+#include "device/vr/openvr/test/hijack.h"
 
 namespace vr {
 class PVRCompositor : public IVRCompositor {
 public:
   IVRCompositor *vrcompositor;
+  Hijacker &hijacker;
   FnProxy &fnp;
 
   // system
@@ -25,32 +26,62 @@ public:
   // main
   Microsoft::WRL::ComPtr<ID3D11Device5> device;
   Microsoft::WRL::ComPtr<ID3D11DeviceContext4> context;
+  Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
+  Microsoft::WRL::ComPtr<ID3D11InfoQueue> infoQueue;
   GLFWwindow *subWindow = nullptr;
   HANDLE hInteropDevice = NULL;
   uint32_t width;
   uint32_t height;
-  // bool rightEye = false;
+  HWND hWnd;
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
-  // HANDLE fenceHandle = NULL;
-  // Mutex fenceMutex;
+  HANDLE fenceHandle;
   uint64_t fenceValue = 0;
 
+  ID3D11Buffer *vertexBuffer = nullptr;
+  ID3D11Buffer *indexBuffer = nullptr;
+  std::vector<ID3D11Buffer *> vsConstantBuffers;
+  std::vector<ID3D11Buffer *> psConstantBuffers;
+  // ID3D11SamplerState *linearSampler = nullptr;
+  ID3DBlob *vsBlob = nullptr;
+  ID3D11VertexShader *vsShader = nullptr;
+  ID3DBlob *psBlob = nullptr;
+  ID3DBlob *psMsBlob = nullptr;
+  ID3D11PixelShader *psShader = nullptr;
+  ID3D11PixelShader *psMsShader = nullptr;
+  ID3D11InputLayout *vertexLayout = nullptr;
+  // ID3D11ShaderResourceView *shaderResourceView = nullptr;
+  // ID3D11RenderTargetView *renderTargetView = nullptr;
+  // ID3D11DepthStencilView *depthStencilView = nullptr;
+
   std::vector<GLuint> texLocations;
+  std::vector<GLuint> depthTexLocations;
   std::vector<GLuint> hasTexLocations;
   std::vector<GLuint> texBoundsLocations;
-  
+
   GLuint blitVao;
   GLuint blitProgram;
 
   // input front
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
+  std::vector<ID3D11Texture2D *> inDxDepthTexs;
+  std::vector<ID3D11Texture2D *> inDxDepthResolveTexs;
+  std::vector<HANDLE> inDxDepthResolveHandles;
+  // std::vector<ID3D11Texture2D *> inDxDepthTexs2;
+  // std::vector<ID3D11Texture2D *> inDxDepthTexs3;
+  std::vector<std::tuple<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *, bool>> shaderResourceViews;
   std::vector<HANDLE> inShDxShareHandles;
+  std::vector<HANDLE> inShDepthDxShareHandles;
+  // std::vector<std::tuple<float, float, int, bool>> inClientZBufferParams;
+  // std::vector<size_t> inShDepthDxEventIndexes;
   std::vector<uintptr_t> inTexLatches;
+  std::vector<uintptr_t> inDepthTexLatches;
+  std::vector<VRTextureBounds_t> inDepthTexBoundsLatches;
   std::vector<GLuint> interopTexs;
   std::vector<HANDLE> inReadInteropHandles;
-  std::vector<HANDLE> inReadEvents;
+  // std::vector<HANDLE> inReadEvents;
+  ID3D11Fence *remoteServerFence = nullptr;
   /* ID3D11Texture2D *shTexLeft = nullptr;
   ID3D11Texture2D *shTexRight = nullptr;
   HANDLE shTexLeftHandle = 0;
@@ -60,25 +91,36 @@ public:
 
   // input back
   std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
-  std::vector<GLuint> inBackTexs;
-  std::vector<HANDLE> inBackInteropHandles;
-  std::vector<HANDLE> inBackReadEvents;
-  std::vector<VRTextureBounds_t> inBackTextureBounds;
+  std::vector<ID3D11Texture2D *> inBackTexs;
+  // std::vector<HANDLE> inBackInteropHandles;
+  std::vector<ID3D11Texture2D *> inBackDepthTexs;
+  // std::vector<HANDLE> inBackDepthReadEvents;
+  // std::vector<HANDLE> inBackDepthInteropHandles;
+  // std::vector<HANDLE> inBackReadEvents;
+  std::vector<float> inBackTextureFulls;
   std::vector<HANDLE> inBackHandleLatches;
-  std::vector<std::tuple<EVREye, uint64_t, HANDLE>> inBackReadEventQueue;
+  std::vector<HANDLE> inBackDepthHandleLatches;
+  std::vector<ID3D11Fence *> inBackFences;
+  // std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
   HANDLE handleLeftLatched = nullptr;
   HANDLE handleRightLatched = nullptr; */
 
   // output
-  std::vector<GLuint> fbos;
-  std::vector<GLuint> shTexOutIds;
-  std::vector<GLuint> texDepthIds;
+  // std::vector<GLuint> fbos;
+  // std::vector<GLuint> shTexOutIds;
+  // std::vector<GLuint> texDepthIds;
   std::vector<ID3D11Texture2D *> shTexOuts;
-  std::vector<HANDLE> shTexOutInteropHandles;
+  std::vector<ID3D11Texture2D *> shDepthTexFrontOuts;
+  std::vector<ID3D11Texture2D *> shDepthTexBackOuts;
+  std::vector<ID3D11RenderTargetView *> renderTargetViews;
+  std::vector<ID3D11RenderTargetView *> renderTargetDepthFrontViews;
+  std::vector<ID3D11RenderTargetView *> renderTargetDepthBackViews;
+  std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
+  std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
-  PVRCompositor(IVRCompositor *vrcompositor, FnProxy &fnp);
+  PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
 	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
@@ -131,6 +173,8 @@ public:
 	virtual bool IsCurrentSceneFocusAppLoading();
   
   void CacheWaitGetPoses();
+  void InitShader();
+  void InfoQueueLog();
 };
 }
 

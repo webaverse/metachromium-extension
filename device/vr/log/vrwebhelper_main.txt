@@ -1,494 +1,343 @@
-Mon Dec 30 2019 12:22:56.526 - //==============================================================================================
-Mon Dec 30 2019 12:22:56.526 - ================================================================================================
-Mon Dec 30 2019 12:22:56.526 - ================================================================================================
-Mon Dec 30 2019 12:22:56.526 - vrwebhelper.exe 1.9.16 startup with PID=15336, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 30 2019 12:22:56.661 - CSharedResourceNamespaceClient::Init(): received namespace data 10860
-Mon Dec 30 2019 12:22:57.431 - Added overlay (pairing)
-Mon Dec 30 2019 12:22:57.441 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Mon Dec 30 2019 12:22:57.448 - Added overlay (bindingcallouts)
-Mon Dec 30 2019 12:22:57.449 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Mon Dec 30 2019 12:22:57.449 - Added overlay (controllerbinding)
-Mon Dec 30 2019 12:22:57.449 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Mon Dec 30 2019 12:22:57.449 - Added overlay (controllerbinding_desktop)
-Mon Dec 30 2019 12:22:57.449 - Added overlay (debugcommands_desktop)
-Mon Dec 30 2019 12:22:57.449 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Mon Dec 30 2019 12:22:57.449 - Added overlay (keyboard)
-Mon Dec 30 2019 12:22:57.449 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Mon Dec 30 2019 12:22:57.449 - Added overlay (managetrackers_desktop)
-Mon Dec 30 2019 12:22:57.449 - Added overlay (messageoverlay)
-Mon Dec 30 2019 12:22:57.449 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Mon Dec 30 2019 12:22:57.450 - Added overlay (notificationtoast)
-Mon Dec 30 2019 12:22:57.450 - Hooking back up to existing overlay system.toast
-Mon Dec 30 2019 12:22:57.450 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Mon Dec 30 2019 12:22:57.450 - Added overlay (progressindicator)
-Mon Dec 30 2019 12:22:57.450 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Mon Dec 30 2019 12:22:57.450 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Mon Dec 30 2019 12:22:57.450 - Added overlay (settings)
-Mon Dec 30 2019 12:22:57.450 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Mon Dec 30 2019 12:22:57.450 - Added overlay (settings_desktop)
-Mon Dec 30 2019 12:22:57.456 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Mon Dec 30 2019 12:22:57.456 - Added overlay (systemui)
-Mon Dec 30 2019 12:22:57.456 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Mon Dec 30 2019 12:22:57.456 - Added 13 overlays from 2 configurations. 10 have been opened.
-Mon Dec 30 2019 18:37:25.321 - //==============================================================================================
-Mon Dec 30 2019 18:37:25.321 - ================================================================================================
-Mon Dec 30 2019 18:37:25.321 - ================================================================================================
-Mon Dec 30 2019 18:37:25.321 - vrwebhelper.exe 1.9.16 startup with PID=18908, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Mon Dec 30 2019 18:37:26.046 - CSharedResourceNamespaceClient::Init(): received namespace data 14948
-Mon Dec 30 2019 18:37:26.850 - Added overlay (pairing)
-Mon Dec 30 2019 18:37:26.861 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Mon Dec 30 2019 18:37:26.876 - Added overlay (bindingcallouts)
-Mon Dec 30 2019 18:37:26.877 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Mon Dec 30 2019 18:37:26.877 - Added overlay (controllerbinding)
-Mon Dec 30 2019 18:37:26.877 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Mon Dec 30 2019 18:37:26.877 - Added overlay (controllerbinding_desktop)
-Mon Dec 30 2019 18:37:26.877 - Added overlay (debugcommands_desktop)
-Mon Dec 30 2019 18:37:26.878 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Mon Dec 30 2019 18:37:26.878 - Added overlay (keyboard)
-Mon Dec 30 2019 18:37:26.878 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Mon Dec 30 2019 18:37:26.878 - Added overlay (managetrackers_desktop)
-Mon Dec 30 2019 18:37:26.878 - Added overlay (messageoverlay)
-Mon Dec 30 2019 18:37:26.878 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Mon Dec 30 2019 18:37:26.878 - Added overlay (notificationtoast)
-Mon Dec 30 2019 18:37:26.878 - Hooking back up to existing overlay system.toast
-Mon Dec 30 2019 18:37:26.878 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Mon Dec 30 2019 18:37:26.878 - Added overlay (progressindicator)
-Mon Dec 30 2019 18:37:26.878 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Mon Dec 30 2019 18:37:26.879 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Mon Dec 30 2019 18:37:26.879 - Added overlay (settings)
-Mon Dec 30 2019 18:37:26.879 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Mon Dec 30 2019 18:37:26.879 - Added overlay (settings_desktop)
-Mon Dec 30 2019 18:37:26.886 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Mon Dec 30 2019 18:37:26.886 - Added overlay (systemui)
-Mon Dec 30 2019 18:37:26.886 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Mon Dec 30 2019 18:37:26.886 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 02:31:59.419 - //==============================================================================================
-Tue Dec 31 2019 02:31:59.419 - ================================================================================================
-Tue Dec 31 2019 02:31:59.419 - ================================================================================================
-Tue Dec 31 2019 02:31:59.419 - vrwebhelper.exe 1.9.16 startup with PID=25056, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 02:32:00.209 - CSharedResourceNamespaceClient::Init(): received namespace data 25752
-Tue Dec 31 2019 02:32:01.104 - Added overlay (pairing)
-Tue Dec 31 2019 02:32:01.112 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 02:32:01.131 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 02:32:01.132 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 02:32:01.132 - Added overlay (controllerbinding)
-Tue Dec 31 2019 02:32:01.132 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 02:32:01.132 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 02:32:01.132 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 02:32:01.133 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 02:32:01.133 - Added overlay (keyboard)
-Tue Dec 31 2019 02:32:01.133 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 02:32:01.133 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 02:32:01.133 - Added overlay (messageoverlay)
-Tue Dec 31 2019 02:32:01.133 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 02:32:01.133 - Added overlay (notificationtoast)
-Tue Dec 31 2019 02:32:01.133 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 02:32:01.133 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 02:32:01.133 - Added overlay (progressindicator)
-Tue Dec 31 2019 02:32:01.133 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 02:32:01.133 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 02:32:01.133 - Added overlay (settings)
-Tue Dec 31 2019 02:32:01.133 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 02:32:01.134 - Added overlay (settings_desktop)
-Tue Dec 31 2019 02:32:01.143 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 02:32:01.143 - Added overlay (systemui)
-Tue Dec 31 2019 02:32:01.143 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 02:32:01.143 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 18:05:20.082 - //==============================================================================================
-Tue Dec 31 2019 18:05:20.082 - ================================================================================================
-Tue Dec 31 2019 18:05:20.082 - ================================================================================================
-Tue Dec 31 2019 18:05:20.082 - vrwebhelper.exe 1.9.16 startup with PID=7560, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 18:05:20.778 - CSharedResourceNamespaceClient::Init(): received namespace data 29564
-Tue Dec 31 2019 18:05:21.524 - Added overlay (pairing)
-Tue Dec 31 2019 18:05:21.531 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 18:05:21.539 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 18:05:21.541 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 18:05:21.541 - Added overlay (controllerbinding)
-Tue Dec 31 2019 18:05:21.541 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 18:05:21.541 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 18:05:21.541 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 18:05:21.541 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 18:05:21.541 - Added overlay (keyboard)
-Tue Dec 31 2019 18:05:21.541 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 18:05:21.541 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 18:05:21.541 - Added overlay (messageoverlay)
-Tue Dec 31 2019 18:05:21.541 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 18:05:21.541 - Added overlay (notificationtoast)
-Tue Dec 31 2019 18:05:21.541 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 18:05:21.541 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 18:05:21.541 - Added overlay (progressindicator)
-Tue Dec 31 2019 18:05:21.541 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 18:05:21.541 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 18:05:21.542 - Added overlay (settings)
-Tue Dec 31 2019 18:05:21.542 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 18:05:21.542 - Added overlay (settings_desktop)
-Tue Dec 31 2019 18:05:21.551 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 18:05:21.551 - Added overlay (systemui)
-Tue Dec 31 2019 18:05:21.551 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 18:05:21.551 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 18:06:23.637 - //==============================================================================================
-Tue Dec 31 2019 18:06:23.638 - ================================================================================================
-Tue Dec 31 2019 18:06:23.638 - ================================================================================================
-Tue Dec 31 2019 18:06:23.638 - vrwebhelper.exe 1.9.16 startup with PID=27436, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 18:06:23.801 - CSharedResourceNamespaceClient::Init(): received namespace data 29012
-Tue Dec 31 2019 18:06:24.809 - Added overlay (pairing)
-Tue Dec 31 2019 18:06:24.816 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 18:06:24.828 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 18:06:24.829 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 18:06:24.829 - Added overlay (controllerbinding)
-Tue Dec 31 2019 18:06:24.829 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 18:06:24.829 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 18:06:24.829 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 18:06:24.829 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 18:06:24.830 - Added overlay (keyboard)
-Tue Dec 31 2019 18:06:24.830 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 18:06:24.830 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 18:06:24.830 - Added overlay (messageoverlay)
-Tue Dec 31 2019 18:06:24.830 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 18:06:24.830 - Added overlay (notificationtoast)
-Tue Dec 31 2019 18:06:24.830 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 18:06:24.830 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 18:06:24.830 - Added overlay (progressindicator)
-Tue Dec 31 2019 18:06:24.831 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 18:06:24.831 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 18:06:24.831 - Added overlay (settings)
-Tue Dec 31 2019 18:06:24.831 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 18:06:24.831 - Added overlay (settings_desktop)
-Tue Dec 31 2019 18:06:24.838 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 18:06:24.839 - Added overlay (systemui)
-Tue Dec 31 2019 18:06:24.839 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 18:06:24.839 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 18:28:19.599 - //==============================================================================================
-Tue Dec 31 2019 18:28:19.599 - ================================================================================================
-Tue Dec 31 2019 18:28:19.599 - ================================================================================================
-Tue Dec 31 2019 18:28:19.599 - vrwebhelper.exe 1.9.16 startup with PID=4060, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 18:28:19.765 - CSharedResourceNamespaceClient::Init(): received namespace data 3108
-Tue Dec 31 2019 18:28:20.501 - Added overlay (pairing)
-Tue Dec 31 2019 18:28:20.508 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 18:28:20.515 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 18:28:20.515 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 18:28:20.515 - Added overlay (controllerbinding)
-Tue Dec 31 2019 18:28:20.515 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 18:28:20.515 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 18:28:20.515 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 18:28:20.515 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 18:28:20.516 - Added overlay (keyboard)
-Tue Dec 31 2019 18:28:20.516 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 18:28:20.516 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 18:28:20.516 - Added overlay (messageoverlay)
-Tue Dec 31 2019 18:28:20.516 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 18:28:20.516 - Added overlay (notificationtoast)
-Tue Dec 31 2019 18:28:20.516 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 18:28:20.516 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 18:28:20.516 - Added overlay (progressindicator)
-Tue Dec 31 2019 18:28:20.516 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 18:28:20.516 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 18:28:20.516 - Added overlay (settings)
-Tue Dec 31 2019 18:28:20.516 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 18:28:20.516 - Added overlay (settings_desktop)
-Tue Dec 31 2019 18:28:20.523 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 18:28:20.524 - Added overlay (systemui)
-Tue Dec 31 2019 18:28:20.524 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 18:28:20.524 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 19:06:09.811 - //==============================================================================================
-Tue Dec 31 2019 19:06:09.811 - ================================================================================================
-Tue Dec 31 2019 19:06:09.812 - ================================================================================================
-Tue Dec 31 2019 19:06:09.812 - vrwebhelper.exe 1.9.16 startup with PID=8608, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 19:06:10.521 - CSharedResourceNamespaceClient::Init(): received namespace data 12860
-Tue Dec 31 2019 19:06:11.505 - Added overlay (pairing)
-Tue Dec 31 2019 19:06:11.513 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 19:06:11.531 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 19:06:11.532 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 19:06:11.532 - Added overlay (controllerbinding)
-Tue Dec 31 2019 19:06:11.532 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 19:06:11.532 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 19:06:11.533 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 19:06:11.533 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 19:06:11.533 - Added overlay (keyboard)
-Tue Dec 31 2019 19:06:11.533 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 19:06:11.533 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 19:06:11.533 - Added overlay (messageoverlay)
-Tue Dec 31 2019 19:06:11.533 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 19:06:11.534 - Added overlay (notificationtoast)
-Tue Dec 31 2019 19:06:11.534 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 19:06:11.534 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 19:06:11.534 - Added overlay (progressindicator)
-Tue Dec 31 2019 19:06:11.534 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 19:06:11.534 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 19:06:11.534 - Added overlay (settings)
-Tue Dec 31 2019 19:06:11.534 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 19:06:11.534 - Added overlay (settings_desktop)
-Tue Dec 31 2019 19:06:11.541 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 19:06:11.541 - Added overlay (systemui)
-Tue Dec 31 2019 19:06:11.541 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 19:06:11.541 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 20:01:28.311 - //==============================================================================================
-Tue Dec 31 2019 20:01:28.311 - ================================================================================================
-Tue Dec 31 2019 20:01:28.311 - ================================================================================================
-Tue Dec 31 2019 20:01:28.311 - vrwebhelper.exe 1.9.16 startup with PID=1360, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 20:01:28.457 - CSharedResourceNamespaceClient::Init(): received namespace data 22220
-Tue Dec 31 2019 20:01:29.359 - Added overlay (pairing)
-Tue Dec 31 2019 20:01:29.369 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 20:01:29.380 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 20:01:29.381 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 20:01:29.381 - Added overlay (controllerbinding)
-Tue Dec 31 2019 20:01:29.381 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 20:01:29.381 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 20:01:29.381 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 20:01:29.381 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 20:01:29.382 - Added overlay (keyboard)
-Tue Dec 31 2019 20:01:29.382 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 20:01:29.382 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 20:01:29.382 - Added overlay (messageoverlay)
-Tue Dec 31 2019 20:01:29.382 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 20:01:29.382 - Added overlay (notificationtoast)
-Tue Dec 31 2019 20:01:29.382 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 20:01:29.382 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 20:01:29.382 - Added overlay (progressindicator)
-Tue Dec 31 2019 20:01:29.382 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 20:01:29.383 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 20:01:29.383 - Added overlay (settings)
-Tue Dec 31 2019 20:01:29.383 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 20:01:29.383 - Added overlay (settings_desktop)
-Tue Dec 31 2019 20:01:29.390 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 20:01:29.390 - Added overlay (systemui)
-Tue Dec 31 2019 20:01:29.390 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 20:01:29.390 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 20:03:24.261 - //==============================================================================================
-Tue Dec 31 2019 20:03:24.261 - ================================================================================================
-Tue Dec 31 2019 20:03:24.261 - ================================================================================================
-Tue Dec 31 2019 20:03:24.261 - vrwebhelper.exe 1.9.16 startup with PID=26912, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 20:03:24.462 - CSharedResourceNamespaceClient::Init(): received namespace data 20780
-Tue Dec 31 2019 20:03:25.284 - Added overlay (pairing)
-Tue Dec 31 2019 20:03:25.291 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 20:03:25.299 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 20:03:25.300 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 20:03:25.300 - Added overlay (controllerbinding)
-Tue Dec 31 2019 20:03:25.300 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 20:03:25.300 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 20:03:25.300 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 20:03:25.300 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 20:03:25.301 - Added overlay (keyboard)
-Tue Dec 31 2019 20:03:25.301 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 20:03:25.301 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 20:03:25.301 - Added overlay (messageoverlay)
-Tue Dec 31 2019 20:03:25.301 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 20:03:25.301 - Added overlay (notificationtoast)
-Tue Dec 31 2019 20:03:25.301 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 20:03:25.301 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 20:03:25.301 - Added overlay (progressindicator)
-Tue Dec 31 2019 20:03:25.301 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 20:03:25.301 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 20:03:25.301 - Added overlay (settings)
-Tue Dec 31 2019 20:03:25.302 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 20:03:25.302 - Added overlay (settings_desktop)
-Tue Dec 31 2019 20:03:25.308 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 20:03:25.308 - Added overlay (systemui)
-Tue Dec 31 2019 20:03:25.308 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 20:03:25.308 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 21:19:35.342 - //==============================================================================================
-Tue Dec 31 2019 21:19:35.342 - ================================================================================================
-Tue Dec 31 2019 21:19:35.342 - ================================================================================================
-Tue Dec 31 2019 21:19:35.342 - vrwebhelper.exe 1.9.16 startup with PID=2720, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 21:19:35.473 - CSharedResourceNamespaceClient::Init(): received namespace data 17588
-Tue Dec 31 2019 21:19:36.133 - Added overlay (pairing)
-Tue Dec 31 2019 21:19:36.139 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 21:19:36.139 - Skipped overlay (bindingcallouts) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.139 - Skipped overlay (controllerbinding) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.139 - Skipped overlay (controllerbinding_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.139 - Skipped overlay (debugcommands_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.140 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 21:19:36.140 - Skipped overlay (keyboard) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.140 - Skipped overlay (managetrackers_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.140 - Skipped overlay (messageoverlay) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.140 - Skipped overlay (notificationtoast) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.140 - Skipped overlay (progressindicator) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.140 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 21:19:36.140 - Skipped overlay (settings) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.140 - Added overlay (settings_desktop)
-Tue Dec 31 2019 21:19:36.146 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 21:19:36.146 - Skipped overlay (systemui) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Tue Dec 31 2019 21:19:36.146 - Added 2 overlays from 2 configurations. 2 have been opened.
-Tue Dec 31 2019 21:19:57.124 - //==============================================================================================
-Tue Dec 31 2019 21:19:57.124 - ================================================================================================
-Tue Dec 31 2019 21:19:57.124 - ================================================================================================
-Tue Dec 31 2019 21:19:57.124 - vrwebhelper.exe 1.9.16 startup with PID=17168, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 21:19:57.277 - CSharedResourceNamespaceClient::Init(): received namespace data 1036
-Tue Dec 31 2019 21:19:58.014 - Added overlay (pairing)
-Tue Dec 31 2019 21:19:58.021 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 21:19:58.024 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 21:19:58.025 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 21:19:58.025 - Added overlay (controllerbinding)
-Tue Dec 31 2019 21:19:58.025 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 21:19:58.025 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 21:19:58.025 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 21:19:58.026 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 21:19:58.026 - Added overlay (keyboard)
-Tue Dec 31 2019 21:19:58.026 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 21:19:58.026 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 21:19:58.026 - Added overlay (messageoverlay)
-Tue Dec 31 2019 21:19:58.026 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 21:19:58.026 - Added overlay (notificationtoast)
-Tue Dec 31 2019 21:19:58.026 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 21:19:58.026 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 21:19:58.026 - Added overlay (progressindicator)
-Tue Dec 31 2019 21:19:58.026 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 21:19:58.026 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 21:19:58.026 - Added overlay (settings)
-Tue Dec 31 2019 21:19:58.026 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 21:19:58.026 - Added overlay (settings_desktop)
-Tue Dec 31 2019 21:19:58.033 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 21:19:58.033 - Added overlay (systemui)
-Tue Dec 31 2019 21:19:58.033 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 21:19:58.033 - Added 13 overlays from 2 configurations. 10 have been opened.
-Tue Dec 31 2019 21:20:40.673 - //==============================================================================================
-Tue Dec 31 2019 21:20:40.673 - ================================================================================================
-Tue Dec 31 2019 21:20:40.673 - ================================================================================================
-Tue Dec 31 2019 21:20:40.673 - vrwebhelper.exe 1.9.16 startup with PID=20764, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Tue Dec 31 2019 21:20:40.854 - CSharedResourceNamespaceClient::Init(): received namespace data 24600
-Tue Dec 31 2019 21:20:41.699 - Added overlay (pairing)
-Tue Dec 31 2019 21:20:41.709 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Tue Dec 31 2019 21:20:41.719 - Added overlay (bindingcallouts)
-Tue Dec 31 2019 21:20:41.719 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Tue Dec 31 2019 21:20:41.719 - Added overlay (controllerbinding)
-Tue Dec 31 2019 21:20:41.719 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Tue Dec 31 2019 21:20:41.719 - Added overlay (controllerbinding_desktop)
-Tue Dec 31 2019 21:20:41.720 - Added overlay (debugcommands_desktop)
-Tue Dec 31 2019 21:20:41.720 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Tue Dec 31 2019 21:20:41.720 - Added overlay (keyboard)
-Tue Dec 31 2019 21:20:41.720 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Tue Dec 31 2019 21:20:41.720 - Added overlay (managetrackers_desktop)
-Tue Dec 31 2019 21:20:41.720 - Added overlay (messageoverlay)
-Tue Dec 31 2019 21:20:41.720 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Tue Dec 31 2019 21:20:41.720 - Added overlay (notificationtoast)
-Tue Dec 31 2019 21:20:41.721 - Hooking back up to existing overlay system.toast
-Tue Dec 31 2019 21:20:41.721 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Tue Dec 31 2019 21:20:41.721 - Added overlay (progressindicator)
-Tue Dec 31 2019 21:20:41.721 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Tue Dec 31 2019 21:20:41.721 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Tue Dec 31 2019 21:20:41.721 - Added overlay (settings)
-Tue Dec 31 2019 21:20:41.721 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Tue Dec 31 2019 21:20:41.721 - Added overlay (settings_desktop)
-Tue Dec 31 2019 21:20:41.730 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Tue Dec 31 2019 21:20:41.730 - Added overlay (systemui)
-Tue Dec 31 2019 21:20:41.730 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Tue Dec 31 2019 21:20:41.730 - Added 13 overlays from 2 configurations. 10 have been opened.
-Wed Jan 01 2020 12:13:15.449 - //==============================================================================================
-Wed Jan 01 2020 12:13:15.449 - ================================================================================================
-Wed Jan 01 2020 12:13:15.449 - ================================================================================================
-Wed Jan 01 2020 12:13:15.449 - vrwebhelper.exe 1.9.16 startup with PID=18732, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Wed Jan 01 2020 12:13:16.199 - CSharedResourceNamespaceClient::Init(): received namespace data 21820
-Wed Jan 01 2020 12:13:17.137 - Added overlay (pairing)
-Wed Jan 01 2020 12:13:17.145 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Wed Jan 01 2020 12:13:17.164 - Added overlay (bindingcallouts)
-Wed Jan 01 2020 12:13:17.164 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Wed Jan 01 2020 12:13:17.164 - Added overlay (controllerbinding)
-Wed Jan 01 2020 12:13:17.164 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Wed Jan 01 2020 12:13:17.164 - Added overlay (controllerbinding_desktop)
-Wed Jan 01 2020 12:13:17.164 - Added overlay (debugcommands_desktop)
-Wed Jan 01 2020 12:13:17.166 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Wed Jan 01 2020 12:13:17.166 - Added overlay (keyboard)
-Wed Jan 01 2020 12:13:17.166 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Wed Jan 01 2020 12:13:17.166 - Added overlay (managetrackers_desktop)
-Wed Jan 01 2020 12:13:17.166 - Added overlay (messageoverlay)
-Wed Jan 01 2020 12:13:17.166 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Wed Jan 01 2020 12:13:17.166 - Added overlay (notificationtoast)
-Wed Jan 01 2020 12:13:17.166 - Hooking back up to existing overlay system.toast
-Wed Jan 01 2020 12:13:17.166 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Wed Jan 01 2020 12:13:17.166 - Added overlay (progressindicator)
-Wed Jan 01 2020 12:13:17.166 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Wed Jan 01 2020 12:13:17.167 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Wed Jan 01 2020 12:13:17.167 - Added overlay (settings)
-Wed Jan 01 2020 12:13:17.167 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Wed Jan 01 2020 12:13:17.167 - Added overlay (settings_desktop)
-Wed Jan 01 2020 12:13:17.172 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Wed Jan 01 2020 12:13:17.172 - Added overlay (systemui)
-Wed Jan 01 2020 12:13:17.172 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Wed Jan 01 2020 12:13:17.172 - Added 13 overlays from 2 configurations. 10 have been opened.
-Thu Jan 02 2020 22:30:34.757 - //==============================================================================================
-Thu Jan 02 2020 22:30:34.757 - ================================================================================================
-Thu Jan 02 2020 22:30:34.757 - ================================================================================================
-Thu Jan 02 2020 22:30:34.757 - vrwebhelper.exe 1.9.16 startup with PID=21264, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Thu Jan 02 2020 22:30:35.236 - CSharedResourceNamespaceClient::Init(): received namespace data 21416
-Thu Jan 02 2020 22:30:35.800 - Added overlay (pairing)
-Thu Jan 02 2020 22:30:35.807 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (bindingcallouts) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (controllerbinding) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (controllerbinding_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (debugcommands_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (keyboard) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (managetrackers_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (messageoverlay) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.812 - Skipped overlay (notificationtoast) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.813 - Skipped overlay (progressindicator) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.813 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Thu Jan 02 2020 22:30:35.813 - Skipped overlay (settings) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.813 - Added overlay (settings_desktop)
-Thu Jan 02 2020 22:30:35.819 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Thu Jan 02 2020 22:30:35.819 - Skipped overlay (systemui) because no HMD is present. Set valid_without_hmd to true to create it anyway.
-Thu Jan 02 2020 22:30:35.819 - Added 2 overlays from 2 configurations. 2 have been opened.
-Thu Jan 02 2020 22:30:59.109 - //==============================================================================================
-Thu Jan 02 2020 22:30:59.109 - ================================================================================================
-Thu Jan 02 2020 22:30:59.109 - ================================================================================================
-Thu Jan 02 2020 22:30:59.109 - vrwebhelper.exe 1.9.16 startup with PID=17064, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Thu Jan 02 2020 22:30:59.318 - CSharedResourceNamespaceClient::Init(): received namespace data 12436
-Thu Jan 02 2020 22:31:00.260 - Added overlay (pairing)
-Thu Jan 02 2020 22:31:00.267 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Thu Jan 02 2020 22:31:00.275 - Added overlay (bindingcallouts)
-Thu Jan 02 2020 22:31:00.276 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Thu Jan 02 2020 22:31:00.276 - Added overlay (controllerbinding)
-Thu Jan 02 2020 22:31:00.276 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Thu Jan 02 2020 22:31:00.276 - Added overlay (controllerbinding_desktop)
-Thu Jan 02 2020 22:31:00.276 - Added overlay (debugcommands_desktop)
-Thu Jan 02 2020 22:31:00.276 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Thu Jan 02 2020 22:31:00.276 - Added overlay (keyboard)
-Thu Jan 02 2020 22:31:00.277 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Thu Jan 02 2020 22:31:00.277 - Added overlay (managetrackers_desktop)
-Thu Jan 02 2020 22:31:00.277 - Added overlay (messageoverlay)
-Thu Jan 02 2020 22:31:00.277 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Thu Jan 02 2020 22:31:00.277 - Added overlay (notificationtoast)
-Thu Jan 02 2020 22:31:00.277 - Hooking back up to existing overlay system.toast
-Thu Jan 02 2020 22:31:00.277 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Thu Jan 02 2020 22:31:00.277 - Added overlay (progressindicator)
-Thu Jan 02 2020 22:31:00.277 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Thu Jan 02 2020 22:31:00.277 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Thu Jan 02 2020 22:31:00.278 - Added overlay (settings)
-Thu Jan 02 2020 22:31:00.278 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Thu Jan 02 2020 22:31:00.278 - Added overlay (settings_desktop)
-Thu Jan 02 2020 22:31:00.287 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Thu Jan 02 2020 22:31:00.287 - Added overlay (systemui)
-Thu Jan 02 2020 22:31:00.287 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Thu Jan 02 2020 22:31:00.287 - Added 13 overlays from 2 configurations. 10 have been opened.
-Sat Jan 04 2020 02:47:54.148 - //==============================================================================================
-Sat Jan 04 2020 02:47:54.148 - ================================================================================================
-Sat Jan 04 2020 02:47:54.148 - ================================================================================================
-Sat Jan 04 2020 02:47:54.148 - vrwebhelper.exe 1.9.16 startup with PID=14052, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sat Jan 04 2020 02:47:54.871 - CSharedResourceNamespaceClient::Init(): received namespace data 25848
-Sat Jan 04 2020 02:47:55.932 - Added overlay (pairing)
-Sat Jan 04 2020 02:47:55.940 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
-Sat Jan 04 2020 02:47:55.952 - Added overlay (bindingcallouts)
-Sat Jan 04 2020 02:47:55.953 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
-Sat Jan 04 2020 02:47:55.953 - Added overlay (controllerbinding)
-Sat Jan 04 2020 02:47:55.953 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
-Sat Jan 04 2020 02:47:55.953 - Added overlay (controllerbinding_desktop)
-Sat Jan 04 2020 02:47:55.953 - Added overlay (debugcommands_desktop)
-Sat Jan 04 2020 02:47:55.953 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
-Sat Jan 04 2020 02:47:55.953 - Added overlay (keyboard)
-Sat Jan 04 2020 02:47:55.954 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
-Sat Jan 04 2020 02:47:55.954 - Added overlay (managetrackers_desktop)
-Sat Jan 04 2020 02:47:55.954 - Added overlay (messageoverlay)
-Sat Jan 04 2020 02:47:55.954 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
-Sat Jan 04 2020 02:47:55.954 - Added overlay (notificationtoast)
-Sat Jan 04 2020 02:47:55.954 - Hooking back up to existing overlay system.toast
-Sat Jan 04 2020 02:47:55.954 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
-Sat Jan 04 2020 02:47:55.954 - Added overlay (progressindicator)
-Sat Jan 04 2020 02:47:55.954 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
-Sat Jan 04 2020 02:47:55.955 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
-Sat Jan 04 2020 02:47:55.955 - Added overlay (settings)
-Sat Jan 04 2020 02:47:55.955 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
-Sat Jan 04 2020 02:47:55.955 - Added overlay (settings_desktop)
-Sat Jan 04 2020 02:47:55.963 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
-Sat Jan 04 2020 02:47:55.963 - Added overlay (systemui)
-Sat Jan 04 2020 02:47:55.963 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
-Sat Jan 04 2020 02:47:55.963 - Added 13 overlays from 2 configurations. 10 have been opened.
+Tue Jan 21 2020 13:53:43.161 - //==============================================================================================
+Tue Jan 21 2020 13:53:43.161 - ================================================================================================
+Tue Jan 21 2020 13:53:43.161 - ================================================================================================
+Tue Jan 21 2020 13:53:43.161 - vrwebhelper.exe 1.9.16 startup with PID=17172, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 13:53:43.677 - CSharedResourceNamespaceClient::Init(): received namespace data 8020
+Tue Jan 21 2020 13:53:44.476 - Added overlay (pairing)
+Tue Jan 21 2020 13:53:44.483 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Tue Jan 21 2020 13:53:44.501 - Added overlay (bindingcallouts)
+Tue Jan 21 2020 13:53:44.502 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Tue Jan 21 2020 13:53:44.502 - Added overlay (controllerbinding)
+Tue Jan 21 2020 13:53:44.502 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Tue Jan 21 2020 13:53:44.502 - Added overlay (controllerbinding_desktop)
+Tue Jan 21 2020 13:53:44.502 - Added overlay (debugcommands_desktop)
+Tue Jan 21 2020 13:53:44.502 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Tue Jan 21 2020 13:53:44.502 - Added overlay (keyboard)
+Tue Jan 21 2020 13:53:44.503 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Tue Jan 21 2020 13:53:44.503 - Added overlay (managetrackers_desktop)
+Tue Jan 21 2020 13:53:44.503 - Added overlay (messageoverlay)
+Tue Jan 21 2020 13:53:44.503 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Tue Jan 21 2020 13:53:44.503 - Added overlay (notificationtoast)
+Tue Jan 21 2020 13:53:44.503 - Hooking back up to existing overlay system.toast
+Tue Jan 21 2020 13:53:44.503 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Tue Jan 21 2020 13:53:44.503 - Added overlay (progressindicator)
+Tue Jan 21 2020 13:53:44.503 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Tue Jan 21 2020 13:53:44.503 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Tue Jan 21 2020 13:53:44.504 - Added overlay (settings)
+Tue Jan 21 2020 13:53:44.504 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Tue Jan 21 2020 13:53:44.504 - Added overlay (settings_desktop)
+Tue Jan 21 2020 13:53:44.510 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Tue Jan 21 2020 13:53:44.510 - Added overlay (systemui)
+Tue Jan 21 2020 13:53:44.510 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Tue Jan 21 2020 13:53:44.510 - Added 13 overlays from 2 configurations. 10 have been opened.
+Tue Jan 21 2020 13:53:56.644 - //==============================================================================================
+Tue Jan 21 2020 13:53:56.644 - ================================================================================================
+Tue Jan 21 2020 13:53:56.644 - ================================================================================================
+Tue Jan 21 2020 13:53:56.644 - vrwebhelper.exe 1.9.16 startup with PID=4672, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 13:53:56.790 - CSharedResourceNamespaceClient::Init(): received namespace data 868
+Tue Jan 21 2020 13:53:57.467 - Added overlay (pairing)
+Tue Jan 21 2020 13:53:57.474 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Tue Jan 21 2020 13:53:57.479 - Added overlay (bindingcallouts)
+Tue Jan 21 2020 13:53:57.480 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Tue Jan 21 2020 13:53:57.480 - Added overlay (controllerbinding)
+Tue Jan 21 2020 13:53:57.480 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Tue Jan 21 2020 13:53:57.480 - Added overlay (controllerbinding_desktop)
+Tue Jan 21 2020 13:53:57.480 - Added overlay (debugcommands_desktop)
+Tue Jan 21 2020 13:53:57.480 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Tue Jan 21 2020 13:53:57.481 - Added overlay (keyboard)
+Tue Jan 21 2020 13:53:57.481 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Tue Jan 21 2020 13:53:57.481 - Added overlay (managetrackers_desktop)
+Tue Jan 21 2020 13:53:57.481 - Added overlay (messageoverlay)
+Tue Jan 21 2020 13:53:57.481 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Tue Jan 21 2020 13:53:57.481 - Added overlay (notificationtoast)
+Tue Jan 21 2020 13:53:57.481 - Hooking back up to existing overlay system.toast
+Tue Jan 21 2020 13:53:57.481 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Tue Jan 21 2020 13:53:57.481 - Added overlay (progressindicator)
+Tue Jan 21 2020 13:53:57.481 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Tue Jan 21 2020 13:53:57.481 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Tue Jan 21 2020 13:53:57.482 - Added overlay (settings)
+Tue Jan 21 2020 13:53:57.482 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Tue Jan 21 2020 13:53:57.482 - Added overlay (settings_desktop)
+Tue Jan 21 2020 13:53:57.487 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Tue Jan 21 2020 13:53:57.487 - Added overlay (systemui)
+Tue Jan 21 2020 13:53:57.487 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Tue Jan 21 2020 13:53:57.487 - Added 13 overlays from 2 configurations. 10 have been opened.
+Tue Jan 21 2020 13:56:53.402 - //==============================================================================================
+Tue Jan 21 2020 13:56:53.402 - ================================================================================================
+Tue Jan 21 2020 13:56:53.402 - ================================================================================================
+Tue Jan 21 2020 13:56:53.402 - vrwebhelper.exe 1.9.16 startup with PID=9960, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 13:56:53.543 - CSharedResourceNamespaceClient::Init(): received namespace data 9456
+Tue Jan 21 2020 13:56:54.202 - Added overlay (pairing)
+Tue Jan 21 2020 13:56:54.212 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Tue Jan 21 2020 13:56:54.222 - Added overlay (bindingcallouts)
+Tue Jan 21 2020 13:56:54.223 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Tue Jan 21 2020 13:56:54.223 - Added overlay (controllerbinding)
+Tue Jan 21 2020 13:56:54.223 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Tue Jan 21 2020 13:56:54.223 - Added overlay (controllerbinding_desktop)
+Tue Jan 21 2020 13:56:54.224 - Added overlay (debugcommands_desktop)
+Tue Jan 21 2020 13:56:54.224 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Tue Jan 21 2020 13:56:54.224 - Added overlay (keyboard)
+Tue Jan 21 2020 13:56:54.224 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Tue Jan 21 2020 13:56:54.224 - Added overlay (managetrackers_desktop)
+Tue Jan 21 2020 13:56:54.225 - Added overlay (messageoverlay)
+Tue Jan 21 2020 13:56:54.225 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Tue Jan 21 2020 13:56:54.225 - Added overlay (notificationtoast)
+Tue Jan 21 2020 13:56:54.225 - Hooking back up to existing overlay system.toast
+Tue Jan 21 2020 13:56:54.225 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Tue Jan 21 2020 13:56:54.225 - Added overlay (progressindicator)
+Tue Jan 21 2020 13:56:54.225 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Tue Jan 21 2020 13:56:54.226 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Tue Jan 21 2020 13:56:54.226 - Added overlay (settings)
+Tue Jan 21 2020 13:56:54.226 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Tue Jan 21 2020 13:56:54.226 - Added overlay (settings_desktop)
+Tue Jan 21 2020 13:56:54.232 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Tue Jan 21 2020 13:56:54.232 - Added overlay (systemui)
+Tue Jan 21 2020 13:56:54.232 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Tue Jan 21 2020 13:56:54.232 - Added 13 overlays from 2 configurations. 10 have been opened.
+Tue Jan 21 2020 13:58:25.934 - //==============================================================================================
+Tue Jan 21 2020 13:58:25.934 - ================================================================================================
+Tue Jan 21 2020 13:58:25.934 - ================================================================================================
+Tue Jan 21 2020 13:58:25.934 - vrwebhelper.exe 1.9.16 startup with PID=21832, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 13:58:26.047 - CSharedResourceNamespaceClient::Init(): received namespace data 18940
+Tue Jan 21 2020 13:58:26.546 - Added overlay (pairing)
+Tue Jan 21 2020 13:58:26.552 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Tue Jan 21 2020 13:58:26.552 - Skipped overlay (bindingcallouts) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.552 - Skipped overlay (controllerbinding) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.552 - Skipped overlay (controllerbinding_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.552 - Skipped overlay (debugcommands_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.552 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Tue Jan 21 2020 13:58:26.553 - Skipped overlay (keyboard) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.553 - Skipped overlay (managetrackers_desktop) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.553 - Skipped overlay (messageoverlay) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.553 - Skipped overlay (notificationtoast) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.553 - Skipped overlay (progressindicator) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.553 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Tue Jan 21 2020 13:58:26.553 - Skipped overlay (settings) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.553 - Added overlay (settings_desktop)
+Tue Jan 21 2020 13:58:26.558 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Tue Jan 21 2020 13:58:26.558 - Skipped overlay (systemui) because no HMD is present. Set valid_without_hmd to true to create it anyway.
+Tue Jan 21 2020 13:58:26.558 - Added 2 overlays from 2 configurations. 2 have been opened.
+Tue Jan 21 2020 14:04:45.162 - //==============================================================================================
+Tue Jan 21 2020 14:04:45.162 - ================================================================================================
+Tue Jan 21 2020 14:04:45.162 - ================================================================================================
+Tue Jan 21 2020 14:04:45.162 - vrwebhelper.exe 1.9.16 startup with PID=21620, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 14:04:45.297 - CSharedResourceNamespaceClient::Init(): received namespace data 16148
+Tue Jan 21 2020 14:04:45.958 - Added overlay (pairing)
+Tue Jan 21 2020 14:04:45.964 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Tue Jan 21 2020 14:04:45.971 - Added overlay (bindingcallouts)
+Tue Jan 21 2020 14:04:45.971 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Tue Jan 21 2020 14:04:45.971 - Added overlay (controllerbinding)
+Tue Jan 21 2020 14:04:45.971 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Tue Jan 21 2020 14:04:45.971 - Added overlay (controllerbinding_desktop)
+Tue Jan 21 2020 14:04:45.971 - Added overlay (debugcommands_desktop)
+Tue Jan 21 2020 14:04:45.972 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Tue Jan 21 2020 14:04:45.972 - Added overlay (keyboard)
+Tue Jan 21 2020 14:04:45.972 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Tue Jan 21 2020 14:04:45.972 - Added overlay (managetrackers_desktop)
+Tue Jan 21 2020 14:04:45.972 - Added overlay (messageoverlay)
+Tue Jan 21 2020 14:04:45.972 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Tue Jan 21 2020 14:04:45.972 - Added overlay (notificationtoast)
+Tue Jan 21 2020 14:04:45.972 - Hooking back up to existing overlay system.toast
+Tue Jan 21 2020 14:04:45.972 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Tue Jan 21 2020 14:04:45.973 - Added overlay (progressindicator)
+Tue Jan 21 2020 14:04:45.973 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Tue Jan 21 2020 14:04:45.973 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Tue Jan 21 2020 14:04:45.973 - Added overlay (settings)
+Tue Jan 21 2020 14:04:45.973 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Tue Jan 21 2020 14:04:45.973 - Added overlay (settings_desktop)
+Tue Jan 21 2020 14:04:45.979 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Tue Jan 21 2020 14:04:45.979 - Added overlay (systemui)
+Tue Jan 21 2020 14:04:45.979 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Tue Jan 21 2020 14:04:45.979 - Added 13 overlays from 2 configurations. 10 have been opened.
+Tue Jan 21 2020 14:06:26.816 - //==============================================================================================
+Tue Jan 21 2020 14:06:26.816 - ================================================================================================
+Tue Jan 21 2020 14:06:26.816 - ================================================================================================
+Tue Jan 21 2020 14:06:26.816 - vrwebhelper.exe 1.9.16 startup with PID=22040, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 14:06:26.951 - CSharedResourceNamespaceClient::Init(): received namespace data 11476
+Tue Jan 21 2020 14:06:27.642 - Added overlay (pairing)
+Tue Jan 21 2020 14:06:27.648 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Tue Jan 21 2020 14:06:27.660 - Added overlay (bindingcallouts)
+Tue Jan 21 2020 14:06:27.661 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Tue Jan 21 2020 14:06:27.661 - Added overlay (controllerbinding)
+Tue Jan 21 2020 14:06:27.661 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Tue Jan 21 2020 14:06:27.661 - Added overlay (controllerbinding_desktop)
+Tue Jan 21 2020 14:06:27.661 - Added overlay (debugcommands_desktop)
+Tue Jan 21 2020 14:06:27.661 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Tue Jan 21 2020 14:06:27.661 - Added overlay (keyboard)
+Tue Jan 21 2020 14:06:27.662 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Tue Jan 21 2020 14:06:27.662 - Added overlay (managetrackers_desktop)
+Tue Jan 21 2020 14:06:27.662 - Added overlay (messageoverlay)
+Tue Jan 21 2020 14:06:27.662 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Tue Jan 21 2020 14:06:27.662 - Added overlay (notificationtoast)
+Tue Jan 21 2020 14:06:27.662 - Hooking back up to existing overlay system.toast
+Tue Jan 21 2020 14:06:27.662 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Tue Jan 21 2020 14:06:27.662 - Added overlay (progressindicator)
+Tue Jan 21 2020 14:06:27.662 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Tue Jan 21 2020 14:06:27.662 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Tue Jan 21 2020 14:06:27.662 - Added overlay (settings)
+Tue Jan 21 2020 14:06:27.662 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Tue Jan 21 2020 14:06:27.662 - Added overlay (settings_desktop)
+Tue Jan 21 2020 14:06:27.669 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Tue Jan 21 2020 14:06:27.669 - Added overlay (systemui)
+Tue Jan 21 2020 14:06:27.669 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Tue Jan 21 2020 14:06:27.669 - Added 13 overlays from 2 configurations. 10 have been opened.
+Tue Jan 21 2020 14:37:31.296 - //==============================================================================================
+Tue Jan 21 2020 14:37:31.296 - ================================================================================================
+Tue Jan 21 2020 14:37:31.296 - ================================================================================================
+Tue Jan 21 2020 14:37:31.296 - vrwebhelper.exe 1.9.16 startup with PID=22672, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 14:37:31.431 - CSharedResourceNamespaceClient::Init(): received namespace data 23188
+Tue Jan 21 2020 14:37:32.078 - Added overlay (pairing)
+Tue Jan 21 2020 14:37:32.084 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Tue Jan 21 2020 14:37:32.087 - Added overlay (bindingcallouts)
+Tue Jan 21 2020 14:37:32.087 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Tue Jan 21 2020 14:37:32.087 - Added overlay (controllerbinding)
+Tue Jan 21 2020 14:37:32.087 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Tue Jan 21 2020 14:37:32.087 - Added overlay (controllerbinding_desktop)
+Tue Jan 21 2020 14:37:32.087 - Added overlay (debugcommands_desktop)
+Tue Jan 21 2020 14:37:32.088 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Tue Jan 21 2020 14:37:32.088 - Added overlay (keyboard)
+Tue Jan 21 2020 14:37:32.088 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Tue Jan 21 2020 14:37:32.088 - Added overlay (managetrackers_desktop)
+Tue Jan 21 2020 14:37:32.088 - Added overlay (messageoverlay)
+Tue Jan 21 2020 14:37:32.088 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Tue Jan 21 2020 14:37:32.088 - Added overlay (notificationtoast)
+Tue Jan 21 2020 14:37:32.088 - Hooking back up to existing overlay system.toast
+Tue Jan 21 2020 14:37:32.088 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Tue Jan 21 2020 14:37:32.089 - Added overlay (progressindicator)
+Tue Jan 21 2020 14:37:32.089 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Tue Jan 21 2020 14:37:32.089 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Tue Jan 21 2020 14:37:32.089 - Added overlay (settings)
+Tue Jan 21 2020 14:37:32.089 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Tue Jan 21 2020 14:37:32.089 - Added overlay (settings_desktop)
+Tue Jan 21 2020 14:37:32.096 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Tue Jan 21 2020 14:37:32.096 - Added overlay (systemui)
+Tue Jan 21 2020 14:37:32.096 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Tue Jan 21 2020 14:37:32.096 - Added 13 overlays from 2 configurations. 10 have been opened.
+Tue Jan 21 2020 15:00:38.823 - //==============================================================================================
+Tue Jan 21 2020 15:00:38.823 - ================================================================================================
+Tue Jan 21 2020 15:00:38.823 - ================================================================================================
+Tue Jan 21 2020 15:00:38.823 - vrwebhelper.exe 1.9.16 startup with PID=7744, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Tue Jan 21 2020 15:00:39.029 - CSharedResourceNamespaceClient::Init(): received namespace data 5224
+Tue Jan 21 2020 15:00:40.021 - Added overlay (pairing)
+Tue Jan 21 2020 15:00:40.029 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Tue Jan 21 2020 15:00:40.033 - Added overlay (bindingcallouts)
+Tue Jan 21 2020 15:00:40.034 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Tue Jan 21 2020 15:00:40.034 - Added overlay (controllerbinding)
+Tue Jan 21 2020 15:00:40.034 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Tue Jan 21 2020 15:00:40.034 - Added overlay (controllerbinding_desktop)
+Tue Jan 21 2020 15:00:40.034 - Added overlay (debugcommands_desktop)
+Tue Jan 21 2020 15:00:40.034 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Tue Jan 21 2020 15:00:40.034 - Added overlay (keyboard)
+Tue Jan 21 2020 15:00:40.035 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Tue Jan 21 2020 15:00:40.035 - Added overlay (managetrackers_desktop)
+Tue Jan 21 2020 15:00:40.035 - Added overlay (messageoverlay)
+Tue Jan 21 2020 15:00:40.035 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Tue Jan 21 2020 15:00:40.035 - Added overlay (notificationtoast)
+Tue Jan 21 2020 15:00:40.035 - Hooking back up to existing overlay system.toast
+Tue Jan 21 2020 15:00:40.035 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Tue Jan 21 2020 15:00:40.035 - Added overlay (progressindicator)
+Tue Jan 21 2020 15:00:40.036 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Tue Jan 21 2020 15:00:40.036 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Tue Jan 21 2020 15:00:40.036 - Added overlay (settings)
+Tue Jan 21 2020 15:00:40.036 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Tue Jan 21 2020 15:00:40.036 - Added overlay (settings_desktop)
+Tue Jan 21 2020 15:00:40.078 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Tue Jan 21 2020 15:00:40.078 - Added overlay (systemui)
+Tue Jan 21 2020 15:00:40.078 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Tue Jan 21 2020 15:00:40.078 - Added 13 overlays from 2 configurations. 10 have been opened.
+Thu Jan 23 2020 23:22:14.530 - //==============================================================================================
+Thu Jan 23 2020 23:22:14.530 - ================================================================================================
+Thu Jan 23 2020 23:22:14.530 - ================================================================================================
+Thu Jan 23 2020 23:22:14.530 - vrwebhelper.exe 1.9.16 startup with PID=28260, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Jan 23 2020 23:22:14.698 - CSharedResourceNamespaceClient::Init(): received namespace data 5224
+Thu Jan 23 2020 23:22:15.281 - Added overlay (pairing)
+Thu Jan 23 2020 23:22:15.291 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Thu Jan 23 2020 23:22:15.302 - Added overlay (bindingcallouts)
+Thu Jan 23 2020 23:22:15.302 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Thu Jan 23 2020 23:22:15.302 - Added overlay (controllerbinding)
+Thu Jan 23 2020 23:22:15.302 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Thu Jan 23 2020 23:22:15.302 - Added overlay (controllerbinding_desktop)
+Thu Jan 23 2020 23:22:15.303 - Added overlay (debugcommands_desktop)
+Thu Jan 23 2020 23:22:15.303 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Thu Jan 23 2020 23:22:15.303 - Added overlay (keyboard)
+Thu Jan 23 2020 23:22:15.303 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Thu Jan 23 2020 23:22:15.303 - Added overlay (managetrackers_desktop)
+Thu Jan 23 2020 23:22:15.304 - Added overlay (messageoverlay)
+Thu Jan 23 2020 23:22:15.304 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Thu Jan 23 2020 23:22:15.304 - Added overlay (notificationtoast)
+Thu Jan 23 2020 23:22:15.304 - Hooking back up to existing overlay system.toast
+Thu Jan 23 2020 23:22:15.304 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Thu Jan 23 2020 23:22:15.304 - Added overlay (progressindicator)
+Thu Jan 23 2020 23:22:15.304 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Thu Jan 23 2020 23:22:15.304 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Thu Jan 23 2020 23:22:15.304 - Added overlay (settings)
+Thu Jan 23 2020 23:22:15.304 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Thu Jan 23 2020 23:22:15.304 - Added overlay (settings_desktop)
+Thu Jan 23 2020 23:22:15.340 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Thu Jan 23 2020 23:22:15.341 - Added overlay (systemui)
+Thu Jan 23 2020 23:22:15.341 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Thu Jan 23 2020 23:22:15.341 - Added 13 overlays from 2 configurations. 10 have been opened.
+Thu Jan 23 2020 23:24:02.794 - //==============================================================================================
+Thu Jan 23 2020 23:24:02.794 - ================================================================================================
+Thu Jan 23 2020 23:24:02.794 - ================================================================================================
+Thu Jan 23 2020 23:24:02.794 - vrwebhelper.exe 1.9.16 startup with PID=30856, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Thu Jan 23 2020 23:24:03.027 - CSharedResourceNamespaceClient::Init(): received namespace data 3460
+Thu Jan 23 2020 23:24:04.140 - Added overlay (pairing)
+Thu Jan 23 2020 23:24:04.150 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Thu Jan 23 2020 23:24:04.160 - Added overlay (bindingcallouts)
+Thu Jan 23 2020 23:24:04.160 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Thu Jan 23 2020 23:24:04.160 - Added overlay (controllerbinding)
+Thu Jan 23 2020 23:24:04.160 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Thu Jan 23 2020 23:24:04.160 - Added overlay (controllerbinding_desktop)
+Thu Jan 23 2020 23:24:04.161 - Added overlay (debugcommands_desktop)
+Thu Jan 23 2020 23:24:04.162 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Thu Jan 23 2020 23:24:04.162 - Added overlay (keyboard)
+Thu Jan 23 2020 23:24:04.162 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Thu Jan 23 2020 23:24:04.162 - Added overlay (managetrackers_desktop)
+Thu Jan 23 2020 23:24:04.162 - Added overlay (messageoverlay)
+Thu Jan 23 2020 23:24:04.162 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Thu Jan 23 2020 23:24:04.162 - Added overlay (notificationtoast)
+Thu Jan 23 2020 23:24:04.162 - Hooking back up to existing overlay system.toast
+Thu Jan 23 2020 23:24:04.164 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Thu Jan 23 2020 23:24:04.164 - Added overlay (progressindicator)
+Thu Jan 23 2020 23:24:04.164 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Thu Jan 23 2020 23:24:04.164 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Thu Jan 23 2020 23:24:04.164 - Added overlay (settings)
+Thu Jan 23 2020 23:24:04.164 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Thu Jan 23 2020 23:24:04.164 - Added overlay (settings_desktop)
+Thu Jan 23 2020 23:24:04.172 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Thu Jan 23 2020 23:24:04.172 - Added overlay (systemui)
+Thu Jan 23 2020 23:24:04.172 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Thu Jan 23 2020 23:24:04.172 - Added 13 overlays from 2 configurations. 10 have been opened.
+Sat Jan 25 2020 03:27:05.719 - //==============================================================================================
+Sat Jan 25 2020 03:27:05.719 - ================================================================================================
+Sat Jan 25 2020 03:27:05.719 - ================================================================================================
+Sat Jan 25 2020 03:27:05.719 - vrwebhelper.exe 1.9.16 startup with PID=16212, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sat Jan 25 2020 03:27:06.464 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sat Jan 25 2020 03:27:07.554 - Added overlay (pairing)
+Sat Jan 25 2020 03:27:07.564 - Creating browser pointed at http://localhost:27062/lighthouse/webinterface/pairing.html?persisted=true
+Sat Jan 25 2020 03:27:07.582 - Added overlay (bindingcallouts)
+Sat Jan 25 2020 03:27:07.582 - Creating browser pointed at http://localhost:27062/dashboard/bindingcallouts.html
+Sat Jan 25 2020 03:27:07.582 - Added overlay (controllerbinding)
+Sat Jan 25 2020 03:27:07.582 - Creating browser pointed at http://localhost:27062/dashboard/controllerbinding.html
+Sat Jan 25 2020 03:27:07.582 - Added overlay (controllerbinding_desktop)
+Sat Jan 25 2020 03:27:07.583 - Added overlay (debugcommands_desktop)
+Sat Jan 25 2020 03:27:07.583 - Skipped overlay (fallback) because setting "driver_lighthouse.enableImuFallback" is False
+Sat Jan 25 2020 03:27:07.584 - Added overlay (keyboard)
+Sat Jan 25 2020 03:27:07.584 - Creating browser pointed at http://localhost:27062/dashboard/keyboard.html
+Sat Jan 25 2020 03:27:07.584 - Added overlay (managetrackers_desktop)
+Sat Jan 25 2020 03:27:07.584 - Added overlay (messageoverlay)
+Sat Jan 25 2020 03:27:07.584 - Creating browser pointed at http://localhost:27062/dashboard/messageoverlay.html
+Sat Jan 25 2020 03:27:07.584 - Added overlay (notificationtoast)
+Sat Jan 25 2020 03:27:07.584 - Hooking back up to existing overlay system.toast
+Sat Jan 25 2020 03:27:07.584 - Creating browser pointed at http://localhost:27062/dashboard/notificationtoast.html
+Sat Jan 25 2020 03:27:07.585 - Added overlay (progressindicator)
+Sat Jan 25 2020 03:27:07.585 - Creating browser pointed at http://localhost:27062/dashboard/progressindicator.html
+Sat Jan 25 2020 03:27:07.585 - Skipped overlay (scenegraphtest) because setting "dashboard.sceneGraphTest" is False
+Sat Jan 25 2020 03:27:07.585 - Added overlay (settings)
+Sat Jan 25 2020 03:27:07.585 - Creating browser pointed at http://localhost:27062/dashboard/settings.html
+Sat Jan 25 2020 03:27:07.585 - Added overlay (settings_desktop)
+Sat Jan 25 2020 03:27:07.594 - Creating browser pointed at http://localhost:27062/dashboard/settings.html?persisted=true
+Sat Jan 25 2020 03:27:07.594 - Added overlay (systemui)
+Sat Jan 25 2020 03:27:07.594 - Creating browser pointed at http://localhost:27062/dashboard/systemui.html
+Sat Jan 25 2020 03:27:07.594 - Added 13 overlays from 2 configurations. 10 have been opened.

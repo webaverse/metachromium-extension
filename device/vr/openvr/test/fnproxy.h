@@ -6,12 +6,14 @@
 // #include <semaphore>
 #include <functional>
 
-#include <D3D11_1.h>
-#include <DXGI1_4.h>
+// #include <D3D11_1.h>
+// #include <DXGI1_4.h>
 
 #include "device/vr/openvr/test/out.h"
-#include "third_party/openvr/src/headers/openvr.h"
+// #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/serializer.h"
+
+typedef void *HANDLE;
 
 class Mutex {
 public:

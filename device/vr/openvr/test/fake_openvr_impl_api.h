@@ -14,13 +14,17 @@
 #include "device/vr/openvr/test/settingsproxy.h"
 #include "device/vr/openvr/test/rendermodelsproxy.h"
 #include "device/vr/openvr/test/applicationsproxy.h"
+#include "device/vr/openvr/test/overlayproxy.h"
 
 extern std::string dllDir;
 extern void *shMem;
-extern size_t *pBooted;
+// extern size_t *pBooted;
 // extern GLFWwindow **ppWindow;
 // extern size_t *pNumClients;
-extern bool isProcess;
+extern std::string logSuffix;
+extern HWND g_hWnd;
+extern FnProxy *g_fnp;
+extern Hijacker *g_hijacker;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
 
@@ -47,6 +51,7 @@ namespace vr {
   extern PVRSettings *g_pvrsettings;
   extern PVRRenderModels *g_pvrrendermodels;
   extern PVRApplications *g_pvrapplications;
+  extern PVROverlay *g_pvroverlay;
 }
 
 extern "C" {

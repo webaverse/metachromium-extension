@@ -7,11 +7,30 @@ cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build
 cmake -G "Visual Studio 15 2017" -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
 
-cd C:\Users\avaer\AppData\Local\Chromium\Application
+cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+
 set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
 set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
 set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\
-.\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality"
+set PATH=%PATH%;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+
+VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\; VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\; VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\;
+
+cd C:\Users\avaer\AppData\Local\Chromium\Application
+.\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing
+
+--app --disable-xr-device-consent-prompt-for-testing --no-sandbox --add-gpu-appcontainer-caps --add-xr-appcontainer-caps --xr_compositing --allow-third-party-modules --allow-unsecure-dlls --allow-sandbox-debugging --gpu-launcher="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process2.exe"
+
+--gpu-launcher --no-startup-window --gpu-startup-dialog
+
+cd C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR
+.\SpacePirateVR.exe
+
+cd C:\Program Files (x86)\Steam\steamapps\common\VRChat
+.\VRChat.exe
+
+cd C:\Program Files (x86)\Steam\steamapps\common\Blocks
+.\Blocks.exe
 
 C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\ && set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\ && set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\ &&  C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe"
 */
@@ -39,42 +58,7 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "device/vr/OpenOVR/Reimpl/static_bases.gen.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/fnproxy.h"
-
-std::string dllDir;
-std::ofstream out;
-std::ostream &getOut() {
-  if (!isProcess) {
-    if (!out.is_open()) {
-      std::string logPath = dllDir + "log.txt";
-      out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
-      out << "--------------------------------------------------------------------------------" << std::endl;
-    }
-    return out;
-  } else {
-    return std::cout;
-  }
-}
-// constexpr bool tracing = true;
-constexpr bool tracing = false;
-void TRACE(const char *module, const std::function<void()> &fn) {
-  if (tracing) {
-    fn();
-  }
-}
-
-void wrapExternalOpenVr(std::function<void()> &&fn) {
-  std::vector<char> buf(4096);
-  GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
-  SetEnvironmentVariable("VR_OVERRIDE", "");
-
-  fn();
-
-  SetEnvironmentVariable("VR_OVERRIDE", buf.data());
-}
-
-void vrShutdownInternal() {
-  getOut() << "vr shutdown internal" << std::endl;
-}
+#include "device/vr/openvr/test/hijack.h"
 
 namespace vr {
 IVRSystem *g_vrsystem = nullptr;
@@ -99,7 +83,62 @@ PVRChaperoneSetup *g_pvrchaperonesetup = nullptr;
 PVRSettings *g_pvrsettings = nullptr;
 PVRRenderModels *g_pvrrendermodels = nullptr;
 PVRApplications *g_pvrapplications = nullptr;
+PVROverlay *g_pvroverlay = nullptr;
 }
+
+std::string dllDir;
+std::ofstream out;
+std::ostream &getOut() {
+  // if (!isProcess) {
+    if (!out.is_open()) {
+      std::string logPath = dllDir + std::string("log") + logSuffix + std::string(".txt");
+      out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
+      out << "--------------------------------------------------------------------------------" << std::endl;
+    }
+    return out;
+  /* } else {
+    return std::cout;
+  } */
+}
+/* void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex) {
+  vr::g_vrsystem->GetDXGIOutputInfo(pAdaterIndex);
+} */
+void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex) {
+  vr::g_pvrsystem->GetDXGIOutputInfo(pAdaterIndex);
+}
+void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight) {
+  vr::g_pvrsystem->GetRecommendedRenderTargetSize(pWidth, pHeight);
+}
+void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom) {
+  vr::g_pvrsystem->GetProjectionRaw(eye, pfLeft, pfRight, pfTop, pfBottom);
+}
+float ProxyGetFloat(const char *pchSection, const char *pchSettingsKey, vr::EVRSettingsError *peError) {
+  return vr::g_pvrsettings->GetFloat(pchSection, pchSettingsKey, peError);
+}
+// constexpr bool tracing = true;
+constexpr bool tracing = false;
+void TRACE(const char *module, const std::function<void()> &fn) {
+  if (tracing) {
+    fn();
+  }
+}
+
+void wrapExternalOpenVr(std::function<void()> &&fn) {
+  std::vector<char> buf(4096);
+  GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
+  SetEnvironmentVariable("VR_OVERRIDE", "");
+
+  fn();
+
+  SetEnvironmentVariable("VR_OVERRIDE", buf.data());
+}
+
+void vrShutdownInternal() {
+  getOut() << "vr shutdown internal" << std::endl;
+}
+
+FnProxy *g_fnp = nullptr;
+Hijacker *g_hijacker = nullptr;
 
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
 
@@ -107,7 +146,10 @@ PVRApplications *g_pvrapplications = nullptr;
 constexpr bool localLoop = false;
 
 void *shMem = nullptr;
-uint64_t *pBooted = nullptr;
+// bool hijacked = false;
+bool booted = false;
+bool isChrome = false;
+// uint64_t *pFrameCount = nullptr;
 // GLFWwindow **ppWindow;
 // size_t *pNumClients = nullptr;
 extern "C" {
@@ -127,7 +169,7 @@ extern "C" {
     // size_t &id = *((size_t *)shMem + 1);
     // getOut() << "core 1 " << interface_name << std::endl;
 
-    if (!*pBooted) {
+    if (!booted) {
       if (localLoop) {
         wrapExternalOpenVr([&]() -> void {
           // getOut() << "core 2 " << interface_name << std::endl;
@@ -164,10 +206,6 @@ extern "C" {
           }
 
           vr::EVRInitError result = vr::VRInitError_None;
-          if (!*pBooted) {
-            getOut() << "vr_init " << GetCurrentThreadId() << std::endl;
-            vr::VR_Init(&result, vr::VRApplication_Scene);
-          }
           if (result != vr::VRInitError_None) {
             getOut() << "vr_init failed" << std::endl;
             abort();
@@ -197,39 +235,24 @@ extern "C" {
         getOut() << "create thread" << std::endl;
         
         std::thread t([=]() {
-          FnProxy fnp;
-          vr::PVRSystem system(vr::g_vrsystem, fnp);
-          vr::PVRCompositor compositor(vr::g_vrcompositor, fnp);
-          vr::PVRClientCore clientcore(&compositor, fnp);
-          vr::PVRInput input(vr::g_vrinput, fnp);
-          vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
-          vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
-          vr::PVRChaperoneSetup chaperonesetup(vr::g_vrchaperonesetup, fnp);
-          vr::PVRSettings settings(vr::g_vrsettings, fnp);
-          vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
-          vr::PVRApplications applications(vr::g_vrapplications, fnp);
+          vr::PVRSystem system(vr::g_vrsystem, *g_fnp);
+          vr::PVRCompositor compositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+          vr::PVRClientCore clientcore(&compositor, *g_fnp);
+          vr::PVRInput input(vr::g_vrinput, *g_fnp);
+          vr::PVRScreenshots screenshots(vr::g_vrscreenshots, *g_fnp);
+          vr::PVRChaperone chaperone(vr::g_vrchaperone, *g_fnp);
+          vr::PVRChaperoneSetup chaperonesetup(vr::g_vrchaperonesetup, *g_fnp);
+          vr::PVRSettings settings(vr::g_vrsettings, *g_fnp);
+          vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, *g_fnp);
+          vr::PVRApplications applications(vr::g_vrapplications, *g_fnp);
           for (;;) {
-            fnp.handle();
+            g_fnp->handle();
           }
         });
         t.detach();
       }
       
-      *pBooted = 1;
-    }
-    
-    if (!vr::g_pvrclientcore) {
-      FnProxy *fnp = new FnProxy();
-      vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *fnp);
-      vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *fnp);
-      vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *fnp);
-      vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *fnp);
-      vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *fnp);
-      vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *fnp);
-      vr::g_pvrchaperonesetup = new vr::PVRChaperoneSetup(vr::g_vrchaperonesetup, *fnp);
-      vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *fnp);
-      vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *fnp);
-      vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *fnp);
+      booted = true;
     }
 
     // result = vr::VRInitError_None;
@@ -279,14 +302,40 @@ BOOL WINAPI DllMain(
     dllDir += dir;
   }
 
-  getOut() << "dll main " << fdwReason << std::endl;
+  getOut() << "dll main " << fdwReason << /*" " << DetourIsHelperProcess() << */ std::endl;
 
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
-    pBooted = (uint64_t *)shMem;
     // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
-    //  pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
+    // pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
+    // pFrameCount = (uint64_t *)shMem;
     
+    char moduleFileName[MAX_PATH];
+    if (!GetModuleFileName(NULL, moduleFileName, sizeof(moduleFileName))) {
+      getOut() << "failed to get executable file name: " << (void *)GetLastError() << std::endl;
+      abort();
+    }
+    std::string moduleString(moduleFileName);
+    // getOut() << "exe file name: " << moduleFileName << std::endl;
+    isChrome = (moduleString.find("chrome.exe") != std::string::npos);
+
+    g_fnp = new FnProxy();
+    g_hijacker = new Hijacker(*g_fnp);
+    vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *g_fnp);
+    vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+    vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *g_fnp);
+    vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *g_fnp);
+    vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *g_fnp);
+    vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *g_fnp);
+    vr::g_pvrchaperonesetup = new vr::PVRChaperoneSetup(vr::g_vrchaperonesetup, *g_fnp);
+    vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *g_fnp);
+    vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
+    vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
+    vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
+    
+    // g_hijacker->hijackPre();
+    g_hijacker->hijackGl();
+
     // getOut() << "init dll 0" << std::endl;
     std::vector<char> buf(4096);
     GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());

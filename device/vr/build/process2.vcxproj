@@ -83,7 +83,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Debug/</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -102,10 +102,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;NOMINMAX;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -113,14 +113,14 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3dcompiler.lib;dxguid.lib;opengl32.lib;glew32.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glew;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glew/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glfw;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glfw/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/bin/win64;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/bin/win64/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/lib/win64;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/lib/win64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/build/mock_vr_clients/bin/process2.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/build/mock_vr_clients/bin/process2.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -128,7 +128,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>Release/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -147,10 +147,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USE_MATH_DEFINES;NOMINMAX;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -158,14 +158,14 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3dcompiler.lib;dxguid.lib;opengl32.lib;glew32.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glew;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glew/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glfw;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glfw/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/bin/win64;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/bin/win64/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/lib/win64;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/lib/win64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/build/mock_vr_clients/bin/process2.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/build/mock_vr_clients/bin/process2.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -173,7 +173,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -192,10 +192,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USE_MATH_DEFINES;NOMINMAX;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -203,14 +203,14 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3dcompiler.lib;dxguid.lib;opengl32.lib;glew32.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glew;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glew/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glfw;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glfw/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/bin/win64;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/bin/win64/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/lib/win64;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/lib/win64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/build/MinSizeRel/process2.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/build/MinSizeRel/process2.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -218,7 +218,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -236,10 +236,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USE_MATH_DEFINES;NOMINMAX;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\openvr\src\headers;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\skia;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\sample;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\SplitOpenVRHeaders;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\glew;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\KHR;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\gl\include\GLFW;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\..\..\third_party\khronos;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -247,14 +247,14 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>dxgi.lib;d3d11.lib;d3dcompiler.lib;dxguid.lib;opengl32.lib;glew32.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glew;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glew/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glfw;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/gl/lib/glfw/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/bin/win64;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/bin/win64/$(Configuration);C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/lib/win64;C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/../../third_party/openvr/src/lib/win64/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/build/RelWithDebInfo/process2.lib</ImportLibrary>
       <ProgramDataBaseFile>C:/Users/avaer/Documents/GitHub/chromium-79.0.3945.88/device/vr/build/RelWithDebInfo/process2.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <ProjectReference>
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
@@ -317,9 +317,51 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\fake_openvr_impl_api.cc" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\glcontext.cpp" />
     <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\serializer.cpp" />
-    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\process2.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\coreproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\systemproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\compositorproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\inputproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\screenshotsproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\chaperoneproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\chaperonesetupproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\settingsproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\rendermodelsproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\applicationsproxy.cpp" />
     <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\fnproxy.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\stubs.gen.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseCompositor.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRCompositor.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseSystem.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRSystem.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseChaperone.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRChaperone.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseChaperoneSetup.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseOverlay.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVROverlay.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseRenderModels.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRRenderModels.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseScreenshots.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRScreenshots.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseSettings.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRSettings.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseExtendedDisplay.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRExtendedDisplay.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseApplications.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRApplications.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseInput.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRInput.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\BaseClientCore.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\OpenOVR\Reimpl\CVRClientCore.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\third_party\openvr\src\src\vrcommon\sharedlibtools_public.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours\detours.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours\disasm.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours\modules.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\detours\image.cpp" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\hijack.cc" />
+    <ClCompile Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\openvr\test\process.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\ZERO_CHECK.vcxproj">

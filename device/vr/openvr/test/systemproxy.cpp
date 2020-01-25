@@ -2,6 +2,8 @@
 #include "device/vr/openvr/test/systemproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
+extern bool isChrome;
+
 namespace vr {
 char kIVRSystem_GetRecommendedRenderTargetSize[] = "IVRSystem::GetRecommendedRenderTargetSize";
 char kIVRSystem_GetProjectionMatrix[] = "IVRSystem::GetProjectionMatrix";
@@ -523,6 +525,10 @@ void PVRSystem::GetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeig
   auto result = fnp.call<kIVRSystem_GetRecommendedRenderTargetSize, std::tuple<uint32_t, uint32_t>>();
   *pWidth = std::get<0>(result);
   *pHeight = std::get<1>(result);
+
+  if (!isChrome) {
+    g_hijacker->hijackPre();
+  }
 }
 HmdMatrix44_t PVRSystem::GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ) {
   return fnp.call<
