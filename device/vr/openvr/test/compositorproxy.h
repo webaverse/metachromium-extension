@@ -77,6 +77,7 @@ public:
   // std::vector<size_t> inShDepthDxEventIndexes;
   std::vector<uintptr_t> inTexLatches;
   std::vector<uintptr_t> inDepthTexLatches;
+  std::vector<VRTextureBounds_t> inDepthTexBoundsLatches;
   std::vector<GLuint> interopTexs;
   std::vector<HANDLE> inReadInteropHandles;
   // std::vector<HANDLE> inReadEvents;

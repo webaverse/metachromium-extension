@@ -809,7 +809,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       float localTextureFulls[8] = {
         flip ? 1.0f : 0.0f,
         isFullDepthTex ? (float)iEye : 0.0f,
-        0,
+        isFullDepthTex ? (float)iEye : 0.0f,
         0,
         0,
         0,
@@ -1685,6 +1685,15 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
   } */
   // getOut() << "prepare submit client 4" << std::endl;
 }
+inline bool operator==(const VRTextureBounds_t &a, const VRTextureBounds_t &b) {
+  return a.uMin == b.uMin &&
+    a.vMin == b.vMin &&
+    a.uMax == b.uMax &&
+    a.vMax == b.vMax;
+}
+inline bool operator!=(const VRTextureBounds_t &a, const VRTextureBounds_t &b) {
+  return !(a == b);
+}
 EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
   // getOut() << "submit client 1 " << std::endl;
 
@@ -1722,6 +1731,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // inShDepthDxEventIndexes.resize(index+1, 0);
     inTexLatches.resize(index+1, NULL);
     inDepthTexLatches.resize(index+1, NULL);
+    inDepthTexBoundsLatches.resize(index+1, VRTextureBounds_t{});
     interopTexs.resize(index+1, NULL);
     inReadInteropHandles.resize(index+1, NULL);
     // inReadEvents.resize(index+1, NULL);
@@ -1764,16 +1774,18 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   // HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
   uintptr_t &depthTextureLatched = inDepthTexLatches[index]; // remembered depth attachemnt
+ VRTextureBounds_t &depthTextureBoundsLatched = inDepthTexBoundsLatches[index]; // remembered depth bounds
 
   std::tuple<float, float> clientZBufferParams{};
   int clientEye = 0;
-  bool clientIsFull = false;
+  bool clientIsDepthFull = false;
 
-  if (textureLatched != (uintptr_t)pTexture->handle) {
+  if (textureLatched != (uintptr_t)pTexture->handle || depthTextureBoundsLatched != bounds) {
     if (textureLatched) {
       // XXX delete old resources
     }
     textureLatched = (uintptr_t)pTexture->handle;
+    depthTextureBoundsLatched = bounds;
 
     // compute rexture params
     D3D11_TEXTURE2D_DESC desc{};
@@ -1983,7 +1995,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     HANDLE &depthTexHandle = depthProxyTexture.texHandle;
     const std::tuple<float, float> &localZBufferParams = depthProxyTexture.zBufferParams;
     const int &localEye = depthProxyTexture.eye;
-    const bool &localIsFull = depthProxyTexture.isFull;
+    const bool &localIsDepthFull = depthProxyTexture.isFull;
     // getOut() << "get matching depth tex " << (void *)depthTexHandle << " " << depthTexEventIndex << std::endl;
     /* {
       // getOut() << "get tex view" << std::endl;
@@ -2121,7 +2133,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
     clientZBufferParams = localZBufferParams;
     clientEye = localEye;
-    clientIsFull = localIsFull;
+    clientIsDepthFull = localIsDepthFull;
 
     /* context->CopySubresourceRegion(
       shDepthTex,
@@ -2375,7 +2387,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     1.0f, flip ? 0.0f : 1.0f
   }; */
 
-  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << " " << clientEye << " " << clientIsFull << std::endl;
+  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << " " << clientEye << " " << clientIsDepthFull << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
@@ -2397,7 +2409,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
       std::get<0>(clientZBufferParams),
       std::get<1>(clientZBufferParams),
       clientEye,
-      clientIsFull
+      clientIsDepthFull
     ),
     std::tuple<uintptr_t, uintptr_t, uint64_t>(
       (uintptr_t)GetCurrentProcessId(),
