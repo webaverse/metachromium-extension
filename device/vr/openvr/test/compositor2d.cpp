@@ -11,20 +11,16 @@
 namespace compositor2d {
 
 // constants
+constexpr nearValue = 0.1f;
+constexpr farValue = 1000.0f;
 const char *hlsl = R"END(
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
-  float flip;
-  float eyeTexOffset;
-  float tmpvs11;
-  float tmpvs12;
-  float tmpvs13;
-  float tmpvs14;
-  float tmpvs15;
-  float tmpvs16;
+  float4 viewMatrix;
+  float4 projectionMatrix;
 }
 
-cbuffer PS_CONSTANT_BUFFER : register(b0)
+/* cbuffer PS_CONSTANT_BUFFER : register(b0)
 {
   float width;
   float height;
@@ -34,15 +30,7 @@ cbuffer PS_CONSTANT_BUFFER : register(b0)
   float tmpps14;
   float tmpps15;
   float tmpps16;
-}
-
-cbuffer PS_CONSTANT_BUFFER : register(b1)
-{
-  float2 _ZBufferParams;
-  float4 depthColor;
-  float tmpps21;
-  float tmpps22;
-}
+} */
 
 //------------------------------------------------------------//
 // Structs
@@ -52,7 +40,6 @@ struct VS_OUTPUT
 {
    float4 Position: SV_POSITION;
    float2 Uv: TEXCOORD0;
-   float2 Tex1: TEXCOORD1;
 };
 //------------------------------------------------------------//
 // Pixel Shader OUT struct
@@ -69,90 +56,48 @@ struct PS_OUTPUT
 //Texture
 Texture2D QuadTexture : register(ps, t0);
 Texture2D QuadDepthTexture : register(ps, t1);
-Texture2DMS<float4> QuadDepthTextureMS : register(ps, t2);
-Texture2D DepthTexture : register(ps, t3);
+Texture2D DepthTexture : register(ps, t2);
 SamplerState QuadTextureSampler {
-  MipFilter = NONE;
-  MinFilter = POINT;
-  MagFilter = POINT;
+  MipFilter = LINEAR;
+  MinFilter = LINEAR;
+  MagFilter = LINEAR;
 };
 //------------------------------------------------------------//
 
 VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
-  Output.Position = float4(inPos, 0, 1);
-  Output.Uv = float2(inTex.x, (flip > 0) ? inTex.y : (1-inTex.y));
-  Output.Tex1 = float2(inTex.x + eyeTexOffset, inTex.y);
+  Output.Position = projectionMatrix * viewMatrix * float4(inPos, -1, 1);
+  Output.Uv = float2(inTex.x, inTex.y);
   return Output;
 }
-
-/* // Unity
-static const float4x4 projectionMatrix = {0.917286, -0, 0, 0, 0, -0.833537, 0, 0, -0.174072, 0.106141, 9.53674e-07, -1, 0, -0, 0.02, 0};
-static const float m32 = projectionMatrix[3][2];
-static const float m22 = projectionMatrix[2][2];
-static const float near = m32 / (m22 + 1);
-static const float far = m32 / (m22);
-static const float4 _ZBufferParams = float4(-1+far/near, 1, (-1+far/near)/far, 1/far);
-
-// Chrome
-static const float4x4 projectionMatrixRaw = {0.917286, 0, -0.174072, 0, 0, 0.833537, -0.106141, 0, 0, 0, -1.0002, -0.20002, 0, 0, -1, 0};
-static const float4x4 projectionMatrix = transpose(projectionMatrixRaw); // {0.917286, 0, 0, 0, 0, 0.833537, 0, 0, -0.174072, -0.106141, -1.0002, -1, 0, 0, -0.20002, 0};
-static const float m32 = projectionMatrix[3][2];
-static const float m22 = projectionMatrix[2][2];
-static const float near = m32 / (m22 - 1);
-static const float far = m32 / (m22 + 1);
-static const float4 _ZBufferParams = float4(1-far/near, far/near, (1-far/near)/far, (far/near)/far); */
 
 inline float LinearEyeDepth( float z ) {
   return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
 }
 
-PS_OUTPUT do_ps(float d, VS_OUTPUT IN)
+PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
 
-  float depthScale = 1000;
+  /* float depthScale = 1000;
 
-  d = LinearEyeDepth(d);
+  d = LinearEyeDepth(d); */
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
-  /* result.Color = float4(d * depthColor.rgb, 1);
-  result.Depth = d; */
+  result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+  result.Depth = e;
 
-  /* if (d < 0.5) {
-    result.Color = float4(d, 0, 0, 1);
-    result.Depth = d;
-  } else if (d < 1) {
-    result.Color = float4(0, d, 0, 1);
-    result.Depth = d;
-  } else {
-    result.Color = float4(0, 0, d, 1);
-    result.Depth = e;
-  } */
-
-  if (e == 1.0 || d < (e*depthScale)) {
+  /* if (e == 1.0 || d < (e*depthScale)) {
     result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
     result.Depth = d/depthScale;
   } else {
     // result.Color = float4(0, 0, e, 1);
     // result.Depth = e;
     discard;
-  }
+  } */
 
   return result;
-}
-
-PS_OUTPUT ps_main(VS_OUTPUT IN)
-{
-  float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
-  return do_ps(d, IN);
-}
-
-PS_OUTPUT ps_main_ms(VS_OUTPUT IN)
-{
-  float d = QuadDepthTextureMS[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  return do_ps(d, IN);
 }
 
 //------------------------------------------------------------//
@@ -184,11 +129,21 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
   }
   return TRUE;
 }
-
 HWND GetDiscordHwnd() {
   HWND hWnd = NULL;
   EnumWindows(EnumWindowsProc, (LPARAM)&hWnd);
   return hWnd;
+}
+void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix) {
+  for (unsigned int v = 0; v < 4; v++) {
+    for (unsigned int u = 0; u < 3; u++) {
+      dstMatrixArray[v * 4 + u] = srcMatrix.m[u][v];
+    }
+  }
+  dstMatrixArray[0 * 4 + 3] = 0;
+  dstMatrixArray[1 * 4 + 3] = 0;
+  dstMatrixArray[2 * 4 + 3] = 0;
+  dstMatrixArray[3 * 4 + 3] = 1;
 }
 
 void initShader(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
@@ -416,8 +371,29 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     windowResourceView,
     depthIn
   };
+
   float localUniforms[16*2];
-  // XXX copy in
+  TrackedDevicePose_t renderPoses[vr::k_unMaxTrackedDeviceCount];
+  g_pvrcompositor->GetCachedLastPoses(ARRAYSIZE(renderPoses), renderPoses, 0, nullptr);
+  for (unsigned int i = 0; i < trackedDevicePoseArray.size(); i++) {
+    const vr::TrackedDevicePose_t &trackedDevicePose = trackedDevicePoseArray[i];
+
+    if (trackedDevicePose.bPoseIsValid) {
+      const vr::ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
+
+      if (deviceClass == vr::TrackedDeviceClass_HMD) {
+        setPoseMatrix(localUniforms, trackedDevicePose.mDeviceToAbsoluteTracking);
+        break;
+      }
+    }
+  }
+  HmdMatrix44_t projectionMatrix = g_vrsystem->GetProjectionMatrix(iEye == 0 ? Eye_Left : Eye_Right, nearValue, farValue);
+  for (unsigned int v = 0; v < 4; v++) {
+    for (unsigned int u = 0; u < 4; u++) {
+      localUniforms[16 + v * 4 + u] = matrix.m[u][v];
+    }
+  }
+
   context->UpdateSubresource(uniformsConstantBuffer, 0, 0, localUniforms, 0, 0);
 
   context->VSSetShader(vsShader, nullptr, 0);
