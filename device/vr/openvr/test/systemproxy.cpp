@@ -67,10 +67,8 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     kIVRSystem_GetRecommendedRenderTargetSize,
     std::tuple<uint32_t, uint32_t>
   >([=]() {
-    getOut() << "GetRecommendedRenderTargetSize 1" << std::endl;
     uint32_t width, height;
     vrsystem->GetRecommendedRenderTargetSize(&width, &height);
-    getOut() << "GetRecommendedRenderTargetSize 2" << std::endl;
     return std::tuple<uint32_t, uint32_t>(width, height);
   });
   fnp.reg<
@@ -528,13 +526,9 @@ void PVRSystem::GetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeig
   *pWidth = std::get<0>(result);
   *pHeight = std::get<1>(result);
 
-  getOut() << "pre hijack pre 1 " << isChrome << std::endl;
-
   if (!isChrome) {
     g_hijacker->hijackPre();
   }
-  
-  getOut() << "pre hijack pre 2 " << isChrome << std::endl;
 }
 HmdMatrix44_t PVRSystem::GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ) {
   return fnp.call<

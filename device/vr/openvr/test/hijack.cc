@@ -362,11 +362,11 @@ void tryLatchZBufferParams(const void *data, size_t size) {
 
   float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
-    getOut() << "found projection matrix (" << size << "):";
+    /* getOut() << "found projection matrix (" << size << "):";
     for (size_t i = 0; i < 16; i++) {
       getOut() << projectionMatrix[i] << " ";
     }
-    getOut() << std::endl;
+    getOut() << std::endl; */
 
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed, &eyeValue);
   }
@@ -508,7 +508,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           abort();
         }
         
-        getOut() << "latch depth share handle " << (void *)sbsDepthTex << " " << (void *)shHandle << std::endl;
+        // getOut() << "latch depth share handle " << (void *)sbsDepthTex << " " << (void *)shHandle << std::endl;
         
         if (isChrome) {
           sbsDepthTexShHandle = shHandle;
@@ -525,13 +525,13 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
       
       // getOut() << "set depth render target " << (void *)depthTex << std::endl;
     } else {
-      getOut() << "unlatch depth tex bad size " <<
+      /* getOut() << "unlatch depth tex bad size " <<
         desc.Width << " " << desc.Height << " " <<
         desc.MipLevels << " " << desc.ArraySize << " " <<
         desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
         desc.Format << " " <<
         desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-        std::endl;
+        std::endl; */
       sbsDepthTex = nullptr;
     }
     /* getOut() << "set depth render target solid " <<
@@ -547,7 +547,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
     depthTex->lpVtbl->Release(depthTex);
     depthTexResource->lpVtbl->Release(depthTexResource);
   } else {
-    getOut() << "unlatch depth tex no depth" << std::endl;
+    // getOut() << "unlatch depth tex no depth" << std::endl;
     sbsDepthTex = nullptr;
   }
   /* if (NumViews > 0 && ppRenderTargetViews && *ppRenderTargetViews && pDepthStencilView) {
@@ -818,7 +818,7 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
   RealOMSetDepthStencilState(This, pDepthStencilState, StencilRef);
 }
 void ensureDepthTexDrawn() {
-  getOut() << "ensure depth tex drawn " << (void *)sbsDepthTex << std::endl;
+  // getOut() << "ensure depth tex drawn " << (void *)sbsDepthTex << std::endl;
 
   if (sbsDepthTex) {
     if (isChrome) {
@@ -874,7 +874,7 @@ void ensureDepthTexDrawn() {
           float zBufferParams[2];
           getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
           
-          getOut() << "queue depth tex " << (void *)sbsDepthTex << " " << shHandle << " " << descDepth.Width << " " << depthWidth << " " << eyeValue << " " << isFullDepthTex << std::endl;
+          // getOut() << "queue depth tex " << (void *)sbsDepthTex << " " << shHandle << " " << descDepth.Width << " " << depthWidth << " " << eyeValue << " " << isFullDepthTex << std::endl;
           /* getOut() << "depth tex projection matrix: ";
           for (size_t i = 0; i < 16; i++) {
             getOut() << projectionMatrix[i] << " ";
@@ -925,7 +925,6 @@ bool shouldDepthTexClear(T *view, size_t index) {
   bool result = !isSingle && !isDual;
   if (!result) {
     if (isChrome) {
-      getOut() << "chrome check " << (void *)depthTex << " " << (void *)sbsDepthTex << " " << (void *)sbsDepthTexShHandle << std::endl;
       if (sbsDepthTexShHandle) {
         bool queueContains = g_hijacker->fnp.call<
           kHijacker_QueueContains,
@@ -956,11 +955,11 @@ bool shouldDepthTexClear(T *view, size_t index) {
       }
     }
   }
-  if (result) {
+  /* if (result) {
     getOut() << "clear depth tex " << (void *)depthTex << std::endl;
   } else {
     getOut() << "keep depth tex " << (void *)depthTex << std::endl;
-  }
+  } */
 
   depthTex->lpVtbl->Release(depthTex);
   resource->lpVtbl->Release(resource);
@@ -3071,7 +3070,8 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
         return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
       }
     });
-    size_t oldSize = texQueue.size();
+
+    /* size_t oldSize = texQueue.size();
     getOut() << "tex queue sorted:" << std::endl;
     for (auto iter : texQueue) {
       getOut() << "  " << iter.texHandle << " " << haveSames[iter.texHandle] << std::endl;
@@ -3079,13 +3079,14 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     getOut() << "tex num draws:" << std::endl;
     for (auto iter : texNumDraws) {
       getOut() << "  " << iter.first << " -> " << iter.second << std::endl;
-    }
+    } */
+
     if (texQueue.size() > 2) {
       texQueue.resize(2);
     }
     
     ProxyTexture result = texQueue.front();
-    getOut() << "shift tex queue " << (void *)result.texHandle << " " << oldSize << std::endl;
+    // getOut() << "shift tex queue " << (void *)result.texHandle << " " << oldSize << std::endl;
     texNumDraws.clear();
     texQueue.pop_front();
     return result;
