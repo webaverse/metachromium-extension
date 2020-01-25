@@ -523,22 +523,23 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     managed_binary<Texture_t>,
     bool,
     EVRSubmitFlags,
-    std::tuple<uintptr_t, float, float, bool>,
+    std::tuple<uintptr_t, float, float, int, bool>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >([=, &fnp](
     EVREye eEye,
     managed_binary<Texture_t> sharedTexture,
     bool flip,
     EVRSubmitFlags submitFlags,
-    std::tuple<uintptr_t, float, float, bool> depthSpec,
+    std::tuple<uintptr_t, float, float, int, bool> depthSpec,
     std::tuple<uintptr_t, uintptr_t, uint64_t> fenceSpec
   ) {
     Texture_t *pTexture = sharedTexture.data();
     uintptr_t sharedDepthHandlePtr = std::get<0>(depthSpec);
     HANDLE sharedDepthHandle = (HANDLE)sharedDepthHandlePtr;
-    float zbx = std::get<1>(depthSpec);
-    float zby = std::get<2>(depthSpec);
-    bool isFullDepthTex = std::get<3>(depthSpec);
+    const float &zbx = std::get<1>(depthSpec);
+    const float &zby = std::get<2>(depthSpec);
+    const int &depthTexEye = std::get<3>(depthSpec);
+    const bool &isFullDepthTex = std::get<4>(depthSpec);
     DWORD clientProcessId = (DWORD)std::get<0>(fenceSpec);
     HANDLE clientFenceHandle = (HANDLE)std::get<1>(fenceSpec);
     uint64_t clientFenceValue = std::get<2>(fenceSpec);
@@ -1717,7 +1718,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // inDxDepthTexs3.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
     inShDepthDxShareHandles.resize(index+1, NULL);
-    inClientZBufferParams.resize(index+1, std::tuple<float, float, bool>{});
+    // inClientZBufferParams.resize(index+1, std::tuple<float, float, bool>{});
     // inShDepthDxEventIndexes.resize(index+1, 0);
     inTexLatches.resize(index+1, NULL);
     inDepthTexLatches.resize(index+1, NULL);
@@ -1759,11 +1760,14 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   // ID3D11Texture2D *&shDepthTex3 = inDxDepthTexs3[index]; // shared dx depth texture 3
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
   HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
-  std::tuple<float, float, bool> &clientZBufferParams = inClientZBufferParams[index]; // dx depth interop handle
   // size_t &sharedDepthEventIndex = inShDepthDxEventIndexes[index]; // dx depth event index
   // HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
   uintptr_t &depthTextureLatched = inDepthTexLatches[index]; // remembered depth attachemnt
+
+  std::tuple<float, float> clientZBufferParams{};
+  int clientEye = 0;
+  bool clientIsFull = false;
 
   if (textureLatched != (uintptr_t)pTexture->handle) {
     if (textureLatched) {
@@ -1977,7 +1981,9 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
     ProxyTexture &depthProxyTexture = hijacker.getDepthTextureMatching(tex);
     HANDLE &depthTexHandle = depthProxyTexture.texHandle;
-    std::tuple<float, float, bool> &localZBufferParams = depthProxyTexture.zBufferParams;
+    const std::tuple<float, float> &localZBufferParams = depthProxyTexture.zBufferParams;
+    const int &localEye = depthProxyTexture.eye;
+    const bool &localIsFull = depthProxyTexture.isFull;
     // getOut() << "get matching depth tex " << (void *)depthTexHandle << " " << depthTexEventIndex << std::endl;
     /* {
       // getOut() << "get tex view" << std::endl;
@@ -2114,6 +2120,8 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     }
 
     clientZBufferParams = localZBufferParams;
+    clientEye = localEye;
+    clientIsFull = localIsFull;
 
     /* context->CopySubresourceRegion(
       shDepthTex,
@@ -2367,7 +2375,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     1.0f, flip ? 0.0f : 1.0f
   }; */
 
-  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << " " << std::get<2>(clientZBufferParams) << std::endl;
+  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << " " << clientEye << " " << clientIsFull << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
@@ -2376,19 +2384,20 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     managed_binary<Texture_t>,
     bool,
     EVRSubmitFlags,
-    std::tuple<uintptr_t, float, float, bool>,
+    std::tuple<uintptr_t, float, float, int, bool>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >(
     eEye,
     std::move(sharedTexture),
     flip,
     EVRSubmitFlags::Submit_Default,
-    std::tuple<uintptr_t, float, float, bool>(
+    std::tuple<uintptr_t, float, float, int, bool>(
       // (uintptr_t)shDepthResolveHandle,
       depthTextureLatched,
       std::get<0>(clientZBufferParams),
       std::get<1>(clientZBufferParams),
-      std::get<2>(clientZBufferParams)
+      clientEye,
+      clientIsFull
     ),
     std::tuple<uintptr_t, uintptr_t, uint64_t>(
       (uintptr_t)GetCurrentProcessId(),

@@ -165,7 +165,7 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
-constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 8000; // 1500;
+constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 1500;
 bool havePma = false;
 float pma = 0;
 float pmb = 0;
@@ -173,6 +173,7 @@ float pmIpd = 0;
 // bool haveZBufferParams = false;
 float nearValue = 0;
 float farValue = 0;
+int eyeValue = 0;
 bool reversed = false;
 float scale = 1.0f;
 /* float nv = 0;
@@ -303,7 +304,7 @@ bool findViewMatrix(const void *data, size_t size, float *outViewMatrixLeft, flo
 // 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 -5.06639e-07 -1 0 -0 0.0005 0 
 // 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 0.000100017 -1 0 -0 0.010001 0 
 // 1.20009 -0 0 0 0 -1.00808 0 0 0.147 0.112538 9.53674e-07 -1 0 -0 0.02 0 
-void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNear, float *pFar, bool *pReversed) {
+void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNear, float *pFar, bool *pReversed, int *pEyeValue) {
   float m32 = std::abs(projectionMatrix[14]);
   float m22 = std::abs(projectionMatrix[10]);
   if (!isChrome) {
@@ -318,6 +319,8 @@ void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNe
     *pFar = m32 / (m22 - 1.0f);
     *pReversed = false;
   }
+  *pEyeValue = (projectionMatrix[8] > 0.0f) ? 1 : 0;
+  // getOut() << "get eye value " << projectionMatrix[8] << " " << (*pEyeValue) << std::endl;
 }
 void getZBufferParams(float nearValue, float farValue, bool reversed, float scale, float zBufferParams[2]) {
   float c1 = farValue / nearValue;
@@ -349,22 +352,22 @@ void getScaleFromViewMatrix(const float *viewMatrixLeft, const float *viewMatrix
     *scale = 1.0f;
   }
 }
-float projectionMatrix[16];
 void tryLatchZBufferParams(const void *data, size_t size) {
-  getOut() << "looking for matrix:\n  ";
+  /* getOut() << "looking for matrix:\n  ";
   for (size_t i = 0; i < size / sizeof(float); i++) {
     getOut() << ((float *)data)[i] << " ";
   }
-  getOut() << std::endl;
-  
+  getOut() << std::endl; */
+
+  float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
-    getOut() << "found projection matrix: ";
+    getOut() << "found projection matrix (" << size << "):";
     for (size_t i = 0; i < 16; i++) {
       getOut() << projectionMatrix[i] << " ";
     }
     getOut() << std::endl;
 
-    getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
+    getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed, &eyeValue);
   }
 
   float viewMatrixLeft[16];
@@ -847,30 +850,35 @@ void ensureDepthTexDrawn() {
           getOut() << "new depth tex " << shHandle << std::endl;
           seenDepthTexs.insert(shHandle);
         } */
-        
-        bool texQueueContains = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
+
+        /* const bool texQueueContainsHandle = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
           return pt.texHandle == shHandle;
+        }) != texQueue.end(); */
+        const bool texQueueContainsEye = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
+          return pt.eye == eyeValue;
         }) != texQueue.end();
-        if (!texQueueContains) {
+        if (!texQueueContainsEye) {
           D3D11_TEXTURE2D_DESC descDepth;
           sbsDepthTex->lpVtbl->GetDesc(sbsDepthTex, &descDepth);
 
           ensureDepthWidthHeight();
-          bool isFullDepthTex = descDepth.Width > depthWidth;
+          const bool isFullDepthTex = descDepth.Width > depthWidth;
 
           float zBufferParams[2];
           getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
           
-          getOut() << "queue depth tex " << (void *)sbsDepthTex << " " << shHandle << " " << descDepth.Width << " " << depthWidth << " " << isFullDepthTex << std::endl;
-          getOut() << "found projection matrix: ";
+          getOut() << "queue depth tex " << (void *)sbsDepthTex << " " << shHandle << " " << descDepth.Width << " " << depthWidth << " " << eyeValue << " " << isFullDepthTex << std::endl;
+          /* getOut() << "depth tex projection matrix: ";
           for (size_t i = 0; i < 16; i++) {
             getOut() << projectionMatrix[i] << " ";
           }
-          getOut() << std::endl;
+          getOut() << std::endl; */
 
-          texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], isFullDepthTex)});
-          if (isFullDepthTex) {
-            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], isFullDepthTex)});
+          if (!isFullDepthTex) {
+            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), eyeValue, isFullDepthTex});
+          } else {
+            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), 0, isFullDepthTex});
+            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), 1, isFullDepthTex});
           }
           
           {
@@ -881,7 +889,9 @@ void ensureDepthTexDrawn() {
               // XXX clean up sort order tracking on texture destroy
             }
           }
-        }
+        } /* else {
+          getOut() << "elide depth tex" << std::endl;
+        } */
       } else {
         getOut() << "failed to get registered share handle for depth texture" << std::endl;
         abort();
@@ -2412,7 +2422,7 @@ void handleGlClearHack() {
     RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
     getOut() << "blit rbo " << type << " " << rbo << " " << oldDrawFbo << std::endl; */
 
-    for (size_t i = 0; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
       ID3D11Fence *&fence = fenceCache[i];
       // HANDLE &depthEvent = eventCache[i];
       
@@ -2427,8 +2437,10 @@ void handleGlClearHack() {
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        std::tuple<float, float, bool>
-      >(frontSharedDepthHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], true));
+        std::tuple<float, float>,
+        int,
+        bool
+      >(frontSharedDepthHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), i, false);
     }
 
     glPhase = 0;
@@ -2480,14 +2492,18 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     kHijacker_QueueDepthTex,
     int,
     HANDLE,
-    std::tuple<float, float, bool>
-  >([=](HANDLE shDepthTexHandle, std::tuple<float, float, bool> zBufferParams) {
+    std::tuple<float, float>,
+    int,
+    bool
+  >([=](HANDLE shDepthTexHandle, std::tuple<float, float> zBufferParams, int eye, bool isFull) {
     /* size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == shDepthTexHandle;
     }); */
     texQueue.push_back(ProxyTexture{
       shDepthTexHandle,
-      zBufferParams
+      zBufferParams,
+      eye,
+      isFull
     });
     // getOut() << "push tex order " << texQueue.size() << std::endl;
     {
@@ -2503,7 +2519,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
   });
   fnp.reg<
     kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, float, float, bool>
+    std::tuple<HANDLE, float, float, int, bool>
   >([=]() {
     // getOut() << "shift tex order " << texQueue.size() << std::endl;
     if (texQueue.size() > 0) {
@@ -2516,9 +2532,9 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
       
       ProxyTexture result = texQueue.front();
       texQueue.pop_front();
-      return std::tuple<HANDLE, float, float, bool>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), std::get<2>(result.zBufferParams));
+      return std::tuple<HANDLE, float, float, int, bool>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), result.eye, result.isFull);
     } else {
-      return std::tuple<HANDLE, float, float, bool>{};
+      return std::tuple<HANDLE, float, float, int, bool>{};
     }
   });
   fnp.reg<
@@ -3028,14 +3044,15 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     return result;
   }
   // remote
-  std::tuple<HANDLE, float, float, bool> shiftResult = fnp.call<
+  std::tuple<HANDLE, float, float, int, bool> shiftResult = fnp.call<
     kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, float, float, bool>
+    std::tuple<HANDLE, float, float, int, bool>
   >();
   HANDLE &sharedDepthHandle = std::get<0>(shiftResult);
-  float zbx = std::get<1>(shiftResult);
-  float zby = std::get<2>(shiftResult);
-  bool isFullDepthTex = std::get<3>(shiftResult);
+  const float &zbx = std::get<1>(shiftResult);
+  const float &zby = std::get<2>(shiftResult);
+  const int &eye = std::get<3>(shiftResult);
+  const bool &isFull = std::get<4>(shiftResult);
 
   if (sharedDepthHandle) {
     if (clientDepthHandleLatched != sharedDepthHandle) {
@@ -3051,13 +3068,17 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
 
     return ProxyTexture{
       sharedDepthHandle,
-      std::tuple<float, float, bool>(zbx, zby, isFullDepthTex)
+      std::tuple<float, float>(zbx, zby),
+      eye,
+      isFull
     };
   }
   // not found
   return ProxyTexture{
     nullptr,
-    std::tuple<float, float, bool>{}
+    std::tuple<float, float>{},
+    0,
+    false
   };
 }
 void Hijacker::flushTextureLatches() {

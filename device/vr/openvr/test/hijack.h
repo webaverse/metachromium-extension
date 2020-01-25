@@ -6,7 +6,9 @@
 class ProxyTexture {
 public:
   void *texHandle;
-  std::tuple<float, float, bool> zBufferParams;
+  std::tuple<float, float> zBufferParams;
+  int eye;
+  bool isFull;
 };
 
 class Hijacker {
