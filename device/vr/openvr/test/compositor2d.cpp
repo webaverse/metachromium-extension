@@ -192,6 +192,8 @@ HWND GetDiscordHwnd() {
 }
 
 void initShader(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
+  HRESULT hr;
+
   {
     D3D11_BUFFER_DESC cbDesc{};
     cbDesc.ByteWidth = 16 * 2 * sizeof(float);
