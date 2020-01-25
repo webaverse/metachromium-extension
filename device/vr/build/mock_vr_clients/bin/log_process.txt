@@ -1,36 +1,18 @@
 --------------------------------------------------------------------------------
-process start 00000000003B359C 00000000000000B7
+process start 00000000006D37C0 00000000000000B7
 core 2 openvr_api.dll
-core 3 00007FF85FEC0000
+core 3 00007FF85C4E0000
 core 4
 core 5
 core 6
-vr_init 27032
+vr_init 22660
 classes init 1
 classes init 2
-process exit
---------------------------------------------------------------------------------
-process start 0000000000E63014 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 16000
-classes init 1
-classes init 2
-process exit
---------------------------------------------------------------------------------
-process start 00000000003F359C 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 3896
-classes init 1
-classes init 2
-create device 0 000001A0CB3499F0
+GetRecommendedRenderTargetSize
+GetRecommendedRenderTargetSize
+GetRecommendedRenderTargetSize
+GetRecommendedRenderTargetSize
+create device 0 000002027DDB2800
 got adapter desc 0N 0 1421053645
 got adapter desc 1M 0 53443
 info queue query failed
@@ -40,107 +22,132 @@ init render 2
 init render 3 1624 1940
 init render 4
 init render 5
-init render 6
-init render 7
+init render 6 1
+init render 7 1
+init render 6 2
+init render 7 2
 init render 8
 init render 9
 init render 10
-create shared fence handle 0000000000000544
+create shared fence handle 0000000000000680
 shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
+shader resource view depth 1624 1940 1 1 1 0 19 0 72 0 2
+check fulls 0 0 1624 1940 0 0
 shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-process exit
---------------------------------------------------------------------------------
-process start 00000000013934E0 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 29928
-classes init 1
-classes init 2
-process exit
---------------------------------------------------------------------------------
-process start 00000000005137C2 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 30532
-classes init 1
-classes init 2
-process exit
---------------------------------------------------------------------------------
-process start 00000000004936FE 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 23268
-classes init 1
-classes init 2
-process exit
---------------------------------------------------------------------------------
-process start 0000000000113428 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 24600
-classes init 1
-classes init 2
-process exit
---------------------------------------------------------------------------------
-process start 000000000010349A 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 29444
-classes init 1
-classes init 2
-create device 0 0000023425B3D390
-got adapter desc 0N 0 1421053645
-got adapter desc 1M 0 53443
-info queue query failed
-got desc N 0 1421053645
-init render 1
-init render 2
-init render 3 1624 1940
-init render 4
-init render 5
-init render 6
-init render 7
-init render 8
-init render 9
-init render 10
-create shared fence handle 0000000000000690
-shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-shader resource view tex 1624 1940 1 1 1 0 28 0 40 0 2
-process exit
---------------------------------------------------------------------------------
-process start 00000000001635E6 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 24260
-classes init 1
-classes init 2
-process exit
---------------------------------------------------------------------------------
-process start 00000000005F37CE 00000000000000B7
-core 2 openvr_api.dll
-core 3 00007FF85FEC0000
-core 4
-core 5
-core 6
-vr_init 20952
-classes init 1
-classes init 2
+shader resource view depth 1624 1940 1 1 2 0 19 0 72 0 2
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
+GetRecommendedRenderTargetSize
+check fulls 0 0 1624 1940 0 0
+check fulls 1 1 1624 1940 0 0
 process exit

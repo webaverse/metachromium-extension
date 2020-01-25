@@ -65,6 +65,7 @@ PVRSystem::PVRSystem(IVRSystem *vrsystem, FnProxy &fnp) : vrsystem(vrsystem), fn
     kIVRSystem_GetRecommendedRenderTargetSize,
     std::tuple<uint32_t, uint32_t>
   >([=]() {
+    getOut() << "GetRecommendedRenderTargetSize" << std::endl; 
     uint32_t width, height;
     vrsystem->GetRecommendedRenderTargetSize(&width, &height);
     return std::tuple<uint32_t, uint32_t>(width, height);
@@ -523,6 +524,8 @@ void PVRSystem::GetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeig
   auto result = fnp.call<kIVRSystem_GetRecommendedRenderTargetSize, std::tuple<uint32_t, uint32_t>>();
   *pWidth = std::get<0>(result);
   *pHeight = std::get<1>(result);
+  
+  g_hijacker->hijackPre();
 }
 HmdMatrix44_t PVRSystem::GetProjectionMatrix(EVREye eEye, float fNearZ, float fFarZ) {
   return fnp.call<
@@ -586,8 +589,6 @@ void PVRSystem::GetDXGIOutputInfo(int32_t *pnAdapterIndex) {
   getOut() << "GetDXGIOutputInfo 2" << std::endl;
   *pnAdapterIndex = result;
   getOut() << "GetDXGIOutputInfo 3" << std::endl;
-  
-  g_hijacker->hijackPre();
 }
 void PVRSystem::GetOutputDevice(uint64_t *pnDevice, ETextureType textureType, VkInstance_T *pInstance) {
   getOut() << "GetOutputDevice abort" << std::endl;

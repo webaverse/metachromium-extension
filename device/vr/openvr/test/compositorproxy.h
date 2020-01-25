@@ -46,7 +46,9 @@ public:
   ID3DBlob *vsBlob = nullptr;
   ID3D11VertexShader *vsShader = nullptr;
   ID3DBlob *psBlob = nullptr;
+  ID3DBlob *psMsBlob = nullptr;
   ID3D11PixelShader *psShader = nullptr;
+  ID3D11PixelShader *psMsShader = nullptr;
   ID3D11InputLayout *vertexLayout = nullptr;
   // ID3D11ShaderResourceView *shaderResourceView = nullptr;
   // ID3D11RenderTargetView *renderTargetView = nullptr;
@@ -68,10 +70,10 @@ public:
   std::vector<HANDLE> inDxDepthResolveHandles;
   // std::vector<ID3D11Texture2D *> inDxDepthTexs2;
   // std::vector<ID3D11Texture2D *> inDxDepthTexs3;
-  std::vector<std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>> shaderResourceViews;
+  std::vector<std::tuple<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *, bool>> shaderResourceViews;
   std::vector<HANDLE> inShDxShareHandles;
   std::vector<HANDLE> inShDepthDxShareHandles;
-  std::vector<std::tuple<float, float>> inClientZBufferParams;
+  std::vector<std::tuple<float, float, bool>> inClientZBufferParams;
   // std::vector<size_t> inShDepthDxEventIndexes;
   std::vector<uintptr_t> inTexLatches;
   std::vector<uintptr_t> inDepthTexLatches;

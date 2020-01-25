@@ -165,7 +165,7 @@ bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
     (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
 }
 
-constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 1500;
+constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 8000; // 1500;
 bool havePma = false;
 float pma = 0;
 float pmb = 0;
@@ -195,7 +195,7 @@ void ensureProjectionMatrixSpec() {
       abort();
     }
     
-    getOut() << "got lrtb ipd " << pmLeft << " " << pmRight << " " << pmTop << " " << pmBottom << " " << pmIpd << std::endl;
+    getOut() << "got lrtb ipd " << pmLeft << " " << pmRight << " " << pmTop << " " << pmBottom << " " << pma << " " << pmb << " " << pmIpd << std::endl;
     
     havePma = true;
   }
@@ -220,7 +220,7 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
           if (startIndex >= 0 && endIndex < numElements) {
             const float &e3 = ((const float *)data)[startIndex + 14];
 
-            if (e3 == -1.0f) {
+            if (e3 == -1.0f || e3 == 1.0f) {
               // 0.917286 0 -0.174072 0 0 0.833537 -0.106141 0 0 0 -1.0002 -0.20002 0 0 -1 0
               
               // needs transpose
@@ -257,7 +257,7 @@ bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMat
           if (startIndex >= 0 && endIndex < numElements) {
             const float &e3 = ((const float *)data)[startIndex + 11];
 
-            if (e3 == -1.0f) {
+            if (e3 == -1.0f || e3 == 1.0f) {
               // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
               
               memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
@@ -349,20 +349,20 @@ void getScaleFromViewMatrix(const float *viewMatrixLeft, const float *viewMatrix
     *scale = 1.0f;
   }
 }
+float projectionMatrix[16];
 void tryLatchZBufferParams(const void *data, size_t size) {
-  /* getOut() << "looking for matrix:\n  ";
+  getOut() << "looking for matrix:\n  ";
   for (size_t i = 0; i < size / sizeof(float); i++) {
     getOut() << ((float *)data)[i] << " ";
   }
-  getOut() << std::endl; */
+  getOut() << std::endl;
   
-  float projectionMatrix[16];
   if (findProjectionMatrix(data, size, projectionMatrix)) {
-    /* getOut() << "found projection matrix: ";
+    getOut() << "found projection matrix: ";
     for (size_t i = 0; i < 16; i++) {
       getOut() << projectionMatrix[i] << " ";
     }
-    getOut() << std::endl; */
+    getOut() << std::endl;
 
     getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed);
   }
@@ -497,7 +497,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           abort();
         }
 
-        HANDLE shHandle = NULL;
+        HANDLE shHandle;
         hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &shHandle);
         if (FAILED(hr) || !shHandle) {
           getOut() << "failed to get sbs depth tex shared handle " << (void *)hr << std::endl;
@@ -513,7 +513,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
           if (iter == texSharedHandleMap.end()) {
             texSharedHandleMap.emplace(depthTex, shHandle);
           }
-          getOut() << "emplace tex share handle " << depthTex << " " << shHandle << std::endl;
+          // getOut() << "emplace tex share handle " << depthTex << " " << shHandle << std::endl;
         }
         
         // dxgiResource->lpVtbl->Release(dxgiResource);
@@ -660,9 +660,7 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
 
           HANDLE shDepthTexHandle;
           hr = shDepthTexResource->lpVtbl->GetSharedHandle(shDepthTexResource, &shDepthTexHandle);
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
+          if (FAILED(hr) || !shDepthTexHandle) {
             getOut() << "failed to get hijack shared depth handle: " << (void *)hr << std::endl;
             abort();
           }
@@ -827,16 +825,14 @@ void ensureDepthTexDrawn() {
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        size_t,
-        std::tuple<float, float>
-      >(sbsDepthTexShHandle, 0, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]));
+        std::tuple<float, float, bool>
+      >(sbsDepthTexShHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], true));
       g_hijacker->fnp.call<
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        size_t,
-        std::tuple<float, float>
-      >(sbsDepthTexShHandle, 1, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]));
+        std::tuple<float, float, bool>
+      >(sbsDepthTexShHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], true));
     } else {
       auto iter = texSharedHandleMap.find(sbsDepthTex);
       if (iter != texSharedHandleMap.end()) {
@@ -860,16 +856,21 @@ void ensureDepthTexDrawn() {
           sbsDepthTex->lpVtbl->GetDesc(sbsDepthTex, &descDepth);
 
           ensureDepthWidthHeight();
-          bool isFull = descDepth.Width > depthWidth;
+          bool isFullDepthTex = descDepth.Width > depthWidth;
 
           float zBufferParams[2];
           getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
           
-          getOut() << "queue depth tex " << (void *)sbsDepthTex << " " << shHandle << " " << descDepth.Width << " " << depthWidth << " " << isFull << std::endl;
+          getOut() << "queue depth tex " << (void *)sbsDepthTex << " " << shHandle << " " << descDepth.Width << " " << depthWidth << " " << isFullDepthTex << std::endl;
+          getOut() << "found projection matrix: ";
+          for (size_t i = 0; i < 16; i++) {
+            getOut() << projectionMatrix[i] << " ";
+          }
+          getOut() << std::endl;
 
-          texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1])});
-          if (isFull) {
-            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1])});
+          texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], isFullDepthTex)});
+          if (isFullDepthTex) {
+            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], isFullDepthTex)});
           }
           
           {
@@ -1267,6 +1268,9 @@ HRESULT STDMETHODCALLTYPE MineCreateBuffer(
   const D3D11_SUBRESOURCE_DATA *pInitialData,
   ID3D11Buffer                 **ppBuffer
 ) {
+  if (pInitialData && pDesc->ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
+    tryLatchZBufferParams(pInitialData->pSysMem, pDesc->ByteWidth);
+  }
   return RealCreateBuffer(This, pDesc, pInitialData, ppBuffer);
 }
 std::map<ID3D11Resource *, std::pair<void *, size_t>> cbufs;
@@ -1403,7 +1407,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
       }
 
       hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &sbsDepthTexShHandle);
-      if (FAILED(hr)) {
+      if (FAILED(hr) || !sbsDepthTexShHandle) {
         getOut() << "failed to get sbs depth tex shared handle " << (void *)hr << std::endl;
         abort();
       }
@@ -1453,7 +1457,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     return hr;
   } else {
     auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
-    const D3D11_TEXTURE2D_DESC &desc = *pDesc;
+    /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
     getOut() << "create texture 2d normal " <<
       (void *)(*ppTexture2D) << " " <<
       desc.Width << " " << desc.Height << " " <<
@@ -1461,7 +1465,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
       desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
       desc.Format << " " <<
       desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      std::endl;
+      std::endl; */
     return hr;
   }
 }
@@ -2099,7 +2103,7 @@ void handleGlClearHack() {
         }
 
         hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &frontSharedDepthHandle);
-        if (FAILED(hr)) {
+        if (FAILED(hr) || !frontSharedDepthHandle) {
           getOut() << "failed to get gl depth tex shared handle " << (void *)hr << std::endl;
           abort();
         }
@@ -2423,9 +2427,8 @@ void handleGlClearHack() {
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        size_t,
-        std::tuple<float, float>
-      >(frontSharedDepthHandle, 0, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]));
+        std::tuple<float, float, bool>
+      >(frontSharedDepthHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], true));
     }
 
     glPhase = 0;
@@ -2477,9 +2480,8 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     kHijacker_QueueDepthTex,
     int,
     HANDLE,
-    size_t,
-    std::tuple<float, float>
-  >([=](HANDLE shDepthTexHandle, size_t eventIndex, std::tuple<float, float> zBufferParams) {
+    std::tuple<float, float, bool>
+  >([=](HANDLE shDepthTexHandle, std::tuple<float, float, bool> zBufferParams) {
     /* size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == shDepthTexHandle;
     }); */
@@ -2501,7 +2503,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
   });
   fnp.reg<
     kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, float, float>
+    std::tuple<HANDLE, float, float, bool>
   >([=]() {
     // getOut() << "shift tex order " << texQueue.size() << std::endl;
     if (texQueue.size() > 0) {
@@ -2514,9 +2516,9 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
       
       ProxyTexture result = texQueue.front();
       texQueue.pop_front();
-      return std::tuple<HANDLE, float, float>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams));
+      return std::tuple<HANDLE, float, float, bool>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), std::get<2>(result.zBufferParams));
     } else {
-      return std::tuple<HANDLE, float, float>{};
+      return std::tuple<HANDLE, float, float, bool>{};
     }
   });
   fnp.reg<
@@ -2624,7 +2626,13 @@ void Hijacker::hijackPre() {
     
     getOut() << "hijack pre 2" << std::endl; */
     
-    /* getOut() << "hijack pre 1" << std::endl;
+    /* HMODULE dll = GetModuleHandleA("Blocks.exe");
+    decltype(D3D11CreateDevice) *lol = (decltype(D3D11CreateDevice) *)GetProcAddress(
+      dll,
+      "D3D11CreateDevice"
+    );
+    getOut() << "hijack pre 1 " << (void *)dll << " " << (void *)lol << std::endl; */
+
     ID3D11Device *deviceBasic;
     ID3D11DeviceContext *contextBasic;
     D3D_FEATURE_LEVEL featureLevels[] = {
@@ -2650,9 +2658,13 @@ void Hijacker::hijackPre() {
     }
     hijackDx(contextBasic);
     
-    getOut() << "hijack pre 2" << std::endl; */
+    /* HMODULE dll = GetModuleHandleA("d3d11.dll");
+    FARPROC lol = GetProcAddress(
+      dll,
+      "D3D11CreateDevice"
+    );
     
-    /* getOut() << "hijack pre 1" << std::endl;
+    getOut() << "hijack pre 1 " << (void *)lol << " " << (void *)D3D11CreateDevice << std::endl;
     LONG error = DetourTransactionBegin();
     checkDetourError("DetourTransactionBegin", error);
 
@@ -2664,7 +2676,7 @@ void Hijacker::hijackPre() {
     error = DetourAttach(&(PVOID&)RealD3D11CreateDeviceAndSwapChain, MineD3D11CreateDeviceAndSwapChain);
     checkDetourError("RealD3D11CreateDeviceAndSwapChain", error);
     
-    RealD3D11CreateDevice = D3D11CreateDevice;
+    RealD3D11CreateDevice = (decltype(RealD3D11CreateDevice))lol;
     getOut() << "hijack pre 3 " << (void *)RealD3D11CreateDevice << std::endl;
     error = DetourAttach(&(PVOID&)RealD3D11CreateDevice, MineD3D11CreateDevice);
     checkDetourError("RealD3D11CreateDevice", error);
@@ -2687,8 +2699,6 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     
     ID3D11Device *device;
     context->lpVtbl->GetDevice(context, &device);
-    
-    getOut() << "got device " << (void *)device << std::endl;
 
     LONG error = DetourTransactionBegin();
     checkDetourError("DetourTransactionBegin", error);
@@ -2704,7 +2714,7 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     error = DetourAttach(&(PVOID&)RealOMSetRenderTargets, MineOMSetRenderTargets);
     checkDetourError("RealOMSetRenderTargets", error);
 
-    /* RealOMSetDepthStencilState = context->lpVtbl->OMSetDepthStencilState;
+    RealOMSetDepthStencilState = context->lpVtbl->OMSetDepthStencilState;
     error = DetourAttach(&(PVOID&)RealOMSetDepthStencilState, MineOMSetDepthStencilState);
     checkDetourError("RealOMSetDepthStencilState", error);
 
@@ -2798,7 +2808,7 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
 
     RealRSSetState = context1->lpVtbl->RSSetState;
     error = DetourAttach(&(PVOID&)RealRSSetState, MineRSSetState);
-    checkDetourError("RealRSSetState", error); */
+    checkDetourError("RealRSSetState", error);
 
     error = DetourTransactionCommit();
     checkDetourError("DetourTransactionCommit", error);
@@ -3018,13 +3028,14 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     return result;
   }
   // remote
-  std::tuple<HANDLE, float, float> shiftResult = fnp.call<
+  std::tuple<HANDLE, float, float, bool> shiftResult = fnp.call<
     kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, float, float>
+    std::tuple<HANDLE, float, float, bool>
   >();
   HANDLE &sharedDepthHandle = std::get<0>(shiftResult);
   float zbx = std::get<1>(shiftResult);
   float zby = std::get<2>(shiftResult);
+  bool isFullDepthTex = std::get<3>(shiftResult);
 
   if (sharedDepthHandle) {
     if (clientDepthHandleLatched != sharedDepthHandle) {
@@ -3040,13 +3051,13 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
 
     return ProxyTexture{
       sharedDepthHandle,
-      std::tuple<float, float>(zbx, zby)
+      std::tuple<float, float, bool>(zbx, zby, isFullDepthTex)
     };
   }
   // not found
   return ProxyTexture{
     nullptr,
-    std::tuple<float, float>{}
+    std::tuple<float, float, bool>{}
   };
 }
 void Hijacker::flushTextureLatches() {

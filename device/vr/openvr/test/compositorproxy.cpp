@@ -98,13 +98,12 @@ const char *hlsl = R"END(
 //------------------------------------------------------------//
 // float Width;
 // float Height;
-// float depthScale = 1000;
 //------------------------------------------------------------//
 
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
   float flip;
-  float eye1;
+  float eyeTexOffset;
   float tmpvs11;
   float tmpvs12;
   float tmpvs13;
@@ -157,9 +156,9 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-Texture2DMS<float4> QuadDepthTexture : register(ps, t1);
-// Texture2D QuadDepthTexture : register(ps, t1);
-Texture2D DepthTexture : register(ps, t2);
+Texture2D QuadDepthTexture : register(ps, t1);
+Texture2DMS<float4> QuadDepthTextureMS : register(ps, t2);
+Texture2D DepthTexture : register(ps, t3);
 SamplerState QuadTextureSampler {
   MipFilter = NONE;
 	MinFilter = POINT;
@@ -172,7 +171,7 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   VS_OUTPUT Output;
   Output.Position = float4(inPos, 0, 1);
   Output.Uv = float2(inTex.x, (flip > 0) ? inTex.y : (1-inTex.y));
-  Output.Tex1 = float2(inTex.x + eye1, inTex.y);
+  Output.Tex1 = float2(inTex.x + eyeTexOffset, inTex.y);
   return Output;
 }
 
@@ -197,27 +196,19 @@ inline float LinearEyeDepth( float z ) {
   return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
 }
 
-PS_OUTPUT ps_main(VS_OUTPUT IN)
+PS_OUTPUT do_ps(float d, VS_OUTPUT IN)
 {
   PS_OUTPUT result;
 
-  // float near = _ZBufferParams.x;
-  // float reversed = _ZBufferParams.y;
-
   float depthScale = 1000;
 
-  float d = QuadDepthTexture[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  // float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
-  d = LinearEyeDepth(d);
-  // d /= depthScale;
-  // d = LinearEyeDepth(reversed > 0 ? (1-d) : d);
-  /* if (reversed > 0) {
-    d *= 1.464304;
-  } */
-  // d = LinearEyeDepth(d*2.0 - 1.0);
+  // d = LinearEyeDepth(d);
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
-  if (d < 0.5) {
+  result.Color = float4(d * depthColor.rgb, 1);
+  result.Depth = d;
+
+  /* if (d < 0.5) {
     result.Color = float4(d, 0, 0, 1);
     result.Depth = d;
   } else if (d < 1) {
@@ -226,7 +217,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   } else {
     result.Color = float4(0, 0, d, 1);
     result.Depth = e;
-  }
+  } */
 
   /* if (e == 1.0 || d < (e*depthScale)) {
     result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
@@ -238,6 +229,18 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   } */
 
   return result;
+}
+
+PS_OUTPUT ps_main(VS_OUTPUT IN)
+{
+  float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
+  return do_ps(d, IN);
+}
+
+PS_OUTPUT ps_main_ms(VS_OUTPUT IN)
+{
+  float d = QuadDepthTextureMS[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+  return do_ps(d, IN);
 }
 
 //------------------------------------------------------------//
@@ -520,14 +523,14 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     managed_binary<Texture_t>,
     bool,
     EVRSubmitFlags,
-    std::tuple<uintptr_t, float, float>,
+    std::tuple<uintptr_t, float, float, bool>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >([=, &fnp](
     EVREye eEye,
     managed_binary<Texture_t> sharedTexture,
     bool flip,
     EVRSubmitFlags submitFlags,
-    std::tuple<uintptr_t, float, float> depthSpec,
+    std::tuple<uintptr_t, float, float, bool> depthSpec,
     std::tuple<uintptr_t, uintptr_t, uint64_t> fenceSpec
   ) {
     Texture_t *pTexture = sharedTexture.data();
@@ -535,11 +538,12 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     HANDLE sharedDepthHandle = (HANDLE)sharedDepthHandlePtr;
     float zbx = std::get<1>(depthSpec);
     float zby = std::get<2>(depthSpec);
+    bool isFullDepthTex = std::get<3>(depthSpec);
     DWORD clientProcessId = (DWORD)std::get<0>(fenceSpec);
     HANDLE clientFenceHandle = (HANDLE)std::get<1>(fenceSpec);
     uint64_t clientFenceValue = std::get<2>(fenceSpec);
 
-    // getOut() << "submit server 1 " << zbx << " " << zby << " " << zbz << " " << zbw << std::endl;
+    // getOut() << "submit server 1 " << zbx << " " << zby << " " << isFullDepthTex << std::endl;
 
     auto key = std::pair<size_t, EVREye>(fnp.remoteProcessId, eEye);
     auto iter = inBackIndices.find(key);
@@ -556,7 +560,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       inBackDepthTexs.resize(index+1, NULL);
       // inBackDepthReadEvents.resize(index+1, NULL);
       // inBackDepthInteropHandles.resize(index+1, NULL);
-      shaderResourceViews.resize(index+1, std::pair<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *>(nullptr, nullptr));
+      shaderResourceViews.resize(index+1, std::tuple<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *, bool>(nullptr, nullptr, false));
       // inBackReadEvents.resize(index+1, NULL);
       inBackTextureFulls.resize(index+1, 0);
       inBackHandleLatches.resize(index+1, NULL);
@@ -572,8 +576,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     ID3D11Texture2D *&shDepthTexIn = inBackDepthTexs[index]; // depth texture
     // HANDLE &depthReadEvent = inBackDepthReadEvents[index]; // depth texture fence read event
     // HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
-    ID3D11ShaderResourceView *&shaderResourceView = shaderResourceViews[index].first;
-    ID3D11ShaderResourceView *&shaderDepthResourceView = shaderResourceViews[index].second;
+    ID3D11ShaderResourceView *&shaderResourceView = std::get<0>(shaderResourceViews[index]);
+    ID3D11ShaderResourceView *&shaderDepthResourceView = std::get<1>(shaderResourceViews[index]);
+    bool &shaderDepthResourceViewIsMs = std::get<2>(shaderResourceViews[index]);
     // HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
     float &textureFull = inBackTextureFulls[index]; // depth texture is side-by-side
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
@@ -708,8 +713,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           } else {
             shaderDepthResourceViewDesc.Format = desc.Format;
           }
-          shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
-          // shaderDepthResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+          shaderDepthResourceViewIsMs = desc.SampleDesc.Count > 1;
+          shaderDepthResourceViewDesc.ViewDimension = shaderDepthResourceViewIsMs ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
           shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
           shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;
           HRESULT hr = device->CreateShaderResourceView(
@@ -793,14 +798,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
       context->Wait(clientFence, clientFenceValue);
 
-      ID3D11ShaderResourceView *localShaderResourceViews[3] = {
-        shaderResourceViews[index].first,
-        shaderResourceViews[index].second,
+      const bool &shaderDepthResourceViewIsMs = std::get<2>(shaderResourceViews[index]);
+      ID3D11ShaderResourceView *localShaderResourceViews[4] = {
+        std::get<0>(shaderResourceViews[index]),
+        shaderDepthResourceViewIsMs ? nullptr : std::get<1>(shaderResourceViews[index]),
+        shaderDepthResourceViewIsMs ? std::get<1>(shaderResourceViews[index]) : nullptr,
         depthShaderFrontResourceViews[iEye]
       };
       float localTextureFulls[8] = {
         flip ? 1.0f : 0.0f,
-        textureFull * iEye,
+        isFullDepthTex ? (float)iEye : 0.0f,
         0,
         0,
         0,
@@ -809,6 +816,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         0
       };
       context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureFulls, 0, 0);
+      
+      getOut() << "check fulls " << iEye << " " << index << " " << width << " " << height << " " << textureFull << " " << isFullDepthTex << std::endl;
 
       float localDepthColors[8] = {
         zbx,
@@ -822,6 +831,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       };
       context->UpdateSubresource(psConstantBuffers[1], 0, 0, localDepthColors, 0, 0);
 
+      context->PSSetShader(shaderDepthResourceViewIsMs ? psMsShader : psShader, nullptr, 0);
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
       D3D11_VIEWPORT viewport{
         0, // TopLeftX,
@@ -1707,7 +1717,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     // inDxDepthTexs3.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
     inShDepthDxShareHandles.resize(index+1, NULL);
-    inClientZBufferParams.resize(index+1, std::tuple<float, float>{});
+    inClientZBufferParams.resize(index+1, std::tuple<float, float, bool>{});
     // inShDepthDxEventIndexes.resize(index+1, 0);
     inTexLatches.resize(index+1, NULL);
     inDepthTexLatches.resize(index+1, NULL);
@@ -1749,7 +1759,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   // ID3D11Texture2D *&shDepthTex3 = inDxDepthTexs3[index]; // shared dx depth texture 3
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
   HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
-  std::tuple<float, float> &clientZBufferParams = inClientZBufferParams[index]; // dx depth interop handle
+  std::tuple<float, float, bool> &clientZBufferParams = inClientZBufferParams[index]; // dx depth interop handle
   // size_t &sharedDepthEventIndex = inShDepthDxEventIndexes[index]; // dx depth event index
   // HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
@@ -1967,7 +1977,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
     ProxyTexture &depthProxyTexture = hijacker.getDepthTextureMatching(tex);
     HANDLE &depthTexHandle = depthProxyTexture.texHandle;
-    std::tuple<float, float> &localZBufferParams = depthProxyTexture.zBufferParams;
+    std::tuple<float, float, bool> &localZBufferParams = depthProxyTexture.zBufferParams;
     // getOut() << "get matching depth tex " << (void *)depthTexHandle << " " << depthTexEventIndex << std::endl;
     /* {
       // getOut() << "get tex view" << std::endl;
@@ -2036,7 +2046,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
 
         if (SUCCEEDED(hr)) {
           hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTex));
-          
+
           if (SUCCEEDED(hr)) {
             // nothing
           } else {
@@ -2061,7 +2071,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
         depthDesc.Format << " " <<
         depthDesc.Usage << " " << depthDesc.BindFlags << " " << depthDesc.CPUAccessFlags << " " << depthDesc.MiscFlags <<
         std::endl;
-      
+
       depthDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
       hr = device->CreateTexture2D(
@@ -2357,7 +2367,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     1.0f, flip ? 0.0f : 1.0f
   }; */
 
-  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << std::endl;
+  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << " " << std::get<2>(clientZBufferParams) << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
@@ -2366,18 +2376,19 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
     managed_binary<Texture_t>,
     bool,
     EVRSubmitFlags,
-    std::tuple<uintptr_t, float, float>,
+    std::tuple<uintptr_t, float, float, bool>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >(
     eEye,
     std::move(sharedTexture),
     flip,
     EVRSubmitFlags::Submit_Default,
-    std::tuple<uintptr_t, float, float>(
+    std::tuple<uintptr_t, float, float, bool>(
       // (uintptr_t)shDepthResolveHandle,
       depthTextureLatched,
       std::get<0>(clientZBufferParams),
-      std::get<1>(clientZBufferParams)
+      std::get<1>(clientZBufferParams),
+      std::get<2>(clientZBufferParams)
     ),
     std::tuple<uintptr_t, uintptr_t, uint64_t>(
       (uintptr_t)GetCurrentProcessId(),
@@ -2934,7 +2945,7 @@ void PVRCompositor::InitShader() {
       &psBlob,
       &errorBlob
     );
-    getOut() << "init render 6" << std::endl;
+    getOut() << "init render 6 1" << std::endl;
     if (FAILED(hr)) {
       if (errorBlob != nullptr) {
         getOut() << "ps compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
@@ -2942,10 +2953,42 @@ void PVRCompositor::InitShader() {
       }
     }
     
-    getOut() << "init render 7" << std::endl;
+    getOut() << "init render 7 1" << std::endl;
 
     ID3D11ClassLinkage *linkage = nullptr;
     hr = device->CreatePixelShader(psBlob->GetBufferPointer(), psBlob->GetBufferSize(), linkage, &psShader);
+    if (FAILED(hr)) {
+      getOut() << "ps create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  {
+    ID3DBlob *errorBlob = nullptr;
+    hr = D3DCompile(
+      hlsl,
+      strlen(hlsl),
+      "ps.hlsl",
+      nullptr,
+      D3D_COMPILE_STANDARD_FILE_INCLUDE,
+      "ps_main",
+      "ps_5_0",
+      D3DCOMPILE_ENABLE_STRICTNESS,
+      0,
+      &psMsBlob,
+      &errorBlob
+    );
+    getOut() << "init render 6 2" << std::endl;
+    if (FAILED(hr)) {
+      if (errorBlob != nullptr) {
+        getOut() << "ps compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+        abort();
+      }
+    }
+    
+    getOut() << "init render 7 2" << std::endl;
+
+    ID3D11ClassLinkage *linkage = nullptr;
+    hr = device->CreatePixelShader(psMsBlob->GetBufferPointer(), psMsBlob->GetBufferSize(), linkage, &psMsShader);
     if (FAILED(hr)) {
       getOut() << "ps create failed: " << (void *)hr << std::endl;
       abort();
@@ -2964,7 +3007,6 @@ void PVRCompositor::InitShader() {
   {
     context->VSSetShader(vsShader, nullptr, 0);
     context->PSSetShader(psShader, nullptr, 0);
-    // context->PSSetSamplers(0, 1, &linearSampler);
 
     UINT stride = sizeof(float) * 4; // xyuv
     UINT offset = 0;
