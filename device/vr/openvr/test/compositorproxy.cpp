@@ -1269,6 +1269,14 @@ EVRCompositorError PVRCompositor::GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArra
   memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(TrackedDevicePose_t));
   return std::get<0>(result);
 }
+void PVRCompositor::GetCachedLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
+  if (pRenderPoseArray) {
+    memcpy(pRenderPoseArray, cachedRenderPoses, unRenderPoseArrayCount * sizeof(TrackedDevicePose_t));
+  }
+  if (pGamePoseArray) {
+    memcpy(pGamePoseArray, cachedGamePoses, unGamePoseArrayCount * sizeof(TrackedDevicePose_t));
+  }
+}
 EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose ) {
   auto result = fnp.call<
     kIVRCompositor_GetLastPoseForTrackedDeviceIndex,
