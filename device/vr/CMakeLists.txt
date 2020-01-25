@@ -43,6 +43,7 @@ SET(src
   openvr/test/applicationsproxy.cpp
   openvr/test/overlayproxy.cpp
   openvr/test/fnproxy.cpp
+  openvr/test/compositor2d.cpp
   # openvr/test/test_helper.cc
   # openvr/test/test_helper.h
   # test/test_hook.h

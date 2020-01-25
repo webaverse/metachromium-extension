@@ -58,9 +58,9 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
 
     D3D11_TEXTURE2D_DESC desc{};
     desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-    /* desc.Width = windowWidth;
-    desc.Height = windowHeight; */
-    desc.Width = desc.Height = 512;
+    desc.Width = windowWidth;
+    desc.Height = windowHeight;
+    // desc.Width = desc.Height = 512;
     desc.MipLevels = 1;
     desc.ArraySize = 1;
     // desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -84,9 +84,9 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       abort();
     }
     
-    getOut() << "created 2d window tex" << std::endl;
+    // getOut() << "created 2d window tex" << std::endl;
     
-    hr = windowTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&windowGdiSurface);
+    hr = windowTex->QueryInterface(__uuidof(IDXGISurface1), (void **)&windowGdiSurface);
     if (FAILED(hr)) {
       getOut() << "failed to get 2d window gdi surface: " << (void *)hr << std::endl;
       pvrcompositor->InfoQueueLog();
@@ -96,8 +96,7 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     getOut() << "created 2d window gdi surface" << std::endl;
   }
   
-  getOut() << "get gdi surface dc " << (void *)windowTex << " " << (void *)windowGdiSurface << std::endl;
-  pvrcompositor->InfoQueueLog();
+  // getOut() << "get gdi surface dc " << (void *)windowTex << " " << (void *)windowGdiSurface << std::endl;
 
   HDC dstDc = nullptr;
   hr = windowGdiSurface->GetDC(
@@ -110,7 +109,7 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     abort();
   }
   
-  getOut() << "get 2d window dc" << std::endl;
+  // getOut() << "get 2d window dc" << std::endl;
   
   HDC srcDc = GetWindowDC(twoDWindow);
   if (!srcDc) {
@@ -119,7 +118,7 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     abort();
   }
   
-  getOut() << "blitting 2d window tex" << std::endl;
+  // getOut() << "blitting 2d window tex" << std::endl;
   
   if (!BitBlt(
     dstDc,
@@ -137,9 +136,9 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     abort();
   }
   
-  getOut() << "blitted 2d window tex" << std::endl;
+  // getOut() << "blitted 2d window tex" << std::endl;
   
-  hr = windowGdiSurface->ReleaseDC(&windowRect);
+  hr = windowGdiSurface->ReleaseDC(nullptr);
   if (FAILED(hr)) {
     getOut() << "failed to release 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
     pvrcompositor->InfoQueueLog();

@@ -467,8 +467,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         DXGI_ADAPTER_DESC desc;
         hr = pDXGIAdapter->GetDesc(&desc);
         getOut() << "got desc " << (char *)desc.Description << " " << desc.AdapterLuid.HighPart << " " << desc.AdapterLuid.LowPart << std::endl;
-        
-        // nothing
       } else {
         getOut() << "create dx device failed " << (void *)hr << std::endl;
         abort();
@@ -854,22 +852,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       );
       context->DrawIndexed(6, 0, 0);
       // context->Draw(4, 0);
-      
-      {
-        float depthColor[4] = {1, 0, 0, 0};
-        context->ClearRenderTargetView(
-          renderTargetDepthFrontViews[iEye],
-          depthColor
-        );
 
-        auto temp1 = depthShaderFrontResourceViews[iEye];
-        depthShaderFrontResourceViews[iEye] = depthShaderBackResourceViews[iEye];
-        depthShaderBackResourceViews[iEye] = temp1;
-        
-        auto temp2 = renderTargetDepthFrontViews[iEye];
-        renderTargetDepthFrontViews[iEye] = renderTargetDepthBackViews[iEye];
-        renderTargetDepthBackViews[iEye] = temp2;
-      }
+      SwapDepthTex(iEye);
     }
 
     ++fenceValue;
@@ -912,6 +896,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     int
   >([=]() {
     // getOut() << "flush submit server 1" << std::endl;
+
+    for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
+      // EVREye eEye = EYES[iEye];
+      
+      compositor2d::blendWindow(this, device.Get(), context.Get(), iEye, renderTargetViews[iEye], renderTargetDepthBackViews[iEye], depthShaderFrontResourceViews[iEye]);
+      SwapDepthTex(iEye);
+    }
 
     for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
       EVREye eEye = EYES[iEye];
@@ -3201,6 +3192,21 @@ void PVRCompositor::InitShader() {
     
     context->OMSetDepthStencilState(pDSState, 1);
   } */
+}
+void PVRCompositor::SwapDepthTex(int iEye) {
+  float depthColor[4] = {1, 0, 0, 0};
+  context->ClearRenderTargetView(
+    renderTargetDepthFrontViews[iEye],
+    depthColor
+  );
+
+  auto temp1 = depthShaderFrontResourceViews[iEye];
+  depthShaderFrontResourceViews[iEye] = depthShaderBackResourceViews[iEye];
+  depthShaderBackResourceViews[iEye] = temp1;
+  
+  auto temp2 = renderTargetDepthFrontViews[iEye];
+  renderTargetDepthFrontViews[iEye] = renderTargetDepthBackViews[iEye];
+  renderTargetDepthBackViews[iEye] = temp2;
 }
 void PVRCompositor::InfoQueueLog() {
   if (infoQueue) {
