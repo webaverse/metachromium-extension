@@ -812,8 +812,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       };
       context->UpdateSubresource(psConstantBuffers[1], 0, 0, localDepthColors, 0, 0);
 
+      context->VSSetShader(vsShader, nullptr, 0);
       context->PSSetShader(shaderDepthResourceViewIsMs ? psMsShader : psShader, nullptr, 0);
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+      context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
+      context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
       D3D11_VIEWPORT viewport{
         0, // TopLeftX,
         0, // TopLeftY,
@@ -2999,9 +3002,6 @@ void PVRCompositor::InitShader() {
   }
   getOut() << "init render 9" << std::endl;
   {
-    context->VSSetShader(vsShader, nullptr, 0);
-    context->PSSetShader(psShader, nullptr, 0);
-
     UINT stride = sizeof(float) * 4; // xyuv
     UINT offset = 0;
     // context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
@@ -3009,8 +3009,6 @@ void PVRCompositor::InitShader() {
     context->IASetInputLayout(vertexLayout);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-    context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
-    context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
   }
   getOut() << "init render 10" << std::endl;
 
