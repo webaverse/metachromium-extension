@@ -3155,23 +3155,8 @@ void PVRCompositor::InitShader() {
       abort();
     }
   }
-  /* {
-    D3D11_DEPTH_STENCIL_DESC dsDesc{};
 
-    // Depth test parameters
-    dsDesc.DepthEnable = true;
-    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-    dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
-
-    // Stencil test parameters
-    dsDesc.StencilEnable = false;
-
-    // Create depth stencil state
-    ID3D11DepthStencilState *pDSState;
-    device->CreateDepthStencilState(&dsDesc, &pDSState);
-    
-    context->OMSetDepthStencilState(pDSState, 1);
-  } */
+  compositor2d::initShader(this, device.Get(), context.Get());
 }
 void PVRCompositor::SwapDepthTex(int iEye) {
   float depthColor[4] = {1, 0, 0, 0};
