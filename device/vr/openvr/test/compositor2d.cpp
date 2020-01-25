@@ -1,4 +1,5 @@
 #include "device/vr/openvr/test/compositor2d.h"
+#include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/compositorproxy.h"
 
 /* extern HRESULT (STDMETHODCALLTYPE *RealCreateTexture2D)(
@@ -11,8 +12,8 @@
 namespace compositor2d {
 
 // constants
-constexpr nearValue = 0.1f;
-constexpr farValue = 1000.0f;
+constexpr float nearValue = 0.1f;
+constexpr float farValue = 1000.0f;
 const char *hlsl = R"END(
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
@@ -373,13 +374,13 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   };
 
   float localUniforms[16*2];
-  TrackedDevicePose_t renderPoses[vr::k_unMaxTrackedDeviceCount];
-  g_pvrcompositor->GetCachedLastPoses(ARRAYSIZE(renderPoses), renderPoses, 0, nullptr);
-  for (unsigned int i = 0; i < trackedDevicePoseArray.size(); i++) {
-    const vr::TrackedDevicePose_t &trackedDevicePose = trackedDevicePoseArray[i];
+  vr::TrackedDevicePose_t renderPoses[vr::k_unMaxTrackedDeviceCount];
+  vr::g_pvrcompositor->GetCachedLastPoses(renderPoses, ARRAYSIZE(renderPoses), nullptr, 0);
+  for (unsigned int i = 0; i < ARRAYSIZE(renderPoses); i++) {
+    const vr::TrackedDevicePose_t &trackedDevicePose = renderPoses[i];
 
     if (trackedDevicePose.bPoseIsValid) {
-      const vr::ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
+      const vr::ETrackedDeviceClass deviceClass = vr::g_vrsystem->GetTrackedDeviceClass(i);
 
       if (deviceClass == vr::TrackedDeviceClass_HMD) {
         setPoseMatrix(localUniforms, trackedDevicePose.mDeviceToAbsoluteTracking);
@@ -387,10 +388,10 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       }
     }
   }
-  HmdMatrix44_t projectionMatrix = g_vrsystem->GetProjectionMatrix(iEye == 0 ? Eye_Left : Eye_Right, nearValue, farValue);
+  vr::HmdMatrix44_t projectionMatrix = vr::g_vrsystem->GetProjectionMatrix(iEye == 0 ? vr::Eye_Left : vr::Eye_Right, nearValue, farValue);
   for (unsigned int v = 0; v < 4; v++) {
     for (unsigned int u = 0; u < 4; u++) {
-      localUniforms[16 + v * 4 + u] = matrix.m[u][v];
+      localUniforms[16 + v * 4 + u] = projectionMatrix.m[u][v];
     }
   }
 
