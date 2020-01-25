@@ -421,7 +421,7 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   context->VSSetShader(vsShader, nullptr, 0);
   context->PSSetShader(psShader, nullptr, 0);
   context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
-  context->VSSetConstantBuffers(0, 1, &uniformsConstantBuffer;
+  context->VSSetConstantBuffers(0, 1, &uniformsConstantBuffer);
   // context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
   /* D3D11_VIEWPORT viewport{
     0, // TopLeftX,
