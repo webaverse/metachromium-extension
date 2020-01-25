@@ -817,8 +817,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         0
       };
       context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureFulls, 0, 0);
-      
-      getOut() << "check fulls " << iEye << " " << index << " " << width << " " << height << " " << textureFull << " " << isFullDepthTex << std::endl;
+
+      // getOut() << "check fulls " << iEye << " " << index << " " << width << " " << height << " " << shaderDepthResourceViewIsMs << " " << textureFull << " " << isFullDepthTex << std::endl;
 
       float localDepthColors[8] = {
         zbx,
@@ -2979,7 +2979,7 @@ void PVRCompositor::InitShader() {
       "ps.hlsl",
       nullptr,
       D3D_COMPILE_STANDARD_FILE_INCLUDE,
-      "ps_main",
+      "ps_main_ms",
       "ps_5_0",
       D3DCOMPILE_ENABLE_STRICTNESS,
       0,
@@ -2989,7 +2989,7 @@ void PVRCompositor::InitShader() {
     getOut() << "init render 6 2" << std::endl;
     if (FAILED(hr)) {
       if (errorBlob != nullptr) {
-        getOut() << "ps compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+        getOut() << "ps ms compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
         abort();
       }
     }

@@ -77,6 +77,7 @@ uint32_t texCacheSamples = 0;
 std::vector<HANDLE> texSharedHandleCache;
 std::map<ID3D11Texture2D *, HANDLE> texSharedHandleMap;
 std::deque<ProxyTexture> texQueue;
+std::map<void *, size_t> texNumDraws;
 std::map<HANDLE, size_t> texSortOrder;
 // std::set<void *> seenDepthTexs;
 std::deque<HANDLE> eventOrder;
@@ -797,13 +798,13 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
     D3D11_COMPARISON_NOT_EQUAL << " " <<
     D3D11_COMPARISON_GREATER_EQUAL << " " <<
     D3D11_COMPARISON_ALWAYS << " " <<
-    std::endl;
-  if (pDepthStencilState) {
+    std::endl; */
+  /* if (pDepthStencilState) {
     D3D11_DEPTH_STENCIL_DESC desc;
     pDepthStencilState->lpVtbl->GetDesc(pDepthStencilState, &desc);
 
     getOut() << "depth state " <<
-      (void *)This << " " <<
+      // (void *)This << " " <<
       desc.DepthEnable << " " <<
       desc.DepthWriteMask << " " <<
       desc.DepthFunc << " " <<
@@ -836,6 +837,8 @@ void ensureDepthTexDrawn() {
         HANDLE,
         std::tuple<float, float, bool>
       >(sbsDepthTexShHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], true));
+      
+      texNumDraws[sbsDepthTexShHandle]++;
     } else {
       auto iter = texSharedHandleMap.find(sbsDepthTex);
       if (iter != texSharedHandleMap.end()) {
@@ -851,13 +854,13 @@ void ensureDepthTexDrawn() {
           seenDepthTexs.insert(shHandle);
         } */
 
-        /* const bool texQueueContainsHandle = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
+        const bool texQueueContainsHandle = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
           return pt.texHandle == shHandle;
-        }) != texQueue.end(); */
-        const bool texQueueContainsEye = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
-          return pt.eye == eyeValue;
         }) != texQueue.end();
-        if (!texQueueContainsEye) {
+        /* const bool texQueueContainsEye = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
+          return pt.eye == eyeValue;
+        }) != texQueue.end(); */
+        if (!texQueueContainsHandle /* && !texQueueContainsEye */) {
           D3D11_TEXTURE2D_DESC descDepth;
           sbsDepthTex->lpVtbl->GetDesc(sbsDepthTex, &descDepth);
 
@@ -892,6 +895,8 @@ void ensureDepthTexDrawn() {
         } /* else {
           getOut() << "elide depth tex" << std::endl;
         } */
+        
+        texNumDraws[shHandle]++;
       } else {
         getOut() << "failed to get registered share handle for depth texture" << std::endl;
         abort();
@@ -949,6 +954,8 @@ bool shouldDepthTexClear(T *view, size_t index) {
   }
   if (result) {
     getOut() << "clear depth tex " << (void *)depthTex << std::endl;
+  } else {
+    getOut() << "keep depth tex " << (void *)depthTex << std::endl;
   }
 
   depthTex->lpVtbl->Release(depthTex);
@@ -3031,15 +3038,49 @@ void Hijacker::hijackGl() {
 ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit
   // local
   if (texQueue.size() > 0) {
+    std::map<void *, int64_t> haveSames;
+    for (size_t i = 0; i < texQueue.size(); i++) {
+      const ProxyTexture &a = texQueue[i];
+      size_t &na = texNumDraws[a.texHandle];
+      int64_t haveSame = 0;
+      for (size_t j = 0; j < texQueue.size(); j++) {
+        if (i == j) {
+          continue;
+        }
+
+        const ProxyTexture &b = texQueue[j];
+        size_t &nb = texNumDraws[b.texHandle];
+        if (na == nb) {
+          haveSame = (int64_t)na;
+          break;
+        }
+      }
+      haveSames[a.texHandle] = haveSame;
+    }
     std::sort(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &a, const ProxyTexture &b) -> bool {
-      return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
+      int64_t diff = haveSames[b.texHandle] - haveSames[a.texHandle];
+      if (diff != 0) {
+        return diff < 0;
+      } else {
+        return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
+      }
     });
+    size_t oldSize = texQueue.size();
+    getOut() << "tex queue sorted:" << std::endl;
+    for (auto iter : texQueue) {
+      getOut() << "  " << iter.texHandle << " " << haveSames[iter.texHandle] << std::endl;
+    }
+    getOut() << "tex num draws:" << std::endl;
+    for (auto iter : texNumDraws) {
+      getOut() << "  " << iter.first << " -> " << iter.second << std::endl;
+    }
     if (texQueue.size() > 2) {
       texQueue.resize(2);
     }
     
     ProxyTexture result = texQueue.front();
-    getOut() << "shift tex queue " << (void *)result.texHandle << " " << texQueue.size() << std::endl;
+    getOut() << "shift tex queue " << (void *)result.texHandle << " " << oldSize << std::endl;
+    texNumDraws.clear();
     texQueue.pop_front();
     return result;
   }
