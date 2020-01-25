@@ -388,7 +388,7 @@ void tryLatchZBufferParams(const void *data, size_t size) {
   }
 }
 
-HRESULT (STDMETHODCALLTYPE *RealD3D11CreateDeviceAndSwapChain)(
+/* HRESULT (STDMETHODCALLTYPE *RealD3D11CreateDeviceAndSwapChain)(
   IDXGIAdapter               *pAdapter,
   D3D_DRIVER_TYPE            DriverType,
   HMODULE                    Software,
@@ -445,7 +445,7 @@ HRESULT STDMETHODCALLTYPE MineD3D11CreateDevice(
 ) {
   getOut() << "create device" << std::endl;
   return RealD3D11CreateDevice(pAdapter, DriverType, Software, Flags, pFeatureLevels, FeatureLevels, SDKVersion, ppDevice, pFeatureLevel, ppImmediateContext);
-}
+} */
 
 void (STDMETHODCALLTYPE *RealOMGetRenderTargets)(
   ID3D11DeviceContext *This,
@@ -829,14 +829,18 @@ void ensureDepthTexDrawn() {
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        std::tuple<float, float, bool>
-      >(sbsDepthTexShHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], true));
+        std::tuple<float, float>,
+        int,
+        bool
+      >(sbsDepthTexShHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), 0, true);
       g_hijacker->fnp.call<
         kHijacker_QueueDepthTex,
         int,
         HANDLE,
-        std::tuple<float, float, bool>
-      >(sbsDepthTexShHandle, std::tuple<float, float, bool>(zBufferParams[0], zBufferParams[1], true));
+        std::tuple<float, float>,
+        int,
+        bool
+      >(sbsDepthTexShHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), 1, true);
       
       texNumDraws[sbsDepthTexShHandle]++;
     } else {
@@ -2653,8 +2657,8 @@ void Hijacker::hijackPre() {
     decltype(D3D11CreateDevice) *lol = (decltype(D3D11CreateDevice) *)GetProcAddress(
       dll,
       "D3D11CreateDevice"
-    );
-    getOut() << "hijack pre 1 " << (void *)dll << " " << (void *)lol << std::endl; */
+    ); */
+    getOut() << "hijack pre 1" << std::endl;
 
     ID3D11Device *deviceBasic;
     ID3D11DeviceContext *contextBasic;
@@ -2673,6 +2677,7 @@ void Hijacker::hijackPre() {
       NULL, // pFeatureLevel
       &contextBasic // ppImmediateContext
     );
+    getOut() << "hijack pre 2" << std::endl;
     if (SUCCEEDED(hr)) {
       // nothing
     } else {
@@ -2680,6 +2685,7 @@ void Hijacker::hijackPre() {
       abort();
     }
     hijackDx(contextBasic);
+    getOut() << "hijack pre 3" << std::endl;
     
     /* HMODULE dll = GetModuleHandleA("d3d11.dll");
     FARPROC lol = GetProcAddress(
@@ -3085,7 +3091,7 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
     return result;
   }
   // remote
-  std::tuple<HANDLE, float, float, int, bool> shiftResult = fnp.call<
+  auto shiftResult = fnp.call<
     kHijacker_ShiftDepthTex,
     std::tuple<HANDLE, float, float, int, bool>
   >();
