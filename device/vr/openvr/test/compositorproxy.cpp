@@ -1271,6 +1271,7 @@ EVRCompositorError PVRCompositor::GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArra
 }
 void PVRCompositor::GetCachedLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
   if (pRenderPoseArray) {
+    // getOut() << "get cached last poses " << (void *)pRenderPoseArray << " " << (void *)cachedRenderPoses << " " << unRenderPoseArrayCount << std::endl;
     memcpy(pRenderPoseArray, cachedRenderPoses, unRenderPoseArrayCount * sizeof(TrackedDevicePose_t));
   }
   if (pGamePoseArray) {
@@ -2738,7 +2739,7 @@ bool PVRCompositor::IsCurrentSceneFocusAppLoading() {
 void PVRCompositor::CacheWaitGetPoses() {
   // getOut() << "CacheWaitGetPoses 1" << std::endl;
   EVRCompositorError error = vrcompositor->WaitGetPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), cachedGamePoses, ARRAYSIZE(cachedGamePoses));
-  // getOut() << "CacheWaitGetPoses 2" << std::endl;
+  // getOut() << "CacheWaitGetPoses 2 " << std::endl;
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }

@@ -17,8 +17,8 @@ constexpr float farValue = 1000.0f;
 const char *hlsl = R"END(
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
-  float4 viewMatrix;
-  float4 projectionMatrix;
+  float4x4 viewMatrix;
+  float4x4 projectionMatrix;
 }
 
 /* cbuffer PS_CONSTANT_BUFFER : register(b0)
@@ -67,7 +67,9 @@ SamplerState QuadTextureSampler {
 VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
-  Output.Position = projectionMatrix * viewMatrix * float4(inPos, 0, 1);
+  Output.Position = mul(projectionMatrix, mul(viewMatrix, float4(inPos * 0.5, 0, 1)));
+  // Output.Position = mul(viewMatrix, float4(inPos * 0.5, 0, 1));
+  // Output.Position = viewMatrix * float4(inPos * 0.5, 0, 1);
   Output.Uv = float2(inTex.x, inTex.y);
   return Output;
 }
@@ -86,7 +88,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
   // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
-  result.Color = float4(0, 0, 1, 1);
+  result.Color = float4(IN.Uv.x, 0, IN.Uv.y, 1);
   result.Depth = e;
 
   /* if (e == 1.0 || d < (e*depthScale)) {
@@ -483,10 +485,13 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       }
     }
   }
+  float hmdMatrixInverse[16];
+  getMatrixInverse(hmdMatrix, hmdMatrixInverse);
   
   // getOut() << "render 2d window 5" << std::endl;
   
-  multiplyMatrices(headToEyeMatrix, hmdMatrix, localUniforms);
+  // memcpy(localUniforms, hmdMatrixInverse, sizeof(hmdMatrixInverse));
+  multiplyMatrices(headToEyeMatrix, hmdMatrixInverse, localUniforms);
   
   // getOut() << "render 2d window 6" << std::endl;
   
@@ -497,14 +502,26 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     }
   }
   
-  getOut() << "render 2d window:";
+  /* getOut() << "render 2d window:\n";
+  for (size_t i = 0; i < 16; i++) {
+    getOut() << eyeToHeadMatrix[i] << " ";
+  }
+  getOut() << "\n";
+  for (size_t i = 0; i < 16; i++) {
+    getOut() << headToEyeMatrix[i] << " ";
+  }
+  getOut() << "\n";
+  for (size_t i = 0; i < 16; i++) {
+    getOut() << hmdMatrix[i] << " ";
+  }
+  getOut() << "\n";
   for (size_t i = 0; i < 16*2; i++) {
     if (i % 16 == 0) {
       getOut() << "\n";
     }
     getOut() << localUniforms[i] << " ";
   }
-  getOut() << std::endl; 
+  getOut() << std::endl; */
 
   context->UpdateSubresource(uniformsConstantBuffer, 0, 0, localUniforms, 0, 0);
   
@@ -514,6 +531,7 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   context->PSSetShader(psShader, nullptr, 0);
   context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
   context->VSSetConstantBuffers(0, 1, &uniformsConstantBuffer);
+  context->PSSetConstantBuffers(0, 0, nullptr);
   // context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
   /* D3D11_VIEWPORT viewport{
     0, // TopLeftX,
