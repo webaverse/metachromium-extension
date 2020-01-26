@@ -19,6 +19,9 @@ cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
   float4x4 viewMatrix;
   float4x4 projectionMatrix;
+  float2 _ZBufferParams;
+  float2 tmp1;
+  float4x3 tmp2;
 }
 
 /* cbuffer PS_CONSTANT_BUFFER : register(b0)
@@ -41,6 +44,7 @@ struct VS_OUTPUT
 {
    float4 Position: SV_POSITION;
    float2 Uv: TEXCOORD0;
+   // float4 p: POSITION0;
 };
 //------------------------------------------------------------//
 // Pixel Shader OUT struct
@@ -67,38 +71,48 @@ SamplerState QuadTextureSampler {
 VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
-  Output.Position = mul(projectionMatrix, mul(viewMatrix, float4(inPos * 0.5, 0, 1)));
+  float4 p = mul(viewMatrix, float4(inPos.x, inPos.y + 0.75, 0, 1));
+  Output.Position = mul(projectionMatrix, p);
   // Output.Position = mul(viewMatrix, float4(inPos * 0.5, 0, 1));
   // Output.Position = viewMatrix * float4(inPos * 0.5, 0, 1);
   Output.Uv = float2(inTex.x, inTex.y);
   return Output;
 }
 
-/* inline float LinearEyeDepth( float z ) {
+inline float LinearEyeDepth( float z ) {
   return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
-} */
+}
 
 PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
+  
+  float depthScale = 1000;
 
-  /* float depthScale = 1000;
-
-  d = LinearEyeDepth(d); */
+  float d = IN.Position.z/IN.Position.w;
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
-  // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+  /* // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
   result.Color = float4(IN.Uv.x, 0, IN.Uv.y, 1);
-  result.Depth = e;
+  result.Depth = e; */
 
-  /* if (e == 1.0 || d < (e*depthScale)) {
-    result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+  if (e == 1.0 || d < (e*depthScale)) {
+    // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+    
+    if (d < 0.5) {
+      result.Color = float4(d, 0, 0, 1);
+    } else if (d < 1) {
+      result.Color = float4(0, d, 0, 1);
+    } else {
+      result.Color = float4(0, 0, d, 1);
+    }
+    
     result.Depth = d/depthScale;
   } else {
     // result.Color = float4(0, 0, e, 1);
     // result.Depth = e;
     discard;
-  } */
+  }
 
   return result;
 }
@@ -232,7 +246,7 @@ void initShader(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11D
 
   {
     D3D11_BUFFER_DESC cbDesc{};
-    cbDesc.ByteWidth = 16 * 2 * sizeof(float);
+    cbDesc.ByteWidth = 16 * 3 * sizeof(float);
     // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
     cbDesc.Usage = D3D11_USAGE_DEFAULT;
     cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -396,66 +410,15 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   
   // getOut() << "get gdi surface dc " << (void *)windowTex << " " << (void *)windowGdiSurface << std::endl;
 
-  HDC dstDc = nullptr;
-  hr = windowGdiSurface->GetDC(
-    true, // discard contents
-    &dstDc
-  );
-  if (FAILED(hr)) {
-    getOut() << "failed to get 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-  
-  // getOut() << "get 2d window dc" << std::endl;
-  
-  HDC srcDc = GetWindowDC(twoDWindow);
-  if (!srcDc) {
-    getOut() << "failed to get 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-  
-  // getOut() << "blitting 2d window tex" << std::endl;
-  
-  if (!BitBlt(
-    dstDc,
-    0,
-    0,
-    windowWidth,
-    windowHeight,
-    srcDc,
-    0,
-    0,
-    SRCCOPY
-  )) {
-    getOut() << "failed to blit 2d window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-  
-  // getOut() << "blitted 2d window tex" << std::endl;
-  
-  hr = windowGdiSurface->ReleaseDC(nullptr);
-  if (FAILED(hr)) {
-    getOut() << "failed to release 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-  if (!ReleaseDC(twoDWindow, srcDc)) {
-    getOut() << "failed to release 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-
-  ID3D11ShaderResourceView *localShaderResourceViews[2] = {
+  ID3D11ShaderResourceView *localShaderResourceViews[3] = {
     windowResourceView,
-    depthIn
+    depthIn,
+    nullptr
   };
   
   // getOut() << "render 2d window 1" << std::endl;
 
-  float localUniforms[16*2];
+  float localUniforms[16*3] = {};
 
   // getOut() << "render 2d window 2" << std::endl;
 
@@ -501,6 +464,14 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       localUniforms[16 + v * 4 + u] = projectionMatrix.m[u][v];
     }
   }
+
+  {
+    const float c1 = farValue / nearValue;
+    const float c0 = 1.0f - c1;
+    
+    localUniforms[16*2] = c0/farValue;
+    localUniforms[16*2 + 1] = c1/farValue;
+  }
   
   /* getOut() << "render 2d window:\n";
   for (size_t i = 0; i < 16; i++) {
@@ -531,8 +502,7 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   context->PSSetShader(psShader, nullptr, 0);
   context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
   context->VSSetConstantBuffers(0, 1, &uniformsConstantBuffer);
-  context->PSSetConstantBuffers(0, 0, nullptr);
-  // context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
+  // context->PSSetConstantBuffers(0, 0, nullptr);
   /* D3D11_VIEWPORT viewport{
     0, // TopLeftX,
     0, // TopLeftY,
@@ -551,6 +521,54 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     localRenderTargetViews,
     nullptr
   );
+
+  // blit
+  /* HDC dstDc = nullptr;
+  hr = windowGdiSurface->GetDC(
+    true, // discard contents
+    &dstDc
+  );
+  if (FAILED(hr)) {
+    getOut() << "failed to get 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+    pvrcompositor->InfoQueueLog();
+    abort();
+  }
+  
+  HDC srcDc = GetWindowDC(twoDWindow);
+  if (!srcDc) {
+    getOut() << "failed to get 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+    pvrcompositor->InfoQueueLog();
+    abort();
+  }
+  
+  if (!BitBlt(
+    dstDc,
+    0,
+    0,
+    windowWidth,
+    windowHeight,
+    srcDc,
+    0,
+    0,
+    SRCCOPY
+  )) {
+    getOut() << "failed to blit 2d window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+    pvrcompositor->InfoQueueLog();
+    abort();
+  }
+  
+  hr = windowGdiSurface->ReleaseDC(nullptr);
+  if (FAILED(hr)) {
+    getOut() << "failed to release 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+    pvrcompositor->InfoQueueLog();
+    abort();
+  }
+  if (!ReleaseDC(twoDWindow, srcDc)) {
+    getOut() << "failed to release 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+    pvrcompositor->InfoQueueLog();
+    abort();
+  } */
+  
   context->DrawIndexed(6, 0, 0);
 }
 

@@ -324,10 +324,10 @@ void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNe
   // getOut() << "get eye value " << projectionMatrix[8] << " " << (*pEyeValue) << std::endl;
 }
 void getZBufferParams(float nearValue, float farValue, bool reversed, float scale, float zBufferParams[2]) {
-  float c1 = farValue / nearValue;
-  float c0 = 1.0f - c1;
+  const float c1 = farValue / nearValue;
+  const float c0 = 1.0f - c1;
   
-  zBufferParams[0] = c0/farValue; // c0/farValue;
+  zBufferParams[0] = c0/farValue;
   zBufferParams[1] = c1/farValue;
   
   if (reversed) {
