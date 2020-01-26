@@ -84,6 +84,8 @@ int WINAPI WinMain(
 ) {
   // RedirectIOToConsole();
 
+  SetProcessDPIAware();
+
   WNDCLASSEX wc{};
   wc.cbSize = sizeof(WNDCLASSEX);
   wc.style = CS_HREDRAW | CS_VREDRAW;

@@ -159,7 +159,7 @@ ID3D11Buffer *uniformsConstantBuffer = nullptr;
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
   char buffer[256];
   int written = GetWindowTextA(hwnd, buffer, sizeof(buffer));
-  if (written && strstr(buffer, "Developer") != NULL) {
+  if (written && strstr(buffer, "Discord") != NULL) {
     *(HWND*)lParam = hwnd;
     return FALSE;
   }
@@ -351,13 +351,15 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   HRESULT hr;
   
   if (!twoDWindow) {
-    twoDWindow = GetDiscordHwnd();
+    // twoDWindow = GetDiscordHwnd();
+    twoDWindow = GetDesktopWindow();
     if (!twoDWindow) {
       getOut() << "failed to get 2d window: " << (void *)GetLastError() << std::endl;
       pvrcompositor->InfoQueueLog();
       abort();
     }
-    if (!GetClientRect(twoDWindow, &windowRect)) {
+    // if (!GetClientRect(twoDWindow, &windowRect)) {
+    if (!GetWindowRect(twoDWindow, &windowRect)) {
       getOut() << "failed to get 2d window rect: " << (void *)GetLastError() << std::endl;
       pvrcompositor->InfoQueueLog();
       abort();
@@ -442,7 +444,7 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       abort();
     }
     
-    HDC srcDc = GetWindowDC(twoDWindow);
+    HDC srcDc = GetDC(twoDWindow);
     if (!srcDc) {
       getOut() << "failed to get 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
       pvrcompositor->InfoQueueLog();
