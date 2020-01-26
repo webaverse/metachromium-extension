@@ -13,7 +13,7 @@ namespace compositor2d {
 
 // constants
 constexpr float nearValue = 0.1f;
-constexpr float farValue = 1000.0f;
+constexpr float farValue = 2000.0f;
 const char *hlsl = R"END(
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
@@ -93,7 +93,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   
   float depthScale = 1000;
 
-  float d = IN.Position2.z;
+  float d = IN.Position2.z + 0.1;
   // d = LinearEyeDepth(d);
   float2 screenPos = IN.ScreenCoords.xy/IN.ScreenCoords.w * 0.5 + 0.5;
   screenPos.y = 1-screenPos.y;
@@ -103,9 +103,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   result.Color = float4(IN.Uv.x, 0, IN.Uv.y, 1);
   result.Depth = e; */
 
-  // result.Color = float4(e, 0, 0, 1);
-  // result.Depth = e;
-
+  // e *= depthScale;
   /* if (d < 0.5) {
     result.Color = float4(d, 0, 0, 1);
     result.Depth = d;
