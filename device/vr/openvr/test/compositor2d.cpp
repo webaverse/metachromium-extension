@@ -90,7 +90,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   
   float depthScale = 1000;
 
-  float d = IN.ScreenCoords.z/IN.ScreenCoords.w;
+  float d = IN.ScreenCoords.z;
   float2 screenPos = IN.ScreenCoords.xy/IN.ScreenCoords.w * 0.5 + 0.5;
   screenPos.y = 1-screenPos.y;
   float e = DepthTexture.Sample(QuadTextureSampler, screenPos).r;
@@ -102,7 +102,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   // result.Color = float4(e, 0, 0, 1);
   // result.Depth = e;
 
-  if (d < 0.5) {
+  /* if (d < 0.5) {
     result.Color = float4(d, 0, 0, 1);
     result.Depth = d;
   } else if (d < 1) {
@@ -111,9 +111,9 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   } else {
     result.Color = float4(0, 0, d, 1);
     result.Depth = d;
-  }
+  } */
 
-  /* if (e == 1.0 || d < (e*depthScale)) {
+  if (e == 1.0 || d < (e*depthScale)) {
     // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
     
     if (d < 0.5) {
@@ -129,7 +129,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
     // result.Color = float4(0, 0, e, 1);
     // result.Depth = e;
     discard;
-  } */
+  }
 
   return result;
 }
