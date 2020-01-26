@@ -44,7 +44,7 @@ struct VS_OUTPUT
 {
    float4 Position: SV_POSITION;
    float2 Uv: TEXCOORD0;
-   // float4 p: POSITION0;
+   float4 ScreenCoords: TEXCOORD1;
 };
 //------------------------------------------------------------//
 // Pixel Shader OUT struct
@@ -71,8 +71,9 @@ SamplerState QuadTextureSampler {
 VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
-  float4 p = mul(viewMatrix, float4(inPos.x, inPos.y + 0.75, 0, 1));
+  float4 p = mul(viewMatrix, float4(inPos.x, inPos.y + 0.5, 0, 1));
   Output.Position = mul(projectionMatrix, p);
+  Output.ScreenCoords = Output.Position;
   // Output.Position = mul(viewMatrix, float4(inPos * 0.5, 0, 1));
   // Output.Position = viewMatrix * float4(inPos * 0.5, 0, 1);
   Output.Uv = float2(inTex.x, inTex.y);
@@ -89,14 +90,30 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   
   float depthScale = 1000;
 
-  float d = IN.Position.z/IN.Position.w;
-  float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
+  float d = IN.ScreenCoords.z/IN.ScreenCoords.w;
+  float2 screenPos = IN.ScreenCoords.xy/IN.ScreenCoords.w * 0.5 + 0.5;
+  screenPos.y = 1-screenPos.y;
+  float e = DepthTexture.Sample(QuadTextureSampler, screenPos).r;
 
   /* // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
   result.Color = float4(IN.Uv.x, 0, IN.Uv.y, 1);
   result.Depth = e; */
 
-  if (e == 1.0 || d < (e*depthScale)) {
+  // result.Color = float4(e, 0, 0, 1);
+  // result.Depth = e;
+
+  if (d < 0.5) {
+    result.Color = float4(d, 0, 0, 1);
+    result.Depth = d;
+  } else if (d < 1) {
+    result.Color = float4(0, d, 0, 1);
+    result.Depth = d;
+  } else {
+    result.Color = float4(0, 0, d, 1);
+    result.Depth = d;
+  }
+
+  /* if (e == 1.0 || d < (e*depthScale)) {
     // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
     
     if (d < 0.5) {
@@ -112,7 +129,7 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
     // result.Color = float4(0, 0, e, 1);
     // result.Depth = e;
     discard;
-  }
+  } */
 
   return result;
 }
