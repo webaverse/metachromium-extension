@@ -56,8 +56,7 @@ struct PS_OUTPUT
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-Texture2D QuadDepthTexture : register(ps, t1);
-Texture2D DepthTexture : register(ps, t2);
+Texture2D DepthTexture : register(ps, t1);
 SamplerState QuadTextureSampler {
   MipFilter = LINEAR;
   MinFilter = LINEAR;
@@ -68,7 +67,7 @@ SamplerState QuadTextureSampler {
 VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
-  Output.Position = projectionMatrix * viewMatrix * float4(inPos, -1, 1);
+  Output.Position = projectionMatrix * viewMatrix * float4(inPos, 0, 1);
   Output.Uv = float2(inTex.x, inTex.y);
   return Output;
 }
@@ -86,7 +85,8 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   d = LinearEyeDepth(d); */
   float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
 
-  result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+  // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+  result.Color = float4(0, 0, 1, 1);
   result.Depth = e;
 
   /* if (e == 1.0 || d < (e*depthScale)) {
@@ -497,7 +497,14 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     }
   }
   
-  // getOut() << "render 2d window 7" << std::endl;
+  getOut() << "render 2d window:";
+  for (size_t i = 0; i < 16*2; i++) {
+    if (i % 16 == 0) {
+      getOut() << "\n";
+    }
+    getOut() << localUniforms[i] << " ";
+  }
+  getOut() << std::endl; 
 
   context->UpdateSubresource(uniformsConstantBuffer, 0, 0, localUniforms, 0, 0);
   

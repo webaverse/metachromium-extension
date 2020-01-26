@@ -3007,6 +3007,22 @@ void PVRCompositor::InitShader() {
     };
     UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
     hr = device->CreateInputLayout(PositionTextureVertexLayout, numElements, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &vertexLayout);
+    if (FAILED(hr)) {
+      getOut() << "vertex layout create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  {
+    D3D11_RASTERIZER_DESC rasterizerDesc{};
+    rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+    rasterizerDesc.CullMode = D3D11_CULL_NONE;
+    rasterizerDesc.FrontCounterClockwise = false;
+    rasterizerDesc.DepthClipEnable = true;
+    hr = device->CreateRasterizerState(&rasterizerDesc, &rasterizerState);
+    if (FAILED(hr)) {
+      getOut() << "rasterizer state create failed: " << (void *)hr << std::endl;
+      abort();
+    }
   }
   getOut() << "init render 9" << std::endl;
   {
@@ -3017,6 +3033,7 @@ void PVRCompositor::InitShader() {
     context->IASetInputLayout(vertexLayout);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+    context->RSSetState(rasterizerState);
   }
   getOut() << "init render 10" << std::endl;
 
