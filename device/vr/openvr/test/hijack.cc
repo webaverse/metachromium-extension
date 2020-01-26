@@ -2768,6 +2768,98 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     hijackedDx = true;
   }
 }
+void Hijacker::unhijackDx() {
+  if (hijackedDx) {
+    LONG error = DetourTransactionBegin();
+    checkDetourError("DetourTransactionBegin", error);
+
+    error = DetourUpdateThread(GetCurrentThread());
+    checkDetourError("DetourUpdateThread", error);
+    
+    error = DetourDetach(&(PVOID&)RealOMGetRenderTargets, MineOMGetRenderTargets);
+    checkDetourError("RealOMGetRenderTargets", error);
+    
+    error = DetourDetach(&(PVOID&)RealOMSetRenderTargets, MineOMSetRenderTargets);
+    checkDetourError("RealOMSetRenderTargets", error);
+
+    error = DetourDetach(&(PVOID&)RealOMSetDepthStencilState, MineOMSetDepthStencilState);
+    checkDetourError("RealOMSetDepthStencilState", error);
+
+    error = DetourDetach(&(PVOID&)RealDraw, MineDraw);
+    checkDetourError("RealDraw", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawAuto, MineDrawAuto);
+    checkDetourError("RealDrawAuto", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawIndexed, MineDrawIndexed);
+    checkDetourError("RealDrawIndexed", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawIndexedInstanced, MineDrawIndexedInstanced);
+    checkDetourError("RealDrawIndexedInstanced", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawIndexedInstancedIndirect, MineDrawIndexedInstancedIndirect);
+    checkDetourError("RealDrawIndexedInstancedIndirect", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawInstanced, MineDrawInstanced);
+    checkDetourError("RealDrawInstanced", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawInstancedIndirect, MineDrawInstancedIndirect);
+    checkDetourError("RealDrawInstancedIndirect", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateShaderResourceView, MineCreateShaderResourceView);
+    checkDetourError("RealCreateShaderResourceView", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateDepthStencilView, MineCreateDepthStencilView);
+    checkDetourError("RealCreateDepthStencilView", error);
+    
+    error = DetourDetach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
+    checkDetourError("RealClearRenderTargetView", error);
+    
+    error = DetourDetach(&(PVOID&)RealClearDepthStencilView, MineClearDepthStencilView);
+    checkDetourError("RealClearDepthStencilView", error);
+
+    error = DetourDetach(&(PVOID&)RealClearState, MineClearState);
+    checkDetourError("RealClearState", error);
+    
+    error = DetourDetach(&(PVOID&)RealClearView, MineClearView);
+    checkDetourError("RealClearView", error);
+
+    error = DetourDetach(&(PVOID&)RealResolveSubresource, MineResolveSubresource);
+    checkDetourError("RealResolveSubresource", error);
+    
+    error = DetourDetach(&(PVOID&)RealUpdateSubresource, MineUpdateSubresource);
+    checkDetourError("RealUpdateSubresource", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateBuffer, MineCreateBuffer);
+    checkDetourError("RealCreateBuffer", error);
+    
+    error = DetourDetach(&(PVOID&)RealMap, MineMap);
+    checkDetourError("RealMap", error);
+    
+    error = DetourDetach(&(PVOID&)RealUnmap, MineUnmap);
+    checkDetourError("RealUnmap", error);
+    
+    error = DetourDetach(&(PVOID&)RealCopyResource, MineCopyResource);
+    checkDetourError("RealCopyResource", error);
+
+    error = DetourDetach(&(PVOID&)RealCopySubresourceRegion, MineCopySubresourceRegion);
+    checkDetourError("RealCopySubresourceRegion", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateTexture2D, MineCreateTexture2D);
+    checkDetourError("RealCreateTexture2D", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateRasterizerState , MineCreateRasterizerState);
+    checkDetourError("RealCreateRasterizerState", error);
+
+    error = DetourDetach(&(PVOID&)RealRSSetState, MineRSSetState);
+    checkDetourError("RealRSSetState", error);
+
+    error = DetourTransactionCommit();
+    checkDetourError("DetourTransactionCommit", error);
+
+    hijackedDx = false;
+  }
+}
 void Hijacker::hijackGl() {
   if (!hijackedGl) {
     HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
@@ -2784,11 +2876,6 @@ void Hijacker::hijackGl() {
       EGL_QueryDisplayAttribEXT = (decltype(EGL_QueryDisplayAttribEXT))GetProcAddress(libEgl, "eglQueryDisplayAttribEXT");
       EGL_QueryDeviceAttribEXT = (decltype(EGL_QueryDeviceAttribEXT))GetProcAddress(libEgl, "eglQueryDeviceAttribEXT");
       EGL_GetError = (decltype(EGL_GetError))GetProcAddress(libEgl, "eglGetError");
-      
-      decltype(RealGlGetIntegerv) glGetIntegerv = (decltype(RealGlGetIntegerv))GetProcAddress(libGlesV2, "glGetIntegerv");
-      RealGlGetIntegerv = glGetIntegerv;
-      decltype(RealGlGetFramebufferAttachmentParameteriv) glGetFramebufferAttachmentParameteriv = (decltype(RealGlGetFramebufferAttachmentParameteriv))GetProcAddress(libGlesV2, "glGetFramebufferAttachmentParameteriv");
-      RealGlGetFramebufferAttachmentParameteriv = glGetFramebufferAttachmentParameteriv;
 
       decltype(RealGlViewport) glViewport = (decltype(RealGlViewport))GetProcAddress(libGlesV2, "glViewport");
       decltype(RealGlGenFramebuffers) glGenFramebuffers = (decltype(RealGlGenFramebuffers))GetProcAddress(libGlesV2, "glGenFramebuffers");
@@ -2821,7 +2908,6 @@ void Hijacker::hijackGl() {
       decltype(RealGlClearColor) glClearColor = (decltype(RealGlClearColor))GetProcAddress(libGlesV2, "glClearColor");
       decltype(RealGlColorMask) glColorMask = (decltype(RealGlColorMask))GetProcAddress(libGlesV2, "glColorMask");
       decltype(RealGlFlush) glFlush = (decltype(RealGlFlush))GetProcAddress(libGlesV2, "glFlush");
-      // decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
       decltype(RealGlGetError) glGetError = (decltype(RealGlGetError))GetProcAddress(libGlesV2, "glGetError");
   
       LONG error = DetourTransactionBegin();
@@ -2829,9 +2915,7 @@ void Hijacker::hijackGl() {
 
       error = DetourUpdateThread(GetCurrentThread());
       checkDetourError("DetourUpdateThread", error);
-      
-      RealGlViewport = glViewport;
-      
+
       RealGlGenFramebuffers = glGenFramebuffers;
       error = DetourAttach(&(PVOID&)RealGlGenFramebuffers, MineGlGenFramebuffers);
       checkDetourError("RealGlGenFramebuffers", error);
@@ -2859,11 +2943,7 @@ void Hijacker::hijackGl() {
       RealGlFramebufferRenderbuffer = glFramebufferRenderbuffer;
       error = DetourAttach(&(PVOID&)RealGlFramebufferRenderbuffer, MineGlFramebufferRenderbuffer);
       checkDetourError("RealGlFramebufferRenderbuffer", error);
-      
-      RealGlRenderbufferStorage = glRenderbufferStorage;
-      /* error = DetourAttach(&(PVOID&)RealGlRenderbufferStorageMultisampleEXT, MineGlRenderbufferStorageMultisampleEXT);
-      checkDetourError("RealGlRenderbufferStorageMultisampleEXT", error); */
-      
+
       RealGlRenderbufferStorageMultisampleEXT = glRenderbufferStorageMultisampleEXT;
       error = DetourAttach(&(PVOID&)RealGlRenderbufferStorageMultisampleEXT, MineGlRenderbufferStorageMultisampleEXT);
       checkDetourError("RealGlRenderbufferStorageMultisampleEXT", error);
@@ -2883,26 +2963,6 @@ void Hijacker::hijackGl() {
       RealDiscardFramebufferEXT = DiscardFramebufferEXT;
       error = DetourAttach(&(PVOID&)RealDiscardFramebufferEXT, MineDiscardFramebufferEXT);
       checkDetourError("RealDiscardFramebufferEXT", error);
-      
-      RealGlGenTextures = glGenTextures;
-      /* error = DetourAttach(&(PVOID&)RealGlGenTextures, MineGlGenTextures);
-      checkDetourError("RealGlGenTextures", error); */
-
-      RealGlBindTexture = glBindTexture;
-      /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
-      checkDetourError("RealGlBindTexture", error); */
-      
-      RealGlTexImage2D = glTexImage2D;
-      /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
-      checkDetourError("RealGlBindTexture", error); */
-      
-      RealGlTexParameteri = glTexParameteri;
-      
-      RealGlReadPixels = glReadPixels;
-      /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
-      checkDetourError("RealGlBindTexture", error); */
-      
-      RealGlTexStorage2DMultisample = glTexStorage2DMultisample;
 
       RealGlDeleteTextures = glDeleteTextures;
       error = DetourAttach(&(PVOID&)RealGlDeleteTextures, MineGlDeleteTextures);
@@ -2923,9 +2983,7 @@ void Hijacker::hijackGl() {
       RealGlClientWaitSync = glClientWaitSync;
       error = DetourAttach(&(PVOID&)RealGlClientWaitSync, MineGlClientWaitSync);
       checkDetourError("RealGlClientWaitSync", error);
-      
-      RealGlDrawElements = glDrawElements;
-      
+
       RealGlClear = glClear;
       error = DetourAttach(&(PVOID&)RealGlClear, MineGlClear);
       checkDetourError("RealGlClear", error);
@@ -2938,27 +2996,106 @@ void Hijacker::hijackGl() {
       error = DetourAttach(&(PVOID&)RealGlColorMask, MineGlColorMask);
       checkDetourError("RealGlColorMask", error);
       
-      RealGlFlush = glFlush;
-      
       RealEGL_MakeCurrent = EGL_MakeCurrent;
       error = DetourAttach(&(PVOID&)RealEGL_MakeCurrent, MineEGL_MakeCurrent);
       checkDetourError("RealEGL_MakeCurrent", error);
-      
-      /* RealWglMakeCurrent = wglMakeCurrent;
-      error = DetourAttach(&(PVOID&)RealWglMakeCurrent, MineWglMakeCurrent);
-      checkDetourError("RealWglMakeCurrent", error); */
 
+      RealGlGetIntegerv = (decltype(RealGlGetIntegerv))GetProcAddress(libGlesV2, "glGetIntegerv");
+      RealGlGetFramebufferAttachmentParameteriv = (decltype(RealGlGetFramebufferAttachmentParameteriv))GetProcAddress(libGlesV2, "glGetFramebufferAttachmentParameteriv");
+      RealGlGenTextures = glGenTextures;
+      RealGlBindTexture = glBindTexture;
+      RealGlTexImage2D = glTexImage2D;
+      RealGlTexParameteri = glTexParameteri;
+      RealGlReadPixels = glReadPixels;
+      RealGlTexStorage2DMultisample = glTexStorage2DMultisample;
+      RealGlRenderbufferStorage = glRenderbufferStorage;
+      RealGlViewport = glViewport;
+      RealGlDrawElements = glDrawElements;
+      RealGlFlush = glFlush;
       RealGlGetError = glGetError;
-      /* error = DetourAttach(&(PVOID&)RealGlGetError, MineGlGetError);
-      checkDetourError("RealGlGetError", error); */
 
       error = DetourTransactionCommit();
       checkDetourError("DetourTransactionCommit", error);
+      
+      hijackedGl = true;
     } else {
       getOut() << "failed to load gl hijack libs: " << (void *)libGlesV2 << " " << (void *)libOpenGl32 << " " << GetLastError() << std::endl;
     }
+  }
+}
+void Hijacker::unhijackGl() {
+  if (hijackedGl) {
+    LONG error = DetourTransactionBegin();
+    checkDetourError("DetourTransactionBegin", error);
 
-    hijackedGl = true;
+    error = DetourUpdateThread(GetCurrentThread());
+    checkDetourError("DetourUpdateThread", error);
+
+    error = DetourDetach(&(PVOID&)RealGlGenFramebuffers, MineGlGenFramebuffers);
+    checkDetourError("RealGlGenFramebuffers", error);
+
+    error = DetourDetach(&(PVOID&)RealGlBindFramebuffer, MineGlBindFramebuffer);
+    checkDetourError("RealGlBindFramebuffer", error);
+
+    error = DetourDetach(&(PVOID&)RealGlGenRenderbuffers, MineGlGenRenderbuffers);
+    checkDetourError("RealGlGenRenderbuffers", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlBindRenderbuffer, MineGlBindRenderbuffer);
+    checkDetourError("RealGlBindRenderbuffer", error);
+
+    error = DetourDetach(&(PVOID&)RealGlFramebufferTexture2D, MineGlFramebufferTexture2D);
+    checkDetourError("RealGlFramebufferTexture2D", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlFramebufferTexture2DMultisampleEXT, MineGlFramebufferTexture2DMultisampleEXT);
+    checkDetourError("RealGlFramebufferTexture2DMultisampleEXT", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlFramebufferRenderbuffer, MineGlFramebufferRenderbuffer);
+    checkDetourError("RealGlFramebufferRenderbuffer", error);
+
+    error = DetourDetach(&(PVOID&)RealGlRenderbufferStorageMultisampleEXT, MineGlRenderbufferStorageMultisampleEXT);
+    checkDetourError("RealGlRenderbufferStorageMultisampleEXT", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlDiscardFramebufferEXT, MineGlDiscardFramebufferEXT);
+    checkDetourError("RealGlDiscardFramebufferEXT", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlDiscardFramebufferEXTContextANGLE, MineGlDiscardFramebufferEXTContextANGLE);
+    checkDetourError("RealGlDiscardFramebufferEXTContextANGLE", error);
+
+    error = DetourDetach(&(PVOID&)RealGlInvalidateFramebuffer, MineGlInvalidateFramebuffer);
+    checkDetourError("RealGlInvalidateFramebuffer", error);
+    
+    error = DetourDetach(&(PVOID&)RealDiscardFramebufferEXT, MineDiscardFramebufferEXT);
+    checkDetourError("RealDiscardFramebufferEXT", error);
+
+    error = DetourDetach(&(PVOID&)RealGlDeleteTextures, MineGlDeleteTextures);
+    checkDetourError("RealGlDeleteTextures", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlFenceSync, MineGlFenceSync);
+    checkDetourError("RealGlFenceSync", error);
+    
+    RealGlDeleteSync = glDeleteSync;
+    error = DetourAttach(&(PVOID&)RealGlDeleteSync, MineGlDeleteSync);
+    checkDetourError("RealGlDeleteSync", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlWaitSync, MineGlWaitSync);
+    checkDetourError("RealGlWaitSync", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlClientWaitSync, MineGlClientWaitSync);
+    checkDetourError("RealGlClientWaitSync", error);
+
+    error = DetourDetach(&(PVOID&)RealGlClear, MineGlClear);
+    checkDetourError("RealGlClear", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlClearColor, MineGlClearColor);
+    checkDetourError("RealGlClearColor", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlColorMask, MineGlColorMask);
+    checkDetourError("RealGlColorMask", error);
+    
+    error = DetourDetach(&(PVOID&)RealEGL_MakeCurrent, MineEGL_MakeCurrent);
+    checkDetourError("RealEGL_MakeCurrent", error);
+    
+    hijackedGl = false;
   }
 }
 ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit

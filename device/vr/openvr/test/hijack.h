@@ -23,7 +23,9 @@ public:
   // static void ensureClientDevice();
   void hijackPre();
   void hijackDx(ID3D11DeviceContext *context);
+  void unhijackDx();
   void hijackGl();
+  void unhijackGl();
   ProxyTexture getDepthTextureMatching(ID3D11Texture2D *tex);
   void flushTextureLatches();
 };
