@@ -13,7 +13,7 @@ namespace compositor2d {
 
 // constants
 constexpr float nearValue = 0.1f;
-constexpr float farValue = 2000.0f;
+constexpr float farValue = 1000.0f;
 const char *hlsl = R"END(
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
@@ -79,7 +79,7 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   // Output.Depth = Output.Position.z/Output.Position.w;
   // Output.Position = mul(viewMatrix, float4(inPos * 0.5, 0, 1));
   // Output.Position = viewMatrix * float4(inPos * 0.5, 0, 1);
-  Output.Uv = float2(inTex.x, inTex.y);
+  Output.Uv = float2(inTex.x, 1 - inTex.y);
   return Output;
 }
 
@@ -116,15 +116,15 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   } */
 
   if (e == 1.0 || d < (e*depthScale)) {
-    // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+    result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
     
-    if (d < 0.5) {
+    /* if (d < 0.5) {
       result.Color = float4(d, 0, 0, 1);
     } else if (d < 1) {
       result.Color = float4(0, d, 0, 1);
     } else {
       result.Color = float4(0, 0, d, 1);
-    }
+    } */
     
     result.Depth = d/depthScale;
   } else {
@@ -159,7 +159,7 @@ ID3D11Buffer *uniformsConstantBuffer = nullptr;
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
   char buffer[256];
   int written = GetWindowTextA(hwnd, buffer, sizeof(buffer));
-  if (written && strstr(buffer, "Discord") != NULL) {
+  if (written && strstr(buffer, "Developer") != NULL) {
     *(HWND*)lParam = hwnd;
     return FALSE;
   }
@@ -357,7 +357,7 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       pvrcompositor->InfoQueueLog();
       abort();
     }
-    if (!GetWindowRect(twoDWindow, &windowRect)) {
+    if (!GetClientRect(twoDWindow, &windowRect)) {
       getOut() << "failed to get 2d window rect: " << (void *)GetLastError() << std::endl;
       pvrcompositor->InfoQueueLog();
       abort();
@@ -424,13 +424,13 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       abort();
     }
     
-    getOut() << "created 2d window gdi surface" << std::endl;
+    getOut() << "created 2d window gdi surface " << (void *)windowResourceView << std::endl;
   }
   
   // getOut() << "get gdi surface dc " << (void *)windowTex << " " << (void *)windowGdiSurface << std::endl;
 
   // blit
-  /* {
+  {
     HDC dstDc = nullptr;
     hr = windowGdiSurface->GetDC(
       true, // discard contents
@@ -476,12 +476,11 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       pvrcompositor->InfoQueueLog();
       abort();
     }
-  } */
+  }
 
   ID3D11ShaderResourceView *localShaderResourceViews[3] = {
     windowResourceView,
-    depthIn,
-    nullptr
+    depthIn
   };
   
   // getOut() << "render 2d window 1" << std::endl;
@@ -589,8 +588,12 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     localRenderTargetViews,
     nullptr
   );
-  
+
+  // pvrcompositor->InfoQueueLog();
+  // getOut() << "do log 1" << std::endl;
   context->DrawIndexed(6, 0, 0);
+  // pvrcompositor->InfoQueueLog();
+  // getOut() << "do log 2" << std::endl;
   
   ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
   context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
