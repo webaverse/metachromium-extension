@@ -185,7 +185,20 @@ int WINAPI WinMain(
     getOut() << "classes init 2" << std::endl;
   });
 
-  FnProxy fnp;
+  g_fnp = new FnProxy();
+  g_hijacker = new Hijacker(*g_fnp);
+  vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *g_fnp);
+  vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+  vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *g_fnp);
+  vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *g_fnp);
+  vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *g_fnp);
+  vr::g_pvrchaperone = new vr::PVRChaperone(vr::g_vrchaperone, *g_fnp);
+  vr::g_pvrchaperonesetup = new vr::PVRChaperoneSetup(vr::g_vrchaperonesetup, *g_fnp);
+  vr::g_pvrsettings = new vr::PVRSettings(vr::g_vrsettings, *g_fnp);
+  vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
+  vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
+  vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
+  /* FnProxy fnp;
   Hijacker hijacker(fnp);
   vr::PVRSystem system(vr::g_vrsystem, fnp);
   vr::PVRCompositor compositor(vr::g_vrcompositor, hijacker, fnp);
@@ -197,17 +210,17 @@ int WINAPI WinMain(
   vr::PVRSettings settings(vr::g_vrsettings, fnp);
   vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
   vr::PVRApplications applications(vr::g_vrapplications, fnp);
-  vr::PVROverlay overlay(vr::g_vroverlay, fnp);
+  vr::PVROverlay overlay(vr::g_vroverlay, fnp); */
   while (live) {
     DWORD result = MsgWaitForMultipleObjects(
       1,
-      &fnp.inSem.h,
+      &g_fnp->inSem.h,
       false,
       INFINITE,
       QS_ALLEVENTS
     );
     if (result == WAIT_OBJECT_0) {
-      fnp.handle();
+      g_fnp->handle();
     } else if (result == (WAIT_OBJECT_0 + 1)) {
       MSG msg;
       // wait for the next message in the queue, store the result in 'msg'
