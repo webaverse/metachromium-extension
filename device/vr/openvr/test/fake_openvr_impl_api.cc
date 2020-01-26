@@ -333,6 +333,7 @@ BOOL WINAPI DllMain(
     vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
     vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
     
+    g_hijacker->hijackDxgi();
     g_hijacker->hijackGl();
 
     // getOut() << "init dll 0" << std::endl;
@@ -341,6 +342,7 @@ BOOL WINAPI DllMain(
     getOut() << "init dll " << buf.data() << std::endl;
     // getOut() << "init dll 2 " << buf.data() << std::endl;
   } else if (fdwReason == DLL_PROCESS_DETACH) {
+    g_hijacker->unhijackDxgi();
     g_hijacker->unhijackDx();
     g_hijacker->unhijackGl();
   }

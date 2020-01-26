@@ -2636,6 +2636,77 @@ void Hijacker::hijackPre() {
     getOut() << "hijack pre 4" << std::endl; */
   }
 }
+void Hijacker::hijackDxgi() {
+  WNDCLASSEX wc{};
+  wc.cbSize = sizeof(WNDCLASSEX);
+  wc.style = CS_OWNDC;
+  wc.lpfnWndProc = (WNDPROC)DefWindowProcA;
+  wc.hInstance = GetModuleHandleA(nullptr);
+  // wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+  // wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+  wc.lpszClassName = "RT2";
+  RegisterClassEx(&wc);
+
+  HWND fakeHWnd = CreateWindowExA(
+    NULL,
+    "RT2",    // name of the window class
+    "Reality Tab 2",   // title of the window
+    WS_POPUP,    // window style
+    0,    // x-position of the window
+    0,    // y-position of the window
+    2,    // width of the window
+    2,    // height of the window
+    NULL,    // we have no parent window, NULL
+    NULL,    // we aren't using menus, NULL
+    GetModuleHandleA(nullptr),    // application handle
+    NULL
+  );
+  if (!fakeHWnd) {
+    getOut() << "failed to create fake dxgi window: " << (void *)GetLastError() << std::endl;
+    abort();
+  }
+
+  Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
+  Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
+   Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
+
+  D3D_FEATURE_LEVEL featureLevels[] = {
+    D3D_FEATURE_LEVEL_11_1
+  };
+  DXGI_SWAP_CHAIN_DESC desc = {};
+  desc.BufferCount = 2;
+  desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+  desc.BufferDesc.Width = 2;
+  desc.BufferDesc.Height = 2;
+  desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+  desc.OutputWindow = fakeHWnd;
+  desc.SampleDesc.Count = 1;
+  desc.Windowed = true;
+
+  HRESULT hr = D3D11CreateDeviceAndSwapChain(
+    adapter, // pAdapter
+    D3D_DRIVER_TYPE_HARDWARE, // DriverType
+    NULL, // Software
+    D3D11_CREATE_DEVICE_DEBUG, // Flags
+    featureLevels, // pFeatureLevels
+    ARRAYSIZE(featureLevels), // FeatureLevels
+    D3D11_SDK_VERSION, // SDKVersion
+    &swapChainDesc, // pSwapChainDesc,
+    &swapChain, // ppSwapChain
+    &deviceBasic, // ppDevice
+    NULL, // pFeatureLevel
+    &contextBasic // ppImmediateContext
+  );
+  if (FAILED(hr)) {
+    getOut() << "failed to create fake dxgi window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+    abort();
+  }
+
+  getOut() << "created swap chain: " << (void *)swapChain.Get() << std::endl;
+}
+void Hijacker::unhijackDxgi() {
+  // XXX
+}
 void Hijacker::hijackDx(ID3D11DeviceContext *context) {
   if (!hijackedDx) {
     ID3D11DeviceContext1 *context1;

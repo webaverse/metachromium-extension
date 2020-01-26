@@ -22,6 +22,8 @@ public:
 
   // static void ensureClientDevice();
   void hijackPre();
+  void hijackDxgi();
+  void unhijackDxgi();
   void hijackDx(ID3D11DeviceContext *context);
   void unhijackDx();
   void hijackGl();
