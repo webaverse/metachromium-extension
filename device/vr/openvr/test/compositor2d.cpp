@@ -45,6 +45,7 @@ struct VS_OUTPUT
    float4 Position: SV_POSITION;
    float2 Uv: TEXCOORD0;
    float4 ScreenCoords: TEXCOORD1;
+   float4 Position2: POSITION0;
 };
 //------------------------------------------------------------//
 // Pixel Shader OUT struct
@@ -74,6 +75,8 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   float4 p = mul(viewMatrix, float4(inPos.x, inPos.y + 0.5, 0, 1));
   Output.Position = mul(projectionMatrix, p);
   Output.ScreenCoords = Output.Position;
+  Output.Position2 = Output.Position;
+  // Output.Depth = Output.Position.z/Output.Position.w;
   // Output.Position = mul(viewMatrix, float4(inPos * 0.5, 0, 1));
   // Output.Position = viewMatrix * float4(inPos * 0.5, 0, 1);
   Output.Uv = float2(inTex.x, inTex.y);
@@ -90,7 +93,8 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   
   float depthScale = 1000;
 
-  float d = IN.ScreenCoords.z;
+  float d = IN.Position2.z;
+  // d = LinearEyeDepth(d);
   float2 screenPos = IN.ScreenCoords.xy/IN.ScreenCoords.w * 0.5 + 0.5;
   screenPos.y = 1-screenPos.y;
   float e = DepthTexture.Sample(QuadTextureSampler, screenPos).r;
