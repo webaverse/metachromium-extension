@@ -429,6 +429,55 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   
   // getOut() << "get gdi surface dc " << (void *)windowTex << " " << (void *)windowGdiSurface << std::endl;
 
+  // blit
+  /* {
+    HDC dstDc = nullptr;
+    hr = windowGdiSurface->GetDC(
+      true, // discard contents
+      &dstDc
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to get 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+      pvrcompositor->InfoQueueLog();
+      abort();
+    }
+    
+    HDC srcDc = GetWindowDC(twoDWindow);
+    if (!srcDc) {
+      getOut() << "failed to get 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+      pvrcompositor->InfoQueueLog();
+      abort();
+    }
+    
+    if (!BitBlt(
+      dstDc,
+      0,
+      0,
+      windowWidth,
+      windowHeight,
+      srcDc,
+      0,
+      0,
+      SRCCOPY
+    )) {
+      getOut() << "failed to blit 2d window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+      pvrcompositor->InfoQueueLog();
+      abort();
+    }
+    
+    hr = windowGdiSurface->ReleaseDC(nullptr);
+    if (FAILED(hr)) {
+      getOut() << "failed to release 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+      pvrcompositor->InfoQueueLog();
+      abort();
+    }
+    if (!ReleaseDC(twoDWindow, srcDc)) {
+      getOut() << "failed to release 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+      pvrcompositor->InfoQueueLog();
+      abort();
+    }
+  } */
+
   ID3D11ShaderResourceView *localShaderResourceViews[3] = {
     windowResourceView,
     depthIn,
@@ -540,55 +589,17 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     localRenderTargetViews,
     nullptr
   );
-
-  // blit
-  /* HDC dstDc = nullptr;
-  hr = windowGdiSurface->GetDC(
-    true, // discard contents
-    &dstDc
-  );
-  if (FAILED(hr)) {
-    getOut() << "failed to get 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-  
-  HDC srcDc = GetWindowDC(twoDWindow);
-  if (!srcDc) {
-    getOut() << "failed to get 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-  
-  if (!BitBlt(
-    dstDc,
-    0,
-    0,
-    windowWidth,
-    windowHeight,
-    srcDc,
-    0,
-    0,
-    SRCCOPY
-  )) {
-    getOut() << "failed to blit 2d window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-  
-  hr = windowGdiSurface->ReleaseDC(nullptr);
-  if (FAILED(hr)) {
-    getOut() << "failed to release 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  }
-  if (!ReleaseDC(twoDWindow, srcDc)) {
-    getOut() << "failed to release 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    pvrcompositor->InfoQueueLog();
-    abort();
-  } */
   
   context->DrawIndexed(6, 0, 0);
+  
+  ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
+  context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
+  ID3D11RenderTargetView *localRenderTargetViewsClear[ARRAYSIZE(localRenderTargetViews)] = {};
+  context->OMSetRenderTargets(
+    ARRAYSIZE(localRenderTargetViewsClear),
+    localRenderTargetViewsClear,
+    nullptr
+  );
 }
 
 }

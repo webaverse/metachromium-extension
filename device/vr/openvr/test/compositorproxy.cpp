@@ -836,7 +836,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         nullptr
       );
       context->DrawIndexed(6, 0, 0);
-      // context->Draw(4, 0);
+
+      ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
+      ID3D11RenderTargetView *localRenderTargetViewsClear[ARRAYSIZE(localRenderTargetViews)] = {};
+      context->OMSetRenderTargets(
+        ARRAYSIZE(localRenderTargetViewsClear),
+        localRenderTargetViewsClear,
+        nullptr
+      );
 
       SwapDepthTex(iEye);
     }
