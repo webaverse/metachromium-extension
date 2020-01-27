@@ -135,6 +135,8 @@ decltype(eglQueryDisplayAttribEXT) *EGL_QueryDisplayAttribEXT = nullptr;
 decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
 
+ID3D11Resource *backbufferShRes = nullptr;
+D3D11_TEXTURE2D_DESC backbufferDesc;
 template<typename T>
 void presentSwapChain(T *swapChain) {
   ID3D11Resource *res;
@@ -142,10 +144,64 @@ void presentSwapChain(T *swapChain) {
 	if (FAILED(hr)) {
 		getOut() << "get_dxgi_backbuffer: GetBuffer failed" << std::endl;
   }
+  
+  ID3D11Texture2D *tex;
+  hr = res->lpVtbl->QueryInterface(res, IID_ID3D11Texture2D, (void **)&tex);
+  if (FAILED(hr)) {
+    getOut() << "failed to query backbuffer texture: " << (void *)hr << std::endl;
+    abort();
+  }
+
+  ID3D11Device *device;
+  tex->lpVtbl->GetDevice(tex, &device);
+
+  D3D11_TEXTURE2D_DESC desc;
+  tex->lpVtbl->GetDesc(tex, &desc);
+  
+  if (!backbufferShRes || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
+    desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+
+    ID3D11Texture2D *backbufferShTex;
+    hr = device->lpVtbl->CreateTexture2D(
+      device,
+      &desc,
+      NULL,
+      &backbufferShTex
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to create backbuffer texture: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_ID3D11Resource, (void **)&backbufferShRes);
+    if (FAILED(hr)) {
+      getOut() << "failed to query backbuffer texture: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    backbufferDesc = desc;
+  }
+
+  ID3D11DeviceContext *context;
+  device->lpVtbl->GetImmediateContext(device, &context);
+  context->lpVtbl->CopyResource(
+    context,
+    backbufferShRes,
+    res
+  );
 
   res->lpVtbl->Release(res);
+  tex->lpVtbl->Release(tex);
+  device->lpVtbl->Release(device);
+  context->lpVtbl->Release(context);
   
-  getOut() << "present swap chain done" << std::endl;
+  getOut() << "present swap chain done " <<
+    desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
+    desc.MipLevels << " " << desc.ArraySize << " " <<
+    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+    desc.Format << " " <<
+    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+    std::endl;
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
