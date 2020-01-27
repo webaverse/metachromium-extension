@@ -396,7 +396,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         adapter, // pAdapter
         D3D_DRIVER_TYPE_HARDWARE, // DriverType
         NULL, // Software
-        D3D11_CREATE_DEVICE_DEBUG, // Flags
+        0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
         featureLevels, // pFeatureLevels
         ARRAYSIZE(featureLevels), // FeatureLevels
         D3D11_SDK_VERSION, // SDKVersion
@@ -894,45 +894,50 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     if (backbufferShHandle != backbufferShHandleLatched) {
       backbufferShHandleLatched = backbufferShHandle;
 
-      ID3D11Resource *shTexResource;
-      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+      if (backbufferShHandle) {
+        ID3D11Resource *shTexResource;
+        HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
 
-      if (SUCCEEDED(hr)) {
-        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
-        
+        if (SUCCEEDED(hr)) {
+          hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
+          
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+            abort();
+          }
+        } else {
+          getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+          abort();
+        }
+
+        D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+        srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+        srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        srvDesc.Texture2D.MipLevels = 1;
+
+        hr = device->CreateShaderResourceView(
+          backbufferShTex,
+          &srvDesc,
+          &backbufferShResourceView
+        );
         if (SUCCEEDED(hr)) {
           // nothing
         } else {
-          getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+          InfoQueueLog();
+          getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
           abort();
         }
-      } else {
-        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-        abort();
-      }
-
-      D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-      srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-      srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-      srvDesc.Texture2D.MostDetailedMip = 0;
-      srvDesc.Texture2D.MipLevels = 1;
-
-      hr = device->CreateShaderResourceView(
-        backbufferShTex,
-        &srvDesc,
-        &backbufferShResourceView
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        InfoQueueLog();
-        getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
-        abort();
       }
     }
-    for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
-      compositor2d::blendWindow(this, device.Get(), context.Get(), iEye, backbufferShResourceView, renderTargetViews[iEye], renderTargetDepthBackViews[iEye], depthShaderFrontResourceViews[iEye]);
-      SwapDepthTex(iEye);
+    if (backbufferShHandle) {
+      for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
+        compositor2d::blendWindow(this, device.Get(), context.Get(), iEye, backbufferShResourceView, renderTargetViews[iEye], renderTargetDepthBackViews[iEye], depthShaderFrontResourceViews[iEye]);
+        SwapDepthTex(iEye);
+      }
     }
 
     for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
