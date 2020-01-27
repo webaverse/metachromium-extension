@@ -6,6 +6,7 @@
 cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build
 cmake -G "Visual Studio 15 2017" -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
+msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
 
 cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
 
