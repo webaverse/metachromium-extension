@@ -33,6 +33,15 @@ const inject = tab => {
 chrome.tabs.onCreated.addListener(inject);
 chrome.tabs.onUpdated.addListener(inject); */
 
+const port = chrome.runtime.connectNative('com.exokit.xrchrome');
+port.onMessage.addListener(function(msg) {
+  console.log("Received", msg);
+});
+port.onDisconnect.addListener(function() {
+  console.log("Disconnected");
+});
+port.postMessage({ text: "Hello, my_application" });
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     /* console.log(sender.tab ?
