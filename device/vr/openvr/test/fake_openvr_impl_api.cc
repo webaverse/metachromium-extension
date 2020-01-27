@@ -6,6 +6,7 @@
 cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build
 cmake -G "Visual Studio 15 2017" -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
+msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
 
 cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
 
@@ -31,6 +32,9 @@ cd C:\Program Files (x86)\Steam\steamapps\common\VRChat
 
 cd C:\Program Files (x86)\Steam\steamapps\common\Blocks
 .\Blocks.exe
+
+cd C:\Program Files (x86)\obs-studio\data\obs-plugins\win-capture
+.\get-graphics-offsets64.exe
 
 C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\ && set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\ && set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\ &&  C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe"
 */
@@ -139,6 +143,7 @@ void vrShutdownInternal() {
 
 FnProxy *g_fnp = nullptr;
 Hijacker *g_hijacker = nullptr;
+Offsets *g_offsets = nullptr;
 
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
 
@@ -306,9 +311,7 @@ BOOL WINAPI DllMain(
 
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
-    // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
-    // pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
-    // pFrameCount = (uint64_t *)shMem;
+    g_offsets = (Offsets *)shMem;
     
     char moduleFileName[MAX_PATH];
     if (!GetModuleFileName(NULL, moduleFileName, sizeof(moduleFileName))) {
@@ -333,7 +336,7 @@ BOOL WINAPI DllMain(
     vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
     vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
     
-    // g_hijacker->hijackPre();
+    g_hijacker->hijackDxgi(hinstDLL);
     g_hijacker->hijackGl();
 
     // getOut() << "init dll 0" << std::endl;
@@ -341,6 +344,10 @@ BOOL WINAPI DllMain(
     GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
     getOut() << "init dll " << buf.data() << std::endl;
     // getOut() << "init dll 2 " << buf.data() << std::endl;
+  } else if (fdwReason == DLL_PROCESS_DETACH) {
+    g_hijacker->unhijackDxgi();
+    g_hijacker->unhijackDx();
+    g_hijacker->unhijackGl();
   }
   return true;
 }

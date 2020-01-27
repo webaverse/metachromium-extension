@@ -15,6 +15,7 @@
 #include "device/vr/openvr/test/hijack.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
+#include "device/vr/openvr/test/offsets.h"
 #include "device/vr/detours/detours.h"
 #include "third_party/openvr/src/headers/openvr.h"
 
@@ -30,12 +31,14 @@
 extern Hijacker *g_hijacker;
 // extern uint64_t *pFrameCount;
 extern bool isChrome;
+extern Offsets *g_offsets;
 
 // constants
 char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
+char kHijacker_SetTexture[] = "Hijacker_SetTexture";
 
 const char *depthVsh = R"END(#version 100
 precision highp float;
@@ -132,6 +135,134 @@ decltype(eglQueryString) *EGL_QueryString = nullptr;
 decltype(eglQueryDisplayAttribEXT) *EGL_QueryDisplayAttribEXT = nullptr;
 decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
+
+ID3D11Resource *backbufferShRes = nullptr;
+HANDLE backbufferShHandle = NULL;
+D3D11_TEXTURE2D_DESC backbufferDesc;
+template<typename T>
+void presentSwapChain(T *swapChain) {
+  getOut() << "present swap chain 1" << std::endl;
+
+  ID3D11Resource *res;
+	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
+	if (FAILED(hr)) {
+		getOut() << "get_dxgi_backbuffer: GetBuffer failed" << std::endl;
+  }
+  
+  ID3D11Texture2D *tex;
+  hr = res->lpVtbl->QueryInterface(res, IID_ID3D11Texture2D, (void **)&tex);
+  if (FAILED(hr)) {
+    getOut() << "failed to query backbuffer texture: " << (void *)hr << std::endl;
+    abort();
+  }
+
+  ID3D11Device *device;
+  tex->lpVtbl->GetDevice(tex, &device);
+
+  D3D11_TEXTURE2D_DESC desc;
+  tex->lpVtbl->GetDesc(tex, &desc);
+  
+  if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
+    desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+    desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+
+    ID3D11Texture2D *backbufferShTex;
+    hr = device->lpVtbl->CreateTexture2D(
+      device,
+      &desc,
+      NULL,
+      &backbufferShTex
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to create backbuffer texture: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_ID3D11Resource, (void **)&backbufferShRes);
+    if (FAILED(hr)) {
+      getOut() << "failed to query backbuffer d3d11 resource: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    IDXGIResource1 *dxgiResource;
+    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_IDXGIResource1, (void **)&dxgiResource);
+    if (FAILED(hr)) {
+      getOut() << "failed to query backbuffer dxgi resource: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &backbufferShHandle);
+    if (FAILED(hr)) {
+      getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    backbufferDesc = desc;
+  }
+
+  ID3D11DeviceContext *context;
+  device->lpVtbl->GetImmediateContext(device, &context);
+  context->lpVtbl->CopyResource(
+    context,
+    backbufferShRes,
+    res
+  );
+
+  g_hijacker->hijackDx(context);
+
+  res->lpVtbl->Release(res);
+  tex->lpVtbl->Release(tex);
+  device->lpVtbl->Release(device);
+  context->lpVtbl->Release(context);
+  
+  g_hijacker->fnp.call<
+    kHijacker_SetTexture,
+    int,
+    HANDLE
+  >(backbufferShHandle);
+  
+  getOut() << "present swap chain done " <<
+    desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
+    desc.MipLevels << " " << desc.ArraySize << " " <<
+    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+    desc.Format << " " <<
+    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+    std::endl;
+}
+HRESULT (STDMETHODCALLTYPE *RealPresent)(
+  IDXGISwapChain *This,
+  UINT SyncInterval,
+  UINT Flags
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MinePresent(
+  IDXGISwapChain *This,
+  UINT SyncInterval,
+  UINT Flags
+) {
+  getOut() << "present0" << std::endl;
+  if (isChrome) {
+    presentSwapChain(This);
+  }
+  return RealPresent(This, SyncInterval, Flags);
+}
+HRESULT (STDMETHODCALLTYPE *RealPresent1)(
+  IDXGISwapChain1 *This,
+  UINT                          SyncInterval,
+  UINT                          PresentFlags,
+  const DXGI_PRESENT_PARAMETERS *pPresentParameters
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MinePresent1(
+  IDXGISwapChain1 *This,
+  UINT                          SyncInterval,
+  UINT                          PresentFlags,
+  const DXGI_PRESENT_PARAMETERS *pPresentParameters
+) {
+  getOut() << "present1" << std::endl;
+  if (isChrome) {
+    presentSwapChain(This);
+  }
+  return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
+}
 
 void ensureDepthWidthHeight() {
   if (!depthWidth) {
@@ -324,10 +455,10 @@ void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNe
   // getOut() << "get eye value " << projectionMatrix[8] << " " << (*pEyeValue) << std::endl;
 }
 void getZBufferParams(float nearValue, float farValue, bool reversed, float scale, float zBufferParams[2]) {
-  float c1 = farValue / nearValue;
-  float c0 = 1.0f - c1;
+  const float c1 = farValue / nearValue;
+  const float c0 = 1.0f - c1;
   
-  zBufferParams[0] = c0/farValue; // c0/farValue;
+  zBufferParams[0] = c0/farValue;
   zBufferParams[1] = c1/farValue;
   
   if (reversed) {
@@ -2427,6 +2558,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     int,
     bool
   >([=](HANDLE shDepthTexHandle, std::tuple<float, float> zBufferParams, int eye, bool isFull) {
+    // getOut() << "queue depth tex " << (void *)shDepthTexHandle << std::endl;
     /* size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == shDepthTexHandle;
     }); */
@@ -2463,6 +2595,9 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
       
       ProxyTexture result = texQueue.front();
       texQueue.pop_front();
+      
+      // getOut() << "shift tex order " << result.texHandle << " " << std::get<0>(result.zBufferParams) << " " << std::get<1>(result.zBufferParams) << " " << result.eye << " " << result.isFull << std::endl;
+      
       return std::tuple<HANDLE, float, float, int, bool>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), result.eye, result.isFull);
     } else {
       return std::tuple<HANDLE, float, float, int, bool>{};
@@ -2483,6 +2618,14 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     return std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == handle;
     }) != texQueue.end();
+  });
+  fnp.reg<
+    kHijacker_SetTexture,
+    int,
+    HANDLE
+  >([=](HANDLE newHandle) {
+    backbufferShHandle = newHandle;
+    return 0;
   });
 }
 /* void Hijacker::ensureClientDevice() {
@@ -2636,6 +2779,185 @@ void Hijacker::hijackPre() {
     getOut() << "hijack pre 4" << std::endl; */
   }
 }
+/* LRESULT WINAPI DLLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    getOut() << "dll window proc " << msg << std::endl;
+    switch (msg)
+    {
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            break;
+
+        // handle other messages.
+
+        default: // anything we dont handle.
+            return DefWindowProc(hwnd, msg, wParam, lParam);
+    }
+
+    return 0; // just in case
+} */
+
+inline void *get_offset_addr(HMODULE module, uintptr_t offset) {
+	return (void *)((uintptr_t)module + offset);
+}
+
+void Hijacker::hijackDxgi(HINSTANCE hinstDLL) {
+  if (!hijackedDxgi) {
+    // Semaphore s;
+    
+    /* getOut() << "threading 1" << std::endl;
+    // std::thread([&]() -> void {
+      getOut() << "threading 2" << std::endl;
+      WNDCLASSEX wc{};
+      wc.cbSize = sizeof(WNDCLASSEX);
+      wc.style = CS_HREDRAW | CS_VREDRAW;
+      wc.lpfnWndProc = DLLWindowProc;
+      wc.hInstance = hinstDLL;
+      wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+      wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+      wc.lpszClassName = "RT2";
+      auto result = RegisterClassExA(&wc);
+      if (!result) {
+        getOut() << "failed to register class: " <<  (void *)GetLastError() << std::endl;
+      }
+
+      GetLastError();
+      
+      getOut() << "threading 3" << std::endl;
+
+      HWND fakeHWnd = CreateWindowExA(
+        NULL,
+        wc.lpszClassName,    // name of the window class
+        "d3d10 get-offset window",   // title of the window
+        WS_OVERLAPPEDWINDOW,    // window style
+        10,    // x-position of the window
+        10,    // y-position of the window
+        512,    // width of the window
+        512,    // height of the window
+        NULL,    // we have no parent window, NULL
+        NULL,    // we aren't using menus, NULL
+        hinstDLL,    // application handle
+        NULL
+      );
+      // 0 RT2 Reality Tab 2 2147483648 0  0 2 2 0 0 00007FF7B9F80000 0
+      getOut() << "call with: " <<
+        NULL << " " <<
+        "RT2" << " " <<    // name of the window class
+        "d3d10 get-offset window" << " " <<   // title of the window
+        WS_POPUP << " " <<    // window style
+        0 << " " << " " <<    // x-position of the window
+        0 << " " <<    // y-position of the window
+        2 << " " <<    // width of the window
+        2 << " " <<    // height of the window
+        NULL << " " <<    // we have no parent window, NULL
+        NULL << " " <<    // we aren't using menus, NULL
+        hinstDLL << " " <<
+        fakeHWnd << " " <<
+        NULL <<
+        std::endl;
+      if (!fakeHWnd) {
+        getOut() << "failed to create fake dxgi window: " << (void *)GetLastError() << std::endl;
+        abort();
+      }
+
+      ID3D11Device *deviceBasic;
+      ID3D11DeviceContext *contextBasic;
+      IDXGISwapChain *swapChain;
+
+      D3D_FEATURE_LEVEL featureLevels[] = {
+        D3D_FEATURE_LEVEL_11_1
+      };
+      DXGI_SWAP_CHAIN_DESC swapChainDesc{};
+      swapChainDesc.BufferCount = 2;
+      swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      swapChainDesc.BufferDesc.Width = 2;
+      swapChainDesc.BufferDesc.Height = 2;
+      swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+      swapChainDesc.OutputWindow = fakeHWnd;
+      swapChainDesc.SampleDesc.Count = 1;
+      swapChainDesc.Windowed = true;
+
+      HRESULT hr = D3D11CreateDeviceAndSwapChain(
+        NULL, // pAdapter
+        D3D_DRIVER_TYPE_HARDWARE, // DriverType
+        NULL, // Software
+        D3D11_CREATE_DEVICE_DEBUG, // Flags
+        featureLevels, // pFeatureLevels
+        ARRAYSIZE(featureLevels), // FeatureLevels
+        D3D11_SDK_VERSION, // SDKVersion
+        &swapChainDesc, // pSwapChainDesc,
+        &swapChain, // ppSwapChain
+        &deviceBasic, // ppDevice
+        NULL, // pFeatureLevel
+        &contextBasic // ppImmediateContext
+      );
+      if (FAILED(hr)) {
+        getOut() << "failed to create fake dxgi window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+        abort();
+      }
+
+      getOut() << "threading 4" << std::endl;
+      getOut() << "created swap chain: " << (void *)swapChain << std::endl; */
+      
+      HMODULE dxgiModule = LoadLibraryA("dxgi.dll");
+      if (!dxgiModule) {
+        getOut() << "failed to load dxgi module" << std::endl;
+        abort();
+      }
+    
+      LONG error = DetourTransactionBegin();
+      checkDetourError("DetourTransactionBegin", error);
+
+      error = DetourUpdateThread(GetCurrentThread());
+      checkDetourError("DetourUpdateThread", error);
+      
+      RealPresent = (decltype(RealPresent))get_offset_addr(dxgiModule, g_offsets->Present);
+      // getOut() << "got real present0 " << g_offsets->Present << " " << RealPresent << std::endl;
+      error = DetourAttach(&(PVOID&)RealPresent, MinePresent);
+      checkDetourError("RealPresent", error);
+      
+      RealPresent1 = (decltype(RealPresent1))get_offset_addr(dxgiModule, g_offsets->Present1);
+      // getOut() << "got real present1 " << g_offsets->Present1 << " " << RealPresent1 << std::endl;
+      error = DetourAttach(&(PVOID&)RealPresent1, MinePresent1);
+      checkDetourError("RealPresent1", error);
+
+      error = DetourTransactionCommit();
+      checkDetourError("DetourTransactionCommit", error);
+      
+      // getOut() << "threading 5" << std::endl;
+      
+      // s.unlock();
+    // }).detach();
+    
+    // getOut() << "threading 6" << std::endl;
+    
+    // s.lock();
+    
+    // getOut() << "threading 7" << std::endl;
+    
+    hijackedDxgi = true;
+  }
+}
+void Hijacker::unhijackDxgi() {
+  if (hijackedDxgi) {
+    LONG error = DetourTransactionBegin();
+    checkDetourError("DetourTransactionBegin", error);
+
+    error = DetourUpdateThread(GetCurrentThread());
+    checkDetourError("DetourUpdateThread", error);
+    
+    error = DetourDetach(&(PVOID&)RealPresent, MinePresent);
+    checkDetourError("RealPresent", error);
+    
+    error = DetourDetach(&(PVOID&)RealPresent1, MinePresent1);
+    checkDetourError("RealPresent1", error);
+
+    error = DetourTransactionCommit();
+    checkDetourError("DetourTransactionCommit", error);
+    
+    hijackedDxgi = false;
+  }
+}
 void Hijacker::hijackDx(ID3D11DeviceContext *context) {
   if (!hijackedDx) {
     ID3D11DeviceContext1 *context1;
@@ -2768,7 +3090,100 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     hijackedDx = true;
   }
 }
+void Hijacker::unhijackDx() {
+  if (hijackedDx) {
+    LONG error = DetourTransactionBegin();
+    checkDetourError("DetourTransactionBegin", error);
+
+    error = DetourUpdateThread(GetCurrentThread());
+    checkDetourError("DetourUpdateThread", error);
+    
+    error = DetourDetach(&(PVOID&)RealOMGetRenderTargets, MineOMGetRenderTargets);
+    checkDetourError("RealOMGetRenderTargets", error);
+    
+    error = DetourDetach(&(PVOID&)RealOMSetRenderTargets, MineOMSetRenderTargets);
+    checkDetourError("RealOMSetRenderTargets", error);
+
+    error = DetourDetach(&(PVOID&)RealOMSetDepthStencilState, MineOMSetDepthStencilState);
+    checkDetourError("RealOMSetDepthStencilState", error);
+
+    error = DetourDetach(&(PVOID&)RealDraw, MineDraw);
+    checkDetourError("RealDraw", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawAuto, MineDrawAuto);
+    checkDetourError("RealDrawAuto", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawIndexed, MineDrawIndexed);
+    checkDetourError("RealDrawIndexed", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawIndexedInstanced, MineDrawIndexedInstanced);
+    checkDetourError("RealDrawIndexedInstanced", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawIndexedInstancedIndirect, MineDrawIndexedInstancedIndirect);
+    checkDetourError("RealDrawIndexedInstancedIndirect", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawInstanced, MineDrawInstanced);
+    checkDetourError("RealDrawInstanced", error);
+    
+    error = DetourDetach(&(PVOID&)RealDrawInstancedIndirect, MineDrawInstancedIndirect);
+    checkDetourError("RealDrawInstancedIndirect", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateShaderResourceView, MineCreateShaderResourceView);
+    checkDetourError("RealCreateShaderResourceView", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateDepthStencilView, MineCreateDepthStencilView);
+    checkDetourError("RealCreateDepthStencilView", error);
+    
+    error = DetourDetach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
+    checkDetourError("RealClearRenderTargetView", error);
+    
+    error = DetourDetach(&(PVOID&)RealClearDepthStencilView, MineClearDepthStencilView);
+    checkDetourError("RealClearDepthStencilView", error);
+
+    error = DetourDetach(&(PVOID&)RealClearState, MineClearState);
+    checkDetourError("RealClearState", error);
+    
+    error = DetourDetach(&(PVOID&)RealClearView, MineClearView);
+    checkDetourError("RealClearView", error);
+
+    error = DetourDetach(&(PVOID&)RealResolveSubresource, MineResolveSubresource);
+    checkDetourError("RealResolveSubresource", error);
+    
+    error = DetourDetach(&(PVOID&)RealUpdateSubresource, MineUpdateSubresource);
+    checkDetourError("RealUpdateSubresource", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateBuffer, MineCreateBuffer);
+    checkDetourError("RealCreateBuffer", error);
+    
+    error = DetourDetach(&(PVOID&)RealMap, MineMap);
+    checkDetourError("RealMap", error);
+    
+    error = DetourDetach(&(PVOID&)RealUnmap, MineUnmap);
+    checkDetourError("RealUnmap", error);
+    
+    error = DetourDetach(&(PVOID&)RealCopyResource, MineCopyResource);
+    checkDetourError("RealCopyResource", error);
+
+    error = DetourDetach(&(PVOID&)RealCopySubresourceRegion, MineCopySubresourceRegion);
+    checkDetourError("RealCopySubresourceRegion", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateTexture2D, MineCreateTexture2D);
+    checkDetourError("RealCreateTexture2D", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateRasterizerState , MineCreateRasterizerState);
+    checkDetourError("RealCreateRasterizerState", error);
+
+    error = DetourDetach(&(PVOID&)RealRSSetState, MineRSSetState);
+    checkDetourError("RealRSSetState", error);
+
+    error = DetourTransactionCommit();
+    checkDetourError("DetourTransactionCommit", error);
+
+    hijackedDx = false;
+  }
+}
 void Hijacker::hijackGl() {
+  return;
   if (!hijackedGl) {
     HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
     HMODULE libOpenGl32 = LoadLibraryA("opengl32.dll");
@@ -2784,11 +3199,6 @@ void Hijacker::hijackGl() {
       EGL_QueryDisplayAttribEXT = (decltype(EGL_QueryDisplayAttribEXT))GetProcAddress(libEgl, "eglQueryDisplayAttribEXT");
       EGL_QueryDeviceAttribEXT = (decltype(EGL_QueryDeviceAttribEXT))GetProcAddress(libEgl, "eglQueryDeviceAttribEXT");
       EGL_GetError = (decltype(EGL_GetError))GetProcAddress(libEgl, "eglGetError");
-      
-      decltype(RealGlGetIntegerv) glGetIntegerv = (decltype(RealGlGetIntegerv))GetProcAddress(libGlesV2, "glGetIntegerv");
-      RealGlGetIntegerv = glGetIntegerv;
-      decltype(RealGlGetFramebufferAttachmentParameteriv) glGetFramebufferAttachmentParameteriv = (decltype(RealGlGetFramebufferAttachmentParameteriv))GetProcAddress(libGlesV2, "glGetFramebufferAttachmentParameteriv");
-      RealGlGetFramebufferAttachmentParameteriv = glGetFramebufferAttachmentParameteriv;
 
       decltype(RealGlViewport) glViewport = (decltype(RealGlViewport))GetProcAddress(libGlesV2, "glViewport");
       decltype(RealGlGenFramebuffers) glGenFramebuffers = (decltype(RealGlGenFramebuffers))GetProcAddress(libGlesV2, "glGenFramebuffers");
@@ -2821,7 +3231,6 @@ void Hijacker::hijackGl() {
       decltype(RealGlClearColor) glClearColor = (decltype(RealGlClearColor))GetProcAddress(libGlesV2, "glClearColor");
       decltype(RealGlColorMask) glColorMask = (decltype(RealGlColorMask))GetProcAddress(libGlesV2, "glColorMask");
       decltype(RealGlFlush) glFlush = (decltype(RealGlFlush))GetProcAddress(libGlesV2, "glFlush");
-      // decltype(RealWglMakeCurrent) wglMakeCurrent = (decltype(RealWglMakeCurrent))GetProcAddress(libOpenGl32, "wglMakeCurrent");
       decltype(RealGlGetError) glGetError = (decltype(RealGlGetError))GetProcAddress(libGlesV2, "glGetError");
   
       LONG error = DetourTransactionBegin();
@@ -2829,9 +3238,7 @@ void Hijacker::hijackGl() {
 
       error = DetourUpdateThread(GetCurrentThread());
       checkDetourError("DetourUpdateThread", error);
-      
-      RealGlViewport = glViewport;
-      
+
       RealGlGenFramebuffers = glGenFramebuffers;
       error = DetourAttach(&(PVOID&)RealGlGenFramebuffers, MineGlGenFramebuffers);
       checkDetourError("RealGlGenFramebuffers", error);
@@ -2859,11 +3266,7 @@ void Hijacker::hijackGl() {
       RealGlFramebufferRenderbuffer = glFramebufferRenderbuffer;
       error = DetourAttach(&(PVOID&)RealGlFramebufferRenderbuffer, MineGlFramebufferRenderbuffer);
       checkDetourError("RealGlFramebufferRenderbuffer", error);
-      
-      RealGlRenderbufferStorage = glRenderbufferStorage;
-      /* error = DetourAttach(&(PVOID&)RealGlRenderbufferStorageMultisampleEXT, MineGlRenderbufferStorageMultisampleEXT);
-      checkDetourError("RealGlRenderbufferStorageMultisampleEXT", error); */
-      
+
       RealGlRenderbufferStorageMultisampleEXT = glRenderbufferStorageMultisampleEXT;
       error = DetourAttach(&(PVOID&)RealGlRenderbufferStorageMultisampleEXT, MineGlRenderbufferStorageMultisampleEXT);
       checkDetourError("RealGlRenderbufferStorageMultisampleEXT", error);
@@ -2883,26 +3286,6 @@ void Hijacker::hijackGl() {
       RealDiscardFramebufferEXT = DiscardFramebufferEXT;
       error = DetourAttach(&(PVOID&)RealDiscardFramebufferEXT, MineDiscardFramebufferEXT);
       checkDetourError("RealDiscardFramebufferEXT", error);
-      
-      RealGlGenTextures = glGenTextures;
-      /* error = DetourAttach(&(PVOID&)RealGlGenTextures, MineGlGenTextures);
-      checkDetourError("RealGlGenTextures", error); */
-
-      RealGlBindTexture = glBindTexture;
-      /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
-      checkDetourError("RealGlBindTexture", error); */
-      
-      RealGlTexImage2D = glTexImage2D;
-      /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
-      checkDetourError("RealGlBindTexture", error); */
-      
-      RealGlTexParameteri = glTexParameteri;
-      
-      RealGlReadPixels = glReadPixels;
-      /* error = DetourAttach(&(PVOID&)RealGlBindTexture, MineGlBindTexture);
-      checkDetourError("RealGlBindTexture", error); */
-      
-      RealGlTexStorage2DMultisample = glTexStorage2DMultisample;
 
       RealGlDeleteTextures = glDeleteTextures;
       error = DetourAttach(&(PVOID&)RealGlDeleteTextures, MineGlDeleteTextures);
@@ -2923,9 +3306,7 @@ void Hijacker::hijackGl() {
       RealGlClientWaitSync = glClientWaitSync;
       error = DetourAttach(&(PVOID&)RealGlClientWaitSync, MineGlClientWaitSync);
       checkDetourError("RealGlClientWaitSync", error);
-      
-      RealGlDrawElements = glDrawElements;
-      
+
       RealGlClear = glClear;
       error = DetourAttach(&(PVOID&)RealGlClear, MineGlClear);
       checkDetourError("RealGlClear", error);
@@ -2938,27 +3319,107 @@ void Hijacker::hijackGl() {
       error = DetourAttach(&(PVOID&)RealGlColorMask, MineGlColorMask);
       checkDetourError("RealGlColorMask", error);
       
-      RealGlFlush = glFlush;
-      
       RealEGL_MakeCurrent = EGL_MakeCurrent;
       error = DetourAttach(&(PVOID&)RealEGL_MakeCurrent, MineEGL_MakeCurrent);
       checkDetourError("RealEGL_MakeCurrent", error);
-      
-      /* RealWglMakeCurrent = wglMakeCurrent;
-      error = DetourAttach(&(PVOID&)RealWglMakeCurrent, MineWglMakeCurrent);
-      checkDetourError("RealWglMakeCurrent", error); */
 
+      RealGlGetIntegerv = (decltype(RealGlGetIntegerv))GetProcAddress(libGlesV2, "glGetIntegerv");
+      RealGlGetFramebufferAttachmentParameteriv = (decltype(RealGlGetFramebufferAttachmentParameteriv))GetProcAddress(libGlesV2, "glGetFramebufferAttachmentParameteriv");
+      RealGlGenTextures = glGenTextures;
+      RealGlBindTexture = glBindTexture;
+      RealGlTexImage2D = glTexImage2D;
+      RealGlTexParameteri = glTexParameteri;
+      RealGlReadPixels = glReadPixels;
+      RealGlTexStorage2DMultisample = glTexStorage2DMultisample;
+      RealGlRenderbufferStorage = glRenderbufferStorage;
+      RealGlViewport = glViewport;
+      RealGlDrawElements = glDrawElements;
+      RealGlFlush = glFlush;
       RealGlGetError = glGetError;
-      /* error = DetourAttach(&(PVOID&)RealGlGetError, MineGlGetError);
-      checkDetourError("RealGlGetError", error); */
 
       error = DetourTransactionCommit();
       checkDetourError("DetourTransactionCommit", error);
+      
+      hijackedGl = true;
     } else {
       getOut() << "failed to load gl hijack libs: " << (void *)libGlesV2 << " " << (void *)libOpenGl32 << " " << GetLastError() << std::endl;
     }
+  }
+}
+void Hijacker::unhijackGl() {
+  return;
+  if (hijackedGl) {
+    LONG error = DetourTransactionBegin();
+    checkDetourError("DetourTransactionBegin", error);
 
-    hijackedGl = true;
+    error = DetourUpdateThread(GetCurrentThread());
+    checkDetourError("DetourUpdateThread", error);
+
+    error = DetourDetach(&(PVOID&)RealGlGenFramebuffers, MineGlGenFramebuffers);
+    checkDetourError("RealGlGenFramebuffers", error);
+
+    error = DetourDetach(&(PVOID&)RealGlBindFramebuffer, MineGlBindFramebuffer);
+    checkDetourError("RealGlBindFramebuffer", error);
+
+    error = DetourDetach(&(PVOID&)RealGlGenRenderbuffers, MineGlGenRenderbuffers);
+    checkDetourError("RealGlGenRenderbuffers", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlBindRenderbuffer, MineGlBindRenderbuffer);
+    checkDetourError("RealGlBindRenderbuffer", error);
+
+    error = DetourDetach(&(PVOID&)RealGlFramebufferTexture2D, MineGlFramebufferTexture2D);
+    checkDetourError("RealGlFramebufferTexture2D", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlFramebufferTexture2DMultisampleEXT, MineGlFramebufferTexture2DMultisampleEXT);
+    checkDetourError("RealGlFramebufferTexture2DMultisampleEXT", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlFramebufferRenderbuffer, MineGlFramebufferRenderbuffer);
+    checkDetourError("RealGlFramebufferRenderbuffer", error);
+
+    error = DetourDetach(&(PVOID&)RealGlRenderbufferStorageMultisampleEXT, MineGlRenderbufferStorageMultisampleEXT);
+    checkDetourError("RealGlRenderbufferStorageMultisampleEXT", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlDiscardFramebufferEXT, MineGlDiscardFramebufferEXT);
+    checkDetourError("RealGlDiscardFramebufferEXT", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlDiscardFramebufferEXTContextANGLE, MineGlDiscardFramebufferEXTContextANGLE);
+    checkDetourError("RealGlDiscardFramebufferEXTContextANGLE", error);
+
+    error = DetourDetach(&(PVOID&)RealGlInvalidateFramebuffer, MineGlInvalidateFramebuffer);
+    checkDetourError("RealGlInvalidateFramebuffer", error);
+    
+    error = DetourDetach(&(PVOID&)RealDiscardFramebufferEXT, MineDiscardFramebufferEXT);
+    checkDetourError("RealDiscardFramebufferEXT", error);
+
+    error = DetourDetach(&(PVOID&)RealGlDeleteTextures, MineGlDeleteTextures);
+    checkDetourError("RealGlDeleteTextures", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlFenceSync, MineGlFenceSync);
+    checkDetourError("RealGlFenceSync", error);
+    
+    RealGlDeleteSync = glDeleteSync;
+    error = DetourAttach(&(PVOID&)RealGlDeleteSync, MineGlDeleteSync);
+    checkDetourError("RealGlDeleteSync", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlWaitSync, MineGlWaitSync);
+    checkDetourError("RealGlWaitSync", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlClientWaitSync, MineGlClientWaitSync);
+    checkDetourError("RealGlClientWaitSync", error);
+
+    error = DetourDetach(&(PVOID&)RealGlClear, MineGlClear);
+    checkDetourError("RealGlClear", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlClearColor, MineGlClearColor);
+    checkDetourError("RealGlClearColor", error);
+    
+    error = DetourDetach(&(PVOID&)RealGlColorMask, MineGlColorMask);
+    checkDetourError("RealGlColorMask", error);
+    
+    error = DetourDetach(&(PVOID&)RealEGL_MakeCurrent, MineEGL_MakeCurrent);
+    checkDetourError("RealEGL_MakeCurrent", error);
+    
+    hijackedGl = false;
   }
 }
 ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit
@@ -3030,7 +3491,7 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
       }
       clientDepthHandleLatched = sharedDepthHandle;
       
-      // getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
+      getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
     }
     
     // getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;

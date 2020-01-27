@@ -7,6 +7,7 @@
 // extern bool isChrome;
 // extern bool haveZBufferParams;
 // extern float zBufferParams[4];
+extern HANDLE backbufferShHandle;
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -82,24 +83,6 @@ void main() {
 }
 )END";
 const char *hlsl = R"END(
-//------------------------------------------------------------//
-// Description
-//------------------------------------------------------------//
-// A simple fullscreen quad
-//------------------------------------------------------------//
-
-//------------------------------------------------------------//
-// Global shader data
-//------------------------------------------------------------//
-//------------------------------------------------------------//
-
-//------------------------------------------------------------//
-// Constants
-//------------------------------------------------------------//
-// float Width;
-// float Height;
-//------------------------------------------------------------//
-
 cbuffer VS_CONSTANT_BUFFER : register(b0)
 {
   float flip;
@@ -467,8 +450,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         DXGI_ADAPTER_DESC desc;
         hr = pDXGIAdapter->GetDesc(&desc);
         getOut() << "got desc " << (char *)desc.Description << " " << desc.AdapterLuid.HighPart << " " << desc.AdapterLuid.LowPart << std::endl;
-        
-        // nothing
       } else {
         getOut() << "create dx device failed " << (void *)hr << std::endl;
         abort();
@@ -592,7 +573,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       // getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
       if (handleLatched) {
         // XXX delete old resources
-        // hr = device->OpenSharedResou rce(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
+        // hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
       }
       handleLatched = sharedHandle;
 
@@ -832,8 +813,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       };
       context->UpdateSubresource(psConstantBuffers[1], 0, 0, localDepthColors, 0, 0);
 
+      context->VSSetShader(vsShader, nullptr, 0);
       context->PSSetShader(shaderDepthResourceViewIsMs ? psMsShader : psShader, nullptr, 0);
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+      context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
+      context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
       D3D11_VIEWPORT viewport{
         0, // TopLeftX,
         0, // TopLeftY,
@@ -853,23 +837,17 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         nullptr
       );
       context->DrawIndexed(6, 0, 0);
-      // context->Draw(4, 0);
-      
-      {
-        float depthColor[4] = {1, 0, 0, 0};
-        context->ClearRenderTargetView(
-          renderTargetDepthFrontViews[iEye],
-          depthColor
-        );
 
-        auto temp1 = depthShaderFrontResourceViews[iEye];
-        depthShaderFrontResourceViews[iEye] = depthShaderBackResourceViews[iEye];
-        depthShaderBackResourceViews[iEye] = temp1;
-        
-        auto temp2 = renderTargetDepthFrontViews[iEye];
-        renderTargetDepthFrontViews[iEye] = renderTargetDepthBackViews[iEye];
-        renderTargetDepthBackViews[iEye] = temp2;
-      }
+      ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
+      ID3D11RenderTargetView *localRenderTargetViewsClear[ARRAYSIZE(localRenderTargetViews)] = {};
+      context->OMSetRenderTargets(
+        ARRAYSIZE(localRenderTargetViewsClear),
+        localRenderTargetViewsClear,
+        nullptr
+      );
+
+      SwapDepthTex(iEye);
     }
 
     ++fenceValue;
@@ -912,6 +890,55 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     int
   >([=]() {
     // getOut() << "flush submit server 1" << std::endl;
+
+    if (backbufferShHandle != backbufferShHandleLatched) {
+      backbufferShHandleLatched = backbufferShHandle;
+
+      if (backbufferShHandle) {
+        ID3D11Resource *shTexResource;
+        HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+
+        if (SUCCEEDED(hr)) {
+          hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
+          
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+            abort();
+          }
+        } else {
+          getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+          abort();
+        }
+
+        D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+        srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+        srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        srvDesc.Texture2D.MipLevels = 1;
+
+        hr = device->CreateShaderResourceView(
+          backbufferShTex,
+          &srvDesc,
+          &backbufferShResourceView
+        );
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          InfoQueueLog();
+          getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
+          abort();
+        }
+      }
+    }
+    if (backbufferShHandle) {
+      for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
+        compositor2d::blendWindow(this, device.Get(), context.Get(), iEye, backbufferShResourceView, renderTargetViews[iEye], renderTargetDepthBackViews[iEye], depthShaderFrontResourceViews[iEye]);
+        SwapDepthTex(iEye);
+      }
+    }
 
     for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
       EVREye eEye = EYES[iEye];
@@ -1292,6 +1319,15 @@ EVRCompositorError PVRCompositor::GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArra
   memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(TrackedDevicePose_t));
   memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(TrackedDevicePose_t));
   return std::get<0>(result);
+}
+void PVRCompositor::GetCachedLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
+  if (pRenderPoseArray) {
+    // getOut() << "get cached last poses " << (void *)pRenderPoseArray << " " << (void *)cachedRenderPoses << " " << unRenderPoseArrayCount << std::endl;
+    memcpy(pRenderPoseArray, cachedRenderPoses, unRenderPoseArrayCount * sizeof(TrackedDevicePose_t));
+  }
+  if (pGamePoseArray) {
+    memcpy(pGamePoseArray, cachedGamePoses, unGamePoseArrayCount * sizeof(TrackedDevicePose_t));
+  }
 }
 EVRCompositorError PVRCompositor::GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose ) {
   auto result = fnp.call<
@@ -2754,7 +2790,7 @@ bool PVRCompositor::IsCurrentSceneFocusAppLoading() {
 void PVRCompositor::CacheWaitGetPoses() {
   // getOut() << "CacheWaitGetPoses 1" << std::endl;
   EVRCompositorError error = vrcompositor->WaitGetPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), cachedGamePoses, ARRAYSIZE(cachedGamePoses));
-  // getOut() << "CacheWaitGetPoses 2" << std::endl;
+  // getOut() << "CacheWaitGetPoses 2 " << std::endl;
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
@@ -3023,12 +3059,25 @@ void PVRCompositor::InitShader() {
     };
     UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
     hr = device->CreateInputLayout(PositionTextureVertexLayout, numElements, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &vertexLayout);
+    if (FAILED(hr)) {
+      getOut() << "vertex layout create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  {
+    D3D11_RASTERIZER_DESC rasterizerDesc{};
+    rasterizerDesc.FillMode = D3D11_FILL_SOLID;
+    rasterizerDesc.CullMode = D3D11_CULL_NONE;
+    rasterizerDesc.FrontCounterClockwise = false;
+    rasterizerDesc.DepthClipEnable = true;
+    hr = device->CreateRasterizerState(&rasterizerDesc, &rasterizerState);
+    if (FAILED(hr)) {
+      getOut() << "rasterizer state create failed: " << (void *)hr << std::endl;
+      abort();
+    }
   }
   getOut() << "init render 9" << std::endl;
   {
-    context->VSSetShader(vsShader, nullptr, 0);
-    context->PSSetShader(psShader, nullptr, 0);
-
     UINT stride = sizeof(float) * 4; // xyuv
     UINT offset = 0;
     // context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
@@ -3036,8 +3085,7 @@ void PVRCompositor::InitShader() {
     context->IASetInputLayout(vertexLayout);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-    context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
-    context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
+    context->RSSetState(rasterizerState);
   }
   getOut() << "init render 10" << std::endl;
 
@@ -3184,23 +3232,23 @@ void PVRCompositor::InitShader() {
       abort();
     }
   }
-  /* {
-    D3D11_DEPTH_STENCIL_DESC dsDesc{};
 
-    // Depth test parameters
-    dsDesc.DepthEnable = true;
-    dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-    dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+  compositor2d::initShader(this, device.Get(), context.Get());
+}
+void PVRCompositor::SwapDepthTex(int iEye) {
+  float depthColor[4] = {1, 0, 0, 0};
+  context->ClearRenderTargetView(
+    renderTargetDepthFrontViews[iEye],
+    depthColor
+  );
 
-    // Stencil test parameters
-    dsDesc.StencilEnable = false;
-
-    // Create depth stencil state
-    ID3D11DepthStencilState *pDSState;
-    device->CreateDepthStencilState(&dsDesc, &pDSState);
-    
-    context->OMSetDepthStencilState(pDSState, 1);
-  } */
+  auto temp1 = depthShaderFrontResourceViews[iEye];
+  depthShaderFrontResourceViews[iEye] = depthShaderBackResourceViews[iEye];
+  depthShaderBackResourceViews[iEye] = temp1;
+  
+  auto temp2 = renderTargetDepthFrontViews[iEye];
+  renderTargetDepthFrontViews[iEye] = renderTargetDepthBackViews[iEye];
+  renderTargetDepthBackViews[iEye] = temp2;
 }
 void PVRCompositor::InfoQueueLog() {
   if (infoQueue) {

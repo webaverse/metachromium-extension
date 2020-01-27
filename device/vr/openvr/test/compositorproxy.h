@@ -9,6 +9,7 @@
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
+#include "device/vr/openvr/test/compositor2d.h"
 #include "device/vr/openvr/test/fnproxy.h"
 #include "device/vr/openvr/test/hijack.h"
 
@@ -50,6 +51,7 @@ public:
   ID3D11PixelShader *psShader = nullptr;
   ID3D11PixelShader *psMsShader = nullptr;
   ID3D11InputLayout *vertexLayout = nullptr;
+  ID3D11RasterizerState *rasterizerState = nullptr;
   // ID3D11ShaderResourceView *shaderResourceView = nullptr;
   // ID3D11RenderTargetView *renderTargetView = nullptr;
   // ID3D11DepthStencilView *depthStencilView = nullptr;
@@ -120,14 +122,17 @@ public:
   std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
+  HANDLE backbufferShHandleLatched = NULL;
+  ID3D11Texture2D *backbufferShTex = nullptr;
+  ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
+
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
-	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
-		  VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount );
-	virtual EVRCompositorError GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
-		  VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount );
-	virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose );
+	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount );
+	virtual EVRCompositorError GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount );
+	virtual void GetCachedLastPoses(VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount);
+  virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose );
 	virtual void PrepareSubmit(const Texture_t *pTexture);
   virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
   virtual void FlushSubmit();
@@ -174,6 +179,7 @@ public:
   
   void CacheWaitGetPoses();
   void InitShader();
+  void SwapDepthTex(int iEye);
   void InfoQueueLog();
 };
 }

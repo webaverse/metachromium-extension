@@ -18,7 +18,7 @@ typedef void *HANDLE;
 class Mutex {
 public:
   HANDLE h;
-  Mutex(const char *name);
+  Mutex(const char *name = nullptr);
   ~Mutex();
   void lock();
   void unlock();
@@ -27,7 +27,7 @@ public:
 class Semaphore {
 public:
   HANDLE h;
-  Semaphore(const char *name);
+  Semaphore(const char *name = nullptr);
   ~Semaphore();
   void lock();
   void unlock();
