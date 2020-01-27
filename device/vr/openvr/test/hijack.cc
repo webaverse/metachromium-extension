@@ -135,7 +135,18 @@ decltype(eglQueryDisplayAttribEXT) *EGL_QueryDisplayAttribEXT = nullptr;
 decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
 
-// RealPresent
+template<typename T>
+void presentSwapChain(T *swapChain) {
+  ID3D11Resource *res;
+	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
+	if (FAILED(hr)) {
+		getOut() << "get_dxgi_backbuffer: GetBuffer failed" << std::endl;
+  }
+
+  res->lpVtbl->Release(res);
+  
+  getOut() << "present swap chain done" << std::endl;
+}
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
   UINT SyncInterval,
@@ -147,6 +158,7 @@ HRESULT STDMETHODCALLTYPE MinePresent(
   UINT Flags
 ) {
   getOut() << "present0" << std::endl;
+  presentSwapChain(This);
   return RealPresent(This, SyncInterval, Flags);
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent1)(
@@ -162,6 +174,7 @@ HRESULT STDMETHODCALLTYPE MinePresent1(
   const DXGI_PRESENT_PARAMETERS *pPresentParameters
 ) {
   getOut() << "present1" << std::endl;
+  presentSwapChain(This);
   return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
 }
 
