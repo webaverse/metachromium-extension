@@ -890,12 +890,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
   >([=]() {
     // getOut() << "flush submit server 1" << std::endl;
 
-    for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
-      // EVREye eEye = EYES[iEye];
-      
+    /* for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
       compositor2d::blendWindow(this, device.Get(), context.Get(), iEye, renderTargetViews[iEye], renderTargetDepthBackViews[iEye], depthShaderFrontResourceViews[iEye]);
       SwapDepthTex(iEye);
-    }
+    } */
 
     for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
       EVREye eEye = EYES[iEye];

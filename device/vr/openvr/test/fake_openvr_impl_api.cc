@@ -139,6 +139,7 @@ void vrShutdownInternal() {
 
 FnProxy *g_fnp = nullptr;
 Hijacker *g_hijacker = nullptr;
+Offsets *g_offsets = nullptr;
 
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
 
@@ -306,9 +307,7 @@ BOOL WINAPI DllMain(
 
   if (fdwReason == DLL_PROCESS_ATTACH) {
     shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
-    // ppWindow = (GLFWwindow **)((unsigned char *)shMem + sizeof(void *));
-    // pNumClients = (size_t *)((unsigned char *)shMem + sizeof(size_t *));
-    // pFrameCount = (uint64_t *)shMem;
+    g_offsets = (Offsets *)shMem;
     
     char moduleFileName[MAX_PATH];
     if (!GetModuleFileName(NULL, moduleFileName, sizeof(moduleFileName))) {
@@ -333,7 +332,7 @@ BOOL WINAPI DllMain(
     vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
     vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
     
-    g_hijacker->hijackDxgi();
+    g_hijacker->hijackDxgi(hinstDLL);
     g_hijacker->hijackGl();
 
     // getOut() << "init dll 0" << std::endl;

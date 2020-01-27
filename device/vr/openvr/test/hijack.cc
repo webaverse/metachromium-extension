@@ -15,6 +15,7 @@
 #include "device/vr/openvr/test/hijack.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
+#include "device/vr/openvr/test/offsets.h"
 #include "device/vr/detours/detours.h"
 #include "third_party/openvr/src/headers/openvr.h"
 
@@ -30,6 +31,7 @@
 extern Hijacker *g_hijacker;
 // extern uint64_t *pFrameCount;
 extern bool isChrome;
+extern Offsets *g_offsets;
 
 // constants
 char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
@@ -132,6 +134,36 @@ decltype(eglQueryString) *EGL_QueryString = nullptr;
 decltype(eglQueryDisplayAttribEXT) *EGL_QueryDisplayAttribEXT = nullptr;
 decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
+
+// RealPresent
+HRESULT (STDMETHODCALLTYPE *RealPresent)(
+  IDXGISwapChain *This,
+  UINT SyncInterval,
+  UINT Flags
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MinePresent(
+  IDXGISwapChain *This,
+  UINT SyncInterval,
+  UINT Flags
+) {
+  getOut() << "present0" << std::endl;
+  return RealPresent(This, SyncInterval, Flags);
+}
+HRESULT (STDMETHODCALLTYPE *RealPresent1)(
+  IDXGISwapChain1 *This,
+  UINT                          SyncInterval,
+  UINT                          PresentFlags,
+  const DXGI_PRESENT_PARAMETERS *pPresentParameters
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MinePresent1(
+  IDXGISwapChain1 *This,
+  UINT                          SyncInterval,
+  UINT                          PresentFlags,
+  const DXGI_PRESENT_PARAMETERS *pPresentParameters
+) {
+  getOut() << "present1" << std::endl;
+  return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
+}
 
 void ensureDepthWidthHeight() {
   if (!depthWidth) {
@@ -2636,76 +2668,184 @@ void Hijacker::hijackPre() {
     getOut() << "hijack pre 4" << std::endl; */
   }
 }
-void Hijacker::hijackDxgi() {
-  WNDCLASSEX wc{};
-  wc.cbSize = sizeof(WNDCLASSEX);
-  wc.style = CS_OWNDC;
-  wc.lpfnWndProc = (WNDPROC)DefWindowProcA;
-  wc.hInstance = GetModuleHandleA(nullptr);
-  // wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-  // wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-  wc.lpszClassName = "RT2";
-  RegisterClassEx(&wc);
+/* LRESULT WINAPI DLLWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+    getOut() << "dll window proc " << msg << std::endl;
+    switch (msg)
+    {
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            break;
 
-  HWND fakeHWnd = CreateWindowExA(
-    NULL,
-    "RT2",    // name of the window class
-    "Reality Tab 2",   // title of the window
-    WS_POPUP,    // window style
-    0,    // x-position of the window
-    0,    // y-position of the window
-    2,    // width of the window
-    2,    // height of the window
-    NULL,    // we have no parent window, NULL
-    NULL,    // we aren't using menus, NULL
-    GetModuleHandleA(nullptr),    // application handle
-    NULL
-  );
-  if (!fakeHWnd) {
-    getOut() << "failed to create fake dxgi window: " << (void *)GetLastError() << std::endl;
-    abort();
+        // handle other messages.
+
+        default: // anything we dont handle.
+            return DefWindowProc(hwnd, msg, wParam, lParam);
+    }
+
+    return 0; // just in case
+} */
+
+inline void *get_offset_addr(HMODULE module, uintptr_t offset) {
+	return (void *)((uintptr_t)module + offset);
+}
+
+void Hijacker::hijackDxgi(HINSTANCE hinstDLL) {
+  if (!hijackedDxgi) {
+    // Semaphore s;
+    
+    /* getOut() << "threading 1" << std::endl;
+    // std::thread([&]() -> void {
+      getOut() << "threading 2" << std::endl;
+      WNDCLASSEX wc{};
+      wc.cbSize = sizeof(WNDCLASSEX);
+      wc.style = CS_HREDRAW | CS_VREDRAW;
+      wc.lpfnWndProc = DLLWindowProc;
+      wc.hInstance = hinstDLL;
+      wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+      wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+      wc.lpszClassName = "RT2";
+      auto result = RegisterClassExA(&wc);
+      if (!result) {
+        getOut() << "failed to register class: " <<  (void *)GetLastError() << std::endl;
+      }
+
+      GetLastError();
+      
+      getOut() << "threading 3" << std::endl;
+
+      HWND fakeHWnd = CreateWindowExA(
+        NULL,
+        wc.lpszClassName,    // name of the window class
+        "d3d10 get-offset window",   // title of the window
+        WS_OVERLAPPEDWINDOW,    // window style
+        10,    // x-position of the window
+        10,    // y-position of the window
+        512,    // width of the window
+        512,    // height of the window
+        NULL,    // we have no parent window, NULL
+        NULL,    // we aren't using menus, NULL
+        hinstDLL,    // application handle
+        NULL
+      );
+      // 0 RT2 Reality Tab 2 2147483648 0  0 2 2 0 0 00007FF7B9F80000 0
+      getOut() << "call with: " <<
+        NULL << " " <<
+        "RT2" << " " <<    // name of the window class
+        "d3d10 get-offset window" << " " <<   // title of the window
+        WS_POPUP << " " <<    // window style
+        0 << " " << " " <<    // x-position of the window
+        0 << " " <<    // y-position of the window
+        2 << " " <<    // width of the window
+        2 << " " <<    // height of the window
+        NULL << " " <<    // we have no parent window, NULL
+        NULL << " " <<    // we aren't using menus, NULL
+        hinstDLL << " " <<
+        fakeHWnd << " " <<
+        NULL <<
+        std::endl;
+      if (!fakeHWnd) {
+        getOut() << "failed to create fake dxgi window: " << (void *)GetLastError() << std::endl;
+        abort();
+      }
+
+      ID3D11Device *deviceBasic;
+      ID3D11DeviceContext *contextBasic;
+      IDXGISwapChain *swapChain;
+
+      D3D_FEATURE_LEVEL featureLevels[] = {
+        D3D_FEATURE_LEVEL_11_1
+      };
+      DXGI_SWAP_CHAIN_DESC swapChainDesc{};
+      swapChainDesc.BufferCount = 2;
+      swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      swapChainDesc.BufferDesc.Width = 2;
+      swapChainDesc.BufferDesc.Height = 2;
+      swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+      swapChainDesc.OutputWindow = fakeHWnd;
+      swapChainDesc.SampleDesc.Count = 1;
+      swapChainDesc.Windowed = true;
+
+      HRESULT hr = D3D11CreateDeviceAndSwapChain(
+        NULL, // pAdapter
+        D3D_DRIVER_TYPE_HARDWARE, // DriverType
+        NULL, // Software
+        D3D11_CREATE_DEVICE_DEBUG, // Flags
+        featureLevels, // pFeatureLevels
+        ARRAYSIZE(featureLevels), // FeatureLevels
+        D3D11_SDK_VERSION, // SDKVersion
+        &swapChainDesc, // pSwapChainDesc,
+        &swapChain, // ppSwapChain
+        &deviceBasic, // ppDevice
+        NULL, // pFeatureLevel
+        &contextBasic // ppImmediateContext
+      );
+      if (FAILED(hr)) {
+        getOut() << "failed to create fake dxgi window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
+        abort();
+      }
+
+      getOut() << "threading 4" << std::endl;
+      getOut() << "created swap chain: " << (void *)swapChain << std::endl; */
+      
+      HMODULE dxgiModule = LoadLibraryA("dxgi.dll");
+      if (!dxgiModule) {
+        getOut() << "failed to load dxgi module" << std::endl;
+        abort();
+      }
+    
+      LONG error = DetourTransactionBegin();
+      checkDetourError("DetourTransactionBegin", error);
+
+      error = DetourUpdateThread(GetCurrentThread());
+      checkDetourError("DetourUpdateThread", error);
+      
+      RealPresent = (decltype(RealPresent))get_offset_addr(dxgiModule, g_offsets->Present);
+      getOut() << "got real present0 " << g_offsets->Present << " " << RealPresent << std::endl;
+      error = DetourAttach(&(PVOID&)RealPresent, MinePresent);
+      checkDetourError("RealPresent", error);
+      
+      RealPresent1 = (decltype(RealPresent1))get_offset_addr(dxgiModule, g_offsets->Present1);
+      getOut() << "got real present1 " << g_offsets->Present1 << " " << RealPresent1 << std::endl;
+      error = DetourAttach(&(PVOID&)RealPresent1, MinePresent1);
+      checkDetourError("RealPresent1", error);
+
+      error = DetourTransactionCommit();
+      checkDetourError("DetourTransactionCommit", error);
+      
+      // getOut() << "threading 5" << std::endl;
+      
+      // s.unlock();
+    // }).detach();
+    
+    // getOut() << "threading 6" << std::endl;
+    
+    // s.lock();
+    
+    // getOut() << "threading 7" << std::endl;
+    
+    hijackedDxgi = true;
   }
-
-  Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
-  Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
-   Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
-
-  D3D_FEATURE_LEVEL featureLevels[] = {
-    D3D_FEATURE_LEVEL_11_1
-  };
-  DXGI_SWAP_CHAIN_DESC desc = {};
-  desc.BufferCount = 2;
-  desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-  desc.BufferDesc.Width = 2;
-  desc.BufferDesc.Height = 2;
-  desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-  desc.OutputWindow = fakeHWnd;
-  desc.SampleDesc.Count = 1;
-  desc.Windowed = true;
-
-  HRESULT hr = D3D11CreateDeviceAndSwapChain(
-    adapter, // pAdapter
-    D3D_DRIVER_TYPE_HARDWARE, // DriverType
-    NULL, // Software
-    D3D11_CREATE_DEVICE_DEBUG, // Flags
-    featureLevels, // pFeatureLevels
-    ARRAYSIZE(featureLevels), // FeatureLevels
-    D3D11_SDK_VERSION, // SDKVersion
-    &swapChainDesc, // pSwapChainDesc,
-    &swapChain, // ppSwapChain
-    &deviceBasic, // ppDevice
-    NULL, // pFeatureLevel
-    &contextBasic // ppImmediateContext
-  );
-  if (FAILED(hr)) {
-    getOut() << "failed to create fake dxgi window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-    abort();
-  }
-
-  getOut() << "created swap chain: " << (void *)swapChain.Get() << std::endl;
 }
 void Hijacker::unhijackDxgi() {
-  // XXX
+  if (hijackedDxgi) {
+    LONG error = DetourTransactionBegin();
+    checkDetourError("DetourTransactionBegin", error);
+
+    error = DetourUpdateThread(GetCurrentThread());
+    checkDetourError("DetourUpdateThread", error);
+    
+    error = DetourDetach(&(PVOID&)RealPresent, MinePresent);
+    checkDetourError("RealPresent", error);
+    
+    error = DetourDetach(&(PVOID&)RealPresent1, MinePresent1);
+    checkDetourError("RealPresent1", error);
+
+    error = DetourTransactionCommit();
+    checkDetourError("DetourTransactionCommit", error);
+    
+    hijackedDxgi = false;
+  }
 }
 void Hijacker::hijackDx(ID3D11DeviceContext *context) {
   if (!hijackedDx) {
@@ -2932,6 +3072,7 @@ void Hijacker::unhijackDx() {
   }
 }
 void Hijacker::hijackGl() {
+  return;
   if (!hijackedGl) {
     HMODULE libGlesV2 = LoadLibraryA("libglesv2.dll");
     HMODULE libOpenGl32 = LoadLibraryA("opengl32.dll");
@@ -3095,6 +3236,7 @@ void Hijacker::hijackGl() {
   }
 }
 void Hijacker::unhijackGl() {
+  return;
   if (hijackedGl) {
     LONG error = DetourTransactionBegin();
     checkDetourError("DetourTransactionBegin", error);

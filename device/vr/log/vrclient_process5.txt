@@ -1,759 +1,217 @@
-Sun Jan 26 2020 02:11:26.017 - //==============================================================================================
-Sun Jan 26 2020 02:11:26.017 - ================================================================================================
-Sun Jan 26 2020 02:11:26.017 - ================================================================================================
-Sun Jan 26 2020 02:11:26.017 - process5.exe 1.9.16 startup with PID=28172, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 02:11:26.018 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 02:11:26.025 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:11:26.026 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:11:26.026 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:11:26.027 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:11:26.028 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 02:11:26.039 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 02:11:26.055 - Received success response from vrserver connect
-Sun Jan 26 2020 02:11:26.059 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 02:11:26.059 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 02:11:26.078 - Received success response from vrcompositor connect
-Sun Jan 26 2020 02:11:26.078 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 02:11:31.964 - Capturing Scene Focus
-Sun Jan 26 2020 02:11:32.204 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 02:11:32.234 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 02:11:37.044 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 02:11:37.110 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 02:11:37.110 -  5Sun Jan 26 2020 02:11:37.110 - 
-Sun Jan 26 2020 02:11:40.468 - Unknown action set /actions/buggy
-Sun Jan 26 2020 02:11:40.469 - Unknown action set /actions/platformer
-Sun Jan 26 2020 02:11:40.686 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 02:11:40.686 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:11:40.686 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 02:11:40.686 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 02:11:40.686 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 02:11:40.686 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:11:40.686 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 02:11:40.686 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:11:40.687 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 02:11:40.687 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 02:11:40.687 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 02:11:40.723 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 02:11:40.723 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 02:11:40.723 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 02:11:40.723 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:11:40.723 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 02:11:40.723 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 02:11:40.724 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:11:40.724 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 02:11:40.724 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 02:11:40.724 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:11:40.724 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 02:15:01.080 - //==============================================================================================
-Sun Jan 26 2020 02:15:01.080 - ================================================================================================
-Sun Jan 26 2020 02:15:01.080 - ================================================================================================
-Sun Jan 26 2020 02:15:01.080 - process5.exe 1.9.16 startup with PID=24632, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 02:15:01.081 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 02:15:01.088 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:15:01.088 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:15:01.089 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:15:01.089 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:15:01.090 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 02:15:01.107 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 02:15:01.130 - Received success response from vrserver connect
-Sun Jan 26 2020 02:15:01.134 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 02:15:01.134 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 02:15:01.155 - Received success response from vrcompositor connect
-Sun Jan 26 2020 02:15:01.155 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 02:15:04.633 - Capturing Scene Focus
-Sun Jan 26 2020 02:15:04.889 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 02:15:04.920 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 02:15:10.745 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 02:15:10.810 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 02:15:10.810 -  5Sun Jan 26 2020 02:15:10.810 - 
-Sun Jan 26 2020 02:15:14.197 - Unknown action set /actions/buggy
-Sun Jan 26 2020 02:15:14.198 - Unknown action set /actions/platformer
-Sun Jan 26 2020 02:15:14.433 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 02:15:14.433 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:15:14.433 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 02:15:14.433 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 02:15:14.434 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 02:15:14.434 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:15:14.434 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 02:15:14.434 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:15:14.434 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 02:15:14.434 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 02:15:14.434 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:15:14.474 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 02:19:11.454 - //==============================================================================================
-Sun Jan 26 2020 02:19:11.454 - ================================================================================================
-Sun Jan 26 2020 02:19:11.454 - ================================================================================================
-Sun Jan 26 2020 02:19:11.454 - process5.exe 1.9.16 startup with PID=17364, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 02:19:11.455 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 02:19:11.465 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:19:11.466 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:19:11.466 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:19:11.467 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:19:11.468 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 02:19:11.476 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 02:19:11.500 - Received success response from vrserver connect
-Sun Jan 26 2020 02:19:11.504 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 02:19:11.504 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 02:19:11.519 - Received success response from vrcompositor connect
-Sun Jan 26 2020 02:19:11.520 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 02:19:14.462 - Capturing Scene Focus
-Sun Jan 26 2020 02:19:14.703 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 02:19:14.734 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 02:19:20.130 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 02:19:20.193 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 02:19:20.193 -  5Sun Jan 26 2020 02:19:20.193 - 
-Sun Jan 26 2020 02:19:23.619 - Unknown action set /actions/buggy
-Sun Jan 26 2020 02:19:23.619 - Unknown action set /actions/platformer
-Sun Jan 26 2020 02:19:23.834 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 02:19:23.834 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:19:23.834 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 02:19:23.834 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 02:19:23.834 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 02:19:23.834 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:19:23.834 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 02:19:23.834 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:19:23.835 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 02:19:23.835 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 02:19:23.835 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:19:23.876 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 02:19:46.392 - //==============================================================================================
-Sun Jan 26 2020 02:19:46.392 - ================================================================================================
-Sun Jan 26 2020 02:19:46.392 - ================================================================================================
-Sun Jan 26 2020 02:19:46.392 - process5.exe 1.9.16 startup with PID=21148, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 02:19:46.393 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 02:19:46.403 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:19:46.404 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:19:46.404 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:19:46.405 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:19:46.406 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 02:19:46.416 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 02:19:46.434 - Received success response from vrserver connect
-Sun Jan 26 2020 02:19:46.439 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 02:19:46.439 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 02:19:46.458 - Received success response from vrcompositor connect
-Sun Jan 26 2020 02:19:46.458 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 02:19:48.872 - Capturing Scene Focus
-Sun Jan 26 2020 02:19:49.870 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 02:19:49.902 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 02:19:55.399 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 02:19:55.460 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 02:19:55.460 -  5Sun Jan 26 2020 02:19:55.460 - 
-Sun Jan 26 2020 02:19:58.729 - Unknown action set /actions/buggy
-Sun Jan 26 2020 02:19:58.729 - Unknown action set /actions/platformer
-Sun Jan 26 2020 02:19:58.974 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 02:19:58.974 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:19:58.974 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 02:19:58.974 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 02:19:58.974 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 02:19:58.974 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:19:58.974 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 02:19:58.974 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:19:58.975 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 02:19:58.975 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 02:19:58.975 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:19:59.021 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 02:22:00.643 - //==============================================================================================
-Sun Jan 26 2020 02:22:00.643 - ================================================================================================
-Sun Jan 26 2020 02:22:00.643 - ================================================================================================
-Sun Jan 26 2020 02:22:00.643 - process5.exe 1.9.16 startup with PID=42532, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 02:22:00.644 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 02:22:00.653 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:22:00.653 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:22:00.653 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:22:00.654 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:22:00.655 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 02:22:00.671 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 02:22:00.688 - Received success response from vrserver connect
-Sun Jan 26 2020 02:22:00.692 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 02:22:00.692 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 02:22:00.709 - Received success response from vrcompositor connect
-Sun Jan 26 2020 02:22:00.709 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 02:22:04.675 - Capturing Scene Focus
-Sun Jan 26 2020 02:22:04.920 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 02:22:04.955 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 02:22:10.771 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 02:22:10.833 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 02:22:10.833 -  5Sun Jan 26 2020 02:22:10.833 - 
-Sun Jan 26 2020 02:22:14.156 - Unknown action set /actions/buggy
-Sun Jan 26 2020 02:22:14.156 - Unknown action set /actions/platformer
-Sun Jan 26 2020 02:22:14.383 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 02:22:14.383 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:22:14.383 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 02:22:14.383 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 02:22:14.384 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 02:22:14.384 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:22:14.384 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 02:22:14.384 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:22:14.384 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 02:22:14.384 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 02:22:14.384 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:22:14.426 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 02:27:50.866 - //==============================================================================================
-Sun Jan 26 2020 02:27:50.866 - ================================================================================================
-Sun Jan 26 2020 02:27:50.866 - ================================================================================================
-Sun Jan 26 2020 02:27:50.866 - process5.exe 1.9.16 startup with PID=38756, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 02:27:50.867 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 02:27:50.874 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:27:50.875 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:27:50.875 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:27:50.876 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:27:50.877 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 02:27:50.888 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 02:27:50.913 - Received success response from vrserver connect
-Sun Jan 26 2020 02:27:50.916 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 02:27:50.916 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 02:27:50.936 - Received success response from vrcompositor connect
-Sun Jan 26 2020 02:27:50.936 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 02:27:53.602 - Capturing Scene Focus
-Sun Jan 26 2020 02:27:53.876 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 02:27:53.908 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 02:27:59.708 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 02:27:59.777 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 02:27:59.777 -  5Sun Jan 26 2020 02:27:59.777 - 
-Sun Jan 26 2020 02:28:03.153 - Unknown action set /actions/buggy
-Sun Jan 26 2020 02:28:03.153 - Unknown action set /actions/platformer
-Sun Jan 26 2020 02:28:03.339 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 02:28:03.339 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:28:03.339 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 02:28:03.339 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 02:28:03.339 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 02:28:03.340 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:28:03.340 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 02:28:03.340 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:28:03.340 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 02:28:03.340 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 02:28:03.340 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:28:03.391 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 02:29:39.234 - //==============================================================================================
-Sun Jan 26 2020 02:29:39.234 - ================================================================================================
-Sun Jan 26 2020 02:29:39.234 - ================================================================================================
-Sun Jan 26 2020 02:29:39.234 - process5.exe 1.9.16 startup with PID=39876, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 02:29:39.235 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 02:29:39.243 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:29:39.243 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:29:39.244 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:29:39.245 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 02:29:39.246 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 02:29:39.253 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 02:29:39.272 - Received success response from vrserver connect
-Sun Jan 26 2020 02:29:39.274 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 02:29:39.275 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 02:29:39.293 - Received success response from vrcompositor connect
-Sun Jan 26 2020 02:29:39.293 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 02:29:42.853 - Capturing Scene Focus
-Sun Jan 26 2020 02:29:43.090 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 02:29:43.119 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 02:29:48.899 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 02:29:48.960 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 02:29:48.960 -  5Sun Jan 26 2020 02:29:48.960 - 
-Sun Jan 26 2020 02:29:52.277 - Unknown action set /actions/buggy
-Sun Jan 26 2020 02:29:52.278 - Unknown action set /actions/platformer
-Sun Jan 26 2020 02:29:52.504 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 02:29:52.504 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:29:52.504 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 02:29:52.504 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 02:29:52.505 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 02:29:52.505 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:29:52.505 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 02:29:52.505 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:29:52.505 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 02:29:52.505 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 02:29:52.505 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 02:30:05.752 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 02:30:05.752 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 02:30:05.752 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 02:30:05.752 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 02:30:05.753 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 02:30:05.753 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 02:30:05.753 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 02:30:05.753 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 02:30:05.753 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 02:30:05.753 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 02:30:05.753 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 03:38:46.948 - //==============================================================================================
-Sun Jan 26 2020 03:38:46.949 - ================================================================================================
-Sun Jan 26 2020 03:38:46.949 - ================================================================================================
-Sun Jan 26 2020 03:38:46.949 - process5.exe 1.9.16 startup with PID=41556, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 03:38:46.949 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 03:38:47.024 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:38:47.030 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:38:47.035 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:38:47.042 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:38:47.043 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 03:38:47.060 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 03:38:47.088 - Received success response from vrserver connect
-Sun Jan 26 2020 03:38:47.127 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 03:38:47.127 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 03:38:47.147 - Received success response from vrcompositor connect
-Sun Jan 26 2020 03:38:47.147 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 03:38:51.883 - Capturing Scene Focus
-Sun Jan 26 2020 03:38:52.125 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 03:38:52.735 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 03:38:58.944 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 03:38:59.005 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 03:38:59.005 -  5Sun Jan 26 2020 03:38:59.005 - 
-Sun Jan 26 2020 03:39:02.501 - Unknown action set /actions/buggy
-Sun Jan 26 2020 03:39:02.502 - Unknown action set /actions/platformer
-Sun Jan 26 2020 03:39:02.748 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 03:39:02.748 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:39:02.748 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 03:39:02.748 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 03:39:02.749 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 03:39:02.749 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:39:02.749 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 03:39:02.749 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:39:02.749 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 03:39:02.749 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 03:39:02.749 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 03:39:02.800 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 03:39:02.800 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 03:39:02.800 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 03:39:02.800 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:39:02.800 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 03:39:02.800 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 03:39:02.800 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:39:02.800 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 03:39:02.801 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 03:39:02.801 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:39:02.801 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 03:39:42.409 - //==============================================================================================
-Sun Jan 26 2020 03:39:42.409 - ================================================================================================
-Sun Jan 26 2020 03:39:42.409 - ================================================================================================
-Sun Jan 26 2020 03:39:42.409 - process5.exe 1.9.16 startup with PID=30084, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 03:39:42.410 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 03:39:42.420 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:39:42.421 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:39:42.421 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:39:42.422 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:39:42.423 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 03:39:42.432 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 03:39:42.458 - Received success response from vrserver connect
-Sun Jan 26 2020 03:39:42.462 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 03:39:42.462 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 03:39:42.475 - Received success response from vrcompositor connect
-Sun Jan 26 2020 03:39:42.475 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 03:39:45.206 - Capturing Scene Focus
-Sun Jan 26 2020 03:39:45.428 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 03:39:45.459 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 03:39:51.359 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 03:39:51.421 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 03:39:51.421 -  5Sun Jan 26 2020 03:39:51.421 - 
-Sun Jan 26 2020 03:39:54.678 - Unknown action set /actions/buggy
-Sun Jan 26 2020 03:39:54.679 - Unknown action set /actions/platformer
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 03:39:54.814 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:39:54.856 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 03:45:04.346 - //==============================================================================================
-Sun Jan 26 2020 03:45:04.346 - ================================================================================================
-Sun Jan 26 2020 03:45:04.346 - ================================================================================================
-Sun Jan 26 2020 03:45:04.346 - process5.exe 1.9.16 startup with PID=43136, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 03:45:04.347 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 03:45:04.354 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:45:04.355 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:45:04.355 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:45:04.356 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:45:04.358 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 03:45:04.375 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 03:45:04.396 - Received success response from vrserver connect
-Sun Jan 26 2020 03:45:04.398 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 03:45:04.398 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 03:45:04.420 - Received success response from vrcompositor connect
-Sun Jan 26 2020 03:45:04.421 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 03:45:07.804 - Capturing Scene Focus
-Sun Jan 26 2020 03:45:08.101 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 03:45:08.132 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 03:45:21.252 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 03:45:21.310 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 03:45:21.310 -  5Sun Jan 26 2020 03:45:21.310 - 
-Sun Jan 26 2020 03:45:24.753 - Unknown action set /actions/buggy
-Sun Jan 26 2020 03:45:24.754 - Unknown action set /actions/platformer
-Sun Jan 26 2020 03:45:24.979 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 03:45:24.980 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:46:35.769 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 03:47:23.068 - //==============================================================================================
-Sun Jan 26 2020 03:47:23.069 - ================================================================================================
-Sun Jan 26 2020 03:47:23.069 - ================================================================================================
-Sun Jan 26 2020 03:47:23.069 - process5.exe 1.9.16 startup with PID=42020, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 03:47:23.069 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 03:47:23.077 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:47:23.078 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:47:23.078 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:47:23.079 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:47:23.081 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 03:47:23.096 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 03:47:23.122 - Received success response from vrserver connect
-Sun Jan 26 2020 03:47:23.125 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 03:47:23.125 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 03:47:23.142 - Received success response from vrcompositor connect
-Sun Jan 26 2020 03:47:23.142 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 03:47:25.877 - Capturing Scene Focus
-Sun Jan 26 2020 03:47:26.178 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 03:47:26.211 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 03:47:39.043 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 03:47:39.105 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 03:47:39.105 -  5Sun Jan 26 2020 03:47:39.105 - 
-Sun Jan 26 2020 03:47:42.394 - Unknown action set /actions/buggy
-Sun Jan 26 2020 03:47:42.395 - Unknown action set /actions/platformer
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 03:47:42.608 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 03:48:39.070 - //==============================================================================================
-Sun Jan 26 2020 03:48:39.070 - ================================================================================================
-Sun Jan 26 2020 03:48:39.070 - ================================================================================================
-Sun Jan 26 2020 03:48:39.070 - process5.exe 1.9.16 startup with PID=31220, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 03:48:39.071 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 03:48:39.080 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:48:39.080 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:48:39.081 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:48:39.082 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:48:39.083 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 03:48:39.096 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 03:48:39.117 - Received success response from vrserver connect
-Sun Jan 26 2020 03:48:39.120 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 03:48:39.120 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 03:48:39.136 - Received success response from vrcompositor connect
-Sun Jan 26 2020 03:48:39.136 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 03:48:48.126 - Capturing Scene Focus
-Sun Jan 26 2020 03:48:48.417 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 03:48:48.447 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 03:48:55.160 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 03:48:55.223 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 03:48:55.223 -  5Sun Jan 26 2020 03:48:55.223 - 
-Sun Jan 26 2020 03:48:56.861 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 03:48:56.861 -  5Sun Jan 26 2020 03:48:56.861 - 
-Sun Jan 26 2020 03:49:06.301 - //==============================================================================================
-Sun Jan 26 2020 03:49:06.301 - ================================================================================================
-Sun Jan 26 2020 03:49:06.301 - ================================================================================================
-Sun Jan 26 2020 03:49:06.302 - process5.exe 1.9.16 startup with PID=36220, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 03:49:06.302 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 03:49:06.311 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:49:06.312 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:49:06.313 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:49:06.314 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:49:06.315 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 03:49:06.327 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 03:49:06.344 - Received success response from vrserver connect
-Sun Jan 26 2020 03:49:06.347 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 03:49:06.347 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 03:49:06.370 - Received success response from vrcompositor connect
-Sun Jan 26 2020 03:49:06.370 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 03:49:09.094 - Capturing Scene Focus
-Sun Jan 26 2020 03:49:09.386 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 03:49:09.416 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 03:49:22.231 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 03:49:22.291 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 03:49:22.291 -  5Sun Jan 26 2020 03:49:22.291 - 
-Sun Jan 26 2020 03:49:25.576 - Unknown action set /actions/buggy
-Sun Jan 26 2020 03:49:25.576 - Unknown action set /actions/platformer
-Sun Jan 26 2020 03:49:25.697 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 03:49:25.697 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:49:25.697 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 03:49:25.697 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 03:49:25.698 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 03:49:25.698 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:49:25.698 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 03:49:25.698 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:49:25.698 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 03:49:25.698 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 03:49:25.698 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:49:36.369 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 03:53:31.696 - //==============================================================================================
-Sun Jan 26 2020 03:53:31.696 - ================================================================================================
-Sun Jan 26 2020 03:53:31.696 - ================================================================================================
-Sun Jan 26 2020 03:53:31.696 - process5.exe 1.9.16 startup with PID=43592, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 03:53:31.697 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 03:53:31.704 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:53:31.705 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:53:31.705 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:53:31.706 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:53:31.708 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 03:53:31.718 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 03:53:31.737 - Received success response from vrserver connect
-Sun Jan 26 2020 03:53:31.740 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 03:53:31.740 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 03:53:31.758 - Received success response from vrcompositor connect
-Sun Jan 26 2020 03:53:31.759 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 03:53:34.470 - Capturing Scene Focus
-Sun Jan 26 2020 03:54:12.790 - //==============================================================================================
-Sun Jan 26 2020 03:54:12.790 - ================================================================================================
-Sun Jan 26 2020 03:54:12.790 - ================================================================================================
-Sun Jan 26 2020 03:54:12.790 - process5.exe 1.9.16 startup with PID=40404, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 03:54:12.791 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 03:54:12.798 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:54:12.799 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:54:12.799 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:54:12.800 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 03:54:12.801 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 03:54:12.808 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 03:54:12.835 - Received success response from vrserver connect
-Sun Jan 26 2020 03:54:12.838 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 03:54:12.838 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 03:54:12.854 - Received success response from vrcompositor connect
-Sun Jan 26 2020 03:54:12.854 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 03:54:15.368 - Capturing Scene Focus
-Sun Jan 26 2020 03:54:15.659 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 03:54:15.688 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 03:54:28.256 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 03:54:28.317 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 03:54:28.317 -  5Sun Jan 26 2020 03:54:28.317 - 
-Sun Jan 26 2020 03:54:31.605 - Unknown action set /actions/buggy
-Sun Jan 26 2020 03:54:31.606 - Unknown action set /actions/platformer
-Sun Jan 26 2020 03:54:31.825 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 03:54:31.825 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 03:54:31.825 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 03:54:31.825 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 03:54:31.825 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 03:54:31.825 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 03:54:31.825 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 03:54:31.825 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 03:54:31.826 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 03:54:31.826 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 03:54:31.826 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 04:04:41.527 - //==============================================================================================
-Sun Jan 26 2020 04:04:41.527 - ================================================================================================
-Sun Jan 26 2020 04:04:41.527 - ================================================================================================
-Sun Jan 26 2020 04:04:41.527 - process5.exe 1.9.16 startup with PID=28456, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 04:04:41.528 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 04:04:41.536 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:04:41.536 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:04:41.537 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:04:41.537 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:04:41.538 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 04:04:41.544 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 04:04:41.561 - Received success response from vrserver connect
-Sun Jan 26 2020 04:04:41.565 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 04:04:41.565 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 04:04:41.587 - Received success response from vrcompositor connect
-Sun Jan 26 2020 04:04:41.587 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 04:04:48.236 - Capturing Scene Focus
-Sun Jan 26 2020 04:04:48.621 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 04:04:48.652 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 04:05:28.306 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 04:05:28.367 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 04:05:28.367 -  5Sun Jan 26 2020 04:05:28.367 - 
-Sun Jan 26 2020 04:05:32.119 - Unknown action set /actions/buggy
-Sun Jan 26 2020 04:05:32.119 - Unknown action set /actions/platformer
-Sun Jan 26 2020 04:05:32.144 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 04:05:32.144 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 04:05:32.144 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 04:05:32.144 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 04:05:32.145 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 04:05:32.145 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 04:05:32.145 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 04:05:32.145 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 04:05:32.145 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 04:05:32.145 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 04:05:32.145 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 04:05:32.341 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 04:05:32.341 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 04:05:32.341 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 04:05:32.341 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 04:05:32.341 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 04:05:32.342 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 04:05:32.342 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 04:05:32.342 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 04:05:32.342 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 04:05:32.342 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 04:05:32.342 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 04:09:57.616 - //==============================================================================================
-Sun Jan 26 2020 04:09:57.616 - ================================================================================================
-Sun Jan 26 2020 04:09:57.616 - ================================================================================================
-Sun Jan 26 2020 04:09:57.616 - process5.exe 1.9.16 startup with PID=35592, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 04:09:57.617 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 04:09:57.625 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:09:57.625 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:09:57.626 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:09:57.626 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:09:57.627 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 04:09:57.633 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 04:09:57.658 - Received success response from vrserver connect
-Sun Jan 26 2020 04:09:57.661 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 04:09:57.661 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 04:09:57.676 - Received success response from vrcompositor connect
-Sun Jan 26 2020 04:09:57.677 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 04:10:02.154 - Capturing Scene Focus
-Sun Jan 26 2020 04:10:02.897 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 04:10:02.929 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 04:10:41.374 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 04:10:41.433 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 04:10:41.434 -  5Sun Jan 26 2020 04:10:41.434 - 
-Sun Jan 26 2020 04:10:44.796 - Unknown action set /actions/buggy
-Sun Jan 26 2020 04:10:44.796 - Unknown action set /actions/platformer
-Sun Jan 26 2020 04:10:44.960 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 04:10:44.960 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 04:10:44.960 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 04:10:44.961 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 04:10:44.961 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 04:10:44.961 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 04:10:44.961 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 04:10:44.961 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 04:10:44.961 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 04:10:44.961 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 04:10:44.961 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 04:10:45.149 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 04:10:45.150 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 04:11:30.603 - //==============================================================================================
-Sun Jan 26 2020 04:11:30.603 - ================================================================================================
-Sun Jan 26 2020 04:11:30.604 - ================================================================================================
-Sun Jan 26 2020 04:11:30.604 - process5.exe 1.9.16 startup with PID=27480, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 04:11:30.604 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 04:11:30.610 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:11:30.611 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:11:30.611 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:11:30.611 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 04:11:30.613 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 04:11:30.625 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 04:11:30.645 - Received success response from vrserver connect
-Sun Jan 26 2020 04:11:30.649 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 04:11:30.649 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 04:11:30.668 - Received success response from vrcompositor connect
-Sun Jan 26 2020 04:11:30.668 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 04:11:34.630 - Capturing Scene Focus
-Sun Jan 26 2020 04:11:35.005 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 04:11:35.038 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 04:12:15.378 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 04:12:15.439 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 04:12:15.439 -  5Sun Jan 26 2020 04:12:15.439 - 
-Sun Jan 26 2020 04:12:19.003 - Unknown action set /actions/buggy
-Sun Jan 26 2020 04:12:19.003 - Unknown action set /actions/platformer
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_left\oculus_cv1_controller_left.json
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_left_body.obj
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=enter_button inputRouting=1 filename=oculus_cv1_controller_left_button_enter.obj
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_left_grip.obj
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_left_thumbstick.obj
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_left_trigger.obj
-Sun Jan 26 2020 04:12:19.064 - RendermodelManager: name=x_button inputRouting=1 filename=oculus_cv1_controller_left_button_x.obj
-Sun Jan 26 2020 04:12:19.065 - RendermodelManager: name=y_button inputRouting=1 filename=oculus_cv1_controller_left_button_y.obj
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: Reading data from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\rendermodels\oculus_cv1_controller_right\oculus_cv1_controller_right.json
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=a_button inputRouting=1 filename=oculus_cv1_controller_right_button_a.obj
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=b_button inputRouting=1 filename=oculus_cv1_controller_right_button_b.obj
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=base inputRouting=0 filename=
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=body inputRouting=0 filename=oculus_cv1_controller_right_body.obj
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=grip inputRouting=2 filename=oculus_cv1_controller_right_grip.obj
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=handgrip inputRouting=0 filename=
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=home_button inputRouting=0 filename=oculus_cv1_controller_right_button_home.obj
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=thumbstick inputRouting=2 filename=oculus_cv1_controller_right_thumbstick.obj
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=tip inputRouting=0 filename=
-Sun Jan 26 2020 04:12:19.269 - RendermodelManager: name=trigger inputRouting=2 filename=oculus_cv1_controller_right_trigger.obj
-Sun Jan 26 2020 17:22:38.096 - //==============================================================================================
-Sun Jan 26 2020 17:22:38.097 - ================================================================================================
-Sun Jan 26 2020 17:22:38.097 - ================================================================================================
-Sun Jan 26 2020 17:22:38.097 - process5.exe 1.9.16 startup with PID=42916, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
-Sun Jan 26 2020 17:22:38.097 - vrclient type=VRApplication_Scene
-Sun Jan 26 2020 17:22:38.105 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
-Sun Jan 26 2020 17:22:38.105 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
-Sun Jan 26 2020 17:22:38.105 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
-Sun Jan 26 2020 17:22:38.106 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
-Sun Jan 26 2020 17:22:38.107 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
-Sun Jan 26 2020 17:22:38.116 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
-Sun Jan 26 2020 17:22:38.141 - Received success response from vrserver connect
-Sun Jan 26 2020 17:22:38.144 - Not looking for a good app key because Steam didn't start this app
-Sun Jan 26 2020 17:22:38.144 - App key after connect message:system.generated.process5.exe
-Sun Jan 26 2020 17:22:38.159 - Received success response from vrcompositor connect
-Sun Jan 26 2020 17:22:38.159 - Initializing the limited version of CVRCompositorClient
-Sun Jan 26 2020 17:22:46.579 - Capturing Scene Focus
-Sun Jan 26 2020 17:22:46.973 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
-Sun Jan 26 2020 17:22:47.004 - Setting max texture dimensions to 2126x2536 before requiring downsampling
-Sun Jan 26 2020 17:22:52.944 - Action Manifest Path set to C:/Program Files (x86)/Steam/steamapps/common/Space Pirate Trainer VR/actions.json
-Sun Jan 26 2020 17:22:53.003 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 17:22:53.003 -  5Sun Jan 26 2020 17:22:53.003 - 
-Sun Jan 26 2020 17:22:54.501 - Screenshot: Hook Screenshot called with types:Sun Jan 26 2020 17:22:54.501 -  5Sun Jan 26 2020 17:22:54.501 - 
+Sun Jan 26 2020 19:31:15.673 - //==============================================================================================
+Sun Jan 26 2020 19:31:15.673 - ================================================================================================
+Sun Jan 26 2020 19:31:15.673 - ================================================================================================
+Sun Jan 26 2020 19:31:15.673 - process5.exe 1.9.16 startup with PID=32424, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 19:31:15.674 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 19:31:15.682 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:31:15.682 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:31:15.682 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:31:15.683 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:31:15.684 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 19:31:15.696 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sun Jan 26 2020 19:31:15.696 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 19:31:15.722 - Received success response from vrserver connect
+Sun Jan 26 2020 19:31:15.725 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 19:31:15.725 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 19:31:15.746 - Received success response from vrcompositor connect
+Sun Jan 26 2020 19:31:15.746 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 19:31:42.873 - //==============================================================================================
+Sun Jan 26 2020 19:31:42.873 - ================================================================================================
+Sun Jan 26 2020 19:31:42.873 - ================================================================================================
+Sun Jan 26 2020 19:31:42.873 - process5.exe 1.9.16 startup with PID=35948, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 19:31:42.874 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 19:31:42.885 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:31:42.885 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:31:42.885 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:31:42.886 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:31:42.887 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 19:31:42.896 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 19:31:42.912 - Received success response from vrserver connect
+Sun Jan 26 2020 19:31:42.915 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 19:31:42.915 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 19:31:42.930 - Received success response from vrcompositor connect
+Sun Jan 26 2020 19:31:42.930 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 19:32:57.157 - //==============================================================================================
+Sun Jan 26 2020 19:32:57.157 - ================================================================================================
+Sun Jan 26 2020 19:32:57.157 - ================================================================================================
+Sun Jan 26 2020 19:32:57.157 - process5.exe 1.9.16 startup with PID=39400, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 19:32:57.157 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 19:32:57.165 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:32:57.166 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:32:57.166 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:32:57.167 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:32:57.168 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 19:32:57.183 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sun Jan 26 2020 19:32:57.183 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 19:32:57.209 - Received success response from vrserver connect
+Sun Jan 26 2020 19:32:57.213 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 19:32:57.213 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 19:32:57.232 - Received success response from vrcompositor connect
+Sun Jan 26 2020 19:32:57.232 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 19:37:17.080 - //==============================================================================================
+Sun Jan 26 2020 19:37:17.080 - ================================================================================================
+Sun Jan 26 2020 19:37:17.080 - ================================================================================================
+Sun Jan 26 2020 19:37:17.080 - process5.exe 1.9.16 startup with PID=32908, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 19:37:17.081 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 19:37:17.088 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:37:17.089 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:37:17.089 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:37:17.090 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:37:17.091 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 19:37:17.097 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 19:37:17.118 - Received success response from vrserver connect
+Sun Jan 26 2020 19:37:17.121 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 19:37:17.121 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 19:37:17.141 - Received success response from vrcompositor connect
+Sun Jan 26 2020 19:37:17.141 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 19:39:36.191 - //==============================================================================================
+Sun Jan 26 2020 19:39:36.191 - ================================================================================================
+Sun Jan 26 2020 19:39:36.191 - ================================================================================================
+Sun Jan 26 2020 19:39:36.191 - process5.exe 1.9.16 startup with PID=40168, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 19:39:36.192 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 19:39:36.202 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:39:36.202 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:39:36.203 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:39:36.204 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:39:36.205 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 19:39:36.215 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 19:39:36.232 - Received success response from vrserver connect
+Sun Jan 26 2020 19:39:36.236 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 19:39:36.236 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 19:39:36.248 - Received success response from vrcompositor connect
+Sun Jan 26 2020 19:39:36.248 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 19:48:53.814 - //==============================================================================================
+Sun Jan 26 2020 19:48:53.814 - ================================================================================================
+Sun Jan 26 2020 19:48:53.814 - ================================================================================================
+Sun Jan 26 2020 19:48:53.815 - process5.exe 1.9.16 startup with PID=43196, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 19:48:53.815 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 19:48:53.822 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:48:53.822 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:48:53.822 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:48:53.823 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 19:48:53.824 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 19:48:53.835 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 19:48:53.861 - Received success response from vrserver connect
+Sun Jan 26 2020 19:48:53.864 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 19:48:53.864 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 19:48:53.879 - Received success response from vrcompositor connect
+Sun Jan 26 2020 19:48:53.879 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 20:06:30.018 - //==============================================================================================
+Sun Jan 26 2020 20:06:30.018 - ================================================================================================
+Sun Jan 26 2020 20:06:30.018 - ================================================================================================
+Sun Jan 26 2020 20:06:30.018 - process5.exe 1.9.16 startup with PID=31648, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 20:06:30.018 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 20:06:30.025 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:06:30.026 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:06:30.026 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:06:30.027 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:06:30.028 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 20:06:30.036 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 20:06:30.062 - Received success response from vrserver connect
+Sun Jan 26 2020 20:06:30.065 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 20:06:30.065 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 20:06:30.080 - Received success response from vrcompositor connect
+Sun Jan 26 2020 20:06:30.080 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 20:07:12.956 - //==============================================================================================
+Sun Jan 26 2020 20:07:12.956 - ================================================================================================
+Sun Jan 26 2020 20:07:12.956 - ================================================================================================
+Sun Jan 26 2020 20:07:12.956 - process5.exe 1.9.16 startup with PID=38428, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 20:07:12.956 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 20:07:12.964 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:07:12.965 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:07:12.965 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:07:12.965 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:07:12.967 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 20:07:12.979 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 20:07:13.001 - Received success response from vrserver connect
+Sun Jan 26 2020 20:07:13.004 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 20:07:13.004 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 20:07:13.018 - Received success response from vrcompositor connect
+Sun Jan 26 2020 20:07:13.018 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 20:38:44.901 - //==============================================================================================
+Sun Jan 26 2020 20:38:44.901 - ================================================================================================
+Sun Jan 26 2020 20:38:44.901 - ================================================================================================
+Sun Jan 26 2020 20:38:44.901 - process5.exe 1.9.16 startup with PID=38204, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 20:38:44.901 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 20:38:44.910 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:38:44.910 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:38:44.911 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:38:44.912 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:38:44.913 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 20:38:44.927 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 20:38:44.953 - Received success response from vrserver connect
+Sun Jan 26 2020 20:38:44.956 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 20:38:44.956 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 20:38:44.975 - Received success response from vrcompositor connect
+Sun Jan 26 2020 20:38:44.975 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 20:41:41.004 - //==============================================================================================
+Sun Jan 26 2020 20:41:41.005 - ================================================================================================
+Sun Jan 26 2020 20:41:41.005 - ================================================================================================
+Sun Jan 26 2020 20:41:41.005 - process5.exe 1.9.16 startup with PID=40916, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 20:41:41.005 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 20:41:41.013 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:41:41.014 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:41:41.014 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:41:41.015 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:41:41.015 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 20:41:41.029 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 20:41:41.054 - Received success response from vrserver connect
+Sun Jan 26 2020 20:41:41.058 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 20:41:41.058 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 20:41:41.074 - Received success response from vrcompositor connect
+Sun Jan 26 2020 20:41:41.074 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 20:41:51.956 - Capturing Scene Focus
+Sun Jan 26 2020 20:41:52.298 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 26 2020 20:41:52.961 - Setting max texture dimensions to 2126x2536 before requiring downsampling
+Sun Jan 26 2020 20:42:30.884 - //==============================================================================================
+Sun Jan 26 2020 20:42:30.884 - ================================================================================================
+Sun Jan 26 2020 20:42:30.884 - ================================================================================================
+Sun Jan 26 2020 20:42:30.884 - process5.exe 1.9.16 startup with PID=36332, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 20:42:30.884 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 20:42:30.891 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:42:30.891 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:42:30.892 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:42:30.892 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:42:30.893 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 20:42:30.903 - Closing pipe SteamVR_Namespace because it was broken from the other end
+Sun Jan 26 2020 20:42:30.903 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 20:42:30.930 - Received success response from vrserver connect
+Sun Jan 26 2020 20:42:30.934 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 20:42:30.934 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 20:42:30.947 - Received success response from vrcompositor connect
+Sun Jan 26 2020 20:42:30.947 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 20:44:07.533 - //==============================================================================================
+Sun Jan 26 2020 20:44:07.533 - ================================================================================================
+Sun Jan 26 2020 20:44:07.533 - ================================================================================================
+Sun Jan 26 2020 20:44:07.533 - process5.exe 1.9.16 startup with PID=43068, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 20:44:07.533 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 20:44:07.541 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:44:07.542 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:44:07.542 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:44:07.542 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:44:07.543 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 20:44:07.555 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 20:44:07.582 - Received success response from vrserver connect
+Sun Jan 26 2020 20:44:07.585 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 20:44:07.585 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 20:44:07.598 - Received success response from vrcompositor connect
+Sun Jan 26 2020 20:44:07.598 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 20:45:09.529 - //==============================================================================================
+Sun Jan 26 2020 20:45:09.530 - ================================================================================================
+Sun Jan 26 2020 20:45:09.530 - ================================================================================================
+Sun Jan 26 2020 20:45:09.530 - process5.exe 1.9.16 startup with PID=16808, config=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\, runtime=C:\Program Files (x86)\Steam\steamapps\common\SteamVR
+Sun Jan 26 2020 20:45:09.530 - vrclient type=VRApplication_Scene
+Sun Jan 26 2020 20:45:09.536 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\htc\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:45:09.537 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\lighthouse\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:45:09.537 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\drivers\null\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:45:09.538 - [Settings] Load Default Json Settings from C:\Program Files (x86)\Steam\steamapps\common\SteamVR\resources\settings\default.vrsettings
+Sun Jan 26 2020 20:45:09.538 - [Settings] Load Json Settings from C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\steamvr.vrsettings
+Sun Jan 26 2020 20:45:09.543 - CSharedResourceNamespaceClient::Init(): received namespace data 37452
+Sun Jan 26 2020 20:45:09.568 - Received success response from vrserver connect
+Sun Jan 26 2020 20:45:09.571 - Not looking for a good app key because Steam didn't start this app
+Sun Jan 26 2020 20:45:09.571 - App key after connect message:system.generated.process5.exe
+Sun Jan 26 2020 20:45:09.587 - Received success response from vrcompositor connect
+Sun Jan 26 2020 20:45:09.587 - Initializing the limited version of CVRCompositorClient
+Sun Jan 26 2020 20:45:26.159 - Capturing Scene Focus
+Sun Jan 26 2020 20:45:26.391 - Found Windows 8 or newer, so enable advanced image processing of scene textures.
+Sun Jan 26 2020 20:45:26.425 - Setting max texture dimensions to 2126x2536 before requiring downsampling

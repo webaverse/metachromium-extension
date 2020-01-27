@@ -13,48 +13,12 @@ std::string logSuffix = "_process";
 HWND g_hWnd = NULL;
 bool live = true;
 
-/* // maximum mumber of lines the output console should have
-static const WORD MAX_CONSOLE_LINES = 9999;
-void RedirectIOToConsole()
-{
-    int hConHandle;
-    long lStdHandle;
-    CONSOLE_SCREEN_BUFFER_INFO coninfo;
-    FILE *fp;
+decltype(D3D11CreateDeviceAndSwapChain) *RealD3D11CreateDeviceAndSwapChain = nullptr;
 
-    // allocate a console for this app
-    AllocConsole();
-
-    // set the screen buffer to be big enough to let us scroll text
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &coninfo);
-    coninfo.dwSize.Y = MAX_CONSOLE_LINES;
-    SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
-
-    // redirect unbuffered STDOUT to the console
-    lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
-    hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-    fp = _fdopen( hConHandle, "w" );
-    *stdout = *fp;
-    setvbuf( stdout, NULL, _IONBF, 0 );
-
-    // redirect unbuffered STDIN to the console
-    lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
-    hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-    fp = _fdopen( hConHandle, "r" );
-    *stdin = *fp;
-    setvbuf( stdin, NULL, _IONBF, 0 );
-
-    // redirect unbuffered STDERR to the console
-    lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
-    hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-    fp = _fdopen( hConHandle, "w" );
-    *stderr = *fp;
-    setvbuf( stderr, NULL, _IONBF, 0 );
-
-    // make cout, wcout, cin, wcin, wcerr, cerr, wclog and clog
-    // point to console as well
-    std::ios::sync_with_stdio();
-} */
+inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
+	uintptr_t *vtable = *(uintptr_t **)cls;
+	return (uint32_t)(vtable[offset] - (uintptr_t)module);
+}
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -82,35 +46,91 @@ int WINAPI WinMain(
   LPSTR lpCmdLine,
   int nCmdShow
 ) {
-  // RedirectIOToConsole();
+  // SetProcessDPIAware();
 
-  SetProcessDPIAware();
+  shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
+  g_offsets = (Offsets *)shMem;
 
-  WNDCLASSEX wc{};
-  wc.cbSize = sizeof(WNDCLASSEX);
-  wc.style = CS_HREDRAW | CS_VREDRAW;
-  wc.lpfnWndProc = WindowProc;
-  wc.hInstance = hInstance;
-  wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-  wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-  wc.lpszClassName = "RT1";
-  RegisterClassEx(&wc);
+  {
+    WNDCLASSEX wc{};
+    wc.cbSize = sizeof(WNDCLASSEX);
+    wc.style = CS_HREDRAW | CS_VREDRAW;
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = hInstance;
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+    wc.lpszClassName = "RT1";
+    RegisterClassExA(&wc);
 
-  g_hWnd = CreateWindowExA(
-    NULL,
-    "RT1",    // name of the window class
-    "Reality Tab",   // title of the window
-    WS_OVERLAPPEDWINDOW,    // window style
-    300,    // x-position of the window
-    300,    // y-position of the window
-    512,    // width of the window
-    512,    // height of the window
-    NULL,    // we have no parent window, NULL
-    NULL,    // we aren't using menus, NULL
-    hInstance,    // application handle
-    NULL
-  );    // used with multiple windows, NULL
-  ShowWindow(g_hWnd, SW_SHOW);
+    g_hWnd = CreateWindowExA(
+      NULL,
+      wc.lpszClassName,    // name of the window class
+      "Reality Tab",   // title of the window
+      WS_OVERLAPPEDWINDOW,    // window style
+      300,    // x-position of the window
+      300,    // y-position of the window
+      512,    // width of the window
+      512,    // height of the window
+      NULL,    // we have no parent window, NULL
+      NULL,    // we aren't using menus, NULL
+      hInstance,    // application handle
+      NULL
+    );    // used with multiple windows, NULL
+    ShowWindow(g_hWnd, SW_SHOW);
+  }
+  {
+    HMODULE d3d11Module = LoadLibraryA("d3d11.dll");
+    if (!d3d11Module) {
+      getOut() << "failed to load d3d11 module" << std::endl;
+      abort();
+    }
+    HMODULE dxgiModule = LoadLibraryA("dxgi.dll");
+    if (!dxgiModule) {
+      getOut() << "failed to load dxgi module" << std::endl;
+      abort();
+    }
+    
+    ID3D11Device *deviceBasic;
+    ID3D11DeviceContext *contextBasic;
+    IDXGISwapChain *swapChain;
+
+    D3D_FEATURE_LEVEL featureLevels[] = {
+      D3D_FEATURE_LEVEL_11_1
+    };
+    DXGI_SWAP_CHAIN_DESC swapChainDesc{};
+    swapChainDesc.BufferCount = 2;
+    swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    swapChainDesc.BufferDesc.Width = 2;
+    swapChainDesc.BufferDesc.Height = 2;
+    swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+    swapChainDesc.OutputWindow = g_hWnd;
+    swapChainDesc.SampleDesc.Count = 1;
+    swapChainDesc.Windowed = true;
+
+    RealD3D11CreateDeviceAndSwapChain = (decltype(D3D11CreateDeviceAndSwapChain) *)GetProcAddress(d3d11Module, "D3D11CreateDeviceAndSwapChain");
+    HRESULT hr = RealD3D11CreateDeviceAndSwapChain(
+      NULL, // pAdapter
+      D3D_DRIVER_TYPE_HARDWARE, // DriverType
+      NULL, // Software
+      D3D11_CREATE_DEVICE_DEBUG, // Flags
+      featureLevels, // pFeatureLevels
+      ARRAYSIZE(featureLevels), // FeatureLevels
+      D3D11_SDK_VERSION, // SDKVersion
+      &swapChainDesc, // pSwapChainDesc,
+      &swapChain, // ppSwapChain
+      &deviceBasic, // ppDevice
+      NULL, // pFeatureLevel
+      &contextBasic // ppImmediateContext
+    );
+    
+    IDXGISwapChain1 *swapChain1;
+		hr = swapChain->QueryInterface(__uuidof(IDXGISwapChain1), (void **)&swapChain1);
+    
+    g_offsets->Present = vtable_offset(dxgiModule, swapChain, 8);
+    g_offsets->Present1 = vtable_offset(dxgiModule, swapChain1, 22);
+    
+    getOut() << "offset " << g_offsets->Present << " " << g_offsets->Present1 << std::endl;
+  }
 
   getOut() << "process start " << (void *)g_hWnd << " " << (void *)GetLastError() << std::endl;
 

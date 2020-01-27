@@ -15,6 +15,7 @@ class Hijacker {
 public:
   FnProxy fnp;
   // bool hijackedPre = false;
+  bool hijackedDxgi = false;
   bool hijackedDx = false;
   bool hijackedGl = false;
   
@@ -22,7 +23,7 @@ public:
 
   // static void ensureClientDevice();
   void hijackPre();
-  void hijackDxgi();
+  void hijackDxgi(HINSTANCE hinstDLL);
   void unhijackDxgi();
   void hijackDx(ID3D11DeviceContext *context);
   void unhijackDx();

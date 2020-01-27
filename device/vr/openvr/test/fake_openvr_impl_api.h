@@ -15,6 +15,7 @@
 #include "device/vr/openvr/test/rendermodelsproxy.h"
 #include "device/vr/openvr/test/applicationsproxy.h"
 #include "device/vr/openvr/test/overlayproxy.h"
+#include "device/vr/openvr/test/offsets.h"
 
 extern std::string dllDir;
 extern void *shMem;
@@ -25,6 +26,8 @@ extern std::string logSuffix;
 extern HWND g_hWnd;
 extern FnProxy *g_fnp;
 extern Hijacker *g_hijacker;
+
+extern Offsets *g_offsets;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
 
