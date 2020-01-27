@@ -72,7 +72,7 @@ SamplerState QuadTextureSampler {
 VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
-  float4 p = mul(viewMatrix, float4(inPos.x, inPos.y + 0.5, 0, 1));
+  float4 p = mul(viewMatrix, float4(inPos.xy * 0.5, 0, 1));
   Output.Position = mul(projectionMatrix, p);
   Output.ScreenCoords = Output.Position;
   Output.Position2 = Output.Position;

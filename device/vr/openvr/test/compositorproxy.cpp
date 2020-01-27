@@ -7,6 +7,7 @@
 // extern bool isChrome;
 // extern bool haveZBufferParams;
 // extern float zBufferParams[4];
+extern HANDLE backbufferShHandle;
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -906,12 +907,12 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
           abort();
         }
       } else {
-        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)shbackbufferShHandlearedHandle << std::endl;
+        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
         abort();
       }
 
       D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-      srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
       srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
       srvDesc.Texture2D.MostDetailedMip = 0;
       srvDesc.Texture2D.MipLevels = 1;

@@ -163,6 +163,7 @@ void presentSwapChain(T *swapChain) {
   tex->lpVtbl->GetDesc(tex, &desc);
   
   if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
+    desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
     ID3D11Texture2D *backbufferShTex;
@@ -174,6 +175,12 @@ void presentSwapChain(T *swapChain) {
     );
     if (FAILED(hr)) {
       getOut() << "failed to create backbuffer texture: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_ID3D11Resource, (void **)&backbufferShRes);
+    if (FAILED(hr)) {
+      getOut() << "failed to query backbuffer d3d11 resource: " << (void *)hr << std::endl;
       abort();
     }
     
@@ -231,7 +238,9 @@ HRESULT STDMETHODCALLTYPE MinePresent(
   UINT Flags
 ) {
   getOut() << "present0" << std::endl;
-  presentSwapChain(This);
+  if (isChrome) {
+    presentSwapChain(This);
+  }
   return RealPresent(This, SyncInterval, Flags);
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent1)(
@@ -247,7 +256,9 @@ HRESULT STDMETHODCALLTYPE MinePresent1(
   const DXGI_PRESENT_PARAMETERS *pPresentParameters
 ) {
   getOut() << "present1" << std::endl;
-  presentSwapChain(This);
+  if (isChrome) {
+    presentSwapChain(This);
+  }
   return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
 }
 
