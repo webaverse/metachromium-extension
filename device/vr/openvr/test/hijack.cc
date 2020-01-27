@@ -208,6 +208,8 @@ void presentSwapChain(T *swapChain) {
     res
   );
 
+  g_hijacker->hijackDx(context);
+
   res->lpVtbl->Release(res);
   tex->lpVtbl->Release(tex);
   device->lpVtbl->Release(device);
@@ -2556,6 +2558,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     int,
     bool
   >([=](HANDLE shDepthTexHandle, std::tuple<float, float> zBufferParams, int eye, bool isFull) {
+    getOut() << "queue depth tex " << (void *)shDepthTexHandle << std::endl;
     /* size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == shDepthTexHandle;
     }); */
@@ -2581,7 +2584,7 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     kHijacker_ShiftDepthTex,
     std::tuple<HANDLE, float, float, int, bool>
   >([=]() {
-    // getOut() << "shift tex order " << texQueue.size() << std::endl;
+    getOut() << "shift tex order " << texQueue.size() << std::endl;
     if (texQueue.size() > 0) {
       std::sort(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &a, const ProxyTexture &b) -> bool {
         return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
@@ -2592,6 +2595,9 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
       
       ProxyTexture result = texQueue.front();
       texQueue.pop_front();
+      
+      getOut() << "shift tex order " << result.texHandle << " " << std::get<0>(result.zBufferParams) << " " << std::get<1>(result.zBufferParams) << " " << result.eye << " " << result.isFull << std::endl;
+      
       return std::tuple<HANDLE, float, float, int, bool>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), result.eye, result.isFull);
     } else {
       return std::tuple<HANDLE, float, float, int, bool>{};
@@ -3485,10 +3491,10 @@ ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called
       }
       clientDepthHandleLatched = sharedDepthHandle;
       
-      // getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
+      getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
     }
     
-    // getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;
+    getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;
 
     return ProxyTexture{
       sharedDepthHandle,
