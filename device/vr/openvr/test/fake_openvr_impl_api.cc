@@ -32,6 +32,9 @@ cd C:\Program Files (x86)\Steam\steamapps\common\VRChat
 cd C:\Program Files (x86)\Steam\steamapps\common\Blocks
 .\Blocks.exe
 
+cd C:\Program Files (x86)\obs-studio\data\obs-plugins\win-capture
+.\get-graphics-offsets64.exe
+
 C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\ && set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\ && set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\ &&  C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe"
 */
 
