@@ -136,9 +136,12 @@ decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
 
 ID3D11Resource *backbufferShRes = nullptr;
+HANDLE backbufferShHandle = NULL;
 D3D11_TEXTURE2D_DESC backbufferDesc;
 template<typename T>
 void presentSwapChain(T *swapChain) {
+  getOut() << "present swap chain 1" << std::endl;
+
   ID3D11Resource *res;
 	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
 	if (FAILED(hr)) {
@@ -158,7 +161,7 @@ void presentSwapChain(T *swapChain) {
   D3D11_TEXTURE2D_DESC desc;
   tex->lpVtbl->GetDesc(tex, &desc);
   
-  if (!backbufferShRes || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
+  if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
     ID3D11Texture2D *backbufferShTex;
@@ -173,9 +176,16 @@ void presentSwapChain(T *swapChain) {
       abort();
     }
     
-    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_ID3D11Resource, (void **)&backbufferShRes);
+    IDXGIResource1 *dxgiResource;
+    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_IDXGIResource1, (void **)&dxgiResource);
     if (FAILED(hr)) {
-      getOut() << "failed to query backbuffer texture: " << (void *)hr << std::endl;
+      getOut() << "failed to query backbuffer dxgi resource: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &backbufferShHandle);
+    if (FAILED(hr)) {
+      getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
       abort();
     }
 
@@ -2870,12 +2880,12 @@ void Hijacker::hijackDxgi(HINSTANCE hinstDLL) {
       checkDetourError("DetourUpdateThread", error);
       
       RealPresent = (decltype(RealPresent))get_offset_addr(dxgiModule, g_offsets->Present);
-      getOut() << "got real present0 " << g_offsets->Present << " " << RealPresent << std::endl;
+      // getOut() << "got real present0 " << g_offsets->Present << " " << RealPresent << std::endl;
       error = DetourAttach(&(PVOID&)RealPresent, MinePresent);
       checkDetourError("RealPresent", error);
       
       RealPresent1 = (decltype(RealPresent1))get_offset_addr(dxgiModule, g_offsets->Present1);
-      getOut() << "got real present1 " << g_offsets->Present1 << " " << RealPresent1 << std::endl;
+      // getOut() << "got real present1 " << g_offsets->Present1 << " " << RealPresent1 << std::endl;
       error = DetourAttach(&(PVOID&)RealPresent1, MinePresent1);
       checkDetourError("RealPresent1", error);
 
