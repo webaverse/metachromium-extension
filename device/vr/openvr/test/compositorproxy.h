@@ -122,6 +122,10 @@ public:
   std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
+  HANDLE backbufferShHandleLatched = NULL;
+  ID3D11Texture2D *backbufferShTex = nullptr;
+  ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
+
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();

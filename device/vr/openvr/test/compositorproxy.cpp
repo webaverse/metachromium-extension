@@ -572,7 +572,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       // getOut() << "got shTex in " << (void *)sharedHandle << std::endl;
       if (handleLatched) {
         // XXX delete old resources
-        // hr = device->OpenSharedResou rce(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
+        // hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&pD3DResource));
       }
       handleLatched = sharedHandle;
 
@@ -890,10 +890,49 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
   >([=]() {
     // getOut() << "flush submit server 1" << std::endl;
 
-    /* for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
-      compositor2d::blendWindow(this, device.Get(), context.Get(), iEye, renderTargetViews[iEye], renderTargetDepthBackViews[iEye], depthShaderFrontResourceViews[iEye]);
+    if (backbufferShHandle != backbufferShHandleLatched) {
+      backbufferShHandleLatched = backbufferShHandle;
+
+      ID3D11Resource *shTexResource;
+      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+
+      if (SUCCEEDED(hr)) {
+        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
+        
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)shbackbufferShHandlearedHandle << std::endl;
+        abort();
+      }
+
+      D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+      srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+      srvDesc.Texture2D.MostDetailedMip = 0;
+      srvDesc.Texture2D.MipLevels = 1;
+
+      hr = device->CreateShaderResourceView(
+        backbufferShTex,
+        &srvDesc,
+        &backbufferShResourceView
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+    for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
+      compositor2d::blendWindow(this, device.Get(), context.Get(), iEye, backbufferShResourceView, renderTargetViews[iEye], renderTargetDepthBackViews[iEye], depthShaderFrontResourceViews[iEye]);
       SwapDepthTex(iEye);
-    } */
+    }
 
     for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
       EVREye eEye = EYES[iEye];

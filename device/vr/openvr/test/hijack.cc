@@ -38,6 +38,7 @@ char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
+char kHijacker_SetTexture[] = "Hijacker_SetTexture";
 
 const char *depthVsh = R"END(#version 100
 precision highp float;
@@ -204,6 +205,12 @@ void presentSwapChain(T *swapChain) {
   tex->lpVtbl->Release(tex);
   device->lpVtbl->Release(device);
   context->lpVtbl->Release(context);
+  
+  g_hijacker->fnp.call<
+    kHijacker_SetTexture,
+    int,
+    HANDLE
+  >(backbufferShHandle);
   
   getOut() << "present swap chain done " <<
     desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
@@ -2594,6 +2601,14 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     return std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == handle;
     }) != texQueue.end();
+  });
+  fnp.reg<
+    kHijacker_SetTexture,
+    int,
+    HANDLE
+  >([=](HANDLE newHandle) {
+    backbufferShHandle = newHandle;
+    return 0;
   });
 }
 /* void Hijacker::ensureClientDevice() {

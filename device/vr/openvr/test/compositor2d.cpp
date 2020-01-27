@@ -347,10 +347,10 @@ void initShader(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11D
     }
   }
 }
-void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11DeviceContext4 *context, int iEye, ID3D11RenderTargetView *colorRenderTarget, ID3D11RenderTargetView *depthRenderTarget, ID3D11ShaderResourceView *depthIn) {
+void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11DeviceContext4 *context, int iEye, ID3D11ShaderResourceView *backbufferIn, ID3D11RenderTargetView *colorRenderTarget, ID3D11RenderTargetView *depthRenderTarget, ID3D11ShaderResourceView *depthIn) {
   HRESULT hr;
   
-  if (!twoDWindow) {
+  /* if (!twoDWindow) {
     // twoDWindow = GetDiscordHwnd();
     twoDWindow = GetDesktopWindow();
     if (!twoDWindow) {
@@ -370,23 +370,15 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     
     getOut() << "got window rect: " << windowRect.left << " " << windowRect.right << " " << windowRect.top << " " << windowRect.bottom << " " << windowWidth << " " << windowHeight << std::endl;
 
-    // getOut() << "succ 0.1 " << (void *)RealCreateTexture2D << std::endl;
-
     D3D11_TEXTURE2D_DESC desc{};
     desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
     desc.Width = windowWidth;
     desc.Height = windowHeight;
-    // desc.Width = desc.Height = 512;
     desc.MipLevels = 1;
     desc.ArraySize = 1;
-    // desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    // desc.Format = DXGI_FORMAT_R8G8B8A8_TYPELESS;
     desc.SampleDesc.Count = 1;
     desc.Usage = D3D11_USAGE_DEFAULT;
-    // desc.BindFlags = D3D11_BIND_SHADER_RESOURCE|D3D11_BIND_RENDER_TARGET;
-    // desc.BindFlags = 40; // D3D11_BIND_DEPTH_STENCIL
     desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE; // D3D11_BIND_DEPTH_STENCIL
-    // desc.MiscFlags = 0; //D3D11_RESOURCE_MISC_SHARED_NTHANDLE | D3D11_RESOURCE_MISC_SHARED_KEYEDMUTEX;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_GDI_COMPATIBLE;
 
     hr = device->CreateTexture2D(
@@ -399,8 +391,6 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       pvrcompositor->InfoQueueLog();
       abort();
     }
-    
-    // getOut() << "created 2d window tex" << std::endl;
     
     hr = windowTex->QueryInterface(__uuidof(IDXGISurface1), (void **)&windowGdiSurface);
     if (FAILED(hr)) {
@@ -427,11 +417,9 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     }
     
     getOut() << "created 2d window gdi surface " << (void *)windowResourceView << std::endl;
-  }
-  
-  // getOut() << "get gdi surface dc " << (void *)windowTex << " " << (void *)windowGdiSurface << std::endl;
+  } */
 
-  // blit
+  /* // blit
   {
     HDC dstDc = nullptr;
     hr = windowGdiSurface->GetDC(
@@ -478,29 +466,22 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
       pvrcompositor->InfoQueueLog();
       abort();
     }
-  }
+  } */
 
   ID3D11ShaderResourceView *localShaderResourceViews[3] = {
-    windowResourceView,
+    // windowResourceView,
+    backbufferIn,
     depthIn
   };
-  
-  // getOut() << "render 2d window 1" << std::endl;
 
   float localUniforms[16*3] = {};
-
-  // getOut() << "render 2d window 2" << std::endl;
 
   float eyeToHeadMatrix[16];
   vr::HmdMatrix34_t matEyeRight = vr::g_vrsystem->GetEyeToHeadTransform(iEye == 0 ? vr::Eye_Left : vr::Eye_Right);
   setPoseMatrix(eyeToHeadMatrix, matEyeRight);
 
-  // getOut() << "render 2d window 3" << std::endl;
-
   float headToEyeMatrix[16];
   getMatrixInverse(eyeToHeadMatrix, headToEyeMatrix);
-
-  // getOut() << "render 2d window 4 " << (void *)vr::g_pvrcompositor << std::endl;
 
   float hmdMatrix[16];
   vr::TrackedDevicePose_t renderPoses[vr::k_unMaxTrackedDeviceCount];
@@ -519,13 +500,8 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   }
   float hmdMatrixInverse[16];
   getMatrixInverse(hmdMatrix, hmdMatrixInverse);
-  
-  // getOut() << "render 2d window 5" << std::endl;
-  
-  // memcpy(localUniforms, hmdMatrixInverse, sizeof(hmdMatrixInverse));
+
   multiplyMatrices(headToEyeMatrix, hmdMatrixInverse, localUniforms);
-  
-  // getOut() << "render 2d window 6" << std::endl;
   
   vr::HmdMatrix44_t projectionMatrix = vr::g_vrsystem->GetProjectionMatrix(iEye == 0 ? vr::Eye_Left : vr::Eye_Right, nearValue, farValue);
   for (unsigned int v = 0; v < 4; v++) {
@@ -564,8 +540,6 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
   getOut() << std::endl; */
 
   context->UpdateSubresource(uniformsConstantBuffer, 0, 0, localUniforms, 0, 0);
-  
-  // getOut() << "render 2d window 8" << std::endl;
 
   context->VSSetShader(vsShader, nullptr, 0);
   context->PSSetShader(psShader, nullptr, 0);
