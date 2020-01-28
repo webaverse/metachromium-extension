@@ -45,7 +45,7 @@ port.onMessage.addListener(msg => {
 port.onDisconnect.addListener(() => {
   console.log("disconnected native");
 });
-port.postMessage({ text: "Hello, my_application" });
+// port.postMessage({ text: "Hello, my_application" });
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {

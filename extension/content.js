@@ -38,6 +38,8 @@ window.addEventListener('message', m => {
   }
 });
 
+window.dispatchEvent(new MessageEvent('xrchromeloaded'));
+
 /* window.xrchrome.request('test', [])
   .then(res => {
     console.log(res);
