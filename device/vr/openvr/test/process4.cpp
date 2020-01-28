@@ -156,22 +156,28 @@ int main(int argc, char **argv) {
               if (appDirEntry.is_directory()) {
                 const auto &appDirName = appDirEntry.path().filename().string();
                 for (const auto &appFileEntry : std::filesystem::directory_iterator(appDirEntry.path())) {
-                  const auto &appFileName = appFileEntry.path().filename().string();
-                  size_t count = 0;
-                  for (size_t i = 0; i < appDirName.size() && i < appFileName.size(); i++) {
-                    if (appDirName[i] == appFileName[i]) {
-                      count++;
+                  if (appFileEntry.path().extension().string() == ".exe") {
+                    const auto &appFileName = appFileEntry.path().filename().string();
+                    size_t count = 0;
+                    for (size_t i = 0; i < appDirName.size() && i < appFileName.size(); i++) {
+                      if (appDirName[i] == appFileName[i]) {
+                        count++;
+                      } else {
+                        break;
+                      }
                     }
-                  }
-                  if (count >= 2) {
-                    executables.push_back(appFileEntry.path().string());
+                    if (count >= 2) {
+                      getOut() << "check executable " << appDirName << " " << appFileName << " " << count << std::endl;
+                      executables.push_back(appFileEntry.path().string());
+                    }
                   }
                 }
               }
             }
             json array = json::array();
-            for (const auto &iter : executables) {
-              array.push_back(iter);
+            for (size_t i = 0; i < executables.size(); i++) {
+              getOut() << "got executable " << executables[i] << std::endl;
+              array.push_back(executables[i]);
             }
             json res = {
               {"error", nullptr},
