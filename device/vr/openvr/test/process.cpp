@@ -136,6 +136,7 @@ int WINAPI WinMain(
 
   wrapExternalOpenVr([&]() -> void {
     // only look in the override
+    getOut() << "got dll dir " << dllDir << std::endl;
     std::string openvrApiDllPath = dllDir + "openvr_api.dll";
     getOut() << "core 2 " << openvrApiDllPath << std::endl;
     void *pMod = SharedLib_Load(openvrApiDllPath.c_str());

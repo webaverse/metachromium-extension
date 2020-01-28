@@ -104,7 +104,7 @@ target_link_libraries(process3 dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib ope
 set_property(TARGET process3 PROPERTY CXX_STANDARD 17)
 set_property(TARGET process3 PROPERTY CXX_STANDARD_REQUIRED ON)
 
-ADD_EXECUTABLE(native_host WIN32 ${src} openvr/test/process4.cpp)
+ADD_EXECUTABLE(native_host ${src} openvr/test/process4.cpp)
 target_link_libraries(native_host dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)
 set_property(TARGET native_host PROPERTY CXX_STANDARD 17)
 set_property(TARGET native_host PROPERTY CXX_STANDARD_REQUIRED ON)

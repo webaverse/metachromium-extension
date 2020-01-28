@@ -96,6 +96,7 @@ std::ostream &getOut() {
   // if (!isProcess) {
     if (!out.is_open()) {
       std::string logPath = dllDir + std::string("log") + logSuffix + std::string(".txt");
+      std::cerr << "logging to: " << logPath << std::endl;
       out.open(logPath.c_str(), std::ofstream::out|std::ofstream::app|std::ofstream::binary);
       out << "--------------------------------------------------------------------------------" << std::endl;
     }
