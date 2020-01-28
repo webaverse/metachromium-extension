@@ -826,7 +826,7 @@ bool PVRSystem::PollNextEvent(VREvent_t *pEvent, uint32_t uncbVREvent) {
     std::tuple<bool, VREvent_t>,
     uint32_t
   >(uncbVREvent);
-  *pEvent = std::get<1>(result);
+  memcpy(pEvent, &std::get<1>(result), uncbVREvent);
   return std::get<0>(result);
 }
 bool PVRSystem::PollNextEventWithPose(ETrackingUniverseOrigin eOrigin, VREvent_t *pEvent, uint32_t uncbVREvent, vr::TrackedDevicePose_t *pTrackedDevicePose) {
@@ -836,7 +836,7 @@ bool PVRSystem::PollNextEventWithPose(ETrackingUniverseOrigin eOrigin, VREvent_t
     ETrackingUniverseOrigin,
     uint32_t
   >(eOrigin, uncbVREvent);
-  *pEvent = std::get<1>(result);
+  memcpy(pEvent, &std::get<1>(result), uncbVREvent);
   *pTrackedDevicePose = std::get<2>(result);
   return std::get<0>(result);
 }
