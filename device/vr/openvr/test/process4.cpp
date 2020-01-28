@@ -26,6 +26,15 @@ HWND g_hWnd = NULL;
 // CHAR s_szDllPath[MAX_PATH] = "vrclient_x64.dll";
 extern std::string dllDir;
 
+void respond(const json &j) {
+  std::string outString = j.dump();
+  // getOut() << "start app 10" << std::endl;
+  
+  uint32_t outSize = (uint32_t)outString.size();
+  std::cout.write((char *)&outSize, sizeof(uint32_t));
+  std::cout.write(outString.data(), outString.size());
+}
+
 int main(int argc, char **argv) {
   freopen(NULL, "rb", stdin);
   freopen(NULL, "wb", stdout);
@@ -61,29 +70,90 @@ int main(int argc, char **argv) {
           const std::string methodString = method.get<std::string>();
           getOut() << "method: " << methodString << std::endl;
 
-          int i = 0;
+          /* int i = 0;
           for (json::iterator it = args.begin(); it != args.end(); ++it) {
             const std::string argString = it->get<std::string>();
             getOut() << "arg " << i << ": " << argString << std::endl;
             i++;
-          }
-        }
+          } */
+          if (methodString == "launch" && args.size() > 0 && args[0].is_string()) {
+            std::string argString = args[0].get<std::string>();
 
-        json res = {
-          {"error", nullptr},
-          {"result", "zol"}
-        };
-        // getOut() << "start app 9" << std::endl;
-        std::string outString = res.dump();
-        // getOut() << "start app 10" << std::endl;
-        
-        uint32_t outSize = (uint32_t)outString.size();
-        std::cout.write((char *)&outSize, sizeof(uint32_t));
-        std::cout.write(outString.data(), outString.size());
-        // getOut() << "start app 11" << std::endl;
-      } /* else {
-        getOut() << "got eof" << std::endl;
-      } */
+            LPSTR lpvEnv = GetEnvironmentStringsA();
+            std::vector<std::string> vars;
+            for (LPSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable++) {
+              std::string var;
+              while (*lpszVariable) {
+                var += *lpszVariable++;
+              }
+              vars.push_back(std::move(var));
+            }
+            FreeEnvironmentStrings(lpvEnv);
+            
+            for (auto iter : vars) {
+              std::string &s = iter;
+              std::string s2 = s;
+              for (auto &c : s2) {
+                c = toupper(c);
+              }
+              if (s2.rfind("PATH=", 0) == 0) {
+                s += R"EOF(;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin)EOF";
+              }
+            }
+            vars.push_back(std::string(R"EOF(VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\)EOF"));
+
+            char envBuf[64 * 1024];
+            char *pEnvBuf = envBuf;
+            for (auto iter : vars) {
+              const std::string &s = iter;
+              getOut() << "write arg: " << s << std::endl;
+              memcpy(pEnvBuf, s.c_str(), s.size() + 1);
+              pEnvBuf += s.size() + 1;
+            }
+            pEnvBuf[0] = '\0';
+            
+            std::vector<char> argVec(argString.size() + 1);
+            memcpy(argVec.data(), argString.c_str(), argString.size() + 1);
+
+            STARTUPINFO si;
+            PROCESS_INFORMATION pi;
+            if (CreateProcessA(
+              NULL,
+              argVec.data(),
+              NULL,
+              NULL,
+              false,
+              0,
+              envBuf,
+              NULL,
+              &si,
+              &pi
+            )) {
+              getOut() << "launch ok: " << argString << " " << (void *)GetLastError() << std::endl;
+              
+              json res = {
+                {"error", nullptr},
+                {"result", "launch ok"}
+              };
+              respond(res);
+            } else {
+              getOut() << "launch failed: " << argString << " " << (void *)GetLastError() << std::endl;
+
+              json res = {
+                {"error", "launch failed"},
+                {"result", nullptr}
+              };
+              respond(res);
+            }
+          }
+        } else {
+          json res = {
+            {"error", nullptr},
+            {"result", "zol"}
+          };
+          respond(res);
+        }
+      }
     } else {
       // getOut() << "got eof" << std::endl;
       break;
