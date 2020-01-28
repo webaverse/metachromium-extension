@@ -2,12 +2,7 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/compositorproxy.h"
 
-/* extern HRESULT (STDMETHODCALLTYPE *RealCreateTexture2D)(
-  ID3D11Device *This,
-  const D3D11_TEXTURE2D_DESC   *pDesc,
-  const D3D11_SUBRESOURCE_DATA *pInitialData,
-  ID3D11Texture2D              **ppTexture2D
-); */
+extern HANDLE backbufferShHandle;
 
 namespace compositor2d {
 
@@ -72,7 +67,9 @@ SamplerState QuadTextureSampler {
 VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 {
   VS_OUTPUT Output;
-  float4 p = mul(viewMatrix, float4(inPos.xy * 0.5, 0, 1));
+  float2 xy = inPos.xy * 0.5;
+  xy.y += 1;
+  float4 p = mul(viewMatrix, float4(xy, 0, 1));
   Output.Position = mul(projectionMatrix, p);
   Output.ScreenCoords = Output.Position;
   Output.Position2 = Output.Position;
@@ -131,6 +128,14 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 )END";
 
 // globals
+ID3D11Device5 *device = nullptr;
+ID3D11DeviceContext4 *context = nullptr;
+IDXGISwapChain *swapChain = nullptr;
+
+HANDLE backbufferShHandleLatched = NULL;
+ID3D11Texture2D *backbufferShTex = nullptr;
+ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
+
 // window
 HWND twoDWindow = NULL;
 ID3D11Texture2D *windowTex = nullptr;
@@ -251,7 +256,7 @@ void multiplyMatrices(const float *aMatrix, const float *bMatrix, float *outMatr
   te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 }
 
-void initShader(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
+void initShader() {
   HRESULT hr;
 
   {
@@ -338,126 +343,10 @@ void initShader(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11D
     }
   }
 }
-void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11DeviceContext4 *context, int iEye, ID3D11ShaderResourceView *backbufferIn, ID3D11RenderTargetView *colorRenderTarget, ID3D11RenderTargetView *depthRenderTarget, ID3D11ShaderResourceView *depthIn) {
+void blendWindow(int iEye, ID3D11ShaderResourceView *backbufferIn, ID3D11RenderTargetView *colorRenderTarget, ID3D11RenderTargetView *depthRenderTarget, ID3D11ShaderResourceView *depthIn) {
   HRESULT hr;
-  
-  /* if (!twoDWindow) {
-    // twoDWindow = GetDiscordHwnd();
-    twoDWindow = GetDesktopWindow();
-    if (!twoDWindow) {
-      getOut() << "failed to get 2d window: " << (void *)GetLastError() << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-    // if (!GetClientRect(twoDWindow, &windowRect)) {
-    if (!GetWindowRect(twoDWindow, &windowRect)) {
-      getOut() << "failed to get 2d window rect: " << (void *)GetLastError() << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-    
-    windowWidth = windowRect.right - windowRect.left;
-    windowHeight = windowRect.bottom - windowRect.top;
-    
-    getOut() << "got window rect: " << windowRect.left << " " << windowRect.right << " " << windowRect.top << " " << windowRect.bottom << " " << windowWidth << " " << windowHeight << std::endl;
 
-    D3D11_TEXTURE2D_DESC desc{};
-    desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-    desc.Width = windowWidth;
-    desc.Height = windowHeight;
-    desc.MipLevels = 1;
-    desc.ArraySize = 1;
-    desc.SampleDesc.Count = 1;
-    desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE; // D3D11_BIND_DEPTH_STENCIL
-    desc.MiscFlags |= D3D11_RESOURCE_MISC_GDI_COMPATIBLE;
-
-    hr = device->CreateTexture2D(
-      &desc,
-      NULL,
-      &windowTex
-    );
-    if (FAILED(hr)) {
-      getOut() << "failed to create 2d window tex: " << (void *)hr << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-    
-    hr = windowTex->QueryInterface(__uuidof(IDXGISurface1), (void **)&windowGdiSurface);
-    if (FAILED(hr)) {
-      getOut() << "failed to get 2d window gdi surface: " << (void *)hr << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-
-    D3D11_SHADER_RESOURCE_VIEW_DESC srv{};
-    srv.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-    srv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-    srv.Texture2D.MostDetailedMip = 0;
-    srv.Texture2D.MipLevels = 1;
-
-    hr = device->CreateShaderResourceView(
-      windowTex,
-      &srv,
-      &windowResourceView
-    );
-    if (FAILED(hr)) {
-      getOut() << "failed to get 2d window shader resource view: " << (void *)hr << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-    
-    getOut() << "created 2d window gdi surface " << (void *)windowResourceView << std::endl;
-  } */
-
-  /* // blit
-  {
-    HDC dstDc = nullptr;
-    hr = windowGdiSurface->GetDC(
-      true, // discard contents
-      &dstDc
-    );
-    if (FAILED(hr)) {
-      getOut() << "failed to get 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-    
-    HDC srcDc = GetDC(twoDWindow);
-    if (!srcDc) {
-      getOut() << "failed to get 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-    
-    if (!BitBlt(
-      dstDc,
-      0,
-      0,
-      windowWidth,
-      windowHeight,
-      srcDc,
-      0,
-      0,
-      SRCCOPY
-    )) {
-      getOut() << "failed to blit 2d window: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-    
-    hr = windowGdiSurface->ReleaseDC(nullptr);
-    if (FAILED(hr)) {
-      getOut() << "failed to release 2d window dst hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-    if (!ReleaseDC(twoDWindow, srcDc)) {
-      getOut() << "failed to release 2d window src hdc: " << (void *)hr << " " << (void *)GetLastError() << std::endl;
-      pvrcompositor->InfoQueueLog();
-      abort();
-    }
-  } */
+  getOut() << "blend window" << std::endl;
 
   ID3D11ShaderResourceView *localShaderResourceViews[3] = {
     // windowResourceView,
@@ -570,6 +459,88 @@ void blendWindow(vr::PVRCompositor *pvrcompositor, ID3D11Device5 *device, ID3D11
     localRenderTargetViewsClear,
     nullptr
   );
+}
+void homeRenderLoop() { 
+  for (;;) {
+    vr::TrackedDevicePose_t renderPoses[vr::k_unMaxTrackedDeviceCount];
+    vr::TrackedDevicePose_t gamePoses[vr::k_unMaxTrackedDeviceCount];
+    // getOut() << "wait 1" << std::endl;
+    vr::g_pvrcompositor->WaitGetPoses(renderPoses, ARRAYSIZE(renderPoses), gamePoses, ARRAYSIZE(gamePoses));
+    // getOut() << "wait 2" << std::endl;
+
+    if (!device) {
+      if (vr::g_pvrcompositor->device) {
+        device = vr::g_pvrcompositor->device.Get();
+        context = vr::g_pvrcompositor->context.Get();
+        swapChain = vr::g_pvrcompositor->swapChain.Get();
+
+        initShader();
+      }
+    }
+    // getOut() << "wait 3 " << (void *)device << std::endl;
+    if (device) {
+      // getOut() << "wait 3 " << (void *)backbufferShHandle << std::endl;
+      if (backbufferShHandle != backbufferShHandleLatched) {
+        // getOut() << "wait 4" << std::endl;
+        backbufferShHandleLatched = backbufferShHandle;
+
+        if (backbufferShHandle) {
+          ID3D11Resource *shTexResource;
+          HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+
+          if (SUCCEEDED(hr)) {
+            hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
+            
+            if (SUCCEEDED(hr)) {
+              // nothing
+            } else {
+              getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+              abort();
+            }
+          } else {
+            getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+            abort();
+          }
+
+          D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+          srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+          srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+          srvDesc.Texture2D.MostDetailedMip = 0;
+          srvDesc.Texture2D.MostDetailedMip = 0;
+          srvDesc.Texture2D.MipLevels = 1;
+
+          hr = device->CreateShaderResourceView(
+            backbufferShTex,
+            &srvDesc,
+            &backbufferShResourceView
+          );
+          if (SUCCEEDED(hr)) {
+            // nothing
+          } else {
+            // InfoQueueLog();
+            getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
+            abort();
+          }
+        }
+      }
+      if (backbufferShHandle) {
+        for (int iEye = 0; iEye < 2; iEye++) {
+          blendWindow(
+            iEye,
+            backbufferShResourceView,
+            vr::g_pvrcompositor->renderTargetViews[iEye],
+            vr::g_pvrcompositor->renderTargetDepthBackViews[iEye],
+            vr::g_pvrcompositor->depthShaderFrontResourceViews[iEye]
+          );
+          vr::g_pvrcompositor->SwapDepthTex(iEye);
+          vr::g_pvrcompositor->Submit(iEye == 0 ? vr::Eye_Left : vr::Eye_Right, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
+        }
+      } else {
+        vr::g_pvrcompositor->Submit(vr::Eye_Left, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
+        vr::g_pvrcompositor->Submit(vr::Eye_Right, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
+      }
+    }
+  }
 }
 
 }

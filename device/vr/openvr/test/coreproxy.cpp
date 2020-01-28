@@ -41,6 +41,8 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
   >([=, &fnp]() {
     // size_t id = fnp.remoteCallbackId;
     size_t remoteProcessId = fnp.remoteProcessId;
+    
+    // getOut() << "client core wait 1 " << remoteProcessId << std::endl;
 
     /* if (firstWait) {
       pvrcompositor->CacheWaitGetPoses();
@@ -84,10 +86,9 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
       submitSemsOrder.erase(newEnd, submitSemsOrder.end());
     }
 
+    /// getOut() << "client core wait 2 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
     if (waitSemsOrder.size() >= processIds.size()) {
-      // getOut() << "wait get poses flush 1 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
       pvrcompositor->CacheWaitGetPoses();
-      // getOut() << "wait get poses flush 2 " << waitSemsOrder.size() << " " << processIds.size() << std::endl;
 
       unlockSemsOrder = std::move(waitSemsOrder);
       waitSemsOrder.clear();
@@ -124,6 +125,7 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
       submitSemsOrder.erase(iter);
       // nextSemId = id | SUBMIT_MASK;
       doQueueSubmit = true;
+      // getOut() << "maybe real submit " << unlockSemsOrder.size() << " " << submitSemsOrder.size() << std::endl;
       doRealSubmit = unlockSemsOrder.size() == 0 && submitSemsOrder.size() == 0;
       // getOut() << "pre submit yes submit " << submitSemsOrder.size() << std::endl;
     } else {
@@ -169,6 +171,7 @@ Semaphore *PVRClientCore::getLocalSemaphore(size_t id) {
 void PVRClientCore::PreWaitGetPoses() {
   // getOut() << "PreWaitGetPoses 1" << std::endl;
   auto result = fnp.call<kPVRClientCore_PreWaitGetPoses, size_t>();
+  // getOut() << "PreWaitGetPoses 2" << std::endl;
   Semaphore *sem = getLocalSemaphore(result);
   // getOut() << "wait get poses lock 1 " << result << " " << (void *)sem << std::endl;
   // {
