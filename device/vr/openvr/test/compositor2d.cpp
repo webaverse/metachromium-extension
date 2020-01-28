@@ -346,7 +346,7 @@ void initShader() {
 void blendWindow(int iEye, ID3D11ShaderResourceView *backbufferIn, ID3D11RenderTargetView *colorRenderTarget, ID3D11RenderTargetView *depthRenderTarget, ID3D11ShaderResourceView *depthIn) {
   HRESULT hr;
 
-  getOut() << "blend window" << std::endl;
+  // getOut() << "blend window" << std::endl;
 
   ID3D11ShaderResourceView *localShaderResourceViews[3] = {
     // windowResourceView,
