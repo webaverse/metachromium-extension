@@ -27,6 +27,7 @@ window.xrchrome = {
   }
 };
 window.addEventListener('message', m => {
+  // console.log('content script got message', m);
   if (m.data && m.data._xrcres) {
     const {id, error, result} = m.data;
     const cb = callbacks[id];
@@ -37,6 +38,7 @@ window.addEventListener('message', m => {
   }
 });
 
-/* postMessage({
-  _xrcping: true,
-}, '*', []); */
+/* window.xrchrome.request('test', [])
+  .then(res => {
+    console.log(res);
+  }); */

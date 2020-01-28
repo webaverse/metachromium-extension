@@ -33,11 +33,16 @@ const inject = tab => {
 chrome.tabs.onCreated.addListener(inject);
 chrome.tabs.onUpdated.addListener(inject); */
 
-var port = chrome.runtime.connectNative('com.exokit.xrchrome');
-port.onMessage.addListener(function(msg) {
+const port = chrome.runtime.connectNative('com.exokit.xrchrome');
+const cbs = [];
+port.onMessage.addListener(msg => {
   console.log("received native", msg);
+  if (cbs.length > 0) {
+    const cb = cbs.shift();
+    cb(msg);
+  }
 });
-port.onDisconnect.addListener(function() {
+port.onDisconnect.addListener(() => {
   console.log("disconnected native");
 });
 port.postMessage({ text: "Hello, my_application" });
@@ -47,16 +52,29 @@ chrome.runtime.onMessage.addListener(
     /* console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
                 "from the extension"); */
-    // if (request.greeting == "hello")
-    console.log('got req', request);
+    console.log('got req', request, sender, sendResponse);
     if (request && request.method && request.args) {
-      sendResponse({
-        error: null,
-        result: 'ok',
+      const {method, args} = request;
+      port.postMessage({method, args});
+      cbs.push(msg => {
+        console.log('got proxy res', msg);
+        if (msg && msg.error !== undefined && msg.result !== undefined) {
+          sendResponse({
+            error: msg.error,
+            result: msg.result,
+          });
+        } else {
+          sendResponse({
+            error: 'internal error: ' + JSON.stringify(msg),
+            result: null,
+          });
+        }
       });
     } else {
       sendResponse({
         pong: true,
       });
     }
+    
+    return true; // async
 });

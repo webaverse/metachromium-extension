@@ -5,12 +5,12 @@
 // console.log('injecting');
 
 window.addEventListener('message', m => {
-  // console.log('got message', m.data);
+  // console.log('main script got message', m.data);
   if (m.data && m.data._xrcreq) {
     const {method, args, id} = m.data;
     // console.log('send runtime msg');
-    chrome.runtime.sendMessage({method, args}, res => {
-      // console.log('got runtime response', res);
+    chrome.runtime.sendMessage({method, args}, function(res) {
+      // console.log('got runtime response', chrome.runtime.lastError, res, Array.from(arguments));
       const {error, result} = res;
       window.postMessage({
         _xrcres: true,
@@ -32,5 +32,4 @@ function injectScript(file_path, tag) {
 injectScript(chrome.extension.getURL('content.js'), 'body');
 
 chrome.runtime.sendMessage({ping: true}, () => {});
-
 // console.log('content script', chrome.runtime.connectNative);
