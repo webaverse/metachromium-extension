@@ -165,7 +165,7 @@ int main(int argc, char **argv) {
                   }
                 }
                 if (count >= 2) {
-                  executables.push_back(appFileName);
+                  executables.push_back(appFileEntry.path().string());
                 }
               }
             }
