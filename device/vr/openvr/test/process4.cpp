@@ -3,7 +3,7 @@
 // #include <fcntl.h>
 // #include <io.h>
 #include <iostream>
-// #include <fstream>
+#include <filesystem>
 
 // #define CINTERFACE
 // #define D3D11_NO_HELPERS
@@ -146,6 +146,35 @@ int main(int argc, char **argv) {
               respond(res);
             }
           }
+        } else if (methodString == "listSteamGames" && args.size() > 0 && args[0].is_string()) {
+          const std::string path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\";
+          std::vector<std::string> executables; 
+          for (const auto &appDirEntry : std::filesystem::directory_iterator(path)) {
+            if (appDirEntry.is_directory()) {
+              const auto &appDirName = appDirEntry.filename();
+              for (const auto &appFileEntry : std::filesystem::directory_iterator(appDirEntry.path())) {
+                const auto &appFileName = appFileEntry.filename();
+                size_t count = 0;
+                for (size_t i = 0; i < appDirName.size() && i < appFileName.size(); i++) {
+                  if (appDirName[i] == appFileName) {
+                    count++;
+                  }
+                }
+                if (count >= 2) {
+                  executables.push_back(appFileName);
+                }
+              }
+            }
+          }
+          json array = json::array();
+          for (const auto &iter : executables) {
+            array.push_back(iter);
+          }
+          json res = {
+            {"error", nullptr},
+            {"result", array}
+          };
+          respond(res);
         } else {
           json res = {
             {"error", nullptr},
