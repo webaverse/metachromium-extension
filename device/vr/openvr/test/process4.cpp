@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
             getOut() << "arg " << i << ": " << argString << std::endl;
             i++;
           } */
-          if (methodString == "launch" && args.size() > 0 && args[0].is_string()) {
+          if (methodString == "launchApp" && args.size() > 0 && args[0].is_string()) {
             std::string argString = args[0].get<std::string>();
 
             LPSTR lpvEnv = GetEnvironmentStringsA();
@@ -150,7 +150,7 @@ int main(int argc, char **argv) {
               respond(res);
             }
           }
-        } else if (methodString == "listSteamGames") {
+        } else if (methodString == "listSteamApps") {
           const std::string path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\";
           std::vector<std::string> executables; 
           for (const auto &appDirEntry : std::filesystem::directory_iterator(path)) {
