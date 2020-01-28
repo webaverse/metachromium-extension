@@ -1,30 +1,690 @@
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable ArizonaSunshine ArizonaSunshine_Data 15
+check executable Blocks Blocks.exe 6
+check executable Blocks Blocks_Data 6
+check executable Found Found_Data 5
+check executable PULSARLostColony PULSAR_LostColony_Data 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable Space Pirate Trainer VR SpacePirateVR_Data 5
+check executable VRChat VRChat.exe 6
+check executable VRChat VRChat_Data 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\ArizonaSunshine\ArizonaSunshine_Data
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks_Data
+got executable C:\Program Files (x86)\Steam\steamapps\common\Found\Found_Data
+got executable C:\Program Files (x86)\Steam\steamapps\common\PULSARLostColony\PULSAR_LostColony_Data
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR_Data
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat_Data
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
+method: launchApp
+write arg: =::=::\
+write arg: =C:=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: ALLUSERSPROFILE=C:\ProgramData
+write arg: APPDATA=C:\Users\avaer\AppData\Roaming
+write arg: ChocolateyInstall=C:\ProgramData\chocolatey
+write arg: ChocolateyLastPathUpdate=132214016560572421
+write arg: CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_20952_BHLBZJFXGZNTOKGW
+write arg: CHROME_RESTART=Chromium|Whoa! Chromium has crashed. Relaunch now?|LEFT_TO_RIGHT
+write arg: CommandPromptType=Native
+write arg: CommonProgramFiles=C:\Program Files\Common Files
+write arg: CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+write arg: CommonProgramW6432=C:\Program Files\Common Files
+write arg: COMPUTERNAME=LAPTOP-VDDUARBR
+write arg: ComSpec=C:\WINDOWS\system32\cmd.exe
+write arg: CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: CUDA_PATH_V10_0=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0
+write arg: CUDA_PATH_V10_1=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: DevEnvDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\
+write arg: DriverData=C:\Windows\System32\Drivers\DriverData
+write arg: ExtensionSdkDir=C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs
+write arg: FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+write arg: FPS_BROWSER_USER_PROFILE_STRING=Default
+write arg: Framework40Version=v4.0
+write arg: FrameworkDir=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkDIR32=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkVersion=v4.0.30319
+write arg: FrameworkVersion32=v4.0.30319
+write arg: GTK_BASEPATH=C:\Program Files (x86)\GtkSharp\2.12\
+write arg: GYP_MSVS_VERSION=2015
+write arg: HOMEDRIVE=C:
+write arg: HOMEPATH=\Users\avaer
+write arg: INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt
+write arg: LIB=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\um\x86;
+write arg: LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;
+write arg: LOCALAPPDATA=C:\Users\avaer\AppData\Local
+write arg: LOGONSERVER=\\LAPTOP-VDDUARBR
+write arg: NETFXSDKDir=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\
+write arg: NUMBER_OF_PROCESSORS=8
+write arg: NVCUDASAMPLES10_0_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0
+write arg: NVCUDASAMPLES10_1_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+write arg: OculusBase=C:\Program Files\Oculus\
+write arg: OneDrive=C:\Users\avaer\OneDrive
+write arg: OS=Windows_NT
+write arg: Path=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.1;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\;C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+write arg: PROCESSOR_ARCHITECTURE=AMD64
+write arg: PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 94 Stepping 3, GenuineIntel
+write arg: PROCESSOR_LEVEL=6
+write arg: PROCESSOR_REVISION=5e03
+write arg: ProgramData=C:\ProgramData
+write arg: ProgramFiles=C:\Program Files
+write arg: ProgramFiles(x86)=C:\Program Files (x86)
+write arg: ProgramW6432=C:\Program Files
+write arg: PROMPT=$P$G
+write arg: PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+write arg: PUBLIC=C:\Users\Public
+write arg: SESSIONNAME=Console
+write arg: SystemDrive=C:
+write arg: SystemRoot=C:\WINDOWS
+write arg: TEMP=C:\Users\avaer\AppData\Local\Temp
+write arg: TMP=C:\Users\avaer\AppData\Local\Temp
+write arg: UCRTVersion=10.0.18362.0
+write arg: UniversalCRTSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: USERDOMAIN=LAPTOP-VDDUARBR
+write arg: USERDOMAIN_ROAMINGPROFILE=LAPTOP-VDDUARBR
+write arg: USERNAME=avaer
+write arg: USERPROFILE=C:\Users\avaer
+write arg: VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+write arg: VCIDEInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\
+write arg: VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\
+write arg: VCToolsInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\
+write arg: VCToolsRedistDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\14.16.27012\
+write arg: VCToolsVersion=14.16.27023
+write arg: VisualStudioVersion=15.0
+write arg: VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
+write arg: VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+write arg: VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+write arg: VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\
+write arg: VSCMD_ARG_app_plat=Desktop
+write arg: VSCMD_ARG_HOST_ARCH=x86
+write arg: VSCMD_ARG_TGT_ARCH=x86
+write arg: VSCMD_VER=15.9.18
+write arg: VSINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\
+write arg: windir=C:\WINDOWS
+write arg: WindowsLibPath=C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0
+write arg: WindowsSdkBinPath=C:\Program Files (x86)\Windows Kits\10\bin\
+write arg: WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: WindowsSDKLibVersion=10.0.18362.0\
+write arg: WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\
+write arg: WindowsSDKVersion=10.0.18362.0\
+write arg: WindowsSDK_ExecutablePath_x64=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\x64\
+write arg: WindowsSDK_ExecutablePath_x86=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\
+write arg: ZED_SDK_ROOT_DIR=C:\Program Files (x86)\ZED SDK
+write arg: __DOTNET_ADD_32BIT=1
+write arg: __DOTNET_PREFERRED_BITNESS=32
+write arg: __VSCMD_PREINIT_PATH=C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+launch ok: C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 25072
+method: killApp
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
+method: launchApp
+write arg: =::=::\
+write arg: =C:=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: ALLUSERSPROFILE=C:\ProgramData
+write arg: APPDATA=C:\Users\avaer\AppData\Roaming
+write arg: ChocolateyInstall=C:\ProgramData\chocolatey
+write arg: ChocolateyLastPathUpdate=132214016560572421
+write arg: CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_2552_YNAHQVRXPDRYPXIU
+write arg: CHROME_RESTART=Chromium|Whoa! Chromium has crashed. Relaunch now?|LEFT_TO_RIGHT
+write arg: CommandPromptType=Native
+write arg: CommonProgramFiles=C:\Program Files\Common Files
+write arg: CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+write arg: CommonProgramW6432=C:\Program Files\Common Files
+write arg: COMPUTERNAME=LAPTOP-VDDUARBR
+write arg: ComSpec=C:\WINDOWS\system32\cmd.exe
+write arg: CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: CUDA_PATH_V10_0=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0
+write arg: CUDA_PATH_V10_1=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: DevEnvDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\
+write arg: DriverData=C:\Windows\System32\Drivers\DriverData
+write arg: ExtensionSdkDir=C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs
+write arg: FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+write arg: FPS_BROWSER_USER_PROFILE_STRING=Default
+write arg: Framework40Version=v4.0
+write arg: FrameworkDir=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkDIR32=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkVersion=v4.0.30319
+write arg: FrameworkVersion32=v4.0.30319
+write arg: GTK_BASEPATH=C:\Program Files (x86)\GtkSharp\2.12\
+write arg: GYP_MSVS_VERSION=2015
+write arg: HOMEDRIVE=C:
+write arg: HOMEPATH=\Users\avaer
+write arg: INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt
+write arg: LIB=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\um\x86;
+write arg: LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;
+write arg: LOCALAPPDATA=C:\Users\avaer\AppData\Local
+write arg: LOGONSERVER=\\LAPTOP-VDDUARBR
+write arg: NETFXSDKDir=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\
+write arg: NUMBER_OF_PROCESSORS=8
+write arg: NVCUDASAMPLES10_0_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0
+write arg: NVCUDASAMPLES10_1_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+write arg: OculusBase=C:\Program Files\Oculus\
+write arg: OneDrive=C:\Users\avaer\OneDrive
+write arg: OS=Windows_NT
+write arg: Path=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.1;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\;C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+write arg: PROCESSOR_ARCHITECTURE=AMD64
+write arg: PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 94 Stepping 3, GenuineIntel
+write arg: PROCESSOR_LEVEL=6
+write arg: PROCESSOR_REVISION=5e03
+write arg: ProgramData=C:\ProgramData
+write arg: ProgramFiles=C:\Program Files
+write arg: ProgramFiles(x86)=C:\Program Files (x86)
+write arg: ProgramW6432=C:\Program Files
+write arg: PROMPT=$P$G
+write arg: PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+write arg: PUBLIC=C:\Users\Public
+write arg: SESSIONNAME=Console
+write arg: SystemDrive=C:
+write arg: SystemRoot=C:\WINDOWS
+write arg: TEMP=C:\Users\avaer\AppData\Local\Temp
+write arg: TMP=C:\Users\avaer\AppData\Local\Temp
+write arg: UCRTVersion=10.0.18362.0
+write arg: UniversalCRTSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: USERDOMAIN=LAPTOP-VDDUARBR
+write arg: USERDOMAIN_ROAMINGPROFILE=LAPTOP-VDDUARBR
+write arg: USERNAME=avaer
+write arg: USERPROFILE=C:\Users\avaer
+write arg: VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+write arg: VCIDEInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\
+write arg: VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\
+write arg: VCToolsInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\
+write arg: VCToolsRedistDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\14.16.27012\
+write arg: VCToolsVersion=14.16.27023
+write arg: VisualStudioVersion=15.0
+write arg: VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
+write arg: VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+write arg: VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+write arg: VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\
+write arg: VSCMD_ARG_app_plat=Desktop
+write arg: VSCMD_ARG_HOST_ARCH=x86
+write arg: VSCMD_ARG_TGT_ARCH=x86
+write arg: VSCMD_VER=15.9.18
+write arg: VSINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\
+write arg: windir=C:\WINDOWS
+write arg: WindowsLibPath=C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0
+write arg: WindowsSdkBinPath=C:\Program Files (x86)\Windows Kits\10\bin\
+write arg: WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: WindowsSDKLibVersion=10.0.18362.0\
+write arg: WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\
+write arg: WindowsSDKVersion=10.0.18362.0\
+write arg: WindowsSDK_ExecutablePath_x64=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\x64\
+write arg: WindowsSDK_ExecutablePath_x86=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\
+write arg: ZED_SDK_ROOT_DIR=C:\Program Files (x86)\ZED SDK
+write arg: __DOTNET_ADD_32BIT=1
+write arg: __DOTNET_PREFERRED_BITNESS=32
+write arg: __VSCMD_PREINIT_PATH=C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+launch ok: C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe 27036
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
 --------------------------------------------------------------------------------
 start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
+method: launchApp
+write arg: =::=::\
+write arg: =C:=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: ALLUSERSPROFILE=C:\ProgramData
+write arg: APPDATA=C:\Users\avaer\AppData\Roaming
+write arg: ChocolateyInstall=C:\ProgramData\chocolatey
+write arg: ChocolateyLastPathUpdate=132214016560572421
+write arg: CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_19488_ORASAFAVVXTKVHLE
+write arg: CHROME_RESTART=Chromium|Whoa! Chromium has crashed. Relaunch now?|LEFT_TO_RIGHT
+write arg: CommandPromptType=Native
+write arg: CommonProgramFiles=C:\Program Files\Common Files
+write arg: CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+write arg: CommonProgramW6432=C:\Program Files\Common Files
+write arg: COMPUTERNAME=LAPTOP-VDDUARBR
+write arg: ComSpec=C:\WINDOWS\system32\cmd.exe
+write arg: CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: CUDA_PATH_V10_0=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0
+write arg: CUDA_PATH_V10_1=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: DevEnvDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\
+write arg: DriverData=C:\Windows\System32\Drivers\DriverData
+write arg: ExtensionSdkDir=C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs
+write arg: FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+write arg: FPS_BROWSER_USER_PROFILE_STRING=Default
+write arg: Framework40Version=v4.0
+write arg: FrameworkDir=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkDIR32=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkVersion=v4.0.30319
+write arg: FrameworkVersion32=v4.0.30319
+write arg: GTK_BASEPATH=C:\Program Files (x86)\GtkSharp\2.12\
+write arg: GYP_MSVS_VERSION=2015
+write arg: HOMEDRIVE=C:
+write arg: HOMEPATH=\Users\avaer
+write arg: INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt
+write arg: LIB=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\um\x86;
+write arg: LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;
+write arg: LOCALAPPDATA=C:\Users\avaer\AppData\Local
+write arg: LOGONSERVER=\\LAPTOP-VDDUARBR
+write arg: NETFXSDKDir=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\
+write arg: NUMBER_OF_PROCESSORS=8
+write arg: NVCUDASAMPLES10_0_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0
+write arg: NVCUDASAMPLES10_1_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+write arg: OculusBase=C:\Program Files\Oculus\
+write arg: OneDrive=C:\Users\avaer\OneDrive
+write arg: OS=Windows_NT
+write arg: Path=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.1;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\;C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+write arg: PROCESSOR_ARCHITECTURE=AMD64
+write arg: PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 94 Stepping 3, GenuineIntel
+write arg: PROCESSOR_LEVEL=6
+write arg: PROCESSOR_REVISION=5e03
+write arg: ProgramData=C:\ProgramData
+write arg: ProgramFiles=C:\Program Files
+write arg: ProgramFiles(x86)=C:\Program Files (x86)
+write arg: ProgramW6432=C:\Program Files
+write arg: PROMPT=$P$G
+write arg: PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+write arg: PUBLIC=C:\Users\Public
+write arg: SESSIONNAME=Console
+write arg: SystemDrive=C:
+write arg: SystemRoot=C:\WINDOWS
+write arg: TEMP=C:\Users\avaer\AppData\Local\Temp
+write arg: TMP=C:\Users\avaer\AppData\Local\Temp
+write arg: UCRTVersion=10.0.18362.0
+write arg: UniversalCRTSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: USERDOMAIN=LAPTOP-VDDUARBR
+write arg: USERDOMAIN_ROAMINGPROFILE=LAPTOP-VDDUARBR
+write arg: USERNAME=avaer
+write arg: USERPROFILE=C:\Users\avaer
+write arg: VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+write arg: VCIDEInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\
+write arg: VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\
+write arg: VCToolsInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\
+write arg: VCToolsRedistDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\14.16.27012\
+write arg: VCToolsVersion=14.16.27023
+write arg: VisualStudioVersion=15.0
+write arg: VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
+write arg: VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+write arg: VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+write arg: VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\
+write arg: VSCMD_ARG_app_plat=Desktop
+write arg: VSCMD_ARG_HOST_ARCH=x86
+write arg: VSCMD_ARG_TGT_ARCH=x86
+write arg: VSCMD_VER=15.9.18
+write arg: VSINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\
+write arg: windir=C:\WINDOWS
+write arg: WindowsLibPath=C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0
+write arg: WindowsSdkBinPath=C:\Program Files (x86)\Windows Kits\10\bin\
+write arg: WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: WindowsSDKLibVersion=10.0.18362.0\
+write arg: WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\
+write arg: WindowsSDKVersion=10.0.18362.0\
+write arg: WindowsSDK_ExecutablePath_x64=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\x64\
+write arg: WindowsSDK_ExecutablePath_x86=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\
+write arg: ZED_SDK_ROOT_DIR=C:\Program Files (x86)\ZED SDK
+write arg: __DOTNET_ADD_32BIT=1
+write arg: __DOTNET_PREFERRED_BITNESS=32
+write arg: __VSCMD_PREINIT_PATH=C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+launch ok: C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 18564
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
+--------------------------------------------------------------------------------
+start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
+method: launchApp
+write arg: =::=::\
+write arg: =C:=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: ALLUSERSPROFILE=C:\ProgramData
+write arg: APPDATA=C:\Users\avaer\AppData\Roaming
+write arg: ChocolateyInstall=C:\ProgramData\chocolatey
+write arg: ChocolateyLastPathUpdate=132214016560572421
+write arg: CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_32024_DZXHOKKLRMAFKVRG
+write arg: CHROME_RESTART=Chromium|Whoa! Chromium has crashed. Relaunch now?|LEFT_TO_RIGHT
+write arg: CommandPromptType=Native
+write arg: CommonProgramFiles=C:\Program Files\Common Files
+write arg: CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+write arg: CommonProgramW6432=C:\Program Files\Common Files
+write arg: COMPUTERNAME=LAPTOP-VDDUARBR
+write arg: ComSpec=C:\WINDOWS\system32\cmd.exe
+write arg: CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: CUDA_PATH_V10_0=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0
+write arg: CUDA_PATH_V10_1=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: DevEnvDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\
+write arg: DriverData=C:\Windows\System32\Drivers\DriverData
+write arg: ExtensionSdkDir=C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs
+write arg: FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+write arg: FPS_BROWSER_USER_PROFILE_STRING=Default
+write arg: Framework40Version=v4.0
+write arg: FrameworkDir=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkDIR32=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkVersion=v4.0.30319
+write arg: FrameworkVersion32=v4.0.30319
+write arg: GTK_BASEPATH=C:\Program Files (x86)\GtkSharp\2.12\
+write arg: GYP_MSVS_VERSION=2015
+write arg: HOMEDRIVE=C:
+write arg: HOMEPATH=\Users\avaer
+write arg: INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt
+write arg: LIB=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\um\x86;
+write arg: LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;
+write arg: LOCALAPPDATA=C:\Users\avaer\AppData\Local
+write arg: LOGONSERVER=\\LAPTOP-VDDUARBR
+write arg: NETFXSDKDir=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\
+write arg: NUMBER_OF_PROCESSORS=8
+write arg: NVCUDASAMPLES10_0_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0
+write arg: NVCUDASAMPLES10_1_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+write arg: OculusBase=C:\Program Files\Oculus\
+write arg: OneDrive=C:\Users\avaer\OneDrive
+write arg: OS=Windows_NT
+write arg: Path=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.1;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\;C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+write arg: PROCESSOR_ARCHITECTURE=AMD64
+write arg: PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 94 Stepping 3, GenuineIntel
+write arg: PROCESSOR_LEVEL=6
+write arg: PROCESSOR_REVISION=5e03
+write arg: ProgramData=C:\ProgramData
+write arg: ProgramFiles=C:\Program Files
+write arg: ProgramFiles(x86)=C:\Program Files (x86)
+write arg: ProgramW6432=C:\Program Files
+write arg: PROMPT=$P$G
+write arg: PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+write arg: PUBLIC=C:\Users\Public
+write arg: SESSIONNAME=Console
+write arg: SystemDrive=C:
+write arg: SystemRoot=C:\WINDOWS
+write arg: TEMP=C:\Users\avaer\AppData\Local\Temp
+write arg: TMP=C:\Users\avaer\AppData\Local\Temp
+write arg: UCRTVersion=10.0.18362.0
+write arg: UniversalCRTSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: USERDOMAIN=LAPTOP-VDDUARBR
+write arg: USERDOMAIN_ROAMINGPROFILE=LAPTOP-VDDUARBR
+write arg: USERNAME=avaer
+write arg: USERPROFILE=C:\Users\avaer
+write arg: VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+write arg: VCIDEInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\
+write arg: VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\
+write arg: VCToolsInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\
+write arg: VCToolsRedistDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\14.16.27012\
+write arg: VCToolsVersion=14.16.27023
+write arg: VisualStudioVersion=15.0
+write arg: VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
+write arg: VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+write arg: VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+write arg: VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\
+write arg: VSCMD_ARG_app_plat=Desktop
+write arg: VSCMD_ARG_HOST_ARCH=x86
+write arg: VSCMD_ARG_TGT_ARCH=x86
+write arg: VSCMD_VER=15.9.18
+write arg: VSINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\
+write arg: windir=C:\WINDOWS
+write arg: WindowsLibPath=C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0
+write arg: WindowsSdkBinPath=C:\Program Files (x86)\Windows Kits\10\bin\
+write arg: WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: WindowsSDKLibVersion=10.0.18362.0\
+write arg: WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\
+write arg: WindowsSDKVersion=10.0.18362.0\
+write arg: WindowsSDK_ExecutablePath_x64=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\x64\
+write arg: WindowsSDK_ExecutablePath_x86=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\
+write arg: ZED_SDK_ROOT_DIR=C:\Program Files (x86)\ZED SDK
+write arg: __DOTNET_ADD_32BIT=1
+write arg: __DOTNET_PREFERRED_BITNESS=32
+write arg: __VSCMD_PREINIT_PATH=C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+launch ok: C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe 1320
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
+--------------------------------------------------------------------------------
+start app
+method: listSteamApps
+check executable Blocks Blocks.exe 6
+check executable Space Pirate Trainer VR SpacePirateVR.exe 5
+check executable VRChat VRChat.exe 6
+got executable C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\Space Pirate Trainer VR\SpacePirateVR.exe
+got executable C:\Program Files (x86)\Steam\steamapps\common\VRChat\VRChat.exe
+method: launchApp
+write arg: =::=::\
+write arg: =C:=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: ALLUSERSPROFILE=C:\ProgramData
+write arg: APPDATA=C:\Users\avaer\AppData\Roaming
+write arg: ChocolateyInstall=C:\ProgramData\chocolatey
+write arg: ChocolateyLastPathUpdate=132214016560572421
+write arg: CHROME_CRASHPAD_PIPE_NAME=\\.\pipe\crashpad_24628_SJVKCHFPBDDLJPPO
+write arg: CHROME_RESTART=Chromium|Whoa! Chromium has crashed. Relaunch now?|LEFT_TO_RIGHT
+write arg: CommandPromptType=Native
+write arg: CommonProgramFiles=C:\Program Files\Common Files
+write arg: CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+write arg: CommonProgramW6432=C:\Program Files\Common Files
+write arg: COMPUTERNAME=LAPTOP-VDDUARBR
+write arg: ComSpec=C:\WINDOWS\system32\cmd.exe
+write arg: CUDA_PATH=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: CUDA_PATH_V10_0=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0
+write arg: CUDA_PATH_V10_1=C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1
+write arg: DevEnvDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\
+write arg: DriverData=C:\Windows\System32\Drivers\DriverData
+write arg: ExtensionSdkDir=C:\Program Files (x86)\Microsoft SDKs\Windows Kits\10\ExtensionSDKs
+write arg: FPS_BROWSER_APP_PROFILE_STRING=Internet Explorer
+write arg: FPS_BROWSER_USER_PROFILE_STRING=Default
+write arg: Framework40Version=v4.0
+write arg: FrameworkDir=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkDIR32=C:\WINDOWS\Microsoft.NET\Framework\
+write arg: FrameworkVersion=v4.0.30319
+write arg: FrameworkVersion32=v4.0.30319
+write arg: GTK_BASEPATH=C:\Program Files (x86)\GtkSharp\2.12\
+write arg: GYP_MSVS_VERSION=2015
+write arg: HOMEDRIVE=C:
+write arg: HOMEPATH=\Users\avaer
+write arg: INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\include;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\include;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\include\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\ucrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\shared;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\um;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\winrt;C:\Program Files (x86)\Windows Kits\10\include\10.0.18362.0\cppwinrt
+write arg: LIB=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\lib\um\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\ucrt\x86;C:\Program Files (x86)\Windows Kits\10\lib\10.0.18362.0\um\x86;
+write arg: LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\ATLMFC\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\lib\x86\store\references;C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;
+write arg: LOCALAPPDATA=C:\Users\avaer\AppData\Local
+write arg: LOGONSERVER=\\LAPTOP-VDDUARBR
+write arg: NETFXSDKDir=C:\Program Files (x86)\Windows Kits\NETFXSDK\4.6.1\
+write arg: NUMBER_OF_PROCESSORS=8
+write arg: NVCUDASAMPLES10_0_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.0
+write arg: NVCUDASAMPLES10_1_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVCUDASAMPLES_ROOT=C:\ProgramData\NVIDIA Corporation\CUDA Samples\v10.1
+write arg: NVTOOLSEXT_PATH=C:\Program Files\NVIDIA Corporation\NvToolsExt\
+write arg: OculusBase=C:\Program Files\Oculus\
+write arg: OneDrive=C:\Users\avaer\OneDrive
+write arg: OS=Windows_NT
+write arg: Path=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft SDKs\TypeScript\3.1;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\WINDOWS\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\;C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+write arg: PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+write arg: PROCESSOR_ARCHITECTURE=AMD64
+write arg: PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 94 Stepping 3, GenuineIntel
+write arg: PROCESSOR_LEVEL=6
+write arg: PROCESSOR_REVISION=5e03
+write arg: ProgramData=C:\ProgramData
+write arg: ProgramFiles=C:\Program Files
+write arg: ProgramFiles(x86)=C:\Program Files (x86)
+write arg: ProgramW6432=C:\Program Files
+write arg: PROMPT=$P$G
+write arg: PSModulePath=C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+write arg: PUBLIC=C:\Users\Public
+write arg: SESSIONNAME=Console
+write arg: SystemDrive=C:
+write arg: SystemRoot=C:\WINDOWS
+write arg: TEMP=C:\Users\avaer\AppData\Local\Temp
+write arg: TMP=C:\Users\avaer\AppData\Local\Temp
+write arg: UCRTVersion=10.0.18362.0
+write arg: UniversalCRTSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: USERDOMAIN=LAPTOP-VDDUARBR
+write arg: USERDOMAIN_ROAMINGPROFILE=LAPTOP-VDDUARBR
+write arg: USERNAME=avaer
+write arg: USERPROFILE=C:\Users\avaer
+write arg: VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+write arg: VCIDEInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\
+write arg: VCINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\
+write arg: VCToolsInstallDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.16.27023\
+write arg: VCToolsRedistDir=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Redist\MSVC\14.16.27012\
+write arg: VCToolsVersion=14.16.27023
+write arg: VisualStudioVersion=15.0
+write arg: VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
+write arg: VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+write arg: VS140COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+write arg: VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\
+write arg: VSCMD_ARG_app_plat=Desktop
+write arg: VSCMD_ARG_HOST_ARCH=x86
+write arg: VSCMD_ARG_TGT_ARCH=x86
+write arg: VSCMD_VER=15.9.18
+write arg: VSINSTALLDIR=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\
+write arg: windir=C:\WINDOWS
+write arg: WindowsLibPath=C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0;C:\Program Files (x86)\Windows Kits\10\References\10.0.18362.0
+write arg: WindowsSdkBinPath=C:\Program Files (x86)\Windows Kits\10\bin\
+write arg: WindowsSdkDir=C:\Program Files (x86)\Windows Kits\10\
+write arg: WindowsSDKLibVersion=10.0.18362.0\
+write arg: WindowsSdkVerBinPath=C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\
+write arg: WindowsSDKVersion=10.0.18362.0\
+write arg: WindowsSDK_ExecutablePath_x64=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\x64\
+write arg: WindowsSDK_ExecutablePath_x86=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools\
+write arg: ZED_SDK_ROOT_DIR=C:\Program Files (x86)\ZED SDK
+write arg: __DOTNET_ADD_32BIT=1
+write arg: __DOTNET_PREFERRED_BITNESS=32
+write arg: __VSCMD_PREINIT_PATH=C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.1\libnvvp;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin;C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp;C:\Program Files\Oculus\Support\oculus-runtime;C:\Program Files (x86)\Razer Chroma SDK\bin;C:\Program Files\Razer Chroma SDK\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\ZED SDK\dependencies\freeglut_2.8\x64;C:\Program Files (x86)\ZED SDK\dependencies\glew-1.12.0\x64;C:\Program Files (x86)\ZED SDK\dependencies\opencv_3.1.0\x64\vc14\bin;C:\Program Files (x86)\ZED SDK\bin;C:\Program Files\NVIDIA Corporation\Nsight Compute 2019.1\;C:\Program Files\CMake\bin;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCPackages;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\bin\Roslyn;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Team Tools\Performance Tools;C:\Program Files (x86)\Microsoft Visual Studio\Shared\Common\VSPerfCollectionTools\;C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x86;C:\Program Files (x86)\Windows Kits\10\bin\x86;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\\MSBuild\15.0\bin;C:\Windows\Microsoft.NET\Framework\v4.0.30319;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\;C:\MinGW\bin;C:\Users;C:\Users\avaer\AppData\Roaming\npm
+write arg: VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
+launch ok: C:\Program Files (x86)\Steam\steamapps\common\Blocks\Blocks.exe 19620
