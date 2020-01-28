@@ -179,6 +179,18 @@ int main(int argc, char **argv) {
             {"result", array}
           };
           respond(res);
+        } else if (methodString == "killApp" && args.size() > 0 && args[0].is_number()) {
+          int processId = args[0].get<int>();
+
+          HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
+          TerminateProcess(processHandle, 1);
+          CloseHandle(processHandle);
+
+          json res = {
+            {"error", nullptr},
+            {"result", "ok"}
+          };
+          respond(res);
         } else {
           json res = {
             {"error", nullptr},
