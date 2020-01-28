@@ -149,55 +149,63 @@ int main(int argc, char **argv) {
               };
               respond(res);
             }
-          }
-        } else if (methodString == "listSteamApps") {
-          const std::string path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\";
-          std::vector<std::string> executables; 
-          for (const auto &appDirEntry : std::filesystem::directory_iterator(path)) {
-            if (appDirEntry.is_directory()) {
-              const auto &appDirName = appDirEntry.filename();
-              for (const auto &appFileEntry : std::filesystem::directory_iterator(appDirEntry.path())) {
-                const auto &appFileName = appFileEntry.filename();
-                size_t count = 0;
-                for (size_t i = 0; i < appDirName.size() && i < appFileName.size(); i++) {
-                  if (appDirName[i] == appFileName) {
-                    count++;
+          } else if (methodString == "listSteamApps") {
+            const std::string path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\";
+            std::vector<std::string> executables; 
+            for (const auto &appDirEntry : std::filesystem::directory_iterator(path)) {
+              if (appDirEntry.is_directory()) {
+                const auto &appDirName = appDirEntry.path().filename().string();
+                for (const auto &appFileEntry : std::filesystem::directory_iterator(appDirEntry.path())) {
+                  const auto &appFileName = appFileEntry.path().filename().string();
+                  size_t count = 0;
+                  for (size_t i = 0; i < appDirName.size() && i < appFileName.size(); i++) {
+                    if (appDirName[i] == appFileName[i]) {
+                      count++;
+                    }
                   }
-                }
-                if (count >= 2) {
-                  executables.push_back(appFileEntry.path().string());
+                  if (count >= 2) {
+                    executables.push_back(appFileEntry.path().string());
+                  }
                 }
               }
             }
-          }
-          json array = json::array();
-          for (const auto &iter : executables) {
-            array.push_back(iter);
-          }
-          json res = {
-            {"error", nullptr},
-            {"result", array}
-          };
-          respond(res);
-        } else if (methodString == "killApp" && args.size() > 0 && args[0].is_number()) {
-          int processId = args[0].get<int>();
+            json array = json::array();
+            for (const auto &iter : executables) {
+              array.push_back(iter);
+            }
+            json res = {
+              {"error", nullptr},
+              {"result", array}
+            };
+            respond(res);
+          } else if (methodString == "killApp" && args.size() > 0 && args[0].is_number()) {
+            int processId = args[0].get<int>();
 
-          HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
-          TerminateProcess(processHandle, 1);
-          CloseHandle(processHandle);
+            HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
+            TerminateProcess(processHandle, 1);
+            CloseHandle(processHandle);
 
-          json res = {
-            {"error", nullptr},
-            {"result", "ok"}
-          };
-          respond(res);
+            json res = {
+              {"error", nullptr},
+              {"result", "ok"}
+            };
+            respond(res);
+          } else {
+            json res = {
+              {"error", "invalid method"},
+              {"result", nullptr}
+            };
+            respond(res);
+          }
         } else {
           json res = {
             {"error", nullptr},
-            {"result", "zol"}
+            {"result", "pong"}
           };
           respond(res);
         }
+      } else {
+        break;
       }
     } else {
       // getOut() << "got eof" << std::endl;
