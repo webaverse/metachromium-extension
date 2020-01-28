@@ -146,7 +146,7 @@ int main(int argc, char **argv) {
               respond(res);
             }
           }
-        } else if (methodString == "listSteamGames" && args.size() > 0 && args[0].is_string()) {
+        } else if (methodString == "listSteamGames") {
           const std::string path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\";
           std::vector<std::string> executables; 
           for (const auto &appDirEntry : std::filesystem::directory_iterator(path)) {
