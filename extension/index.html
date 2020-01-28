@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+}
+.body {
+  display: flex;
+}
+.body section {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+</style>
+</head>
+<body>
+  <div class=body>
+    <section id=apps>
+      <h1>Steam Apps</h1>
+    </section>
+    <section id=processes>
+      <h1>Processes</h1>
+    </section>
+  </div>
+<script>
+
+const executables = await window.xrchrome.request('listSteamApps', []);
+for (const exe in executables) {
+  const a = document.createElement('a');
+  a.setAttribute('src', `file://${exe}`);
+  a.innerHTML = exe;
+  a.addEventListener('click', async e => {
+    e.preventDefault();
+
+    const res = await window.xrchrome.request('launchApp', [
+      exe,
+    ]);
+    const {processId} = res;
+
+    {
+      const a2 = document.createElement('a');
+      a2.setAttribute('src', `file://${processId}`);
+      a2.innerHTML = processId + '';
+      a2.addEventListener('click', async e => {
+        e.preventDefault();
+
+        await window.xrchrome.request('killApp', [
+          processId,
+        ]);
+      });
+      document.getElementById('processes').appendChild(a2);
+    }
+  });
+  document.getElementById('apps').appendChild(a);
+}
+
+</script>
+</body>
+</html>
