@@ -117,15 +117,6 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 
   if (e == 1.0 || d < (e*depthScale)) {
     result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
-    
-    /* if (d < 0.5) {
-      result.Color = float4(d, 0, 0, 1);
-    } else if (d < 1) {
-      result.Color = float4(0, d, 0, 1);
-    } else {
-      result.Color = float4(0, 0, d, 1);
-    } */
-    
     result.Depth = d/depthScale;
   } else {
     // result.Color = float4(0, 0, e, 1);
