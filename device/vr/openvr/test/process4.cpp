@@ -129,11 +129,15 @@ int main(int argc, char **argv) {
               &si,
               &pi
             )) {
-              getOut() << "launch ok: " << argString << " " << (void *)GetLastError() << std::endl;
-              
+              int processId = pi.dwProcessId;
+              getOut() << "launch ok: " << argString << " " << processId << std::endl;
+
+              json result = {
+                {"processId", processId}
+              };
               json res = {
                 {"error", nullptr},
-                {"result", "launch ok"}
+                {"result", result}
               };
               respond(res);
             } else {
