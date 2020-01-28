@@ -33,12 +33,12 @@ const inject = tab => {
 chrome.tabs.onCreated.addListener(inject);
 chrome.tabs.onUpdated.addListener(inject); */
 
-const port = chrome.runtime.connectNative('com.exokit.xrchrome');
+var port = chrome.runtime.connectNative('com.exokit.xrchrome');
 port.onMessage.addListener(function(msg) {
-  console.log("Received", msg);
+  console.log("received native", msg);
 });
 port.onDisconnect.addListener(function() {
-  console.log("Disconnected");
+  console.log("disconnected native");
 });
 port.postMessage({ text: "Hello, my_application" });
 
@@ -48,9 +48,15 @@ chrome.runtime.onMessage.addListener(
                 "from a content script:" + sender.tab.url :
                 "from the extension"); */
     // if (request.greeting == "hello")
-    // console.log('got req', request);
-    sendResponse({
-      error: null,
-      result: 'ok',
-    });
+    console.log('got req', request);
+    if (request && request.method && request.args) {
+      sendResponse({
+        error: null,
+        result: 'ok',
+      });
+    } else {
+      sendResponse({
+        pong: true,
+      });
+    }
 });

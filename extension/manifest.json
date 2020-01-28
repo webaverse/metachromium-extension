@@ -69,7 +69,6 @@
     "vpnProvider",
     "wallpaper",
     "webNavigation",
-    "webRequest",
     "webRequestBlocking"
   ],
   "content_scripts": [{
@@ -78,7 +77,7 @@
    }],
   "background": {
     "scripts": ["background.js"],
-    "persistent": true
+    "persistent": false
   },
   "web_accessible_resources": [
     "content.js"

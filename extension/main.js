@@ -31,4 +31,6 @@ function injectScript(file_path, tag) {
 }
 injectScript(chrome.extension.getURL('content.js'), 'body');
 
+chrome.runtime.sendMessage({ping: true}, () => {});
+
 // console.log('content script', chrome.runtime.connectNative);

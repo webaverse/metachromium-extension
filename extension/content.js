@@ -1,4 +1,3 @@
-
 let ids = 0;
 const callbacks = {};
 window.xrchrome = {
@@ -37,3 +36,7 @@ window.addEventListener('message', m => {
     }
   }
 });
+
+/* postMessage({
+  _xrcping: true,
+}, '*', []); */
