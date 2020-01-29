@@ -27,5 +27,6 @@ msbuild /p:Configuration=Release ALL_BUILD.vcxproj
 cd mock_vr_clients/bin
 .\add_hook.exe ..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\Chrome-bin\chrome2.exe
 ls
+ls ..\..\..\..\Chrome-bin\
 
 echo done
