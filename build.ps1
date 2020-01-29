@@ -22,6 +22,7 @@ mkdir build
 cd build
 cmake --version
 cmake --trace --debug-output -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
+ls
 msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
 # cd Chrome-bin
