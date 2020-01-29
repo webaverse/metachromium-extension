@@ -1,9 +1,9 @@
 # build
 echo building...
 
-$client = new-object System.Net.WebClient
-$client.DownloadFile("https://www.7-zip.org/a/7z1900-x64.msi", "7z.msi")
-msiexec /i .\7z.msi /quiet
+# $client = new-object System.Net.WebClient
+# $client.DownloadFile("https://www.7-zip.org/a/7z1900-x64.msi", "7z.msi")
+# msiexec /i .\7z.msi /quiet
 
 echo installed
 
