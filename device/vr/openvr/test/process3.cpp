@@ -163,6 +163,8 @@ int WINAPI WinMain(
   PCHAR *args = CommandLineToArgvA(lpCmdLine, &numArgs);
 
   if (numArgs >= 2) {
+    std::cout << "add_hook args " << args[0] << " " << args[1] << std::endl;
+
     auto hOld = CreateFileA(args[0],
        GENERIC_READ,
        FILE_SHARE_READ,
