@@ -11,8 +11,13 @@ $client2 = new-object System.Net.WebClient
 $client2.DownloadFile("https://github.com/Hibbiki/chromium-win64/releases/download/v79.0.3945.130-r706915/chrome.sync.7z", "chrome.7z")
 
 7z x chrome.7z
+
 ls
-cd Chrome-bin
-ls
+cd device\vr\build
+cmake -G "Visual Studio 15 2017" -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
+msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
+msbuild /p:Configuration=Release ALL_BUILD.vcxproj
+# cd Chrome-bin
+# ls
 
 echo done
