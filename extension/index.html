@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body {
+  margin: 0;
+}
+.body {
+  display: flex;
+}
+.body section {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: hidden;
+  white-space: nowrap;
+}
+h1, .body section {
+  padding: 0 30px;
+}
+a {
+  text-decoration: underline;
+  color: #64b5f6;
+  cursor: pointer;
+}
+a:active {
+  color: #1e88e5;
+}
+</style>
+</head>
+<body>
+  <h1>Home Launcher (OpenVR)</h1>
+  <div class=body>
+    <section id=apps>
+      <h2>Steam Apps</h2>
+    </section>
+    <section id=processes>
+      <h2>Processes</h2>
+    </section>
+  </div>
+  <div class=body>
+    <section id=sites>
+      <h2>Web Sites</h2>
+      <a href="https://immersive-web.github.io/webxr-samples/">WebXR Samples</a>
+      <a href="https://immersive-web.github.io/webxr-samples/positional-audio.html">Positional Audio</a>
+    </section>
+  </div>
+<script>
+
+window.addEventListener('xrchromeloaded', async () => {
+  const executables = await window.xrchrome.request('listSteamApps', []);
+  for (const exe of executables) {
+    const a = document.createElement('a');
+    a.setAttribute('src', `file://${exe}`);
+    a.innerHTML = exe;
+    a.addEventListener('click', async e => {
+      e.preventDefault();
+
+      const res = await window.xrchrome.request('launchApp', [
+        exe,
+      ]);
+      const {processId} = res;
+
+      {
+        const a2 = document.createElement('a');
+        a2.setAttribute('src', `file://${processId}`);
+        a2.innerHTML = processId + '';
+        a2.addEventListener('click', async e => {
+          e.preventDefault();
+
+          await window.xrchrome.request('killApp', [
+            processId,
+          ]);
+        });
+        document.getElementById('processes').appendChild(a2);
+      }
+    });
+    document.getElementById('apps').appendChild(a);
+  }
+});
+
+</script>
+</body>
+</html>

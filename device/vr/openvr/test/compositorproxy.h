@@ -122,10 +122,6 @@ public:
   std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
-  HANDLE backbufferShHandleLatched = NULL;
-  ID3D11Texture2D *backbufferShTex = nullptr;
-  ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
-
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
@@ -135,6 +131,7 @@ public:
   virtual EVRCompositorError GetLastPoseForTrackedDeviceIndex( TrackedDeviceIndex_t unDeviceIndex, TrackedDevicePose_t *pOutputPose, TrackedDevicePose_t *pOutputGamePose );
 	virtual void PrepareSubmit(const Texture_t *pTexture);
   virtual EVRCompositorError Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
+  virtual EVRCompositorError SubmitFrame( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds = 0, EVRSubmitFlags nSubmitFlags = Submit_Default );
   virtual void FlushSubmit();
 	virtual void ClearLastSubmittedFrame();
 	virtual void PostPresentHandoff();
@@ -181,6 +178,8 @@ public:
   void InitShader();
   void SwapDepthTex(int iEye);
   void InfoQueueLog();
+  static void CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **context, IDXGISwapChain **swapChain);
+  void HomeRenderLoop();
 };
 }
 

@@ -7,7 +7,6 @@
 // extern bool isChrome;
 // extern bool haveZBufferParams;
 // extern float zBufferParams[4];
-extern HANDLE backbufferShHandle;
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -15,7 +14,7 @@ char kIVRCompositor_GetTrackingSpace[] = "IVRCompositor::GetTrackingSpace";
 char kIVRCompositor_WaitGetPoses[] = "IVRCompositor::WaitGetPoses";
 char kIVRCompositor_GetLastPoses[] = "IVRCompositor::GetLastPoses";
 char kIVRCompositor_GetLastPoseForTrackedDeviceIndex[] = "IVRCompositor::GetLastPoseForTrackedDeviceIndex";
-char kIVRCompositor_PrepareSubmit[] = "IVRCompositor::PrepareSubmit";
+// char kIVRCompositor_PrepareSubmit[] = "IVRCompositor::PrepareSubmit";
 char kIVRCompositor_Submit[] = "IVRCompositor::Submit";
 char kIVRCompositor_FlushSubmit[] = "IVRCompositor::FlushSubmit";
 char kIVRCompositor_ClearLastSubmittedFrame[] = "IVRCompositor::ClearLastSubmittedFrame";
@@ -330,135 +329,29 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       std::move(gamePose)
     );
   });
-  fnp.reg<
+  /* fnp.reg<
     kIVRCompositor_PrepareSubmit,
     int,
     ETextureType
   >([=](ETextureType textureType) {
-    // getOut() << "prepare submit server 1" << std::endl;
+    getOut() << "prepare submit server 1" << std::endl;
 
     HRESULT hr;
     if (!device) {
-      // device = (ID3D11Device *)pDevice;
+      getOut() << "create device 1" << std::endl;
+      PVRCompositor::CreateDevice(&device, &context, &swapChain);
+      getOut() << "create device 2 " << (void *)device.Get() << std::endl;
 
-      int32_t adapterIndex;
-      g_vrsystem->GetDXGIOutputInfo(&adapterIndex);
-      if (adapterIndex == -1) {
-        adapterIndex = 0;
-      }
-
-      Microsoft::WRL::ComPtr<IDXGIFactory1> dxgi_factory;
-      IDXGIAdapter1 *adapter;
-      hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), &dxgi_factory);
+      hr = device->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
       if (SUCCEEDED(hr)) {
-        // nothing
+        infoQueue->PushEmptyStorageFilter();
       } else {
-        getOut() << "create dxgi factory failed " << (void *)hr << std::endl;
-      }
-      dxgi_factory->EnumAdapters1(adapterIndex, &adapter);
-
-      getOut() << "create device " << adapterIndex << " " << (void *)adapter << std::endl;
-
-      for (unsigned int i = 0;; i++) {
-        hr = dxgi_factory->EnumAdapters1(i, &adapter);
-        if (SUCCEEDED(hr)) {
-          DXGI_ADAPTER_DESC desc;
-          adapter->GetDesc(&desc);
-          getOut() << "got adapter desc " << i << (char *)desc.Description << " " << desc.AdapterLuid.HighPart << " " << desc.AdapterLuid.LowPart << std::endl;
-        } else {
-          break;
-        }
-      }
-      
-      // getOut() << "creating device 1" << std::endl;
-
-      // Microsoft::WRL::ComPtr<ID3D11Device> device;
-      // Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
-      Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
-      Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
-
-      D3D_FEATURE_LEVEL featureLevels[] = {
-        D3D_FEATURE_LEVEL_11_1
-      };
-      // getOut() << "create swap chain " << (void *)g_hWnd << std::endl;
-      DXGI_SWAP_CHAIN_DESC swapChainDesc{};
-      swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
-      swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; 
-      swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; 
-      swapChainDesc.SampleDesc.Count = 1;                               
-      swapChainDesc.SampleDesc.Quality = 0;                               
-      swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-      swapChainDesc.BufferCount = 1;                               
-      swapChainDesc.OutputWindow = g_hWnd;                
-      swapChainDesc.Windowed = true;
-
-      hr = D3D11CreateDeviceAndSwapChain(
-        adapter, // pAdapter
-        D3D_DRIVER_TYPE_HARDWARE, // DriverType
-        NULL, // Software
-        0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
-        featureLevels, // pFeatureLevels
-        ARRAYSIZE(featureLevels), // FeatureLevels
-        D3D11_SDK_VERSION, // SDKVersion
-        &swapChainDesc, // pSwapChainDesc,
-        &swapChain, // ppSwapChain
-        &deviceBasic, // ppDevice
-        NULL, // pFeatureLevel
-        &contextBasic // ppImmediateContext
-      );
-      // getOut() << "creating device 2" << std::endl;
-      if (SUCCEEDED(hr)) {
-        hr = deviceBasic->QueryInterface(__uuidof(ID3D11Device5), (void **)&device);
-        if (SUCCEEDED(hr)) {
-          // nothing
-        } else {
-          getOut() << "device query failed" << std::endl;
-          abort();
-        }
-        
-        Microsoft::WRL::ComPtr<ID3D11DeviceContext3> context3;
-        device->GetImmediateContext3(&context3);
-        hr = context3->QueryInterface(__uuidof(ID3D11DeviceContext4), (void **)&context);
-        if (SUCCEEDED(hr)) {
-          // nothing
-        } else {
-          getOut() << "context query failed" << std::endl;
-          abort();
-        }
-
-        hr = deviceBasic->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
-        if (SUCCEEDED(hr)) {
-          infoQueue->PushEmptyStorageFilter();
-        } else {
-          getOut() << "info queue query failed" << std::endl;
-          // abort();
-        }
-
-        /* hr = contextBasic->QueryInterface(__uuidof(ID3D11DeviceContext1), (void **)&context);
-        if (SUCCEEDED(hr)) {
-          // nothing
-        } else {
-          getOut() << "context query failed" << std::endl;
-        } */
-        
-        IDXGIDevice * pDXGIDevice = nullptr;
-        hr = device->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
-        
-        IDXGIAdapter * pDXGIAdapter = nullptr;
-        hr = pDXGIDevice->GetAdapter(&pDXGIAdapter);
-        
-        DXGI_ADAPTER_DESC desc;
-        hr = pDXGIAdapter->GetDesc(&desc);
-        getOut() << "got desc " << (char *)desc.Description << " " << desc.AdapterLuid.HighPart << " " << desc.AdapterLuid.LowPart << std::endl;
-      } else {
-        getOut() << "create dx device failed " << (void *)hr << std::endl;
-        abort();
+        getOut() << "info queue query failed" << std::endl;
+        // abort();
       }
       
       InitShader();
-    }
-    
-    if (!fence) {
+
       hr = device->CreateFence(
         0, // value
         // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
@@ -496,7 +389,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
 
     // return fenceHandle;
     return 0;
-  });
+  }); */
   fnp.reg<
     kIVRCompositor_Submit,
     std::tuple<uintptr_t, uintptr_t, uint64_t>,
@@ -818,15 +711,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
       context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
       context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
-      D3D11_VIEWPORT viewport{
-        0, // TopLeftX,
-        0, // TopLeftY,
-        width, // Width,
-        height, // Height,
-        0, // MinDepth,
-        1 // MaxDepth
-      };
-      context->RSSetViewports(1, &viewport);
       ID3D11RenderTargetView *localRenderTargetViews[2] = {
         renderTargetViews[iEye],
         renderTargetDepthBackViews[iEye]
@@ -890,55 +774,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     int
   >([=]() {
     // getOut() << "flush submit server 1" << std::endl;
-
-    if (backbufferShHandle != backbufferShHandleLatched) {
-      backbufferShHandleLatched = backbufferShHandle;
-
-      if (backbufferShHandle) {
-        ID3D11Resource *shTexResource;
-        HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
-
-        if (SUCCEEDED(hr)) {
-          hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
-          
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-            abort();
-          }
-        } else {
-          getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-          abort();
-        }
-
-        D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-        srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-        srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-        srvDesc.Texture2D.MostDetailedMip = 0;
-        srvDesc.Texture2D.MostDetailedMip = 0;
-        srvDesc.Texture2D.MipLevels = 1;
-
-        hr = device->CreateShaderResourceView(
-          backbufferShTex,
-          &srvDesc,
-          &backbufferShResourceView
-        );
-        if (SUCCEEDED(hr)) {
-          // nothing
-        } else {
-          InfoQueueLog();
-          getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
-          abort();
-        }
-      }
-    }
-    if (backbufferShHandle) {
-      for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
-        compositor2d::blendWindow(this, device.Get(), context.Get(), iEye, backbufferShResourceView, renderTargetViews[iEye], renderTargetDepthBackViews[iEye], depthShaderFrontResourceViews[iEye]);
-        SwapDepthTex(iEye);
-      }
-    }
 
     for (int iEye = 0; iEye < ARRAYSIZE(EYES); iEye++) {
       EVREye eEye = EYES[iEye];
@@ -1281,15 +1116,16 @@ void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
 ETrackingUniverseOrigin PVRCompositor::GetTrackingSpace() {
   return fnp.call<kIVRCompositor_GetTrackingSpace, ETrackingUniverseOrigin>();
 }
-EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,
-    VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount ) {
-  getOut() << "wait get poses" << std::endl;
+EVRCompositorError PVRCompositor::WaitGetPoses(VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount) {
+  // getOut() << "wait get poses 1" << std::endl;
   
   InfoQueueLog();
   
-  // hijacker.flushTextureLatches();
+  // getOut() << "wait get poses 2" << std::endl;
+
+  g_pvrclientcore->PreWaitGetPoses();
   
-  // (*pFrameCount)++;
+  // getOut() << "wait get poses 3" << std::endl;
   
   auto result = fnp.call<
     kIVRCompositor_WaitGetPoses,
@@ -1297,6 +1133,7 @@ EVRCompositorError PVRCompositor::WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArra
     uint32_t,
     uint32_t
   >(unRenderPoseArrayCount, unGamePoseArrayCount);
+  // getOut() << "wait get poses 4" << std::endl;
   // getOut() << "proxy wait get poses 1 " << (void *)pRenderPoseArray << " " << unRenderPoseArrayCount << " " << (void *)pGamePoseArray << " " << unGamePoseArrayCount << std::endl;
   memcpy(pRenderPoseArray, std::get<1>(result).data(), std::get<1>(result).size() * sizeof(TrackedDevicePose_t));
   // getOut() << "proxy wait get poses 2 " << (void *)pRenderPoseArray << " " << unRenderPoseArrayCount << " " << (void *)pGamePoseArray << " " << unGamePoseArrayCount << std::endl;
@@ -1696,30 +1533,38 @@ void PVRCompositor::PrepareSubmit(const Texture_t *pTexture) {
     // context->Flush();
   }
 
-  /*HANDLE newFenceHandle = */fnp.call<
+  /* fnp.call<
     kIVRCompositor_PrepareSubmit,
     int,
     ETextureType
-  >(pTexture->eType);
-  /* if (newFenceHandle != fenceHandle) {
-    getOut() << "new fence check 1 " << (void *)newFenceHandle << std::endl;
-
-    // IDisplayDeviceInterop *interop;
-    // device.As(&interop);
-
-    hr = device->OpenSharedFence(newFenceHandle, __uuidof(ID3D11Fence), (void **)&fence);
-    if (SUCCEEDED(hr)) {
-      // nothing
+  >(pTexture->eType); */
+}
+EVRCompositorError PVRCompositor::Submit(EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags) {
+  bool doQueueSubmit;
+  bool doRealSubmit;
+  g_pvrclientcore->PreSubmit(&doQueueSubmit, &doRealSubmit);
+  // getOut() << "compositor submit " << doQueueSubmit << " " << doRealSubmit << std::endl;
+  if (doQueueSubmit) {
+    // getOut() << "submit 3.1" << std::endl;
+    PrepareSubmit(pTexture);
+    // getOut() << "submit 4" << std::endl;
+    VRCompositorError result = SubmitFrame(eEye, pTexture, pBounds, nSubmitFlags);
+    // getOut() << "submit 5" << std::endl;
+    if (doRealSubmit) {
+      // getOut() << "submit 6" << std::endl;
+      FlushSubmit();
+      // getOut() << "do real submit yes" << std::endl;
+      // g_pvrcompositor->PostPresentHandoff();
     } else {
-      getOut() << "fence resource unpack failed 2 " << (void *)hr << std::endl;
-      abort();
+      // getOut() << "do real submit no" << std::endl;
     }
-
-    getOut() << "new fence check 2 " << (void *)newFenceHandle << std::endl;
-    
-    fenceHandle = newFenceHandle;
-  } */
-  // getOut() << "prepare submit client 4" << std::endl;
+    // getOut() << "submit 3" << std::endl;
+    // g_pvrclientcore->PostSubmit();
+    return result;
+  } else {
+    // getOut() << "submit 3.2" << std::endl;
+    return VRCompositorError::VRCompositorError_None;
+  }
 }
 inline bool operator==(const VRTextureBounds_t &a, const VRTextureBounds_t &b) {
   return a.uMin == b.uMin &&
@@ -1730,7 +1575,8 @@ inline bool operator==(const VRTextureBounds_t &a, const VRTextureBounds_t &b) {
 inline bool operator!=(const VRTextureBounds_t &a, const VRTextureBounds_t &b) {
   return !(a == b);
 }
-EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
+EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
+if (pTexture) {
   // getOut() << "submit client 1 " << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
@@ -2495,6 +2341,7 @@ EVRCompositorError PVRCompositor::Submit( EVREye eEye, const Texture_t *pTexture
   context->Wait(remoteServerFence, serverFenceValue);
 
   // getOut() << "submit client 23" << std::endl;
+}
 
   return VRCompositorError_None;
 }
@@ -2794,20 +2641,67 @@ void PVRCompositor::CacheWaitGetPoses() {
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
+  
+  HRESULT hr;
+  if (!device) {
+    // getOut() << "create device 1" << std::endl;
+    PVRCompositor::CreateDevice(&device, &context, &swapChain);
+    // getOut() << "create device 2 " << (void *)device.Get() << std::endl;
 
-  if (renderTargetViews.size() >= 2) {
-    float color[4] = {0, 0, 0, 0};
-    float depthColor[4] = {1, 0, 0, 0};
-    for (int i = 0; i < 2; i++) {
-      context->ClearRenderTargetView(
-        renderTargetViews[i],
-        color
-      );
-      context->ClearRenderTargetView(
-        renderTargetDepthFrontViews[i],
-        depthColor
-      );
+    hr = device->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
+    if (SUCCEEDED(hr)) {
+      infoQueue->PushEmptyStorageFilter();
+    } else {
+      getOut() << "info queue query failed" << std::endl;
+      // abort();
     }
+    
+    InitShader();
+
+    hr = device->CreateFence(
+      0, // value
+      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+      // D3D11_FENCE_FLAG_SHARED, // flags
+      D3D11_FENCE_FLAG_SHARED, // flags
+      __uuidof(ID3D11Fence), // interface
+      (void **)&fence // out
+    );
+    if (SUCCEEDED(hr)) {
+      // getOut() << "created fence " << (void *)fence << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create fence" << std::endl;
+      abort();
+    }
+
+    hr = fence->CreateSharedHandle(
+      NULL, // security attributes
+      GENERIC_ALL, // access
+      nullptr, // name
+      &fenceHandle // share handle
+    );
+    if (SUCCEEDED(hr)) {
+      getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create fence share handle" << std::endl;
+      abort();
+    }
+    
+    // context->Flush();
+  }
+
+  float color[4] = {0, 0, 0, 0};
+  float depthColor[4] = {1, 0, 0, 0};
+  for (int i = 0; i < 2; i++) {
+    context->ClearRenderTargetView(
+      renderTargetViews[i],
+      color
+    );
+    context->ClearRenderTargetView(
+      renderTargetDepthFrontViews[i],
+      depthColor
+    );
   }
 }
 void PVRCompositor::InitShader() {
@@ -3086,6 +2980,15 @@ void PVRCompositor::InitShader() {
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
     context->RSSetState(rasterizerState);
+    D3D11_VIEWPORT viewport{
+      0, // TopLeftX,
+      0, // TopLeftY,
+      width, // Width,
+      height, // Height,
+      0, // MinDepth,
+      1 // MaxDepth
+    };
+    context->RSSetViewports(1, &viewport);
   }
   getOut() << "init render 10" << std::endl;
 
@@ -3232,8 +3135,6 @@ void PVRCompositor::InitShader() {
       abort();
     }
   }
-
-  compositor2d::initShader(this, device.Get(), context.Get());
 }
 void PVRCompositor::SwapDepthTex(int iEye) {
   float depthColor[4] = {1, 0, 0, 0};
@@ -3282,6 +3183,113 @@ void PVRCompositor::InfoQueueLog() {
       }
     }
     infoQueue->ClearStoredMessages();
+  }
+}
+void PVRCompositor::CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **context, IDXGISwapChain **swapChain) {
+  int32_t adapterIndex;
+  g_vrsystem->GetDXGIOutputInfo(&adapterIndex);
+  if (adapterIndex == -1) {
+    adapterIndex = 0;
+  }
+
+  Microsoft::WRL::ComPtr<IDXGIFactory1> dxgi_factory;
+  IDXGIAdapter1 *adapter;
+  HRESULT hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), &dxgi_factory);
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "create dxgi factory failed " << (void *)hr << std::endl;
+  }
+  dxgi_factory->EnumAdapters1(adapterIndex, &adapter);
+
+  getOut() << "create device " << adapterIndex << " " << (void *)adapter << std::endl;
+
+  for (unsigned int i = 0;; i++) {
+    hr = dxgi_factory->EnumAdapters1(i, &adapter);
+    if (SUCCEEDED(hr)) {
+      DXGI_ADAPTER_DESC desc;
+      adapter->GetDesc(&desc);
+      getOut() << "got adapter desc " << i << (char *)desc.Description << " " << desc.AdapterLuid.HighPart << " " << desc.AdapterLuid.LowPart << std::endl;
+    } else {
+      break;
+    }
+  }
+  
+  // getOut() << "creating device 1" << std::endl;
+
+  // Microsoft::WRL::ComPtr<ID3D11Device> device;
+  // Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+  Microsoft::WRL::ComPtr<ID3D11Device> deviceBasic;
+  Microsoft::WRL::ComPtr<ID3D11DeviceContext> contextBasic;
+
+  D3D_FEATURE_LEVEL featureLevels[] = {
+    D3D_FEATURE_LEVEL_11_1
+  };
+  // getOut() << "create swap chain " << (void *)g_hWnd << std::endl;
+  DXGI_SWAP_CHAIN_DESC swapChainDesc{};
+  swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+  swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; 
+  swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; 
+  swapChainDesc.SampleDesc.Count = 1;                               
+  swapChainDesc.SampleDesc.Quality = 0;                               
+  swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+  swapChainDesc.BufferCount = 1;                               
+  swapChainDesc.OutputWindow = g_hWnd;                
+  swapChainDesc.Windowed = true;
+
+  hr = D3D11CreateDeviceAndSwapChain(
+    adapter, // pAdapter
+    D3D_DRIVER_TYPE_HARDWARE, // DriverType
+    NULL, // Software
+    0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
+    featureLevels, // pFeatureLevels
+    ARRAYSIZE(featureLevels), // FeatureLevels
+    D3D11_SDK_VERSION, // SDKVersion
+    &swapChainDesc, // pSwapChainDesc,
+    swapChain, // ppSwapChain
+    &deviceBasic, // ppDevice
+    NULL, // pFeatureLevel
+    &contextBasic // ppImmediateContext
+  );
+  // getOut() << "creating device 2" << std::endl;
+  if (SUCCEEDED(hr)) {
+    hr = deviceBasic->QueryInterface(__uuidof(ID3D11Device5), (void **)device);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "device query failed" << std::endl;
+      abort();
+    }
+    
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext3> context3;
+    (*device)->GetImmediateContext3(&context3);
+    hr = context3->QueryInterface(__uuidof(ID3D11DeviceContext4), (void **)context);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "context query failed" << std::endl;
+      abort();
+    }
+
+    /* hr = contextBasic->QueryInterface(__uuidof(ID3D11DeviceContext1), (void **)&context);
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      getOut() << "context query failed" << std::endl;
+    } */
+    
+    IDXGIDevice *pDXGIDevice = nullptr;
+    hr = (*device)->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
+    
+    IDXGIAdapter *pDXGIAdapter = nullptr;
+    hr = pDXGIDevice->GetAdapter(&pDXGIAdapter);
+    
+    DXGI_ADAPTER_DESC desc;
+    hr = pDXGIAdapter->GetDesc(&desc);
+    getOut() << "got desc " << (char *)desc.Description << " " << desc.AdapterLuid.HighPart << " " << desc.AdapterLuid.LowPart << std::endl;
+  } else {
+    getOut() << "create dx device failed " << (void *)hr << std::endl;
+    abort();
   }
 }
 }

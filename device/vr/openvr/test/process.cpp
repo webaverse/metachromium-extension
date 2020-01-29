@@ -221,43 +221,26 @@ int WINAPI WinMain(
   vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
   vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
   vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
-  /* FnProxy fnp;
-  Hijacker hijacker(fnp);
-  vr::PVRSystem system(vr::g_vrsystem, fnp);
-  vr::PVRCompositor compositor(vr::g_vrcompositor, hijacker, fnp);
-  vr::PVRClientCore clientcore(&compositor, fnp);
-  vr::PVRInput input(vr::g_vrinput, fnp);
-  vr::PVRScreenshots screenshots(vr::g_vrscreenshots, fnp);
-  vr::PVRChaperone chaperone(vr::g_vrchaperone, fnp);
-  vr::PVRChaperoneSetup chaperonesetup(vr::g_vrchaperonesetup, fnp);
-  vr::PVRSettings settings(vr::g_vrsettings, fnp);
-  vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, fnp);
-  vr::PVRApplications applications(vr::g_vrapplications, fnp);
-  vr::PVROverlay overlay(vr::g_vroverlay, fnp); */
-  while (live) {
-    DWORD result = MsgWaitForMultipleObjects(
-      1,
-      &g_fnp->inSem.h,
-      false,
-      INFINITE,
-      QS_ALLEVENTS
-    );
-    if (result == WAIT_OBJECT_0) {
-      g_fnp->handle();
-    } else if (result == (WAIT_OBJECT_0 + 1)) {
-      MSG msg;
-      // wait for the next message in the queue, store the result in 'msg'
-      if (GetMessage(&msg, NULL, 0, 0)) {
-        // translate keystroke messages into the right format
-        TranslateMessage(&msg);
+  
+  std::thread([=]() -> void {
+    compositor2d::homeRenderLoop();
+  }).detach();
 
-        // send the message to the WindowProc function
-        DispatchMessage(&msg);
-      }
-    } else {
-      getOut() << "unknown message wake: " << (void *)result << std::endl;
-      abort();
+  while (live) {
+    // getOut() << "handle 1" << std::endl;
+    g_fnp->handle();
+    // getOut() << "handle 2" << std::endl;
+
+    MSG msg;
+    // wait for the next message in the queue, store the result in 'msg'
+    while (PeekMessageA(&msg, NULL, 0, 0, true)) {
+      // translate keystroke messages into the right format
+      TranslateMessage(&msg);
+
+      // send the message to the WindowProc function
+      DispatchMessage(&msg);
     }
+    // getOut() << "handle 3" << std::endl;
   }
   
   getOut() << "process exit" << std::endl;
