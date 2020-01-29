@@ -215,7 +215,7 @@ int WINAPI WinMain(
       std::cout << "---" << std::endl;
     
     // check
-    hOld = CreateFileA(R"END(C:\Users\avaer\AppData\Local\Chromium\Application\chrome2.exe)END",
+    hOld = CreateFileA(args[1],
        GENERIC_READ,
        FILE_SHARE_READ,
        NULL,
@@ -223,7 +223,7 @@ int WINAPI WinMain(
        FILE_ATTRIBUTE_NORMAL,
        NULL);
     if (hOld == INVALID_HANDLE_VALUE) {
-        std::cout << "Couldn't open input file" << std::endl;
+        std::cout << "Couldn't open output file" << std::endl;
         abort();
     }
     if ((pBinary = DetourBinaryOpen(hOld)) == NULL) {
