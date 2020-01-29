@@ -14,12 +14,12 @@ $client2.DownloadFile("https://github.com/Hibbiki/chromium-win64/releases/downlo
 
 echo extracted
 
+"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+
 ls
 cd device\vr
 mkdir build
 cd build
-vswhere
-ls "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
 cmake -G "Visual Studio 15 2017" -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
