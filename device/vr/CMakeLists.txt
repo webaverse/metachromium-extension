@@ -61,7 +61,7 @@ SET(src
   OpenOVR/Reimpl/BaseOverlay.cpp
   OpenOVR/Reimpl/CVROverlay.cpp
   OpenOVR/Reimpl/BaseRenderModels.cpp
-  OpenOVR/Reimpl/CVRRenderModels.cpp
+  OpenOVR/Reimpl/CVRRenderModels.cpp  
   OpenOVR/Reimpl/BaseScreenshots.cpp
   OpenOVR/Reimpl/CVRScreenshots.cpp
   OpenOVR/Reimpl/BaseSettings.cpp
@@ -99,10 +99,10 @@ target_link_libraries(process dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib open
 set_property(TARGET process PROPERTY CXX_STANDARD 17)
 set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
 
-ADD_EXECUTABLE(process3 WIN32 ${src} openvr/test/process3.cpp)
-target_link_libraries(process3 dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)
-set_property(TARGET process3 PROPERTY CXX_STANDARD 17)
-set_property(TARGET process3 PROPERTY CXX_STANDARD_REQUIRED ON)
+ADD_EXECUTABLE(add_hook WIN32 ${src} openvr/test/process3.cpp)
+target_link_libraries(add_hook dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)
+set_property(TARGET add_hook PROPERTY CXX_STANDARD 17)
+set_property(TARGET add_hook PROPERTY CXX_STANDARD_REQUIRED ON)
 
 ADD_EXECUTABLE(native_host ${src} openvr/test/process4.cpp)
 target_link_libraries(native_host dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)

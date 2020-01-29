@@ -72,83 +72,92 @@ int WINAPI WinMain(
   // std::vector<char> cmd(strlen(lpCmdLine)+1);
   // memcpy(cmd.data(), lpCmdLine, cmd.size());
   
-  dllDir = R"END(C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\)END";
-  getOut() << "gpu process start 1: " << std::endl;
+  // dllDir = R"END(C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\)END";
+  getOut() << "add_hook start" << std::endl;
   
   // memcpy(s_szDllPath, "lol.dll", strlen("lol.dll")+1);
 
-  auto hOld = CreateFileA(R"END(C:\Users\avaer\AppData\Local\Chromium\Application\chrome.exe)END",
-     GENERIC_READ,
-     FILE_SHARE_READ,
-     NULL,
-     OPEN_EXISTING,
-     FILE_ATTRIBUTE_NORMAL,
-     NULL);
-  if (hOld == INVALID_HANDLE_VALUE) {
-      getOut() << "Couldn't open input file" << std::endl;
-      abort();
-  }
-  
-  auto hNew = CreateFileA(R"END(C:\Users\avaer\AppData\Local\Chromium\Application\chrome2.exe)END",
-                       GENERIC_WRITE | GENERIC_READ, 0, NULL, CREATE_ALWAYS,
-                       FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
-    if (hNew == INVALID_HANDLE_VALUE) {
-        getOut() << "Couldn't open output file" << std::endl;
+  int numArgs;
+  LPWSTR *args = CommandLineToArgvA(lpCmdLine, &numArgs);
+
+  if (numArgs >= 2) {
+    auto hOld = CreateFileA(args[0],
+       GENERIC_READ,
+       FILE_SHARE_READ,
+       NULL,
+       OPEN_EXISTING,
+       FILE_ATTRIBUTE_NORMAL,
+       NULL);
+    if (hOld == INVALID_HANDLE_VALUE) {
+        getOut() << "Couldn't open input file" << std::endl;
         abort();
     }
+    
+    auto hNew = CreateFileA(args[1],
+                         GENERIC_WRITE | GENERIC_READ, 0, NULL, CREATE_ALWAYS,
+                         FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
+      if (hNew == INVALID_HANDLE_VALUE) {
+          getOut() << "Couldn't open output file" << std::endl;
+          abort();
+      }
 
-  PDETOUR_BINARY pBinary;
-  if ((pBinary = DetourBinaryOpen(hOld)) == NULL) {
-      getOut() << "DetourBinaryOpen failed" << std::endl;
-      abort();
-  }
-  
-  
-  // DetourBinaryResetImports(pBinary);
-  
-  BOOL ctx = 0;
-   if (!DetourBinaryEditImports(pBinary,
-                               &ctx,
-                               AddBywayCallback, NULL, NULL, NULL)) {
-      getOut() << "DetourBinaryEditImports failed" << std::endl;
-  }
-  if (!DetourBinaryEditImports(pBinary,
-                               NULL,
-                               ListBywayCallback, ListFileCallback, NULL, NULL)) {
-      getOut() << "DetourBinaryEditImports failed" << std::endl;
-  }
-   if (!DetourBinaryWrite(pBinary, hNew)) {
-        getOut() << "DetourBinaryWrite failed" << std::endl;
+    PDETOUR_BINARY pBinary;
+    if ((pBinary = DetourBinaryOpen(hOld)) == NULL) {
+        getOut() << "DetourBinaryOpen failed" << std::endl;
         abort();
+    }
+    
+    
+    // DetourBinaryResetImports(pBinary);
+    
+    BOOL ctx = 0;
+     if (!DetourBinaryEditImports(pBinary,
+                                 &ctx,
+                                 AddBywayCallback, NULL, NULL, NULL)) {
+        getOut() << "DetourBinaryEditImports failed" << std::endl;
+    }
+    if (!DetourBinaryEditImports(pBinary,
+                                 NULL,
+                                 ListBywayCallback, ListFileCallback, NULL, NULL)) {
+        getOut() << "DetourBinaryEditImports failed" << std::endl;
+    }
+     if (!DetourBinaryWrite(pBinary, hNew)) {
+          getOut() << "DetourBinaryWrite failed" << std::endl;
+          abort();
+      }
+      DetourBinaryClose(pBinary);
+      CloseHandle(hNew);
+
+      getOut() << "---" << std::endl;
+    
+    // check
+    hOld = CreateFileA(R"END(C:\Users\avaer\AppData\Local\Chromium\Application\chrome2.exe)END",
+       GENERIC_READ,
+       FILE_SHARE_READ,
+       NULL,
+       OPEN_EXISTING,
+       FILE_ATTRIBUTE_NORMAL,
+       NULL);
+    if (hOld == INVALID_HANDLE_VALUE) {
+        getOut() << "Couldn't open input file" << std::endl;
+        abort();
+    }
+    if ((pBinary = DetourBinaryOpen(hOld)) == NULL) {
+        getOut() << "DetourBinaryOpen failed" << std::endl;
+        abort();
+    }
+    CloseHandle(hOld);
+     if (!DetourBinaryEditImports(pBinary,
+                                 NULL,
+                                 ListBywayCallback, ListFileCallback, NULL, NULL)) {
+        getOut() << "DetourBinaryEditImports failed" << std::endl;
     }
     DetourBinaryClose(pBinary);
-    CloseHandle(hNew);
+    
+    return 0;
+  } else {
+    getOut() << "invalid number of arguments" << std::endl;
 
-    getOut() << "---" << std::endl;
-  
-  // check
-  hOld = CreateFileA(R"END(C:\Users\avaer\AppData\Local\Chromium\Application\chrome2.exe)END",
-     GENERIC_READ,
-     FILE_SHARE_READ,
-     NULL,
-     OPEN_EXISTING,
-     FILE_ATTRIBUTE_NORMAL,
-     NULL);
-  if (hOld == INVALID_HANDLE_VALUE) {
-      getOut() << "Couldn't open input file" << std::endl;
-      abort();
+    return 1;
   }
-  if ((pBinary = DetourBinaryOpen(hOld)) == NULL) {
-      getOut() << "DetourBinaryOpen failed" << std::endl;
-      abort();
-  }
-  CloseHandle(hOld);
-   if (!DetourBinaryEditImports(pBinary,
-                               NULL,
-                               ListBywayCallback, ListFileCallback, NULL, NULL)) {
-      getOut() << "DetourBinaryEditImports failed" << std::endl;
-  }
-  DetourBinaryClose(pBinary);
-  
-  return 0;
 }
