@@ -160,7 +160,7 @@ int WINAPI WinMain(
   // memcpy(s_szDllPath, "lol.dll", strlen("lol.dll")+1);
 
   int numArgs;
-  LPCSTR *args = CommandLineToArgvA(lpCmdLine, &numArgs);
+  PCHAR *args = CommandLineToArgvA(lpCmdLine, &numArgs);
 
   if (numArgs >= 2) {
     auto hOld = CreateFileA(args[0],
