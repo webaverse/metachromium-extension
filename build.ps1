@@ -25,7 +25,8 @@ cmake --trace --debug-output -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=R
 ls
 msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
-# cd Chrome-bin
-# ls
+cd mock_vr_clients/bin
+.\add_hook.exe ..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\Chrome-bin\chrome2.exe
+ls
 
 echo done
