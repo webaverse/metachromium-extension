@@ -12,7 +12,7 @@ $client2.DownloadFile("https://github.com/Hibbiki/chromium-win64/releases/downlo
 
 7z x chrome.7z
 ls
-cd chromium
+cd Chrome-bin
 ls
 
 echo done
