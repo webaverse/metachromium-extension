@@ -11,5 +11,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: warrenbuckley/Setup-MSBuild@v1
     - name: Run a one-line script
       run: powershell -Command "& '.\build.ps1'"
