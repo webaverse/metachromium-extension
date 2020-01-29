@@ -14,7 +14,7 @@ $client2.DownloadFile("https://github.com/Hibbiki/chromium-win64/releases/downlo
 
 echo extracted
 
-"C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
+& 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat'
 
 ls
 cd device\vr
