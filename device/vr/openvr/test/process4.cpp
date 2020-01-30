@@ -85,8 +85,8 @@ int main(int argc, char **argv) {
             std::vector<char> argVec(argString.size() + 1);
             memcpy(argVec.data(), argString.c_str(), argString.size() + 1);
 
-            STARTUPINFO si;
-            PROCESS_INFORMATION pi;
+            STARTUPINFO si{};
+            PROCESS_INFORMATION pi{};
             if (CreateProcessA(
               NULL,
               argVec.data(),

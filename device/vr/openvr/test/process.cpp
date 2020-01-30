@@ -230,8 +230,8 @@ int WINAPI WinMain(
     char envBuf[64 * 1024];
     getChildEnvBuf(envBuf);
     
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
+    STARTUPINFO si{};
+    PROCESS_INFORMATION pi{};
     if (CreateProcessA(
       NULL,
       R"EOF(..\..\..\..\..\Chrome-bin\chrome.exe)EOF",
