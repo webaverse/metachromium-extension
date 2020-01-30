@@ -18,12 +18,17 @@ cd build
 cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 ls
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
+
 cd mock_vr_clients/bin
 copy ..\..\..\..\..\bin\* .
+
 .\add_hook.exe ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe
 move ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome3.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
+copy .\vrclient_x64.dll ..\..\..\..\..\Chrome-bin\
+
 cd ..\..\..\..\..
+
 
 echo zipping artifact
 ls
