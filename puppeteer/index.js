@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const logStream = fs.createWriteStream(__dirname + '/log_puppeteer.txt', {
+const logStream = fs.createWriteStream(process.cwd() + '/log_puppeteer.txt', {
   flags: 'a',
 });
 Object.defineProperty(process, 'stdout', {
