@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const logStream = fs.createWriteStream(process.cwd() + '/log_puppeteer.txt', {
+const logStream = fs.createWriteStream(__dirname + '/../node/log_puppeteer.txt', {
   flags: 'a',
 });
 Object.defineProperty(process, 'stdout', {
@@ -32,8 +32,8 @@ const browser = await puppeteer.launch({
   headless: false,
 });
 const pages = await browser.pages();
-// page = await browser.newPage();
 const page = pages[0];
+// const page = await browser.newPage();
 await page.goto(path.join(__dirname, '..', 'extension', 'index.html'));
 // await browser.close();
 
