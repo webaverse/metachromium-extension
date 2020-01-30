@@ -71,7 +71,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         DWORD flags = wParam;
         getOut() << "mouse down " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
 
-        PostMessage(chromeProcessHwnd, WM_LBUTTONDOWN, wParam, MAKEWORD(x, y));
+        // PostMessage(chromeProcessHwnd, WM_LBUTTONDOWN, wParam, MAKEWORD(x, y));
       }
 
       break;
@@ -84,7 +84,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         getOut() << "mouse up " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
       
 
-        PostMessage(chromeProcessHwnd, WM_LBUTTONUP, wParam, MAKEWORD(x, y));
+        // PostMessage(chromeProcessHwnd, WM_LBUTTONUP, wParam, MAKEWORD(x, y));
       }
 
       break;
@@ -96,7 +96,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         DWORD flags = wParam;
         getOut() << "mouse move " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
 
-        PostMessage(chromeProcessHwnd, WM_MOUSEMOVE, wParam, MAKEWORD(x, y));
+        // PostMessage(chromeProcessHwnd, WM_MOUSEMOVE, wParam, MAKEWORD(x, y));
       }
       
       break;
