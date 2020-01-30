@@ -225,7 +225,8 @@ int WINAPI WinMain(
   std::thread([=]() -> void {
     compositor2d::homeRenderLoop();
   }).detach();
-  
+
+  HANDLE chromeProcessId = NULL;
   {
     char cwdBuf[MAX_PATH];
     if (!GetCurrentDirectory(
@@ -261,6 +262,7 @@ int WINAPI WinMain(
       &si,
       &pi
     )) {
+      chromeProcessHandle = pi.hProcess;
       getOut() << "launched chrome ui process: " << pi.dwProcessId << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
@@ -282,6 +284,15 @@ int WINAPI WinMain(
       DispatchMessage(&msg);
     }
     // getOut() << "handle 3" << std::endl;
+
+    if (chromeProcessHandle) {
+      if (!TerminateProcess(
+        chromeProcessHandle,
+        0
+      )) {
+        getOut() << "failed to terminate chrome ui process: " << (void *)GetLastError() << std::endl;
+      }
+    }
   }
   
   getOut() << "process exit" << std::endl;
