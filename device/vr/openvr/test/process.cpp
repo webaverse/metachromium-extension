@@ -225,6 +225,30 @@ int WINAPI WinMain(
   std::thread([=]() -> void {
     compositor2d::homeRenderLoop();
   }).detach();
+  
+  {
+    char envBuf[64 * 1024];
+    getChildEnvBuf(envBuf);
+    
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    if (CreateProcessA(
+      NULL,
+      R"EOF(..\..\..\..\..\chromium\chrome.exe)EOF",
+      NULL,
+      NULL,
+      false,
+      0,
+      envBuf,
+      NULL,
+      &si,
+      &pi
+    )) {
+      getOut() << "launched chrome ui process: " << pi.dwProcessId << std::endl;
+    } else {
+      getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
+    }
+  }
 
   while (live) {
     // getOut() << "handle 1" << std::endl;
