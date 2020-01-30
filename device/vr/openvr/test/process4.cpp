@@ -17,7 +17,7 @@
 
 #include "device/vr/openvr/test/out.h"
 // #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
-// #include "device/vr/openvr/test/fake_openvr_impl_api.h"
+#include "device/vr/openvr/test/fake_openvr_impl_api.h"
 
 using json = nlohmann::json;
 
@@ -79,38 +79,8 @@ int main(int argc, char **argv) {
           if (methodString == "launchApp" && args.size() > 0 && args[0].is_string()) {
             std::string argString = args[0].get<std::string>();
 
-            LPSTR lpvEnv = GetEnvironmentStringsA();
-            std::vector<std::string> vars;
-            for (LPSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable++) {
-              std::string var;
-              while (*lpszVariable) {
-                var += *lpszVariable++;
-              }
-              vars.push_back(std::move(var));
-            }
-            FreeEnvironmentStrings(lpvEnv);
-            
-            for (auto iter : vars) {
-              std::string &s = iter;
-              std::string s2 = s;
-              for (auto &c : s2) {
-                c = toupper(c);
-              }
-              if (s2.rfind("PATH=", 0) == 0) {
-                s += R"EOF(;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin)EOF";
-              }
-            }
-            vars.push_back(std::string(R"EOF(VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\)EOF"));
-
             char envBuf[64 * 1024];
-            char *pEnvBuf = envBuf;
-            for (auto iter : vars) {
-              const std::string &s = iter;
-              getOut() << "write arg: " << s << std::endl;
-              memcpy(pEnvBuf, s.c_str(), s.size() + 1);
-              pEnvBuf += s.size() + 1;
-            }
-            pEnvBuf[0] = '\0';
+            getChildEnvBuf(envBuf);
             
             std::vector<char> argVec(argString.size() + 1);
             memcpy(argVec.data(), argString.c_str(), argString.size() + 1);

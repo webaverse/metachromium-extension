@@ -105,6 +105,38 @@ std::ostream &getOut() {
     return std::cout;
   } */
 }
+void getChildEnvBuf(char *pEnvBuf) {
+  LPSTR lpvEnv = GetEnvironmentStringsA();
+  std::vector<std::string> vars;
+  for (LPSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable++) {
+    std::string var;
+    while (*lpszVariable) {
+      var += *lpszVariable++;
+    }
+    vars.push_back(std::move(var));
+  }
+  FreeEnvironmentStrings(lpvEnv);
+  
+  for (auto iter : vars) {
+    std::string &s = iter;
+    std::string s2 = s;
+    for (auto &c : s2) {
+      c = toupper(c);
+    }
+    if (s2.rfind("PATH=", 0) == 0) {
+      s += R"EOF(;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin)EOF";
+    }
+  }
+  vars.push_back(std::string(R"EOF(VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\)EOF"));
+
+  for (auto iter : vars) {
+    const std::string &s = iter;
+    getOut() << "write arg: " << s << std::endl;
+    memcpy(pEnvBuf, s.c_str(), s.size() + 1);
+    pEnvBuf += s.size() + 1;
+  }
+  pEnvBuf[0] = '\0';
+}
 /* void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex) {
   vr::g_vrsystem->GetDXGIOutputInfo(pAdaterIndex);
 } */
