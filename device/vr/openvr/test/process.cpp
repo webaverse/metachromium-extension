@@ -310,9 +310,7 @@ int WINAPI WinMain(
       abort();
     }
 
-    std::string cmd = R"EOF(..\..\..\..\..\Chrome-bin\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing )EOF";
-    cmd += cwdBuf;
-    cmd += R"EOF(\..\..\..\..\..\extension\index.html)EOF";
+    std::string cmd = R"EOF(..\..\..\..\..\node\node.exe ..\..\..\..\..\puppeteer\index.js)EOF";
     std::vector<char> cmdVector(cmd.size() + 1);
     memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
 
