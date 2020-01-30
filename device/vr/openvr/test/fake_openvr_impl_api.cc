@@ -3,7 +3,7 @@
 // found in the LICENSE file.
 
 /*
-cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build
+cd C:\Users\avaer\Documents\GitHub\overlay\bin
 cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
 msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
