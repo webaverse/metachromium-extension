@@ -231,6 +231,49 @@ int WINAPI WinMain(
   detectQrCodes();
   getOut() << "detect qr codes 2" << std::endl;
 
+  HANDLE chromeProcessHandle = NULL;
+  {
+    char cwdBuf[MAX_PATH];
+    if (!GetCurrentDirectory(
+      sizeof(cwdBuf),
+      cwdBuf
+    )) {
+      getOut() << "failed to get current directory" << std::endl;
+      abort();
+    }
+
+    std::string cmd = R"EOF(..\..\..\..\..\Chrome-bin\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing )EOF";
+    cmd += cwdBuf;
+    cmd += R"EOF(\..\..\..\..\..\extension\index.html)EOF";
+    std::vector<char> cmdVector(cmd.size() + 1);
+    memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
+
+    getOut() << "launch chrome command: " << cmd << std::endl;
+    
+    char envBuf[64 * 1024];
+    getChildEnvBuf(envBuf);
+
+    STARTUPINFO si{};
+    PROCESS_INFORMATION pi{};
+    if (CreateProcessA(
+      NULL,
+      cmdVector.data(),
+      NULL,
+      NULL,
+      false,
+      0,
+      envBuf,
+      NULL,
+      &si,
+      &pi
+    )) {
+      chromeProcessHandle = pi.hProcess;
+      getOut() << "launched chrome ui process: " << pi.dwProcessId << std::endl;
+    } else {
+      getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
+    }
+  }
+
   while (live) {
     // getOut() << "handle 1" << std::endl;
     g_fnp->handle();
@@ -246,6 +289,15 @@ int WINAPI WinMain(
       DispatchMessage(&msg);
     }
     // getOut() << "handle 3" << std::endl;
+  }
+  
+  if (chromeProcessHandle) {
+    if (!TerminateProcess(
+      chromeProcessHandle,
+      0
+    )) {
+      getOut() << "failed to terminate chrome ui process: " << (void *)GetLastError() << std::endl;
+    }
   }
   
   getOut() << "process exit" << std::endl;

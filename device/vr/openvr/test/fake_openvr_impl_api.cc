@@ -116,18 +116,30 @@ void getChildEnvBuf(char *pEnvBuf) {
     vars.push_back(std::move(var));
   }
   FreeEnvironmentStrings(lpvEnv);
+
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(
+    sizeof(cwdBuf),
+    cwdBuf
+  )) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
+  }
   
-  for (auto iter : vars) {
+  /* for (auto iter : vars) {
     std::string &s = iter;
     std::string s2 = s;
     for (auto &c : s2) {
       c = toupper(c);
     }
     if (s2.rfind("PATH=", 0) == 0) {
-      s += R"EOF(;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin)EOF";
+      s += ";";
+      s += cwdBuf;
     }
-  }
-  vars.push_back(std::string(R"EOF(VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\)EOF"));
+  } */
+  std::string vrOverrideString = "VR_OVERRIDE=";
+  vrOverrideString += cwdBuf;
+  vars.push_back(std::move(vrOverrideString));
 
   for (auto iter : vars) {
     const std::string &s = iter;
