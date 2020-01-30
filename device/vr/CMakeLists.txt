@@ -19,12 +19,14 @@ INCLUDE_DIRECTORIES(
   gl/include/GLFW
   ../../third_party/khronos
   detours
+  ../../third_party/opencv/build/include
 )
 LINK_DIRECTORIES(
   gl/lib/glew
   gl/lib/glfw
   ../../third_party/openvr/src/bin/win64
   ../../third_party/openvr/src/lib/win64
+  ../../third_party/opencv/build/x64/vc15/lib
 )
 
 SET(src
@@ -91,12 +93,12 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
 ADD_LIBRARY(vrclient_x64 SHARED ${src} openvr/test/dll.cc)
 # target_link_libraries(vrclient_x64 openvr_api.dll)
-target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)
+target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib opencv_world420.lib)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
 
 ADD_EXECUTABLE(process WIN32 ${src} openvr/test/process.cpp)
-target_link_libraries(process dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)
+target_link_libraries(process dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib opencv_world420.lib)
 set_property(TARGET process PROPERTY CXX_STANDARD 17)
 set_property(TARGET process PROPERTY CXX_STANDARD_REQUIRED ON)
 
@@ -106,7 +108,7 @@ set_property(TARGET add_hook PROPERTY CXX_STANDARD 17)
 set_property(TARGET add_hook PROPERTY CXX_STANDARD_REQUIRED ON)
 
 ADD_EXECUTABLE(native_host ${src} openvr/test/process4.cpp)
-target_link_libraries(native_host dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib)
+target_link_libraries(native_host dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib opencv_world420.lib)
 set_property(TARGET native_host PROPERTY CXX_STANDARD 17)
 set_property(TARGET native_host PROPERTY CXX_STANDARD_REQUIRED ON)
 
