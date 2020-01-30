@@ -1,16 +1,45 @@
-const puppeteer = require('puppeteer');
+const path = require('path');
+const fs = require('fs');
+
+const logStream = fs.createWriteStream(__dirname + '/log_puppeteer.txt', {
+  flags: 'a',
+});
+Object.defineProperty(process, 'stdout', {
+  get() {
+    return logStream;
+  },
+});
+Object.defineProperty(process, 'stderr', {
+  get() {
+    return logStream;
+  },
+});
+
+const puppeteer = require('../node/node_modules/puppeteer');
 
 let page = null;
 (async () => {
   const browser = await puppeteer.launch({
-    executablePath: '', // XXX
+    executablePath: path.join(__dirname, '..', 'Chrome-bin', 'chrome.exe'),
     args: [
-      // XXX
+      `--enable-features="WebXR,OpenVR"`,
+      `--disable-features="WindowsMixedReality"`,
+      `--no-sandbox`,
+      `--test-type`,
+      `--disable-xr-device-consent-prompt-for-testing`,
+      // `--app=${path.join(__dirname, '..', 'extension', 'index.html')}`,
     ],
+    ignoreDefaultArgs: ['--enable-automation'],
+    headless: false,
   });
-  page = await browser.newPage();
-  await page.goto('https://www.google.com'); // XXX
-  await browser.close();
+  browser.on('disconnected', () => {
+    process.exit();
+  });
+  const pages = await browser.pages();
+  // page = await browser.newPage();
+  page = pages[0];
+  await page.goto(path.join(__dirname, '..', 'extension', 'index.html'));
+  // await browser.close();
 })();
 
 let bs = [];
