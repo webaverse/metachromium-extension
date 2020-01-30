@@ -17,30 +17,36 @@ Object.defineProperty(process, 'stderr', {
 
 const puppeteer = require('../node/node_modules/puppeteer');
 
-let page = null;
 (async () => {
-  const browser = await puppeteer.launch({
-    executablePath: path.join(__dirname, '..', 'Chrome-bin', 'chrome.exe'),
-    args: [
-      `--enable-features="WebXR,OpenVR"`,
-      `--disable-features="WindowsMixedReality"`,
-      `--no-sandbox`,
-      `--test-type`,
-      `--disable-xr-device-consent-prompt-for-testing`,
-      // `--app=${path.join(__dirname, '..', 'extension', 'index.html')}`,
-    ],
-    ignoreDefaultArgs: ['--enable-automation'],
-    headless: false,
-  });
-  browser.on('disconnected', () => {
+const browser = await puppeteer.launch({
+  executablePath: path.join(__dirname, '..', 'Chrome-bin', 'chrome.exe'),
+  args: [
+    `--enable-features="WebXR,OpenVR"`,
+    `--disable-features="WindowsMixedReality"`,
+    `--no-sandbox`,
+    `--test-type`,
+    `--disable-xr-device-consent-prompt-for-testing`,
+    // `--app=${path.join(__dirname, '..', 'extension', 'index.html')}`,
+  ],
+  ignoreDefaultArgs: ['--enable-automation'],
+  headless: false,
+});
+const pages = await browser.pages();
+// page = await browser.newPage();
+const page = pages[0];
+await page.goto(path.join(__dirname, '..', 'extension', 'index.html'));
+// await browser.close();
+
+let processLive = true;
+process.on('exit', () => {
+  processLive = false;
+});
+browser.on('disconnected', () => {
+  if (processLive) {
+    processLive = false;
     process.exit();
-  });
-  const pages = await browser.pages();
-  // page = await browser.newPage();
-  page = pages[0];
-  await page.goto(path.join(__dirname, '..', 'extension', 'index.html'));
-  // await browser.close();
-})();
+  }
+});
 
 let bs = [];
 let size = 0;
@@ -72,9 +78,6 @@ process.stdin.on('data', d => {
     }
   }
 });
-process.stdin.on('end', () => {
-  process.exit();
-});
 
 const _handleMessage = async j => {
   const {method} = j;
@@ -100,3 +103,5 @@ const _handleMessage = async j => {
     }
   }
 };
+
+})();
