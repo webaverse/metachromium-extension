@@ -227,14 +227,31 @@ int WINAPI WinMain(
   }).detach();
   
   {
+    char cwdBuf[MAX_PATH];
+    if (!GetCurrentDirectory(
+      sizeof(cwdBuf),
+      cwdBuf
+    )) {
+      getOut() << "failed to get current directory" << std::endl;
+      abort();
+    }
+
+    std::string cmd = R"EOF(..\..\..\..\..\Chrome-bin\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing )EOF";
+    cmd += cwdBuf;
+    cmd += R"EOF(\..\..\..\..\..\extension\index.html)EOF";
+    std::vector<char> cmdVector(cmd.size() + 1);
+    memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
+
+    getOut() << "launch chrome command: " << cmd << std::endl;
+    
     char envBuf[64 * 1024];
     getChildEnvBuf(envBuf);
-    
+
     STARTUPINFO si{};
     PROCESS_INFORMATION pi{};
     if (CreateProcessA(
       NULL,
-      R"EOF(..\..\..\..\..\Chrome-bin\chrome.exe)EOF",
+      cmdVector.data(),
       NULL,
       NULL,
       false,
