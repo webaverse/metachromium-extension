@@ -25,6 +25,8 @@ copy ..\..\..\..\..\bin\* .
 .\add_hook.exe ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe
 move ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome3.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
+copy .\glfw3.dll ..\..\..\..\..\Chrome-bin\
+copy .\glew32.dll ..\..\..\..\..\Chrome-bin\
 copy .\vrclient_x64.dll ..\..\..\..\..\Chrome-bin\
 
 cd ..\..\..\..\..
