@@ -61,7 +61,7 @@ SET(src
   OpenOVR/Reimpl/BaseOverlay.cpp
   OpenOVR/Reimpl/CVROverlay.cpp
   OpenOVR/Reimpl/BaseRenderModels.cpp
-  OpenOVR/Reimpl/CVRRenderModels.cpp  
+  OpenOVR/Reimpl/CVRRenderModels.cpp
   OpenOVR/Reimpl/BaseScreenshots.cpp
   OpenOVR/Reimpl/CVRScreenshots.cpp
   OpenOVR/Reimpl/BaseSettings.cpp
