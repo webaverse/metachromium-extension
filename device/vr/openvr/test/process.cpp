@@ -8,6 +8,7 @@
 #include "device/vr/openvr/test/out.h"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
+#include "device/vr/openvr/test/qr.h"
 
 std::string logSuffix = "_process";
 HWND g_hWnd = NULL;
@@ -225,6 +226,10 @@ int WINAPI WinMain(
   std::thread([=]() -> void {
     compositor2d::homeRenderLoop();
   }).detach();
+
+  getOut() << "detect qr codes 1" << std::endl;
+  detectQrCodes();
+  getOut() << "detect qr codes 2" << std::endl;
 
   while (live) {
     // getOut() << "handle 1" << std::endl;
