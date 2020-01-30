@@ -327,7 +327,7 @@ int WINAPI WinMain(
       NULL,
       NULL,
       false,
-      0,
+      CREATE_NO_WINDOW,
       envBuf,
       NULL,
       &si,
