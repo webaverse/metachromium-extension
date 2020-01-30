@@ -126,7 +126,7 @@ void getChildEnvBuf(char *pEnvBuf) {
     abort();
   }
   
-  for (auto iter : vars) {
+  /* for (auto iter : vars) {
     std::string &s = iter;
     std::string s2 = s;
     for (auto &c : s2) {
@@ -136,7 +136,7 @@ void getChildEnvBuf(char *pEnvBuf) {
       s += ";";
       s += cwdBuf;
     }
-  }
+  } */
   std::string vrOverrideString = "VR_OVERRIDE=";
   vrOverrideString += cwdBuf;
   vars.push_back(std::move(vrOverrideString));
