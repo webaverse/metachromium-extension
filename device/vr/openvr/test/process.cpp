@@ -20,20 +20,94 @@ inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 	return (uint32_t)(vtable[offset] - (uintptr_t)module);
 }
 
+HWND tmpHwnd;
+BOOL CALLBACK EnumWindowsProcMy(HWND hwnd, LPARAM lParam) {
+  char textBuf[1024];
+  if (GetWindowTextA(
+    hwnd,
+    textBuf,
+    sizeof(textBuf)
+  )) {
+    if (std::string(textBuf).find("Chromium") != std::string::npos) {
+      tmpHwnd = hwnd;
+      return false;
+    }
+  }
+  /* DWORD lpdwProcessId;
+  GetWindowThreadProcessId(hwnd,&lpdwProcessId);
+  if(lpdwProcessId==lParam)
+  {
+      tmpHwnd=hwnd;
+      return FALSE;
+  } */
+  return true;
+}
+HWND getHwndForProcessId(LPARAM m_ProcessId) {
+  tmpHwnd = NULL;
+  EnumWindows(EnumWindowsProcMy, m_ProcessId);
+  return tmpHwnd;
+}
+
+HANDLE chromeProcessHandle = NULL;
+DWORD chromeProcessId = 0;
+HWND chromeProcessHwnd = NULL;
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   // getOut() << "WindowProc message " << message << " " << WM_DESTROY << std::endl;
   // sort through and find what code to run for the message given
-  switch(message)
-  {
-      // this message is read when the window is closed
-      case WM_DESTROY:
-          {
-              // close the application entirely
-              live = false;
-              PostQuitMessage(0);
-              return 0;
-          } break;
+
+  if (chromeProcessId && !chromeProcessHwnd) {
+    chromeProcessHwnd = getHwndForProcessId(chromeProcessId);
+    /* if (chromeProcessHwnd) {
+      chromeProcessHwnd = GetParent(chromeProcessHwnd);
+    } */
+  }
+
+  switch (message) {
+    case WM_LBUTTONDOWN: {
+      if (chromeProcessHwnd) {
+        int x = LOWORD(lParam);
+        int y = HIWORD(lParam);
+        DWORD flags = wParam;
+        getOut() << "mouse down " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
+
+        PostMessage(chromeProcessHwnd, WM_LBUTTONDOWN, wParam, MAKEWORD(x, y));
+      }
+
+      break;
+    }
+    case WM_LBUTTONUP: {
+      if (chromeProcessHwnd) {
+        int x = LOWORD(lParam);
+        int y = HIWORD(lParam);
+        DWORD flags = wParam;
+        getOut() << "mouse up " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
+      
+
+        PostMessage(chromeProcessHwnd, WM_LBUTTONUP, wParam, MAKEWORD(x, y));
+      }
+
+      break;
+    }
+    case WM_MOUSEMOVE: {
+      if (chromeProcessHwnd) {
+        int x = LOWORD(lParam);
+        int y = HIWORD(lParam);
+        DWORD flags = wParam;
+        getOut() << "mouse move " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
+
+        PostMessage(chromeProcessHwnd, WM_MOUSEMOVE, wParam, MAKEWORD(x, y));
+      }
+      
+      break;
+    }
+    // this message is read when the window is closed
+    case WM_DESTROY: {
+      // close the application entirely
+      live = false;
+      PostQuitMessage(0);
+      return 0;
+    }
   }
 
   // Handle any messages the switch statement didn't
@@ -226,7 +300,6 @@ int WINAPI WinMain(
     compositor2d::homeRenderLoop();
   }).detach();
 
-  HANDLE chromeProcessHandle = NULL;
   {
     char cwdBuf[MAX_PATH];
     if (!GetCurrentDirectory(
@@ -263,7 +336,9 @@ int WINAPI WinMain(
       &pi
     )) {
       chromeProcessHandle = pi.hProcess;
-      getOut() << "launched chrome ui process: " << pi.dwProcessId << std::endl;
+      chromeProcessId = pi.dwProcessId;
+
+      getOut() << "launched chrome ui process: " << chromeProcessId << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
     }
