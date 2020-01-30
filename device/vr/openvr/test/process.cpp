@@ -284,14 +284,14 @@ int WINAPI WinMain(
       DispatchMessage(&msg);
     }
     // getOut() << "handle 3" << std::endl;
-
-    if (chromeProcessHandle) {
-      if (!TerminateProcess(
-        chromeProcessHandle,
-        0
-      )) {
-        getOut() << "failed to terminate chrome ui process: " << (void *)GetLastError() << std::endl;
-      }
+  }
+  
+  if (chromeProcessHandle) {
+    if (!TerminateProcess(
+      chromeProcessHandle,
+      0
+    )) {
+      getOut() << "failed to terminate chrome ui process: " << (void *)GetLastError() << std::endl;
     }
   }
   
