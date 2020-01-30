@@ -50,19 +50,19 @@ process.stdin.on('end', () => {
 const _handleMessage = async j => {
   const {method} = j;
   switch (method) {
-    case 'mousedown' {
+    case 'mousedown': {
       if (page) {
         await page.mouse.down();
       }
       break;
     }
-    case 'mouseup' {
+    case 'mouseup': {
       if (page) {
         await page.mouse.up();
       }
       break;
     }
-    case 'mousemove' {
+    case 'mousemove': {
       if (page) {
         const {x, y} = j;
         await page.mouse.move(x, y);
