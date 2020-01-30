@@ -234,7 +234,7 @@ int WINAPI WinMain(
     PROCESS_INFORMATION pi;
     if (CreateProcessA(
       NULL,
-      R"EOF(..\..\..\..\..\chromium\chrome.exe)EOF",
+      R"EOF(..\..\..\..\..\Chrome-bin\chrome.exe)EOF",
       NULL,
       NULL,
       false,
