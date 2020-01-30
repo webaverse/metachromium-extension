@@ -8,10 +8,13 @@ echo building...
 $client2 = new-object System.Net.WebClient
 $client2.DownloadFile("https://github.com/Hibbiki/chromium-win64/releases/download/v79.0.3945.130-r706915/chrome.sync.7z", "chrome.7z")
 7z x chrome.7z
+rm chrome.7z
 
 $client3 = new-object System.Net.WebClient
 $client3.DownloadFile("https://nodejs.org/dist/v13.7.0/node-v13.7.0-win-x64.zip", "node.zip")
 7z x node.zip
+rm node.zip
+mv node* node
 
 & 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat'
 
@@ -35,6 +38,9 @@ copy .\vrclient_x64.dll ..\..\..\..\..\Chrome-bin\
 
 cd ..\..\..\..\..
 
+cd node
+$env:PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = '1'
+.\npm.cmd install puppeteer
 
 echo zipping artifact
 ls
