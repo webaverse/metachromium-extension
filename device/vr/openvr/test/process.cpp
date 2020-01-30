@@ -226,7 +226,7 @@ int WINAPI WinMain(
     compositor2d::homeRenderLoop();
   }).detach();
 
-  HANDLE chromeProcessId = NULL;
+  HANDLE chromeProcessHandle = NULL;
   {
     char cwdBuf[MAX_PATH];
     if (!GetCurrentDirectory(
