@@ -48,8 +48,10 @@ public:
   ID3D11VertexShader *vsShader = nullptr;
   ID3DBlob *psBlob = nullptr;
   ID3DBlob *psMsBlob = nullptr;
+  // ID3DBlob *psCopyBlob = nullptr;
   ID3D11PixelShader *psShader = nullptr;
   ID3D11PixelShader *psMsShader = nullptr;
+  // ID3D11PixelShader *psCopyShader = nullptr;
   ID3D11InputLayout *vertexLayout = nullptr;
   ID3D11RasterizerState *rasterizerState = nullptr;
   // ID3D11ShaderResourceView *shaderResourceView = nullptr;
