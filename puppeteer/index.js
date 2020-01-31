@@ -91,14 +91,14 @@ const _handleMessage = async j => {
     switch (method) {
       case 'mousedown': {
         if (page) {
-          console.log('mouse down');
+          // console.log('mouse down');
           await page.mouse.down();
         }
         break;
       }
       case 'mouseup': {
         if (page) {
-          console.log('mouse up');
+          // console.log('mouse up');
           await page.mouse.up();
         }
         break;
@@ -106,7 +106,7 @@ const _handleMessage = async j => {
       case 'mousemove': {
         if (page) {
           const {x, y} = args;
-          console.log('mouse move', x, y);
+          // console.log('mouse move', x, y);
           await page.mouse.move(x, y);
         }
         break;
