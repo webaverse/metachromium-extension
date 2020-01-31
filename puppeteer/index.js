@@ -70,7 +70,7 @@ process.stdin.on('data', d => {
       // console.log('more size ok?', jsonSize, size >= Uint32Array.BYTES_PER_ELEMENT + jsonSize);
       if (size >= Uint32Array.BYTES_PER_ELEMENT + jsonSize) {
         const s = new TextDecoder().decode(b.slice(Uint32Array.BYTES_PER_ELEMENT, Uint32Array.BYTES_PER_ELEMENT + jsonSize));
-        console.log('browser got message', s);
+        // console.log('browser got message', s);
         const j = _jsonParse(s);
         _handleMessage(j);
         const shiftSize = Uint32Array.BYTES_PER_ELEMENT + jsonSize;
@@ -87,23 +87,26 @@ process.stdin.on('data', d => {
 
 const _handleMessage = async j => {
   if (j) {
-    const {method} = j;
+    const {method, args} = j;
     switch (method) {
       case 'mousedown': {
         if (page) {
+          console.log('mouse down');
           await page.mouse.down();
         }
         break;
       }
       case 'mouseup': {
         if (page) {
+          console.log('mouse up');
           await page.mouse.up();
         }
         break;
       }
       case 'mousemove': {
         if (page) {
-          const {x, y} = j;
+          const {x, y} = args;
+          console.log('mouse move', x, y);
           await page.mouse.move(x, y);
         }
         break;
