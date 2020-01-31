@@ -805,8 +805,49 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     }
     
     vrcompositor->PostPresentHandoff();
-    
-    swapChain->Present(0, 0);
+
+    {
+      ID3D11Texture2D *backBuffer;
+      HRESULT hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void **)&backBuffer);
+      if (FAILED(hr)) {
+        getOut() << "failed to get back buffer present texture: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      D3D11_TEXTURE2D_DESC desc;
+      backBuffer->GetDesc(&desc);
+
+      /* getOut() << "back buffer flags " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
+        std::endl; */
+
+      D3D11_BOX srcBox{
+        0,
+        0,
+        0,
+        std::min((int)desc.Width, outWindowWidth),
+        std::min((int)desc.Height, outWindowHeight),
+        1
+      };
+      context->CopySubresourceRegion(
+        backBuffer,
+        0,
+        0,
+        0,
+        0,
+        shTexOuts[0],
+        0,
+        &srcBox
+      );
+
+      backBuffer->Release();
+
+      swapChain->Present(0, 0);
+    }
 
     // getOut() << "flush submit server 11" << std::endl;
     return 0;
@@ -3272,7 +3313,7 @@ void PVRCompositor::CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **
   DXGI_SWAP_CHAIN_DESC swapChainDesc{};
   swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
   swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; 
-  swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; 
+  swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; 
   swapChainDesc.SampleDesc.Count = 1;                               
   swapChainDesc.SampleDesc.Quality = 0;                               
   swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
