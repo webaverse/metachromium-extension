@@ -291,7 +291,8 @@ HWND STDMETHODCALLTYPE MineCreateWindowExA(
   HINSTANCE hInstance,
   LPVOID    lpParam
 ) {
-  getOut() << "RealCreateWindowExA " << (void *)dwStyle << std::endl;
+  getOut() << "RealCreateWindowExA " << (void *)dwExStyle << " " << (void *)dwStyle << std::endl;
+  dwExStyle |= WS_EX_TOOLWINDOW;
   return RealCreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 }
 HWND (STDMETHODCALLTYPE *RealCreateWindowExW)( 
@@ -324,38 +325,6 @@ HWND STDMETHODCALLTYPE MineCreateWindowExW(
 ) {
   getOut() << "RealCreateWindowExW " << (void *)dwExStyle << " " << (void *)dwStyle << std::endl;
   dwExStyle |= WS_EX_TOOLWINDOW;
-  /* if (dwStyle & WS_BORDER) getOut() << "  WS_BORDER" << std::endl;
-  if (dwStyle & WS_CAPTION) getOut() << "  WS_CAPTION" << std::endl;
-  if (dwStyle & WS_CHILD) getOut() << "  WS_CHILD" << std::endl;
-  if (dwStyle & WS_CLIPCHILDREN) getOut() << "  WS_CLIPCHILDREN" << std::endl;
-  if (dwStyle & WS_CLIPSIBLINGS) getOut() << "  WS_CLIPSIBLINGS" << std::endl;
-  if (dwStyle & WS_DISABLED) getOut() << "  WS_DISABLED" << std::endl;
-  if (dwStyle & WS_DLGFRAME) getOut() << "  WS_DLGFRAME" << std::endl;
-  if (dwStyle & WS_GROUP) getOut() << "  WS_GROUP" << std::endl;
-  if (dwStyle & WS_HSCROLL) getOut() << "  WS_HSCROLL" << std::endl;
-  if (dwStyle & WS_ICONIC) getOut() << "  WS_ICONIC" << std::endl;
-  if (dwStyle & WS_MAXIMIZE) getOut() << "  WS_MAXIMIZE" << std::endl;
-  if (dwStyle & WS_MAXIMIZEBOX) getOut() << "  WS_MAXIMIZEBOX" << std::endl;
-  if (dwStyle & WS_MINIMIZE) getOut() << "  WS_MINIMIZE" << std::endl;
-  if (dwStyle & WS_MINIMIZEBOX) getOut() << "  WS_MINIMIZEBOX" << std::endl;
-  if (dwStyle == WS_OVERLAPPED) getOut() << "  WS_OVERLAPPED" << std::endl;
-  if (dwStyle & WS_OVERLAPPEDWINDOW) getOut() << "  WS_OVERLAPPEDWINDOW" << std::endl;
-  if (dwStyle & WS_POPUP) getOut() << "  WS_POPUP" << std::endl;
-  if (dwStyle & WS_POPUPWINDOW) getOut() << "  WS_POPUPWINDOW" << std::endl;
-  if (dwStyle & WS_SIZEBOX) getOut() << "  WS_SIZEBOX" << std::endl;
-  if (dwStyle & WS_SYSMENU) getOut() << "  WS_SYSMENU" << std::endl;
-  if (dwStyle & WS_TABSTOP) getOut() << "  WS_TABSTOP" << std::endl;
-  if (dwStyle & WS_THICKFRAME) getOut() << "  WS_THICKFRAME" << std::endl;
-  if (dwStyle & WS_TILEDWINDOW) getOut() << "  WS_TILEDWINDOW" << std::endl;
-  if (dwStyle & WS_VISIBLE) getOut() << "  WS_VISIBLE" << std::endl;
-  if (dwStyle & WS_VSCROLL) getOut() << "  WS_VSCROLL" << std::endl;
-  if (dwStyle & WS_OVERLAPPEDWINDOW) {
-    dwStyle &= ~WS_OVERLAPPEDWINDOW;
-  }
-  if (dwStyle & WS_VISIBLE) {
-    dwStyle &= ~WS_VISIBLE;
-  }
-  dwStyle |= WS_MINIMIZE; */
   return RealCreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateTargetForHwnd)(
