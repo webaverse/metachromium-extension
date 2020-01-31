@@ -35,12 +35,12 @@ move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
 copy .\glfw3.dll ..\..\..\..\..\Chrome-bin\
 copy .\glew32.dll ..\..\..\..\..\Chrome-bin\
 copy .\vrclient_x64.dll ..\..\..\..\..\Chrome-bin\
-
 cd ..\..\..\..\..
 
 cd node
 $env:PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = '1'
 .\npm.cmd install puppeteer
+cd ..
 
 echo zipping artifact
 ls
