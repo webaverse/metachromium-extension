@@ -34,15 +34,21 @@ const browser = await puppeteer.launch({
   ignoreDefaultArgs: ['--enable-automation'],
   headless: false,
 });
-const pages = await browser.pages();
-const page = pages[0];
-// const page = await browser.newPage();
+// const pages = await browser.pages();
+// const page = pages[0];
+const page = await browser.newPage();
 await page.goto(path.join(__dirname, '..', 'extension', 'index.html'));
 // await browser.close();
 
+process.stdin.on('end', () => {
+  process.exit();
+});
+/* process.on('exit', () => {
+  browser.close();
+});
 browser.on('disconnected', () => {
   console.log('browser disconnect');
-});
+}); */
 
 const _jsonParse = s => {
   try {
