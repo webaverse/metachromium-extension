@@ -30,13 +30,11 @@ cd mock_vr_clients/bin
 copy ..\..\..\..\..\bin\* .
 
 .\add_hook.exe ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe
-move ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome3.exe
+del ..\..\..\..\..\Chrome-bin\chrome.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
-copy .\glfw3.dll ..\..\..\..\..\Chrome-bin\
-copy .\glew32.dll ..\..\..\..\..\Chrome-bin\
-copy .\vrclient_x64.dll ..\..\..\..\..\Chrome-bin\
-cd ..\..\..\..\..
+copy ..\..\..\..\..\Chrome-bin\* .
 
+cd ..\..\..\..\..
 cd node
 $env:PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = '1'
 .\npm.cmd install puppeteer

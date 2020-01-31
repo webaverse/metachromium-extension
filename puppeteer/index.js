@@ -20,7 +20,7 @@ const puppeteer = require('../node/node_modules/puppeteer');
 
 (async () => {
 const browser = await puppeteer.launch({
-  executablePath: path.join(__dirname, '..', 'Chrome-bin', 'chrome.exe'),
+  executablePath: path.join(__dirname, '..', 'device', 'vr', 'build', 'mock_vr_clients', 'bin', 'chrome.exe'),
   args: [
     `--enable-features="WebXR,OpenVR"`,
     `--disable-features="WindowsMixedReality"`,
