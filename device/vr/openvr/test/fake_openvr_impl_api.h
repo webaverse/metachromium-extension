@@ -29,6 +29,9 @@ extern Hijacker *g_hijacker;
 
 extern Offsets *g_offsets;
 
+extern int outWindowWidth;
+extern int outWindowHeight;
+
 void wrapExternalOpenVr(std::function<void()> &&fn);
 void getChildEnvBuf(char *envBuf);
 

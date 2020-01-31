@@ -177,10 +177,10 @@ int WINAPI WinMain(
       wc.lpszClassName,    // name of the window class
       "Reality Tab",   // title of the window
       WS_OVERLAPPEDWINDOW,    // window style
-      300,    // x-position of the window
-      300,    // y-position of the window
-      512,    // width of the window
-      512,    // height of the window
+      CW_USEDEFAULT,    // x-position of the window
+      CW_USEDEFAULT,    // y-position of the window
+      outWindowWidth,    // width of the window
+      outWindowHeight,    // height of the window
       NULL,    // we have no parent window, NULL
       NULL,    // we aren't using menus, NULL
       hInstance,    // application handle
