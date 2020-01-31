@@ -340,9 +340,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTargetForHwnd(
   IDCompositionTarget **target
 ) {
   getOut() << "RealCreateTargetForHwnd" << std::endl;
-  auto result = RealCreateTargetForHwnd(This, hwnd, topmost, target);
-  // oldHwnd = hwnd;
-  return result;
+  return RealCreateTargetForHwnd(This, hwnd, topmost, target);
 }
 void ensureDepthWidthHeight() {
   if (!depthWidth) {
