@@ -28,6 +28,8 @@ const browser = await puppeteer.launch({
     `--test-type`,
     `--disable-xr-device-consent-prompt-for-testing`,
     // `--app=${path.join(__dirname, '..', 'extension', 'index.html')}`,
+    // `--no-startup-window`,
+    `--window-position=-10000,-10000`,
   ],
   ignoreDefaultArgs: ['--enable-automation'],
   headless: false,
