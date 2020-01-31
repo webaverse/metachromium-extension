@@ -1,9 +1,10 @@
 const path = require('path');
 const fs = require('fs');
 
-const logStream = fs.createWriteStream(__dirname + '/../node/log_puppeteer.txt', {
+/* const logStream = fs.createWriteStream(__dirname + '/../node/log_puppeteer.txt', {
   flags: 'a',
 });
+const con = new console.Console(logStream, logStream);
 Object.defineProperty(process, 'stdout', {
   get() {
     return logStream;
@@ -13,7 +14,7 @@ Object.defineProperty(process, 'stderr', {
   get() {
     return logStream;
   },
-});
+}); */
 
 const puppeteer = require('../node/node_modules/puppeteer');
 
@@ -37,39 +38,44 @@ const page = pages[0];
 await page.goto(path.join(__dirname, '..', 'extension', 'index.html'));
 // await browser.close();
 
-let processLive = true;
-process.on('exit', () => {
-  processLive = false;
-});
 browser.on('disconnected', () => {
-  if (processLive) {
-    processLive = false;
-    process.exit();
-  }
+  console.log('browser disconnect');
 });
+
+const _jsonParse = s => {
+  try {
+    return JSON.parse(s);
+  } catch(err) {
+    return null;
+  }
+};
 
 let bs = [];
 let size = 0;
 const _flatten = () => {
   if (bs.length > 0) {
-    bs = [Buffer.concat.apply(Buffer, bs)];
+    bs = [Buffer.concat(bs)];
   }
   return bs[0];
 };
 process.stdin.on('data', d => {
   bs.push(d);
   size += d.length;
-  let flattened = false;
 
   for (;;) {
     if (size >= Uint32Array.BYTES_PER_ELEMENT) {
+      // console.log('got size', size);
       const b = _flatten();
       const jsonSize = new Uint32Array(b)[0];
+      // console.log('more size ok?', jsonSize, size >= Uint32Array.BYTES_PER_ELEMENT + jsonSize);
       if (size >= Uint32Array.BYTES_PER_ELEMENT + jsonSize) {
         const s = new TextDecoder().decode(b.slice(Uint32Array.BYTES_PER_ELEMENT, Uint32Array.BYTES_PER_ELEMENT + jsonSize));
-        const j = JSON.parse(s);
+        console.log('browser got message', s);
+        const j = _jsonParse(s);
         _handleMessage(j);
-        bs[0] = bs[0].slice(Uint32Array.BYTES_PER_ELEMENT + jsonSize);
+        const shiftSize = Uint32Array.BYTES_PER_ELEMENT + jsonSize;
+        bs[0] = bs[0].slice(shiftSize);
+        size -= shiftSize;
       } else {
         break;
       }
@@ -80,26 +86,28 @@ process.stdin.on('data', d => {
 });
 
 const _handleMessage = async j => {
-  const {method} = j;
-  switch (method) {
-    case 'mousedown': {
-      if (page) {
-        await page.mouse.down();
+  if (j) {
+    const {method} = j;
+    switch (method) {
+      case 'mousedown': {
+        if (page) {
+          await page.mouse.down();
+        }
+        break;
       }
-      break;
-    }
-    case 'mouseup': {
-      if (page) {
-        await page.mouse.up();
+      case 'mouseup': {
+        if (page) {
+          await page.mouse.up();
+        }
+        break;
       }
-      break;
-    }
-    case 'mousemove': {
-      if (page) {
-        const {x, y} = j;
-        await page.mouse.move(x, y);
+      case 'mousemove': {
+        if (page) {
+          const {x, y} = j;
+          await page.mouse.move(x, y);
+        }
+        break;
       }
-      break;
     }
   }
 };
