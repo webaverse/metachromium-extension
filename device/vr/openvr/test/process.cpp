@@ -440,14 +440,14 @@ int WINAPI WinMain(
     // getOut() << "handle 3" << std::endl;
   }
   
-  if (chromeProcessHandle) {
+  /* if (chromeProcessHandle) {
     if (!TerminateProcess(
       chromeProcessHandle,
       0
     )) {
       getOut() << "failed to terminate chrome ui process: " << (void *)GetLastError() << std::endl;
     }
-  }
+  } */
   
   getOut() << "process exit" << std::endl;
 
