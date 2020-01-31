@@ -327,7 +327,7 @@ HWND STDMETHODCALLTYPE MineCreateWindowExW(
   dwExStyle |= WS_EX_TOOLWINDOW;
   return RealCreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 }
-HRESULT (STDMETHODCALLTYPE *RealCreateTargetForHwnd)(
+/* HRESULT (STDMETHODCALLTYPE *RealCreateTargetForHwnd)(
   IDCompositionDesktopDevice *This,
   HWND                hwnd,
   BOOL                topmost,
@@ -341,7 +341,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTargetForHwnd(
 ) {
   getOut() << "RealCreateTargetForHwnd" << std::endl;
   return RealCreateTargetForHwnd(This, hwnd, topmost, target);
-}
+} */
 void ensureDepthWidthHeight() {
   if (!depthWidth) {
     ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
