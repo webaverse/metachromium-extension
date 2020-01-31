@@ -319,14 +319,57 @@ int WINAPI WinMain(
     char envBuf[64 * 1024];
     getChildEnvBuf(envBuf);
 
+    /* child process's STDIN is the user input or data that you enter into the child process - READ */
+    HANDLE g_hChildStd_IN_Rd = NULL;
+    /* child process's STDIN is the user input or data that you enter into the child process - WRITE */
+    HANDLE g_hChildStd_IN_Wr = NULL;
+    /* child process's STDOUT is the program output or data that child process returns - READ */
+    HANDLE g_hChildStd_OUT_Rd = NULL;
+    /* child process's STDOUT is the program output or data that child process returns - WRITE */
+    HANDLE g_hChildStd_OUT_Wr = NULL;
+
+    SECURITY_ATTRIBUTES saAttr;
+    // Set the bInheritHandle flag so pipe handles are inherited. 
+    saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+    saAttr.bInheritHandle = TRUE;
+    saAttr.lpSecurityDescriptor = NULL;
+    //child process's STDOUT is the program output or data that child process returns
+    // Create a pipe for the child process's STDOUT. 
+    if (!CreatePipe(&g_hChildStd_OUT_Rd, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
+      getOut() << "StdoutRd CreatePipe abort" << std::endl;
+      abort();
+    }
+    // Ensure the read handle to the pipe for STDOUT is not inherited.
+    if (!SetHandleInformation(g_hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0)) {
+      getOut() << "Stdout SetHandleInformation abort" << std::endl;
+      abort();
+    }
+    //child process's STDIN is the user input or data that you enter into the child process
+    // Create a pipe for the child process's STDIN. 
+    if (!CreatePipe(&g_hChildStd_IN_Rd, &g_hChildStd_IN_Wr, &saAttr, 0)) {
+      getOut() << "Stdin CreatePipe abort" << std::endl;
+      abort();
+    }
+    // Ensure the write handle to the pipe for STDIN is not inherited. 
+    if (!SetHandleInformation(g_hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
+      getOut() << "Stdin SetHandleInformation abort" << std::endl;
+      abort();
+    }
+
     STARTUPINFO si{};
+    si.cb = sizeof(STARTUPINFO);
+    si.hStdError = g_hChildStd_OUT_Wr;
+    si.hStdOutput = g_hChildStd_OUT_Wr;
+    si.hStdInput = g_hChildStd_IN_Rd;
+    si.dwFlags |= STARTF_USESTDHANDLES;
+    
     PROCESS_INFORMATION pi{};
     if (CreateProcessA(
       NULL,
       cmdVector.data(),
       NULL,
       NULL,
-      false,
+      true,
       CREATE_NO_WINDOW,
       envBuf,
       NULL,
@@ -339,6 +382,30 @@ int WINAPI WinMain(
       getOut() << "launched chrome ui process: " << chromeProcessId << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
+    }
+    
+    std::thread([g_hChildStd_OUT_Rd]() -> void {
+      DWORD dwRead;
+      CHAR chBuf[4096];
+      BOOL bSuccess = FALSE;
+      HANDLE hParentStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+      WORD wResult = 0;
+      while (ReadFile(g_hChildStd_OUT_Rd, chBuf, sizeof(chBuf), &dwRead, NULL)) {
+        getOut().write(chBuf, dwRead);
+      }
+    }).detach();
+    
+    {
+      const char *lol = R"EOF({"lol":true})EOF";
+      std::vector<char> d(sizeof(uint32_t) + strlen(lol));
+      uint32_t size = strlen(lol);
+      memcpy(d.data(), &size, sizeof(uint32_t));
+      memcpy(d.data() + sizeof(uint32_t), lol, strlen(lol));
+      DWORD bytesWritten;
+      if (!WriteFile(g_hChildStd_IN_Wr, d.data(), d.size(), &bytesWritten, NULL)) {
+        getOut() << "failed to write file: " << (void *)GetLastError() << std::endl;
+        abort();
+      }
     }
   }
 
