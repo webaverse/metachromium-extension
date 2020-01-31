@@ -6,8 +6,11 @@
 // #include <fstream>
 
 #include "device/vr/openvr/test/out.h"
+#include "extension/json.hpp"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
+
+using json = nlohmann::json;
 
 std::string logSuffix = "_process";
 HWND g_hWnd = NULL;
@@ -50,53 +53,86 @@ HWND getHwndForProcessId(LPARAM m_ProcessId) {
 
 HANDLE chromeProcessHandle = NULL;
 DWORD chromeProcessId = 0;
-HWND chromeProcessHwnd = NULL;
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
+/* child process's STDIN is the user input or data that you enter into the child process - READ */
+HANDLE g_hChildStd_IN_Rd = NULL;
+/* child process's STDIN is the user input or data that you enter into the child process - WRITE */
+HANDLE g_hChildStd_IN_Wr = NULL;
+/* child process's STDOUT is the program output or data that child process returns - READ */
+HANDLE g_hChildStd_OUT_Rd = NULL;
+/* child process's STDOUT is the program output or data that child process returns - WRITE */
+HANDLE g_hChildStd_OUT_Wr = NULL;
+void writeChromeJson(const json &j) {
+  const std::string &s = j.dump();
+
+  std::vector<char> d(sizeof(uint32_t) + s.size());
+  uint32_t size = (uint32_t)s.size();
+  memcpy(d.data(), &size, sizeof(uint32_t));
+  memcpy(d.data() + sizeof(uint32_t), s.data(), s.size());
+  DWORD bytesWritten;
+  if (!WriteFile(g_hChildStd_IN_Wr, d.data(), d.size(), &bytesWritten, NULL)) {
+    getOut() << "failed to write to chrome: " << (void *)GetLastError() << std::endl;
+    // abort();
+  }
+}
+
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
   // getOut() << "WindowProc message " << message << " " << WM_DESTROY << std::endl;
   // sort through and find what code to run for the message given
 
-  if (chromeProcessId && !chromeProcessHwnd) {
-    chromeProcessHwnd = getHwndForProcessId(chromeProcessId);
-    /* if (chromeProcessHwnd) {
-      chromeProcessHwnd = GetParent(chromeProcessHwnd);
-    } */
-  }
-
   switch (message) {
     case WM_LBUTTONDOWN: {
-      if (chromeProcessHwnd) {
+      if (g_hChildStd_IN_Wr) {
         int x = LOWORD(lParam);
         int y = HIWORD(lParam);
         DWORD flags = wParam;
-        getOut() << "mouse down " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
+        // getOut() << "mouse down " << x << " " << y << " " << flags << std::endl;
 
-        // PostMessage(chromeProcessHwnd, WM_LBUTTONDOWN, wParam, MAKEWORD(x, y));
+        const json j = {
+          {"method", "mousedown"},
+          {"args", {
+            {"x", x},
+            {"y", y},
+          }},
+        };
+        writeChromeJson(j);
       }
 
       break;
     }
     case WM_LBUTTONUP: {
-      if (chromeProcessHwnd) {
+      if (g_hChildStd_IN_Wr) {
         int x = LOWORD(lParam);
         int y = HIWORD(lParam);
         DWORD flags = wParam;
-        getOut() << "mouse up " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
+        // getOut() << "mouse up " << x << " " << y << " " << flags << std::endl;
       
-
-        // PostMessage(chromeProcessHwnd, WM_LBUTTONUP, wParam, MAKEWORD(x, y));
+        const json j = {
+          {"method", "mouseup"},
+          {"args", {
+            {"x", x},
+            {"y", y},
+          }},
+        };
+        writeChromeJson(j);
       }
 
       break;
     }
     case WM_MOUSEMOVE: {
-      if (chromeProcessHwnd) {
+      if (g_hChildStd_IN_Wr) {
         int x = LOWORD(lParam);
         int y = HIWORD(lParam);
         DWORD flags = wParam;
-        getOut() << "mouse move " << x << " " << y << " " << flags << " " << chromeProcessHwnd << std::endl;
+        // getOut() << "mouse move " << x << " " << y << " " << flags << std::endl;
 
-        // PostMessage(chromeProcessHwnd, WM_MOUSEMOVE, wParam, MAKEWORD(x, y));
+        const json j = {
+          {"method", "mousemove"},
+          {"args", {
+            {"x", x},
+            {"y", y},
+          }},
+        };
+        writeChromeJson(j);
       }
       
       break;
@@ -319,15 +355,6 @@ int WINAPI WinMain(
     char envBuf[64 * 1024];
     getChildEnvBuf(envBuf);
 
-    /* child process's STDIN is the user input or data that you enter into the child process - READ */
-    HANDLE g_hChildStd_IN_Rd = NULL;
-    /* child process's STDIN is the user input or data that you enter into the child process - WRITE */
-    HANDLE g_hChildStd_IN_Wr = NULL;
-    /* child process's STDOUT is the program output or data that child process returns - READ */
-    HANDLE g_hChildStd_OUT_Rd = NULL;
-    /* child process's STDOUT is the program output or data that child process returns - WRITE */
-    HANDLE g_hChildStd_OUT_Wr = NULL;
-
     SECURITY_ATTRIBUTES saAttr;
     // Set the bInheritHandle flag so pipe handles are inherited. 
     saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -384,7 +411,7 @@ int WINAPI WinMain(
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
     }
     
-    std::thread([g_hChildStd_OUT_Rd]() -> void {
+    std::thread([]() -> void {
       DWORD dwRead;
       CHAR chBuf[4096];
       BOOL bSuccess = FALSE;
@@ -394,19 +421,6 @@ int WINAPI WinMain(
         getOut().write(chBuf, dwRead);
       }
     }).detach();
-    
-    {
-      const char *lol = R"EOF({"lol":true})EOF";
-      std::vector<char> d(sizeof(uint32_t) + strlen(lol));
-      uint32_t size = strlen(lol);
-      memcpy(d.data(), &size, sizeof(uint32_t));
-      memcpy(d.data() + sizeof(uint32_t), lol, strlen(lol));
-      DWORD bytesWritten;
-      if (!WriteFile(g_hChildStd_IN_Wr, d.data(), d.size(), &bytesWritten, NULL)) {
-        getOut() << "failed to write file: " << (void *)GetLastError() << std::endl;
-        abort();
-      }
-    }
   }
 
   while (live) {
