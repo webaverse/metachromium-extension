@@ -43,7 +43,7 @@ cd ..
 echo zipping artifact
 ls
 
-7z a xrchrome.zip Chrome-bin\
+7z a xrchrome.zip device\vr\build\mock_vr_clients\bin\
 
 echo done zipping artifact
 ls
