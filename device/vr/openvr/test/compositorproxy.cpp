@@ -793,7 +793,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
     ++fenceValue;
     context->Signal(fence.Get(), fenceValue);
-    context->Flush();
+    // context->Flush();
 
     /* if (!fence) {
       ID3D11Resource *fenceResource;
@@ -1321,7 +1321,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
     ++backbufferFenceValue;
     context->Signal(backbufferFence, backbufferFenceValue);
-    context->Flush();
+    // context->Flush();
 
     return backbufferFenceValue;
   });
@@ -2465,7 +2465,7 @@ if (pTexture) {
 
   ++fenceValue;
   context->Signal(fence.Get(), fenceValue);
-  context->Flush();
+  // context->Flush();
 
   // getOut() << "submit client 19 " << (void *)sharedHandle << " " << (void *)pTexture << std::endl;
 
