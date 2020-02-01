@@ -206,7 +206,8 @@ void presentSwapChain(T *swapChain) {
       getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
       abort();
     }
-
+  }
+  if (!backbufferFence) {
     hr = device5->lpVtbl->CreateFence(
       device5,
       0, // value
