@@ -1190,18 +1190,14 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
       ID3D11Resource *shTexResource;
       HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
-
-      if (SUCCEEDED(hr)) {
-        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&backbufferShTex);
-        
-        if (SUCCEEDED(hr)) {
-          // nothing
-        } else {
-          getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-          abort();
-        }
-      } else {
+      if (FAILED(hr)) {
         getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+        abort();
+      }
+
+      hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&backbufferShTex); 
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
         abort();
       }
       
@@ -1215,9 +1211,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         &srvDesc,
         &backbufferSrv
       );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
+      if (FAILED(hr)) {
         // InfoQueueLog();
         getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
         abort();
