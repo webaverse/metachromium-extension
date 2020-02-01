@@ -248,7 +248,7 @@ void multiplyMatrices(const float *aMatrix, const float *bMatrix, float *outMatr
   te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 }
 
-void initShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context, IDXGISwapChain *swapChain) {
+void init2DShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context, IDXGISwapChain *swapChain) {
   getOut() << "init shader 2d 1" << std::endl;
   
   HRESULT hr;
@@ -459,7 +459,7 @@ void homeRenderLoop() {
   ID3D11DeviceContext4 *context = vr::g_pvrcompositor->context.Get();
   IDXGISwapChain *swapChain = vr::g_pvrcompositor->swapChain.Get();
   
-  initShader(device, context, swapChain);
+  init2DShader(device, context, swapChain);
   
   for (;;) {
     vr::TrackedDevicePose_t renderPoses[vr::k_unMaxTrackedDeviceCount];
