@@ -727,6 +727,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         renderTargetDepthBackViews[iEye]
       };
       context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+      D3D11_VIEWPORT viewport{
+        0, // TopLeftX,
+        0, // TopLeftY,
+        width, // Width,
+        height, // Height,
+        0, // MinDepth,
+        1 // MaxDepth
+      };
+      context->RSSetViewports(1, &viewport);
       context->DrawIndexed(6, 0, 0);
 
       ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
@@ -806,11 +815,25 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       abort();
     }
 
+    float localVsData[8] = {
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    };
+    context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
+    context->VSSetShader(vsShader, nullptr, 0);
+    context->PSSetShader(psCopyShader, nullptr, 0);
+    context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
+
     D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
     renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
     renderTargetViewDesc.Texture2D.MipSlice = 0;
-
     ID3D11RenderTargetView *backbufferRtv;
     hr = device->CreateRenderTargetView(
       backBuffer,
@@ -822,12 +845,23 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
       abort();
     }
-    context->VSSetShader(vsShader, nullptr, 0);
-    context->PSSetShader(psCopyShader, nullptr, 0);
     ID3D11RenderTargetView *localRenderTargetViews[1] = {
       backbufferRtv
     };
     context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+    
+    D3D11_TEXTURE2D_DESC backbufferDesc;
+    backBuffer->GetDesc(&backbufferDesc);
+    D3D11_VIEWPORT viewport{
+      0, // TopLeftX,
+      0, // TopLeftY,
+      backbufferDesc.Width, // Width,
+      backbufferDesc.Height, // Height,
+      0, // MinDepth,
+      1 // MaxDepth
+    };
+    context->RSSetViewports(1, &viewport);
+
     if (backbufferShResourceView) {
 
       ID3D11ShaderResourceView *localShaderResourceViews[1] = {
@@ -841,6 +875,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       };
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
     }
+
     context->DrawIndexed(6, 0, 0);
 
     ID3D11ShaderResourceView *localShaderResourceViewsClear[1] = {};
@@ -3067,15 +3102,6 @@ void PVRCompositor::InitShader() {
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
     context->RSSetState(rasterizerState);
-    D3D11_VIEWPORT viewport{
-      0, // TopLeftX,
-      0, // TopLeftY,
-      width, // Width,
-      height, // Height,
-      0, // MinDepth,
-      1 // MaxDepth
-    };
-    context->RSSetViewports(1, &viewport);
   }
   getOut() << "init render 10" << std::endl;
 
