@@ -292,7 +292,7 @@ HWND STDMETHODCALLTYPE MineCreateWindowExA(
   LPVOID    lpParam
 ) {
   getOut() << "RealCreateWindowExA " << (void *)dwExStyle << " " << (void *)dwStyle << std::endl;
-  dwExStyle |= WS_EX_TOOLWINDOW;
+  // dwExStyle |= WS_EX_TOOLWINDOW;
   return RealCreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 }
 HWND (STDMETHODCALLTYPE *RealCreateWindowExW)( 
@@ -324,7 +324,7 @@ HWND STDMETHODCALLTYPE MineCreateWindowExW(
   LPVOID    lpParam
 ) {
   getOut() << "RealCreateWindowExW " << (void *)dwExStyle << " " << (void *)dwStyle << std::endl;
-  dwExStyle |= WS_EX_TOOLWINDOW;
+  // dwExStyle |= WS_EX_TOOLWINDOW;
   return RealCreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 }
 /* HRESULT (STDMETHODCALLTYPE *RealCreateTargetForHwnd)(
