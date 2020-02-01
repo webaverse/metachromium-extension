@@ -38,7 +38,6 @@ char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
-char kHijacker_SetTexture[] = "Hijacker_SetTexture";
 
 const char *depthVsh = R"END(#version 100
 precision highp float;
@@ -255,7 +254,7 @@ void presentSwapChain(T *swapChain) {
   context->lpVtbl->Flush(context);
 
   g_hijacker->fnp.call<
-    kHijacker_SetTexture,
+    kIVRCompositor_SetBackbuffer,
     int,
     HANDLE,
     HANDLE,
@@ -2750,57 +2749,6 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     return std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == handle;
     }) != texQueue.end();
-  });
-  fnp.reg<
-    kHijacker_SetTexture,
-    int,
-    HANDLE,
-    HANDLE,
-    size_t
-  >([=](HANDLE newBackbufferShHandle, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
-    backbufferShHandle = newBackbufferShHandle;
-    backbufferFenceHandle = newBackbufferFenceHandle;
-
-    ID3D11Device5 *device = vr::g_pvrcompositor->device.Get();
-    ID3D11DeviceContext4 *context = vr::g_pvrcompositor->context.Get();
-
-    if (!backbufferFence) {
-      HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, serverProcessId);
-      HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
-      
-      HANDLE fenceHandle2;
-      BOOL ok = DuplicateHandle(
-        srcProcess,
-        backbufferFenceHandle,
-        dstProcess,
-        &fenceHandle2,
-        0,
-        false,
-        DUPLICATE_SAME_ACCESS
-      );
-      if (ok) {
-        HRESULT hr = device->lpVtbl->OpenSharedFence(device, fenceHandle2, IID_ID3D11Fence, (void **)&backbufferFence);
-        if (SUCCEEDED(hr)) {
-          // nothing
-          getOut() << "got backbuffer fence handle ok " << std::endl;
-        } else {
-          InfoQueueLog();
-          getOut() << "backbuffer fence resource unpack failed " << (void *)hr << " " << (void *)fenceHandle2 << std::endl;
-          abort();
-        }
-      } else {
-        getOut() << "failed to duplicate backbuffer fence handle " << GetLastError() << std::endl;
-      }
-      
-      CloseHandle(srcProcess);
-      CloseHandle(dstProcess);
-    }
-
-    context->lpVtbl->Wait(context, backbufferFence, backbufferFenceValue);
-
-    // XXX perform blit
-
-    return 0;
   });
 }
 /* void Hijacker::ensureClientDevice() {

@@ -56,6 +56,7 @@ char kIVRCompositor_SubmitExplicitTimingData[] = "IVRCompositor::SubmitExplicitT
 char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothingEnabled";
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
+char kIVRCompositor_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
 
 const char *composeVsh = R"END(
 #version 330
@@ -852,82 +853,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     }
     
     vrcompositor->PostPresentHandoff();
-
-    // blit to window
-    ID3D11Texture2D *backBuffer;
-    HRESULT hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void **)&backBuffer);
-    if (FAILED(hr)) {
-      getOut() << "failed to get back buffer present texture: " << (void *)hr << std::endl;
-      abort();
-    }
-
-    float localVsData[8] = {
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    };
-    context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
-    context->VSSetShader(vsShader, nullptr, 0);
-    context->PSSetShader(psCopyShader, nullptr, 0);
-    context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
-
-    D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
-    renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-    renderTargetViewDesc.Texture2D.MipSlice = 0;
-    ID3D11RenderTargetView *backbufferRtv;
-    hr = device->CreateRenderTargetView(
-      backBuffer,
-      &renderTargetViewDesc,
-      &backbufferRtv
-    );
-    if (FAILED(hr)) {
-      InfoQueueLog();
-      getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
-      abort();
-    }
-    ID3D11RenderTargetView *localRenderTargetViews[1] = {
-      backbufferRtv
-    };
-    context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
-    
-    D3D11_TEXTURE2D_DESC backbufferDesc;
-    backBuffer->GetDesc(&backbufferDesc);
-    D3D11_VIEWPORT viewport{
-      0, // TopLeftX,
-      0, // TopLeftY,
-      backbufferDesc.Width, // Width,
-      backbufferDesc.Height, // Height,
-      0, // MinDepth,
-      1 // MaxDepth
-    };
-    context->RSSetViewports(1, &viewport);
-
-    if (backbufferShResourceView) {
-      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
-        backbufferShResourceView,
-      };
-      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
-    } else {
-      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
-        eyeShaderResourceViews[0],
-      };
-      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
-    }
-
-    context->DrawIndexed(6, 0, 0);
-
-    ID3D11ShaderResourceView *localShaderResourceViewsClear[1] = {};
-    context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
-    ID3D11RenderTargetView *localRenderTargetViewsClear[1] = {};
-    context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
-    backBuffer->Release();
-    backbufferRtv->Release();
     
     swapChain->Present(0, 0);
 
@@ -1242,6 +1167,143 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     bool
   >([=]() {
     return vrcompositor->IsCurrentSceneFocusAppLoading();
+  });
+  fnp.reg<
+    kIVRCompositor_SetBackbuffer,
+    int,
+    HANDLE,
+    HANDLE,
+    size_t
+  >([=](HANDLE newBackbufferShHandle, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
+    if (backbufferShHandle != newBackbufferShHandle) {
+      if (backbufferShTex) {
+        backbufferShTex->Release();
+        backbufferShTex = nullptr;
+        backbufferRtv->Release();
+        backbufferRtv = nullptr;
+      }
+      backbufferShHandle = newBackbufferShHandle;
+
+      ID3D11Resource *shTexResource;
+      HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+
+      if (SUCCEEDED(hr)) {
+        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
+        
+        if (SUCCEEDED(hr)) {
+          // nothing
+        } else {
+          getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+        abort();
+      }
+
+      D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+      renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+      renderTargetViewDesc.Texture2D.MipSlice = 0;
+      hr = device->CreateRenderTargetView(
+        backbufferShTex,
+        &renderTargetViewDesc,
+        &backbufferRtv
+      );
+      if (FAILED(hr)) {
+        InfoQueueLog();
+        getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      shTexResource->Release();
+    }
+    if (backbufferFenceHandle != newBackbufferFenceHandle) {
+      if (backbufferFence) {
+        backbufferFence->Release();
+        backbufferFence = nullptr;
+      }
+      backbufferFenceHandle = newBackbufferFenceHandle;
+
+      HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, serverProcessId);
+      HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
+      
+      HANDLE fenceHandle2;
+      BOOL ok = DuplicateHandle(
+        srcProcess,
+        backbufferFenceHandle,
+        dstProcess,
+        &fenceHandle2,
+        0,
+        false,
+        DUPLICATE_SAME_ACCESS
+      );
+      if (ok) {
+        HRESULT hr = device->OpenSharedFence(fenceHandle2, IID_ID3D11Fence, (void **)&backbufferFence);
+        if (SUCCEEDED(hr)) {
+          // nothing
+          getOut() << "got backbuffer fence handle ok " << std::endl;
+        } else {
+          InfoQueueLog();
+          getOut() << "backbuffer fence resource unpack failed " << (void *)hr << " " << (void *)fenceHandle2 << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to duplicate backbuffer fence handle " << GetLastError() << std::endl;
+      }
+      
+      CloseHandle(srcProcess);
+      CloseHandle(dstProcess);
+    }
+
+    context->Wait(backbufferFence, backbufferFenceValue);
+
+    {
+      float localVsData[8] = {
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      };
+      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
+      context->VSSetShader(vsShader, nullptr, 0);
+      context->PSSetShader(psCopyShader, nullptr, 0);
+      context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
+
+      ID3D11RenderTargetView *localRenderTargetViews[1] = {
+        backbufferRtv
+      };
+      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
+        eyeShaderResourceViews[0],
+      };
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+
+      D3D11_TEXTURE2D_DESC backbufferDesc;
+      backbufferShTex->GetDesc(&backbufferDesc);
+      D3D11_VIEWPORT viewport{
+        0, // TopLeftX,
+        0, // TopLeftY,
+        backbufferDesc.Width, // Width,
+        backbufferDesc.Height, // Height,
+        0, // MinDepth,
+        1 // MaxDepth
+      };
+      context->RSSetViewports(1, &viewport);
+
+      context->DrawIndexed(6, 0, 0);
+
+      ID3D11ShaderResourceView *localShaderResourceViewsClear[1] = {};
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
+      ID3D11RenderTargetView *localRenderTargetViewsClear[1] = {};
+      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
+    }
+
+    return 0;
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {

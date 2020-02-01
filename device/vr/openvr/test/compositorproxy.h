@@ -105,6 +105,11 @@ public:
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<HANDLE> inBackDepthHandleLatches;
   std::vector<ID3D11Fence *> inBackFences;
+  HANDLE backbufferShHandle = NULL;
+  ID3D11Texture2D *backbufferShTex = nullptr;
+  ID3D11Fence *backbufferFence = nullptr;
+  HANDLE backbufferFenceHandle = NULL;
+  ID3D11RenderTargetView *backbufferRtv;
   // std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
