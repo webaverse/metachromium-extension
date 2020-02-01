@@ -138,7 +138,7 @@ decltype(eglGetError) *EGL_GetError = nullptr;
 
 ID3D11Resource *backbufferShRes = nullptr;
 HANDLE backbufferShHandle = NULL;
-D3D11_TEXTURE2D_DESC backbufferDesc;
+D3D11_TEXTURE2D_DESC backbufferDesc{};
 template<typename T>
 void presentSwapChain(T *swapChain) {
   getOut() << "present swap chain 1" << std::endl;
