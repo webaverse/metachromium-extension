@@ -2886,7 +2886,6 @@ void PVRCompositor::InitShader() {
   };
   
   HRESULT hr;
-
   {
     D3D11_BUFFER_DESC bd{};
     D3D11_SUBRESOURCE_DATA InitData{};
@@ -3161,7 +3160,7 @@ void PVRCompositor::InitShader() {
       abort();
     }
   }
-  {
+  /* {
     D3D11_RASTERIZER_DESC rasterizerDesc{};
     rasterizerDesc.FillMode = D3D11_FILL_SOLID;
     rasterizerDesc.CullMode = D3D11_CULL_NONE;
@@ -3172,7 +3171,7 @@ void PVRCompositor::InitShader() {
       getOut() << "rasterizer state create failed: " << (void *)hr << std::endl;
       abort();
     }
-  }
+  } */
   getOut() << "init render 9" << std::endl;
   {
     UINT stride = sizeof(float) * 4; // xyuv
@@ -3182,7 +3181,7 @@ void PVRCompositor::InitShader() {
     context->IASetInputLayout(vertexLayout);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-    context->RSSetState(rasterizerState);
+    // context->RSSetState(rasterizerState);
   }
   getOut() << "init render 10" << std::endl;
 
