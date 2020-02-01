@@ -470,17 +470,19 @@ void homeRenderLoop() {
 
     if (vr::g_pvrcompositor->backbufferSrv) {
       for (int iEye = 0; iEye < 2; iEye++) {
-        blendWindow(
-          device,
-          context,
-          swapChain,
-          iEye,
-          vr::g_pvrcompositor->backbufferSrv,
-          vr::g_pvrcompositor->renderTargetViews[iEye],
-          vr::g_pvrcompositor->renderTargetDepthBackViews[iEye],
-          vr::g_pvrcompositor->depthShaderFrontResourceViews[iEye]
-        );
-        vr::g_pvrcompositor->SwapDepthTex(iEye);
+        vr::g_pvrcompositor->fnp.lock_guard([&]() -> void {
+          blendWindow(
+            device,
+            context,
+            swapChain,
+            iEye,
+            vr::g_pvrcompositor->backbufferSrv,
+            vr::g_pvrcompositor->renderTargetViews[iEye],
+            vr::g_pvrcompositor->renderTargetDepthBackViews[iEye],
+            vr::g_pvrcompositor->depthShaderFrontResourceViews[iEye]
+          );
+          vr::g_pvrcompositor->SwapDepthTex(iEye);
+        });
         vr::g_pvrcompositor->Submit(iEye == 0 ? vr::Eye_Left : vr::Eye_Right, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
       }
     } else {
