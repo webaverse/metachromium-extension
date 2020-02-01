@@ -3,11 +3,6 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
 
-// extern uint64_t *pFrameCount;
-// extern bool isChrome;
-// extern bool haveZBufferParams;
-// extern float zBufferParams[4];
-
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
 char kIVRCompositor_GetTrackingSpace[] = "IVRCompositor::GetTrackingSpace";
