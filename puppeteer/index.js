@@ -30,15 +30,15 @@ const browser = await puppeteer.launch({
     // `--app=${path.join(__dirname, '..', 'extension', 'index.html')}`,
     // `--no-startup-window`,
     `--load-extension=${path.join(__dirname, '..', 'extension')}`,
-    `--window-position=-10000,-10000`,
-    `--window-size=1024,768`,
+    // `--window-position=-10000,-10000`,
+    // `--window-size=1024,768`,
   ],
   ignoreDefaultArgs: ['--enable-automation'],
   headless: false,
 });
-// const pages = await browser.pages();
-// const page = pages[0];
-const page = await browser.newPage();
+const pages = await browser.pages();
+const page = pages[0];
+// const page = await browser.newPage();
 await page.goto(path.join(__dirname, '..', 'extension', 'index.html'));
 // await browser.close();
 
