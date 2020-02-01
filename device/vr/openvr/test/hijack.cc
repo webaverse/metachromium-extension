@@ -139,6 +139,9 @@ decltype(eglGetError) *EGL_GetError = nullptr;
 ID3D11Resource *backbufferShRes = nullptr;
 HANDLE backbufferShHandle = NULL;
 D3D11_TEXTURE2D_DESC backbufferDesc{};
+ID3D11Fence *backbufferFence = nullptr;
+HANDLE backbufferFenceHandle = NULL;
+uint64_t backbufferFenceValue = 0;
 template<typename T>
 void presentSwapChain(T *swapChain) {
   getOut() << "present swap chain 1" << std::endl;
@@ -199,6 +202,45 @@ void presentSwapChain(T *swapChain) {
 
     backbufferDesc = desc;
   }
+  if (!backbufferFence) {
+    hr = device->lpVtbl->CreateFence(
+      device,
+      0, // value
+      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+      // D3D11_FENCE_FLAG_SHARED, // flags
+      D3D11_FENCE_FLAG_SHARED, // flags
+      __uuidof(ID3D11Fence), // interface
+      (void **)&backbufferFence // out
+    );
+    if (SUCCEEDED(hr)) {
+      // getOut() << "created fence " << (void *)fence << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create backbuffer fence" << std::endl;
+      abort();
+    }
+
+    /* hr = fence->CreateSharedHandle(
+      NULL, // security attributes
+      GENERIC_ALL, // access
+      (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
+      &clientFence // share handle
+    ); */
+    hr = fence->lpVtbl->CreateSharedHandle(
+      fence,
+      NULL, // security attributes
+      GENERIC_ALL, // access
+      NULL, // (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
+      &backbufferFenceHandle // share handle
+    );
+    if (SUCCEEDED(hr)) {
+      getOut() << "create shared backbuffer fence handle " << (void *)backbufferFenceHandle << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create backbuffer fence share handle" << std::endl;
+      abort();
+    }
+  }
 
   ID3D11DeviceContext *context;
   device->lpVtbl->GetImmediateContext(device, &context);
@@ -208,19 +250,24 @@ void presentSwapChain(T *swapChain) {
     res
   );
 
-  g_hijacker->hijackDx(context);
+  ++backbufferFenceValue;
+  context->lpVtbl->Signal(context, backbufferFence, backbufferFenceValue);
+  context->lpVtbl->Flush(context);
 
-  res->lpVtbl->Release(res);
-  tex->lpVtbl->Release(tex);
-  device->lpVtbl->Release(device);
-  context->lpVtbl->Release(context);
-  
   g_hijacker->fnp.call<
     kHijacker_SetTexture,
     int,
-    HANDLE
-  >(backbufferShHandle);
-  
+    HANDLE,
+    HANDLE,
+    size_t
+  >(backbufferShHandle, backbufferFenceHandle, backbufferFenceValue);
+
+  context->lpVtbl->CopyResource(
+    context,
+    res,
+    backbufferShRes
+  );
+
   getOut() << "present swap chain done " <<
     desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
     desc.MipLevels << " " << desc.ArraySize << " " <<
@@ -228,6 +275,13 @@ void presentSwapChain(T *swapChain) {
     desc.Format << " " <<
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
     std::endl;
+
+  g_hijacker->hijackDx(context);
+
+  res->lpVtbl->Release(res);
+  tex->lpVtbl->Release(tex);
+  device->lpVtbl->Release(device);
+  context->lpVtbl->Release(context);
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
@@ -2700,9 +2754,52 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
   fnp.reg<
     kHijacker_SetTexture,
     int,
-    HANDLE
-  >([=](HANDLE newHandle) {
-    backbufferShHandle = newHandle;
+    HANDLE,
+    HANDLE,
+    size_t
+  >([=](HANDLE newBackbufferShHandle, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
+    backbufferShHandle = newBackbufferShHandle;
+    backbufferFenceHandle = newBackbufferFenceHandle;
+
+    ID3D11Device5 *device = vr::g_pvrcompositor->device.Get();
+    ID3D11DeviceContext4 *context = vr::g_pvrcompositor->context.Get();
+
+    if (!backbufferFence) {
+      HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, serverProcessId);
+      HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
+      
+      HANDLE fenceHandle2;
+      BOOL ok = DuplicateHandle(
+        srcProcess,
+        backbufferFenceHandle,
+        dstProcess,
+        &fenceHandle2,
+        0,
+        false,
+        DUPLICATE_SAME_ACCESS
+      );
+      if (ok) {
+        HRESULT hr = device->lpVtbl->OpenSharedFence(device, fenceHandle2, IID_ID3D11Fence, (void **)&backbufferFence);
+        if (SUCCEEDED(hr)) {
+          // nothing
+          getOut() << "got backbuffer fence handle ok " << std::endl;
+        } else {
+          InfoQueueLog();
+          getOut() << "backbuffer fence resource unpack failed " << (void *)hr << " " << (void *)fenceHandle2 << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to duplicate backbuffer fence handle " << GetLastError() << std::endl;
+      }
+      
+      CloseHandle(srcProcess);
+      CloseHandle(dstProcess);
+    }
+
+    context->lpVtbl->Wait(context, backbufferFence, backbufferFenceValue);
+
+    // XXX perform blit
+
     return 0;
   });
 }

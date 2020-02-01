@@ -251,11 +251,57 @@ const EVREye EYES[] = {
   }
 } */
 
-PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp) :
+PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bool isProcess, FnProxy &fnp) :
   vrcompositor(vrcompositor),
   hijacker(hijacker),
   fnp(fnp)
 {
+  if (isProcess) {
+    // getOut() << "create device 1" << std::endl;
+    PVRCompositor::CreateDevice(&device, &context, &swapChain);
+    // getOut() << "create device 2 " << (void *)device.Get() << std::endl;
+
+    HRESULT hr = device->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
+    if (SUCCEEDED(hr)) {
+      infoQueue->PushEmptyStorageFilter();
+    } else {
+      getOut() << "info queue query failed" << std::endl;
+      // abort();
+    }
+    
+    InitShader();
+
+    hr = device->CreateFence(
+      0, // value
+      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+      // D3D11_FENCE_FLAG_SHARED, // flags
+      D3D11_FENCE_FLAG_SHARED, // flags
+      __uuidof(ID3D11Fence), // interface
+      (void **)&fence // out
+    );
+    if (SUCCEEDED(hr)) {
+      // getOut() << "created fence " << (void *)fence << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create fence" << std::endl;
+      abort();
+    }
+
+    hr = fence->CreateSharedHandle(
+      NULL, // security attributes
+      GENERIC_ALL, // access
+      nullptr, // name
+      &fenceHandle // share handle
+    );
+    if (SUCCEEDED(hr)) {
+      getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create fence share handle" << std::endl;
+      abort();
+    }
+  }
+
   fnp.reg<
     kIVRCompositor_SetTrackingSpace,
     int,
@@ -2728,55 +2774,6 @@ void PVRCompositor::CacheWaitGetPoses() {
   // getOut() << "CacheWaitGetPoses 2 " << std::endl;
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
-  }
-  
-  HRESULT hr;
-  if (!device) {
-    // getOut() << "create device 1" << std::endl;
-    PVRCompositor::CreateDevice(&device, &context, &swapChain);
-    // getOut() << "create device 2 " << (void *)device.Get() << std::endl;
-
-    hr = device->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
-    if (SUCCEEDED(hr)) {
-      infoQueue->PushEmptyStorageFilter();
-    } else {
-      getOut() << "info queue query failed" << std::endl;
-      // abort();
-    }
-    
-    InitShader();
-
-    hr = device->CreateFence(
-      0, // value
-      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
-      // D3D11_FENCE_FLAG_SHARED, // flags
-      D3D11_FENCE_FLAG_SHARED, // flags
-      __uuidof(ID3D11Fence), // interface
-      (void **)&fence // out
-    );
-    if (SUCCEEDED(hr)) {
-      // getOut() << "created fence " << (void *)fence << std::endl;
-      // nothing
-    } else {
-      getOut() << "failed to create fence" << std::endl;
-      abort();
-    }
-
-    hr = fence->CreateSharedHandle(
-      NULL, // security attributes
-      GENERIC_ALL, // access
-      nullptr, // name
-      &fenceHandle // share handle
-    );
-    if (SUCCEEDED(hr)) {
-      getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
-      // nothing
-    } else {
-      getOut() << "failed to create fence share handle" << std::endl;
-      abort();
-    }
-    
-    // context->Flush();
   }
 
   float color[4] = {0, 0, 0, 0};
