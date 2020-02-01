@@ -1174,7 +1174,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     HANDLE,
     size_t
   >([=](HANDLE newBackbufferShHandle, uintptr_t serverProcessIdPtr, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
-    getOut() << "set back buffer " << (void *)newBackbufferShHandle << " " << (void *)serverProcessIdPtr << " " << (void *)newBackbufferFenceHandle << " " << (void *)backbufferFenceValue << std::endl;
+    // getOut() << "set back buffer " << (void *)newBackbufferShHandle << " " << (void *)serverProcessIdPtr << " " << (void *)newBackbufferFenceHandle << " " << (void *)backbufferFenceValue << std::endl;
     DWORD serverProcessId = serverProcessIdPtr;
     
     if (backbufferShHandle != newBackbufferShHandle) {
