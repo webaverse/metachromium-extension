@@ -2,6 +2,7 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/compositorproxy.h"
 
+ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
 extern HANDLE backbufferShHandle;
 
 namespace compositor2d {
@@ -134,7 +135,6 @@ IDXGISwapChain *swapChain = nullptr;
 
 HANDLE backbufferShHandleLatched = NULL;
 ID3D11Texture2D *backbufferShTex = nullptr;
-ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
 
 // window
 HWND twoDWindow = NULL;
