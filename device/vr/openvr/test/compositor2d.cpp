@@ -350,8 +350,7 @@ void blendWindow(
 
   // getOut() << "blend window" << std::endl;
 
-  ID3D11ShaderResourceView *localShaderResourceViews[3] = {
-    // windowResourceView,
+  ID3D11ShaderResourceView *localShaderResourceViews[2] = {
     backbufferIn,
     depthIn
   };
