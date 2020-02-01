@@ -198,6 +198,8 @@ ID3D11VertexShader *vsShader = nullptr;
 ID3DBlob *psBlob = nullptr;
 ID3D11PixelShader *psShader = nullptr;
 ID3D11InputLayout *vertexLayout = nullptr;
+ID3D11Texture2D *viewportFrontShTex = nullptr;
+ID3D11RenderTargetView *viewportRtv = nullptr;
 
 HANDLE latchedShEyeTex = NULL;
 ID3D11ShaderResourceView *eyeShaderResourceView = nullptr;
@@ -239,8 +241,54 @@ void InfoQueueLog() {
     infoQueue->lpVtbl->ClearStoredMessages(infoQueue);
   }
 }
-void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
-  HRESULT hr = device->lpVtbl->QueryInterface(device, IID_ID3D11InfoQueue, (void **)&infoQueue);
+void initBlitShader() {
+  HRESULT hr;
+
+  ID3D11Device *deviceBasic;
+  ID3D11DeviceContext *contextBasic;
+  D3D_FEATURE_LEVEL featureLevels[] = {
+    D3D_FEATURE_LEVEL_11_1
+  };
+  hr = D3D11CreateDevice(
+    // adapter, // pAdapter
+    NULL, // pAdapter
+    D3D_DRIVER_TYPE_HARDWARE, // DriverType
+    NULL, // Software
+    0, // Flags
+    featureLevels, // pFeatureLevels
+    ARRAYSIZE(featureLevels), // FeatureLevels
+    D3D11_SDK_VERSION, // SDKVersion
+    &deviceBasic, // ppDevice
+    NULL, // pFeatureLevel
+    &contextBasic // ppImmediateContext
+  );
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "opengl texture dx device creation failed " << (void *)hr << std::endl;
+    abort();
+  }
+  
+  hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11Device5, (void **)&hijackerDevice);
+  if (SUCCEEDED(hr)) {
+    infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
+  } else {
+    getOut() << "hijacker device query failed" << std::endl;
+    // abort();
+  }
+
+  hr = contextBasic->lpVtbl->QueryInterface(contextBasic, IID_ID3D11DeviceContext4, (void **)&hijackerContext);
+  if (SUCCEEDED(hr)) {
+    infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
+  } else {
+    getOut() << "hijacker context query failed" << std::endl;
+    // abort();
+  }
+
+  g_hijacker->hijackDx(contextBasic);
+
+  // XXX
+  hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11InfoQueue, (void **)&infoQueue);
   if (SUCCEEDED(hr)) {
     infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
   } else {
@@ -377,75 +425,81 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
       abort();
     }
   }
+  {
+    D3D11_TEXTURE2D_DESC desc{};
+    desc.Width = 300;
+    desc.Height = 300;
+    desc.MipLevels = desc.ArraySize = 1;
+    desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    desc.SampleDesc.Count = 1;
+    desc.Usage = D3D11_USAGE_DEFAULT;
+    desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+    // desc.CPUAccessFlags = 0;
+    desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+
+    hr = hijackerDevice->lpVtbl->CreateTexture2D(
+      hijackerDevice,
+      &desc,
+      NULL,
+      &viewportFrontShTex
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to create viewport texture: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+    renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+    renderTargetViewDesc.Texture2D.MipSlice = 0;
+    hr = hijackerDevice->lpVtbl->CreateRenderTargetView(
+      hijackerDevice,
+      viewportFrontShTex,
+      &renderTargetViewDesc,
+      &viewportRtv
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to create viewport rtv: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+
+  deviceBasic->lpVtbl->Release(deviceBasic);
+  contextBasic->lpVtbl->Release(contextBasic);
 
   InfoQueueLog();
   getOut() << "init shader blit X" << std::endl;
 }
-void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource *backbufferRes) {
-  // latch old
-  D3D11_PRIMITIVE_TOPOLOGY oldPromitiveTopology;
-  context->lpVtbl->IAGetPrimitiveTopology(context, &oldPromitiveTopology);
-  ID3D11InputLayout *oldInputLayout;
-  context->lpVtbl->IAGetInputLayout(context, &oldInputLayout);
-  ID3D11Buffer *oldVertexBuffers[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
-  UINT oldStrides[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
-  UINT oldOffsets[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
-  context->lpVtbl->IAGetVertexBuffers(context, 0, ARRAYSIZE(oldVertexBuffers), oldVertexBuffers, oldStrides, oldOffsets);
-  ID3D11Buffer *oldIndexBuffer;
-  DXGI_FORMAT oldFormat;
-  UINT oldOffset;
-  context->lpVtbl->IAGetIndexBuffer(context, &oldIndexBuffer, &oldFormat, &oldOffset);
-  ID3D11VertexShader *oldVs;
-  ID3D11ClassInstance *oldVsClassInstances[256];
-  UINT oldVsNumClassInstances = ARRAYSIZE(oldVsClassInstances);
-  context->lpVtbl->VSGetShader(context, &oldVs, oldVsClassInstances, &oldVsNumClassInstances);
-  ID3D11PixelShader *oldPs;
-  ID3D11ClassInstance *oldPsClassInstances[256];
-  UINT oldPsNumClassInstances = ARRAYSIZE(oldPsClassInstances);
-  context->lpVtbl->PSGetShader(context, &oldPs, oldPsClassInstances, &oldPsNumClassInstances);
-  ID3D11ShaderResourceView *oldSrvs[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT];
-  context->lpVtbl->PSGetShaderResources(context, 0, ARRAYSIZE(oldSrvs), oldSrvs);
-  ID3D11RenderTargetView *oldRtvs[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];
-  ID3D11DepthStencilView *oldDsv;
-  context->lpVtbl->OMGetRenderTargets(context, ARRAYSIZE(oldRtvs), oldRtvs, &oldDsv);
-  D3D11_VIEWPORT viewports[D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
-  UINT numViewports = ARRAYSIZE(viewports);
-  context->lpVtbl->RSGetViewports(context, &numViewports, viewports);
-
+void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource *backbufferRes) {
   // set new
   UINT stride = sizeof(float) * 4; // xyuv
   UINT offset = 0;
-  context->lpVtbl->IASetPrimitiveTopology(context, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-  context->lpVtbl->IASetInputLayout(context, vertexLayout);
-  context->lpVtbl->IASetVertexBuffers(context, 0, 1, &vertexBuffer, &stride, &offset);
-  context->lpVtbl->IASetIndexBuffer(context, indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-  context->lpVtbl->VSSetShader(context, vsShader, nullptr, 0);
-  context->lpVtbl->PSSetShader(context, psShader, nullptr, 0);
+  hijackerContext->lpVtbl->IASetPrimitiveTopology(hijackerContext, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+  hijackerContext->lpVtbl->IASetInputLayout(hijackerContext, vertexLayout);
+  hijackerContext->lpVtbl->IASetVertexBuffers(hijackerContext, 0, 1, &vertexBuffer, &stride, &offset);
+  hijackerContext->lpVtbl->IASetIndexBuffer(hijackerContext, indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+  hijackerContext->lpVtbl->VSSetShader(hijackerContext, vsShader, nullptr, 0);
+  hijackerContext->lpVtbl->PSSetShader(hijackerContext, psShader, nullptr, 0);
 
   ID3D11ShaderResourceView *localShaderResourceViews[1] = {
     eyeShaderResourceView,
   };
-  context->lpVtbl->PSSetShaderResources(context, 0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+  hijackerContext->lpVtbl->PSSetShaderResources(hijackerContext, 0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
 
-  ID3D11RenderTargetView *backbufferRtv = nullptr;
-  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
-  renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-  renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-  renderTargetViewDesc.Texture2D.MipSlice = 0;
-  HRESULT hr = device->lpVtbl->CreateRenderTargetView(
-    device,
+  /* HRESULT hr = hijackerDevice->lpVtbl->CreateRenderTargetView(
+    hijackerDevice,
     backbufferRes,
     &renderTargetViewDesc,
     &backbufferRtv
-  );
+  ); */
   if (FAILED(hr)) {
     getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
     abort();
   }
   ID3D11RenderTargetView *localRenderTargetViews[1] = {
-    backbufferRtv
+    viewportRtv,
   };
-  context->lpVtbl->OMSetRenderTargets(context, ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+  hijackerContext->lpVtbl->OMSetRenderTargets(hijackerContext, ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
 
   D3D11_VIEWPORT viewport{
     0, // TopLeftX,
@@ -455,63 +509,15 @@ void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Sha
     0, // MinDepth,
     1 // MaxDepth
   };
-  context->lpVtbl->RSSetViewports(context, 1, &viewport);
+  hijackerContext->lpVtbl->RSSetViewports(hijackerContext, 1, &viewport);
 
   // draw
-  context->lpVtbl->DrawIndexed(context, 6, 0, 0);
+  hijackerContext->lpVtbl->DrawIndexed(hijackerContext, 6, 0, 0);
 
-  // restore old
-  context->lpVtbl->IASetPrimitiveTopology(context, oldPromitiveTopology);
-  context->lpVtbl->IASetInputLayout(context, oldInputLayout);
-  context->lpVtbl->IASetVertexBuffers(context, 0, ARRAYSIZE(oldVertexBuffers), oldVertexBuffers, oldStrides, oldOffsets);
-  context->lpVtbl->IASetIndexBuffer(context, oldIndexBuffer, oldFormat, oldOffset);
-  context->lpVtbl->VSSetShader(context, oldVs, oldVsClassInstances, oldVsNumClassInstances);
-  context->lpVtbl->PSSetShader(context, oldPs, oldPsClassInstances, oldPsNumClassInstances);
-  context->lpVtbl->PSSetShaderResources(context, 0, ARRAYSIZE(oldSrvs), oldSrvs);
-  context->lpVtbl->OMSetRenderTargets(context, ARRAYSIZE(oldRtvs), oldRtvs, oldDsv);
-  context->lpVtbl->RSSetViewports(context, numViewports, viewports);
+  // XXX CopySubresourceRegion viewportFrontShTex -> backbufferRes
   
   // release
   backbufferRtv->lpVtbl->Release(backbufferRtv);
-  if (oldInputLayout) {
-    oldInputLayout->lpVtbl->Release(oldInputLayout);
-  }
-  for (size_t i = 0; i < ARRAYSIZE(oldVertexBuffers); i++) {
-    auto e = oldVertexBuffers[i];
-    if (e) {
-      e->lpVtbl->Release(e);
-    }
-  }
-  if (oldIndexBuffer) {
-    oldIndexBuffer->lpVtbl->Release(oldIndexBuffer);
-  }
-  if (oldVs) {
-    oldVs->lpVtbl->Release(oldVs);
-  }
-  for (size_t i = 0; i < oldVsNumClassInstances; i++) {
-    oldVsClassInstances[i]->lpVtbl->Release(oldVsClassInstances[i]);
-  }
-  if (oldPs) {
-    oldPs->lpVtbl->Release(oldPs);
-  }
-  for (size_t i = 0; i < oldPsNumClassInstances; i++) {
-    oldPsClassInstances[i]->lpVtbl->Release(oldPsClassInstances[i]);
-  }
-  for (size_t i = 0; i < ARRAYSIZE(oldSrvs); i++) {
-    auto e = oldSrvs[i];
-    if (e) {
-      e->lpVtbl->Release(e);
-    }
-  }
-  for (size_t i = 0; i < ARRAYSIZE(oldRtvs); i++) {
-    auto e = oldRtvs[i];
-    if (e) {
-      e->lpVtbl->Release(e);
-    }
-  }
-  if (oldDsv) {
-    oldDsv->lpVtbl->Release(oldDsv);
-  }
 }
 
 ID3D11Resource *backbufferShRes = nullptr;
@@ -524,6 +530,10 @@ template<typename T>
 void presentSwapChain(T *swapChain) {
   InfoQueueLog();
   getOut() << "present swap chain 1" << std::endl;
+
+  if (!hijackerDevice) {
+    initBlitShader();
+  }
   
   ID3D11Resource *res;
 	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
@@ -538,7 +548,7 @@ void presentSwapChain(T *swapChain) {
     abort();
   }
 
-  ID3D11Device *device;
+  /* ID3D11Device *device;
   tex->lpVtbl->GetDevice(tex, &device);
 
   ID3D11Device5 *device5;
@@ -561,7 +571,7 @@ void presentSwapChain(T *swapChain) {
   if (FAILED(hr)) {
     getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
     abort();
-  }
+  } */
 
   D3D11_TEXTURE2D_DESC desc;
   tex->lpVtbl->GetDesc(tex, &desc);
@@ -573,8 +583,8 @@ void presentSwapChain(T *swapChain) {
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
     ID3D11Texture2D *backbufferShTex;
-    hr = device5->lpVtbl->CreateTexture2D(
-      device5,
+    hr = hijackerDevice->lpVtbl->backbufferShTex(
+      hijackerDevice,
       &desc,
       NULL,
       &backbufferShTex
@@ -602,9 +612,6 @@ void presentSwapChain(T *swapChain) {
       getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
       abort();
     }
-  }
-  if (!vertexBuffer) {
-    initBlitShader(device5, context4);
   }
   /* if (!backbufferFence) {
     hr = device5->lpVtbl->CreateFence(
@@ -665,7 +672,7 @@ void presentSwapChain(T *swapChain) {
     latchedShEyeTex = shEyeTexHandle;
     
     ID3D11Resource *shEyeTexResource;
-    HRESULT hr = device->lpVtbl->OpenSharedResource(device, shEyeTexHandle, IID_ID3D11Resource, (void**)&shEyeTexResource);
+    HRESULT hr = hijackerDevice->lpVtbl->OpenSharedResource(hijackerDevice, shEyeTexHandle, IID_ID3D11Resource, (void**)&shEyeTexResource);
     if (FAILED(hr)) {
       getOut() << "failed to unpack shared eye texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
       abort();
@@ -677,8 +684,8 @@ void presentSwapChain(T *swapChain) {
     eyeSrv.Texture2D.MostDetailedMip = 0;
     eyeSrv.Texture2D.MipLevels = 1;
     
-    hr = device->lpVtbl->CreateShaderResourceView(
-      device,
+    hr = hijackerDevice->lpVtbl->CreateShaderResourceView(
+      hijackerDevice,
       shEyeTexResource,
       &eyeSrv,
       &eyeShaderResourceView
@@ -693,7 +700,7 @@ void presentSwapChain(T *swapChain) {
   getOut() << "blit eye view 1 " << (void *)device5 << " " << (void *)context4 << std::endl;
   if (eyeShaderResourceView) {
     getOut() << "blit eye view 2" << std::endl;
-    blitEyeView(device5, context4, eyeShaderResourceView, res);
+    blitEyeView(eyeShaderResourceView, res);
   }
 
   /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
@@ -710,8 +717,6 @@ void presentSwapChain(T *swapChain) {
     desc.Format << " " <<
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
     std::endl; */
-
-  g_hijacker->hijackDx(context);
 
   res->lpVtbl->Release(res);
   tex->lpVtbl->Release(tex);
