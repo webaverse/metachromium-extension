@@ -121,6 +121,7 @@ public:
   std::vector<ID3D11RenderTargetView *> renderTargetViews;
   std::vector<ID3D11RenderTargetView *> renderTargetDepthFrontViews;
   std::vector<ID3D11RenderTargetView *> renderTargetDepthBackViews;
+  std::vector<ID3D11ShaderResourceView *> eyeShaderResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 

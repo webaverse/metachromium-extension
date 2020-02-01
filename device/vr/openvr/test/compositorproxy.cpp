@@ -3104,6 +3104,12 @@ void PVRCompositor::InitShader() {
   renderTargetViewDepthDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
   renderTargetViewDepthDesc.Texture2D.MipSlice = 0;
 
+  D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
+  eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+  eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+  eyeSrv.Texture2D.MostDetailedMip = 0;
+  eyeSrv.Texture2D.MipLevels = 1;
+
   D3D11_SHADER_RESOURCE_VIEW_DESC depthSrv{};
   depthSrv.Format = DXGI_FORMAT_R32_FLOAT;
   depthSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -3116,6 +3122,7 @@ void PVRCompositor::InitShader() {
   renderTargetViews.resize(2);
   renderTargetDepthFrontViews.resize(2);
   renderTargetDepthBackViews.resize(2);
+  eyeShaderResourceViews.resize(2);
   depthShaderFrontResourceViews.resize(2);
   depthShaderBackResourceViews.resize(2);
   for (int i = 0; i < 2; i++) {
@@ -3142,6 +3149,19 @@ void PVRCompositor::InitShader() {
     } else {
       InfoQueueLog();
       getOut() << "failed to create eye render target view: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    hr = device->CreateShaderResourceView(
+      shTexOuts[i],
+      &eyeSrv,
+      &eyeShaderResourceViews[i]
+    );
+    if (SUCCEEDED(hr)) {
+      // nothing
+    } else {
+      InfoQueueLog();
+      getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
       abort();
     }
     
