@@ -122,6 +122,7 @@ public:
   // std::vector<GLuint> shTexOutIds;
   // std::vector<GLuint> texDepthIds;
   std::vector<ID3D11Texture2D *> shTexOuts;
+  std::vector<HANDLE> shTexOutHandles;
   std::vector<ID3D11Texture2D *> shDepthTexFrontOuts;
   std::vector<ID3D11Texture2D *> shDepthTexBackOuts;
   std::vector<ID3D11RenderTargetView *> renderTargetViews;

@@ -52,6 +52,7 @@ char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothi
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
 char kIVRCompositor_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
+char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1168,7 +1169,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   });
   fnp.reg<
     kIVRCompositor_SetBackbuffer,
-    size_t,
+    int,
     HANDLE,
     uintptr_t,
     HANDLE,
@@ -1321,9 +1322,21 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
     ++backbufferFenceValue;
     context->Signal(backbufferFence, backbufferFenceValue);
-    // context->Flush(); */
+    // context->Flush();
 
-    return backbufferFenceValue;
+    return backbufferFenceValue; */
+    
+    return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_GetSharedEyeTexture,
+    HANDLE
+  >([=]() {
+    if (shTexOutHandles.size() > 0) {
+      return shTexOutHandles[0];
+    } else {
+      return (HANDLE)NULL;
+    }
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
@@ -3193,6 +3206,7 @@ void PVRCompositor::InitShader() {
   desc.SampleDesc.Count = 1;
   desc.Usage = D3D11_USAGE_DEFAULT;
   desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+  desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
   
   D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
   renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -3226,6 +3240,7 @@ void PVRCompositor::InitShader() {
   depthSrv.Texture2D.MipLevels = 1;
 
   shTexOuts.resize(2);
+  shTexOutHandles.resize(2);
   shDepthTexFrontOuts.resize(2);
   shDepthTexBackOuts.resize(2);
   renderTargetViews.resize(2);
@@ -3235,117 +3250,153 @@ void PVRCompositor::InitShader() {
   depthShaderFrontResourceViews.resize(2);
   depthShaderBackResourceViews.resize(2);
   for (int i = 0; i < 2; i++) {
-    hr = device->CreateTexture2D(
-      &desc,
-      NULL,
-      &shTexOuts[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye texture: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateTexture2D(
+        &desc,
+        NULL,
+        &shTexOuts[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye texture: " << (void *)hr << std::endl;
+        abort();
+      }
     }
+    {
+      hr = device->CreateRenderTargetView(
+        shTexOuts[i],
+        &renderTargetViewDesc,
+        &renderTargetViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye render target view: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+    {
+      IDXGIResource1 *shTexOutResource;
+      hr = shTexOuts[i]->QueryInterface(__uuidof(IDXGIResource1), (void **)&shTexOutResource);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to get eye tex share handle: " << (void *)hr << std::endl;
+        abort();
+      }
 
-    hr = device->CreateRenderTargetView(
-      shTexOuts[i],
-      &renderTargetViewDesc,
-      &renderTargetViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye render target view: " << (void *)hr << std::endl;
-      abort();
+      hr = shTexOutResource->GetSharedHandle(&shTexOutHandles[i]);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to get eye tex share handle: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      shTexOutResource->Release();
     }
-
-    hr = device->CreateShaderResourceView(
-      shTexOuts[i],
-      &eyeSrv,
-      &eyeShaderResourceViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateShaderResourceView(
+        shTexOuts[i],
+        &eyeSrv,
+        &eyeShaderResourceViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    
-    hr = device->CreateTexture2D(
-      &depthDesc,
-      NULL,
-      &shDepthTexFrontOuts[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateTexture2D(
+        &depthDesc,
+        NULL,
+        &shDepthTexFrontOuts[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    hr = device->CreateRenderTargetView(
-      shDepthTexFrontOuts[i],
-      &renderTargetViewDepthDesc,
-      &renderTargetDepthFrontViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth render target front view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateRenderTargetView(
+        shDepthTexFrontOuts[i],
+        &renderTargetViewDepthDesc,
+        &renderTargetDepthFrontViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth render target front view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    hr = device->CreateShaderResourceView(
-      shDepthTexFrontOuts[i],
-      &depthSrv,
-      &depthShaderFrontResourceViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateShaderResourceView(
+        shDepthTexFrontOuts[i],
+        &depthSrv,
+        &depthShaderFrontResourceViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-
-    hr = device->CreateTexture2D(
-      &depthDesc,
-      NULL,
-      &shDepthTexBackOuts[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateTexture2D(
+        &depthDesc,
+        NULL,
+        &shDepthTexBackOuts[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    hr = device->CreateRenderTargetView(
-      shDepthTexBackOuts[i],
-      &renderTargetViewDepthDesc,
-      &renderTargetDepthBackViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth render target back view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateRenderTargetView(
+        shDepthTexBackOuts[i],
+        &renderTargetViewDepthDesc,
+        &renderTargetDepthBackViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth render target back view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    hr = device->CreateShaderResourceView(
-      shDepthTexBackOuts[i],
-      &depthSrv,
-      &depthShaderBackResourceViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth shader resource back view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateShaderResourceView(
+        shDepthTexBackOuts[i],
+        &depthSrv,
+        &depthShaderBackResourceViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth shader resource back view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
   }
 }

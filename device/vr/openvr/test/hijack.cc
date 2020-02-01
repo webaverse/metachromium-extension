@@ -38,6 +38,7 @@ char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
 char kHijacker_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
+char kHijacker_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 
 // void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
 void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
@@ -199,6 +200,10 @@ ID3D11VertexShader *vsShader = nullptr;
 ID3DBlob *psBlob = nullptr;
 ID3D11PixelShader *psShader = nullptr;
 ID3D11InputLayout *vertexLayout = nullptr;
+
+HANDLE latchedShEyeTex = NULL;
+ID3D11ShaderResourceView *eyeShaderResourceView = nullptr;
+
 void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
   getOut() << "init shader blit 1" << std::endl;
   
@@ -331,15 +336,42 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
   }
   getOut() << "init render 9" << std::endl;
 }
-void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
-  {
-    UINT stride = sizeof(float) * 4; // xyuv
-    UINT offset = 0;
-    context->lpVtbl->IASetPrimitiveTopology(context, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    context->lpVtbl->IASetInputLayout(context, vertexLayout);
-    context->lpVtbl->IASetVertexBuffers(context, 0, 1, &vertexBuffer, &stride, &offset);
-    context->lpVtbl->IASetIndexBuffer(context, indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource *backbufferRes) {
+  UINT stride = sizeof(float) * 4; // xyuv
+  UINT offset = 0;
+  context->lpVtbl->IASetPrimitiveTopology(context, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+  context->lpVtbl->IASetInputLayout(context, vertexLayout);
+  context->lpVtbl->IASetVertexBuffers(context, 0, 1, &vertexBuffer, &stride, &offset);
+  context->lpVtbl->IASetIndexBuffer(context, indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+  
+  context->lpVtbl->VSSetShader(context, vsShader, nullptr, 0);
+  context->lpVtbl->PSSetShader(context, psShader, nullptr, 0);
+
+  ID3D11ShaderResourceView *localShaderResourceViews[1] = {
+    eyeShaderResourceView,
+  };
+  context->lpVtbl->PSSetShaderResources(context, 0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+
+  ID3D11RenderTargetView *backbufferRtv = nullptr;
+  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+  renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+  renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+  renderTargetViewDesc.Texture2D.MipSlice = 0;
+  HRESULT hr = device->lpVtbl->CreateRenderTargetView(
+    device,
+    backbufferRes,
+    &renderTargetViewDesc,
+    &backbufferRtv
+  );
+  if (FAILED(hr)) {
+    getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
+    abort();
   }
+  ID3D11RenderTargetView *localRenderTargetViews[1] = {
+    backbufferRtv
+  };
+  context->lpVtbl->OMSetRenderTargets(context, ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+
   D3D11_VIEWPORT viewport{
     0, // TopLeftX,
     0, // TopLeftY,
@@ -350,6 +382,8 @@ void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
   };
   context->lpVtbl->RSSetViewports(context, 1, &viewport);
   context->lpVtbl->DrawIndexed(context, 6, 0, 0);
+  
+  backbufferRtv->lpVtbl->Release(backbufferRtv);
 }
 
 ID3D11Resource *backbufferShRes = nullptr;
@@ -459,12 +493,6 @@ void presentSwapChain(T *swapChain) {
       abort();
     }
 
-    /* hr = fence->CreateSharedHandle(
-      NULL, // security attributes
-      GENERIC_ALL, // access
-      (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
-      &clientFence // share handle
-    ); */
     hr = backbufferFence->lpVtbl->CreateSharedHandle(
       backbufferFence,
       NULL, // security attributes
@@ -485,14 +513,55 @@ void presentSwapChain(T *swapChain) {
   context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
   // context4->lpVtbl->Flush(context4); */
 
-  backbufferFenceValue = g_hijacker->fnp.call<
+  /* backbufferFenceValue = */g_hijacker->fnp.call<
     kHijacker_SetBackbuffer,
-    size_t,
+    int,
     HANDLE,
     uintptr_t,
     HANDLE,
     size_t
   >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
+  
+  HANDLE shEyeTexHandle = g_hijacker->fnp.call<
+    kHijacker_GetSharedEyeTexture,
+    HANDLE
+  >();
+  if (latchedShEyeTex != shEyeTexHandle) {
+    if (eyeShaderResourceView) {
+      eyeShaderResourceView->lpVtbl->Release(eyeShaderResourceView);
+      eyeShaderResourceView = nullptr;
+    }
+    latchedShEyeTex = shEyeTexHandle;
+    
+    ID3D11Resource *shEyeTexResource;
+    HRESULT hr = device->lpVtbl->OpenSharedResource(device, shEyeTexHandle, IID_ID3D11Resource, (void**)&shEyeTexResource);
+    if (FAILED(hr)) {
+      getOut() << "failed to unpack shared eye texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
+      abort();
+    }
+
+    D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
+    eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    eyeSrv.Texture2D.MostDetailedMip = 0;
+    eyeSrv.Texture2D.MipLevels = 1;
+    
+    hr = device->lpVtbl->CreateShaderResourceView(
+      device,
+      shEyeTexResource,
+      &eyeSrv,
+      &eyeShaderResourceView
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to eye shader resource view: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    shEyeTexResource->lpVtbl->Release(shEyeTexResource);
+  }
+  if (eyeShaderResourceView) {
+    blitEyeView(device5, context4, eyeShaderResourceView, res);
+  }
 
   /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
   context4->lpVtbl->CopyResource(
