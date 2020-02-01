@@ -520,6 +520,11 @@ void homeRenderLoop() {
             getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
             abort();
           }
+
+          shTexResource->Release();
+        } else {
+          backbufferShTex = NULL;
+          backbufferShResourceView = NULL;
         }
       }
       if (backbufferShHandle) {
