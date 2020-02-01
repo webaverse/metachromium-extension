@@ -345,13 +345,13 @@ void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Sha
   ID3D11Buffer *oldVertexBuffers[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
   UINT oldStrides[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
   UINT oldOffsets[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
-  context->lpVtbl->IAGetVertexBuffers(context, 0, ARRAYSIZE(D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT), oldVertexBuffers, oldStrides, oldOffsets);
+  context->lpVtbl->IAGetVertexBuffers(context, 0, ARRAYSIZE(oldVertexBuffers), oldVertexBuffers, oldStrides, oldOffsets);
   ID3D11Buffer *oldIndexBuffer;
   DXGI_FORMAT oldFormat;
   UINT oldOffset;
   context->lpVtbl->IAGetIndexBuffer(context, &oldIndexBuffer, &oldFormat, &oldOffset);
   ID3D11VertexShader *oldVs;
-  ID3D11ClassInstance oldVsClassInstances[256];
+  ID3D11ClassInstance *oldVsClassInstances[256];
   UINT oldVsNumClassInstances = ARRAYSIZE(oldVsClassInstances);
   context->lpVtbl->VSGetShader(context, &oldVs, oldVsClassInstances, &oldVsNumClassInstances);
   ID3D11PixelShader *oldPs;
