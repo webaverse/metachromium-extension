@@ -131,10 +131,10 @@ struct PS_OUTPUT
 	float4 Color : SV_Target0;
 	float Depth : SV_Target1;
 };
-/* struct PS_OUTPUT_COPY
+struct PS_OUTPUT_COPY
 {
 	float4 Color : SV_Target0;
-}; */
+};
 //------------------------------------------------------------//
 
 //------------------------------------------------------------//
@@ -229,12 +229,12 @@ PS_OUTPUT ps_main_ms(VS_OUTPUT IN)
   return do_ps(d, IN);
 }
 
-/* PS_OUTPUT_COPY ps_main_copy(VS_OUTPUT IN)
+PS_OUTPUT_COPY ps_main_copy(VS_OUTPUT IN)
 {
   PS_OUTPUT_COPY result;
   result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
   return result;
-} */
+}
 
 //------------------------------------------------------------//
 )END";
@@ -2997,7 +2997,7 @@ void PVRCompositor::InitShader() {
       abort();
     }
   }
-  /* {
+  {
     ID3DBlob *errorBlob = nullptr;
     hr = D3DCompile(
       hlsl,
@@ -3015,7 +3015,7 @@ void PVRCompositor::InitShader() {
     getOut() << "init render 6 3" << std::endl;
     if (FAILED(hr)) {
       if (errorBlob != nullptr) {
-        getOut() << "ps ms compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+        getOut() << "ps copy compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
         abort();
       }
     }
@@ -3028,7 +3028,7 @@ void PVRCompositor::InitShader() {
       getOut() << "ps create failed: " << (void *)hr << std::endl;
       abort();
     }
-  } */
+  }
   getOut() << "init render 8" << std::endl;
   {
     D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
