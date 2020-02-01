@@ -464,9 +464,7 @@ void homeRenderLoop() {
   for (;;) {
     vr::TrackedDevicePose_t renderPoses[vr::k_unMaxTrackedDeviceCount];
     vr::TrackedDevicePose_t gamePoses[vr::k_unMaxTrackedDeviceCount];
-    // getOut() << "wait 1" << std::endl;
     vr::g_pvrcompositor->WaitGetPoses(renderPoses, ARRAYSIZE(renderPoses), gamePoses, ARRAYSIZE(gamePoses));
-    // getOut() << "wait 2" << std::endl;
 
     if (vr::g_pvrcompositor->backbufferSrv) {
       for (int iEye = 0; iEye < 2; iEye++) {
