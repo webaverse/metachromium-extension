@@ -2,7 +2,6 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/compositorproxy.h"
 
-ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
 extern HANDLE backbufferShHandle;
 
 namespace compositor2d {
@@ -129,12 +128,9 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 )END";
 
 // globals
-ID3D11Device5 *device = nullptr;
-ID3D11DeviceContext4 *context = nullptr;
-IDXGISwapChain *swapChain = nullptr;
-
 HANDLE backbufferShHandleLatched = NULL;
 ID3D11Texture2D *backbufferShTex = nullptr;
+ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
 
 // window
 HWND twoDWindow = NULL;
@@ -256,9 +252,10 @@ void multiplyMatrices(const float *aMatrix, const float *bMatrix, float *outMatr
   te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
 }
 
-void initShader() {
+void initShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context, IDXGISwapChain *swapChain) {
+  getOut() << "init shader 2d 1" << std::endl;
+  
   HRESULT hr;
-
   {
     D3D11_BUFFER_DESC cbDesc{};
     cbDesc.ByteWidth = 16 * 3 * sizeof(float);
@@ -280,7 +277,7 @@ void initShader() {
       abort();
     }
   }
-  getOut() << "init render 4" << std::endl;
+  // getOut() << "init render 4" << std::endl;
   {
     ID3DBlob *errorBlob = nullptr;
     hr = D3DCompile(
@@ -343,7 +340,16 @@ void initShader() {
     }
   }
 }
-void blendWindow(int iEye, ID3D11ShaderResourceView *backbufferIn, ID3D11RenderTargetView *colorRenderTarget, ID3D11RenderTargetView *depthRenderTarget, ID3D11ShaderResourceView *depthIn) {
+void blendWindow(
+  ID3D11Device5 *device,
+  ID3D11DeviceContext4 *context,
+  IDXGISwapChain *swapChain,
+  int iEye,
+  ID3D11ShaderResourceView *backbufferIn,
+  ID3D11RenderTargetView *colorRenderTarget,
+  ID3D11RenderTargetView *depthRenderTarget,
+  ID3D11ShaderResourceView *depthIn
+) {
   HRESULT hr;
 
   // getOut() << "blend window" << std::endl;
@@ -468,17 +474,15 @@ void homeRenderLoop() {
     vr::g_pvrcompositor->WaitGetPoses(renderPoses, ARRAYSIZE(renderPoses), gamePoses, ARRAYSIZE(gamePoses));
     // getOut() << "wait 2" << std::endl;
 
-    if (!device) {
-      if (vr::g_pvrcompositor->device) {
-        device = vr::g_pvrcompositor->device.Get();
-        context = vr::g_pvrcompositor->context.Get();
-        swapChain = vr::g_pvrcompositor->swapChain.Get();
+    ID3D11Device5 *device = vr::g_pvrcompositor->device.Get();
+    ID3D11DeviceContext4 *context = vr::g_pvrcompositor->context.Get();
+    IDXGISwapChain *swapChain = vr::g_pvrcompositor->swapChain.Get();
 
-        initShader();
-      }
-    }
     // getOut() << "wait 3 " << (void *)device << std::endl;
     if (device) {
+      if (!uniformsConstantBuffer) {
+        initShader(device, context, swapChain);
+      }
       // getOut() << "wait 3 " << (void *)backbufferShHandle << std::endl;
       if (backbufferShHandle != backbufferShHandleLatched) {
         // getOut() << "wait 4" << std::endl;
@@ -530,6 +534,9 @@ void homeRenderLoop() {
       if (backbufferShHandle) {
         for (int iEye = 0; iEye < 2; iEye++) {
           blendWindow(
+            device,
+            context,
+            swapChain,
             iEye,
             backbufferShResourceView,
             vr::g_pvrcompositor->renderTargetViews[iEye],

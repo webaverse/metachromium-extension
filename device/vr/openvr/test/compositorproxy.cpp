@@ -252,6 +252,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   hijacker(hijacker),
   fnp(fnp)
 {
+  getOut() << "compositor init 1 " << isProcess << std::endl;
   if (isProcess) {
     // getOut() << "create device 1" << std::endl;
     PVRCompositor::CreateDevice(&device, &context, &swapChain);
@@ -297,6 +298,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       abort();
     }
   }
+  
+  getOut() << "compositor init 2" << std::endl;
 
   fnp.reg<
     kIVRCompositor_SetTrackingSpace,
@@ -1167,9 +1170,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_SetBackbuffer,
     size_t,
     HANDLE,
+    uintptr_t,
     HANDLE,
     size_t
-  >([=](HANDLE newBackbufferShHandle, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
+  >([=](HANDLE newBackbufferShHandle, uintptr_t serverProcessIdPtr, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
+    getOut() << "set back buffer " << (void *)newBackbufferShHandle << " " << (void *)serverProcessIdPtr << " " << (void *)newBackbufferFenceHandle << " " << (void *)backbufferFenceValue << std::endl;
+    DWORD serverProcessId = serverProcessIdPtr;
+    
     if (backbufferShHandle != newBackbufferShHandle) {
       if (backbufferShTex) {
         backbufferShTex->Release();
@@ -1180,7 +1187,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       backbufferShHandle = newBackbufferShHandle;
 
       ID3D11Resource *shTexResource;
-      HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
 
       if (SUCCEEDED(hr)) {
         hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
@@ -1188,16 +1195,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         if (SUCCEEDED(hr)) {
           // nothing
         } else {
-          getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+          getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
           abort();
         }
       } else {
-        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
         abort();
       }
 
       D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
-      renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
       renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
       renderTargetViewDesc.Texture2D.MipSlice = 0;
       hr = device->CreateRenderTargetView(
@@ -2851,6 +2858,8 @@ void PVRCompositor::CacheWaitGetPoses() {
   }
 }
 void PVRCompositor::InitShader() {
+  getOut() << "init render 1" << std::endl;
+  
   float vertices[] = { // xyuv
     -1, -1, 0, 0,
     -1, 1, 0, 1,
@@ -2861,8 +2870,6 @@ void PVRCompositor::InitShader() {
     0, 1, 2,
     3, 2, 1
   };
-
-  getOut() << "init render 1" << std::endl;
   
   HRESULT hr;
 
@@ -3058,6 +3065,8 @@ void PVRCompositor::InitShader() {
       getOut() << "ps create failed: " << (void *)hr << std::endl;
       abort();
     }
+    
+    getOut() << "init render 7 2" << std::endl;
   }
   {
     ID3DBlob *errorBlob = nullptr;
@@ -3074,7 +3083,7 @@ void PVRCompositor::InitShader() {
       &psMsBlob,
       &errorBlob
     );
-    getOut() << "init render 6 2" << std::endl;
+    getOut() << "init render 8 1" << std::endl;
     if (FAILED(hr)) {
       if (errorBlob != nullptr) {
         getOut() << "ps ms compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
@@ -3082,7 +3091,7 @@ void PVRCompositor::InitShader() {
       }
     }
     
-    getOut() << "init render 7 2" << std::endl;
+    getOut() << "init render 8 2" << std::endl;
 
     ID3D11ClassLinkage *linkage = nullptr;
     hr = device->CreatePixelShader(psMsBlob->GetBufferPointer(), psMsBlob->GetBufferSize(), linkage, &psMsShader);
@@ -3090,6 +3099,8 @@ void PVRCompositor::InitShader() {
       getOut() << "ps create failed: " << (void *)hr << std::endl;
       abort();
     }
+    
+    getOut() << "init render 8 3" << std::endl;
   }
   {
     ID3DBlob *errorBlob = nullptr;

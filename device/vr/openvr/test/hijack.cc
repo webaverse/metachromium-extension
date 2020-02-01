@@ -38,6 +38,7 @@ char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
+char kHijacker_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
 
 const char *depthVsh = R"END(#version 100
 precision highp float;
@@ -161,6 +162,13 @@ void presentSwapChain(T *swapChain) {
   ID3D11Device *device;
   tex->lpVtbl->GetDevice(tex, &device);
 
+  ID3D11Device5 *device5;
+  hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
+  if (FAILED(hr)) {
+    getOut() << "failed to query backbuffer device5 : " << (void *)hr << std::endl;
+    abort();
+  }
+
   D3D11_TEXTURE2D_DESC desc;
   tex->lpVtbl->GetDesc(tex, &desc);
   
@@ -202,13 +210,13 @@ void presentSwapChain(T *swapChain) {
     backbufferDesc = desc;
   }
   if (!backbufferFence) {
-    hr = device->lpVtbl->CreateFence(
-      device,
+    hr = device5->lpVtbl->CreateFence(
+      device5,
       0, // value
       // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
       // D3D11_FENCE_FLAG_SHARED, // flags
       D3D11_FENCE_FLAG_SHARED, // flags
-      __uuidof(ID3D11Fence), // interface
+      IID_ID3D11Fence, // interface
       (void **)&backbufferFence // out
     );
     if (SUCCEEDED(hr)) {
@@ -225,8 +233,8 @@ void presentSwapChain(T *swapChain) {
       (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
       &clientFence // share handle
     ); */
-    hr = fence->lpVtbl->CreateSharedHandle(
-      fence,
+    hr = backbufferFence->lpVtbl->CreateSharedHandle(
+      backbufferFence,
       NULL, // security attributes
       GENERIC_ALL, // access
       NULL, // (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
@@ -240,6 +248,8 @@ void presentSwapChain(T *swapChain) {
       abort();
     }
   }
+  
+  getOut() << "present swap chain 2" << std::endl;
 
   ID3D11DeviceContext *context;
   device->lpVtbl->GetImmediateContext(device, &context);
@@ -248,25 +258,43 @@ void presentSwapChain(T *swapChain) {
     backbufferShRes,
     res
   );
+  
+  getOut() << "present swap chain 3" << std::endl;
+  
+  ID3D11DeviceContext4 *context4;
+  hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
+  if (FAILED(hr)) {
+    getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
+    abort();
+  }
+  
+  getOut() << "present swap chain 4" << std::endl;
 
   ++backbufferFenceValue;
-  context->lpVtbl->Signal(context, backbufferFence, backbufferFenceValue);
-  context->lpVtbl->Flush(context);
+  context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
+  context4->lpVtbl->Flush(context4);
+
+  getOut() << "present swap chain 5" << std::endl;
 
   backbufferFenceValue = g_hijacker->fnp.call<
-    kIVRCompositor_SetBackbuffer,
+    kHijacker_SetBackbuffer,
     size_t,
     HANDLE,
+    uintptr_t,
     HANDLE,
     size_t
-  >(backbufferShHandle, backbufferFenceHandle, backbufferFenceValue);
+  >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
 
-  context->lpVtbl->Wait(context, backbufferFence, backbufferFenceValue);
-  context->lpVtbl->CopyResource(
-    context,
+  getOut() << "present swap chain 6" << std::endl;
+
+  context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
+  context4->lpVtbl->CopyResource(
+    context4,
     res,
     backbufferShRes
   );
+  
+  getOut() << "present swap chain 7" << std::endl;
 
   getOut() << "present swap chain done " <<
     desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
@@ -277,11 +305,17 @@ void presentSwapChain(T *swapChain) {
     std::endl;
 
   g_hijacker->hijackDx(context);
+  
+  getOut() << "present swap chain 8" << std::endl;
 
   res->lpVtbl->Release(res);
   tex->lpVtbl->Release(tex);
   device->lpVtbl->Release(device);
+  device5->lpVtbl->Release(device5);
   context->lpVtbl->Release(context);
+  context4->lpVtbl->Release(context4);
+  
+  getOut() << "present swap chain 9" << std::endl;
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
