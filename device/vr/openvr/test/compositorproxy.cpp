@@ -1272,7 +1272,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       CloseHandle(dstProcess);
     }
 
-    context->Wait(backbufferFence, backbufferFenceValue);
+    /* context->Wait(backbufferFence, backbufferFenceValue);
 
     {
       float localVsData[8] = {
@@ -1321,7 +1321,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
     ++backbufferFenceValue;
     context->Signal(backbufferFence, backbufferFenceValue);
-    // context->Flush();
+    // context->Flush(); */
 
     return backbufferFenceValue;
   });

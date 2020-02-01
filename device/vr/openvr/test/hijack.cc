@@ -262,9 +262,9 @@ void presentSwapChain(T *swapChain) {
     abort();
   }
 
-  ++backbufferFenceValue;
+  /* ++backbufferFenceValue;
   context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
-  // context4->lpVtbl->Flush(context4);
+  // context4->lpVtbl->Flush(context4); */
 
   backbufferFenceValue = g_hijacker->fnp.call<
     kHijacker_SetBackbuffer,
@@ -275,12 +275,12 @@ void presentSwapChain(T *swapChain) {
     size_t
   >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
 
-  context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
+  /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
   context4->lpVtbl->CopyResource(
     context4,
     res,
     backbufferShRes
-  );
+  ); */
 
   /* getOut() << "present swap chain done " <<
     desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
