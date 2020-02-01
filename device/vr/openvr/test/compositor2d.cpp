@@ -470,7 +470,7 @@ void homeRenderLoop() {
 
     if (vr::g_pvrcompositor->backbufferSrv) {
       for (int iEye = 0; iEye < 2; iEye++) {
-        vr::g_pvrcompositor->lock_guard([&]() -> void {
+        vr::g_pvrcompositor->fnp.lock_guard([&]() -> void {
           blendWindow(
             device,
             context,
