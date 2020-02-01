@@ -144,8 +144,6 @@ HANDLE backbufferFenceHandle = NULL;
 uint64_t backbufferFenceValue = 0;
 template<typename T>
 void presentSwapChain(T *swapChain) {
-  getOut() << "present swap chain 1" << std::endl;
-
   ID3D11Resource *res;
 	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
 	if (FAILED(hr)) {
@@ -248,8 +246,6 @@ void presentSwapChain(T *swapChain) {
     
     backbufferDesc = desc;
   }
-  
-  getOut() << "present swap chain 2" << std::endl;
 
   ID3D11DeviceContext *context;
   device->lpVtbl->GetImmediateContext(device, &context);
@@ -259,22 +255,16 @@ void presentSwapChain(T *swapChain) {
     res
   );
   
-  getOut() << "present swap chain 3" << std::endl;
-  
   ID3D11DeviceContext4 *context4;
   hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
   if (FAILED(hr)) {
     getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
     abort();
   }
-  
-  getOut() << "present swap chain 4" << std::endl;
 
   ++backbufferFenceValue;
   context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
-  context4->lpVtbl->Flush(context4);
-
-  getOut() << "present swap chain 5" << std::endl;
+  // context4->lpVtbl->Flush(context4);
 
   backbufferFenceValue = g_hijacker->fnp.call<
     kHijacker_SetBackbuffer,
@@ -285,28 +275,22 @@ void presentSwapChain(T *swapChain) {
     size_t
   >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
 
-  getOut() << "present swap chain 6" << std::endl;
-
   context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
   context4->lpVtbl->CopyResource(
     context4,
     res,
     backbufferShRes
   );
-  
-  getOut() << "present swap chain 7" << std::endl;
 
-  getOut() << "present swap chain done " <<
+  /* getOut() << "present swap chain done " <<
     desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
     desc.MipLevels << " " << desc.ArraySize << " " <<
     desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
     desc.Format << " " <<
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    std::endl;
+    std::endl; */
 
   g_hijacker->hijackDx(context);
-  
-  getOut() << "present swap chain 8" << std::endl;
 
   res->lpVtbl->Release(res);
   tex->lpVtbl->Release(tex);
@@ -314,8 +298,6 @@ void presentSwapChain(T *swapChain) {
   device5->lpVtbl->Release(device5);
   context->lpVtbl->Release(context);
   context4->lpVtbl->Release(context4);
-  
-  getOut() << "present swap chain 9" << std::endl;
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
