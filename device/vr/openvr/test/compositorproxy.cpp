@@ -1170,7 +1170,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   });
   fnp.reg<
     kIVRCompositor_SetBackbuffer,
-    int,
+    size_t,
     HANDLE,
     HANDLE,
     size_t
@@ -1303,7 +1303,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
     }
 
-    return 0;
+    ++backbufferFenceValue;
+    context->Signal(backbufferFence, backbufferFenceValue);
+    context->Flush();
+
+    return backbufferFenceValue;
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {

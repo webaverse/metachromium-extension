@@ -253,14 +253,15 @@ void presentSwapChain(T *swapChain) {
   context->lpVtbl->Signal(context, backbufferFence, backbufferFenceValue);
   context->lpVtbl->Flush(context);
 
-  g_hijacker->fnp.call<
+  backbufferFenceValue = g_hijacker->fnp.call<
     kIVRCompositor_SetBackbuffer,
-    int,
+    size_t,
     HANDLE,
     HANDLE,
     size_t
   >(backbufferShHandle, backbufferFenceHandle, backbufferFenceValue);
 
+  context->lpVtbl->Wait(context, backbufferFence, backbufferFenceValue);
   context->lpVtbl->CopyResource(
     context,
     res,
