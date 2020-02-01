@@ -109,7 +109,8 @@ public:
   ID3D11Texture2D *backbufferShTex = nullptr;
   ID3D11Fence *backbufferFence = nullptr;
   HANDLE backbufferFenceHandle = NULL;
-  ID3D11RenderTargetView *backbufferRtv;
+  ID3D11ShaderResourceView *backbufferSrv = nullptr;
+  ID3D11RenderTargetView *backbufferRtv = nullptr;
   // std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;

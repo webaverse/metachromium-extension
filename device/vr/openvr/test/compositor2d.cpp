@@ -2,7 +2,6 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/compositorproxy.h"
 
-extern HANDLE backbufferShHandle;
 
 namespace compositor2d {
 
@@ -96,9 +95,8 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   screenPos.y = 1-screenPos.y;
   float e = DepthTexture.Sample(QuadTextureSampler, screenPos).r;
 
-  /* // result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
   result.Color = float4(IN.Uv.x, 0, IN.Uv.y, 1);
-  result.Depth = e; */
+  result.Depth = 1;
 
   // e *= depthScale;
   /* if (d < 0.5) {
@@ -112,14 +110,12 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
     result.Depth = d;
   } */
 
-  if (e == 1.0 || d < (e*depthScale)) {
+  /* if (e == 1.0 || d < (e*depthScale)) {
     result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
     result.Depth = d/depthScale;
   } else {
-    // result.Color = float4(0, 0, e, 1);
-    // result.Depth = e;
     discard;
-  }
+  } */
 
   return result;
 }
@@ -451,11 +447,16 @@ void blendWindow(
     nullptr
   );
 
-  // pvrcompositor->InfoQueueLog();
-  // getOut() << "do log 1" << std::endl;
+  D3D11_VIEWPORT viewport{
+    0, // TopLeftX,
+    0, // TopLeftY,
+    vr::g_pvrcompositor->width, // Width,
+    vr::g_pvrcompositor->height, // Height,
+    0, // MinDepth,
+    1 // MaxDepth
+  };
+  context->RSSetViewports(1, &viewport);
   context->DrawIndexed(6, 0, 0);
-  // pvrcompositor->InfoQueueLog();
-  // getOut() << "do log 2" << std::endl;
   
   ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
   context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
@@ -466,7 +467,13 @@ void blendWindow(
     nullptr
   );
 }
-void homeRenderLoop() { 
+void homeRenderLoop() {
+  ID3D11Device5 *device = vr::g_pvrcompositor->device.Get();
+  ID3D11DeviceContext4 *context = vr::g_pvrcompositor->context.Get();
+  IDXGISwapChain *swapChain = vr::g_pvrcompositor->swapChain.Get();
+  
+  initShader(device, context, swapChain);
+  
   for (;;) {
     vr::TrackedDevicePose_t renderPoses[vr::k_unMaxTrackedDeviceCount];
     vr::TrackedDevicePose_t gamePoses[vr::k_unMaxTrackedDeviceCount];
@@ -474,82 +481,24 @@ void homeRenderLoop() {
     vr::g_pvrcompositor->WaitGetPoses(renderPoses, ARRAYSIZE(renderPoses), gamePoses, ARRAYSIZE(gamePoses));
     // getOut() << "wait 2" << std::endl;
 
-    ID3D11Device5 *device = vr::g_pvrcompositor->device.Get();
-    ID3D11DeviceContext4 *context = vr::g_pvrcompositor->context.Get();
-    IDXGISwapChain *swapChain = vr::g_pvrcompositor->swapChain.Get();
-
-    // getOut() << "wait 3 " << (void *)device << std::endl;
-    if (device) {
-      if (!uniformsConstantBuffer) {
-        initShader(device, context, swapChain);
+    if (vr::g_pvrcompositor->backbufferSrv) {
+      for (int iEye = 0; iEye < 2; iEye++) {
+        blendWindow(
+          device,
+          context,
+          swapChain,
+          iEye,
+          vr::g_pvrcompositor->backbufferSrv,
+          vr::g_pvrcompositor->renderTargetViews[iEye],
+          vr::g_pvrcompositor->renderTargetDepthBackViews[iEye],
+          vr::g_pvrcompositor->depthShaderFrontResourceViews[iEye]
+        );
+        vr::g_pvrcompositor->SwapDepthTex(iEye);
+        vr::g_pvrcompositor->Submit(iEye == 0 ? vr::Eye_Left : vr::Eye_Right, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
       }
-      // getOut() << "wait 3 " << (void *)backbufferShHandle << std::endl;
-      if (backbufferShHandle != backbufferShHandleLatched) {
-        // getOut() << "wait 4" << std::endl;
-        backbufferShHandleLatched = backbufferShHandle;
-
-        if (backbufferShHandle) {
-          ID3D11Resource *shTexResource;
-          HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
-
-          if (SUCCEEDED(hr)) {
-            hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
-            
-            if (SUCCEEDED(hr)) {
-              // nothing
-            } else {
-              getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-              abort();
-            }
-          } else {
-            getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-            abort();
-          }
-
-          D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-          srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-          srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-          srvDesc.Texture2D.MostDetailedMip = 0;
-          srvDesc.Texture2D.MipLevels = 1;
-
-          hr = device->CreateShaderResourceView(
-            backbufferShTex,
-            &srvDesc,
-            &backbufferShResourceView
-          );
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            // InfoQueueLog();
-            getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
-            abort();
-          }
-
-          shTexResource->Release();
-        } else {
-          backbufferShTex = NULL;
-          backbufferShResourceView = NULL;
-        }
-      }
-      if (backbufferShHandle) {
-        for (int iEye = 0; iEye < 2; iEye++) {
-          blendWindow(
-            device,
-            context,
-            swapChain,
-            iEye,
-            backbufferShResourceView,
-            vr::g_pvrcompositor->renderTargetViews[iEye],
-            vr::g_pvrcompositor->renderTargetDepthBackViews[iEye],
-            vr::g_pvrcompositor->depthShaderFrontResourceViews[iEye]
-          );
-          vr::g_pvrcompositor->SwapDepthTex(iEye);
-          vr::g_pvrcompositor->Submit(iEye == 0 ? vr::Eye_Left : vr::Eye_Right, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
-        }
-      } else {
-        vr::g_pvrcompositor->Submit(vr::Eye_Left, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
-        vr::g_pvrcompositor->Submit(vr::Eye_Right, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
-      }
+    } else {
+      vr::g_pvrcompositor->Submit(vr::Eye_Left, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
+      vr::g_pvrcompositor->Submit(vr::Eye_Right, nullptr, nullptr, vr::EVRSubmitFlags::Submit_Default);
     }
   }
 }

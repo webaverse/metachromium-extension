@@ -1202,6 +1202,24 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
         abort();
       }
+      
+      D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+      srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+      srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+      srvDesc.Texture2D.MostDetailedMip = 0;
+      srvDesc.Texture2D.MipLevels = 1;
+      hr = device->CreateShaderResourceView(
+        backbufferShTex,
+        &srvDesc,
+        &backbufferSrv
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        // InfoQueueLog();
+        getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
+        abort();
+      }
 
       D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
       renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
@@ -1289,9 +1307,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       backbufferShTex->GetDesc(&backbufferDesc);
       D3D11_VIEWPORT viewport{
         0, // TopLeftX,
-        0, // TopLeftY,
-        backbufferDesc.Width, // Width,
-        backbufferDesc.Height, // Height,
+        backbufferDesc.Height - 300, // TopLeftY,
+        300, // Width,
+        300, // Height,
         0, // MinDepth,
         1 // MaxDepth
       };
