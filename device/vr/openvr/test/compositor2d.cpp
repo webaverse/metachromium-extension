@@ -346,10 +346,6 @@ void blendWindow(
   ID3D11RenderTargetView *depthRenderTarget,
   ID3D11ShaderResourceView *depthIn
 ) {
-  HRESULT hr;
-
-  // getOut() << "blend window" << std::endl;
-
   ID3D11ShaderResourceView *localShaderResourceViews[2] = {
     backbufferIn,
     depthIn
