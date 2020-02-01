@@ -321,7 +321,7 @@ int WINAPI WinMain(
   g_fnp = new FnProxy();
   g_hijacker = new Hijacker(*g_fnp);
   vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *g_fnp);
-  vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+  vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, true, *g_fnp);
   vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *g_fnp);
   vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *g_fnp);
   vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *g_fnp);
