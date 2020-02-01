@@ -798,26 +798,51 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     
     vrcompositor->PostPresentHandoff();
 
-    {
-      ID3D11Texture2D *backBuffer;
-      HRESULT hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void **)&backBuffer);
-      if (FAILED(hr)) {
-        getOut() << "failed to get back buffer present texture: " << (void *)hr << std::endl;
-        abort();
-      }
+    // blit to window
+    ID3D11Texture2D *backBuffer;
+    HRESULT hr = swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void **)&backBuffer);
+    if (FAILED(hr)) {
+      getOut() << "failed to get back buffer present texture: " << (void *)hr << std::endl;
+      abort();
+    }
 
-      D3D11_TEXTURE2D_DESC desc;
-      backBuffer->GetDesc(&desc);
+    D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+    renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+    renderTargetViewDesc.Texture2D.MipSlice = 0;
 
-      /* getOut() << "back buffer flags " <<
-        desc.Width << " " << desc.Height << " " <<
-        desc.MipLevels << " " << desc.ArraySize << " " <<
-        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-        desc.Format << " " <<
-        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
-        std::endl; */
+    ID3D11RenderTargetView *backbufferRtv;
+    hr = device->CreateRenderTargetView(
+      backBuffer,
+      &renderTargetViewDesc,
+      &backbufferRtv
+    );
+    if (FAILED(hr)) {
+      InfoQueueLog();
+      getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
+      abort();
+    }
+    if (compositor2d::backbufferShResourceView) {
+      ID3D11ShaderResourceView *localShaderResourceViews[4] = {
+        compositor2d::backbufferShResourceView,
+      };
+      ID3D11RenderTargetView *localRenderTargetViews[1] = {
+        renderTargetViews[iEye]
+      };
+      context->PSSetShader(psCopyShader, nullptr, 0);
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+      ID3D11RenderTargetView *localRenderTargetViews[1] = {
+        backbufferRtv
+      };
+      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+      context->DrawIndexed(6, 0, 0);
 
-      D3D11_BOX srcBox{
+      ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
+      ID3D11RenderTargetView *localRenderTargetViewsClear[ARRAYSIZE(localRenderTargetViews)] = {};
+      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
+
+      /* D3D11_BOX srcBox{
         0,
         0,
         0,
@@ -834,12 +859,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         shTexOuts[0],
         0,
         &srcBox
-      );
-
-      backBuffer->Release();
-
-      swapChain->Present(0, 0);
+      ); */
+    } else {
+      // XXX copy render
     }
+    swapChain->Present(0, 0);
+    backBuffer->Release();
+    backbufferSrv->Release();
 
     // getOut() << "flush submit server 11" << std::endl;
     return 0;
