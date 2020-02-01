@@ -337,13 +337,40 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
   getOut() << "init render 9" << std::endl;
 }
 void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource *backbufferRes) {
+  // latch old
+  D3D11_PRIMITIVE_TOPOLOGY oldPromitiveTopology;
+  context->lpVtbl->IAGetPrimitiveTopology(context, &oldPromitiveTopology);
+  ID3D11InputLayout *oldInputLayout;
+  context->lpVtbl->IAGetInputLayout(context, &oldInputLayout);
+  ID3D11Buffer *oldVertexBuffers[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
+  UINT oldStrides[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
+  UINT oldOffsets[D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT];
+  context->lpVtbl->IAGetVertexBuffers(context, 0, ARRAYSIZE(D3D11_IA_VERTEX_INPUT_RESOURCE_SLOT_COUNT), oldVertexBuffers, oldStrides, oldOffsets);
+  ID3D11Buffer *oldIndexBuffer;
+  DXGI_FORMAT oldFormat;
+  UINT oldOffset;
+  context->lpVtbl->IAGetIndexBuffer(context, &oldIndexBuffer, &oldFormat, &oldOffset);
+  ID3D11VertexShader *oldVs;
+  ID3D11ClassInstance oldVsClassInstances[256];
+  UINT oldVsNumClassInstances = ARRAYSIZE(oldVsClassInstances);
+  context->lpVtbl->VSGetShader(context, &oldVs, oldVsClassInstances, &oldVsNumClassInstances);
+  ID3D11PixelShader *oldPs;
+  ID3D11ClassInstance *oldPsClassInstances[256];
+  UINT oldPsNumClassInstances = ARRAYSIZE(oldPsClassInstances);
+  context->lpVtbl->PSGetShader(context, &oldPs, oldPsClassInstances, &oldPsNumClassInstances);
+  ID3D11ShaderResourceView *oldSrvs[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT];
+  context->lpVtbl->PSGetShaderResources(context, 0, ARRAYSIZE(oldSrvs), oldSrvs);
+  ID3D11RenderTargetView *oldRtvs[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];
+  ID3D11DepthStencilView *oldDsv;
+  context->lpVtbl->OMGetRenderTargets(context, ARRAYSIZE(oldRtvs), oldRtvs, &oldDsv);
+
+  // set new
   UINT stride = sizeof(float) * 4; // xyuv
   UINT offset = 0;
   context->lpVtbl->IASetPrimitiveTopology(context, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
   context->lpVtbl->IASetInputLayout(context, vertexLayout);
   context->lpVtbl->IASetVertexBuffers(context, 0, 1, &vertexBuffer, &stride, &offset);
   context->lpVtbl->IASetIndexBuffer(context, indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-  
   context->lpVtbl->VSSetShader(context, vsShader, nullptr, 0);
   context->lpVtbl->PSSetShader(context, psShader, nullptr, 0);
 
@@ -381,9 +408,61 @@ void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Sha
     1 // MaxDepth
   };
   context->lpVtbl->RSSetViewports(context, 1, &viewport);
+
+  // draw
   context->lpVtbl->DrawIndexed(context, 6, 0, 0);
+
+  // restore old
+  context->lpVtbl->IASetPrimitiveTopology(context, oldPromitiveTopology);
+  context->lpVtbl->IASetInputLayout(context, oldInputLayout);
+  context->lpVtbl->IASetVertexBuffers(context, 0, ARRAYSIZE(oldVertexBuffers), oldVertexBuffers, oldStrides, oldOffsets);
+  context->lpVtbl->IASetIndexBuffer(context, oldIndexBuffer, oldFormat, oldOffset);
+  context->lpVtbl->VSSetShader(context, oldVs, oldVsClassInstances, oldVsNumClassInstances);
+  context->lpVtbl->PSSetShader(context, oldPs, oldPsClassInstances, oldPsNumClassInstances);
+  context->lpVtbl->PSSetShaderResources(context, 0, ARRAYSIZE(oldSrvs), oldSrvs);
+  context->lpVtbl->OMSetRenderTargets(context, ARRAYSIZE(oldRtvs), oldRtvs, oldDsv);
   
+  // release
   backbufferRtv->lpVtbl->Release(backbufferRtv);
+  if (oldInputLayout) {
+    oldInputLayout->lpVtbl->Release(oldInputLayout);
+  }
+  for (size_t i = 0; i < ARRAYSIZE(oldVertexBuffers); i++) {
+    auto e = oldVertexBuffers[i];
+    if (e) {
+      e->lpVtbl->Release(e);
+    }
+  }
+  if (oldIndexBuffer) {
+    oldIndexBuffer->lpVtbl->Release(oldIndexBuffer);
+  }
+  if (oldVs) {
+    oldVs->lpVtbl->Release(oldVs);
+  }
+  for (size_t i = 0; i < oldVsNumClassInstances; i++) {
+    oldVsClassInstances[i]->lpVtbl->Release(oldVsClassInstances[i]);
+  }
+  if (oldPs) {
+    oldPs->lpVtbl->Release(oldPs);
+  }
+  for (size_t i = 0; i < oldPsNumClassInstances; i++) {
+    oldPsClassInstances[i]->lpVtbl->Release(oldPsClassInstances[i]);
+  }
+  for (size_t i = 0; i < ARRAYSIZE(oldSrvs); i++) {
+    auto e = oldSrvs[i];
+    if (e) {
+      e->lpVtbl->Release(e);
+    }
+  }
+  for (size_t i = 0; i < ARRAYSIZE(oldRtvs); i++) {
+    auto e = oldRtvs[i];
+    if (e) {
+      e->lpVtbl->Release(e);
+    }
+  }
+  if (oldDsv) {
+    oldDsv->lpVtbl->Release(oldDsv);
+  }
 }
 
 ID3D11Resource *backbufferShRes = nullptr;
