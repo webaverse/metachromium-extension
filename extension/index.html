@@ -26,6 +26,9 @@ a {
 a:active {
   color: #1e88e5;
 }
+#canvas-2d {
+  position: absolute;
+}
 </style>
 </head>
 <body>
@@ -39,6 +42,7 @@ a:active {
     </section>
   </div>
   <div class=body>
+    <canvas width=1 height=1 id=canvas-2d></canvas>
     <section id=sites>
       <h2>Web Sites</h2>
       <a href="https://immersive-web.github.io/webxr-samples/">WebXR Samples</a>
@@ -77,6 +81,16 @@ window.addEventListener('xrchromeloaded', async () => {
     });
     document.getElementById('apps').appendChild(a);
   }
+});
+window.addEventListener('load', () => {
+  const canvas2d = document.getElementById('canvas-2d');
+  const ctx2d = canvas2d.getContext('2d');
+  function recurse() {
+    console.log('clear');
+    ctx2d.clearRect(0, 0, 1, 1);
+    window.requestAnimationFrame(recurse);
+  }
+  window.requestAnimationFrame(recurse);
 });
 
 </script>
