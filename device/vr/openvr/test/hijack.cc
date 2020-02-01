@@ -101,9 +101,6 @@ struct PS_OUTPUT_COPY
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-Texture2D QuadDepthTexture : register(ps, t1);
-Texture2DMS<float4> QuadDepthTextureMS : register(ps, t2);
-Texture2D DepthTexture : register(ps, t3);
 SamplerState QuadTextureSampler {
   MipFilter = NONE;
 	MinFilter = POINT;
@@ -122,7 +119,8 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 PS_OUTPUT ps_main_blit(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
-  result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
+  // result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
+  result.Color = float4(1, 0, 0, 1);
   return result;
 }
 
@@ -204,7 +202,53 @@ ID3D11InputLayout *vertexLayout = nullptr;
 HANDLE latchedShEyeTex = NULL;
 ID3D11ShaderResourceView *eyeShaderResourceView = nullptr;
 
+ID3D11InfoQueue *infoQueue = nullptr;
+void InfoQueueLog() {
+  if (infoQueue) {
+    UINT64 numStoredMessages = infoQueue->lpVtbl->GetNumStoredMessagesAllowedByRetrievalFilter(infoQueue);
+    for (UINT64 i = 0; i < numStoredMessages; i++) {
+      size_t messageSize = 0;
+      HRESULT hr = infoQueue->lpVtbl->GetMessage(
+        infoQueue,
+        i,
+        nullptr,
+        &messageSize
+      );
+      if (SUCCEEDED(hr)) {
+        D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
+        
+        hr = infoQueue->lpVtbl->GetMessage(
+          infoQueue,
+          i,
+          message,
+          &messageSize
+        );
+        if (SUCCEEDED(hr)) {
+          // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
+            getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
+          // }
+        } else {
+          getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
+        }
+        
+        free(message);
+      } else {
+        getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
+      }
+    }
+    infoQueue->lpVtbl->ClearStoredMessages(infoQueue);
+  }
+}
 void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
+  HRESULT hr = device->lpVtbl->QueryInterface(device, IID_ID3D11InfoQueue, (void **)&infoQueue);
+  if (SUCCEEDED(hr)) {
+    infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
+  } else {
+    getOut() << "info queue query failed" << std::endl;
+    // abort();
+  }
+  
+  InfoQueueLog();
   getOut() << "init shader blit 1" << std::endl;
   
   float vertices[] = { // xyuv
@@ -217,8 +261,7 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
     0, 1, 2,
     3, 2, 1
   };
-  
-  HRESULT hr;
+
   {
     D3D11_BUFFER_DESC bd{};
     D3D11_SUBRESOURCE_DATA InitData{};
@@ -239,7 +282,7 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
     }
     // m_VB.Set(vertexBuffer);
   }
-  getOut() << "init render 2" << std::endl;
+  // getOut() << "init render 2" << std::endl;
   {
     D3D11_BUFFER_DESC bd{};
     D3D11_SUBRESOURCE_DATA InitData{};
@@ -289,7 +332,7 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
       abort();
     }
   }
-  getOut() << "init render 5" << std::endl;
+  // getOut() << "init render 5" << std::endl;
   {
     ID3DBlob *errorBlob = nullptr;
     hr = D3DCompile(
@@ -305,7 +348,7 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
       &psBlob,
       &errorBlob
     );
-    getOut() << "init render 6 1" << std::endl;
+    // getOut() << "init render 6 1" << std::endl;
     if (FAILED(hr)) {
       if (errorBlob != nullptr) {
         getOut() << "ps compilation failed: " << (char*)errorBlob->lpVtbl->GetBufferPointer(errorBlob) << std::endl;
@@ -313,7 +356,7 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
       }
     }
     
-    getOut() << "init render 7 1" << std::endl;
+    // getOut() << "init render 7 1" << std::endl;
 
     ID3D11ClassLinkage *linkage = nullptr;
     hr = device->lpVtbl->CreatePixelShader(device, psBlob->lpVtbl->GetBufferPointer(psBlob), psBlob->lpVtbl->GetBufferSize(psBlob), linkage, &psShader);
@@ -334,7 +377,9 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
       abort();
     }
   }
-  getOut() << "init render 9" << std::endl;
+
+  InfoQueueLog();
+  getOut() << "init shader blit X" << std::endl;
 }
 void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource *backbufferRes) {
   // latch old
@@ -363,6 +408,9 @@ void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Sha
   ID3D11RenderTargetView *oldRtvs[D3D11_SIMULTANEOUS_RENDER_TARGET_COUNT];
   ID3D11DepthStencilView *oldDsv;
   context->lpVtbl->OMGetRenderTargets(context, ARRAYSIZE(oldRtvs), oldRtvs, &oldDsv);
+  D3D11_VIEWPORT viewports[D3D11_VIEWPORT_AND_SCISSORRECT_OBJECT_COUNT_PER_PIPELINE];
+  UINT numViewports = ARRAYSIZE(viewports);
+  context->lpVtbl->RSGetViewports(context, &numViewports, viewports);
 
   // set new
   UINT stride = sizeof(float) * 4; // xyuv
@@ -421,6 +469,7 @@ void blitEyeView(ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Sha
   context->lpVtbl->PSSetShader(context, oldPs, oldPsClassInstances, oldPsNumClassInstances);
   context->lpVtbl->PSSetShaderResources(context, 0, ARRAYSIZE(oldSrvs), oldSrvs);
   context->lpVtbl->OMSetRenderTargets(context, ARRAYSIZE(oldRtvs), oldRtvs, oldDsv);
+  context->lpVtbl->RSSetViewports(context, numViewports, viewports);
   
   // release
   backbufferRtv->lpVtbl->Release(backbufferRtv);
@@ -473,6 +522,9 @@ HANDLE backbufferFenceHandle = NULL;
 uint64_t backbufferFenceValue = 0;
 template<typename T>
 void presentSwapChain(T *swapChain) {
+  InfoQueueLog();
+  getOut() << "present swap chain 1" << std::endl;
+  
   ID3D11Resource *res;
 	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
 	if (FAILED(hr)) {
@@ -554,7 +606,7 @@ void presentSwapChain(T *swapChain) {
   if (!vertexBuffer) {
     initBlitShader(device5, context4);
   }
-  if (!backbufferFence) {
+  /* if (!backbufferFence) {
     hr = device5->lpVtbl->CreateFence(
       device5,
       0, // value
@@ -586,7 +638,7 @@ void presentSwapChain(T *swapChain) {
       getOut() << "failed to create backbuffer fence share handle" << std::endl;
       abort();
     }
-  }
+  } */
 
   /* ++backbufferFenceValue;
   context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
@@ -638,7 +690,9 @@ void presentSwapChain(T *swapChain) {
 
     shEyeTexResource->lpVtbl->Release(shEyeTexResource);
   }
+  getOut() << "blit eye view 1 " << (void *)device5 << " " << (void *)context4 << std::endl;
   if (eyeShaderResourceView) {
+    getOut() << "blit eye view 2" << std::endl;
     blitEyeView(device5, context4, eyeShaderResourceView, res);
   }
 
@@ -665,6 +719,9 @@ void presentSwapChain(T *swapChain) {
   device5->lpVtbl->Release(device5);
   context->lpVtbl->Release(context);
   context4->lpVtbl->Release(context4);
+  
+  InfoQueueLog();
+  getOut() << "present swap chain X" << std::endl;
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
