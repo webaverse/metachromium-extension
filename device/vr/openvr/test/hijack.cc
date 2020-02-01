@@ -298,7 +298,7 @@ void initBlitShader(ID3D11Device5 *device, ID3D11DeviceContext4 *context) {
       "ps.hlsl",
       nullptr,
       D3D_COMPILE_STANDARD_FILE_INCLUDE,
-      "ps_main",
+      "ps_main_blit",
       "ps_5_0",
       D3DCOMPILE_ENABLE_STRICTNESS,
       0,
