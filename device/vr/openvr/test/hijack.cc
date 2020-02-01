@@ -177,8 +177,8 @@ void presentSwapChain(T *swapChain) {
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
     ID3D11Texture2D *backbufferShTex;
-    hr = device->lpVtbl->CreateTexture2D(
-      device,
+    hr = device5->lpVtbl->CreateTexture2D(
+      device5,
       &desc,
       NULL,
       &backbufferShTex
@@ -207,9 +207,6 @@ void presentSwapChain(T *swapChain) {
       abort();
     }
 
-    backbufferDesc = desc;
-  }
-  if (!backbufferFence) {
     hr = device5->lpVtbl->CreateFence(
       device5,
       0, // value
@@ -247,6 +244,8 @@ void presentSwapChain(T *swapChain) {
       getOut() << "failed to create backbuffer fence share handle" << std::endl;
       abort();
     }
+    
+    backbufferDesc = desc;
   }
   
   getOut() << "present swap chain 2" << std::endl;
