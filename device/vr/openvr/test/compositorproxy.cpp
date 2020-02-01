@@ -822,50 +822,35 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
       abort();
     }
-    if (compositor2d::backbufferShResourceView) {
-      ID3D11ShaderResourceView *localShaderResourceViews[4] = {
-        compositor2d::backbufferShResourceView,
+    context->VSSetShader(vsShader, nullptr, 0);
+    context->PSSetShader(psCopyShader, nullptr, 0);
+    ID3D11RenderTargetView *localRenderTargetViews[1] = {
+      backbufferRtv
+    };
+    context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+    if (backbufferShResourceView) {
+
+      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
+        backbufferShResourceView,
       };
-      ID3D11RenderTargetView *localRenderTargetViews[1] = {
-        renderTargetViews[iEye]
-      };
-      context->PSSetShader(psCopyShader, nullptr, 0);
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
-      ID3D11RenderTargetView *localRenderTargetViews[1] = {
-        backbufferRtv
-      };
-      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
-      context->DrawIndexed(6, 0, 0);
-
-      ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
-      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
-      ID3D11RenderTargetView *localRenderTargetViewsClear[ARRAYSIZE(localRenderTargetViews)] = {};
-      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
-
-      /* D3D11_BOX srcBox{
-        0,
-        0,
-        0,
-        std::min((int)desc.Width, outWindowWidth),
-        std::min((int)desc.Height, outWindowHeight),
-        1
-      };
-      context->CopySubresourceRegion(
-        backBuffer,
-        0,
-        0,
-        0,
-        0,
-        shTexOuts[0],
-        0,
-        &srcBox
-      ); */
     } else {
-      // XXX copy render
+
+      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
+        eyeShaderResourceViews[0],
+      };
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
     }
-    swapChain->Present(0, 0);
+    context->DrawIndexed(6, 0, 0);
+
+    ID3D11ShaderResourceView *localShaderResourceViewsClear[1] = {};
+    context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
+    ID3D11RenderTargetView *localRenderTargetViewsClear[1] = {};
+    context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
     backBuffer->Release();
-    backbufferSrv->Release();
+    backbufferRtv->Release();
+    
+    swapChain->Present(0, 0);
 
     // getOut() << "flush submit server 11" << std::endl;
     return 0;
@@ -3101,7 +3086,7 @@ void PVRCompositor::InitShader() {
   desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
   desc.SampleDesc.Count = 1;
   desc.Usage = D3D11_USAGE_DEFAULT;
-  desc.BindFlags = D3D11_BIND_RENDER_TARGET;
+  desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
   
   D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
   renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
