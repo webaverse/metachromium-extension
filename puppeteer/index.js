@@ -31,6 +31,7 @@ const browser = await puppeteer.launch({
     // `--no-startup-window`,
     `--load-extension=${path.join(__dirname, '..', 'extension')}`,
     `--window-position=-10000,-10000`,
+    `--window-size=1024,768`,
   ],
   ignoreDefaultArgs: ['--enable-automation'],
   headless: false,
