@@ -863,13 +863,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     context->RSSetViewports(1, &viewport);
 
     if (backbufferShResourceView) {
-
       ID3D11ShaderResourceView *localShaderResourceViews[1] = {
         backbufferShResourceView,
       };
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
     } else {
-
       ID3D11ShaderResourceView *localShaderResourceViews[1] = {
         eyeShaderResourceViews[0],
       };
