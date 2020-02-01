@@ -694,7 +694,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
       float localTextureFulls[8] = {
         flip ? 1.0f : 0.0f,
         isFullDepthTex ? (float)iEye : 0.0f,
-        isFullDepthTex ? (float)iEye : 0.0f,
+        0,
         0,
         0,
         0,
