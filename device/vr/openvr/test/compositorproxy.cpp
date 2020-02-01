@@ -1181,16 +1181,18 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       if (backbufferShTex) {
         backbufferShTex->Release();
         backbufferShTex = nullptr;
+        backbufferSrv->Release();
+        backbufferSrv = nullptr;
         backbufferRtv->Release();
         backbufferRtv = nullptr;
       }
       backbufferShHandle = newBackbufferShHandle;
 
       ID3D11Resource *shTexResource;
-      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
 
       if (SUCCEEDED(hr)) {
-        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&backbufferShTex));
+        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&backbufferShTex);
         
         if (SUCCEEDED(hr)) {
           // nothing
