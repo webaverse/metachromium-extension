@@ -95,8 +95,8 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
   screenPos.y = 1-screenPos.y;
   float e = DepthTexture.Sample(QuadTextureSampler, screenPos).r;
 
-  result.Color = float4(IN.Uv.x, 0, IN.Uv.y, 1);
-  result.Depth = 1;
+  /* result.Color = float4(IN.Uv.x, 0, IN.Uv.y, 1);
+  result.Depth = 1; */
 
   // e *= depthScale;
   /* if (d < 0.5) {
@@ -110,12 +110,12 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
     result.Depth = d;
   } */
 
-  /* if (e == 1.0 || d < (e*depthScale)) {
+  if (e == 1.0 || d < (e*depthScale)) {
     result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
     result.Depth = d/depthScale;
   } else {
     discard;
-  } */
+  }
 
   return result;
 }
@@ -441,11 +441,7 @@ void blendWindow(
     colorRenderTarget,
     depthRenderTarget
   };
-  context->OMSetRenderTargets(
-    ARRAYSIZE(localRenderTargetViews),
-    localRenderTargetViews,
-    nullptr
-  );
+  context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
 
   D3D11_VIEWPORT viewport{
     0, // TopLeftX,
@@ -461,11 +457,7 @@ void blendWindow(
   ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
   context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
   ID3D11RenderTargetView *localRenderTargetViewsClear[ARRAYSIZE(localRenderTargetViews)] = {};
-  context->OMSetRenderTargets(
-    ARRAYSIZE(localRenderTargetViewsClear),
-    localRenderTargetViewsClear,
-    nullptr
-  );
+  context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
 }
 void homeRenderLoop() {
   ID3D11Device5 *device = vr::g_pvrcompositor->device.Get();
