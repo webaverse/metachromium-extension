@@ -691,7 +691,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         shaderDepthResourceViewIsMs ? std::get<1>(shaderResourceViews[index]) : nullptr,
         depthShaderFrontResourceViews[iEye]
       };
-      float localTextureFulls[8] = {
+      float localVsData[8] = {
         flip ? 1.0f : 0.0f,
         isFullDepthTex ? (float)iEye : 0.0f,
         0,
@@ -701,7 +701,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         0,
         0
       };
-      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureFulls, 0, 0);
+      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
 
       // getOut() << "check fulls " << iEye << " " << index << " " << width << " " << height << " " << shaderDepthResourceViewIsMs << " " << textureFull << " " << isFullDepthTex << std::endl;
 
