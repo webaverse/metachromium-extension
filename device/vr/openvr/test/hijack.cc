@@ -122,8 +122,8 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 PS_OUTPUT ps_main_blit(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
-  // result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
-  result.Color = float4(1, 0, 0, 1);
+  result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
+  // result.Color = float4(1, 0, 0, 1);
   return result;
 }
 
@@ -316,10 +316,10 @@ void initBlitShader() {
   getOut() << "create device 4" << std::endl;
   
   float vertices[] = { // xyuv
-    -1, -1, 0, 0,
-    -1, 1, 0, 1,
-    1, -1, 1, 0,
-    1, 1, 1, 1
+    -1, -1, 0, 1,
+    -1, 1, 0, 0,
+    1, -1, 1, 1,
+    1, 1, 1, 0
   };
   int indices[] = {
     0, 1, 2,
@@ -509,14 +509,15 @@ void initBlitShader() {
   getOut() << "create device X" << std::endl;
 }
 void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
-  float color[4] = {0,0,1,1};
+  getOut() << "clear eye view " << (void *)viewportRtv << std::endl;
+  /* float color[4] = {0,0,1,1};
   hijackerContext->lpVtbl->ClearRenderTargetView(
     hijackerContext,
     viewportRtv,
     color
   );
   InfoQueueLog();
-  return;
+  return; */
   
   // set new
   UINT stride = sizeof(float) * 4; // xyuv
@@ -560,6 +561,8 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
 
   // draw
   hijackerContext->lpVtbl->DrawIndexed(hijackerContext, 6, 0, 0);
+  
+  hijackerContext->lpVtbl->Flush(hijackerContext);
   
   // release
   // backbufferRtv->lpVtbl->Release(backbufferRtv);
@@ -705,7 +708,7 @@ void presentSwapChain(T *swapChain) {
     size_t
   >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
   
-  /* HANDLE shEyeTexHandle = g_hijacker->fnp.call<
+  HANDLE shEyeTexHandle = g_hijacker->fnp.call<
     kHijacker_GetSharedEyeTexture,
     HANDLE
   >();
@@ -750,13 +753,7 @@ void presentSwapChain(T *swapChain) {
     InfoQueueLog();
     getOut() << "blit eye view 3" << std::endl;
     
-    ID3D11Device *device;
-    res->lpVtbl->GetDevice(res, &device);
-    
-    ID3D11DeviceContext *context;
-    device->lpVtbl->GetImmediateContext(device, &context);
-    
-    if (!viewportBackShTex) {
+    if (!viewportBackShD3D11Res) {
       hr = device->lpVtbl->OpenSharedResource(device, viewportShHandle, IID_IDXGIResource1, (void**)&viewportBackShDXGIRes);
       if (FAILED(hr)) {
         getOut() << "failed to unpack viewport share texture handle: " << (void *)hr << " " << (void *)viewportShHandle << std::endl;
@@ -776,6 +773,17 @@ void presentSwapChain(T *swapChain) {
       }
     }
 
+    D3D11_TEXTURE2D_DESC desc;
+    viewportBackShTex->lpVtbl->GetDesc(viewportBackShTex, &desc);
+    
+    getOut() << "copy region " <<
+      desc.Width << " " << desc.Height << " " <<
+      desc.MipLevels << " " << desc.ArraySize << " " <<
+      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+      desc.Format << " " <<
+      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+      std::endl;
+
     D3D11_BOX srcBox{};
     srcBox.left = 0;
     srcBox.right = viewportWidth;
@@ -792,13 +800,10 @@ void presentSwapChain(T *swapChain) {
       0, // dst z
       viewportBackShD3D11Res, // src
       0, // src sub
-      &srcBox
+      NULL
     );
     // CopySubresourceRegion viewportFrontShTex -> backbufferRes
-    
-    device->lpVtbl->Release(device);
-    context->lpVtbl->Release(context);
-  } */
+  }
 
   /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
   context4->lpVtbl->CopyResource(
@@ -807,13 +812,13 @@ void presentSwapChain(T *swapChain) {
     backbufferShRes
   ); */
 
-  /* getOut() << "present swap chain done " <<
-    desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
+  getOut() << "present swap chain done " <<
+    desc.Width << " " << desc.Height << " " <<
     desc.MipLevels << " " << desc.ArraySize << " " <<
     desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
     desc.Format << " " <<
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    std::endl; */
+    std::endl;
 
   res->lpVtbl->Release(res);
   tex->lpVtbl->Release(tex);
