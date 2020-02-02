@@ -824,7 +824,7 @@ HRESULT STDMETHODCALLTYPE MinePresent(
   UINT SyncInterval,
   UINT Flags
 ) {
-  getOut() << "present0" << std::endl;
+  // getOut() << "present0" << std::endl;
   if (isChrome) {
     presentSwapChain(This);
   }
@@ -842,7 +842,7 @@ HRESULT STDMETHODCALLTYPE MinePresent1(
   UINT                          PresentFlags,
   const DXGI_PRESENT_PARAMETERS *pPresentParameters
 ) {
-  getOut() << "present1" << std::endl;
+  // getOut() << "present1" << std::endl;
   if (isChrome) {
     presentSwapChain(This);
   }
