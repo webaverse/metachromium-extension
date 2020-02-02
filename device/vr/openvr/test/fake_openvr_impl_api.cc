@@ -3,24 +3,24 @@
 // found in the LICENSE file.
 
 /*
-cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build
+cd C:\Users\avaer\Documents\GitHub\overlay\bin
 cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
 msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
 
-cd C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+cd C:\Users\avaer\Documents\GitHub\overlay\device\vr\build\mock_vr_clients\bin
 
-set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\
-set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\
-set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\
-set PATH=%PATH%;C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin
+set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\overlay\device\vr\build\mock_vr_clients\
+set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\overlay\device\vr\config\
+set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\overlay\device\vr\log\
+set PATH=%PATH%;C:\Users\avaer\Documents\GitHub\overlay\device\vr\build\mock_vr_clients\bin
 
-VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\; VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\; VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\;
+VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\overlay\device\vr\build\mock_vr_clients\; VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\overlay\device\vr\config\; VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\overlay\device\vr\log\;
 
 cd C:\Users\avaer\AppData\Local\Chromium\Application
-.\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\extension\index.html
+.\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing C:\Users\avaer\Documents\GitHub\overlay\extension\index.html
 
---app --disable-xr-device-consent-prompt-for-testing --no-sandbox --add-gpu-appcontainer-caps --add-xr-appcontainer-caps --xr_compositing --allow-third-party-modules --allow-unsecure-dlls --allow-sandbox-debugging --gpu-launcher="C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\process2.exe"
+--app --disable-xr-device-consent-prompt-for-testing --no-sandbox --add-gpu-appcontainer-caps --add-xr-appcontainer-caps --xr_compositing --allow-third-party-modules --allow-unsecure-dlls --allow-sandbox-debugging --gpu-launcher="C:\Users\avaer\Documents\GitHub\overlay\device\vr\build\mock_vr_clients\bin\process2.exe"
 
 --gpu-launcher --no-startup-window --gpu-startup-dialog
 
@@ -36,14 +36,15 @@ cd C:\Program Files (x86)\Steam\steamapps\common\Blocks
 cd C:\Program Files (x86)\obs-studio\data\obs-plugins\win-capture
 .\get-graphics-offsets64.exe
 
-C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\ && set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\config\ && set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\log\ &&  C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe"
+C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\overlay\device\vr\build\mock_vr_clients\ && set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\overlay\device\vr\config\ && set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\overlay\device\vr\log\ &&  C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe"
 */
 
 #include <iostream>
-#include <chrono>
+// #include <chrono>
 #include <thread>
 #include <memory>
 #include <algorithm>
+#include <filesystem>
 
 #include <D3D11_1.h>
 #include <DXGI1_4.h>
@@ -105,7 +106,7 @@ std::ostream &getOut() {
     return std::cout;
   } */
 }
-void getChildEnvBuf(char *pEnvBuf) {
+void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
   LPSTR lpvEnv = GetEnvironmentStringsA();
   std::vector<std::string> vars;
   for (LPSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable++) {
@@ -116,15 +117,6 @@ void getChildEnvBuf(char *pEnvBuf) {
     vars.push_back(std::move(var));
   }
   FreeEnvironmentStrings(lpvEnv);
-
-  char cwdBuf[MAX_PATH];
-  if (!GetCurrentDirectory(
-    sizeof(cwdBuf),
-    cwdBuf
-  )) {
-    getOut() << "failed to get current directory" << std::endl;
-    abort();
-  }
   
   /* for (auto iter : vars) {
     std::string &s = iter;
@@ -137,9 +129,28 @@ void getChildEnvBuf(char *pEnvBuf) {
       s += cwdBuf;
     }
   } */
-  std::string vrOverrideString = "VR_OVERRIDE=";
-  vrOverrideString += cwdBuf;
-  vars.push_back(std::move(vrOverrideString));
+  {
+    std::string vrOverrideString = "VR_OVERRIDE=";
+    vrOverrideString += std::filesystem::canonical(std::filesystem::path(baseDir)).string();
+    vrOverrideString += R"EOF(\device\vr\build\mock_vr_clients\)EOF";
+
+    bool vrOverrideFound = false;
+    for (size_t i = 0; i < vars.size(); i++) {
+      std::string &s = vars[i];
+      std::string s2 = s;
+      for (auto &c : s2) {
+        c = toupper(c);
+      }
+      if (s2.rfind("VR_OVERRIDE=", 0) == 0) {
+        s = std::move(vrOverrideString);
+        vrOverrideFound = true;
+        break;
+      }
+    }
+    if (!vrOverrideFound) {
+      vars.push_back(std::move(vrOverrideString));
+    }
+  }
 
   for (auto iter : vars) {
     const std::string &s = iter;
@@ -192,12 +203,8 @@ Offsets *g_offsets = nullptr;
 
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
 
-// constexpr bool localLoop = true;
-constexpr bool localLoop = false;
-
 void *shMem = nullptr;
 // bool hijacked = false;
-bool booted = false;
 bool isChrome = false;
 // uint64_t *pFrameCount = nullptr;
 // GLFWwindow **ppWindow;
@@ -219,98 +226,8 @@ extern "C" {
     // size_t &id = *((size_t *)shMem + 1);
     // getOut() << "core 1 " << interface_name << std::endl;
 
-    if (!booted) {
-      if (localLoop) {
-        wrapExternalOpenVr([&]() -> void {
-          // getOut() << "core 2 " << interface_name << std::endl;
-
-          // only look in the override
-          std::string openvrApiDllPath = dllDir + "openvr_api.dll";
-          void *pMod = SharedLib_Load(openvrApiDllPath.c_str());
-          // dumpbin /exports "C:\Program Files (x86)\Steam\steamapps\common\SteamVR\bin\vrclient_x64.dll"
-          // nothing more to do if we can't load the DLL
-          // getOut() << "core 3 " << pMod << std::endl;
-          if( !pMod )
-          {
-            getOut() << "core abort" << std::endl; abort();
-            abort();
-            // return vr::VRInitError_Init_VRClientDLLNotFound;
-          }
-          
-          // getOut() << "core 4 " << pMod << std::endl;
-
-          __imp_VR_GetGenericInterface = SharedLib_GetFunction( pMod, "VR_GetGenericInterface" );
-          __imp_VR_IsInterfaceVersionVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionVersion" );
-          __imp_VR_GetInitToken = SharedLib_GetFunction( pMod, "VR_GetInitToken" );
-          __imp_VR_IsInterfaceVersion = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersion" );
-          __imp_VR_InitInternal2 = SharedLib_GetFunction( pMod, "VR_InitInternal2" );
-          __imp_VR_IsInterfaceVersionValid = SharedLib_GetFunction( pMod, "VR_IsInterfaceVersionValid" );
-          // __imp_VR_ShutdownInternal = SharedLib_GetFunction( pMod, "VR_ShutdownInternal" );
-          __imp_VR_IsHmdPresent = SharedLib_GetFunction( pMod, "VR_IsHmdPresent" );
-          __imp_VR_GetVRInitErrorAsSymbol = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsSymbol" );
-          __imp_VR_GetVRInitErrorAsEnglishDescription = SharedLib_GetFunction( pMod, "VR_GetVRInitErrorAsEnglishDescription" );
-          if (!__imp_VR_GetGenericInterface) {
-            SharedLib_Unload( pMod );
-            getOut() << "unload abort" << std::endl; abort();
-            // return vr::VRInitError_Init_FactoryNotFound;
-          }
-
-          vr::EVRInitError result = vr::VRInitError_None;
-          if (result != vr::VRInitError_None) {
-            getOut() << "vr_init failed" << std::endl;
-            abort();
-          }
-          getOut() << "proxy init" << std::endl;
-          
-          // if (!vr::g_pvrclientcore) {
-            getOut() << "boot 1" << std::endl;
-            vr::g_vrsystem = vr::VRSystem();
-            vr::g_vrcompositor = vr::VRCompositor();
-            vr::g_vrchaperone = vr::VRChaperone();
-            vr::g_vrchaperonesetup = vr::VRChaperoneSetup();
-            vr::g_vroverlay = vr::VROverlay();
-            vr::g_vrrendermodels = vr::VRRenderModels();
-            vr::g_vrscreenshots = vr::VRScreenshots();
-            vr::g_vrsettings = vr::VRSettings();
-            vr::g_vrextendeddisplay = vr::VRExtendedDisplay();
-            vr::g_vrapplications = vr::VRApplications();
-            vr::g_vrinput = vr::VRInput();
-            
-            getOut() << "boot 2 " << (void *)vr::g_vrsystem << " " << (void *)vr::g_vrcompositor << std::endl;
-          // }
-        });
-      // }
-
-      // if (localLoop) {
-        getOut() << "create thread" << std::endl;
-        
-        std::thread t([=]() {
-          vr::PVRSystem system(vr::g_vrsystem, *g_fnp);
-          vr::PVRCompositor compositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
-          vr::PVRClientCore clientcore(&compositor, *g_fnp);
-          vr::PVRInput input(vr::g_vrinput, *g_fnp);
-          vr::PVRScreenshots screenshots(vr::g_vrscreenshots, *g_fnp);
-          vr::PVRChaperone chaperone(vr::g_vrchaperone, *g_fnp);
-          vr::PVRChaperoneSetup chaperonesetup(vr::g_vrchaperonesetup, *g_fnp);
-          vr::PVRSettings settings(vr::g_vrsettings, *g_fnp);
-          vr::PVRRenderModels rendermodels(vr::g_vrrendermodels, *g_fnp);
-          vr::PVRApplications applications(vr::g_vrapplications, *g_fnp);
-          for (;;) {
-            g_fnp->handle();
-          }
-        });
-        t.detach();
-      }
-      
-      booted = true;
-    }
-
-    // result = vr::VRInitError_None;
-    getOut() << "init 3 " << interface_name << std::endl;
-
     // getOut() << "init 6 " << interface_name << std::endl;
     void *iface = CreateInterfaceByName(interface_name);
-    getOut() << "init 7 " << interface_name << " " << iface << std::endl;
     return iface;
   }
 }
@@ -370,7 +287,7 @@ BOOL WINAPI DllMain(
     g_fnp = new FnProxy();
     g_hijacker = new Hijacker(*g_fnp);
     vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *g_fnp);
-    vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+    vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, false, *g_fnp);
     vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *g_fnp);
     vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *g_fnp);
     vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *g_fnp);
@@ -383,12 +300,12 @@ BOOL WINAPI DllMain(
     
     g_hijacker->hijackDxgi(hinstDLL);
     g_hijacker->hijackGl();
-
-    // getOut() << "init dll 0" << std::endl;
+    
     std::vector<char> buf(4096);
     GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
-    getOut() << "init dll " << buf.data() << std::endl;
-    // getOut() << "init dll 2 " << buf.data() << std::endl;
+
+    getOut() << "init dll " << moduleString << " " << buf.data() << std::endl;
+
   } else if (fdwReason == DLL_PROCESS_DETACH) {
     g_hijacker->unhijackDxgi();
     g_hijacker->unhijackDx();

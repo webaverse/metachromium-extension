@@ -48,10 +48,12 @@ public:
   ID3D11VertexShader *vsShader = nullptr;
   ID3DBlob *psBlob = nullptr;
   ID3DBlob *psMsBlob = nullptr;
+  ID3DBlob *psCopyBlob = nullptr;
   ID3D11PixelShader *psShader = nullptr;
   ID3D11PixelShader *psMsShader = nullptr;
+  ID3D11PixelShader *psCopyShader = nullptr;
   ID3D11InputLayout *vertexLayout = nullptr;
-  ID3D11RasterizerState *rasterizerState = nullptr;
+  // ID3D11RasterizerState *rasterizerState = nullptr;
   // ID3D11ShaderResourceView *shaderResourceView = nullptr;
   // ID3D11RenderTargetView *renderTargetView = nullptr;
   // ID3D11DepthStencilView *depthStencilView = nullptr;
@@ -103,6 +105,12 @@ public:
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<HANDLE> inBackDepthHandleLatches;
   std::vector<ID3D11Fence *> inBackFences;
+  HANDLE backbufferShHandle = NULL;
+  ID3D11Texture2D *backbufferShTex = nullptr;
+  ID3D11Fence *backbufferFence = nullptr;
+  HANDLE backbufferFenceHandle = NULL;
+  ID3D11ShaderResourceView *backbufferSrv = nullptr;
+  ID3D11RenderTargetView *backbufferRtv = nullptr;
   // std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;
@@ -114,15 +122,17 @@ public:
   // std::vector<GLuint> shTexOutIds;
   // std::vector<GLuint> texDepthIds;
   std::vector<ID3D11Texture2D *> shTexOuts;
+  std::vector<HANDLE> shTexOutHandles;
   std::vector<ID3D11Texture2D *> shDepthTexFrontOuts;
   std::vector<ID3D11Texture2D *> shDepthTexBackOuts;
   std::vector<ID3D11RenderTargetView *> renderTargetViews;
   std::vector<ID3D11RenderTargetView *> renderTargetDepthFrontViews;
   std::vector<ID3D11RenderTargetView *> renderTargetDepthBackViews;
+  std::vector<ID3D11ShaderResourceView *> eyeShaderResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
-  PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp);
+  PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bool isProcess, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
 	virtual EVRCompositorError WaitGetPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount );

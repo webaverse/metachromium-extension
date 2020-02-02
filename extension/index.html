@@ -26,6 +26,11 @@ a {
 a:active {
   color: #1e88e5;
 }
+#canvas-2d {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
 </style>
 </head>
 <body>
@@ -45,6 +50,7 @@ a:active {
       <a href="https://immersive-web.github.io/webxr-samples/positional-audio.html">Positional Audio</a>
     </section>
   </div>
+  <canvas width=300 height=300 id=canvas-2d></canvas>
 <script>
 
 window.addEventListener('xrchromeloaded', async () => {
@@ -77,6 +83,16 @@ window.addEventListener('xrchromeloaded', async () => {
     });
     document.getElementById('apps').appendChild(a);
   }
+});
+window.addEventListener('load', () => {
+  const canvas2d = document.getElementById('canvas-2d');
+  const ctx2d = canvas2d.getContext('2d');
+  function recurse() {
+    console.log('clear');
+    ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
+    window.requestAnimationFrame(recurse);
+  }
+  window.requestAnimationFrame(recurse);
 });
 
 </script>

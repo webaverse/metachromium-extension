@@ -6,8 +6,11 @@
 // #include <fstream>
 
 #include "device/vr/openvr/test/out.h"
+#include "extension/json.hpp"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
+
+using json = nlohmann::json;
 
 std::string logSuffix = "_process";
 HWND g_hWnd = NULL;
@@ -20,24 +23,131 @@ inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 	return (uint32_t)(vtable[offset] - (uintptr_t)module);
 }
 
-LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
+HWND tmpHwnd;
+BOOL CALLBACK EnumWindowsProcMy(HWND hwnd, LPARAM lParam) {
+  char textBuf[1024];
+  if (GetWindowTextA(
+    hwnd,
+    textBuf,
+    sizeof(textBuf)
+  )) {
+    if (std::string(textBuf).find("Chromium") != std::string::npos) {
+      tmpHwnd = hwnd;
+      return false;
+    }
+  }
+  /* DWORD lpdwProcessId;
+  GetWindowThreadProcessId(hwnd,&lpdwProcessId);
+  if(lpdwProcessId==lParam)
+  {
+      tmpHwnd=hwnd;
+      return FALSE;
+  } */
+  return true;
+}
+HWND getHwndForProcessId(LPARAM m_ProcessId) {
+  tmpHwnd = NULL;
+  EnumWindows(EnumWindowsProcMy, m_ProcessId);
+  return tmpHwnd;
+}
+
+HANDLE chromeProcessHandle = NULL;
+DWORD chromeProcessId = 0;
+/* // child process's STDIN is the user input or data that you enter into the child process - READ
+HANDLE g_hChildStd_IN_Rd = NULL;
+// child process's STDIN is the user input or data that you enter into the child process - WRITE
+HANDLE g_hChildStd_IN_Wr = NULL;
+// child process's STDOUT is the program output or data that child process returns - READ
+HANDLE g_hChildStd_OUT_Rd = NULL;
+// child process's STDOUT is the program output or data that child process returns - WRITE
+HANDLE g_hChildStd_OUT_Wr = NULL;
+void writeChromeJson(const json &j) {
+  const std::string &s = j.dump();
+
+  std::vector<char> d(sizeof(uint32_t) + s.size());
+  uint32_t size = (uint32_t)s.size();
+  memcpy(d.data(), &size, sizeof(uint32_t));
+  memcpy(d.data() + sizeof(uint32_t), s.data(), s.size());
+  DWORD bytesWritten;
+  if (!WriteFile(g_hChildStd_IN_Wr, d.data(), d.size(), &bytesWritten, NULL)) {
+    getOut() << "failed to write to chrome: " << (void *)GetLastError() << std::endl;
+    // abort();
+  }
+} */
+
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
   // getOut() << "WindowProc message " << message << " " << WM_DESTROY << std::endl;
   // sort through and find what code to run for the message given
-  switch(message)
-  {
-      // this message is read when the window is closed
-      case WM_DESTROY:
-          {
-              // close the application entirely
-              live = false;
-              PostQuitMessage(0);
-              return 0;
-          } break;
+
+  switch (message) {
+    case WM_LBUTTONDOWN: {
+      /* if (g_hChildStd_IN_Wr) {
+        int x = LOWORD(lParam);
+        int y = HIWORD(lParam);
+        DWORD flags = wParam;
+        // getOut() << "mouse down " << x << " " << y << " " << flags << std::endl;
+
+        const json j = {
+          {"method", "mousedown"},
+          {"args", {
+            {"x", x},
+            {"y", y},
+          }},
+        };
+        writeChromeJson(j);
+      } */
+
+      break;
+    }
+    case WM_LBUTTONUP: {
+      /* if (g_hChildStd_IN_Wr) {
+        int x = LOWORD(lParam);
+        int y = HIWORD(lParam);
+        DWORD flags = wParam;
+        // getOut() << "mouse up " << x << " " << y << " " << flags << std::endl;
+      
+        const json j = {
+          {"method", "mouseup"},
+          {"args", {
+            {"x", x},
+            {"y", y},
+          }},
+        };
+        writeChromeJson(j);
+      } */
+
+      break;
+    }
+    case WM_MOUSEMOVE: {
+      /* if (g_hChildStd_IN_Wr) {
+        int x = LOWORD(lParam);
+        int y = HIWORD(lParam);
+        DWORD flags = wParam;
+        // getOut() << "mouse move " << x << " " << y << " " << flags << std::endl;
+
+        const json j = {
+          {"method", "mousemove"},
+          {"args", {
+            {"x", x},
+            {"y", y},
+          }},
+        };
+        writeChromeJson(j);
+      } */
+      
+      break;
+    }
+    // this message is read when the window is closed
+    case WM_DESTROY: {
+      // close the application entirely
+      live = false;
+      PostQuitMessage(0);
+      return 0;
+    }
   }
 
   // Handle any messages the switch statement didn't
-  return DefWindowProc (hWnd, message, wParam, lParam);
+  return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 int WINAPI WinMain(
@@ -54,29 +164,30 @@ int WINAPI WinMain(
   {
     WNDCLASSEX wc{};
     wc.cbSize = sizeof(WNDCLASSEX);
-    wc.style = CS_HREDRAW | CS_VREDRAW;
+    // wc.style = CS_HREDRAW | CS_VREDRAW;
+    // wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = hInstance;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+    // wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    // wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
     wc.lpszClassName = "RT1";
     RegisterClassExA(&wc);
 
     g_hWnd = CreateWindowExA(
       NULL,
       wc.lpszClassName,    // name of the window class
-      "Reality Tab",   // title of the window
+      "XR Chrome",   // title of the window
       WS_OVERLAPPEDWINDOW,    // window style
-      300,    // x-position of the window
-      300,    // y-position of the window
-      512,    // width of the window
-      512,    // height of the window
+      CW_USEDEFAULT,    // x-position of the window
+      CW_USEDEFAULT,    // y-position of the window
+      1,    // width of the window
+      1,    // height of the window
       NULL,    // we have no parent window, NULL
       NULL,    // we aren't using menus, NULL
       hInstance,    // application handle
       NULL
     );    // used with multiple windows, NULL
-    ShowWindow(g_hWnd, SW_SHOW);
+    // ShowWindow(g_hWnd, SW_SHOW);
   }
   {
     HMODULE d3d11Module = LoadLibraryA("d3d11.dll");
@@ -211,7 +322,7 @@ int WINAPI WinMain(
   g_fnp = new FnProxy();
   g_hijacker = new Hijacker(*g_fnp);
   vr::g_pvrsystem = new vr::PVRSystem(vr::g_vrsystem, *g_fnp);
-  vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, *g_fnp);
+  vr::g_pvrcompositor = new vr::PVRCompositor(vr::g_vrcompositor, *g_hijacker, true, *g_fnp);
   vr::g_pvrclientcore = new vr::PVRClientCore(vr::g_pvrcompositor, *g_fnp);
   vr::g_pvrinput = new vr::PVRInput(vr::g_vrinput, *g_fnp);
   vr::g_pvrscreenshots = new vr::PVRScreenshots(vr::g_vrscreenshots, *g_fnp);
@@ -226,7 +337,6 @@ int WINAPI WinMain(
     compositor2d::homeRenderLoop();
   }).detach();
 
-  HANDLE chromeProcessHandle = NULL;
   {
     char cwdBuf[MAX_PATH];
     if (!GetCurrentDirectory(
@@ -236,37 +346,88 @@ int WINAPI WinMain(
       getOut() << "failed to get current directory" << std::endl;
       abort();
     }
+    std::string baseDir = cwdBuf;
+    baseDir += R"EOF(\..\..\..\..\..)EOF";
 
-    std::string cmd = R"EOF(..\..\..\..\..\Chrome-bin\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing )EOF";
-    cmd += cwdBuf;
-    cmd += R"EOF(\..\..\..\..\..\extension\index.html)EOF";
+    std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --load-extension=..\..\..\..\..\..\extension ..\..\..\..\..\..\extension\index.html)EOF";
     std::vector<char> cmdVector(cmd.size() + 1);
     memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
 
     getOut() << "launch chrome command: " << cmd << std::endl;
     
     char envBuf[64 * 1024];
-    getChildEnvBuf(envBuf);
+    getChildEnvBuf(envBuf, baseDir);
+
+    /* SECURITY_ATTRIBUTES saAttr;
+    // Set the bInheritHandle flag so pipe handles are inherited. 
+    saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+    saAttr.bInheritHandle = TRUE;
+    saAttr.lpSecurityDescriptor = NULL;
+    //child process's STDOUT is the program output or data that child process returns
+    // Create a pipe for the child process's STDOUT. 
+    if (!CreatePipe(&g_hChildStd_OUT_Rd, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
+      getOut() << "StdoutRd CreatePipe abort" << std::endl;
+      abort();
+    }
+    // Ensure the read handle to the pipe for STDOUT is not inherited.
+    if (!SetHandleInformation(g_hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0)) {
+      getOut() << "Stdout SetHandleInformation abort" << std::endl;
+      abort();
+    }
+    //child process's STDIN is the user input or data that you enter into the child process
+    // Create a pipe for the child process's STDIN. 
+    if (!CreatePipe(&g_hChildStd_IN_Rd, &g_hChildStd_IN_Wr, &saAttr, 0)) {
+      getOut() << "Stdin CreatePipe abort" << std::endl;
+      abort();
+    }
+    // Ensure the write handle to the pipe for STDIN is not inherited. 
+    if (!SetHandleInformation(g_hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
+      getOut() << "Stdin SetHandleInformation abort" << std::endl;
+      abort();
+    } */
 
     STARTUPINFO si{};
+    si.cb = sizeof(STARTUPINFO);
+    /* si.hStdError = g_hChildStd_OUT_Wr;
+    si.hStdOutput = g_hChildStd_OUT_Wr;
+    si.hStdInput = g_hChildStd_IN_Rd;
+    si.dwFlags |= STARTF_USESTDHANDLES; */
+    
     PROCESS_INFORMATION pi{};
     if (CreateProcessA(
       NULL,
       cmdVector.data(),
       NULL,
       NULL,
-      false,
-      0,
+      true,
+      CREATE_NO_WINDOW,
       envBuf,
       NULL,
       &si,
       &pi
     )) {
       chromeProcessHandle = pi.hProcess;
-      getOut() << "launched chrome ui process: " << pi.dwProcessId << std::endl;
+      chromeProcessId = pi.dwProcessId;
+
+      getOut() << "launched chrome ui process: " << chromeProcessId << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
     }
+    
+    /* std::thread([]() -> void {
+      DWORD dwRead;
+      CHAR chBuf[4096];
+      BOOL bSuccess = FALSE;
+      HANDLE hParentStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+      WORD wResult = 0;
+      while (ReadFile(g_hChildStd_OUT_Rd, chBuf, sizeof(chBuf), &dwRead, NULL)) {
+        getOut().write(chBuf, dwRead);
+      }
+    }).detach(); */
+    std::thread([=]() -> void {
+      WaitForSingleObject(chromeProcessHandle, INFINITE);
+      PostMessage(g_hWnd, WM_DESTROY, 0, 0);
+    }).detach();
   }
 
   while (live) {
@@ -286,14 +447,14 @@ int WINAPI WinMain(
     // getOut() << "handle 3" << std::endl;
   }
   
-  if (chromeProcessHandle) {
+  /* if (chromeProcessHandle) {
     if (!TerminateProcess(
       chromeProcessHandle,
       0
     )) {
       getOut() << "failed to terminate chrome ui process: " << (void *)GetLastError() << std::endl;
     }
-  }
+  } */
   
   getOut() << "process exit" << std::endl;
 

@@ -9,7 +9,7 @@
 #define D3D11_NO_HELPERS
 // #include <windows.h>
 #include <D3D11_4.h>
-// #include <DXGI1_4.h>
+#include <d3dcompiler.h>
 // #include <wrl.h>
 
 #include "device/vr/openvr/test/hijack.h"
@@ -33,13 +33,25 @@ extern Hijacker *g_hijacker;
 extern bool isChrome;
 extern Offsets *g_offsets;
 
-// constants
+constexpr unsigned int viewportWidth = 300;
+constexpr unsigned int viewportHeight = 300;
+
 char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
-char kHijacker_SetTexture[] = "Hijacker_SetTexture";
+char kHijacker_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
+char kHijacker_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 
+// void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
+void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
+void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight);
+void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom);
+float ProxyGetFloat(const char *pchSection, const char *pchSettingsKey, vr::EVRSettingsError *peError);
+
+namespace hijacker {
+
+// constants
 const char *depthVsh = R"END(#version 100
 precision highp float;
 
@@ -64,6 +76,58 @@ void main() {
   // gl_FragColor.r += 1.0;
   // gl_FragColor = vec4(0.0);
 }
+)END";
+const char *hlsl = R"END(
+//------------------------------------------------------------//
+// Structs
+//------------------------------------------------------------//
+// Vertex shader OUT struct
+struct VS_OUTPUT
+{
+   float4 Position: SV_POSITION;
+   float2 Uv: TEXCOORD0;
+};
+//------------------------------------------------------------//
+// Pixel Shader OUT struct
+struct PS_OUTPUT
+{
+	float4 Color : SV_Target0;
+};
+struct PS_OUTPUT_COPY
+{
+	float4 Color : SV_Target0;
+};
+//------------------------------------------------------------//
+
+//------------------------------------------------------------//
+// Textures / samplers
+//------------------------------------------------------------//
+//Texture
+Texture2D QuadTexture : register(ps, t0);
+SamplerState QuadTextureSampler {
+  MipFilter = NONE;
+	MinFilter = POINT;
+	MagFilter = POINT;
+};
+//------------------------------------------------------------//
+
+VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
+{
+  VS_OUTPUT Output;
+  Output.Position = float4(inPos, 0, 1);
+  Output.Uv = inTex;
+  return Output;
+}
+
+PS_OUTPUT ps_main_blit(VS_OUTPUT IN)
+{
+  PS_OUTPUT result;
+  result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
+  // result.Color = float4(1, 0, 0, 1);
+  return result;
+}
+
+//------------------------------------------------------------//
 )END";
 
 // dx
@@ -114,12 +178,6 @@ size_t fenceValue = 0;
 HANDLE frontSharedDepthHandle = NULL;
 std::vector<ID3D11Fence *> fenceCache;
 
-// void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
-void ProxyGetDXGIOutputInfo(int32_t *pAdaterIndex);
-void ProxyGetRecommendedRenderTargetSize(uint32_t *pWidth, uint32_t *pHeight);
-void ProxyGetProjectionRaw(vr::EVREye eye, float *pfLeft, float *pfRight, float *pfTop, float *pfBottom);
-float ProxyGetFloat(const char *pchSection, const char *pchSettingsKey, vr::EVRSettingsError *peError);
-
 void checkDetourError(const char *label, LONG error) {
   if (error) {
     getOut() << "detour error " << label << " " << (void *)error << std::endl;
@@ -136,13 +194,383 @@ decltype(eglQueryDisplayAttribEXT) *EGL_QueryDisplayAttribEXT = nullptr;
 decltype(eglQueryDeviceAttribEXT) *EGL_QueryDeviceAttribEXT = nullptr;
 decltype(eglGetError) *EGL_GetError = nullptr;
 
+ID3D11Buffer *vertexBuffer = nullptr;
+ID3D11Buffer *indexBuffer = nullptr;
+ID3DBlob *vsBlob = nullptr;
+ID3D11VertexShader *vsShader = nullptr;
+ID3DBlob *psBlob = nullptr;
+ID3D11PixelShader *psShader = nullptr;
+ID3D11InputLayout *vertexLayout = nullptr;
+ID3D11Texture2D *viewportFrontShTex = nullptr;
+IDXGIResource1 *viewportFrontShDXGIRes = nullptr;
+ID3D11Resource *viewportFrontShD3D11Res = nullptr;
+ID3D11Texture2D *viewportBackShTex = nullptr;
+IDXGIResource1 *viewportBackShDXGIRes = nullptr;
+ID3D11Resource *viewportBackShD3D11Res = nullptr;
+IDXGIResource1 *viewportBackShRes = nullptr;
+ID3D11Fence *viewportFence = nullptr;
+size_t viewportFenceValue = 0;
+HANDLE viewportShHandle = NULL;
+ID3D11RenderTargetView *viewportRtv = nullptr;
+
+HANDLE latchedShEyeTex = NULL;
+ID3D11ShaderResourceView *eyeShaderResourceView = nullptr;
+
+ID3D11InfoQueue *infoQueue = nullptr;
+void InfoQueueLog() {
+  if (infoQueue) {
+    UINT64 numStoredMessages = infoQueue->lpVtbl->GetNumStoredMessagesAllowedByRetrievalFilter(infoQueue);
+    for (UINT64 i = 0; i < numStoredMessages; i++) {
+      size_t messageSize = 0;
+      HRESULT hr = infoQueue->lpVtbl->GetMessage(
+        infoQueue,
+        i,
+        nullptr,
+        &messageSize
+      );
+      if (SUCCEEDED(hr)) {
+        D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
+        
+        hr = infoQueue->lpVtbl->GetMessage(
+          infoQueue,
+          i,
+          message,
+          &messageSize
+        );
+        if (SUCCEEDED(hr)) {
+          // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
+            getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
+          // }
+        } else {
+          getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
+        }
+        
+        free(message);
+      } else {
+        getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
+      }
+    }
+    infoQueue->lpVtbl->ClearStoredMessages(infoQueue);
+  }
+}
+void initBlitShader() {
+  HRESULT hr;
+
+  ID3D11Device *deviceBasic;
+  ID3D11DeviceContext *contextBasic;
+  D3D_FEATURE_LEVEL featureLevels[] = {
+    D3D_FEATURE_LEVEL_11_1
+  };
+  hr = D3D11CreateDevice(
+    // adapter, // pAdapter
+    NULL, // pAdapter
+    D3D_DRIVER_TYPE_HARDWARE, // DriverType
+    NULL, // Software
+    0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
+    featureLevels, // pFeatureLevels
+    ARRAYSIZE(featureLevels), // FeatureLevels
+    D3D11_SDK_VERSION, // SDKVersion
+    &deviceBasic, // ppDevice
+    NULL, // pFeatureLevel
+    &contextBasic // ppImmediateContext
+  );
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "opengl texture dx device creation failed " << (void *)hr << std::endl;
+    abort();
+  }
+  
+  hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11Device5, (void **)&hijackerDevice);
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "hijacker device5 query failed" << std::endl;
+    // abort();
+  }
+
+  hr = contextBasic->lpVtbl->QueryInterface(contextBasic, IID_ID3D11DeviceContext4, (void **)&hijackerContext);
+  if (SUCCEEDED(hr)) {
+    // nothing
+  } else {
+    getOut() << "hijacker context4 query failed" << std::endl;
+    // abort();
+  }
+
+  g_hijacker->hijackDx(contextBasic);
+
+  hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11InfoQueue, (void **)&infoQueue);
+  if (SUCCEEDED(hr)) {
+    infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
+  } else {
+    getOut() << "info queue query failed" << std::endl;
+    // abort();
+  }
+  
+  float vertices[] = { // xyuv
+    -1, -1, 0, 1,
+    -1, 1, 0, 0,
+    1, -1, 1, 1,
+    1, 1, 1, 0
+  };
+  int indices[] = {
+    0, 1, 2,
+    3, 2, 1
+  };
+
+  {
+    D3D11_BUFFER_DESC bd{};
+    D3D11_SUBRESOURCE_DATA InitData{};
+
+    // ZeroMemory(&bd, sizeof(bd));
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.ByteWidth = sizeof(float) * (2+2) * 4;
+    bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+    bd.CPUAccessFlags = 0;
+    // ZeroMemory(&InitData, sizeof(InitData));
+    InitData.pSysMem = vertices;
+    
+    // ID3D11Buffer* vertexBuffer = nullptr;
+    hr = hijackerDevice->lpVtbl->CreateBuffer(hijackerDevice, &bd, &InitData, &vertexBuffer);
+    if(FAILED(hr)) {
+      getOut() << "Unable to create vertex buffer: " << (void *)hr << std::endl;
+      abort();   
+    }
+    // m_VB.Set(vertexBuffer);
+  }
+  // getOut() << "init render 2" << std::endl;
+  {
+    D3D11_BUFFER_DESC bd{};
+    D3D11_SUBRESOURCE_DATA InitData{};
+
+    // ZeroMemory(&bd, sizeof(bd));
+    bd.Usage = D3D11_USAGE_DEFAULT;
+    bd.ByteWidth = sizeof(int) * 6;
+    bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+    bd.CPUAccessFlags = 0;
+    bd.MiscFlags = 0;
+    // ZeroMemory(&InitData, sizeof(InitData));
+    InitData.pSysMem = indices;
+
+    // ID3D11Buffer* indexBuffer = nullptr;
+    hr = hijackerDevice->lpVtbl->CreateBuffer(hijackerDevice, &bd, &InitData, &indexBuffer);
+    if(FAILED(hr)) {
+      getOut() << "Unable to create index buffer: " << (void *)hr << std::endl;
+      abort();
+    }
+    // m_IB.Set(indexBuffer);
+  }
+  {
+    ID3DBlob *errorBlob = nullptr;
+    hr = D3DCompile(
+      hlsl,
+      strlen(hlsl),
+      "vs.hlsl",
+      nullptr,
+      D3D_COMPILE_STANDARD_FILE_INCLUDE,
+      "vs_main",
+      "vs_5_0",
+      D3DCOMPILE_ENABLE_STRICTNESS,
+      0,
+      &vsBlob,
+      &errorBlob
+    );
+    if (FAILED(hr)) {
+      if (errorBlob != nullptr) {
+        getOut() << "vs compilation failed: " << (char*)errorBlob->lpVtbl->GetBufferPointer(errorBlob) << std::endl;
+        abort();
+      }
+    }
+    ID3D11ClassLinkage *linkage = nullptr;
+    hr = hijackerDevice->lpVtbl->CreateVertexShader(hijackerDevice, vsBlob->lpVtbl->GetBufferPointer(vsBlob), vsBlob->lpVtbl->GetBufferSize(vsBlob), linkage, &vsShader);
+    if (FAILED(hr)) {
+      getOut() << "vs create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  // getOut() << "init render 5" << std::endl;
+  {
+    ID3DBlob *errorBlob = nullptr;
+    hr = D3DCompile(
+      hlsl,
+      strlen(hlsl),
+      "ps.hlsl",
+      nullptr,
+      D3D_COMPILE_STANDARD_FILE_INCLUDE,
+      "ps_main_blit",
+      "ps_5_0",
+      D3DCOMPILE_ENABLE_STRICTNESS,
+      0,
+      &psBlob,
+      &errorBlob
+    );
+    // getOut() << "init render 6 1" << std::endl;
+    if (FAILED(hr)) {
+      if (errorBlob != nullptr) {
+        getOut() << "ps compilation failed: " << (char*)errorBlob->lpVtbl->GetBufferPointer(errorBlob) << std::endl;
+        abort();
+      }
+    }
+    
+    // getOut() << "init render 7 1" << std::endl;
+
+    ID3D11ClassLinkage *linkage = nullptr;
+    hr = hijackerDevice->lpVtbl->CreatePixelShader(hijackerDevice, psBlob->lpVtbl->GetBufferPointer(psBlob), psBlob->lpVtbl->GetBufferSize(psBlob), linkage, &psShader);
+    if (FAILED(hr)) {
+      getOut() << "ps create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  {
+    D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
+      { "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+      { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 8, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+    };
+    UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
+    hr = hijackerDevice->lpVtbl->CreateInputLayout(hijackerDevice, PositionTextureVertexLayout, numElements, vsBlob->lpVtbl->GetBufferPointer(vsBlob), vsBlob->lpVtbl->GetBufferSize(vsBlob), &vertexLayout);
+    if (FAILED(hr)) {
+      getOut() << "vertex layout create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+  {
+    D3D11_TEXTURE2D_DESC desc{};
+    desc.Width = viewportWidth;
+    desc.Height = viewportHeight;
+    desc.MipLevels = desc.ArraySize = 1;
+    desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    desc.SampleDesc.Count = 1;
+    desc.Usage = D3D11_USAGE_DEFAULT;
+    desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+    // desc.CPUAccessFlags = 0;
+    desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+
+    hr = hijackerDevice->lpVtbl->CreateTexture2D(
+      hijackerDevice,
+      &desc,
+      NULL,
+      &viewportFrontShTex
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to create viewport texture: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    {
+      hr = viewportFrontShTex->lpVtbl->QueryInterface(viewportFrontShTex, IID_IDXGIResource1, (void **)&viewportFrontShDXGIRes);
+      if (FAILED(hr)) {
+        getOut() << "failed to query viewport front dxgi resource: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = viewportFrontShDXGIRes->lpVtbl->GetSharedHandle(viewportFrontShDXGIRes, &viewportShHandle);
+      if (FAILED(hr)) {
+        getOut() << "failed to query viewport front shared handle: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = viewportFrontShTex->lpVtbl->QueryInterface(viewportFrontShTex, IID_ID3D11Resource, (void **)&viewportFrontShD3D11Res);
+      if (FAILED(hr)) {
+        getOut() << "failed to query viewport front d3d11 resource: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = hijackerDevice->lpVtbl->CreateFence(
+        hijackerDevice,
+        0, // value
+        D3D11_FENCE_FLAG_NONE, // flags
+        IID_ID3D11Fence, // interface
+        (void **)&viewportFence // out
+      );
+      if (FAILED(hr)) {
+        getOut() << "failed to create viewport fence" << std::endl;
+        abort();
+      }
+    }
+
+    D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+    renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+    renderTargetViewDesc.Texture2D.MipSlice = 0;
+    hr = hijackerDevice->lpVtbl->CreateRenderTargetView(
+      hijackerDevice,
+      viewportFrontShD3D11Res,
+      &renderTargetViewDesc,
+      &viewportRtv
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to create viewport rtv: " << (void *)hr << std::endl;
+      abort();
+    }
+  }
+
+  deviceBasic->lpVtbl->Release(deviceBasic);
+  contextBasic->lpVtbl->Release(contextBasic);
+
+  // InfoQueueLog();
+}
+void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
+  // set new
+  UINT stride = sizeof(float) * 4; // xyuv
+  UINT offset = 0;
+  hijackerContext->lpVtbl->IASetPrimitiveTopology(hijackerContext, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+  hijackerContext->lpVtbl->IASetInputLayout(hijackerContext, vertexLayout);
+  hijackerContext->lpVtbl->IASetVertexBuffers(hijackerContext, 0, 1, &vertexBuffer, &stride, &offset);
+  hijackerContext->lpVtbl->IASetIndexBuffer(hijackerContext, indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+  hijackerContext->lpVtbl->VSSetShader(hijackerContext, vsShader, nullptr, 0);
+  hijackerContext->lpVtbl->PSSetShader(hijackerContext, psShader, nullptr, 0);
+
+  ID3D11ShaderResourceView *localShaderResourceViews[1] = {
+    eyeShaderResourceView,
+  };
+  hijackerContext->lpVtbl->PSSetShaderResources(hijackerContext, 0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+
+  /* HRESULT hr = hijackerDevice->lpVtbl->CreateRenderTargetView(
+    hijackerDevice,
+    backbufferRes,
+    &renderTargetViewDesc,
+    &backbufferRtv
+  );
+  if (FAILED(hr)) {
+    getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
+    abort();
+  } */
+  ID3D11RenderTargetView *localRenderTargetViews[1] = {
+    viewportRtv,
+  };
+  hijackerContext->lpVtbl->OMSetRenderTargets(hijackerContext, ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+
+  D3D11_VIEWPORT viewport{
+    0, // TopLeftX,
+    0, // TopLeftY,
+    viewportWidth, // Width,
+    viewportHeight, // Height,
+    0, // MinDepth,
+    1 // MaxDepth
+  };
+  hijackerContext->lpVtbl->RSSetViewports(hijackerContext, 1, &viewport);
+
+  // draw
+  hijackerContext->lpVtbl->DrawIndexed(hijackerContext, 6, 0, 0);
+
+  ++viewportFenceValue;
+  hijackerContext->lpVtbl->Signal(hijackerContext, viewportFence, viewportFenceValue);
+}
+
 ID3D11Resource *backbufferShRes = nullptr;
 HANDLE backbufferShHandle = NULL;
-D3D11_TEXTURE2D_DESC backbufferDesc;
+D3D11_TEXTURE2D_DESC backbufferDesc{};
+ID3D11Fence *backbufferFence = nullptr;
+HANDLE backbufferFenceHandle = NULL;
+uint64_t backbufferFenceValue = 0;
 template<typename T>
 void presentSwapChain(T *swapChain) {
-  getOut() << "present swap chain 1" << std::endl;
+  // getOut() << "present swap chain 1" << std::endl;
 
+  if (!hijackerDevice) {
+    initBlitShader();
+  }
+  
   ID3D11Resource *res;
 	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
 	if (FAILED(hr)) {
@@ -159,10 +587,29 @@ void presentSwapChain(T *swapChain) {
   ID3D11Device *device;
   tex->lpVtbl->GetDevice(tex, &device);
 
+  /* ID3D11Device5 *device5;
+  hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
+  if (FAILED(hr)) {
+    getOut() << "failed to query backbuffer device5 : " << (void *)hr << std::endl;
+    abort();
+  } */
+  
+  ID3D11DeviceContext *context;
+  device->lpVtbl->GetImmediateContext(device, &context);
+  
+  ID3D11DeviceContext4 *context4;
+  hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
+  if (FAILED(hr)) {
+    getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
+    abort();
+  }
+
   D3D11_TEXTURE2D_DESC desc;
   tex->lpVtbl->GetDesc(tex, &desc);
   
   if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
+    backbufferDesc = desc;
+
     desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
@@ -196,38 +643,176 @@ void presentSwapChain(T *swapChain) {
       getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
       abort();
     }
-
-    backbufferDesc = desc;
   }
+  /* if (!backbufferFence) {
+    hr = device5->lpVtbl->CreateFence(
+      device5,
+      0, // value
+      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+      // D3D11_FENCE_FLAG_SHARED, // flags
+      D3D11_FENCE_FLAG_SHARED, // flags
+      IID_ID3D11Fence, // interface
+      (void **)&backbufferFence // out
+    );
+    if (SUCCEEDED(hr)) {
+      // getOut() << "created fence " << (void *)fence << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create backbuffer fence" << std::endl;
+      abort();
+    }
 
-  ID3D11DeviceContext *context;
-  device->lpVtbl->GetImmediateContext(device, &context);
+    hr = backbufferFence->lpVtbl->CreateSharedHandle(
+      backbufferFence,
+      NULL, // security attributes
+      GENERIC_ALL, // access
+      NULL, // (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
+      &backbufferFenceHandle // share handle
+    );
+    if (SUCCEEDED(hr)) {
+      getOut() << "create shared backbuffer fence handle " << (void *)backbufferFenceHandle << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create backbuffer fence share handle" << std::endl;
+      abort();
+    }
+  } */
+
   context->lpVtbl->CopyResource(
     context,
     backbufferShRes,
     res
   );
 
-  g_hijacker->hijackDx(context);
+  /* ++backbufferFenceValue;
+  context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
+  // context4->lpVtbl->Flush(context4); */
 
-  res->lpVtbl->Release(res);
-  tex->lpVtbl->Release(tex);
-  device->lpVtbl->Release(device);
-  context->lpVtbl->Release(context);
-  
-  g_hijacker->fnp.call<
-    kHijacker_SetTexture,
+  /* backbufferFenceValue = */ g_hijacker->fnp.call<
+    kHijacker_SetBackbuffer,
     int,
-    HANDLE
-  >(backbufferShHandle);
+    HANDLE,
+    uintptr_t,
+    HANDLE,
+    size_t
+  >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
   
-  getOut() << "present swap chain done " <<
-    desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
+  HANDLE shEyeTexHandle = g_hijacker->fnp.call<
+    kHijacker_GetSharedEyeTexture,
+    HANDLE
+  >();
+  if (latchedShEyeTex != shEyeTexHandle) {
+    if (eyeShaderResourceView) {
+      eyeShaderResourceView->lpVtbl->Release(eyeShaderResourceView);
+      eyeShaderResourceView = nullptr;
+    }
+    latchedShEyeTex = shEyeTexHandle;
+    
+    ID3D11Resource *shEyeTexResource;
+    HRESULT hr = hijackerDevice->lpVtbl->OpenSharedResource(hijackerDevice, shEyeTexHandle, IID_ID3D11Resource, (void**)&shEyeTexResource);
+    if (FAILED(hr)) {
+      getOut() << "failed to unpack shared eye texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
+      abort();
+    }
+
+    D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
+    eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    eyeSrv.Texture2D.MostDetailedMip = 0;
+    eyeSrv.Texture2D.MipLevels = 1;
+    
+    hr = hijackerDevice->lpVtbl->CreateShaderResourceView(
+      hijackerDevice,
+      shEyeTexResource,
+      &eyeSrv,
+      &eyeShaderResourceView
+    );
+    if (FAILED(hr)) {
+      getOut() << "failed to eye shader resource view: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    shEyeTexResource->lpVtbl->Release(shEyeTexResource);
+  }
+  if (eyeShaderResourceView) {
+    InfoQueueLog();
+
+    blitEyeView(eyeShaderResourceView);
+    context4->lpVtbl->Wait(context4, viewportFence, viewportFenceValue);
+    
+    if (!viewportBackShD3D11Res) {
+      hr = device->lpVtbl->OpenSharedResource(device, viewportShHandle, IID_IDXGIResource1, (void**)&viewportBackShDXGIRes);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack viewport share texture handle: " << (void *)hr << " " << (void *)viewportShHandle << std::endl;
+        abort();
+      }
+      
+      hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Texture2D, (void **)&viewportBackShTex);
+      if (FAILED(hr)) {
+        getOut() << "failed to get viewport back texture: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Resource, (void **)&viewportBackShD3D11Res);
+      if (FAILED(hr)) {
+        getOut() << "failed to get viewport back resource: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+
+    /* D3D11_TEXTURE2D_DESC desc;
+    viewportBackShTex->lpVtbl->GetDesc(viewportBackShTex, &desc);
+    
+    getOut() << "copy region " <<
+      desc.Width << " " << desc.Height << " " <<
+      desc.MipLevels << " " << desc.ArraySize << " " <<
+      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+      desc.Format << " " <<
+      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+      std::endl; */
+
+    /* D3D11_BOX srcBox{};
+    srcBox.left = 0;
+    srcBox.right = viewportWidth;
+    srcBox.top = 0;
+    srcBox.bottom = viewportHeight;
+    srcBox.front = 0;
+    srcBox.back = 1; */
+    context->lpVtbl->CopySubresourceRegion(
+      context,
+      res, // dst
+      0, // dst sub
+      0, // dst x
+      desc.Height - viewportHeight, // dst y
+      0, // dst z
+      viewportBackShD3D11Res, // src
+      0, // src sub
+      NULL
+    );
+    // CopySubresourceRegion viewportFrontShTex -> backbufferRes
+  }
+
+  /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
+  context4->lpVtbl->CopyResource(
+    context4,
+    res,
+    backbufferShRes
+  ); */
+
+  /* getOut() << "present swap chain done " <<
+    desc.Width << " " << desc.Height << " " <<
     desc.MipLevels << " " << desc.ArraySize << " " <<
     desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
     desc.Format << " " <<
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    std::endl;
+    std::endl; */
+
+  res->lpVtbl->Release(res);
+  tex->lpVtbl->Release(tex);
+  device->lpVtbl->Release(device);
+  // device5->lpVtbl->Release(device5);
+  context->lpVtbl->Release(context);
+  context4->lpVtbl->Release(context4);
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
@@ -239,7 +824,7 @@ HRESULT STDMETHODCALLTYPE MinePresent(
   UINT SyncInterval,
   UINT Flags
 ) {
-  getOut() << "present0" << std::endl;
+  // getOut() << "present0" << std::endl;
   if (isChrome) {
     presentSwapChain(This);
   }
@@ -257,13 +842,91 @@ HRESULT STDMETHODCALLTYPE MinePresent1(
   UINT                          PresentFlags,
   const DXGI_PRESENT_PARAMETERS *pPresentParameters
 ) {
-  getOut() << "present1" << std::endl;
+  // getOut() << "present1" << std::endl;
   if (isChrome) {
     presentSwapChain(This);
   }
   return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
 }
-
+/* HWND (STDMETHODCALLTYPE *RealCreateWindowExA)( 
+  DWORD     dwExStyle,
+  LPCSTR    lpClassName,
+  LPCSTR    lpWindowName,
+  DWORD     dwStyle,
+  int       X,
+  int       Y,
+  int       nWidth,
+  int       nHeight,
+  HWND      hWndParent,
+  HMENU     hMenu,
+  HINSTANCE hInstance,
+  LPVOID    lpParam
+) = nullptr;
+HWND STDMETHODCALLTYPE MineCreateWindowExA(
+  DWORD     dwExStyle,
+  LPCSTR    lpClassName,
+  LPCSTR    lpWindowName,
+  DWORD     dwStyle,
+  int       X,
+  int       Y,
+  int       nWidth,
+  int       nHeight,
+  HWND      hWndParent,
+  HMENU     hMenu,
+  HINSTANCE hInstance,
+  LPVOID    lpParam
+) {
+  getOut() << "RealCreateWindowExA " << (void *)dwExStyle << " " << (void *)dwStyle << std::endl;
+  // dwExStyle |= WS_EX_TOOLWINDOW;
+  return RealCreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+}
+HWND (STDMETHODCALLTYPE *RealCreateWindowExW)( 
+  DWORD     dwExStyle,
+  LPCWSTR   lpClassName,
+  LPCWSTR   lpWindowName,
+  DWORD     dwStyle,
+  int       X,
+  int       Y,
+  int       nWidth,
+  int       nHeight,
+  HWND      hWndParent,
+  HMENU     hMenu,
+  HINSTANCE hInstance,
+  LPVOID    lpParam
+) = nullptr;
+HWND STDMETHODCALLTYPE MineCreateWindowExW(
+  DWORD     dwExStyle,
+  LPCWSTR   lpClassName,
+  LPCWSTR   lpWindowName,
+  DWORD     dwStyle,
+  int       X,
+  int       Y,
+  int       nWidth,
+  int       nHeight,
+  HWND      hWndParent,
+  HMENU     hMenu,
+  HINSTANCE hInstance,
+  LPVOID    lpParam
+) {
+  getOut() << "RealCreateWindowExW " << (void *)dwExStyle << " " << (void *)dwStyle << std::endl;
+  // dwExStyle |= WS_EX_TOOLWINDOW;
+  return RealCreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
+} */
+/* HRESULT (STDMETHODCALLTYPE *RealCreateTargetForHwnd)(
+  IDCompositionDesktopDevice *This,
+  HWND                hwnd,
+  BOOL                topmost,
+  IDCompositionTarget **target
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MineCreateTargetForHwnd(
+  IDCompositionDesktopDevice *This,
+  HWND                hwnd,
+  BOOL                topmost,
+  IDCompositionTarget **target
+) {
+  getOut() << "RealCreateTargetForHwnd" << std::endl;
+  return RealCreateTargetForHwnd(This, hwnd, topmost, target);
+} */
 void ensureDepthWidthHeight() {
   if (!depthWidth) {
     ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
@@ -2549,6 +3212,10 @@ BOOL STDMETHODCALLTYPE MineWglMakeCurrent(
   return RealWglMakeCurrent(arg1, arg2);
 } */
 
+}
+
+using namespace hijacker;
+
 Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
   fnp.reg<
     kHijacker_QueueDepthTex,
@@ -2618,14 +3285,6 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     return std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == handle;
     }) != texQueue.end();
-  });
-  fnp.reg<
-    kHijacker_SetTexture,
-    int,
-    HANDLE
-  >([=](HANDLE newHandle) {
-    backbufferShHandle = newHandle;
-    return 0;
   });
 }
 /* void Hijacker::ensureClientDevice() {
@@ -2920,6 +3579,14 @@ void Hijacker::hijackDxgi(HINSTANCE hinstDLL) {
       // getOut() << "got real present1 " << g_offsets->Present1 << " " << RealPresent1 << std::endl;
       error = DetourAttach(&(PVOID&)RealPresent1, MinePresent1);
       checkDetourError("RealPresent1", error);
+      
+      /* RealCreateWindowExA = CreateWindowExA;
+      error = DetourAttach(&(PVOID&)RealCreateWindowExA, MineCreateWindowExA);
+      checkDetourError("RealCreateWindowExA", error);
+      
+      RealCreateWindowExW = CreateWindowExW;
+      error = DetourAttach(&(PVOID&)RealCreateWindowExW, MineCreateWindowExW);
+      checkDetourError("RealCreateWindowExW", error); */
 
       error = DetourTransactionCommit();
       checkDetourError("DetourTransactionCommit", error);
@@ -2952,6 +3619,12 @@ void Hijacker::unhijackDxgi() {
     error = DetourDetach(&(PVOID&)RealPresent1, MinePresent1);
     checkDetourError("RealPresent1", error);
 
+    /* error = DetourDetach(&(PVOID&)RealCreateWindowExA, MineCreateWindowExA);
+    checkDetourError("RealCreateWindowExA", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateWindowExW, MineCreateWindowExW);
+    checkDetourError("RealCreateWindowExW", error); */
+    
     error = DetourTransactionCommit();
     checkDetourError("DetourTransactionCommit", error);
     
