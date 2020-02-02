@@ -266,7 +266,7 @@ void initBlitShader() {
     NULL, // pAdapter
     D3D_DRIVER_TYPE_HARDWARE, // DriverType
     NULL, // Software
-    D3D11_CREATE_DEVICE_DEBUG, // Flags
+    0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
     featureLevels, // pFeatureLevels
     ARRAYSIZE(featureLevels), // FeatureLevels
     D3D11_SDK_VERSION, // SDKVersion
