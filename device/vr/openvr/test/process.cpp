@@ -326,10 +326,7 @@ int WINAPI WinMain(
   }).detach();
 
   char cwdBuf[MAX_PATH];
-  if (!GetCurrentDirectory(
-    sizeof(cwdBuf),
-    cwdBuf
-  )) {
+  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
     getOut() << "failed to get current directory" << std::endl;
     abort();
   }
