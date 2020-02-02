@@ -64,9 +64,6 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include "device/vr/openvr/test/fnproxy.h"
 #include "device/vr/openvr/test/hijack.h"
 
-int outWindowWidth = 1024;
-int outWindowHeight = 768;
-
 namespace vr {
 IVRSystem *g_vrsystem = nullptr;
 IVRCompositor *g_vrcompositor = nullptr;
