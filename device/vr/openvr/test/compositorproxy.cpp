@@ -853,7 +853,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     
     vrcompositor->PostPresentHandoff();
     
-    swapChain->Present(0, 0);
+    // swapChain->Present(0, 0);
 
     // getOut() << "flush submit server 11" << std::endl;
     return 0;
