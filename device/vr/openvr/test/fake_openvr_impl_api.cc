@@ -305,7 +305,6 @@ BOOL WINAPI DllMain(
     GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
 
     getOut() << "init dll " << moduleString << " " << buf.data() << std::endl;
-
   } else if (fdwReason == DLL_PROCESS_DETACH) {
     g_hijacker->unhijackDxgi();
     g_hijacker->unhijackDx();
