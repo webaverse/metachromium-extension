@@ -421,6 +421,10 @@ int WINAPI WinMain(
         getOut().write(chBuf, dwRead);
       }
     }).detach();
+    std::thread([=]() -> void {
+      WaitForSingleObject(chromeProcessHandle, INFINITE);
+      PostMessage(g_hWnd, WM_DESTROY, 0, 0);
+    }).detach();
   }
 
   while (live) {
