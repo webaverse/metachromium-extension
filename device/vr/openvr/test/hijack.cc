@@ -515,6 +515,7 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
     viewportRtv,
     color
   );
+  InfoQueueLog();
   return;
   
   // set new
@@ -591,25 +592,20 @@ void presentSwapChain(T *swapChain) {
     abort();
   }
 
-  /* ID3D11Device *device;
+  ID3D11Device *device;
   tex->lpVtbl->GetDevice(tex, &device);
 
-  ID3D11Device5 *device5;
+  /* ID3D11Device5 *device5;
   hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
   if (FAILED(hr)) {
     getOut() << "failed to query backbuffer device5 : " << (void *)hr << std::endl;
     abort();
-  }
+  } */
   
   ID3D11DeviceContext *context;
   device->lpVtbl->GetImmediateContext(device, &context);
-  context->lpVtbl->CopyResource(
-    context,
-    backbufferShRes,
-    res
-  );
   
-  ID3D11DeviceContext4 *context4;
+  /* ID3D11DeviceContext4 *context4;
   hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
   if (FAILED(hr)) {
     getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
@@ -626,8 +622,8 @@ void presentSwapChain(T *swapChain) {
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
     ID3D11Texture2D *backbufferShTex;
-    hr = hijackerDevice->lpVtbl->CreateTexture2D(
-      hijackerDevice,
+    hr = device->lpVtbl->CreateTexture2D(
+      device,
       &desc,
       NULL,
       &backbufferShTex
@@ -690,11 +686,17 @@ void presentSwapChain(T *swapChain) {
     }
   } */
 
+  context->lpVtbl->CopyResource(
+    context,
+    backbufferShRes,
+    res
+  );
+
   /* ++backbufferFenceValue;
   context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
   // context4->lpVtbl->Flush(context4); */
 
-  /* backbufferFenceValue = */g_hijacker->fnp.call<
+  /* backbufferFenceValue = */ g_hijacker->fnp.call<
     kHijacker_SetBackbuffer,
     int,
     HANDLE,
@@ -703,7 +705,7 @@ void presentSwapChain(T *swapChain) {
     size_t
   >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
   
-  HANDLE shEyeTexHandle = g_hijacker->fnp.call<
+  /* HANDLE shEyeTexHandle = g_hijacker->fnp.call<
     kHijacker_GetSharedEyeTexture,
     HANDLE
   >();
@@ -796,7 +798,7 @@ void presentSwapChain(T *swapChain) {
     
     device->lpVtbl->Release(device);
     context->lpVtbl->Release(context);
-  }
+  } */
 
   /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
   context4->lpVtbl->CopyResource(
@@ -815,10 +817,10 @@ void presentSwapChain(T *swapChain) {
 
   res->lpVtbl->Release(res);
   tex->lpVtbl->Release(tex);
-  /* device->lpVtbl->Release(device);
-  device5->lpVtbl->Release(device5);
+  device->lpVtbl->Release(device);
+  // device5->lpVtbl->Release(device5);
   context->lpVtbl->Release(context);
-  context4->lpVtbl->Release(context4); */
+  // context4->lpVtbl->Release(context4);
   
   getOut() << "present swap chain X" << std::endl;
 }
