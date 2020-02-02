@@ -15,21 +15,19 @@ cd build
 copy ..\build.cmd .
 .\build.cmd
 
-cd mock_vr_clients/bin
+cd mock_vr_clients\bin
 copy ..\..\..\..\..\bin\* .
 
 .\add_hook.exe ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe
 del ..\..\..\..\..\Chrome-bin\chrome.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
-copy glfw3.dll ..\..\..\..\..\Chrome-bin\
-copy glew32.dll ..\..\..\..\..\Chrome-bin\
-copy vrclient_x64.dll ..\..\..\..\..\Chrome-bin\
+copy ..\..\..\..\..\Chrome-bin\* .
 cd ..\..\..\..\..
 
 echo zipping artifact
 ls
 
-7z a xrchrome.zip device\vr\build\mock_vr_clients\bin\ Chrome-bin\
+7z a xrchrome.zip device\vr\build\mock_vr_clients\bin\
 
 echo done zipping artifact
 ls

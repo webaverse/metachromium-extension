@@ -349,7 +349,7 @@ int WINAPI WinMain(
     std::string baseDir = cwdBuf;
     baseDir += R"EOF(\..\..\..\..\..)EOF";
 
-    std::string cmd = R"EOF(..\..\..\..\..\Chrome-bin\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --load-extension=..\..\extension ..\..\extension\index.html)EOF";
+    std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --load-extension=..\..\..\..\..\..\extension ..\..\..\..\..\..\extension\index.html)EOF";
     std::vector<char> cmdVector(cmd.size() + 1);
     memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
 
