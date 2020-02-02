@@ -131,10 +131,27 @@ void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
       s += cwdBuf;
     }
   } */
-  std::string vrOverrideString = "VR_OVERRIDE=";
-  vrOverrideString += baseDir;
-  vrOverrideString += R"EOF(\Chrome-bin)EOF";
-  vars.push_back(std::move(vrOverrideString));
+  {
+    std::string vrOverrideString = "VR_OVERRIDE=";
+    vrOverrideString += baseDir;
+    vrOverrideString += R"EOF(\Chrome-bin)EOF";
+    bool vrOverrideFound = false;
+    for (size_t i = 0; i < vars.size(); i++) {
+      std::string &s = vars[i];
+      std::string s2 = s;
+      for (auto &c : s2) {
+        c = toupper(c);
+      }
+      if (s2.rfind("VR_OVERRIDE=", 0) == 0) {
+        s = std::move(vrOverrideString);
+        vrOverrideFound = true;
+        break;
+      }
+    }
+    if (!vrOverrideFound) {
+      vars.push_back(std::move(vrOverrideString));
+    }
+  }
 
   for (auto iter : vars) {
     const std::string &s = iter;
