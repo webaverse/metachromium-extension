@@ -21,6 +21,7 @@ copy ..\build.cmd .
 
 cd mock_vr_clients\bin
 copy ..\..\..\..\..\bin\* .
+copy ..\..\..\..\..\opencv\build\x64\vc15\bin\opencv_world420.dll .
 
 .\add_hook.exe ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe
 del ..\..\..\..\..\Chrome-bin\chrome.exe
