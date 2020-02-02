@@ -40,7 +40,7 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 */
 
 #include <iostream>
-#include <chrono>
+// #include <chrono>
 #include <thread>
 #include <memory>
 #include <algorithm>
