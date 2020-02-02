@@ -254,8 +254,6 @@ void InfoQueueLog() {
 void initBlitShader() {
   HRESULT hr;
 
-  getOut() << "create device 1" << std::endl;
-
   ID3D11Device *deviceBasic;
   ID3D11DeviceContext *contextBasic;
   D3D_FEATURE_LEVEL featureLevels[] = {
@@ -281,8 +279,6 @@ void initBlitShader() {
     abort();
   }
   
-  getOut() << "create device 2" << std::endl;
-  
   hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11Device5, (void **)&hijackerDevice);
   if (SUCCEEDED(hr)) {
     // nothing
@@ -290,8 +286,6 @@ void initBlitShader() {
     getOut() << "hijacker device5 query failed" << std::endl;
     // abort();
   }
-  
-  getOut() << "create device 3 1" << std::endl;
 
   hr = contextBasic->lpVtbl->QueryInterface(contextBasic, IID_ID3D11DeviceContext4, (void **)&hijackerContext);
   if (SUCCEEDED(hr)) {
@@ -300,8 +294,6 @@ void initBlitShader() {
     getOut() << "hijacker context4 query failed" << std::endl;
     // abort();
   }
-  
-  getOut() << "create device 3 2" << std::endl;
 
   g_hijacker->hijackDx(contextBasic);
 
@@ -312,8 +304,6 @@ void initBlitShader() {
     getOut() << "info queue query failed" << std::endl;
     // abort();
   }
-
-  getOut() << "create device 4" << std::endl;
   
   float vertices[] = { // xyuv
     -1, -1, 0, 1,
@@ -499,26 +489,13 @@ void initBlitShader() {
       abort();
     }
   }
-  
-  getOut() << "create device 3" << std::endl;
 
   deviceBasic->lpVtbl->Release(deviceBasic);
   contextBasic->lpVtbl->Release(contextBasic);
 
-  InfoQueueLog();
-  getOut() << "create device X" << std::endl;
+  // InfoQueueLog();
 }
 void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
-  getOut() << "clear eye view " << (void *)viewportRtv << std::endl;
-  /* float color[4] = {0,0,1,1};
-  hijackerContext->lpVtbl->ClearRenderTargetView(
-    hijackerContext,
-    viewportRtv,
-    color
-  );
-  InfoQueueLog();
-  return; */
-  
   // set new
   UINT stride = sizeof(float) * 4; // xyuv
   UINT offset = 0;
@@ -576,7 +553,7 @@ HANDLE backbufferFenceHandle = NULL;
 uint64_t backbufferFenceValue = 0;
 template<typename T>
 void presentSwapChain(T *swapChain) {
-  getOut() << "present swap chain 1" << std::endl;
+  // getOut() << "present swap chain 1" << std::endl;
 
   if (!hijackerDevice) {
     initBlitShader();
@@ -826,8 +803,6 @@ void presentSwapChain(T *swapChain) {
   // device5->lpVtbl->Release(device5);
   context->lpVtbl->Release(context);
   // context4->lpVtbl->Release(context4);
-  
-  getOut() << "present swap chain X" << std::endl;
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
