@@ -208,6 +208,8 @@ ID3D11Texture2D *viewportBackShTex = nullptr;
 IDXGIResource1 *viewportBackShDXGIRes = nullptr;
 ID3D11Resource *viewportBackShD3D11Res = nullptr;
 IDXGIResource1 *viewportBackShRes = nullptr;
+ID3D11Fence *viewportFence = nullptr;
+size_t viewportFenceValue = 0;
 HANDLE viewportShHandle = NULL;
 ID3D11RenderTargetView *viewportRtv = nullptr;
 
@@ -472,6 +474,18 @@ void initBlitShader() {
         getOut() << "failed to query viewport front d3d11 resource: " << (void *)hr << std::endl;
         abort();
       }
+      
+      hr = hijackerDevice->lpVtbl->CreateFence(
+        hijackerDevice,
+        0, // value
+        D3D11_FENCE_FLAG_NONE, // flags
+        IID_ID3D11Fence, // interface
+        (void **)&viewportFence // out
+      );
+      if (FAILED(hr)) {
+        getOut() << "failed to create viewport fence" << std::endl;
+        abort();
+      }
     }
 
     D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
@@ -538,11 +552,9 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
 
   // draw
   hijackerContext->lpVtbl->DrawIndexed(hijackerContext, 6, 0, 0);
-  
-  hijackerContext->lpVtbl->Flush(hijackerContext);
-  
-  // release
-  // backbufferRtv->lpVtbl->Release(backbufferRtv);
+
+  ++viewportFenceValue;
+  hijackerContext->lpVtbl->Signal(hijackerContext, viewportFence, viewportFenceValue);
 }
 
 ID3D11Resource *backbufferShRes = nullptr;
@@ -585,12 +597,12 @@ void presentSwapChain(T *swapChain) {
   ID3D11DeviceContext *context;
   device->lpVtbl->GetImmediateContext(device, &context);
   
-  /* ID3D11DeviceContext4 *context4;
+  ID3D11DeviceContext4 *context4;
   hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
   if (FAILED(hr)) {
     getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
     abort();
-  } */
+  }
 
   D3D11_TEXTURE2D_DESC desc;
   tex->lpVtbl->GetDesc(tex, &desc);
@@ -722,13 +734,11 @@ void presentSwapChain(T *swapChain) {
 
     shEyeTexResource->lpVtbl->Release(shEyeTexResource);
   }
-  getOut() << "blit eye view 1" << std::endl;
   if (eyeShaderResourceView) {
     InfoQueueLog();
-    getOut() << "blit eye view 2" << std::endl;
+
     blitEyeView(eyeShaderResourceView);
-    InfoQueueLog();
-    getOut() << "blit eye view 3" << std::endl;
+    context4->lpVtbl->Wait(context4, viewportFence, viewportFenceValue);
     
     if (!viewportBackShD3D11Res) {
       hr = device->lpVtbl->OpenSharedResource(device, viewportShHandle, IID_IDXGIResource1, (void**)&viewportBackShDXGIRes);
@@ -802,7 +812,7 @@ void presentSwapChain(T *swapChain) {
   device->lpVtbl->Release(device);
   // device5->lpVtbl->Release(device5);
   context->lpVtbl->Release(context);
-  // context4->lpVtbl->Release(context4);
+  context4->lpVtbl->Release(context4);
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
