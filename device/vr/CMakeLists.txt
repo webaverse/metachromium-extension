@@ -19,14 +19,14 @@ INCLUDE_DIRECTORIES(
   gl/include/GLFW
   ../../third_party/khronos
   detours
-  ../../third_party/opencv/build/include
+  ../../opencv/build/include
 )
 LINK_DIRECTORIES(
   gl/lib/glew
   gl/lib/glfw
   ../../third_party/openvr/src/bin/win64
   ../../third_party/openvr/src/lib/win64
-  ../../third_party/opencv/build/x64/vc15/lib
+  ../../opencv/build/x64/vc15/lib
 )
 
 SET(src
