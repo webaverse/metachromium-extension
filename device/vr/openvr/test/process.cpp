@@ -1,9 +1,4 @@
-// #include <windows.h>
-// #include <stdio.h>
-// #include <fcntl.h>
-// #include <io.h>
-// #include <iostream>
-// #include <fstream>
+#include <filesystem>
 
 #include "device/vr/openvr/test/out.h"
 #include "extension/json.hpp"
@@ -348,7 +343,8 @@ int WINAPI WinMain(
     }
 
     LPCTSTR value = TEXT("TestSoftwareKey");
-    LPCTSTR data = R"EOF(C:\Users\avaer\Documents\GitHub\overlay\extension\native-manifest.json)EOF";
+    std::string dataString = std::filesystem::caonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest.json)EOF"))).string();
+    LPCTSTR data = dataString;
     LONG setRes = RegSetValueEx(hKey, value, 0, REG_SZ, (LPBYTE)data, strlen(data)+1);
     if (setRes != ERROR_SUCCESS) {
       getOut() << "failed to set registry key: " << (void*)setRes << std::endl;
