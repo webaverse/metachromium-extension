@@ -164,29 +164,30 @@ int WINAPI WinMain(
   {
     WNDCLASSEX wc{};
     wc.cbSize = sizeof(WNDCLASSEX);
-    wc.style = CS_HREDRAW | CS_VREDRAW;
+    // wc.style = CS_HREDRAW | CS_VREDRAW;
+    // wc.style = CS_HREDRAW | CS_VREDRAW;
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = hInstance;
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
+    // wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    // wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
     wc.lpszClassName = "RT1";
     RegisterClassExA(&wc);
 
     g_hWnd = CreateWindowExA(
       NULL,
       wc.lpszClassName,    // name of the window class
-      "Reality Tab",   // title of the window
+      "XR Chrome",   // title of the window
       WS_OVERLAPPEDWINDOW,    // window style
       CW_USEDEFAULT,    // x-position of the window
       CW_USEDEFAULT,    // y-position of the window
-      outWindowWidth,    // width of the window
-      outWindowHeight,    // height of the window
+      1,    // width of the window
+      1,    // height of the window
       NULL,    // we have no parent window, NULL
       NULL,    // we aren't using menus, NULL
       hInstance,    // application handle
       NULL
     );    // used with multiple windows, NULL
-    ShowWindow(g_hWnd, SW_SHOW);
+    // ShowWindow(g_hWnd, SW_SHOW);
   }
   {
     HMODULE d3d11Module = LoadLibraryA("d3d11.dll");
