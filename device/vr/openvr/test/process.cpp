@@ -36,13 +36,6 @@ BOOL CALLBACK EnumWindowsProcMy(HWND hwnd, LPARAM lParam) {
       return false;
     }
   }
-  /* DWORD lpdwProcessId;
-  GetWindowThreadProcessId(hwnd,&lpdwProcessId);
-  if(lpdwProcessId==lParam)
-  {
-      tmpHwnd=hwnd;
-      return FALSE;
-  } */
   return true;
 }
 HWND getHwndForProcessId(LPARAM m_ProcessId) {
