@@ -330,15 +330,38 @@ int WINAPI WinMain(
     compositor2d::homeRenderLoop();
   }).detach();
 
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(
+    sizeof(cwdBuf),
+    cwdBuf
+  )) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
+  }
   {
-    char cwdBuf[MAX_PATH];
-    if (!GetCurrentDirectory(
-      sizeof(cwdBuf),
-      cwdBuf
-    )) {
-      getOut() << "failed to get current directory" << std::endl;
+    HKEY hKey;
+    LPCTSTR sk = TEXT(R"EOF(Software\Google\Chrome\NativeMessagingHosts)EOF");
+    LONG openRes = RegOpenKeyEx(HKEY_LOCAL_MACHINE, sk, 0, KEY_ALL_ACCESS , &hKey);
+    if (openRes != ERROR_SUCCESS) {
+      getOut() << "failed to open registry key: " << (void*)openRes << std::endl;
       abort();
     }
+
+    LPCTSTR value = TEXT("TestSoftwareKey");
+    LPCTSTR data = R"EOF(C:\Users\avaer\Documents\GitHub\overlay\extension\native-manifest.json)EOF";
+    LONG setRes = RegSetValueEx(hKey, value, 0, REG_SZ, (LPBYTE)data, strlen(data)+1);
+    if (setRes != ERROR_SUCCESS) {
+      getOut() << "failed to set registry key: " << (void*)setRes << std::endl;
+      abort();
+    }
+
+    LONG closeRes = RegCloseKey(hKey);
+    if (closeRes != ERROR_SUCCESS) {
+      getOut() << "failed to close registry key: " << (void*)closeRes << std::endl;
+      abort();
+    }
+  }
+  {
     std::string baseDir = cwdBuf;
     baseDir += R"EOF(\..\..\..\..\..)EOF";
 
