@@ -203,9 +203,6 @@ Offsets *g_offsets = nullptr;
 
 // char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
 
-// constexpr bool localLoop = true;
-constexpr bool localLoop = false;
-
 void *shMem = nullptr;
 // bool hijacked = false;
 bool isChrome = false;
