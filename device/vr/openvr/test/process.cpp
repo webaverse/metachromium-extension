@@ -326,9 +326,8 @@ int WINAPI WinMain(
     compositor2d::homeRenderLoop();
   }).detach();
 
-  getOut() << "detect qr codes 1" << std::endl;
-  detectQrCodes();
-  getOut() << "detect qr codes 2" << std::endl;
+  QrEngine qr;
+  qr.registerCallback(vr::g_pvrcompositor);
 
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
