@@ -33,6 +33,9 @@ extern Hijacker *g_hijacker;
 extern bool isChrome;
 extern Offsets *g_offsets;
 
+constexpr unsigned int viewportWidth = 300;
+constexpr unsigned int viewportHeight = 300;
+
 char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
@@ -199,6 +202,13 @@ ID3DBlob *psBlob = nullptr;
 ID3D11PixelShader *psShader = nullptr;
 ID3D11InputLayout *vertexLayout = nullptr;
 ID3D11Texture2D *viewportFrontShTex = nullptr;
+IDXGIResource1 *viewportFrontShDXGIRes = nullptr;
+ID3D11Resource *viewportFrontShD3D11Res = nullptr;
+ID3D11Texture2D *viewportBackShTex = nullptr;
+IDXGIResource1 *viewportBackShDXGIRes = nullptr;
+ID3D11Resource *viewportBackShD3D11Res = nullptr;
+IDXGIResource1 *viewportBackShRes = nullptr;
+HANDLE viewportShHandle = NULL;
 ID3D11RenderTargetView *viewportRtv = nullptr;
 
 HANDLE latchedShEyeTex = NULL;
@@ -244,6 +254,8 @@ void InfoQueueLog() {
 void initBlitShader() {
   HRESULT hr;
 
+  getOut() << "create device 1" << std::endl;
+
   ID3D11Device *deviceBasic;
   ID3D11DeviceContext *contextBasic;
   D3D_FEATURE_LEVEL featureLevels[] = {
@@ -254,7 +266,7 @@ void initBlitShader() {
     NULL, // pAdapter
     D3D_DRIVER_TYPE_HARDWARE, // DriverType
     NULL, // Software
-    0, // Flags
+    D3D11_CREATE_DEVICE_DEBUG, // Flags
     featureLevels, // pFeatureLevels
     ARRAYSIZE(featureLevels), // FeatureLevels
     D3D11_SDK_VERSION, // SDKVersion
@@ -269,25 +281,30 @@ void initBlitShader() {
     abort();
   }
   
+  getOut() << "create device 2" << std::endl;
+  
   hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11Device5, (void **)&hijackerDevice);
   if (SUCCEEDED(hr)) {
-    infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
+    // nothing
   } else {
-    getOut() << "hijacker device query failed" << std::endl;
+    getOut() << "hijacker device5 query failed" << std::endl;
     // abort();
   }
+  
+  getOut() << "create device 3 1" << std::endl;
 
   hr = contextBasic->lpVtbl->QueryInterface(contextBasic, IID_ID3D11DeviceContext4, (void **)&hijackerContext);
   if (SUCCEEDED(hr)) {
-    infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
+    // nothing
   } else {
-    getOut() << "hijacker context query failed" << std::endl;
+    getOut() << "hijacker context4 query failed" << std::endl;
     // abort();
   }
+  
+  getOut() << "create device 3 2" << std::endl;
 
-  g_hijacker->hijackDx(contextBasic);
+  // g_hijacker->hijackDx(contextBasic);
 
-  // XXX
   hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11InfoQueue, (void **)&infoQueue);
   if (SUCCEEDED(hr)) {
     infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
@@ -295,9 +312,8 @@ void initBlitShader() {
     getOut() << "info queue query failed" << std::endl;
     // abort();
   }
-  
-  InfoQueueLog();
-  getOut() << "init shader blit 1" << std::endl;
+
+  getOut() << "create device 4" << std::endl;
   
   float vertices[] = { // xyuv
     -1, -1, 0, 0,
@@ -323,7 +339,7 @@ void initBlitShader() {
     InitData.pSysMem = vertices;
     
     // ID3D11Buffer* vertexBuffer = nullptr;
-    hr = device->lpVtbl->CreateBuffer(device, &bd, &InitData, &vertexBuffer);
+    hr = hijackerDevice->lpVtbl->CreateBuffer(hijackerDevice, &bd, &InitData, &vertexBuffer);
     if(FAILED(hr)) {
       getOut() << "Unable to create vertex buffer: " << (void *)hr << std::endl;
       abort();   
@@ -345,7 +361,7 @@ void initBlitShader() {
     InitData.pSysMem = indices;
 
     // ID3D11Buffer* indexBuffer = nullptr;
-    hr = device->lpVtbl->CreateBuffer(device, &bd, &InitData, &indexBuffer);
+    hr = hijackerDevice->lpVtbl->CreateBuffer(hijackerDevice, &bd, &InitData, &indexBuffer);
     if(FAILED(hr)) {
       getOut() << "Unable to create index buffer: " << (void *)hr << std::endl;
       abort();
@@ -374,7 +390,7 @@ void initBlitShader() {
       }
     }
     ID3D11ClassLinkage *linkage = nullptr;
-    hr = device->lpVtbl->CreateVertexShader(device, vsBlob->lpVtbl->GetBufferPointer(vsBlob), vsBlob->lpVtbl->GetBufferSize(vsBlob), linkage, &vsShader);
+    hr = hijackerDevice->lpVtbl->CreateVertexShader(hijackerDevice, vsBlob->lpVtbl->GetBufferPointer(vsBlob), vsBlob->lpVtbl->GetBufferSize(vsBlob), linkage, &vsShader);
     if (FAILED(hr)) {
       getOut() << "vs create failed: " << (void *)hr << std::endl;
       abort();
@@ -407,7 +423,7 @@ void initBlitShader() {
     // getOut() << "init render 7 1" << std::endl;
 
     ID3D11ClassLinkage *linkage = nullptr;
-    hr = device->lpVtbl->CreatePixelShader(device, psBlob->lpVtbl->GetBufferPointer(psBlob), psBlob->lpVtbl->GetBufferSize(psBlob), linkage, &psShader);
+    hr = hijackerDevice->lpVtbl->CreatePixelShader(hijackerDevice, psBlob->lpVtbl->GetBufferPointer(psBlob), psBlob->lpVtbl->GetBufferSize(psBlob), linkage, &psShader);
     if (FAILED(hr)) {
       getOut() << "ps create failed: " << (void *)hr << std::endl;
       abort();
@@ -419,7 +435,7 @@ void initBlitShader() {
       { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 8, D3D11_INPUT_PER_VERTEX_DATA, 0 },
     };
     UINT numElements = ARRAYSIZE(PositionTextureVertexLayout);
-    hr = device->lpVtbl->CreateInputLayout(device, PositionTextureVertexLayout, numElements, vsBlob->lpVtbl->GetBufferPointer(vsBlob), vsBlob->lpVtbl->GetBufferSize(vsBlob), &vertexLayout);
+    hr = hijackerDevice->lpVtbl->CreateInputLayout(hijackerDevice, PositionTextureVertexLayout, numElements, vsBlob->lpVtbl->GetBufferPointer(vsBlob), vsBlob->lpVtbl->GetBufferSize(vsBlob), &vertexLayout);
     if (FAILED(hr)) {
       getOut() << "vertex layout create failed: " << (void *)hr << std::endl;
       abort();
@@ -427,8 +443,8 @@ void initBlitShader() {
   }
   {
     D3D11_TEXTURE2D_DESC desc{};
-    desc.Width = 300;
-    desc.Height = 300;
+    desc.Width = viewportWidth;
+    desc.Height = viewportHeight;
     desc.MipLevels = desc.ArraySize = 1;
     desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
     desc.SampleDesc.Count = 1;
@@ -448,13 +464,33 @@ void initBlitShader() {
       abort();
     }
 
+    {
+      hr = viewportFrontShTex->lpVtbl->QueryInterface(viewportFrontShTex, IID_IDXGIResource1, (void **)&viewportFrontShDXGIRes);
+      if (FAILED(hr)) {
+        getOut() << "failed to query viewport front dxgi resource: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = viewportFrontShDXGIRes->lpVtbl->GetSharedHandle(viewportFrontShDXGIRes, &viewportShHandle);
+      if (FAILED(hr)) {
+        getOut() << "failed to query viewport back shared handle: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = viewportFrontShTex->lpVtbl->QueryInterface(viewportFrontShTex, IID_ID3D11Resource, (void **)&viewportFrontShD3D11Res);
+      if (FAILED(hr)) {
+        getOut() << "failed to query viewport front dxgi resource: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+
     D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
     renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
     renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
     renderTargetViewDesc.Texture2D.MipSlice = 0;
     hr = hijackerDevice->lpVtbl->CreateRenderTargetView(
       hijackerDevice,
-      viewportFrontShTex,
+      viewportFrontShD3D11Res,
       &renderTargetViewDesc,
       &viewportRtv
     );
@@ -463,12 +499,14 @@ void initBlitShader() {
       abort();
     }
   }
+  
+  getOut() << "create device 3" << std::endl;
 
   deviceBasic->lpVtbl->Release(deviceBasic);
   contextBasic->lpVtbl->Release(contextBasic);
 
   InfoQueueLog();
-  getOut() << "init shader blit X" << std::endl;
+  getOut() << "create device X" << std::endl;
 }
 void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource *backbufferRes) {
   // set new
@@ -491,11 +529,11 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource
     backbufferRes,
     &renderTargetViewDesc,
     &backbufferRtv
-  ); */
+  );
   if (FAILED(hr)) {
     getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
     abort();
-  }
+  } */
   ID3D11RenderTargetView *localRenderTargetViews[1] = {
     viewportRtv,
   };
@@ -504,8 +542,8 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource
   D3D11_VIEWPORT viewport{
     0, // TopLeftX,
     0, // TopLeftY,
-    300, // Width,
-    300, // Height,
+    viewportWidth, // Width,
+    viewportHeight, // Height,
     0, // MinDepth,
     1 // MaxDepth
   };
@@ -513,11 +551,9 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource
 
   // draw
   hijackerContext->lpVtbl->DrawIndexed(hijackerContext, 6, 0, 0);
-
-  // XXX CopySubresourceRegion viewportFrontShTex -> backbufferRes
   
   // release
-  backbufferRtv->lpVtbl->Release(backbufferRtv);
+  // backbufferRtv->lpVtbl->Release(backbufferRtv);
 }
 
 ID3D11Resource *backbufferShRes = nullptr;
@@ -528,7 +564,6 @@ HANDLE backbufferFenceHandle = NULL;
 uint64_t backbufferFenceValue = 0;
 template<typename T>
 void presentSwapChain(T *swapChain) {
-  InfoQueueLog();
   getOut() << "present swap chain 1" << std::endl;
 
   if (!hijackerDevice) {
@@ -583,7 +618,7 @@ void presentSwapChain(T *swapChain) {
     desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
 
     ID3D11Texture2D *backbufferShTex;
-    hr = hijackerDevice->lpVtbl->backbufferShTex(
+    hr = hijackerDevice->lpVtbl->CreateTexture2D(
       hijackerDevice,
       &desc,
       NULL,
@@ -697,10 +732,62 @@ void presentSwapChain(T *swapChain) {
 
     shEyeTexResource->lpVtbl->Release(shEyeTexResource);
   }
-  getOut() << "blit eye view 1 " << (void *)device5 << " " << (void *)context4 << std::endl;
+  getOut() << "blit eye view 1" << std::endl;
   if (eyeShaderResourceView) {
+    InfoQueueLog();
     getOut() << "blit eye view 2" << std::endl;
     blitEyeView(eyeShaderResourceView, res);
+    InfoQueueLog();
+    getOut() << "blit eye view 3" << std::endl;
+    
+    ID3D11Device *device;
+    res->lpVtbl->GetDevice(res, &device);
+    
+    ID3D11DeviceContext *context;
+    device->lpVtbl->GetImmediateContext(device, &context);
+    
+    if (!viewportBackShTex) {
+      hr = device->lpVtbl->OpenSharedResource(device, viewportShHandle, IID_IDXGIResource1, (void**)&viewportBackShDXGIRes);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack viewport share texture handle: " << (void *)hr << " " << (void *)viewportShHandle << std::endl;
+        abort();
+      }
+      
+      hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Texture2D, (void **)&viewportBackShTex);
+      if (FAILED(hr)) {
+        getOut() << "failed to get viewport texture: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Resource, (void **)&viewportBackShD3D11Res);
+      if (FAILED(hr)) {
+        getOut() << "failed to get viewport resource: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+
+    D3D11_BOX srcBox{};
+    srcBox.left = 0;
+    srcBox.right = viewportWidth;
+    srcBox.top = 0;
+    srcBox.bottom = viewportHeight;
+    srcBox.front = 0;
+    srcBox.back = 1;
+    context->lpVtbl->CopySubresourceRegion(
+      context,
+      res, // dst
+      0, // dst sub
+      100, // dst x
+      100, // dst y
+      0, // dst z
+      viewportBackShD3D11Res, // src
+      0, // src sub
+      &srcBox
+    );
+    // CopySubresourceRegion viewportFrontShTex -> backbufferRes
+    
+    device->lpVtbl->Release(device);
+    context->lpVtbl->Release(context);
   }
 
   /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
@@ -720,12 +807,11 @@ void presentSwapChain(T *swapChain) {
 
   res->lpVtbl->Release(res);
   tex->lpVtbl->Release(tex);
-  device->lpVtbl->Release(device);
+  /* device->lpVtbl->Release(device);
   device5->lpVtbl->Release(device5);
   context->lpVtbl->Release(context);
-  context4->lpVtbl->Release(context4);
+  context4->lpVtbl->Release(context4); */
   
-  InfoQueueLog();
   getOut() << "present swap chain X" << std::endl;
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
