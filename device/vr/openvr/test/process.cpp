@@ -147,7 +147,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
   }
 
   // Handle any messages the switch statement didn't
-  return DefWindowProc (hWnd, message, wParam, lParam);
+  return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 int WINAPI WinMain(
