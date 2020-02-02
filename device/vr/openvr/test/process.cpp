@@ -23,7 +23,7 @@ inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 	return (uint32_t)(vtable[offset] - (uintptr_t)module);
 }
 
-HWND tmpHwnd;
+/* HWND tmpHwnd;
 BOOL CALLBACK EnumWindowsProcMy(HWND hwnd, LPARAM lParam) {
   char textBuf[1024];
   if (GetWindowTextA(
@@ -42,7 +42,7 @@ HWND getHwndForProcessId(LPARAM m_ProcessId) {
   tmpHwnd = NULL;
   EnumWindows(EnumWindowsProcMy, m_ProcessId);
   return tmpHwnd;
-}
+} */
 
 HANDLE chromeProcessHandle = NULL;
 DWORD chromeProcessId = 0;
