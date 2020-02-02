@@ -63,9 +63,8 @@ public:
   Serializer writeResult;
 
   FnProxy();
-
+  void lock_guard(std::function<void()> fn);
   void dispatchCall();
-
   template<const char *name, typename R>
   R call() {
     // getOut() << "proxy0 call 1" << std::endl;

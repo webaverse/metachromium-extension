@@ -30,7 +30,7 @@ extern Hijacker *g_hijacker;
 extern Offsets *g_offsets;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
-void getChildEnvBuf(char *envBuf);
+void getChildEnvBuf(char *envBuf, const std::string &baseDir);
 
 namespace vr {
   extern IVRSystem *g_vrsystem;

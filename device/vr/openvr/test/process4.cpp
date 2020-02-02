@@ -39,6 +39,18 @@ int main(int argc, char **argv) {
   freopen(NULL, "rb", stdin);
   freopen(NULL, "wb", stdout);
   
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(
+    sizeof(cwdBuf),
+    cwdBuf
+  )) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
+  }
+  std::string baseDir = cwdBuf;
+  baseDir += R"EOF(\..\..\..\..\..)EOF";
+  // getOut() << "got base dir " << baseDir << std::endl;
+  
   // dllDir = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\";
   std::cerr << "start app" << std::endl;
   // getOut() << "start app" << std::endl;
@@ -80,8 +92,8 @@ int main(int argc, char **argv) {
             std::string argString = args[0].get<std::string>();
 
             char envBuf[64 * 1024];
-            getChildEnvBuf(envBuf);
-            
+            getChildEnvBuf(envBuf, baseDir);
+
             std::vector<char> argVec(argString.size() + 1);
             memcpy(argVec.data(), argString.c_str(), argString.size() + 1);
 

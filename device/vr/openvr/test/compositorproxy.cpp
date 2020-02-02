@@ -3,11 +3,6 @@
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
 
-// extern uint64_t *pFrameCount;
-// extern bool isChrome;
-// extern bool haveZBufferParams;
-// extern float zBufferParams[4];
-
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
 char kIVRCompositor_GetTrackingSpace[] = "IVRCompositor::GetTrackingSpace";
@@ -56,6 +51,8 @@ char kIVRCompositor_SubmitExplicitTimingData[] = "IVRCompositor::SubmitExplicitT
 char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothingEnabled";
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
+char kIVRCompositor_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
+char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 
 const char *composeVsh = R"END(
 #version 330
@@ -130,6 +127,10 @@ struct PS_OUTPUT
 {
 	float4 Color : SV_Target0;
 	float Depth : SV_Target1;
+};
+struct PS_OUTPUT_COPY
+{
+	float4 Color : SV_Target0;
 };
 //------------------------------------------------------------//
 
@@ -225,6 +226,13 @@ PS_OUTPUT ps_main_ms(VS_OUTPUT IN)
   return do_ps(d, IN);
 }
 
+PS_OUTPUT_COPY ps_main_copy(VS_OUTPUT IN)
+{
+  PS_OUTPUT_COPY result;
+  result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
+  return result;
+}
+
 //------------------------------------------------------------//
 )END";
 
@@ -240,11 +248,60 @@ const EVREye EYES[] = {
   }
 } */
 
-PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, FnProxy &fnp) :
+PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bool isProcess, FnProxy &fnp) :
   vrcompositor(vrcompositor),
   hijacker(hijacker),
   fnp(fnp)
 {
+  getOut() << "compositor init 1 " << isProcess << std::endl;
+  if (isProcess) {
+    // getOut() << "create device 1" << std::endl;
+    PVRCompositor::CreateDevice(&device, &context, &swapChain);
+    // getOut() << "create device 2 " << (void *)device.Get() << std::endl;
+
+    HRESULT hr = device->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
+    if (SUCCEEDED(hr)) {
+      infoQueue->PushEmptyStorageFilter();
+    } else {
+      getOut() << "info queue query failed" << std::endl;
+      // abort();
+    }
+    
+    InitShader();
+
+    hr = device->CreateFence(
+      0, // value
+      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+      // D3D11_FENCE_FLAG_SHARED, // flags
+      D3D11_FENCE_FLAG_SHARED, // flags
+      __uuidof(ID3D11Fence), // interface
+      (void **)&fence // out
+    );
+    if (SUCCEEDED(hr)) {
+      // getOut() << "created fence " << (void *)fence << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create fence" << std::endl;
+      abort();
+    }
+
+    hr = fence->CreateSharedHandle(
+      NULL, // security attributes
+      GENERIC_ALL, // access
+      nullptr, // name
+      &fenceHandle // share handle
+    );
+    if (SUCCEEDED(hr)) {
+      getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
+      // nothing
+    } else {
+      getOut() << "failed to create fence share handle" << std::endl;
+      abort();
+    }
+  }
+  
+  getOut() << "compositor init 2" << std::endl;
+
   fnp.reg<
     kIVRCompositor_SetTrackingSpace,
     int,
@@ -680,17 +737,17 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         shaderDepthResourceViewIsMs ? std::get<1>(shaderResourceViews[index]) : nullptr,
         depthShaderFrontResourceViews[iEye]
       };
-      float localTextureFulls[8] = {
+      float localVsData[8] = {
         flip ? 1.0f : 0.0f,
         isFullDepthTex ? (float)iEye : 0.0f,
-        isFullDepthTex ? (float)iEye : 0.0f,
+        0,
         0,
         0,
         0,
         0,
         0
       };
-      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localTextureFulls, 0, 0);
+      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
 
       // getOut() << "check fulls " << iEye << " " << index << " " << width << " " << height << " " << shaderDepthResourceViewIsMs << " " << textureFull << " " << isFullDepthTex << std::endl;
 
@@ -715,28 +772,29 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
         renderTargetViews[iEye],
         renderTargetDepthBackViews[iEye]
       };
-      context->OMSetRenderTargets(
-        ARRAYSIZE(localRenderTargetViews),
-        localRenderTargetViews,
-        nullptr
-      );
+      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+      D3D11_VIEWPORT viewport{
+        0, // TopLeftX,
+        0, // TopLeftY,
+        width, // Width,
+        height, // Height,
+        0, // MinDepth,
+        1 // MaxDepth
+      };
+      context->RSSetViewports(1, &viewport);
       context->DrawIndexed(6, 0, 0);
 
       ID3D11ShaderResourceView *localShaderResourceViewsClear[ARRAYSIZE(localShaderResourceViews)] = {};
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
       ID3D11RenderTargetView *localRenderTargetViewsClear[ARRAYSIZE(localRenderTargetViews)] = {};
-      context->OMSetRenderTargets(
-        ARRAYSIZE(localRenderTargetViewsClear),
-        localRenderTargetViewsClear,
-        nullptr
-      );
+      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
 
       SwapDepthTex(iEye);
     }
 
     ++fenceValue;
     context->Signal(fence.Get(), fenceValue);
-    context->Flush();
+    // context->Flush();
 
     /* if (!fence) {
       ID3D11Resource *fenceResource;
@@ -795,7 +853,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     
     vrcompositor->PostPresentHandoff();
     
-    swapChain->Present(0, 0);
+    // swapChain->Present(0, 0);
 
     // getOut() << "flush submit server 11" << std::endl;
     return 0;
@@ -1108,6 +1166,177 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, Fn
     bool
   >([=]() {
     return vrcompositor->IsCurrentSceneFocusAppLoading();
+  });
+  fnp.reg<
+    kIVRCompositor_SetBackbuffer,
+    int,
+    HANDLE,
+    uintptr_t,
+    HANDLE,
+    size_t
+  >([=](HANDLE newBackbufferShHandle, uintptr_t serverProcessIdPtr, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
+    // getOut() << "set back buffer " << (void *)newBackbufferShHandle << " " << (void *)serverProcessIdPtr << " " << (void *)newBackbufferFenceHandle << " " << (void *)backbufferFenceValue << std::endl;
+    DWORD serverProcessId = serverProcessIdPtr;
+    
+    if (backbufferShHandle != newBackbufferShHandle) {
+      if (backbufferShTex) {
+        backbufferShTex->Release();
+        backbufferShTex = nullptr;
+        backbufferSrv->Release();
+        backbufferSrv = nullptr;
+        backbufferRtv->Release();
+        backbufferRtv = nullptr;
+      }
+      backbufferShHandle = newBackbufferShHandle;
+
+      ID3D11Resource *shTexResource;
+      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+        abort();
+      }
+
+      hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&backbufferShTex); 
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+        abort();
+      }
+      
+      D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+      srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+      srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+      srvDesc.Texture2D.MostDetailedMip = 0;
+      srvDesc.Texture2D.MipLevels = 1;
+      hr = device->CreateShaderResourceView(
+        backbufferShTex,
+        &srvDesc,
+        &backbufferSrv
+      );
+      if (FAILED(hr)) {
+        // InfoQueueLog();
+        getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
+      renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+      renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+      renderTargetViewDesc.Texture2D.MipSlice = 0;
+      hr = device->CreateRenderTargetView(
+        backbufferShTex,
+        &renderTargetViewDesc,
+        &backbufferRtv
+      );
+      if (FAILED(hr)) {
+        InfoQueueLog();
+        getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      shTexResource->Release();
+    }
+    if (backbufferFenceHandle != newBackbufferFenceHandle) {
+      if (backbufferFence) {
+        backbufferFence->Release();
+        backbufferFence = nullptr;
+      }
+      backbufferFenceHandle = newBackbufferFenceHandle;
+
+      HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, serverProcessId);
+      HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
+      
+      HANDLE fenceHandle2;
+      BOOL ok = DuplicateHandle(
+        srcProcess,
+        backbufferFenceHandle,
+        dstProcess,
+        &fenceHandle2,
+        0,
+        false,
+        DUPLICATE_SAME_ACCESS
+      );
+      if (ok) {
+        HRESULT hr = device->OpenSharedFence(fenceHandle2, IID_ID3D11Fence, (void **)&backbufferFence);
+        if (SUCCEEDED(hr)) {
+          // nothing
+          getOut() << "got backbuffer fence handle ok " << std::endl;
+        } else {
+          InfoQueueLog();
+          getOut() << "backbuffer fence resource unpack failed " << (void *)hr << " " << (void *)fenceHandle2 << std::endl;
+          abort();
+        }
+      } else {
+        getOut() << "failed to duplicate backbuffer fence handle " << GetLastError() << std::endl;
+      }
+      
+      CloseHandle(srcProcess);
+      CloseHandle(dstProcess);
+    }
+
+    /* context->Wait(backbufferFence, backbufferFenceValue);
+
+    {
+      float localVsData[8] = {
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      };
+      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
+      context->VSSetShader(vsShader, nullptr, 0);
+      context->PSSetShader(psCopyShader, nullptr, 0);
+      context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
+
+      ID3D11RenderTargetView *localRenderTargetViews[1] = {
+        backbufferRtv
+      };
+      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
+      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
+        eyeShaderResourceViews[0],
+      };
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
+
+      D3D11_TEXTURE2D_DESC backbufferDesc;
+      backbufferShTex->GetDesc(&backbufferDesc);
+      D3D11_VIEWPORT viewport{
+        0, // TopLeftX,
+        backbufferDesc.Height - 300, // TopLeftY,
+        300, // Width,
+        300, // Height,
+        0, // MinDepth,
+        1 // MaxDepth
+      };
+      context->RSSetViewports(1, &viewport);
+
+      context->DrawIndexed(6, 0, 0);
+
+      ID3D11ShaderResourceView *localShaderResourceViewsClear[1] = {};
+      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
+      ID3D11RenderTargetView *localRenderTargetViewsClear[1] = {};
+      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
+    }
+
+    ++backbufferFenceValue;
+    context->Signal(backbufferFence, backbufferFenceValue);
+    // context->Flush();
+
+    return backbufferFenceValue; */
+    
+    return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_GetSharedEyeTexture,
+    HANDLE
+  >([=]() {
+    if (shTexOutHandles.size() > 0) {
+      return shTexOutHandles[0];
+    } else {
+      return (HANDLE)NULL;
+    }
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
@@ -2249,7 +2478,7 @@ if (pTexture) {
 
   ++fenceValue;
   context->Signal(fence.Get(), fenceValue);
-  context->Flush();
+  // context->Flush();
 
   // getOut() << "submit client 19 " << (void *)sharedHandle << " " << (void *)pTexture << std::endl;
 
@@ -2641,55 +2870,6 @@ void PVRCompositor::CacheWaitGetPoses() {
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
-  
-  HRESULT hr;
-  if (!device) {
-    // getOut() << "create device 1" << std::endl;
-    PVRCompositor::CreateDevice(&device, &context, &swapChain);
-    // getOut() << "create device 2 " << (void *)device.Get() << std::endl;
-
-    hr = device->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&infoQueue);
-    if (SUCCEEDED(hr)) {
-      infoQueue->PushEmptyStorageFilter();
-    } else {
-      getOut() << "info queue query failed" << std::endl;
-      // abort();
-    }
-    
-    InitShader();
-
-    hr = device->CreateFence(
-      0, // value
-      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
-      // D3D11_FENCE_FLAG_SHARED, // flags
-      D3D11_FENCE_FLAG_SHARED, // flags
-      __uuidof(ID3D11Fence), // interface
-      (void **)&fence // out
-    );
-    if (SUCCEEDED(hr)) {
-      // getOut() << "created fence " << (void *)fence << std::endl;
-      // nothing
-    } else {
-      getOut() << "failed to create fence" << std::endl;
-      abort();
-    }
-
-    hr = fence->CreateSharedHandle(
-      NULL, // security attributes
-      GENERIC_ALL, // access
-      nullptr, // name
-      &fenceHandle // share handle
-    );
-    if (SUCCEEDED(hr)) {
-      getOut() << "create shared fence handle " << (void *)fenceHandle << std::endl;
-      // nothing
-    } else {
-      getOut() << "failed to create fence share handle" << std::endl;
-      abort();
-    }
-    
-    // context->Flush();
-  }
 
   float color[4] = {0, 0, 0, 0};
   float depthColor[4] = {1, 0, 0, 0};
@@ -2705,6 +2885,8 @@ void PVRCompositor::CacheWaitGetPoses() {
   }
 }
 void PVRCompositor::InitShader() {
+  getOut() << "init shader 1" << std::endl;
+  
   float vertices[] = { // xyuv
     -1, -1, 0, 0,
     -1, 1, 0, 1,
@@ -2715,11 +2897,8 @@ void PVRCompositor::InitShader() {
     0, 1, 2,
     3, 2, 1
   };
-
-  getOut() << "init render 1" << std::endl;
   
   HRESULT hr;
-
   {
     D3D11_BUFFER_DESC bd{};
     D3D11_SUBRESOURCE_DATA InitData{};
@@ -2912,6 +3091,8 @@ void PVRCompositor::InitShader() {
       getOut() << "ps create failed: " << (void *)hr << std::endl;
       abort();
     }
+    
+    getOut() << "init render 7 2" << std::endl;
   }
   {
     ID3DBlob *errorBlob = nullptr;
@@ -2928,7 +3109,7 @@ void PVRCompositor::InitShader() {
       &psMsBlob,
       &errorBlob
     );
-    getOut() << "init render 6 2" << std::endl;
+    getOut() << "init render 8 1" << std::endl;
     if (FAILED(hr)) {
       if (errorBlob != nullptr) {
         getOut() << "ps ms compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
@@ -2936,10 +3117,44 @@ void PVRCompositor::InitShader() {
       }
     }
     
-    getOut() << "init render 7 2" << std::endl;
+    getOut() << "init render 8 2" << std::endl;
 
     ID3D11ClassLinkage *linkage = nullptr;
     hr = device->CreatePixelShader(psMsBlob->GetBufferPointer(), psMsBlob->GetBufferSize(), linkage, &psMsShader);
+    if (FAILED(hr)) {
+      getOut() << "ps create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    getOut() << "init render 8 3" << std::endl;
+  }
+  {
+    ID3DBlob *errorBlob = nullptr;
+    hr = D3DCompile(
+      hlsl,
+      strlen(hlsl),
+      "ps.hlsl",
+      nullptr,
+      D3D_COMPILE_STANDARD_FILE_INCLUDE,
+      "ps_main_copy",
+      "ps_5_0",
+      D3DCOMPILE_ENABLE_STRICTNESS,
+      0,
+      &psCopyBlob,
+      &errorBlob
+    );
+    getOut() << "init render 6 3" << std::endl;
+    if (FAILED(hr)) {
+      if (errorBlob != nullptr) {
+        getOut() << "ps copy compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+        abort();
+      }
+    }
+    
+    getOut() << "init render 7 3" << std::endl;
+
+    ID3D11ClassLinkage *linkage = nullptr;
+    hr = device->CreatePixelShader(psCopyBlob->GetBufferPointer(), psCopyBlob->GetBufferSize(), linkage, &psCopyShader);
     if (FAILED(hr)) {
       getOut() << "ps create failed: " << (void *)hr << std::endl;
       abort();
@@ -2958,7 +3173,7 @@ void PVRCompositor::InitShader() {
       abort();
     }
   }
-  {
+  /* {
     D3D11_RASTERIZER_DESC rasterizerDesc{};
     rasterizerDesc.FillMode = D3D11_FILL_SOLID;
     rasterizerDesc.CullMode = D3D11_CULL_NONE;
@@ -2969,7 +3184,7 @@ void PVRCompositor::InitShader() {
       getOut() << "rasterizer state create failed: " << (void *)hr << std::endl;
       abort();
     }
-  }
+  } */
   getOut() << "init render 9" << std::endl;
   {
     UINT stride = sizeof(float) * 4; // xyuv
@@ -2979,16 +3194,7 @@ void PVRCompositor::InitShader() {
     context->IASetInputLayout(vertexLayout);
     context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-    context->RSSetState(rasterizerState);
-    D3D11_VIEWPORT viewport{
-      0, // TopLeftX,
-      0, // TopLeftY,
-      width, // Width,
-      height, // Height,
-      0, // MinDepth,
-      1 // MaxDepth
-    };
-    context->RSSetViewports(1, &viewport);
+    // context->RSSetState(rasterizerState);
   }
   getOut() << "init render 10" << std::endl;
 
@@ -2999,7 +3205,8 @@ void PVRCompositor::InitShader() {
   desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
   desc.SampleDesc.Count = 1;
   desc.Usage = D3D11_USAGE_DEFAULT;
-  desc.BindFlags = D3D11_BIND_RENDER_TARGET;
+  desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+  desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
   
   D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
   renderTargetViewDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -3020,6 +3227,12 @@ void PVRCompositor::InitShader() {
   renderTargetViewDepthDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
   renderTargetViewDepthDesc.Texture2D.MipSlice = 0;
 
+  D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
+  eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+  eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+  eyeSrv.Texture2D.MostDetailedMip = 0;
+  eyeSrv.Texture2D.MipLevels = 1;
+
   D3D11_SHADER_RESOURCE_VIEW_DESC depthSrv{};
   depthSrv.Format = DXGI_FORMAT_R32_FLOAT;
   depthSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
@@ -3027,112 +3240,163 @@ void PVRCompositor::InitShader() {
   depthSrv.Texture2D.MipLevels = 1;
 
   shTexOuts.resize(2);
+  shTexOutHandles.resize(2);
   shDepthTexFrontOuts.resize(2);
   shDepthTexBackOuts.resize(2);
   renderTargetViews.resize(2);
   renderTargetDepthFrontViews.resize(2);
   renderTargetDepthBackViews.resize(2);
+  eyeShaderResourceViews.resize(2);
   depthShaderFrontResourceViews.resize(2);
   depthShaderBackResourceViews.resize(2);
   for (int i = 0; i < 2; i++) {
-    hr = device->CreateTexture2D(
-      &desc,
-      NULL,
-      &shTexOuts[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye texture: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateTexture2D(
+        &desc,
+        NULL,
+        &shTexOuts[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye texture: " << (void *)hr << std::endl;
+        abort();
+      }
     }
+    {
+      hr = device->CreateRenderTargetView(
+        shTexOuts[i],
+        &renderTargetViewDesc,
+        &renderTargetViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye render target view: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+    {
+      IDXGIResource1 *shTexOutResource;
+      hr = shTexOuts[i]->QueryInterface(__uuidof(IDXGIResource1), (void **)&shTexOutResource);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to get eye tex share handle: " << (void *)hr << std::endl;
+        abort();
+      }
 
-    hr = device->CreateRenderTargetView(
-      shTexOuts[i],
-      &renderTargetViewDesc,
-      &renderTargetViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye render target view: " << (void *)hr << std::endl;
-      abort();
+      hr = shTexOutResource->GetSharedHandle(&shTexOutHandles[i]);
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to get eye tex share handle: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      shTexOutResource->Release();
     }
-    
-    hr = device->CreateTexture2D(
-      &depthDesc,
-      NULL,
-      &shDepthTexFrontOuts[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateShaderResourceView(
+        shTexOuts[i],
+        &eyeSrv,
+        &eyeShaderResourceViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    hr = device->CreateRenderTargetView(
-      shDepthTexFrontOuts[i],
-      &renderTargetViewDepthDesc,
-      &renderTargetDepthFrontViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth render target front view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateTexture2D(
+        &depthDesc,
+        NULL,
+        &shDepthTexFrontOuts[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    hr = device->CreateShaderResourceView(
-      shDepthTexFrontOuts[i],
-      &depthSrv,
-      &depthShaderFrontResourceViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateRenderTargetView(
+        shDepthTexFrontOuts[i],
+        &renderTargetViewDepthDesc,
+        &renderTargetDepthFrontViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth render target front view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-
-    hr = device->CreateTexture2D(
-      &depthDesc,
-      NULL,
-      &shDepthTexBackOuts[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateShaderResourceView(
+        shDepthTexFrontOuts[i],
+        &depthSrv,
+        &depthShaderFrontResourceViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    hr = device->CreateRenderTargetView(
-      shDepthTexBackOuts[i],
-      &renderTargetViewDepthDesc,
-      &renderTargetDepthBackViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth render target back view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateTexture2D(
+        &depthDesc,
+        NULL,
+        &shDepthTexBackOuts[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
+        abort();
+      }
     }
-    hr = device->CreateShaderResourceView(
-      shDepthTexBackOuts[i],
-      &depthSrv,
-      &depthShaderBackResourceViews[i]
-    );
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      InfoQueueLog();
-      getOut() << "failed to create eye depth shader resource back view: " << (void *)hr << std::endl;
-      abort();
+    {
+      hr = device->CreateRenderTargetView(
+        shDepthTexBackOuts[i],
+        &renderTargetViewDepthDesc,
+        &renderTargetDepthBackViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth render target back view: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+    {
+      hr = device->CreateShaderResourceView(
+        shDepthTexBackOuts[i],
+        &depthSrv,
+        &depthShaderBackResourceViews[i]
+      );
+      if (SUCCEEDED(hr)) {
+        // nothing
+      } else {
+        InfoQueueLog();
+        getOut() << "failed to create eye depth shader resource back view: " << (void *)hr << std::endl;
+        abort();
+      }
     }
   }
 }
@@ -3229,7 +3493,7 @@ void PVRCompositor::CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **
   DXGI_SWAP_CHAIN_DESC swapChainDesc{};
   swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
   swapChainDesc.BufferDesc.RefreshRate.Denominator = 1; 
-  swapChainDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM; 
+  swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; 
   swapChainDesc.SampleDesc.Count = 1;                               
   swapChainDesc.SampleDesc.Quality = 0;                               
   swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;

@@ -141,6 +141,11 @@ FnProxy::FnProxy() :
   // getOut() << "fn proxy init " << callbackId << " " << (std::string("Local\\OpenVrProxySemaphoreOut") + std::to_string(callbackId)) << std::endl;
 }
 
+void FnProxy::lock_guard(std::function<void()> fn) {
+  std::lock_guard<Mutex> lock(mut);
+  fn();
+}
+
 void FnProxy::dispatchCall() {
   inSem.unlock();
   std::map<size_t, Semaphore>::iterator iter = outSems.find(callbackId);

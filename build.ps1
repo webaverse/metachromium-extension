@@ -1,13 +1,10 @@
 # build
 echo building...
 
-# $client = new-object System.Net.WebClient
-# $client.DownloadFile("https://www.7-zip.org/a/7z1900-x64.msi", "7z.msi")
-# msiexec /i .\7z.msi /quiet
-
 $client1 = new-object System.Net.WebClient
 $client1.DownloadFile("https://github.com/Hibbiki/chromium-win64/releases/download/v79.0.3945.130-r706915/chrome.sync.7z", "chrome.7z")
 7z x chrome.7z
+rm chrome.7z
 
 $client2 = new-object System.Net.WebClient
 $client2.DownloadFile("https://github.com/opencv/opencv/releases/download/4.2.0/opencv-4.2.0-vc14_vc15.exe", "opencv.exe")
@@ -19,27 +16,22 @@ ls
 cd device\vr
 mkdir build
 cd build
-cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
-ls
-msbuild /p:Configuration=Release ALL_BUILD.vcxproj
+copy ..\build.cmd .
+.\build.cmd
 
-cd mock_vr_clients/bin
+cd mock_vr_clients\bin
 copy ..\..\..\..\..\bin\* .
 
 .\add_hook.exe ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe
-move ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome3.exe
+del ..\..\..\..\..\Chrome-bin\chrome.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
-copy .\glfw3.dll ..\..\..\..\..\Chrome-bin\
-copy .\glew32.dll ..\..\..\..\..\Chrome-bin\
-copy .\vrclient_x64.dll ..\..\..\..\..\Chrome-bin\
-
+copy ..\..\..\..\..\Chrome-bin\* .
 cd ..\..\..\..\..
-
 
 echo zipping artifact
 ls
 
-7z a xrchrome.zip Chrome-bin\
+7z a xrchrome.zip device\vr\build\mock_vr_clients\bin\
 
 echo done zipping artifact
 ls
