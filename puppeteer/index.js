@@ -47,10 +47,11 @@ process.stdin.on('end', () => {
 });
 /* process.on('exit', () => {
   browser.close();
-});
-browser.on('disconnected', () => {
-  console.log('browser disconnect');
 }); */
+browser.on('disconnected', () => {
+  // console.log('browser disconnect');
+  process.exit();
+});
 
 const _jsonParse = s => {
   try {
