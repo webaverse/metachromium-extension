@@ -2885,7 +2885,7 @@ void PVRCompositor::CacheWaitGetPoses() {
   }
 }
 void PVRCompositor::InitShader() {
-  getOut() << "init render 1" << std::endl;
+  getOut() << "init shader 1" << std::endl;
   
   float vertices[] = { // xyuv
     -1, -1, 0, 0,
