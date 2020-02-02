@@ -1,5 +1,4 @@
 #include "qr.h"
-#include <iostream>
 
 using namespace cv;
 
@@ -12,7 +11,7 @@ void detectQrCodes() {
   std::string qrPngPath = cwdBuf;
   qrPngPath += R"EOF(\..\..\..\..\..\qr.png)EOF";
   getOut() << "read qr code image 1 " << qrPngPath << std::endl;
-  Mat inputImage = imread(qrPngPath, CV_LOAD_IMAGE_COLOR);
+  Mat inputImage = imread(qrPngPath, IMREAD_COLOR);
   getOut() << "read qr code image 2" << std::endl;
 
   QRCodeDetector qrDecoder = QRCodeDetector::QRCodeDetector();
@@ -22,12 +21,12 @@ void detectQrCodes() {
   std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
   if(data.length()>0)
   {
-    std::cout << "Decoded Data : " << data << std::endl;
+    getOut() << "Decoded Data : " << data << std::endl;
  
     // display(inputImage, bbox);
     // rectifiedImage.convertTo(rectifiedImage, CV_8UC3);
     // imshow("Rectified QRCode", rectifiedImage);
   } else {
-    std::cout << "QR Code not detected" << std::endl;
+    getOut() << "QR Code not detected" << std::endl;
   }
 }
