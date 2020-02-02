@@ -12,8 +12,8 @@ ls
 cd device\vr
 mkdir build
 cd build
-cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
-msbuild /p:Configuration=Release ALL_BUILD.vcxproj
+cp ..\build.cmd .
+.\build.cmd
 
 cd mock_vr_clients/bin
 copy ..\..\..\..\..\bin\* .
