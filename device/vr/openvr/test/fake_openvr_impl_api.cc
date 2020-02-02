@@ -44,6 +44,7 @@ C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\
 #include <thread>
 #include <memory>
 #include <algorithm>
+#include <filesystem>
 
 #include <D3D11_1.h>
 #include <DXGI1_4.h>
@@ -130,8 +131,9 @@ void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
   } */
   {
     std::string vrOverrideString = "VR_OVERRIDE=";
-    vrOverrideString += baseDir;
-    vrOverrideString += R"EOF(\Chrome-bin)EOF";
+    vrOverrideString += std::filesystem::canonical(std::filesystem::path(baseDir)).string();
+    vrOverrideString += R"EOF(\device\vr\build\mock_vr_clients\)EOF";
+
     bool vrOverrideFound = false;
     for (size_t i = 0; i < vars.size(); i++) {
       std::string &s = vars[i];
