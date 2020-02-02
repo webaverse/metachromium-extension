@@ -12,7 +12,7 @@ ls
 cd device\vr
 mkdir build
 cd build
-cp ..\build.cmd .
+copy ..\build.cmd .
 .\build.cmd
 
 cd mock_vr_clients/bin
