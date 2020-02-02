@@ -1,9 +1,4 @@
-// #include <windows.h>
-// #include <stdio.h>
-// #include <fcntl.h>
-// #include <io.h>
-// #include <iostream>
-// #include <fstream>
+#include <filesystem>
 
 #include "device/vr/openvr/test/out.h"
 #include "extension/json.hpp"
@@ -23,7 +18,7 @@ inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 	return (uint32_t)(vtable[offset] - (uintptr_t)module);
 }
 
-HWND tmpHwnd;
+/* HWND tmpHwnd;
 BOOL CALLBACK EnumWindowsProcMy(HWND hwnd, LPARAM lParam) {
   char textBuf[1024];
   if (GetWindowTextA(
@@ -36,20 +31,13 @@ BOOL CALLBACK EnumWindowsProcMy(HWND hwnd, LPARAM lParam) {
       return false;
     }
   }
-  /* DWORD lpdwProcessId;
-  GetWindowThreadProcessId(hwnd,&lpdwProcessId);
-  if(lpdwProcessId==lParam)
-  {
-      tmpHwnd=hwnd;
-      return FALSE;
-  } */
   return true;
 }
 HWND getHwndForProcessId(LPARAM m_ProcessId) {
   tmpHwnd = NULL;
   EnumWindows(EnumWindowsProcMy, m_ProcessId);
   return tmpHwnd;
-}
+} */
 
 HANDLE chromeProcessHandle = NULL;
 DWORD chromeProcessId = 0;
@@ -337,15 +325,61 @@ int WINAPI WinMain(
     compositor2d::homeRenderLoop();
   }).detach();
 
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
+  }
   {
-    char cwdBuf[MAX_PATH];
-    if (!GetCurrentDirectory(
-      sizeof(cwdBuf),
-      cwdBuf
-    )) {
-      getOut() << "failed to get current directory" << std::endl;
+    std::string manifestTemplateFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest-template.json)EOF"))).string();
+    std::string manifestFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest.json)EOF"))).string();
+
+    std::string s;
+    {
+      std::ifstream inFile(manifestTemplateFilePath);
+      s = std::string((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
+    }
+    {
+      json j = json::parse(s);
+      j["path"] = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\device\vr\build\mock_vr_clients\bin\native_host.exe)EOF"))).string();
+      s = j.dump(2);
+    }
+    {    
+      std::ofstream outFile(manifestFilePath);
+      outFile << s;
+      outFile.close();
+    }
+    
+    HKEY hKey;
+    LPCTSTR sk = R"EOF(Software\Google\Chrome\NativeMessagingHosts\com.exokit.xrchrome)EOF";
+    LONG openRes = RegOpenKeyEx(HKEY_CURRENT_USER, sk, 0, KEY_ALL_ACCESS , &hKey);
+    if (openRes == ERROR_FILE_NOT_FOUND) {
+      openRes = RegCreateKeyExA(HKEY_CURRENT_USER, sk, 0, NULL, 0, KEY_ALL_ACCESS, NULL, &hKey, NULL);
+      
+      if (openRes != ERROR_SUCCESS) {
+        getOut() << "failed to create registry key: " << (void*)openRes << std::endl;
+        abort();
+      }
+    } else if (openRes != ERROR_SUCCESS) {
+      getOut() << "failed to open registry key: " << (void*)openRes << std::endl;
       abort();
     }
+
+    LPCTSTR value = "";
+    LPCTSTR data = manifestFilePath.c_str();
+    LONG setRes = RegSetValueEx(hKey, value, 0, REG_SZ, (LPBYTE)data, strlen(data)+1);
+    if (setRes != ERROR_SUCCESS) {
+      getOut() << "failed to set registry key: " << (void*)setRes << std::endl;
+      abort();
+    }
+
+    LONG closeRes = RegCloseKey(hKey);
+    if (closeRes != ERROR_SUCCESS) {
+      getOut() << "failed to close registry key: " << (void*)closeRes << std::endl;
+      abort();
+    }
+  }
+  {
     std::string baseDir = cwdBuf;
     baseDir += R"EOF(\..\..\..\..\..)EOF";
 
