@@ -4,8 +4,17 @@
 using namespace cv;
 
 void detectQrCodes() {
-  Mat inputImage(1024, 1024, CV_8U);
- 
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
+  }
+  std::string qrPngPath = cwdBuf;
+  qrPngPath += R"EOF(\..\..\..\..\..\qr.png)EOF";
+  getOut() << "read qr code image 1 " << qrPngPath << std::endl;
+  Mat inputImage = imread(qrPngPath, CV_LOAD_IMAGE_COLOR);
+  getOut() << "read qr code image 2" << std::endl;
+
   QRCodeDetector qrDecoder = QRCodeDetector::QRCodeDetector();
  
   Mat bbox, rectifiedImage;
