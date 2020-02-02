@@ -760,7 +760,7 @@ void presentSwapChain(T *swapChain) {
       }
     }
 
-    D3D11_TEXTURE2D_DESC desc;
+    /* D3D11_TEXTURE2D_DESC desc;
     viewportBackShTex->lpVtbl->GetDesc(viewportBackShTex, &desc);
     
     getOut() << "copy region " <<
@@ -769,21 +769,21 @@ void presentSwapChain(T *swapChain) {
       desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
       desc.Format << " " <<
       desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      std::endl;
+      std::endl; */
 
-    D3D11_BOX srcBox{};
+    /* D3D11_BOX srcBox{};
     srcBox.left = 0;
     srcBox.right = viewportWidth;
     srcBox.top = 0;
     srcBox.bottom = viewportHeight;
     srcBox.front = 0;
-    srcBox.back = 1;
+    srcBox.back = 1; */
     context->lpVtbl->CopySubresourceRegion(
       context,
       res, // dst
       0, // dst sub
-      100, // dst x
-      100, // dst y
+      0, // dst x
+      desc.Height - viewportHeight, // dst y
       0, // dst z
       viewportBackShD3D11Res, // src
       0, // src sub
@@ -799,13 +799,13 @@ void presentSwapChain(T *swapChain) {
     backbufferShRes
   ); */
 
-  getOut() << "present swap chain done " <<
+  /* getOut() << "present swap chain done " <<
     desc.Width << " " << desc.Height << " " <<
     desc.MipLevels << " " << desc.ArraySize << " " <<
     desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
     desc.Format << " " <<
     desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    std::endl;
+    std::endl; */
 
   res->lpVtbl->Release(res);
   tex->lpVtbl->Release(tex);
