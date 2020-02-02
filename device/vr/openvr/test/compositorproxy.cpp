@@ -852,7 +852,28 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     }
     
     vrcompositor->PostPresentHandoff();
-    
+
+    if (submitCallbacks.size() > 0) {
+      ID3D11Texture2D *colorTex = shTexOuts[0]
+      ID3D11RenderTargetView *depthRtv = renderTargetDepthFrontViews[0];
+      ID3D11Resource *depthRes;
+      HRESULT hr = depthRtv->GetResource(&depthRes);
+      if (FAILED(hr)) {
+        getOut() << "failed to get depth rtv resource: " << (void *)hr << std::endl;
+      }
+      ID3D11Texture2D *depthTex;
+      hr = depthRes->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&depthTex);
+      if (FAILED(hr)) {
+        getOut() << "failed to query depth tex: " << (void *)hr << std::endl;
+      }
+
+      for (auto &iter : submitCallbacks) {
+        iter(device.Get(), context.Get(), colorTex, depthTex);
+      }
+
+      depthRes->Release();
+      depthTex->Release();
+    }
     // swapChain->Present(0, 0);
 
     // getOut() << "flush submit server 11" << std::endl;

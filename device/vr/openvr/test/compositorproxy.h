@@ -132,6 +132,9 @@ public:
   std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
+  // callbacks
+  std::vector<std::function<void(ID3D11Device5 *, ID3D11DeviceContext4 *, ID3D11Texture2D *, ID3D11Texture2D *)>> submitCallbacks;
+
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bool isProcess, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
