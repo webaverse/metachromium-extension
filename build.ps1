@@ -8,7 +8,7 @@ rm chrome.7z
 
 $client2 = new-object System.Net.WebClient
 $client2.DownloadFile("https://github.com/opencv/opencv/releases/download/4.2.0/opencv-4.2.0-vc14_vc15.exe", "opencv.exe")
-start /b /w "installer" ".\opencv.exe" -o".\opencv" -y
+start /b /w "installer" ".\opencv.exe" -o. -y
 
 & 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat'
 
