@@ -848,7 +848,7 @@ HRESULT STDMETHODCALLTYPE MinePresent1(
   }
   return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
 }
-HWND (STDMETHODCALLTYPE *RealCreateWindowExA)( 
+/* HWND (STDMETHODCALLTYPE *RealCreateWindowExA)( 
   DWORD     dwExStyle,
   LPCSTR    lpClassName,
   LPCSTR    lpWindowName,
@@ -911,7 +911,7 @@ HWND STDMETHODCALLTYPE MineCreateWindowExW(
   getOut() << "RealCreateWindowExW " << (void *)dwExStyle << " " << (void *)dwStyle << std::endl;
   // dwExStyle |= WS_EX_TOOLWINDOW;
   return RealCreateWindowExW(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
-}
+} */
 /* HRESULT (STDMETHODCALLTYPE *RealCreateTargetForHwnd)(
   IDCompositionDesktopDevice *This,
   HWND                hwnd,
@@ -3580,13 +3580,13 @@ void Hijacker::hijackDxgi(HINSTANCE hinstDLL) {
       error = DetourAttach(&(PVOID&)RealPresent1, MinePresent1);
       checkDetourError("RealPresent1", error);
       
-      RealCreateWindowExA = CreateWindowExA;
+      /* RealCreateWindowExA = CreateWindowExA;
       error = DetourAttach(&(PVOID&)RealCreateWindowExA, MineCreateWindowExA);
       checkDetourError("RealCreateWindowExA", error);
       
       RealCreateWindowExW = CreateWindowExW;
       error = DetourAttach(&(PVOID&)RealCreateWindowExW, MineCreateWindowExW);
-      checkDetourError("RealCreateWindowExW", error);
+      checkDetourError("RealCreateWindowExW", error); */
 
       error = DetourTransactionCommit();
       checkDetourError("DetourTransactionCommit", error);
@@ -3619,11 +3619,11 @@ void Hijacker::unhijackDxgi() {
     error = DetourDetach(&(PVOID&)RealPresent1, MinePresent1);
     checkDetourError("RealPresent1", error);
 
-    error = DetourDetach(&(PVOID&)RealCreateWindowExA, MineCreateWindowExA);
+    /* error = DetourDetach(&(PVOID&)RealCreateWindowExA, MineCreateWindowExA);
     checkDetourError("RealCreateWindowExA", error);
     
     error = DetourDetach(&(PVOID&)RealCreateWindowExW, MineCreateWindowExW);
-    checkDetourError("RealCreateWindowExW", error);
+    checkDetourError("RealCreateWindowExW", error); */
     
     error = DetourTransactionCommit();
     checkDetourError("DetourTransactionCommit", error);
