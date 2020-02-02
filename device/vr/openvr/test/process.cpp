@@ -346,6 +346,8 @@ int WINAPI WinMain(
       getOut() << "failed to get current directory" << std::endl;
       abort();
     }
+    std::string baseDir = cwdBuf;
+    baseDir += R"EOF(\..\..\..\..\..)EOF";
 
     std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --load-extension=..\..\..\..\..\..\extension ..\..\..\..\..\..\extension\index.html)EOF";
     std::vector<char> cmdVector(cmd.size() + 1);
@@ -354,7 +356,7 @@ int WINAPI WinMain(
     getOut() << "launch chrome command: " << cmd << std::endl;
     
     char envBuf[64 * 1024];
-    getChildEnvBuf(envBuf);
+    getChildEnvBuf(envBuf, baseDir);
 
     /* SECURITY_ATTRIBUTES saAttr;
     // Set the bInheritHandle flag so pipe handles are inherited. 

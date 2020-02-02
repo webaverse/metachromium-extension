@@ -108,7 +108,7 @@ std::ostream &getOut() {
     return std::cout;
   } */
 }
-void getChildEnvBuf(char *pEnvBuf) {
+void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
   LPSTR lpvEnv = GetEnvironmentStringsA();
   std::vector<std::string> vars;
   for (LPSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable++) {
@@ -119,15 +119,6 @@ void getChildEnvBuf(char *pEnvBuf) {
     vars.push_back(std::move(var));
   }
   FreeEnvironmentStrings(lpvEnv);
-
-  char cwdBuf[MAX_PATH];
-  if (!GetCurrentDirectory(
-    sizeof(cwdBuf),
-    cwdBuf
-  )) {
-    getOut() << "failed to get current directory" << std::endl;
-    abort();
-  }
   
   /* for (auto iter : vars) {
     std::string &s = iter;
@@ -141,7 +132,8 @@ void getChildEnvBuf(char *pEnvBuf) {
     }
   } */
   std::string vrOverrideString = "VR_OVERRIDE=";
-  vrOverrideString += cwdBuf;
+  vrOverrideString += baseDir;
+  vrOverrideString += R"EOF(\Chrome-bin)EOF";
   vars.push_back(std::move(vrOverrideString));
 
   for (auto iter : vars) {

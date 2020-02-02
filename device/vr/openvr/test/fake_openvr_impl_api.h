@@ -33,7 +33,7 @@ extern int outWindowWidth;
 extern int outWindowHeight;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
-void getChildEnvBuf(char *envBuf);
+void getChildEnvBuf(char *envBuf, const std::string &baseDir);
 
 namespace vr {
   extern IVRSystem *g_vrsystem;
