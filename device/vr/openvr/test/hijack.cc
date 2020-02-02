@@ -303,7 +303,7 @@ void initBlitShader() {
   
   getOut() << "create device 3 2" << std::endl;
 
-  // g_hijacker->hijackDx(contextBasic);
+  g_hijacker->hijackDx(contextBasic);
 
   hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11InfoQueue, (void **)&infoQueue);
   if (SUCCEEDED(hr)) {
@@ -473,13 +473,13 @@ void initBlitShader() {
       
       hr = viewportFrontShDXGIRes->lpVtbl->GetSharedHandle(viewportFrontShDXGIRes, &viewportShHandle);
       if (FAILED(hr)) {
-        getOut() << "failed to query viewport back shared handle: " << (void *)hr << std::endl;
+        getOut() << "failed to query viewport front shared handle: " << (void *)hr << std::endl;
         abort();
       }
       
       hr = viewportFrontShTex->lpVtbl->QueryInterface(viewportFrontShTex, IID_ID3D11Resource, (void **)&viewportFrontShD3D11Res);
       if (FAILED(hr)) {
-        getOut() << "failed to query viewport front dxgi resource: " << (void *)hr << std::endl;
+        getOut() << "failed to query viewport front d3d11 resource: " << (void *)hr << std::endl;
         abort();
       }
     }
@@ -508,7 +508,15 @@ void initBlitShader() {
   InfoQueueLog();
   getOut() << "create device X" << std::endl;
 }
-void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView, ID3D11Resource *backbufferRes) {
+void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
+  float color[4] = {0,0,1,1};
+  hijackerContext->lpVtbl->ClearRenderTargetView(
+    hijackerContext,
+    viewportRtv,
+    color
+  );
+  return;
+  
   // set new
   UINT stride = sizeof(float) * 4; // xyuv
   UINT offset = 0;
@@ -736,7 +744,7 @@ void presentSwapChain(T *swapChain) {
   if (eyeShaderResourceView) {
     InfoQueueLog();
     getOut() << "blit eye view 2" << std::endl;
-    blitEyeView(eyeShaderResourceView, res);
+    blitEyeView(eyeShaderResourceView);
     InfoQueueLog();
     getOut() << "blit eye view 3" << std::endl;
     
@@ -755,13 +763,13 @@ void presentSwapChain(T *swapChain) {
       
       hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Texture2D, (void **)&viewportBackShTex);
       if (FAILED(hr)) {
-        getOut() << "failed to get viewport texture: " << (void *)hr << std::endl;
+        getOut() << "failed to get viewport back texture: " << (void *)hr << std::endl;
         abort();
       }
       
       hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Resource, (void **)&viewportBackShD3D11Res);
       if (FAILED(hr)) {
-        getOut() << "failed to get viewport resource: " << (void *)hr << std::endl;
+        getOut() << "failed to get viewport back resource: " << (void *)hr << std::endl;
         abort();
       }
     }
