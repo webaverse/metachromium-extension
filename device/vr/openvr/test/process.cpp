@@ -335,16 +335,23 @@ int WINAPI WinMain(
   }
   {
     HKEY hKey;
-    LPCTSTR sk = TEXT(R"EOF(Software\Google\Chrome\NativeMessagingHosts)EOF");
-    LONG openRes = RegOpenKeyEx(HKEY_LOCAL_MACHINE, sk, 0, KEY_ALL_ACCESS , &hKey);
-    if (openRes != ERROR_SUCCESS) {
+    LPCTSTR sk = R"EOF(Software\Google\Chrome\NativeMessagingHosts\com.exokit.xrchrome)EOF";
+    LONG openRes = RegOpenKeyEx(HKEY_CURRENT_USER, sk, 0, KEY_ALL_ACCESS , &hKey);
+    if (openRes == ERROR_FILE_NOT_FOUND) {
+      openRes = RegCreateKeyExA(HKEY_CURRENT_USER, sk, 0, NULL, 0, KEY_ALL_ACCESS, NULL, &hKey, NULL);
+      
+      if (openRes != ERROR_SUCCESS) {
+        getOut() << "failed to create registry key: " << (void*)openRes << std::endl;
+        abort();
+      }
+    } else if (openRes != ERROR_SUCCESS) {
       getOut() << "failed to open registry key: " << (void*)openRes << std::endl;
       abort();
     }
 
-    LPCTSTR value = TEXT("TestSoftwareKey");
-    std::string dataString = std::filesystem::caonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest.json)EOF"))).string();
-    LPCTSTR data = dataString;
+    LPCTSTR value = "";
+    std::string dataString = std::filesystem::canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest.json)EOF"))).string();
+    LPCTSTR data = dataString.c_str();
     LONG setRes = RegSetValueEx(hKey, value, 0, REG_SZ, (LPBYTE)data, strlen(data)+1);
     if (setRes != ERROR_SUCCESS) {
       getOut() << "failed to set registry key: " << (void*)setRes << std::endl;
