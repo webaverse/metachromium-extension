@@ -331,6 +331,25 @@ int WINAPI WinMain(
     abort();
   }
   {
+    std::string manifestTemplateFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest-template.json)EOF"))).string();
+    std::string manifestFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest.json)EOF"))).string();
+
+    std::string s;
+    {
+      std::ifstream inFile(manifestTemplateFilePath);
+      s = std::string((std::istreambuf_iterator<char>(inFile)), std::istreambuf_iterator<char>());
+    }
+    {
+      json j = json::parse(s);
+      j["path"] = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\device\vr\build\mock_vr_clients\bin\native_host.exe)EOF"))).string();
+      s = j.dump(2);
+    }
+    {    
+      std::ofstream outFile(manifestFilePath);
+      outFile << s;
+      outFile.close();
+    }
+    
     HKEY hKey;
     LPCTSTR sk = R"EOF(Software\Google\Chrome\NativeMessagingHosts\com.exokit.xrchrome)EOF";
     LONG openRes = RegOpenKeyEx(HKEY_CURRENT_USER, sk, 0, KEY_ALL_ACCESS , &hKey);
@@ -347,8 +366,7 @@ int WINAPI WinMain(
     }
 
     LPCTSTR value = "";
-    std::string dataString = std::filesystem::canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest.json)EOF"))).string();
-    LPCTSTR data = dataString.c_str();
+    LPCTSTR data = manifestFilePath.c_str();
     LONG setRes = RegSetValueEx(hKey, value, 0, REG_SZ, (LPBYTE)data, strlen(data)+1);
     if (setRes != ERROR_SUCCESS) {
       getOut() << "failed to set registry key: " << (void*)setRes << std::endl;
