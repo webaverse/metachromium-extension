@@ -131,7 +131,7 @@ void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
   } */
   {
     std::string vrOverrideString = "VR_OVERRIDE=";
-    vrOverrideString += std::filesystem::canonical(std::filesystem::path(baseDir)).string();
+    vrOverrideString += std::filesystem::weakly_canonical(std::filesystem::path(baseDir)).string();
     vrOverrideString += R"EOF(\device\vr\build\mock_vr_clients\)EOF";
 
     bool vrOverrideFound = false;
