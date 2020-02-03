@@ -151,11 +151,14 @@ int WINAPI WinMain(
   LPSTR lpCmdLine,
   int nCmdShow
 ) {
-  // std::vector<char> cmd(strlen(lpCmdLine)+1);
-  // memcpy(cmd.data(), lpCmdLine, cmd.size());
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
+    std::cout << "failed to get current directory" << std::endl;
+    abort();
+  }
   
   // dllDir = R"END(C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\)END";
-  std::cout << "add_hook start" << std::endl;
+  std::cout << "add_hook start " << cwdBuf << std::endl;
 
   int numArgs;
   PCHAR *args = CommandLineToArgvA(lpCmdLine, &numArgs);
@@ -229,7 +232,7 @@ int WINAPI WinMain(
         abort();
     }
     CloseHandle(hOld);
-     if (!DetourBinaryEditImports(pBinary,
+    if (!DetourBinaryEditImports(pBinary,
                                  NULL,
                                  ListBywayCallback, ListFileCallback, NULL, NULL)) {
         std::cout << "DetourBinaryEditImports failed" << std::endl;
