@@ -53,6 +53,7 @@ char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoot
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
 char kIVRCompositor_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
+char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1337,6 +1338,17 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     } else {
       return (HANDLE)NULL;
     }
+  });
+  fnp.reg<
+    kIVRCompositor_SetTransform,
+    int,
+    managed_binary<float>,
+    managed_binary<float>,
+    managed_binary<float>
+  >([=](managed_binary<float> newPosition, managed_binary<float> newQuaternion, managed_binary<float> newScale) {
+    memcpy(position, newPosition.data(), sizeof(position));
+    memcpy(quaternion, newQuaternion.data(), sizeof(quaternion));
+    memcpy(scale, newScale.data(), sizeof(scale));
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
