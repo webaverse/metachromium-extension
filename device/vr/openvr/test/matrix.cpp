@@ -11,6 +11,13 @@ void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix) {
   dstMatrixArray[2 * 4 + 3] = 0;
   dstMatrixArray[3 * 4 + 3] = 1;
 }
+void setPoseMatrix(vr::HmdMatrix34_t &dstMatrix, const float *srcMatrixArray) {
+  for (unsigned int v = 0; v < 4; v++) {
+    for (unsigned int u = 0; u < 3; u++) {
+      dstMatrix.m[u][v] = srcMatrixArray[v * 4 + u];
+    }
+  }
+}
 void getMatrixInverse(const float *inMatrix, float *outMatrix) {
   // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
   float *te = outMatrix;
@@ -88,4 +95,57 @@ void multiplyMatrices(const float *aMatrix, const float *bMatrix, float *outMatr
   te[ 7 ] = a41 * b12 + a42 * b22 + a43 * b32 + a44 * b42;
   te[ 11 ] = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43;
   te[ 15 ] = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44;
+}
+void composeMatrix(float *matrix, const float *position, const float *quaternion, const float *scale) {
+  float *te = matrix;
+
+  float x = quaternion[0], y = quaternion[1], z = quaternion[2], w = quaternion[3];
+  float x2 = x + x, y2 = y + y, z2 = z + z;
+  float xx = x * x2, xy = x * y2, xz = x * z2;
+  float yy = y * y2, yz = y * z2, zz = z * z2;
+  float wx = w * x2, wy = w * y2, wz = w * z2;
+
+  float sx = scale[0], sy = scale[1], sz = scale[2];
+
+  te[ 0 ] = ( 1 - ( yy + zz ) ) * sx;
+  te[ 1 ] = ( xy + wz ) * sx;
+  te[ 2 ] = ( xz - wy ) * sx;
+  te[ 3 ] = 0;
+
+  te[ 4 ] = ( xy - wz ) * sy;
+  te[ 5 ] = ( 1 - ( xx + zz ) ) * sy;
+  te[ 6 ] = ( yz + wx ) * sy;
+  te[ 7 ] = 0;
+
+  te[ 8 ] = ( xz + wy ) * sz;
+  te[ 9 ] = ( yz - wx ) * sz;
+  te[ 10 ] = ( 1 - ( xx + yy ) ) * sz;
+  te[ 11 ] = 0;
+
+  te[ 12 ] = position[0];
+  te[ 13 ] = position[1];
+  te[ 14 ] = position[2];
+  te[ 15 ] = 1;
+}
+void addVector(float *a, const float *b) {
+  a[0] += b[0];
+  a[1] += b[1];
+  a[2] += b[2];
+}
+void applyVectorQuaternion(float *v, const float *q) {
+  float x = v[0], y = v[1], z = v[2];
+  float qx = q[0], qy = q[1], qz = q[2], qw = q[3];
+
+  // calculate quat * vector
+
+  float ix = qw * x + qy * z - qz * y;
+  float iy = qw * y + qz * x - qx * z;
+  float iz = qw * z + qx * y - qy * x;
+  float iw = - qx * x - qy * y - qz * z;
+
+  // calculate result * inverse quat
+
+  v[0] = ix * qw + iw * - qx + iy * - qz - iz * - qy;
+  v[1] = iy * qw + iw * - qy + iz * - qx - ix * - qz;
+  v[2] = iz * qw + iw * - qz + ix * - qy - iy * - qx;
 }

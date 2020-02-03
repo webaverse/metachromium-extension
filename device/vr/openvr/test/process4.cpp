@@ -26,6 +26,9 @@ HWND g_hWnd = NULL;
 // CHAR s_szDllPath[MAX_PATH] = "vrclient_x64.dll";
 extern std::string dllDir;
 
+char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
+char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
+
 void respond(const json &j) {
   std::string outString = j.dump();
   // getOut() << "start app 10" << std::endl;
@@ -36,9 +39,11 @@ void respond(const json &j) {
 }
 
 int main(int argc, char **argv) {
+  g_fnp = new FnProxy();
+
   freopen(NULL, "rb", stdin);
   freopen(NULL, "wb", stdout);
-  
+
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(
     sizeof(cwdBuf),
@@ -172,6 +177,62 @@ int main(int argc, char **argv) {
             HANDLE processHandle = OpenProcess(PROCESS_ALL_ACCESS, false, processId);
             TerminateProcess(processHandle, 1);
             CloseHandle(processHandle);
+
+            json res = {
+              {"error", nullptr},
+              {"result", "ok"}
+            };
+            respond(res);
+          } else if (
+            methodString == "setIsVr" &&
+            args.size() >= 1 && args[0].is_boolean()
+          ) {
+            const bool isVr = args[0].get<bool>();
+
+            auto result = g_fnp->call<
+              kProcess_SetIsVr,
+              int,
+              bool
+            >(isVr);
+
+            json res = {
+              {"error", nullptr},
+              {"result", "ok"}
+            };
+            respond(res);
+          } else if (
+            methodString == "setTransform" &&
+            args.size() >= 3 &&
+            args[0].is_array() && args[0].size() >= 3 && args[0][0].is_number() && args[0][1].is_number() && args[0][2].is_number() &&
+            args[1].is_array() && args[1].size() >= 3 && args[1][0].is_number() && args[1][1].is_number() && args[1][2].is_number() && args[1][3].is_number() &&
+            args[2].is_array() && args[2].size() >= 3 && args[2][0].is_number() && args[2][1].is_number() && args[2][2].is_number()
+          ) {
+            managed_binary<float> position(3);
+            float *positionData = (float *)position.data();
+            positionData[0] = args[0][0].get<float>();
+            positionData[1] = args[0][1].get<float>();
+            positionData[2] = args[0][2].get<float>();
+
+            managed_binary<float> quaternion(4);
+            float *quaternionData = (float *)quaternion.data();
+            quaternionData[0] = args[1][0].get<float>();
+            quaternionData[1] = args[1][1].get<float>();
+            quaternionData[2] = args[1][2].get<float>();
+            quaternionData[3] = args[1][3].get<float>();
+
+            managed_binary<float> scale(3);
+            float *scaleData = (float *)scale.data();
+            scaleData[0] = args[2][0].get<float>();
+            scaleData[1] = args[2][1].get<float>();
+            scaleData[2] = args[2][2].get<float>();
+
+            auto result = g_fnp->call<
+              kProcess_SetTransform,
+              int,
+              managed_binary<float>,
+              managed_binary<float>,
+              managed_binary<float>
+            >(std::move(position), std::move(quaternion), std::move(scale));
 
             json res = {
               {"error", nullptr},

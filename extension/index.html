@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+<script src="three.min.js"></script>
 <style>
 body {
   margin: 0;
@@ -30,6 +31,7 @@ a:active {
   position: fixed;
   left: 0;
   bottom: 0;
+  pointer-events: none;
 }
 </style>
 </head>
@@ -50,11 +52,19 @@ a:active {
       <a href="https://immersive-web.github.io/webxr-samples/positional-audio.html">Positional Audio</a>
     </section>
   </div>
-  <canvas width=300 height=300 id=canvas-2d></canvas>
+  <div class=body>
+    <input type=button id=toggle-controls-button value="FPS controls">
+  </div>
+  <canvas width=500 height=500 id=canvas-2d></canvas>
 <script>
 
+const _fakeXrChrome = {
+  async request() {},
+};
+const xrc = () => window.xrchrome ? window.xrchrome : _fakeXrChrome;
+
 window.addEventListener('xrchromeloaded', async () => {
-  const executables = await window.xrchrome.request('listSteamApps', []);
+  const executables = await xrc().request('listSteamApps', []);
   for (const exe of executables) {
     const a = document.createElement('a');
     a.setAttribute('src', `file://${exe}`);
@@ -62,7 +72,7 @@ window.addEventListener('xrchromeloaded', async () => {
     a.addEventListener('click', async e => {
       e.preventDefault();
 
-      const res = await window.xrchrome.request('launchApp', [
+      const res = await xrc().request('launchApp', [
         exe,
       ]);
       const {processId} = res;
@@ -74,7 +84,7 @@ window.addEventListener('xrchromeloaded', async () => {
         a2.addEventListener('click', async e => {
           e.preventDefault();
 
-          await window.xrchrome.request('killApp', [
+          await xrc().request('killApp', [
             processId,
           ]);
         });
@@ -84,12 +94,116 @@ window.addEventListener('xrchromeloaded', async () => {
     document.getElementById('apps').appendChild(a);
   }
 });
+document.addEventListener('pointerlockchange', async e => {
+  const isVr = !document.pointerLockElement;
+  await xrc().request('setIsVr', [isVr]);
+});
+const position = new THREE.Vector3(0, 1.5, 0);
+const rotation = new THREE.Euler(0, 0, 0, 'YXZ');
+const quaternion = new THREE.Quaternion();
+const scale = new THREE.Vector3(1, 1, 1);
+const velocity = new THREE.Vector3();
+const keys = {
+  left: false,
+  right: false,
+  up: false,
+  down: false,
+}
+document.addEventListener('keydown', async e => {
+  switch (e.which) {
+    case 65: {
+      keys.left = true;
+      break;
+    }
+    case 68: {
+      keys.right = true;
+      break;
+    }
+    case 87: {
+      keys.up = true;
+      break;
+    }
+    case 83: {
+      keys.down = true;
+      break;
+    }
+  }
+});
+document.addEventListener('keyup', async e => {
+  switch (e.which) {
+    case 65: {
+      keys.left = false;
+      break;
+    }
+    case 68: {
+      keys.right = false;
+      break;
+    }
+    case 87: {
+      keys.up = false;
+      break;
+    }
+    case 83: {
+      keys.down = false;
+      break;
+    }
+  }
+});
+document.addEventListener('mousemove', async e => {
+  if (document.pointerLockElement) {
+    console.log('got mouse move', e.movementX, e.movementY);
+
+    rotation.y = (rotation.y - e.movementX * Math.PI*2 * 0.001);
+    while (rotation.y < -Math.PI*2) {
+      rotation.y += Math.PI*2;
+    }
+    while (rotation.y > Math.PI*2) {
+      rotation.y -= Math.PI*2;
+    }
+    rotation.x = Math.min(Math.max(rotation.x - e.movementY * Math.PI*2 * 0.001, -Math.PI/2), Math.PI/2);
+    quaternion.setFromEuler(rotation);
+
+    await xrc().request('setTransform', [
+      position.toArray(),
+      quaternion.toArray(),
+      scale.toArray(),
+    ]);
+  }
+});
 window.addEventListener('load', () => {
+  const toggleControlsButton = document.getElementById('toggle-controls-button');
+  toggleControlsButton.addEventListener('click', async () => {
+    await window.document.body.requestPointerLock();
+  });
+
   const canvas2d = document.getElementById('canvas-2d');
-  const ctx2d = canvas2d.getContext('2d');
-  function recurse() {
-    console.log('clear');
-    ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
+  const ctx = canvas2d.getContext('webgl2');
+  async function recurse() {
+    velocity.set(0, 0, 0);
+    if (keys.left) {
+      velocity.x -= 1;
+    }
+    if (keys.right) {
+      velocity.x += 1;
+    }
+    if (keys.up) {
+      velocity.z -= 1;
+    }
+    if (keys.down) {
+      velocity.z += 1;
+    }
+    if (velocity.length() !== 0) {
+      position.add(velocity.normalize().multiplyScalar(0.03));
+      await xrc().request('setTransform', [
+        position.toArray(),
+        quaternion.toArray(),
+        scale.toArray(),
+      ]);
+    }
+
+    ctx.clear(ctx.COLOR_BUFFER_BIT);
+    // console.log('clear');
+    // ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
     window.requestAnimationFrame(recurse);
   }
   window.requestAnimationFrame(recurse);

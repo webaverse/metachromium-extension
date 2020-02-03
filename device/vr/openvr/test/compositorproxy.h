@@ -35,6 +35,12 @@ public:
   uint32_t height;
   HWND hWnd;
 
+  // controls
+  bool isVr = true;
+  float position[3] = {0, 1.5, 0};
+  float quaternion[4] = {0, 0, 0, 1};
+  float scale[3] = {1, 1, 1};
+
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
   HANDLE fenceHandle;
   uint64_t fenceValue = 0;

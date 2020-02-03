@@ -2,6 +2,7 @@
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
+#include "device/vr/openvr/test/matrix.h"
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -53,6 +54,8 @@ char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoot
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
 char kIVRCompositor_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
+char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
+char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1337,6 +1340,28 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     } else {
       return (HANDLE)NULL;
     }
+  });
+  fnp.reg<
+    kIVRCompositor_SetIsVr,
+    int,
+    bool
+  >([=](bool newIsVr) {
+    isVr = newIsVr;
+    
+    return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_SetTransform,
+    int,
+    managed_binary<float>,
+    managed_binary<float>,
+    managed_binary<float>
+  >([=](managed_binary<float> newPosition, managed_binary<float> newQuaternion, managed_binary<float> newScale) {
+    memcpy(position, newPosition.data(), sizeof(position));
+    memcpy(quaternion, newQuaternion.data(), sizeof(quaternion));
+    memcpy(scale, newScale.data(), sizeof(scale));
+    
+    return 0;
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
@@ -2864,11 +2889,63 @@ bool PVRCompositor::IsCurrentSceneFocusAppLoading() {
   >();
 }
 void PVRCompositor::CacheWaitGetPoses() {
-  // getOut() << "CacheWaitGetPoses 1" << std::endl;
+  // getOut() << "cache wait get poses" << std::endl;
   EVRCompositorError error = vrcompositor->WaitGetPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), cachedGamePoses, ARRAYSIZE(cachedGamePoses));
-  // getOut() << "CacheWaitGetPoses 2 " << std::endl;
   if (error != VRCompositorError_None) {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
+  }
+  if (!isVr) {
+    for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
+      TrackedDevicePose_t &cachedRenderPose = cachedRenderPoses[i];
+      TrackedDevicePose_t &cachedGamePose = cachedGamePoses[i];
+
+      ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
+      if (deviceClass == TrackedDeviceClass_HMD) {
+        memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
+        memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
+
+        float viewMatrix[16];
+        composeMatrix(viewMatrix, position, quaternion, scale);
+        setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
+        cachedRenderPose.bPoseIsValid = true;
+        cachedRenderPose.bDeviceIsConnected = true;
+      } else if (deviceClass == TrackedDeviceClass_Controller) {
+        ETrackedControllerRole controllerRole = g_vrsystem->GetControllerRoleForTrackedDeviceIndex(i);
+        if (controllerRole == TrackedControllerRole_LeftHand) {
+          memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
+          memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
+
+          float position2[3];
+          memcpy(position2, position, sizeof(position));
+          float offset[3] = {-0.1, -0.1, -0.1};
+          addVector(position2, offset);
+          applyVectorQuaternion(position2, quaternion);
+          float viewMatrix[16];
+          composeMatrix(viewMatrix, position2, quaternion, scale);
+          setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
+          cachedRenderPose.bPoseIsValid = true;
+          cachedRenderPose.bDeviceIsConnected = true;
+        } else if (controllerRole == TrackedControllerRole_RightHand) {
+          memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
+          memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
+
+          float position2[3];
+          memcpy(position2, position, sizeof(position));
+          float offset[3] = {0.1, -0.1, -0.1};
+          addVector(position2, offset);
+          applyVectorQuaternion(position2, quaternion);
+          float viewMatrix[16];
+          composeMatrix(viewMatrix, position2, quaternion, scale);
+          setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
+          cachedRenderPose.bPoseIsValid = true;
+          cachedRenderPose.bDeviceIsConnected = true;
+        }
+      } else {
+        cachedRenderPose.bPoseIsValid = false;
+        cachedRenderPose.bDeviceIsConnected = false;
+      }
+      cachedGamePose = cachedRenderPose;
+    }
   }
 
   float color[4] = {0, 0, 0, 0};
