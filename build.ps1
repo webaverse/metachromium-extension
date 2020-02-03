@@ -24,14 +24,13 @@ Start-Process -FilePath "add_hook.exe" -ArgumentList "..\..\..\..\..\Chrome-bin\
 del ..\..\..\..\..\Chrome-bin\chrome.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
 copy ..\..\..\..\..\Chrome-bin\* .
-cd ..\..\..\..\..
 
-echo zipping artifact... 
-ls device\vr\build\mock_vr_clients\bin\
-
-7z a -r -tzip xrchrome.zip device\vr\build\mock_vr_clients\bin\
-
+echo zipping artifact...
+7z a xrchrome.zip "*" -r
 echo done zipping artifact
+ls
+
+move xrchrome.zip ..\..\..\..\..\
 ls
 
 echo done
