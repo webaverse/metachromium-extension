@@ -6,7 +6,7 @@ A multi-app XR browser for Windows, based on Chromium.
 - Run multiple OpenVR apps at a time
 - Depth compositing
 - Run WebXR inside any app
-- Extension system for world awareness
+- Extension system for virtual world scripting
 - QR code detection
 - World meshing
 - FPS controls XR device emulation
