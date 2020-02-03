@@ -191,6 +191,7 @@ public:
   void InitShader();
   void SwapDepthTex(int iEye);
   void InfoQueueLog();
+  static void InfoQueueLog(ID3D11InfoQueue *infoQueue);
   static void CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **context, IDXGISwapChain **swapChain);
   void HomeRenderLoop();
 };

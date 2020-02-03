@@ -266,7 +266,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       getOut() << "info queue query failed" << std::endl;
       // abort();
     }
-    
+
     InitShader();
 
     hr = device->CreateFence(
@@ -3435,37 +3435,40 @@ void PVRCompositor::SwapDepthTex(int iEye) {
 }
 void PVRCompositor::InfoQueueLog() {
   if (infoQueue) {
-    UINT64 numStoredMessages = infoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
-    for (UINT64 i = 0; i < numStoredMessages; i++) {
-      size_t messageSize = 0;
-      HRESULT hr = infoQueue->GetMessage(
+    PVRCompositor::InfoQueueLog(infoQueue.Get());
+  }
+}
+void PVRCompositor::InfoQueueLog(ID3D11InfoQueue *infoQueue) {
+  UINT64 numStoredMessages = infoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
+  for (UINT64 i = 0; i < numStoredMessages; i++) {
+    size_t messageSize = 0;
+    HRESULT hr = infoQueue->GetMessage(
+      i,
+      nullptr,
+      &messageSize
+    );
+    if (SUCCEEDED(hr)) {
+      D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
+      
+      hr = infoQueue->GetMessage(
         i,
-        nullptr,
+        message,
         &messageSize
       );
       if (SUCCEEDED(hr)) {
-        D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
-        
-        hr = infoQueue->GetMessage(
-          i,
-          message,
-          &messageSize
-        );
-        if (SUCCEEDED(hr)) {
-          // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
-            getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
-          // }
-        } else {
-          getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
-        }
-        
-        free(message);
+        // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
+          getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
+        // }
       } else {
         getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
       }
+      
+      free(message);
+    } else {
+      getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
     }
-    infoQueue->ClearStoredMessages();
   }
+  infoQueue->ClearStoredMessages();
 }
 void PVRCompositor::CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **context, IDXGISwapChain **swapChain) {
   int32_t adapterIndex;
@@ -3523,7 +3526,7 @@ void PVRCompositor::CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **
     adapter, // pAdapter
     D3D_DRIVER_TYPE_HARDWARE, // DriverType
     NULL, // Software
-    0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
+    D3D11_CREATE_DEVICE_DEBUG, // Flags
     featureLevels, // pFeatureLevels
     ARRAYSIZE(featureLevels), // FeatureLevels
     D3D11_SDK_VERSION, // SDKVersion

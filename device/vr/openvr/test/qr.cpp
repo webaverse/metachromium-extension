@@ -5,13 +5,29 @@ using namespace cv;
 QrEngine::QrEngine() :
   qrDecoder(QRCodeDetector::QRCodeDetector())
 {
+  getOut() << "qr cons 1" << std::endl;
   vr::PVRCompositor::CreateDevice(&qrDevice, &qrContext, &qrSwapChain);
+  getOut() << "qr cons 2" << std::endl;
   
+  HRESULT hr = qrDevice->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&qrInfoQueue);
+  if (SUCCEEDED(hr)) {
+    qrInfoQueue->PushEmptyStorageFilter();
+  } else {
+    getOut() << "info queue query failed" << std::endl;
+    // abort();
+  }
+
   std::thread([this]() -> void {
     for (;;) {
+      getOut() << "thread 1" << std::endl;
+      
       sem.lock();
+      
+      getOut() << "thread 2" << std::endl;
 
       Mat inputImage(colorBufferDesc.Width, colorBufferDesc.Height, CV_8UC4);
+      
+      getOut() << "thread 3" << std::endl;
 
       qrContext->Wait(fence, fenceValue);
       D3D11_MAPPED_SUBRESOURCE subresource;
@@ -22,6 +38,8 @@ QrEngine::QrEngine() :
         0,
         &subresource
       );
+      
+      getOut() << "thread 4" << std::endl;
 
       /* char cwdBuf[MAX_PATH];
       if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
@@ -35,11 +53,15 @@ QrEngine::QrEngine() :
       getOut() << "read qr code image 2" << std::endl; */
 
       memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
+      
+      getOut() << "thread 5" << std::endl;
 
       qrContext->Unmap(
         colorServerBufferTex,
         0
       );
+      
+      getOut() << "thread 6" << std::endl;
 
       Mat bbox, rectifiedImage;
      
@@ -64,6 +86,8 @@ QrEngine::QrEngine() :
       } else {
         getOut() << "QR Code not detected" << std::endl;
       }
+      
+      getOut() << "thread 7" << std::endl;
 
       running = false;
     }
@@ -71,14 +95,22 @@ QrEngine::QrEngine() :
 }
 void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
   pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex, ID3D11Texture2D *depthTex) -> void {
+    getOut() << "cb 1" << std::endl;
+
     if (!running) {
       running = true;
 
+      getOut() << "cb 2" << std::endl;
+
       D3D11_TEXTURE2D_DESC desc;
       colorTex->GetDesc(&desc);
+      
+      getOut() << "cb 3" << std::endl;
 
       HRESULT hr;
       if (!colorClientBufferTex || desc.Width != colorBufferDesc.Width || desc.Height != colorBufferDesc.Height) {
+        getOut() << "cb 4" << std::endl;
+        
         desc.Usage = D3D11_USAGE_STAGING;
         desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
         desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
@@ -90,22 +122,22 @@ void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
           &colorClientBufferTex
         );
         if (FAILED(hr)) {
-          getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
-          // InfoQueueLog();
+          getOut() << "failed to create color buffer shared texture: " << (void *)hr << std::endl;
+          InfoQueueLog();
           abort();
         }
 
         IDXGIResource *colorClientShRes;
         hr = colorClientBufferTex->QueryInterface(__uuidof(IDXGIResource), (void**)&colorClientShRes); 
         if (FAILED(hr)) {
-          getOut() << "failed to query color client shared resource: " << (void *)hr << std::endl;
+          getOut() << "failed to query color buffer shared resource: " << (void *)hr << std::endl;
           abort();
         }
 
         hr = colorClientShRes->GetSharedHandle(&colorClientBufferHandle);
         if (FAILED(hr)) {
-          getOut() << "failed to get color buffer shared texture: " << (void *)hr << " " << (void *)colorClientShRes << std::endl;
-          // InfoQueueLog();
+          getOut() << "failed to get color buffer share handle: " << (void *)hr << " " << (void *)colorClientShRes << std::endl;
+          InfoQueueLog();
           abort();
         }
         
@@ -135,17 +167,32 @@ void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
 
         colorClientShRes->Release();
         colorServerShRes->Release();
+        
+        getOut() << "cb 5" << std::endl;
       }
+      
+      getOut() << "cb 6" << std::endl;
 
       context->CopyResource(
         colorClientBufferTex,
         colorTex
       );
       
+      getOut() << "cb 7" << std::endl;
+      
       ++fenceValue;
       context->Signal(fence, fenceValue);
 
+      getOut() << "cb 8" << std::endl;
+
       sem.unlock();
+      
+      getOut() << "cb 9" << std::endl;
     }
   });
+}
+void QrEngine::InfoQueueLog() {
+  if (qrInfoQueue) {
+    vr::PVRCompositor::InfoQueueLog(qrInfoQueue);
+  }
 }

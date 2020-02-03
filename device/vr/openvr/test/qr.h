@@ -16,6 +16,7 @@ public:
   ID3D11Device5 *qrDevice = nullptr;
   ID3D11DeviceContext4 *qrContext = nullptr;
   IDXGISwapChain *qrSwapChain = nullptr;
+  ID3D11InfoQueue *qrInfoQueue = nullptr;
 
   Semaphore sem;
   bool running = false;
@@ -29,6 +30,7 @@ public:
 
   QrEngine();
   void registerCallback(vr::PVRCompositor *pvrcompositor);
+  void InfoQueueLog();
 };
 
 #endif
