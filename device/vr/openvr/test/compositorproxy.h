@@ -34,6 +34,7 @@ public:
   uint32_t width;
   uint32_t height;
   HWND hWnd;
+  bool isVr = false;
 
   Microsoft::WRL::ComPtr<ID3D11Fence> fence;
   HANDLE fenceHandle;

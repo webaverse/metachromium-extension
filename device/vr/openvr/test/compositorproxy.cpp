@@ -2864,11 +2864,29 @@ bool PVRCompositor::IsCurrentSceneFocusAppLoading() {
   >();
 }
 void PVRCompositor::CacheWaitGetPoses() {
-  // getOut() << "CacheWaitGetPoses 1" << std::endl;
-  EVRCompositorError error = vrcompositor->WaitGetPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), cachedGamePoses, ARRAYSIZE(cachedGamePoses));
-  // getOut() << "CacheWaitGetPoses 2 " << std::endl;
-  if (error != VRCompositorError_None) {
-    getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
+  if (isVr) {
+    EVRCompositorError error = vrcompositor->WaitGetPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), cachedGamePoses, ARRAYSIZE(cachedGamePoses));
+    if (error != VRCompositorError_None) {
+      getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
+    }
+  } else {
+    for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
+      TrackedDevicePose_t &cachedRenderPose = cachedRenderPoses[i];
+      TrackedDevicePose_t &cachedGamePose = cachedGamePoses[i];
+
+      ETrackedDeviceClass deviceClass = vrcompositor->GetTrackedDeviceClass(i);
+      if (deviceClass == TrackedDeviceClass_HMD) {
+        memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
+        memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
+        // cachedRenderPose.mDeviceToAbsoluteTracking; // XXX set this
+        cachedRenderPose.bPoseIsValid = true;
+        cachedRenderPose.bDeviceIsConnected = true;
+      } else {
+        cachedRenderPose.bPoseIsValid = false;
+        cachedRenderPose.bDeviceIsConnected = false;
+      }
+      cachedGamePose = cachedRenderPose;
+    }
   }
 
   float color[4] = {0, 0, 0, 0};
