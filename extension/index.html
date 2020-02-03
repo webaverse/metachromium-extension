@@ -31,6 +31,7 @@ a:active {
   position: fixed;
   left: 0;
   bottom: 0;
+  pointer-events: none;
 }
 </style>
 </head>
@@ -54,7 +55,7 @@ a:active {
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
   </div>
-  <!-- <canvas width=300 height=300 id=canvas-2d></canvas> -->
+  <canvas width=300 height=300 id=canvas-2d></canvas>
 <script>
 
 const _fakeXrChrome = {
@@ -104,10 +105,10 @@ const quaternion = new THREE.Quaternion();
 const scale = new THREE.Vector3();
 document.addEventListener('mousemove', async e => {
   if (document.pointerLockElement) {
-    console.log('got mouse move', e);
+    console.log('got mouse move', e.movementX, e.movementY);
 
-    rotation.y = (rotation.y + e.movementX * Math.PI*2 * 0.01) % Math.PI*2;
-    rotation.x += (rotation.x + e.movementY * Math.PI*2 * 0.01) % Math.PI*2;
+    rotation.y = (rotation.y + -e.movementX * Math.PI*2 * 0.01) % Math.PI*2;
+    rotation.x += (rotation.x + -e.movementY * Math.PI*2 * 0.01) % Math.PI*2;
     quaternion.setFromEuler(rotation);
 
     await xrc().request('setTransform', [
@@ -123,14 +124,14 @@ window.addEventListener('load', () => {
     await window.document.body.requestPointerLock();
   });
 
-  /* const canvas2d = document.getElementById('canvas-2d');
+  const canvas2d = document.getElementById('canvas-2d');
   const ctx2d = canvas2d.getContext('2d');
   function recurse() {
-    console.log('clear');
+    // console.log('clear');
     ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
     window.requestAnimationFrame(recurse);
   }
-  window.requestAnimationFrame(recurse); */
+  window.requestAnimationFrame(recurse);
 });
 
 </script>
