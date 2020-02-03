@@ -112,9 +112,9 @@ BOOL CALLBACK AddBywayCallback(_In_opt_ PVOID pContext,
     if (!pszFile && !*pbAddedDll) {                  // Add new byway.
         *pbAddedDll = TRUE;
         *ppszOutFile = s_szDllPath;
-        getOut() << "adding " << !!pszFile << " " << !!*pbAddedDll << std::endl;
+        std::cout << "adding " << !!pszFile << " " << !!*pbAddedDll << std::endl;
     } else if (pszFile) {
-      getOut() << "keeping " << pszFile << std::endl;
+      std::cout << "keeping " << pszFile << std::endl;
       *ppszOutFile = pszFile;
     }
     return TRUE;
@@ -128,7 +128,7 @@ BOOL CALLBACK ListBywayCallback(_In_opt_ PVOID pContext,
 
     *ppszOutFile = pszFile;
     if (pszFile) {
-        getOut() << pszFile << std::endl;
+        std::cout << pszFile << std::endl;
     }
     return TRUE;
 }
@@ -141,7 +141,7 @@ BOOL CALLBACK ListFileCallback(_In_opt_ PVOID pContext,
     (void)pContext;
 
     *ppszOutFile = pszFile;
-    getOut() << pszOrigFile << " -> " << pszFile << std::endl;
+    std::cout << pszOrigFile << " -> " << pszFile << std::endl;
     return TRUE;
 }
 
@@ -155,13 +155,13 @@ int WINAPI WinMain(
   // memcpy(cmd.data(), lpCmdLine, cmd.size());
   
   // dllDir = R"END(C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\)END";
-  getOut() << "add_hook start" << std::endl;
+  std::cout << "add_hook start" << std::endl;
 
   int numArgs;
   PCHAR *args = CommandLineToArgvA(lpCmdLine, &numArgs);
 
   if (numArgs >= 2) {
-    getOut() << "add_hook args " << args[0] << " " << args[1] << std::endl;
+    std::cout << "add_hook args " << args[0] << " " << args[1] << std::endl;
 
     auto hOld = CreateFileA(args[0],
        GENERIC_READ,
@@ -171,7 +171,7 @@ int WINAPI WinMain(
        FILE_ATTRIBUTE_NORMAL,
        NULL);
     if (hOld == INVALID_HANDLE_VALUE) {
-        getOut() << "Couldn't open input file" << std::endl;
+        std::cout << "Couldn't open input file" << std::endl;
         abort();
     }
     
@@ -179,13 +179,13 @@ int WINAPI WinMain(
                          GENERIC_WRITE | GENERIC_READ, 0, NULL, CREATE_ALWAYS,
                          FILE_ATTRIBUTE_NORMAL | FILE_FLAG_SEQUENTIAL_SCAN, NULL);
       if (hNew == INVALID_HANDLE_VALUE) {
-          getOut() << "Couldn't open output file" << std::endl;
+          std::cout << "Couldn't open output file" << std::endl;
           abort();
       }
 
     PDETOUR_BINARY pBinary;
     if ((pBinary = DetourBinaryOpen(hOld)) == NULL) {
-        getOut() << "DetourBinaryOpen failed" << std::endl;
+        std::cout << "DetourBinaryOpen failed" << std::endl;
         abort();
     }
     
@@ -196,21 +196,21 @@ int WINAPI WinMain(
      if (!DetourBinaryEditImports(pBinary,
                                  &ctx,
                                  AddBywayCallback, NULL, NULL, NULL)) {
-        getOut() << "DetourBinaryEditImports failed" << std::endl;
+        std::cout << "DetourBinaryEditImports failed" << std::endl;
     }
     if (!DetourBinaryEditImports(pBinary,
                                  NULL,
                                  ListBywayCallback, ListFileCallback, NULL, NULL)) {
-        getOut() << "DetourBinaryEditImports failed" << std::endl;
+        std::cout << "DetourBinaryEditImports failed" << std::endl;
     }
      if (!DetourBinaryWrite(pBinary, hNew)) {
-          getOut() << "DetourBinaryWrite failed" << std::endl;
+          std::cout << "DetourBinaryWrite failed" << std::endl;
           abort();
       }
       DetourBinaryClose(pBinary);
       CloseHandle(hNew);
 
-      getOut() << "---" << std::endl;
+      std::cout << "---" << std::endl;
     
     // check
     hOld = CreateFileA(args[1],
@@ -221,26 +221,26 @@ int WINAPI WinMain(
        FILE_ATTRIBUTE_NORMAL,
        NULL);
     if (hOld == INVALID_HANDLE_VALUE) {
-        getOut() << "Couldn't open output file" << std::endl;
+        std::cout << "Couldn't open output file" << std::endl;
         abort();
     }
     if ((pBinary = DetourBinaryOpen(hOld)) == NULL) {
-        getOut() << "DetourBinaryOpen failed" << std::endl;
+        std::cout << "DetourBinaryOpen failed" << std::endl;
         abort();
     }
     CloseHandle(hOld);
      if (!DetourBinaryEditImports(pBinary,
                                  NULL,
                                  ListBywayCallback, ListFileCallback, NULL, NULL)) {
-        getOut() << "DetourBinaryEditImports failed" << std::endl;
+        std::cout << "DetourBinaryEditImports failed" << std::endl;
     }
     DetourBinaryClose(pBinary);
 
-    getOut() << "add_hook ok" << std::endl;
+    std::cout << "add_hook ok" << std::endl;
     
     return 0;
   } else {
-    getOut() << "invalid number of arguments" << std::endl;
+    std::cout << "invalid number of arguments" << std::endl;
 
     return 1;
   }
