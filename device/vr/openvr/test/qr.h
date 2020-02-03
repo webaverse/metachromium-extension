@@ -13,12 +13,21 @@
 
 class QrEngine {
 public:
-  Semaphore sem;
-  bool running;
-  ID3D11Texture2D *colorBufferTex;
-  QRCodeDetector qrDecoder;
+  ID3D11Device5 *qrDevice = nullptr;
+  ID3D11DeviceContext4 *qrContext = nullptr;
+  IDXGISwapChain *qrSwapChain = nullptr;
 
-  QrEngine() {}
+  Semaphore sem;
+  bool running = false;
+  ID3D11Texture2D *colorClientBufferTex = nullptr;
+  D3D11_TEXTURE2D_DESC colorBufferDesc{};
+  HANDLE colorClientBufferHandle = NULL;
+  ID3D11Texture2D *colorServerBufferTex = nullptr;
+  ID3D11Fence *fence = nullptr;
+  size_t fenceValue = 0;
+  cv::QRCodeDetector qrDecoder;
+
+  QrEngine();
   void registerCallback(vr::PVRCompositor *pvrcompositor);
 };
 

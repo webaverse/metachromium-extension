@@ -3,13 +3,25 @@
 using namespace cv;
 
 QrEngine::QrEngine() :
-  running(false),
-  colorBufferTex(nullptr),
   qrDecoder(QRCodeDetector::QRCodeDetector())
 {
+  vr::PVRCompositor::CreateDevice(&qrDevice, &qrContext, &qrSwapChain);
+  
   std::thread([this]() -> void {
     for (;;) {
       sem.lock();
+
+      Mat inputImage(colorBufferDesc.Width, colorBufferDesc.Height, CV_8UC4);
+
+      qrContext->Wait(fence, fenceValue);
+      D3D11_MAPPED_SUBRESOURCE subresource;
+      HRESULT hr = qrContext->Map(
+        colorServerBufferTex,
+        0,
+        D3D11_MAP_READ,
+        0,
+        &subresource
+      );
 
       /* char cwdBuf[MAX_PATH];
       if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
@@ -22,11 +34,17 @@ QrEngine::QrEngine() :
       Mat inputImage = imread(qrPngPath, IMREAD_COLOR);
       getOut() << "read qr code image 2" << std::endl; */
 
-      Mat inputImage, bbox, rectifiedImage;
+      memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
+
+      qrContext->Unmap(
+        colorServerBufferTex,
+        0
+      );
+
+      Mat bbox, rectifiedImage;
      
       std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
-      if(data.length() > 0)
-      {
+      if(data.length() > 0) {
         if (bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
           Point2f points[4] = {
             bbox.at<Point2f>(0),
@@ -56,29 +74,78 @@ void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
     if (!running) {
       running = true;
 
+      D3D11_TEXTURE2D_DESC desc;
+      colorTex->GetDesc(&desc);
+
       HRESULT hr;
-      if (!colorBufferTex) {
-        D3D11_TEXTURE2D_DESC desc;
-        colorTex->GetDesc(&desc);
+      if (!colorClientBufferTex || desc.Width != colorBufferDesc.Width || desc.Height != colorBufferDesc.Height) {
+        desc.Usage = D3D11_USAGE_STAGING;
+        desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+        desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+        colorBufferDesc = desc;
 
         hr = device->CreateTexture2D(
-          &desc,
+          &colorBufferDesc,
           NULL,
-          &colorBufferTex
+          &colorClientBufferTex
         );
         if (FAILED(hr)) {
           getOut() << "failed to create shared texture: " << (void *)hr << std::endl;
-          InfoQueueLog();
+          // InfoQueueLog();
           abort();
         }
+
+        IDXGIResource *colorClientShRes;
+        hr = colorClientBufferTex->QueryInterface(__uuidof(IDXGIResource), (void**)&colorClientShRes); 
+        if (FAILED(hr)) {
+          getOut() << "failed to query color client shared resource: " << (void *)hr << std::endl;
+          abort();
+        }
+
+        hr = colorClientShRes->GetSharedHandle(&colorClientBufferHandle);
+        if (FAILED(hr)) {
+          getOut() << "failed to get color buffer shared texture: " << (void *)hr << " " << (void *)colorClientShRes << std::endl;
+          // InfoQueueLog();
+          abort();
+        }
+        
+        IDXGIResource *colorServerShRes;
+        HRESULT hr = qrDevice->OpenSharedResource(colorClientBufferHandle, __uuidof(IDXGIResource), (void**)&colorServerShRes);
+        if (FAILED(hr)) {
+          getOut() << "failed to unpack color server shared texture handle: " << (void *)hr << " " << (void *)colorClientBufferHandle << std::endl;
+          abort();
+        }
+
+        hr = colorServerShRes->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&colorServerBufferTex); 
+        if (FAILED(hr)) {
+          getOut() << "failed to unpack color server shared texture: " << (void *)hr << " " << (void *)colorServerShRes << std::endl;
+          abort();
+        }
+        
+        hr = device->CreateFence(
+          0, // value
+          D3D11_FENCE_FLAG_SHARED, // flags
+          __uuidof(ID3D11Fence), // interface
+          (void **)&fence // out
+        );
+        if (FAILED(hr)) {
+          getOut() << "failed to create color buffer fence" << std::endl;
+          abort();
+        }
+
+        colorClientShRes->Release();
+        colorServerShRes->Release();
       }
 
       context->CopyResource(
-        colorBufferTex,
+        colorClientBufferTex,
         colorTex
       );
+      
+      ++fenceValue;
+      context->Signal(fence, fenceValue);
 
-      sem->unlock();
+      sem.unlock();
     }
   });
 }
