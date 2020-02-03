@@ -102,6 +102,53 @@ const position = new THREE.Vector3(0, 1.5, 0);
 const rotation = new THREE.Euler(0, 0, 0, 'YXZ');
 const quaternion = new THREE.Quaternion();
 const scale = new THREE.Vector3(1, 1, 1);
+const velocity = new THREE.Vector3();
+const keys = {
+  left: false,
+  right: false,
+  up: false,
+  down: false,
+}
+document.addEventListener('keydown', async e => {
+  switch (e.which) {
+    case 65: {
+      keys.left = true;
+      break;
+    }
+    case 68: {
+      keys.right = true;
+      break;
+    }
+    case 87: {
+      keys.up = true;
+      break;
+    }
+    case 83: {
+      keys.down = true;
+      break;
+    }
+  }
+});
+document.addEventListener('keyup', async e => {
+  switch (e.which) {
+    case 65: {
+      keys.left = false;
+      break;
+    }
+    case 68: {
+      keys.right = false;
+      break;
+    }
+    case 87: {
+      keys.up = false;
+      break;
+    }
+    case 83: {
+      keys.down = false;
+      break;
+    }
+  }
+});
 document.addEventListener('mousemove', async e => {
   if (document.pointerLockElement) {
     console.log('got mouse move', e.movementX, e.movementY);
@@ -132,6 +179,28 @@ window.addEventListener('load', () => {
   const canvas2d = document.getElementById('canvas-2d');
   const ctx = canvas2d.getContext('webgl2');
   function recurse() {
+    velocity.set(0, 0, 0);
+    if (keys.left) {
+      velocity.x -= 1;
+    }
+    if (keys.right) {
+      velocity.x += 1;
+    }
+    if (keys.up) {
+      velocity.z -= 1;
+    }
+    if (keys.down) {
+      velocity.z += 1;
+    }
+    if (velocity.length() !== 0) {
+      position.add(velocity.normalize().multiplyScalar(0.01));
+      await xrc().request('setTransform', [
+        position.toArray(),
+        quaternion.toArray(),
+        scale.toArray(),
+      ]);
+    }
+
     ctx.clear(ctx.COLOR_BUFFER_BIT);
     // console.log('clear');
     // ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
