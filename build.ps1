@@ -19,6 +19,7 @@ cd mock_vr_clients\bin
 copy ..\..\..\..\..\bin\* .
 
 ls ..\..\..\..\..\Chrome-bin\
+ls ..\..\..\..\..\Chrome-bin\79.0.3945.130\
 Start-Process -FilePath "add_hook.exe" -ArgumentList "..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe" -Wait
 del ..\..\..\..\..\Chrome-bin\chrome.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
