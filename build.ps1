@@ -18,20 +18,17 @@ cp ..\build.cmd .
 cd mock_vr_clients\bin
 cp -Recurse ..\..\..\..\..\bin\* .
 
-ls ..\..\..\..\..\Chrome-bin\
-ls ..\..\..\..\..\Chrome-bin\79.0.3945.130\
 Start-Process -FilePath "add_hook.exe" -ArgumentList "..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe" -Wait
 del ..\..\..\..\..\Chrome-bin\chrome.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
 cp -Recurse ..\..\..\..\..\Chrome-bin\* .
+cp -Recurse ..\..\..\..\..\extension .
 cd ..\..\..\..\..
 
 echo zipping artifact... 
 7z a xrchrome.zip -r .\device\vr\build\mock_vr_clients\bin\
 echo done zipping artifact
 
-ls device\vr\build\mock_vr_clients\bin\
-ls device\vr\build\mock_vr_clients\bin\79.0.3945.130\
 ls
 
 echo done

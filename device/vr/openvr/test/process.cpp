@@ -331,8 +331,8 @@ int WINAPI WinMain(
     abort();
   }
   {
-    std::string manifestTemplateFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest-template.json)EOF"))).string();
-    std::string manifestFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest.json)EOF"))).string();
+    std::string manifestTemplateFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\extension\native-manifest-template.json)EOF"))).string();
+    std::string manifestFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\extension\native-manifest.json)EOF"))).string();
 
     std::string s;
     {
