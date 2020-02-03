@@ -127,3 +127,25 @@ void composeMatrix(float *matrix, const float *position, const float *quaternion
   te[ 14 ] = position[2];
   te[ 15 ] = 1;
 }
+void addVector(float *a, const float *b) {
+  a[0] += b[0];
+  a[1] += b[1];
+  a[2] += b[2];
+}
+void applyVectorQuaternion(float *v, const float *q) {
+  float x = v[0], y = v[1], z = v[2];
+  float qx = q[0], qy = q[1], qz = q[2], qw = q[3];
+
+  // calculate quat * vector
+
+  float ix = qw * x + qy * z - qz * y;
+  float iy = qw * y + qz * x - qx * z;
+  float iz = qw * z + qx * y - qy * x;
+  float iw = - qx * x - qy * y - qz * z;
+
+  // calculate result * inverse quat
+
+  v[0] = ix * qw + iw * - qx + iy * - qz - iz * - qy;
+  v[1] = iy * qw + iw * - qy + iz * - qx - ix * - qz;
+  v[2] = iz * qw + iw * - qz + ix * - qy - iy * - qx;
+}
