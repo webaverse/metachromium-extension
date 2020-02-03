@@ -36,7 +36,7 @@ public:
   HWND hWnd;
 
   // controls
-  bool isVr = false;
+  bool isVr = true;
   float position[3] = {0, 1.5, 0};
   float quaternion[4] = {0, 0, 0, 1};
   float scale[3] = {1, 1, 1};

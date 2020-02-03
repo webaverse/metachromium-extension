@@ -53,6 +53,7 @@ char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoot
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
 char kIVRCompositor_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
+char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 
 const char *composeVsh = R"END(
@@ -1338,6 +1339,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     } else {
       return (HANDLE)NULL;
     }
+  });
+  fnp.reg<
+    kIVRCompositor_SetIsVr,
+    int,
+    bool
+  >([=](bool newIsVr) {
+    isvr = newIsVr;
   });
   fnp.reg<
     kIVRCompositor_SetTransform,

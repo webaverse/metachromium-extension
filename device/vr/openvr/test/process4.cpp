@@ -181,6 +181,23 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
+            methodString == "setIsVr" &&
+            args.size() >= 1 && args[0].is_boolean()
+          ) {
+            const bool isVr = args[0].get<bool>();
+
+            auto result = g_fnp.call<
+              kIVRCompositor_SetIsVr,
+              int,
+              bool
+            >(isVr);
+
+            json res = {
+              {"error", nullptr},
+              {"result", "ok"}
+            };
+            respond(res);
+          } else if (
             methodString == "setTransform" &&
             args.size() >= 3 &&
             args[0].is_array() && args[0].size() >= 3 && args[0][0].is_number() && args[0][1].is_number() && args[0][2].is_number() &&
