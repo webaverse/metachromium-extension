@@ -33,8 +33,8 @@ extern Hijacker *g_hijacker;
 extern bool isChrome;
 extern Offsets *g_offsets;
 
-constexpr unsigned int viewportWidth = 300;
-constexpr unsigned int viewportHeight = 300;
+constexpr unsigned int viewportWidth = 500;
+constexpr unsigned int viewportHeight = 500;
 
 char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
