@@ -27,7 +27,7 @@ cp -Recurse ..\..\..\..\..\Chrome-bin\* .
 cd ..\..\..\..\..
 
 echo zipping artifact... 
-Compress-Archive -Path .\device\vr\build\mock_vr_clients\bin\ -DestinationPath xrchrome.zip
+7z a xrchrome.zip -r .\device\vr\build\mock_vr_clients\bin\
 echo done zipping artifact
 
 ls device\vr\build\mock_vr_clients\bin\
