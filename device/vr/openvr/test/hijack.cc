@@ -570,7 +570,7 @@ void presentSwapChain(T *swapChain) {
   DXGI_SWAP_CHAIN_DESC desc;
   swapChain->lpVtbl->GetDesc(swapChain, &desc);
   const DXGI_MODE_DESC &modeDesc = desc.BufferDesc;
-  if (modeDesc.Width >= 512 && modeDesc.Height >= 512) {    
+  if (modeDesc.Width >= 500) {    
     if (!hijackerDevice) {
       initBlitShader();
     }
