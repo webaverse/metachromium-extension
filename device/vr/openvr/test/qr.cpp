@@ -84,7 +84,7 @@ QrEngine::QrEngine() :
 
       qrContext->Unmap(colorReadTex, 0);
       
-      imwrite((std::string(R"EOF(C:\Users\avaer\Documents\GitHub\overlay\tmp\)EOF") + std::to_string(++ssId) + std::string(".png")).c_str(), inputImage);
+      // imwrite((std::string(R"EOF(C:\Users\avaer\Documents\GitHub\overlay\tmp\)EOF") + std::to_string(++ssId) + std::string(".png")).c_str(), inputImage);
 
       Mat inputImage2;
       cvtColor(inputImage, inputImage2, COLOR_BGRA2GRAY);
