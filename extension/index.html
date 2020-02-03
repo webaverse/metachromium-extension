@@ -55,7 +55,7 @@ a:active {
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
   </div>
-  <canvas width=300 height=300 id=canvas-2d></canvas>
+  <canvas width=500 height=500 id=canvas-2d></canvas>
 <script>
 
 const _fakeXrChrome = {
@@ -125,10 +125,11 @@ window.addEventListener('load', () => {
   });
 
   const canvas2d = document.getElementById('canvas-2d');
-  const ctx2d = canvas2d.getContext('2d');
+  const ctx = canvas2d.getContext('webgl2');
   function recurse() {
+    ctx.clear(ctx.COLOR_BUFFER_BIT);
     // console.log('clear');
-    ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
+    // ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
     window.requestAnimationFrame(recurse);
   }
   window.requestAnimationFrame(recurse);
