@@ -6,24 +6,13 @@ $client1.DownloadFile("https://github.com/Hibbiki/chromium-win64/releases/downlo
 7z x chrome.7z
 rm chrome.7z
 
-& 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat'
-
 ls
 cd device\vr
 mkdir build
 cd build
-cp ..\build.cmd .
-.\build.cmd
-
-cd mock_vr_clients\bin
-cp -Recurse ..\..\..\..\..\bin\* .
-
-Start-Process -FilePath "add_hook.exe" -ArgumentList "..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe" -Wait
-del ..\..\..\..\..\Chrome-bin\chrome.exe
-move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
-cp -Recurse ..\..\..\..\..\Chrome-bin\* .
-cp -Recurse ..\..\..\..\..\extension .
-cd ..\..\..\..\..
+cp ..\build.ps1 .
+& '.\build.ps1'
+cd ..\..\..
 
 echo zipping artifact... 
 7z a xrchrome.zip -r .\device\vr\build\mock_vr_clients\bin\
