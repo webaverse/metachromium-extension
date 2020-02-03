@@ -341,7 +341,7 @@ int WINAPI WinMain(
     }
     {
       json j = json::parse(s);
-      j["path"] = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\device\vr\build\mock_vr_clients\bin\native_host.exe)EOF"))).string();
+      j["path"] = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\native_host.exe)EOF"))).string();
       s = j.dump(2);
     }
     {    
