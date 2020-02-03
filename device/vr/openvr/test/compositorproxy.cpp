@@ -2,6 +2,7 @@
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
+#include "device/vr/openvr/test/matrix.h"
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -1345,7 +1346,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     int,
     bool
   >([=](bool newIsVr) {
-    isvr = newIsVr;
+    isVr = newIsVr;
+    
+    return 0;
   });
   fnp.reg<
     kIVRCompositor_SetTransform,
@@ -1357,6 +1360,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     memcpy(position, newPosition.data(), sizeof(position));
     memcpy(quaternion, newQuaternion.data(), sizeof(quaternion));
     memcpy(scale, newScale.data(), sizeof(scale));
+    
+    return 0;
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
@@ -2894,7 +2899,7 @@ void PVRCompositor::CacheWaitGetPoses() {
       TrackedDevicePose_t &cachedRenderPose = cachedRenderPoses[i];
       TrackedDevicePose_t &cachedGamePose = cachedGamePoses[i];
 
-      ETrackedDeviceClass deviceClass = vrcompositor->GetTrackedDeviceClass(i);
+      ETrackedDeviceClass deviceClass = g_pvrsystem->GetTrackedDeviceClass(i);
       if (deviceClass == TrackedDeviceClass_HMD) {
         memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
         memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
