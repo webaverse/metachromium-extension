@@ -51,6 +51,9 @@ a:active {
       <a href="https://immersive-web.github.io/webxr-samples/positional-audio.html">Positional Audio</a>
     </section>
   </div>
+  <div class=body>
+    <input type=button id=toggle-controls-button value="toggle controls ON">
+  </div>
   <canvas width=300 height=300 id=canvas-2d></canvas>
 <script>
 
@@ -86,6 +89,14 @@ window.addEventListener('xrchromeloaded', async () => {
   }
 });
 window.addEventListener('load', () => {
+  const toggleControlsButton = document.getElementById('toggle-controls-button');
+  let controlsEnabled = false;
+  toggleControlsButton.addEventListener('click', async () => {
+    controlsEnabled = !controlsEnabled;
+    await window.xrchrome.request('setIsVr', [controlsEnabled]);
+    toggleControlsButton.value = `toggle controls ${controlsEnabled ? 'OFF' : 'ON'}`;
+  });
+
   const canvas2d = document.getElementById('canvas-2d');
   const ctx2d = canvas2d.getContext('2d');
   function recurse() {
