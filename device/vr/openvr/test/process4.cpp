@@ -26,6 +26,9 @@ HWND g_hWnd = NULL;
 // CHAR s_szDllPath[MAX_PATH] = "vrclient_x64.dll";
 extern std::string dllDir;
 
+char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
+char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
+
 void respond(const json &j) {
   std::string outString = j.dump();
   // getOut() << "start app 10" << std::endl;
@@ -186,8 +189,8 @@ int main(int argc, char **argv) {
           ) {
             const bool isVr = args[0].get<bool>();
 
-            auto result = g_fnp.call<
-              kIVRCompositor_SetIsVr,
+            auto result = g_fnp->call<
+              kProcess_SetIsVr,
               int,
               bool
             >(isVr);
@@ -223,8 +226,8 @@ int main(int argc, char **argv) {
             scaleData[1] = args[2][1].get<float>();
             scaleData[2] = args[2][2].get<float>();
 
-            auto result = g_fnp.call<
-              kIVRCompositor_SetTransform,
+            auto result = g_fnp->call<
+              kProcess_SetTransform,
               int,
               managed_binary<float>,
               managed_binary<float>,
