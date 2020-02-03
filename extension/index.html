@@ -106,8 +106,14 @@ document.addEventListener('mousemove', async e => {
   if (document.pointerLockElement) {
     console.log('got mouse move', e.movementX, e.movementY);
 
-    rotation.y = (rotation.y + -e.movementX * Math.PI*2 * 0.01) % Math.PI*2;
-    rotation.x += (rotation.x + -e.movementY * Math.PI*2 * 0.01) % Math.PI*2;
+    rotation.y = (rotation.y - e.movementX * Math.PI*2 * 0.001);
+    while (rotation.y < -Math.PI*2) {
+      rotation.y += Math.PI*2;
+    }
+    while (rotation.y > Math.PI*2) {
+      rotation.y -= Math.PI*2;
+    }
+    rotation.x = Math.min(Math.max(rotation.x - e.movementY * Math.PI*2 * 0.001, -Math.PI/2), Math.PI/2);
     quaternion.setFromEuler(rotation);
 
     await xrc().request('setTransform', [
