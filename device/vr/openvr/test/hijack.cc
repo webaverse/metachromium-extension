@@ -567,203 +567,243 @@ template<typename T>
 void presentSwapChain(T *swapChain) {
   // getOut() << "present swap chain 1" << std::endl;
 
-  if (!hijackerDevice) {
-    initBlitShader();
-  }
+  DXGI_SWAP_CHAIN_DESC desc;
+  swapChain->lpVtbl->GetDesc(swapChain, &desc);
+  const DXGI_MODE_DESC &modeDesc = desc.BufferDesc;
+  if (modeDesc.Width >= 512 && modeDesc.Height >= 512) {    
+    if (!hijackerDevice) {
+      initBlitShader();
+    }
   
-  ID3D11Resource *res;
-	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
-	if (FAILED(hr)) {
-		getOut() << "get_dxgi_backbuffer: GetBuffer failed" << std::endl;
-  }
-  
-  ID3D11Texture2D *tex;
-  hr = res->lpVtbl->QueryInterface(res, IID_ID3D11Texture2D, (void **)&tex);
-  if (FAILED(hr)) {
-    getOut() << "failed to query backbuffer texture: " << (void *)hr << std::endl;
-    abort();
-  }
-
-  ID3D11Device *device;
-  tex->lpVtbl->GetDevice(tex, &device);
-
-  /* ID3D11Device5 *device5;
-  hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
-  if (FAILED(hr)) {
-    getOut() << "failed to query backbuffer device5 : " << (void *)hr << std::endl;
-    abort();
-  } */
-  
-  ID3D11DeviceContext *context;
-  device->lpVtbl->GetImmediateContext(device, &context);
-  
-  ID3D11DeviceContext4 *context4;
-  hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
-  if (FAILED(hr)) {
-    getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
-    abort();
-  }
-
-  D3D11_TEXTURE2D_DESC desc;
-  tex->lpVtbl->GetDesc(tex, &desc);
-  
-  if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
-    backbufferDesc = desc;
-
-    desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-    desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-
-    ID3D11Texture2D *backbufferShTex;
-    hr = device->lpVtbl->CreateTexture2D(
-      device,
-      &desc,
-      NULL,
-      &backbufferShTex
-    );
+    ID3D11Resource *res;
+    HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
     if (FAILED(hr)) {
-      getOut() << "failed to create backbuffer texture: " << (void *)hr << std::endl;
-      abort();
+      getOut() << "get_dxgi_backbuffer: GetBuffer failed" << std::endl;
     }
     
-    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_ID3D11Resource, (void **)&backbufferShRes);
+    ID3D11Texture2D *tex;
+    hr = res->lpVtbl->QueryInterface(res, IID_ID3D11Texture2D, (void **)&tex);
     if (FAILED(hr)) {
-      getOut() << "failed to query backbuffer d3d11 resource: " << (void *)hr << std::endl;
+      getOut() << "failed to query backbuffer texture: " << (void *)hr << std::endl;
       abort();
     }
+
+    ID3D11Device *device;
+    tex->lpVtbl->GetDevice(tex, &device);
+
+    /* ID3D11Device5 *device5;
+    hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
+    if (FAILED(hr)) {
+      getOut() << "failed to query backbuffer device5 : " << (void *)hr << std::endl;
+      abort();
+    } */
     
-    IDXGIResource1 *dxgiResource;
-    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_IDXGIResource1, (void **)&dxgiResource);
-    if (FAILED(hr)) {
-      getOut() << "failed to query backbuffer dxgi resource: " << (void *)hr << std::endl;
-      abort();
-    }
+    ID3D11DeviceContext *context;
+    device->lpVtbl->GetImmediateContext(device, &context);
     
-    hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &backbufferShHandle);
+    ID3D11DeviceContext4 *context4;
+    hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
     if (FAILED(hr)) {
-      getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
+      getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
       abort();
     }
-  }
-  /* if (!backbufferFence) {
-    hr = device5->lpVtbl->CreateFence(
-      device5,
-      0, // value
-      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
-      // D3D11_FENCE_FLAG_SHARED, // flags
-      D3D11_FENCE_FLAG_SHARED, // flags
-      IID_ID3D11Fence, // interface
-      (void **)&backbufferFence // out
+
+    D3D11_TEXTURE2D_DESC desc;
+    tex->lpVtbl->GetDesc(tex, &desc);
+    
+    if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
+      backbufferDesc = desc;
+
+      desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+      desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+
+      ID3D11Texture2D *backbufferShTex;
+      hr = device->lpVtbl->CreateTexture2D(
+        device,
+        &desc,
+        NULL,
+        &backbufferShTex
+      );
+      if (FAILED(hr)) {
+        getOut() << "failed to create backbuffer texture: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_ID3D11Resource, (void **)&backbufferShRes);
+      if (FAILED(hr)) {
+        getOut() << "failed to query backbuffer d3d11 resource: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      IDXGIResource1 *dxgiResource;
+      hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_IDXGIResource1, (void **)&dxgiResource);
+      if (FAILED(hr)) {
+        getOut() << "failed to query backbuffer dxgi resource: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &backbufferShHandle);
+      if (FAILED(hr)) {
+        getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
+    /* if (!backbufferFence) {
+      hr = device5->lpVtbl->CreateFence(
+        device5,
+        0, // value
+        // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
+        // D3D11_FENCE_FLAG_SHARED, // flags
+        D3D11_FENCE_FLAG_SHARED, // flags
+        IID_ID3D11Fence, // interface
+        (void **)&backbufferFence // out
+      );
+      if (SUCCEEDED(hr)) {
+        // getOut() << "created fence " << (void *)fence << std::endl;
+        // nothing
+      } else {
+        getOut() << "failed to create backbuffer fence" << std::endl;
+        abort();
+      }
+
+      hr = backbufferFence->lpVtbl->CreateSharedHandle(
+        backbufferFence,
+        NULL, // security attributes
+        GENERIC_ALL, // access
+        NULL, // (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
+        &backbufferFenceHandle // share handle
+      );
+      if (SUCCEEDED(hr)) {
+        getOut() << "create shared backbuffer fence handle " << (void *)backbufferFenceHandle << std::endl;
+        // nothing
+      } else {
+        getOut() << "failed to create backbuffer fence share handle" << std::endl;
+        abort();
+      }
+    } */
+
+    context->lpVtbl->CopyResource(
+      context,
+      backbufferShRes,
+      res
     );
-    if (SUCCEEDED(hr)) {
-      // getOut() << "created fence " << (void *)fence << std::endl;
-      // nothing
-    } else {
-      getOut() << "failed to create backbuffer fence" << std::endl;
-      abort();
+
+    /* ++backbufferFenceValue;
+    context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
+    // context4->lpVtbl->Flush(context4); */
+
+    /* backbufferFenceValue = */ g_hijacker->fnp.call<
+      kHijacker_SetBackbuffer,
+      int,
+      HANDLE,
+      uintptr_t,
+      HANDLE,
+      size_t
+    >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
+    
+    HANDLE shEyeTexHandle = g_hijacker->fnp.call<
+      kHijacker_GetSharedEyeTexture,
+      HANDLE
+    >();
+    if (latchedShEyeTex != shEyeTexHandle) {
+      if (eyeShaderResourceView) {
+        eyeShaderResourceView->lpVtbl->Release(eyeShaderResourceView);
+        eyeShaderResourceView = nullptr;
+      }
+      latchedShEyeTex = shEyeTexHandle;
+      
+      ID3D11Resource *shEyeTexResource;
+      HRESULT hr = hijackerDevice->lpVtbl->OpenSharedResource(hijackerDevice, shEyeTexHandle, IID_ID3D11Resource, (void**)&shEyeTexResource);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack shared eye texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
+        abort();
+      }
+
+      D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
+      eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+      eyeSrv.Texture2D.MostDetailedMip = 0;
+      eyeSrv.Texture2D.MipLevels = 1;
+      
+      hr = hijackerDevice->lpVtbl->CreateShaderResourceView(
+        hijackerDevice,
+        shEyeTexResource,
+        &eyeSrv,
+        &eyeShaderResourceView
+      );
+      if (FAILED(hr)) {
+        getOut() << "failed to eye shader resource view: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      shEyeTexResource->lpVtbl->Release(shEyeTexResource);
     }
-
-    hr = backbufferFence->lpVtbl->CreateSharedHandle(
-      backbufferFence,
-      NULL, // security attributes
-      GENERIC_ALL, // access
-      NULL, // (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
-      &backbufferFenceHandle // share handle
-    );
-    if (SUCCEEDED(hr)) {
-      getOut() << "create shared backbuffer fence handle " << (void *)backbufferFenceHandle << std::endl;
-      // nothing
-    } else {
-      getOut() << "failed to create backbuffer fence share handle" << std::endl;
-      abort();
-    }
-  } */
-
-  context->lpVtbl->CopyResource(
-    context,
-    backbufferShRes,
-    res
-  );
-
-  /* ++backbufferFenceValue;
-  context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
-  // context4->lpVtbl->Flush(context4); */
-
-  /* backbufferFenceValue = */ g_hijacker->fnp.call<
-    kHijacker_SetBackbuffer,
-    int,
-    HANDLE,
-    uintptr_t,
-    HANDLE,
-    size_t
-  >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
-  
-  HANDLE shEyeTexHandle = g_hijacker->fnp.call<
-    kHijacker_GetSharedEyeTexture,
-    HANDLE
-  >();
-  if (latchedShEyeTex != shEyeTexHandle) {
     if (eyeShaderResourceView) {
-      eyeShaderResourceView->lpVtbl->Release(eyeShaderResourceView);
-      eyeShaderResourceView = nullptr;
-    }
-    latchedShEyeTex = shEyeTexHandle;
-    
-    ID3D11Resource *shEyeTexResource;
-    HRESULT hr = hijackerDevice->lpVtbl->OpenSharedResource(hijackerDevice, shEyeTexHandle, IID_ID3D11Resource, (void**)&shEyeTexResource);
-    if (FAILED(hr)) {
-      getOut() << "failed to unpack shared eye texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
-      abort();
-    }
+      InfoQueueLog();
 
-    D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
-    eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-    eyeSrv.Texture2D.MostDetailedMip = 0;
-    eyeSrv.Texture2D.MipLevels = 1;
-    
-    hr = hijackerDevice->lpVtbl->CreateShaderResourceView(
-      hijackerDevice,
-      shEyeTexResource,
-      &eyeSrv,
-      &eyeShaderResourceView
-    );
-    if (FAILED(hr)) {
-      getOut() << "failed to eye shader resource view: " << (void *)hr << std::endl;
-      abort();
-    }
-
-    shEyeTexResource->lpVtbl->Release(shEyeTexResource);
-  }
-  if (eyeShaderResourceView) {
-    InfoQueueLog();
-
-    blitEyeView(eyeShaderResourceView);
-    context4->lpVtbl->Wait(context4, viewportFence, viewportFenceValue);
-    
-    if (!viewportBackShD3D11Res) {
-      hr = device->lpVtbl->OpenSharedResource(device, viewportShHandle, IID_IDXGIResource1, (void**)&viewportBackShDXGIRes);
-      if (FAILED(hr)) {
-        getOut() << "failed to unpack viewport share texture handle: " << (void *)hr << " " << (void *)viewportShHandle << std::endl;
-        abort();
-      }
+      blitEyeView(eyeShaderResourceView);
+      context4->lpVtbl->Wait(context4, viewportFence, viewportFenceValue);
       
-      hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Texture2D, (void **)&viewportBackShTex);
-      if (FAILED(hr)) {
-        getOut() << "failed to get viewport back texture: " << (void *)hr << std::endl;
-        abort();
+      if (!viewportBackShD3D11Res) {
+        hr = device->lpVtbl->OpenSharedResource(device, viewportShHandle, IID_IDXGIResource1, (void**)&viewportBackShDXGIRes);
+        if (FAILED(hr)) {
+          getOut() << "failed to unpack viewport share texture handle: " << (void *)hr << " " << (void *)viewportShHandle << std::endl;
+          abort();
+        }
+        
+        hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Texture2D, (void **)&viewportBackShTex);
+        if (FAILED(hr)) {
+          getOut() << "failed to get viewport back texture: " << (void *)hr << std::endl;
+          abort();
+        }
+        
+        hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Resource, (void **)&viewportBackShD3D11Res);
+        if (FAILED(hr)) {
+          getOut() << "failed to get viewport back resource: " << (void *)hr << std::endl;
+          abort();
+        }
       }
+
+      /* D3D11_TEXTURE2D_DESC desc;
+      viewportBackShTex->lpVtbl->GetDesc(viewportBackShTex, &desc);
       
-      hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Resource, (void **)&viewportBackShD3D11Res);
-      if (FAILED(hr)) {
-        getOut() << "failed to get viewport back resource: " << (void *)hr << std::endl;
-        abort();
-      }
+      getOut() << "copy region " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+        std::endl; */
+
+      /* D3D11_BOX srcBox{};
+      srcBox.left = 0;
+      srcBox.right = viewportWidth;
+      srcBox.top = 0;
+      srcBox.bottom = viewportHeight;
+      srcBox.front = 0;
+      srcBox.back = 1; */
+      context->lpVtbl->CopySubresourceRegion(
+        context,
+        res, // dst
+        0, // dst sub
+        0, // dst x
+        desc.Height - viewportHeight, // dst y
+        0, // dst z
+        viewportBackShD3D11Res, // src
+        0, // src sub
+        NULL
+      );
+      // CopySubresourceRegion viewportFrontShTex -> backbufferRes
     }
 
-    /* D3D11_TEXTURE2D_DESC desc;
-    viewportBackShTex->lpVtbl->GetDesc(viewportBackShTex, &desc);
-    
-    getOut() << "copy region " <<
+    /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
+    context4->lpVtbl->CopyResource(
+      context4,
+      res,
+      backbufferShRes
+    ); */
+
+    /* getOut() << "present swap chain done " <<
       desc.Width << " " << desc.Height << " " <<
       desc.MipLevels << " " << desc.ArraySize << " " <<
       desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
@@ -771,48 +811,13 @@ void presentSwapChain(T *swapChain) {
       desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
       std::endl; */
 
-    /* D3D11_BOX srcBox{};
-    srcBox.left = 0;
-    srcBox.right = viewportWidth;
-    srcBox.top = 0;
-    srcBox.bottom = viewportHeight;
-    srcBox.front = 0;
-    srcBox.back = 1; */
-    context->lpVtbl->CopySubresourceRegion(
-      context,
-      res, // dst
-      0, // dst sub
-      0, // dst x
-      desc.Height - viewportHeight, // dst y
-      0, // dst z
-      viewportBackShD3D11Res, // src
-      0, // src sub
-      NULL
-    );
-    // CopySubresourceRegion viewportFrontShTex -> backbufferRes
+    res->lpVtbl->Release(res);
+    tex->lpVtbl->Release(tex);
+    device->lpVtbl->Release(device);
+    // device5->lpVtbl->Release(device5);
+    context->lpVtbl->Release(context);
+    context4->lpVtbl->Release(context4);
   }
-
-  /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
-  context4->lpVtbl->CopyResource(
-    context4,
-    res,
-    backbufferShRes
-  ); */
-
-  /* getOut() << "present swap chain done " <<
-    desc.Width << " " << desc.Height << " " <<
-    desc.MipLevels << " " << desc.ArraySize << " " <<
-    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-    desc.Format << " " <<
-    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    std::endl; */
-
-  res->lpVtbl->Release(res);
-  tex->lpVtbl->Release(tex);
-  device->lpVtbl->Release(device);
-  // device5->lpVtbl->Release(device5);
-  context->lpVtbl->Release(context);
-  context4->lpVtbl->Release(context4);
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
@@ -842,11 +847,20 @@ HRESULT STDMETHODCALLTYPE MinePresent1(
   UINT                          PresentFlags,
   const DXGI_PRESENT_PARAMETERS *pPresentParameters
 ) {
-  // getOut() << "present1" << std::endl;
   if (isChrome) {
     presentSwapChain(This);
   }
-  return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
+  if (pPresentParameters) {
+    getOut() << "present1 " << pPresentParameters->DirtyRectsCount << std::endl;
+    
+    // DXGI_PRESENT_PARAMETERS presentParameters = *pPresentParameters;
+    // presentParameters.DirtyRectsCount = 0;
+    // presentParameters.pDirtyRects = nullptr;
+    return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
+  } else {
+    getOut() << "present1 blank" << std::endl;
+    return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
+  }
 }
 /* HWND (STDMETHODCALLTYPE *RealCreateWindowExA)( 
   DWORD     dwExStyle,
