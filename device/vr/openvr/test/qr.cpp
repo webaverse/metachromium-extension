@@ -94,7 +94,7 @@ QrEngine::QrEngine() :
   }).detach();
 }
 void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
-  pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex, ID3D11Texture2D *depthTex) -> void {
+  pvrcompositor->submitCallbacks.push_back([this, pvrcompositor](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex, ID3D11Texture2D *depthTex) -> void {
     getOut() << "cb 1" << std::endl;
 
     if (!running) {
@@ -123,6 +123,7 @@ void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
         );
         if (FAILED(hr)) {
           getOut() << "failed to create color buffer shared texture: " << (void *)hr << std::endl;
+          pvrcompositor->InfoQueueLog();
           InfoQueueLog();
           abort();
         }
@@ -137,6 +138,7 @@ void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
         hr = colorClientShRes->GetSharedHandle(&colorClientBufferHandle);
         if (FAILED(hr)) {
           getOut() << "failed to get color buffer share handle: " << (void *)hr << " " << (void *)colorClientShRes << std::endl;
+          pvrcompositor->InfoQueueLog();
           InfoQueueLog();
           abort();
         }
