@@ -29,7 +29,7 @@ cd ..\..\..\..\..
 echo zipping artifact... 
 ls device\vr\build\mock_vr_clients\bin\
 
-7z a -r xrchrome.zip device\vr\build\mock_vr_clients\bin\
+7z a -r -tzip xrchrome.zip device\vr\build\mock_vr_clients\bin\
 
 echo done zipping artifact
 ls
