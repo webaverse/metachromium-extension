@@ -144,20 +144,6 @@ ID3DBlob *psBlob = nullptr;
 ID3D11PixelShader *psShader = nullptr;
 ID3D11Buffer *uniformsConstantBuffer = nullptr;
 
-BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
-  char buffer[256];
-  int written = GetWindowTextA(hwnd, buffer, sizeof(buffer));
-  if (written && strstr(buffer, "Discord") != NULL) {
-    *(HWND*)lParam = hwnd;
-    return FALSE;
-  }
-  return TRUE;
-}
-HWND GetDiscordHwnd() {
-  HWND hWnd = NULL;
-  EnumWindows(EnumWindowsProc, (LPARAM)&hWnd);
-  return hWnd;
-}
 void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix) {
   for (unsigned int v = 0; v < 4; v++) {
     for (unsigned int u = 0; u < 3; u++) {
