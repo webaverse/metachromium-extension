@@ -79,14 +79,16 @@ QrEngine::QrEngine() :
      
       std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
       if(data.length() > 0) {
+        getOut() << "qr detected 1 " << bbox.type() << " " << bbox.rows << " " << bbox.cols << std::endl;
         if (bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
+          getOut() << "qr detected 2" << std::endl;
           Point2f points[4] = {
             bbox.at<Point2f>(0),
             bbox.at<Point2f>(1),
             bbox.at<Point2f>(2),
             bbox.at<Point2f>(3),
           };
-          getOut() << "Decoded Data : " << data << " " <<
+          getOut() << "Decoded QR code: " << data << " " <<
             points[0].x << " " << points[0].y << " " <<
             points[1].x << " " << points[1].y << " " <<
             points[2].x << " " << points[2].y << " " <<
