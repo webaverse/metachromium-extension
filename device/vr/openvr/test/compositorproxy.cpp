@@ -2903,11 +2903,43 @@ void PVRCompositor::CacheWaitGetPoses() {
       if (deviceClass == TrackedDeviceClass_HMD) {
         memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
         memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
+
         float viewMatrix[16];
         composeMatrix(viewMatrix, position, quaternion, scale);
         setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
         cachedRenderPose.bPoseIsValid = true;
         cachedRenderPose.bDeviceIsConnected = true;
+      } else if (deviceClass == TrackedDeviceClass_Controller) {
+        ETrackedControllerRole controllerRole = g_vrsystem->GetControllerRoleForTrackedDeviceIndex(i);
+        if (controllerRole == TrackedControllerRole_LeftHand) {
+          memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
+          memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
+
+          float position2[3];
+          memcpy(position2, position, sizeof(position));
+          float offset[3] = {-0.1, -0.1, -0.1};
+          addVector(position2, offset);
+          applyVectorQuaternion(position2, quaternion);
+          float viewMatrix[16];
+          composeMatrix(viewMatrix, position2, quaternion, scale);
+          setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
+          cachedRenderPose.bPoseIsValid = true;
+          cachedRenderPose.bDeviceIsConnected = true;
+        } else if (controllerRole == TrackedControllerRole_RightHand) {
+          memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
+          memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
+
+          float position2[3];
+          memcpy(position2, position, sizeof(position));
+          float offset[3] = {0.1, -0.1, -0.1};
+          addVector(position2, offset);
+          applyVectorQuaternion(position2, quaternion);
+          float viewMatrix[16];
+          composeMatrix(viewMatrix, position2, quaternion, scale);
+          setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
+          cachedRenderPose.bPoseIsValid = true;
+          cachedRenderPose.bDeviceIsConnected = true;
+        }
       } else {
         cachedRenderPose.bPoseIsValid = false;
         cachedRenderPose.bDeviceIsConnected = false;
