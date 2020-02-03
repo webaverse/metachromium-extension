@@ -9,4 +9,4 @@ A multi-app XR browser for Windows, based on Chromium.
 - Extension system for world awareness
 - QR code detection
 - World meshing
-- FPS controls VR emulation without any VR devices
+- FPS controls XR device emulation
