@@ -193,7 +193,7 @@ window.addEventListener('load', () => {
       velocity.z += 1;
     }
     if (velocity.length() !== 0) {
-      position.add(velocity.normalize().multiplyScalar(0.01));
+      position.add(velocity.normalize().multiplyScalar(0.03));
       await xrc().request('setTransform', [
         position.toArray(),
         quaternion.toArray(),
