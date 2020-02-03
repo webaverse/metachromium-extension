@@ -16,25 +16,27 @@ ls
 cd device\vr
 mkdir build
 cd build
-copy ..\build.cmd .
+cp ..\build.cmd .
 .\build.cmd
 
 cd mock_vr_clients\bin
-copy ..\..\..\..\..\bin\* .
+cp -Recurse ..\..\..\..\..\bin\* .
 copy ..\..\..\..\..\opencv\build\x64\vc15\bin\opencv_world420.dll .
 
-.\add_hook.exe ..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe
+ls ..\..\..\..\..\Chrome-bin\
+ls ..\..\..\..\..\Chrome-bin\79.0.3945.130\
+Start-Process -FilePath "add_hook.exe" -ArgumentList "..\..\..\..\..\Chrome-bin\chrome.exe ..\..\..\..\..\Chrome-bin\chrome2.exe" -Wait
 del ..\..\..\..\..\Chrome-bin\chrome.exe
 move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
-copy ..\..\..\..\..\Chrome-bin\* .
+cp -Recurse ..\..\..\..\..\Chrome-bin\* .
 cd ..\..\..\..\..
 
-echo zipping artifact
-ls
-
-7z a xrchrome.zip device\vr\build\mock_vr_clients\bin\
-
+echo zipping artifact... 
+Compress-Archive -Path .\device\vr\build\mock_vr_clients\bin\ -DestinationPath xrchrome.zip
 echo done zipping artifact
+
+ls device\vr\build\mock_vr_clients\bin\
+ls device\vr\build\mock_vr_clients\bin\79.0.3945.130\
 ls
 
 echo done

@@ -82,6 +82,7 @@ SET(src
   detours/modules.cpp
   detours/image.cpp
   openvr/test/hijack.cc
+  openvr/test/matrix.cpp
   openvr/test/qr.cpp
 )
 
