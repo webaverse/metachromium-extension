@@ -27,19 +27,34 @@ QrEngine::QrEngine() :
 
       Mat inputImage(colorBufferDesc.Width, colorBufferDesc.Height, CV_8UC4);
       
-      getOut() << "thread 3" << std::endl;
+      getOut() << "thread 3 " << (void *)fence << std::endl;
 
       qrContext->Wait(fence, fenceValue);
+      
+      getOut() << "thread 4 " << (void *)colorReadTex << " " << (void *)colorMirrorServerTex << std::endl;
+      
+      qrContext->CopyResource(
+        colorReadTex,
+        colorMirrorServerTex
+      );
+      
+      getOut() << "thread 5" << std::endl;
+      
       D3D11_MAPPED_SUBRESOURCE subresource;
       HRESULT hr = qrContext->Map(
-        colorServerBufferTex,
+        colorReadTex,
         0,
         D3D11_MAP_READ,
         0,
         &subresource
       );
-      
-      getOut() << "thread 4" << std::endl;
+      if (FAILED(hr)) {
+        getOut() << "failed to map read texture: " << (void *)hr << std::endl;
+        InfoQueueLog();
+        abort();
+      }
+
+      getOut() << "thread 6 " << (void *)subresource.pData << " " << subresource.RowPitch << " " << subresource.DepthPitch << " " << (inputImage.total() * inputImage.elemSize()) << " " << (colorBufferDesc.Width * colorBufferDesc.Height * 4) << std::endl;
 
       /* char cwdBuf[MAX_PATH];
       if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
@@ -54,14 +69,11 @@ QrEngine::QrEngine() :
 
       memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
       
-      getOut() << "thread 5" << std::endl;
+      getOut() << "thread 7" << std::endl;
 
-      qrContext->Unmap(
-        colorServerBufferTex,
-        0
-      );
+      qrContext->Unmap(colorReadTex, 0);
       
-      getOut() << "thread 6" << std::endl;
+      getOut() << "thread 8" << std::endl;
 
       Mat bbox, rectifiedImage;
      
@@ -87,7 +99,7 @@ QrEngine::QrEngine() :
         getOut() << "QR Code not detected" << std::endl;
       }
       
-      getOut() << "thread 7" << std::endl;
+      getOut() << "thread 9" << std::endl;
 
       running = false;
     }
@@ -95,7 +107,7 @@ QrEngine::QrEngine() :
 }
 void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
   pvrcompositor->submitCallbacks.push_back([this, pvrcompositor](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex, ID3D11Texture2D *depthTex) -> void {
-    getOut() << "cb 1" << std::endl;
+    // getOut() << "cb 1" << std::endl;
 
     if (!running) {
       running = true;
@@ -108,51 +120,68 @@ void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
       getOut() << "cb 3" << std::endl;
 
       HRESULT hr;
-      if (!colorClientBufferTex || desc.Width != colorBufferDesc.Width || desc.Height != colorBufferDesc.Height) {
+      if (!colorMirrorClientTex || desc.Width != colorBufferDesc.Width || desc.Height != colorBufferDesc.Height) {
         getOut() << "cb 4" << std::endl;
         
-        desc.Usage = D3D11_USAGE_STAGING;
-        desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
-        desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
         colorBufferDesc = desc;
 
+        D3D11_TEXTURE2D_DESC mirrorDesc = desc;
+        mirrorDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
         hr = device->CreateTexture2D(
           &colorBufferDesc,
           NULL,
-          &colorClientBufferTex
+          &colorMirrorClientTex
         );
         if (FAILED(hr)) {
-          getOut() << "failed to create color buffer shared texture: " << (void *)hr << std::endl;
+          getOut() << "failed to create color mirror texture: " << (void *)hr << std::endl;
           pvrcompositor->InfoQueueLog();
           InfoQueueLog();
           abort();
         }
 
-        IDXGIResource *colorClientShRes;
-        hr = colorClientBufferTex->QueryInterface(__uuidof(IDXGIResource), (void**)&colorClientShRes); 
+        D3D11_TEXTURE2D_DESC readDesc = desc;
+        readDesc.Usage = D3D11_USAGE_STAGING;
+        readDesc.BindFlags = 0;
+        readDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+        readDesc.MiscFlags = 0;
+        hr = qrDevice->CreateTexture2D(
+          &readDesc,
+          NULL,
+          &colorReadTex
+        );
+        if (FAILED(hr)) {
+          getOut() << "failed to create color read texture: " << (void *)hr << std::endl;
+          pvrcompositor->InfoQueueLog();
+          InfoQueueLog();
+          abort();
+        }
+
+        IDXGIResource *colorMirrorClientRes;
+        hr = colorMirrorClientTex->QueryInterface(__uuidof(IDXGIResource), (void**)&colorMirrorClientRes); 
         if (FAILED(hr)) {
           getOut() << "failed to query color buffer shared resource: " << (void *)hr << std::endl;
           abort();
         }
 
-        hr = colorClientShRes->GetSharedHandle(&colorClientBufferHandle);
+        HANDLE colorMirrorHandle = NULL;
+        hr = colorMirrorClientRes->GetSharedHandle(&colorMirrorHandle);
         if (FAILED(hr)) {
-          getOut() << "failed to get color buffer share handle: " << (void *)hr << " " << (void *)colorClientShRes << std::endl;
+          getOut() << "failed to get color buffer share handle: " << (void *)hr << " " << (void *)colorMirrorClientRes << std::endl;
           pvrcompositor->InfoQueueLog();
           InfoQueueLog();
           abort();
         }
         
-        IDXGIResource *colorServerShRes;
-        HRESULT hr = qrDevice->OpenSharedResource(colorClientBufferHandle, __uuidof(IDXGIResource), (void**)&colorServerShRes);
+        IDXGIResource *colorMirrorServerRes;
+        HRESULT hr = qrDevice->OpenSharedResource(colorMirrorHandle, __uuidof(IDXGIResource), (void**)&colorMirrorServerRes);
         if (FAILED(hr)) {
-          getOut() << "failed to unpack color server shared texture handle: " << (void *)hr << " " << (void *)colorClientBufferHandle << std::endl;
+          getOut() << "failed to unpack color server shared texture handle: " << (void *)hr << " " << (void *)colorMirrorHandle << std::endl;
           abort();
         }
 
-        hr = colorServerShRes->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&colorServerBufferTex); 
+        hr = colorMirrorServerRes->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&colorMirrorServerTex); 
         if (FAILED(hr)) {
-          getOut() << "failed to unpack color server shared texture: " << (void *)hr << " " << (void *)colorServerShRes << std::endl;
+          getOut() << "failed to unpack color server shared texture: " << (void *)hr << " " << (void *)colorMirrorServerRes << std::endl;
           abort();
         }
         
@@ -167,8 +196,8 @@ void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
           abort();
         }
 
-        colorClientShRes->Release();
-        colorServerShRes->Release();
+        colorMirrorClientRes->Release();
+        colorMirrorServerRes->Release();
         
         getOut() << "cb 5" << std::endl;
       }
@@ -176,7 +205,7 @@ void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
       getOut() << "cb 6" << std::endl;
 
       context->CopyResource(
-        colorClientBufferTex,
+        colorMirrorClientTex,
         colorTex
       );
       

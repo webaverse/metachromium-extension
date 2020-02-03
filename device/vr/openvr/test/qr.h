@@ -20,10 +20,10 @@ public:
 
   Semaphore sem;
   bool running = false;
-  ID3D11Texture2D *colorClientBufferTex = nullptr;
+  ID3D11Texture2D *colorReadTex = nullptr;
   D3D11_TEXTURE2D_DESC colorBufferDesc{};
-  HANDLE colorClientBufferHandle = NULL;
-  ID3D11Texture2D *colorServerBufferTex = nullptr;
+  ID3D11Texture2D *colorMirrorClientTex = nullptr;
+  ID3D11Texture2D *colorMirrorServerTex = nullptr;
   ID3D11Fence *fence = nullptr;
   size_t fenceValue = 0;
   cv::QRCodeDetector qrDecoder;
