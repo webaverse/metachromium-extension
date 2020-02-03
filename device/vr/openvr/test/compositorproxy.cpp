@@ -2895,36 +2895,17 @@ void PVRCompositor::CacheWaitGetPoses() {
     getOut() << "compositor WaitGetPoses error: " << (void *)error << std::endl;
   }
   if (!isVr) {
-    // getOut() << "get non-vr poses" << std::endl;
     for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
       TrackedDevicePose_t &cachedRenderPose = cachedRenderPoses[i];
       TrackedDevicePose_t &cachedGamePose = cachedGamePoses[i];
 
       ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
-      // getOut() << "get non-vr poses class " << (int)deviceClass << " " << (int)TrackedDeviceClass_HMD << std::endl;
       if (deviceClass == TrackedDeviceClass_HMD) {
         memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
         memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
         float viewMatrix[16];
         composeMatrix(viewMatrix, position, quaternion, scale);
-        getOut() << "use fake transform " <<
-          position[0] << " " << position[1] << " " << position[2] << " " <<
-          quaternion[0] << " " << quaternion[1] << " " << quaternion[2] << " " << quaternion[3] << " " <<
-          scale[0] << " " << scale[1] << " " << scale[2] << " " <<
-          std::endl;
-        getOut() << "set fake view matrix 1: " << std::endl;
-        for (size_t i = 0; i < 16; i++) {
-          getOut() << viewMatrix[i] << " ";
-        }
-        getOut() << std::endl;
-        // float viewMatrixInverse[16];
-        // getMatrixInverse(viewMatrix, viewMatrixInverse);
         setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
-        getOut() << "set fake view matrix 2: " << std::endl;
-        for (size_t i = 0; i < 16; i++) {
-          getOut() << viewMatrix[i] << " ";
-        }
-        getOut() << std::endl;
         cachedRenderPose.bPoseIsValid = true;
         cachedRenderPose.bDeviceIsConnected = true;
       } else {
