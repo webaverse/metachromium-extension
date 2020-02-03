@@ -52,13 +52,18 @@ a:active {
     </section>
   </div>
   <div class=body>
-    <input type=button id=toggle-controls-button value="toggle controls ON">
+    <input type=button id=toggle-controls-button value="FPS controls">
   </div>
-  <canvas width=300 height=300 id=canvas-2d></canvas>
+  <!-- <canvas width=300 height=300 id=canvas-2d></canvas> -->
 <script>
 
+const _fakeXrChrome = {
+  async request() {},
+};
+const xrc = () => window.xrchrome ? window.xrchrome : _fakeXrChrome;
+
 window.addEventListener('xrchromeloaded', async () => {
-  const executables = await window.xrchrome.request('listSteamApps', []);
+  const executables = await xrc().request('listSteamApps', []);
   for (const exe of executables) {
     const a = document.createElement('a');
     a.setAttribute('src', `file://${exe}`);
@@ -66,7 +71,7 @@ window.addEventListener('xrchromeloaded', async () => {
     a.addEventListener('click', async e => {
       e.preventDefault();
 
-      const res = await window.xrchrome.request('launchApp', [
+      const res = await xrc().request('launchApp', [
         exe,
       ]);
       const {processId} = res;
@@ -78,7 +83,7 @@ window.addEventListener('xrchromeloaded', async () => {
         a2.addEventListener('click', async e => {
           e.preventDefault();
 
-          await window.xrchrome.request('killApp', [
+          await xrc().request('killApp', [
             processId,
           ]);
         });
@@ -88,23 +93,44 @@ window.addEventListener('xrchromeloaded', async () => {
     document.getElementById('apps').appendChild(a);
   }
 });
+document.addEventListener('pointerlockchange', async e => {
+  const controlsEnabled = !!document.pointerLockElement;
+  await xrc().request('setIsVr', [controlsEnabled]);
+  // console.log('pointer lock changed', controlsEnabled);
+});
+const position = new THREE.Vector3();
+const rotation = new THREE.Euler(0, 0, 0, 'YXZ');
+const quaternion = new THREE.Quaternion();
+const scale = new THREE.Vector3();
+document.addEventListener('mousemove', async e => {
+  if (document.pointerLockElement) {
+    console.log('got mouse move', e);
+
+    rotation.y = (rotation.y + e.movementX * Math.PI*2 * 0.01) % Math.PI*2;
+    rotation.x += (rotation.x + e.movementY * Math.PI*2 * 0.01) % Math.PI*2;
+    quaternion.setFromEuler(rotation);
+
+    await xrc().request('setTransform', [
+      position.toArray(),
+      quaternion.toArray(),
+      scale.toArray(),
+    ]);
+  }
+});
 window.addEventListener('load', () => {
   const toggleControlsButton = document.getElementById('toggle-controls-button');
-  let controlsEnabled = false;
   toggleControlsButton.addEventListener('click', async () => {
-    controlsEnabled = !controlsEnabled;
-    await window.xrchrome.request('setIsVr', [controlsEnabled]);
-    toggleControlsButton.value = `toggle controls ${controlsEnabled ? 'OFF' : 'ON'}`;
+    await window.document.body.requestPointerLock();
   });
 
-  const canvas2d = document.getElementById('canvas-2d');
+  /* const canvas2d = document.getElementById('canvas-2d');
   const ctx2d = canvas2d.getContext('2d');
   function recurse() {
     console.log('clear');
     ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
     window.requestAnimationFrame(recurse);
   }
-  window.requestAnimationFrame(recurse);
+  window.requestAnimationFrame(recurse); */
 });
 
 </script>
