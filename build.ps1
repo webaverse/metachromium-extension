@@ -31,5 +31,6 @@ ls device\vr\build\mock_vr_clients\bin\
 
 echo done zipping artifact
 ls
+ls Chrome-bin
 
 echo done
