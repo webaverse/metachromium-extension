@@ -2890,7 +2890,9 @@ void PVRCompositor::CacheWaitGetPoses() {
       if (deviceClass == TrackedDeviceClass_HMD) {
         memset(&cachedRenderPose.vVelocity, 0, sizeof(cachedRenderPose.vVelocity));
         memset(&cachedRenderPose.vAngularVelocity, 0, sizeof(cachedRenderPose.vAngularVelocity));
-        // cachedRenderPose.mDeviceToAbsoluteTracking; // XXX set this
+        float viewMatrix[16];
+        composeMatrix(viewMatrix, position, quaternion, scale);
+        setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
         cachedRenderPose.bPoseIsValid = true;
         cachedRenderPose.bDeviceIsConnected = true;
       } else {
