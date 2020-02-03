@@ -28,10 +28,9 @@ a:active {
   color: #1e88e5;
 }
 #canvas-2d {
-  position: fixed;
-  left: 0;
-  bottom: 0;
+  position: absolute;
   pointer-events: none;
+  visibility: hidden;
 }
 </style>
 </head>
@@ -54,8 +53,9 @@ a:active {
   </div>
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
+    <input type=button id=enter-xr-button value="Enter XR">
   </div>
-  <canvas width=500 height=500 id=canvas-2d></canvas>
+  <canvas id=canvas-2d></canvas>
 <script>
 
 const _fakeXrChrome = {
@@ -177,7 +177,7 @@ window.addEventListener('load', () => {
   });
 
   const canvas2d = document.getElementById('canvas-2d');
-  const ctx = canvas2d.getContext('webgl2');
+  // const ctx = canvas2d.getContext('webgl2');
   async function recurse() {
     velocity.set(0, 0, 0);
     if (keys.left) {
@@ -200,13 +200,64 @@ window.addEventListener('load', () => {
         scale.toArray(),
       ]);
     }
-
-    ctx.clear(ctx.COLOR_BUFFER_BIT);
-    // console.log('clear');
-    // ctx2d.clearRect(0, 0, canvas2d.width, canvas2d.height);
     window.requestAnimationFrame(recurse);
   }
   window.requestAnimationFrame(recurse);
+  
+  const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    canvas: canvas2d,
+  });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.xr.enabled = true;
+  
+  const scene = new THREE.Scene();
+  const camera = new THREE.Camera();
+  const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 2);
+  directionalLight.position.set(1, 1, 1);
+  scene.add(directionalLight);
+  const ambientLight = new THREE.AmbientLight(0x808080);
+  scene.add(ambientLight);
+  const cubeMesh = (() => {
+    const geometry = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2);
+    const material = new THREE.MeshPhongMaterial({
+      color: 0x5c6bc0,
+    });
+    return new THREE.Mesh(geometry, material);
+  })();
+  cubeMesh.position.set(0, 1.5, -1);
+  scene.add(cubeMesh);
+  
+  renderer.setAnimationLoop(render);
+  function render() {
+    cubeMesh.rotation.x += 0.01;
+    cubeMesh.rotation.z += 0.01;
+  
+    renderer.render(scene, camera);
+  }
+
+  {
+    let currentSession = null;
+
+    function onSessionStarted( session ) {
+      session.addEventListener( 'end', onSessionEnded);
+      renderer.xr.setSession(session);
+      currentSession = session;
+    }
+
+    function onSessionEnded( /*event*/ ) {
+      currentSession.removeEventListener('end', onSessionEnded);
+      currentSession = null;
+    }
+    
+    const enterXrButton = document.getElementById('enter-xr-button');
+    enterXrButton.addEventListener('click', async () => {
+      const sessionInit = { optionalFeatures: [ 'local-floor', 'bounded-floor' ] };
+      navigator.xr.requestSession( 'immersive-vr', sessionInit ).then( onSessionStarted );
+    });
+  }
 });
 
 </script>
