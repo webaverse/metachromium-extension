@@ -26,11 +26,9 @@ move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
 copy ..\..\..\..\..\Chrome-bin\* .
 
 echo zipping artifact...
-7z a xrchrome.zip -r .\
+7z a -r ..\..\..\..\..\xrchrome.zip *
 echo done zipping artifact
 ls
-
-move xrchrome.zip ..\..\..\..\..\
-ls
+ls ..\..\..\..\..\
 
 echo done
