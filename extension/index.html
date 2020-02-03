@@ -95,9 +95,8 @@ window.addEventListener('xrchromeloaded', async () => {
   }
 });
 document.addEventListener('pointerlockchange', async e => {
-  const controlsEnabled = !!document.pointerLockElement;
-  await xrc().request('setIsVr', [controlsEnabled]);
-  // console.log('pointer lock changed', controlsEnabled);
+  const isVr = !document.pointerLockElement;
+  await xrc().request('setIsVr', [isVr]);
 });
 const position = new THREE.Vector3();
 const rotation = new THREE.Euler(0, 0, 0, 'YXZ');
