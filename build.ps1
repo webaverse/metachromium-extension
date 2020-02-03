@@ -29,8 +29,8 @@ move ..\..\..\..\..\Chrome-bin\chrome2.exe ..\..\..\..\..\Chrome-bin\chrome.exe
 copy ..\..\..\..\..\Chrome-bin\* .
 cd ..\..\..\..\..
 
-echo zipping artifact
-ls
+echo zipping artifact... 
+ls device\vr\build\mock_vr_clients\bin\
 
 7z a xrchrome.zip device\vr\build\mock_vr_clients\bin\
 
