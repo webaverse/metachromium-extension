@@ -11,6 +11,13 @@ void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix) {
   dstMatrixArray[2 * 4 + 3] = 0;
   dstMatrixArray[3 * 4 + 3] = 1;
 }
+void setPoseMatrix(vr::HmdMatrix34_t &dstMatrix, const float *srcMatrixArray) {
+  for (unsigned int v = 0; v < 4; v++) {
+    for (unsigned int u = 0; u < 3; u++) {
+      dstMatrix.m[u][v] = srcMatrixArray[v * 4 + u];
+    }
+  }
+}
 void getMatrixInverse(const float *inMatrix, float *outMatrix) {
   // based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm
   float *te = outMatrix;
