@@ -2,6 +2,7 @@
 
 using namespace cv;
 
+int ssId = 0;
 QrEngine::QrEngine() :
   qrDecoder(QRCodeDetector::QRCodeDetector())
 {
@@ -25,9 +26,9 @@ QrEngine::QrEngine() :
       
       getOut() << "thread 2" << std::endl;
 
-      Mat inputImage(colorBufferDesc.Width, colorBufferDesc.Height, CV_8UC4);
+      Mat inputImage(colorBufferDesc.Height, colorBufferDesc.Width, CV_8UC4);
       
-      getOut() << "thread 3 " << (void *)fence << std::endl;
+      getOut() << "thread 3 " << (void *)fence << " " << inputImage.isContinuous() << std::endl;
 
       qrContext->Wait(fence, fenceValue);
       
@@ -40,13 +41,13 @@ QrEngine::QrEngine() :
       
       getOut() << "thread 5" << std::endl;
       
-      D3D11_MAPPED_SUBRESOURCE subresource;
+      D3D11_MAPPED_SUBRESOURCE resource;
       HRESULT hr = qrContext->Map(
         colorReadTex,
         0,
         D3D11_MAP_READ,
         0,
-        &subresource
+        &resource
       );
       if (FAILED(hr)) {
         getOut() << "failed to map read texture: " << (void *)hr << std::endl;
@@ -54,7 +55,7 @@ QrEngine::QrEngine() :
         abort();
       }
 
-      getOut() << "thread 6 " << (void *)subresource.pData << " " << subresource.RowPitch << " " << subresource.DepthPitch << " " << (inputImage.total() * inputImage.elemSize()) << " " << (colorBufferDesc.Width * colorBufferDesc.Height * 4) << std::endl;
+      getOut() << "thread 6 " << colorBufferDesc.Width << " " << (void *)resource.pData << " " << resource.RowPitch << " " << resource.DepthPitch << " " << (inputImage.total() * inputImage.elemSize()) << " " << (colorBufferDesc.Width * colorBufferDesc.Height * 4) << std::endl;
 
       /* char cwdBuf[MAX_PATH];
       if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
@@ -67,18 +68,47 @@ QrEngine::QrEngine() :
       Mat inputImage = imread(qrPngPath, IMREAD_COLOR);
       getOut() << "read qr code image 2" << std::endl; */
 
-      memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
+      UINT lBmpRowPitch = colorBufferDesc.Width * 4;
+      BYTE *sptr = reinterpret_cast<BYTE *>(resource.pData);
+      BYTE *dptr = (BYTE *)inputImage.ptr(); // + lBmpRowPitch * colorBufferDesc.Height - lBmpRowPitch;
+      for (size_t h = 0; h < colorBufferDesc.Height; ++h) {
+        // memcpy(inputImage.ptr<char>(h), sptr, lBmpRowPitch);
+        memcpy(dptr, sptr, lBmpRowPitch);
+        sptr += resource.RowPitch;
+        // dptr -= lBmpRowPitch;
+        dptr += lBmpRowPitch;
+      }
+      // memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
       
       getOut() << "thread 7" << std::endl;
 
       qrContext->Unmap(colorReadTex, 0);
       
-      getOut() << "thread 8" << std::endl;
+      imwrite((std::string(R"EOF(C:\Users\avaer\Documents\GitHub\overlay\tmp\)EOF") + std::to_string(++ssId) + std::string(".png")).c_str(), inputImage);
+
+      Mat inputImage2;
+      cvtColor(inputImage, inputImage2, COLOR_BGRA2GRAY);
+      
+      // getOut() << "thread 8 " << (int)inputImage2.ptr()[0] << " " << (int)inputImage2.ptr()[1] << " " << (int)inputImage2.ptr()[2] << " " << (int)inputImage2.ptr()[3] << std::endl;
+      
+      /* size_t fullSize = inputImage2.total() * inputImage2.elemSize();
+      int count = 0;
+      for (size_t i = 0; i < fullSize; i++) {
+        if (inputImage2.ptr()[0] != 0) {
+          count++;
+        }
+      }
+      getOut() << "thread 8 " << count << std::endl;
+      if (inputImage2.ptr()[0] != 0) {
+        getOut() << "nonzero " << (int)inputImage2.ptr()[0] << std::endl;
+      } */
+
 
       Mat bbox, rectifiedImage;
      
-      std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
-      if(data.length() > 0) {
+      std::string data = qrDecoder.detectAndDecode(inputImage2, bbox, rectifiedImage);
+      getOut() << "thread 9 " << data.length() << std::endl;
+      if (data.length() > 0) {
         getOut() << "qr detected 1 " << bbox.type() << " " << bbox.rows << " " << bbox.cols << std::endl;
         if (bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
           getOut() << "qr detected 2" << std::endl;
@@ -98,10 +128,10 @@ QrEngine::QrEngine() :
           getOut() << "unknown qr code type: " << bbox.type() << std::endl;
         }
       } else {
-        getOut() << "QR Code not detected" << std::endl;
+        // getOut() << "QR Code not detected" << std::endl;
       }
       
-      getOut() << "thread 9" << std::endl;
+      getOut() << "thread 10 " << data.length() << std::endl;
 
       running = false;
     }
