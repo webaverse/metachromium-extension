@@ -1197,48 +1197,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
       D3D11_TEXTURE2D_DESC desc;
       shTex->GetDesc(&desc);
-      
-      getOut() << "bind surface register " << desc.Width << " " << desc.Height << " " << surfaceShHandles.size() << std::endl;
 
       shTexResource->Release();
       shTex->Release();
-
-      /* auto iter = backbufferTexs.find(backbufferShHandle);
-      if (iter == backbufferTexs.end()) {
-        ID3D11Resource *shTexResource;
-        HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
-        if (FAILED(hr)) {
-          getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-          abort();
-        }
-
-        ID3D11Texture2D *shTex;
-        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&shTex); 
-        if (FAILED(hr)) {
-          getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)shTexResource << std::endl;
-          abort();
-        }
-        
-        D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-        srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-        srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-        srvDesc.Texture2D.MostDetailedMip = 0;
-        srvDesc.Texture2D.MipLevels = 1;
-        hr = device->CreateShaderResourceView(
-          backbufferShTex,
-          &srvDesc,
-          &backbufferSrv
-        );
-        if (FAILED(hr)) {
-          // InfoQueueLog();
-          getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
-          abort();
-        }
-
-        backbufferShHandles[backbufferShHandle] = shTex;
-
-        shTexResource->Release();
-      } */
     }
     
     return 0;
@@ -1266,8 +1227,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
       D3D11_TEXTURE2D_DESC desc;
       shTex->GetDesc(&desc);
-      
-      getOut() << "bind surface prepare " << desc.Width << " " << desc.Height << std::endl;
 
       surfaceBindQueue.push_back(std::pair<HANDLE, D3D11_TEXTURE2D_DESC>(surfaceShHandle, desc));
 
@@ -1283,9 +1242,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_TryBindSurface,
     HANDLE,
     D3D11_TEXTURE2D_DESC
-  >([=](D3D11_TEXTURE2D_DESC desc) {
-    getOut() << "bind surface try " << desc.Width << " " << desc.Height << " " << (int)desc.Usage << std::endl;
-    
+  >([=](D3D11_TEXTURE2D_DESC desc) {    
     if (desc.Usage != D3D11_USAGE_STAGING) {
       auto iter = std::find_if(surfaceBindQueue.begin(), surfaceBindQueue.end(), [&](const std::pair<HANDLE, D3D11_TEXTURE2D_DESC> &e) -> bool {
         const D3D11_TEXTURE2D_DESC &desc2 = e.second;
@@ -1294,23 +1251,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
       if (iter != surfaceBindQueue.end()) {
         const D3D11_TEXTURE2D_DESC &desc2 = iter->second;
-        getOut() << "bind surface match surface " <<
-          desc2.Width << " " << desc2.Height << " " <<
-          desc2.MipLevels << " " << desc2.ArraySize << " " <<
-          desc2.SampleDesc.Count << " " << desc2.SampleDesc.Quality << " " <<
-          desc2.Format << " " <<
-          desc2.Usage << " " << desc2.BindFlags << " " << desc2.CPUAccessFlags << " " << desc2.MiscFlags <<
-          std::endl;
-        getOut() << "bind surface match create request " <<
-          desc.Width << " " << desc.Height << " " <<
-          desc.MipLevels << " " << desc.ArraySize << " " <<
-          desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-          desc.Format << " " <<
-          desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
-          std::endl;
-// bind surface match surface 1918 2059 1 1 1 0 87 0 168 0 3
-// bind surface match create request 1918 2059 12 1 1 0 28 0 168 0 1
-        
         surfaceBindQueue.erase(iter);
         return iter->first;
       } else {
