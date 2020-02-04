@@ -635,39 +635,6 @@ void presentSwapChain(T *swapChain) {
         abort();
       }
     }
-    /* if (!backbufferFence) {
-      hr = device5->lpVtbl->CreateFence(
-        device5,
-        0, // value
-        // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
-        // D3D11_FENCE_FLAG_SHARED, // flags
-        D3D11_FENCE_FLAG_SHARED, // flags
-        IID_ID3D11Fence, // interface
-        (void **)&backbufferFence // out
-      );
-      if (SUCCEEDED(hr)) {
-        // getOut() << "created fence " << (void *)fence << std::endl;
-        // nothing
-      } else {
-        getOut() << "failed to create backbuffer fence" << std::endl;
-        abort();
-      }
-
-      hr = backbufferFence->lpVtbl->CreateSharedHandle(
-        backbufferFence,
-        NULL, // security attributes
-        GENERIC_ALL, // access
-        NULL, // (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
-        &backbufferFenceHandle // share handle
-      );
-      if (SUCCEEDED(hr)) {
-        getOut() << "create shared backbuffer fence handle " << (void *)backbufferFenceHandle << std::endl;
-        // nothing
-      } else {
-        getOut() << "failed to create backbuffer fence share handle" << std::endl;
-        abort();
-      }
-    } */
 
     context->lpVtbl->CopyResource(
       context,
@@ -772,23 +739,7 @@ void presentSwapChain(T *swapChain) {
         0, // src sub
         NULL
       );
-      // CopySubresourceRegion viewportFrontShTex -> backbufferRes
     }
-
-    /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
-    context4->lpVtbl->CopyResource(
-      context4,
-      res,
-      backbufferShRes
-    ); */
-
-    /* getOut() << "present swap chain done " <<
-      desc.Width << " " << desc.Height << " " <<
-      desc.MipLevels << " " << desc.ArraySize << " " <<
-      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-      desc.Format << " " <<
-      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      std::endl; */
 
     res->lpVtbl->Release(res);
     tex->lpVtbl->Release(tex);
