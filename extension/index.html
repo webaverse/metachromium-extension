@@ -266,10 +266,33 @@ window.addEventListener('load', () => {
       const {width, height} = desc;
 
       const gl = renderer.getContext();
+      {
+        const error = gl.getError();
+        if (error) console.warn('error 1', error);
+      }
       const texId = gl.createTexture();
+      {
+        const error = gl.getError();
+        if (error) console.warn('error 2', error);
+      }
       gl.bindTexture(gl.TEXTURE_2D, texId);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+      {
+        const error = gl.getError();
+        if (error) console.warn('error 3', error);
+      }
+      const data = new Uint8Array(width*height*4);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
+      {
+        const error = gl.getError();
+        if (error) console.warn('error 4', error);
+      }
       gl.bindTexture(gl.TEXTURE_2D, null);
+      {
+        const error = gl.getError();
+        if (error) console.warn('error 5', error);
+      }
+      gl.flush();
+      console.log('create tex', gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
       renderer.state.reset();
 
       const texture = new THREE.Texture(
