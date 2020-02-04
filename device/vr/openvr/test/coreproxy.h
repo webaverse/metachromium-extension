@@ -24,7 +24,7 @@ public:
   std::set<size_t> processIds;
   size_t runningFrameProcessId = 0;
   std::deque<size_t> waitSemsOrder;
-  std::deque<size_t> submitSemsOrder;
+  std::deque<size_t> unlockWaitSemsOrder;
   std::deque<size_t> unlockSubmitSemsOrder;
   std::map<size_t, Semaphore> localSems;
 
@@ -35,7 +35,7 @@ public:
     
   void PreWaitGetPoses();
   void PreSubmit(bool *doQueueSubmit, bool *doRealSubmit);
-  void ServerPreWaitGetPoses(size_t processId);
+  void TickWait();
 };
 }
 
