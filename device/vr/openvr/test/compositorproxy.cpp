@@ -1263,6 +1263,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     });
 
     if (iter != surfaceBindQueue.end()) {
+      surfaceBindQueue.remove(iter);
       return iter->first;
     } else {
       return NULL;
