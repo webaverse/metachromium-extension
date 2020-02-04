@@ -602,8 +602,9 @@ void presentSwapChain(T *swapChain) {
     if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
       backbufferDesc = desc;
 
-      desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-      desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+      desc.MipLevels = 12;
+      desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET | D3D11_BIND_UNORDERED_ACCESS;
+      desc.MiscFlags |= D3D11_RESOURCE_MISC_GENERATE_MIPS | D3D11_RESOURCE_MISC_SHARED;
 
       ID3D11Texture2D *backbufferShTex;
       hr = device->lpVtbl->CreateTexture2D(
@@ -2136,11 +2137,13 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     }
     return hr;
   } else {
+    getOut() << "bind surface try client 1 " << pDesc->Width << " " << pDesc->Height << std::endl;
     HANDLE surfaceShHandle = g_hijacker->fnp.call<
       kHijacker_TryBindSurface,
       HANDLE,
       D3D11_TEXTURE2D_DESC
     >(*pDesc);
+    getOut() << "bind surface try client 2 " << (void *)surfaceShHandle << std::endl;
     if (surfaceShHandle) {
       ID3D11Resource *surfaceRes;
       HRESULT hr = This->lpVtbl->OpenSharedResource(This, surfaceShHandle, IID_ID3D11Resource, (void**)&surfaceRes);
