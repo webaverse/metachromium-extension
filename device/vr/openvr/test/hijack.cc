@@ -41,6 +41,7 @@ char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
 char kHijacker_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterSurface";
+char kHijacker_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
 char kHijacker_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 
 // void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
@@ -2135,17 +2136,39 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     }
     return hr;
   } else {
-    auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
-    /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
-    getOut() << "create texture 2d normal " <<
-      (void *)(*ppTexture2D) << " " <<
-      desc.Width << " " << desc.Height << " " <<
-      desc.MipLevels << " " << desc.ArraySize << " " <<
-      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-      desc.Format << " " <<
-      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      std::endl; */
-    return hr;
+    HANDLE surfaceShHandle = g_hijacker->fnp.call<
+      kIVRCompositor_TryBindSurface,
+      HANDLE,
+      D3D11_TEXTURE2D_DESC
+    >(*pDesc);
+    if (surfaceShHandle) {
+      ID3D11Resource *surfaceRes;
+      HRESULT hr = This->lpVtbl->OpenSharedResource(This, surfaceShHandle, IID_ID3D11Resource, (void**)&surfaceRes);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack surface texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
+        abort();
+      }
+
+      hr = surfaceRes->lpVtbl->QueryInterface(surfaceRes, IID_ID3D11Texture2D, (void **)ppTexture2D);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack surface texture: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      surfaceRes->lpVtbl->Release(surfaceRes);
+    } else {
+      auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
+      /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
+      getOut() << "create texture 2d normal " <<
+        (void *)(*ppTexture2D) << " " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+        std::endl; */
+      return hr;
+    }
   }
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateRasterizerState)(
