@@ -2156,6 +2156,8 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
       }
 
       surfaceRes->lpVtbl->Release(surfaceRes);
+      
+      return hr;
     } else {
       auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
       /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
