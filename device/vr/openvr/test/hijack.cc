@@ -1816,7 +1816,124 @@ HRESULT STDMETHODCALLTYPE MineCreateShaderResourceView(
   ID3D11ShaderResourceView              **ppSRView
 ) {
   TRACE("Hijack", [&]() { getOut() << "CreateShaderResourceView" << std::endl; });
-  return RealCreateShaderResourceView(This, pResource, pDesc, ppSRView);
+  D3D11_RESOURCE_DIMENSION dim;
+  pResource->lpVtbl->GetType(pResource, &dim);
+  if (dim == D3D11_RESOURCE_DIMENSION_TEXTURE2D) {
+    ID3D11Texture2D *tex;
+    HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&tex);
+    if (FAILED(hr)) {
+      getOut() << "failed to get hijack shader resource view texture: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    D3D11_TEXTURE2D_DESC desc;
+    tex->lpVtbl->GetDesc(tex, &desc);
+
+    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = *pDesc;
+    bool changed = false;
+    if (srvDesc.Format == DXGI_FORMAT_R8G8B8A8_UNORM && desc.Format == DXGI_FORMAT_B8G8R8A8_UNORM) {
+      getOut() << "bad shader resource view " << desc.Width << " " << desc.Height << " " << srvDesc.Texture2D.MostDetailedMip << " " << srvDesc.Texture2D.MipLevels << std::endl;
+      srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+      // srvDesc.Texture2D.MostDetailedMip = 0;
+      // srvDesc.Texture2D.MipLevels = 1;
+      changed = true;
+    }
+    
+    tex->lpVtbl->Release(tex);
+    
+    *ppSRView = nullptr;
+    hr = RealCreateShaderResourceView(This, pResource, &srvDesc, ppSRView);
+    if (changed) {
+      getOut() << "bad shader resource view result " << (void *)pResource << " " << (void *)*ppSRView << std::endl;
+    }
+    return hr;
+  } else {
+    return RealCreateShaderResourceView(This, pResource, pDesc, ppSRView);
+  }
+}
+HRESULT (STDMETHODCALLTYPE *RealCreateRenderTargetView)(
+  ID3D11Device *This,
+  ID3D11Resource                      *pResource,
+  const D3D11_RENDER_TARGET_VIEW_DESC *pDesc,
+  ID3D11RenderTargetView              **ppRTView
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MineCreateRenderTargetView(
+  ID3D11Device *This,
+  ID3D11Resource                      *pResource,
+  const D3D11_RENDER_TARGET_VIEW_DESC *pDesc,
+  ID3D11RenderTargetView              **ppRTView
+) {
+  TRACE("Hijack", [&]() { getOut() << "CreateRenderTargetView" << std::endl; });
+  D3D11_RESOURCE_DIMENSION dim;
+  pResource->lpVtbl->GetType(pResource, &dim);
+  if (dim == D3D11_RESOURCE_DIMENSION_TEXTURE2D) {
+    ID3D11Texture2D *tex;
+    HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&tex);
+    if (FAILED(hr)) {
+      getOut() << "failed to get hijack render target view texture: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    D3D11_TEXTURE2D_DESC desc;
+    tex->lpVtbl->GetDesc(tex, &desc);
+
+    D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = *pDesc;
+    bool changed = false;
+    if (rtvDesc.Format == DXGI_FORMAT_R8G8B8A8_UNORM && desc.Format == DXGI_FORMAT_B8G8R8A8_UNORM) {
+      getOut() << "bad render target view " << desc.Width << " " << desc.Height << " " << rtvDesc.Texture2D.MipSlice << std::endl;
+      rtvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+      // rtvDesc.Texture2D.MipSlice = 0;
+      changed = true;
+    }
+    
+    tex->lpVtbl->Release(tex);
+    
+    *ppRTView = nullptr;
+    hr = RealCreateRenderTargetView(This, pResource, &rtvDesc, ppRTView);
+    if (changed) {
+      getOut() << "bad render target view result " << desc.Width << " " << desc.Height << " " << rtvDesc.Texture2D.MipSlice << " " << (void *)pResource << " " << (void *)*ppRTView << std::endl;
+    }
+    return hr;
+  } else {
+    return RealCreateRenderTargetView(This, pResource, pDesc, ppRTView);
+  }
+}
+void (STDMETHODCALLTYPE *RealPSSetShaderResources)(
+  ID3D11DeviceContext *This,
+  UINT                     StartSlot,
+  UINT                     NumViews,
+  ID3D11ShaderResourceView * const *ppShaderResourceViews
+) = nullptr;
+void STDMETHODCALLTYPE MinePSSetShaderResources(
+  ID3D11DeviceContext *This,
+  UINT                     StartSlot,
+  UINT                     NumViews,
+  ID3D11ShaderResourceView * const *ppShaderResourceViews
+) {
+  TRACE("Hijack", [&]() { getOut() << "RealPSSetShaderResources" << std::endl; });
+  for (UINT i = 0; i < NumViews; i++) {
+    ID3D11ShaderResourceView *srv = ppShaderResourceViews[i];
+    
+    if (srv) {
+      ID3D11Texture2D *depthTex = nullptr;
+      ID3D11Resource *depthTexResource = nullptr;
+      srv->lpVtbl->GetResource(srv, &depthTexResource);
+      HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
+      if (FAILED(hr)) {
+        getOut() << "failed to get srv texture resource: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      D3D11_TEXTURE2D_DESC desc;
+      depthTex->lpVtbl->GetDesc(depthTex, &desc);
+      
+      getOut() << "bind shader resource " << i << " " << NumViews << " " << (void *)srv << " " << desc.Width << " " << desc.Height << " " << desc.Format << std::endl;
+      
+      depthTex->lpVtbl->Release(depthTex);
+      depthTexResource->lpVtbl->Release(depthTexResource);
+    }
+  }
+  return RealPSSetShaderResources(This, StartSlot, NumViews, ppShaderResourceViews);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateDepthStencilView)(
   ID3D11Device *This,
@@ -1863,6 +1980,27 @@ void STDMETHODCALLTYPE MineClearRenderTargetView(
   const FLOAT         ColorRGBA[4]
 ) {
   TRACE("Hijack", [&]() { getOut() << "ClearRenderTargetView" << std::endl; });
+  // getOut() << "ClearRenderTargetView " << (void *)pRenderTargetView << std::endl;
+
+  {
+    ID3D11Texture2D *depthTex = nullptr;
+    ID3D11Resource *depthTexResource = nullptr;
+    pRenderTargetView->lpVtbl->GetResource(pRenderTargetView, &depthTexResource);
+    HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
+    if (FAILED(hr)) {
+      getOut() << "failed to get rtv resource: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    D3D11_TEXTURE2D_DESC desc;
+    depthTex->lpVtbl->GetDesc(depthTex, &desc);
+    
+    getOut() << "clear render target view " << (void *)depthTexResource << " " << (void *)pRenderTargetView << " " << desc.Width << " " << desc.Height << " " << desc.Format << std::endl;
+    
+    depthTex->lpVtbl->Release(depthTex);
+    depthTexResource->lpVtbl->Release(depthTexResource);
+  }
+  
   RealClearRenderTargetView(This, pRenderTargetView, ColorRGBA);
 }
 void (STDMETHODCALLTYPE *RealClearDepthStencilView)(
@@ -3669,6 +3807,14 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     error = DetourAttach(&(PVOID&)RealCreateDepthStencilView, MineCreateDepthStencilView);
     checkDetourError("RealCreateDepthStencilView", error);
     
+    RealCreateRenderTargetView  = device->lpVtbl->CreateRenderTargetView;
+    error = DetourAttach(&(PVOID&)RealCreateRenderTargetView, MineCreateRenderTargetView);
+    checkDetourError("RealCreateRenderTargetView", error);
+    
+    RealPSSetShaderResources  = context->lpVtbl->PSSetShaderResources;
+    error = DetourAttach(&(PVOID&)RealPSSetShaderResources, MinePSSetShaderResources);
+    checkDetourError("RealPSSetShaderResources", error);
+    
     RealClearRenderTargetView = context->lpVtbl->ClearRenderTargetView;
     error = DetourAttach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
     checkDetourError("RealClearRenderTargetView", error);
@@ -3777,6 +3923,12 @@ void Hijacker::unhijackDx() {
     
     error = DetourDetach(&(PVOID&)RealCreateDepthStencilView, MineCreateDepthStencilView);
     checkDetourError("RealCreateDepthStencilView", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateRenderTargetView, MineCreateRenderTargetView);
+    checkDetourError("RealCreateRenderTargetView", error);
+    
+    error = DetourDetach(&(PVOID&)RealPSSetShaderResources, MinePSSetShaderResources);
+    checkDetourError("RealPSSetShaderResources", error);
     
     error = DetourDetach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
     checkDetourError("RealClearRenderTargetView", error);
