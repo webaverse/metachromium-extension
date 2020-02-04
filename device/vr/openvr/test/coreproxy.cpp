@@ -147,15 +147,17 @@ void PVRClientCore::PreSubmit(bool *doQueueSubmit, bool *doRealSubmit) {
   *doRealSubmit = std::get<1>(result);
 }
 void PVRClientCore::TickWait() {
-  if (waitSemsOrder.size() >= processIds.size()) { // everyone is queued up waiting so do native wait
+  // if we are not running and everyone is queued up, trigger a new frame
+  if (unlockWaitSemsOrder.size() == 0 && waitSemsOrder.size() > 0 && waitSemsOrder.size() >= processIds.size()) {
     pvrcompositor->CacheWaitGetPoses();
 
     unlockWaitSemsOrder = std::move(waitSemsOrder);
     waitSemsOrder.clear();
     unlockSubmitSemsOrder.clear();
   }
-  
-  if (unlockWaitSemsOrder.size() > 0) { // if we have a next wait, dispatch it
+
+  // dipatch next process in the frame
+  if (unlockWaitSemsOrder.size() > 0) {
     size_t unlockProcessId = unlockWaitSemsOrder.front();
     unlockWaitSemsOrder.pop_front();
 
