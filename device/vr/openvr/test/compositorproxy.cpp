@@ -1308,7 +1308,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
           desc.Format << " " <<
           desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
           std::endl;
-// bind surface match surface 1918 2059 1 1 1 0 87 0 40 0 2
+// bind surface match surface 1918 2059 1 1 1 0 87 0 168 0 3
 // bind surface match create request 1918 2059 12 1 1 0 28 0 168 0 1
         
         surfaceBindQueue.erase(iter);
