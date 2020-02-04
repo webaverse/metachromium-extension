@@ -560,9 +560,6 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
 ID3D11Resource *backbufferShRes = nullptr;
 HANDLE backbufferShHandle = NULL;
 D3D11_TEXTURE2D_DESC backbufferDesc{};
-ID3D11Fence *backbufferFence = nullptr;
-HANDLE backbufferFenceHandle = NULL;
-uint64_t backbufferFenceValue = 0;
 template<typename T>
 void presentSwapChain(T *swapChain) {
   // getOut() << "present swap chain 1" << std::endl;
@@ -688,18 +685,10 @@ void presentSwapChain(T *swapChain) {
       res
     );
 
-    /* ++backbufferFenceValue;
-    context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
-    // context4->lpVtbl->Flush(context4); */
-
-    /* backbufferFenceValue = */ g_hijacker->fnp.call<
+    g_hijacker->fnp.call<
       kHijacker_SetBackbuffer,
-      int,
-      HANDLE,
-      uintptr_t,
-      HANDLE,
-      size_t
-    >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
+      int
+    >(backbufferShHandle);
     
     HANDLE shEyeTexHandle = g_hijacker->fnp.call<
       kHijacker_GetSharedEyeTexture,

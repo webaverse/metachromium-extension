@@ -1173,14 +1173,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   fnp.reg<
     kIVRCompositor_SetBackbuffer,
     int,
-    HANDLE,
-    uintptr_t,
-    HANDLE,
-    size_t
-  >([=](HANDLE newBackbufferShHandle, uintptr_t serverProcessIdPtr, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
-    // getOut() << "set back buffer " << (void *)newBackbufferShHandle << " " << (void *)serverProcessIdPtr << " " << (void *)newBackbufferFenceHandle << " " << (void *)backbufferFenceValue << std::endl;
-    DWORD serverProcessId = serverProcessIdPtr;
-    
+    HANDLE
+  >([=](HANDLE newBackbufferShHandle) {    
     if (backbufferShHandle != newBackbufferShHandle) {
       if (backbufferShTex) {
         backbufferShTex->Release();
@@ -1238,96 +1232,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
       shTexResource->Release();
     }
-    if (backbufferFenceHandle != newBackbufferFenceHandle) {
-      if (backbufferFence) {
-        backbufferFence->Release();
-        backbufferFence = nullptr;
-      }
-      backbufferFenceHandle = newBackbufferFenceHandle;
-
-      HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, serverProcessId);
-      HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
-      
-      HANDLE fenceHandle2;
-      BOOL ok = DuplicateHandle(
-        srcProcess,
-        backbufferFenceHandle,
-        dstProcess,
-        &fenceHandle2,
-        0,
-        false,
-        DUPLICATE_SAME_ACCESS
-      );
-      if (ok) {
-        HRESULT hr = device->OpenSharedFence(fenceHandle2, IID_ID3D11Fence, (void **)&backbufferFence);
-        if (SUCCEEDED(hr)) {
-          // nothing
-          getOut() << "got backbuffer fence handle ok " << std::endl;
-        } else {
-          InfoQueueLog();
-          getOut() << "backbuffer fence resource unpack failed " << (void *)hr << " " << (void *)fenceHandle2 << std::endl;
-          abort();
-        }
-      } else {
-        getOut() << "failed to duplicate backbuffer fence handle " << GetLastError() << std::endl;
-      }
-      
-      CloseHandle(srcProcess);
-      CloseHandle(dstProcess);
-    }
-
-    /* context->Wait(backbufferFence, backbufferFenceValue);
-
-    {
-      float localVsData[8] = {
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      };
-      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
-      context->VSSetShader(vsShader, nullptr, 0);
-      context->PSSetShader(psCopyShader, nullptr, 0);
-      context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
-
-      ID3D11RenderTargetView *localRenderTargetViews[1] = {
-        backbufferRtv
-      };
-      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
-      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
-        eyeShaderResourceViews[0],
-      };
-      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
-
-      D3D11_TEXTURE2D_DESC backbufferDesc;
-      backbufferShTex->GetDesc(&backbufferDesc);
-      D3D11_VIEWPORT viewport{
-        0, // TopLeftX,
-        backbufferDesc.Height - 300, // TopLeftY,
-        300, // Width,
-        300, // Height,
-        0, // MinDepth,
-        1 // MaxDepth
-      };
-      context->RSSetViewports(1, &viewport);
-
-      context->DrawIndexed(6, 0, 0);
-
-      ID3D11ShaderResourceView *localShaderResourceViewsClear[1] = {};
-      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
-      ID3D11RenderTargetView *localRenderTargetViewsClear[1] = {};
-      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
-    }
-
-    ++backbufferFenceValue;
-    context->Signal(backbufferFence, backbufferFenceValue);
-    // context->Flush();
-
-    return backbufferFenceValue; */
     
     return 0;
   });
