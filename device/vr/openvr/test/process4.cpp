@@ -250,12 +250,12 @@ int main(int argc, char **argv) {
             >();
 
             if (desc.Width > 0 && desc.Height > 0) {
-              json array = json::array();
-              array.push_back((int)desc.Width);
-              array.push_back((int)desc.Height);
               json res = {
                 {"error", nullptr},
-                {"result", array}
+                {"result", {
+                  {"width", desc.Width},
+                  {"height", desc.Height},
+                }}
               };
               respond(res);
             } else {
