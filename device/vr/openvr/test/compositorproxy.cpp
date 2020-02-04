@@ -53,7 +53,8 @@ char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothi
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
 char kIVRCompositor_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterSurface";
-char kIVRCompositor_PopSurface[] = "IVRCompositor::kIVRCompositor_PopSurface";
+char kIVRCompositor_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
+char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
@@ -1175,8 +1176,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_RegisterSurface,
     int,
     HANDLE
-  >([=](HANDLE backbufferShHandle) {
-    backbufferShHandles.push_back(backbufferShHandle);
+  >([=](HANDLE surfaceShHandle) {
+    surfaceShHandles.push_back(surfaceShHandle);
 
     /* auto iter = backbufferTexs.find(backbufferShHandle);
     if (iter == backbufferTexs.end()) {
@@ -1218,13 +1219,51 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     return 0;
   });
   fnp.reg<
-    kIVRCompositor_PopSurface,
-    HANDLE
+    kIVRCompositor_PrepareBindSurface,
+    D3D11_TEXTURE2D_DESC
   >([=]() {
-    if (backbufferShHandles.size() > 0) {
-      HANDLE result = backbufferShHandles.front();
-      backbufferShHandles.pop_front();
-      return result;
+    if (surfaceShHandles.size() > 0) {
+      HANDLE surfaceShHandle = surfaceShHandles.front();
+
+      ID3D11Resource *shTexResource;
+      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+        abort();
+      }
+
+      ID3D11Texture2D *shTex;
+      hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&shTex); 
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)shTexResource << std::endl;
+        abort();
+      }
+
+      D3D11_TEXTURE2D_DESC desc;
+      shTex->GetDesc(&desc);
+
+      surfaceBindQueue.push_back(std::pair<HANDLE, D3D11_TEXTURE2D_DESC>(surfaceShHandle, desc));
+
+      shTexResource->Release();
+      shTex->Release();
+
+      return desc;
+    } else {
+      return D3D11_TEXTURE2D_DESC{};
+    }
+  });
+  fnp.reg<
+    kIVRCompositor_TryBindSurface,
+    HANDLE,
+    D3D11_TEXTURE2D_DESC
+  >([=](D3D11_TEXTURE2D_DESC desc) {
+    auto iter = std::find_if(surfaceBindQueue.begin(), surfaceBindQueue.end(), [&](const std::pair<HANDLE, D3D11_TEXTURE2D_DESC> &e) -> bool {
+      const D3D11_TEXTURE2D_DESC &desc2 = e.second;
+      return desc2.Width == desc.Width && desc2.Height == desc.Height;
+    });
+
+    if (iter != surfaceBindQueue.end()) {
+      return iter->first;
     } else {
       return NULL;
     }
