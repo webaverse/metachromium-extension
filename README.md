@@ -22,3 +22,9 @@ A multi-app XR browser for Windows, based on Chromium.
 ## OS Support
 
 Windows only
+
+## License
+
+*Not* Open Source.
+
+You may download and run the releases. You may not use the code in whole or in part without express permission (contact @avaer).
