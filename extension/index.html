@@ -230,6 +230,7 @@ window.addEventListener('load', () => {
     return new THREE.Mesh(geometry, material);
   })();
   cubeMesh.position.set(0, 1.5, -1);
+  cubeMesh.frustumCulled = false;
   scene.add(cubeMesh);
 
   const _forceTextureInitialization = (() => {
@@ -238,25 +239,45 @@ window.addEventListener('load', () => {
     const scene = new THREE.Scene();
     scene.add(new THREE.Mesh(geometry, material));
     const camera = new THREE.Camera();
+    const blue = new THREE.Color(0x0000FF);
 
     return function _forceTextureInitialization(texture) {
       material.map = texture;
+      const oldClearColor = renderer.getClearColor();
+      const oldClearAlpha = renderer.getClearAlpha();
+      renderer.setClearColor(blue, 1);
+
       renderer.render(scene, camera);
+      
+      renderer.setClearColor(oldClearColor, oldClearAlpha);
     };
   })();
   const _bindTexture = (texture, texId) => {
-    _forceTextureInitialization(texture);
+    // _forceTextureInitialization(texture);
     const texProps = renderer.properties.get(texture);
     texProps.__webglTexture = texId;
   };
   const planeMesh = (() => {
     const geometry = new THREE.PlaneBufferGeometry(1, 1);
     const material = new THREE.MeshBasicMaterial({
-      color: 0xFFFFFF,
+      color: 0x808080,
+      map: new THREE.Texture(
+        null,
+        THREE.UVMapping,
+        THREE.ClampToEdgeWrapping,
+        THREE.ClampToEdgeWrapping,
+        THREE.LinearFilter,
+        THREE.LinearFilter,
+        THREE.RGBAFormat,
+        THREE.UnsignedByteType,
+        0,
+        THREE.LinearEncoding
+      ),
     });
     return new THREE.Mesh(geometry, material);
   })();
   planeMesh.position.set(0, 1.5, -1);
+  planeMesh.frustumCulled = false;
   scene.add(planeMesh);
 
   (async () => {
@@ -302,20 +323,28 @@ window.addEventListener('load', () => {
       // console.log('create tex', gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, data);
       renderer.state.reset();
 
-      const texture = new THREE.Texture(
-        null,
-        THREE.UVMapping,
-        THREE.ClampToEdgeWrapping,
-        THREE.ClampToEdgeWrapping,
-        THREE.LinearFilter,
-        THREE.LinearFilter,
-        THREE.RGBAFormat,
-        THREE.UnsignedByteType,
-        0,
-        THREE.LinearEncoding
-      );
+      const texture = planeMesh.material.map;
+      _forceTextureInitialization(texture);
+      {
+        const texProps = renderer.properties.get(texture);
+        console.log('got old tex 1', texId, texProps.__webglTexture);
+      }
       _bindTexture(texture, texId);
-      planeMesh.material.map = texture;
+      {
+        const texProps = renderer.properties.get(texture);
+        console.log('got old tex 2', texId, texProps.__webglTexture);
+      }
+      // planeMesh.material.map = texture;
+      // planeMesh.material.needsUpdate = true;
+      
+      window.texId = texId;
+      
+      {
+        const matProps = renderer.properties.get(planeMesh.material);
+        console.log('got old tex 3', matProps);
+      }
+      
+      renderer.state.reset();
     } else {
       console.warn('no surface to bind');
     }
