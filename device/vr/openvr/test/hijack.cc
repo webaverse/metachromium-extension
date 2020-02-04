@@ -299,14 +299,6 @@ void initBlitShader() {
   }
 
   g_hijacker->hijackDx(contextBasic);
-
-  hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11InfoQueue, (void **)&infoQueue);
-  if (SUCCEEDED(hr)) {
-    infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
-  } else {
-    getOut() << "info queue query failed" << std::endl;
-    // abort();
-  }
   
   float vertices[] = { // xyuv
     -1, -1, 0, 1,
@@ -585,6 +577,15 @@ void presentSwapChain(T *swapChain) {
       getOut() << "failed to query backbuffer device5 : " << (void *)hr << std::endl;
       abort();
     } */
+    
+    hr = device->lpVtbl->QueryInterface(device, IID_ID3D11InfoQueue, (void **)&infoQueue);
+    if (SUCCEEDED(hr)) {
+      infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
+      InfoQueueLog();
+    } else {
+      getOut() << "info queue query failed" << std::endl;
+      // abort();
+    }
     
     ID3D11DeviceContext *context;
     device->lpVtbl->GetImmediateContext(device, &context);
