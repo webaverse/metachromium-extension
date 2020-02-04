@@ -215,11 +215,13 @@ window.addEventListener('load', () => {
   
   const scene = new THREE.Scene();
   const camera = new THREE.Camera();
+
   const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 2);
   directionalLight.position.set(1, 1, 1);
   scene.add(directionalLight);
   const ambientLight = new THREE.AmbientLight(0x808080);
   scene.add(ambientLight);
+
   const cubeMesh = (() => {
     const geometry = new THREE.BoxBufferGeometry(0.2, 0.2, 0.2);
     const material = new THREE.MeshPhongMaterial({
@@ -229,7 +231,66 @@ window.addEventListener('load', () => {
   })();
   cubeMesh.position.set(0, 1.5, -1);
   scene.add(cubeMesh);
-  
+
+  const _forceTextureInitialization = (() => {
+    const material = new THREE.MeshBasicMaterial();
+    const geometry = new THREE.PlaneBufferGeometry();
+    const scene = new THREE.Scene();
+    scene.add(new THREE.Mesh(geometry, material));
+    const camera = new THREE.Camera();
+
+    return function _forceTextureInitialization(texture) {
+      material.map = texture;
+      renderer.render(scene, camera);
+    };
+  })();
+  const _bindTexture = (texture, texId) => {
+    _forceTextureInitialization(texture);
+    const texProps = renderer.properties.get(texture);
+    texProps.__webglTexture = texId;
+  };
+  const planeMesh = (() => {
+    const geometry = new THREE.PlaneBufferGeometry(1, 1);
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xFFFFFF,
+    });
+    return new THREE.Mesh(geometry, material);
+  })();
+  planeMesh.position.set(0, 1.5, -1);
+  scene.add(planeMesh);
+
+  (async () => {
+    const desc = await xrc().request('prepareBindSurface', []);
+    if (desc) {
+      console.log('got prepare bind surface', desc);
+      const {width, height} = desc;
+
+      const gl = renderer.getContext();
+      const texId = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, texId);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+      gl.bindTexture(gl.TEXTURE_2D, null);
+      renderer.state.reset();
+
+      const texture = new THREE.Texture(
+        null,
+        THREE.UVMapping,
+        THREE.ClampToEdgeWrapping,
+        THREE.ClampToEdgeWrapping,
+        THREE.LinearFilter,
+        THREE.LinearFilter,
+        THREE.RGBAFormat,
+        THREE.UnsignedByteType,
+        0,
+        THREE.LinearEncoding
+      );
+      _bindTexture(texture, texId);
+      planeMesh.material.map = texture;
+    } else {
+      console.warn('no surface to bind');
+    }
+  })();
+
   renderer.setAnimationLoop(render);
   function render() {
     cubeMesh.rotation.x += 0.01;
