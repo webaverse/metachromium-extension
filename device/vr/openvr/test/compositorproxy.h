@@ -111,7 +111,7 @@ public:
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<HANDLE> inBackDepthHandleLatches;
   std::vector<ID3D11Fence *> inBackFences;
-  std::map<HANDLE, ID3D11Texture2D *> backbufferTexs;
+  std::deque<HANDLE> backbufferShHandles;
   // ID3D11Texture2D *backbufferShTex = nullptr;
   // ID3D11ShaderResourceView *backbufferSrv = nullptr;
   // std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;

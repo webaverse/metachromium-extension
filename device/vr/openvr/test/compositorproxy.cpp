@@ -53,6 +53,7 @@ char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothi
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
 char kIVRCompositor_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterSurface";
+char kIVRCompositor_PopSurface[] = "IVRCompositor::kIVRCompositor_PopSurface";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
@@ -1175,7 +1176,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     int,
     HANDLE
   >([=](HANDLE backbufferShHandle) {
-    auto iter = backbufferTexs.find(backbufferShHandle);
+    backbufferShHandles.push_back(backbufferShHandle);
+
+    /* auto iter = backbufferTexs.find(backbufferShHandle);
     if (iter == backbufferTexs.end()) {
       ID3D11Resource *shTexResource;
       HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
@@ -1191,7 +1194,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         abort();
       }
       
-      /* D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+      D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
       srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
       srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
       srvDesc.Texture2D.MostDetailedMip = 0;
@@ -1205,14 +1208,26 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         // InfoQueueLog();
         getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
         abort();
-      } */
+      }
 
-      backbufferTexs[backbufferShHandle] = shTex;
+      backbufferShHandles[backbufferShHandle] = shTex;
 
       shTexResource->Release();
-    }
+    } */
     
     return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_PopSurface,
+    HANDLE
+  >([=]() {
+    if (backbufferShHandles.size() > 0) {
+      HANDLE result = backbufferShHandles.front();
+      backbufferShHandles.pop_front();
+      return result;
+    } else {
+      return NULL;
+    }
   });
   fnp.reg<
     kIVRCompositor_GetSharedEyeTexture,
