@@ -52,7 +52,7 @@ char kIVRCompositor_SubmitExplicitTimingData[] = "IVRCompositor::SubmitExplicitT
 char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothingEnabled";
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
-char kIVRCompositor_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
+char kIVRCompositor_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterSurface";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
@@ -1171,7 +1171,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     return vrcompositor->IsCurrentSceneFocusAppLoading();
   });
   fnp.reg<
-    kIVRCompositor_SetBackbuffer,
+    kIVRCompositor_RegisterSurface,
     int,
     HANDLE
   >([=](HANDLE newBackbufferShHandle) {    

@@ -40,7 +40,7 @@ char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
-char kHijacker_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
+char kHijacker_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterSurface";
 char kHijacker_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 
 // void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
@@ -676,7 +676,7 @@ void presentSwapChain(T *swapChain) {
     );
 
     g_hijacker->fnp.call<
-      kHijacker_SetBackbuffer,
+      kHijacker_RegisterSurface,
       int
     >(backbufferShHandle);
     
