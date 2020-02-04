@@ -52,7 +52,9 @@ char kIVRCompositor_SubmitExplicitTimingData[] = "IVRCompositor::SubmitExplicitT
 char kIVRCompositor_IsMotionSmoothingEnabled[] = "IVRCompositor::IsMotionSmoothingEnabled";
 char kIVRCompositor_IsMotionSmoothingSupported[] = "IVRCompositor::IsMotionSmoothingSupported";
 char kIVRCompositor_IsCurrentSceneFocusAppLoading[] = "IVRCompositor::IsCurrentSceneFocusAppLoading";
-char kIVRCompositor_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
+char kIVRCompositor_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterSurface";
+char kIVRCompositor_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
+char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
@@ -1171,165 +1173,92 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     return vrcompositor->IsCurrentSceneFocusAppLoading();
   });
   fnp.reg<
-    kIVRCompositor_SetBackbuffer,
+    kIVRCompositor_RegisterSurface,
     int,
-    HANDLE,
-    uintptr_t,
-    HANDLE,
-    size_t
-  >([=](HANDLE newBackbufferShHandle, uintptr_t serverProcessIdPtr, HANDLE newBackbufferFenceHandle, size_t backbufferFenceValue) {
-    // getOut() << "set back buffer " << (void *)newBackbufferShHandle << " " << (void *)serverProcessIdPtr << " " << (void *)newBackbufferFenceHandle << " " << (void *)backbufferFenceValue << std::endl;
-    DWORD serverProcessId = serverProcessIdPtr;
-    
-    if (backbufferShHandle != newBackbufferShHandle) {
-      if (backbufferShTex) {
-        backbufferShTex->Release();
-        backbufferShTex = nullptr;
-        backbufferSrv->Release();
-        backbufferSrv = nullptr;
-        backbufferRtv->Release();
-        backbufferRtv = nullptr;
-      }
-      backbufferShHandle = newBackbufferShHandle;
-
-      ID3D11Resource *shTexResource;
-      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
-      if (FAILED(hr)) {
-        getOut() << "failed to unpack backbuffer shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-        abort();
-      }
-
-      hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&backbufferShTex); 
-      if (FAILED(hr)) {
-        getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
-        abort();
-      }
+    HANDLE
+  >([=](HANDLE surfaceShHandle) {
+    auto iter = std::find(surfaceShHandles.begin(), surfaceShHandles.end(), surfaceShHandle);
+    if (iter == surfaceShHandles.end()) {
+      surfaceShHandles.push_back(surfaceShHandle);
       
-      D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-      srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-      srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-      srvDesc.Texture2D.MostDetailedMip = 0;
-      srvDesc.Texture2D.MipLevels = 1;
-      hr = device->CreateShaderResourceView(
-        backbufferShTex,
-        &srvDesc,
-        &backbufferSrv
-      );
+      ID3D11Resource *shTexResource;
+      HRESULT hr = device->OpenSharedResource(surfaceShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
       if (FAILED(hr)) {
-        // InfoQueueLog();
-        getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
+        getOut() << "failed to unpack surface shared texture handle: " << (void *)hr << " " << (void *)surfaceShHandle << std::endl;
         abort();
       }
 
-      D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
-      renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-      renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-      renderTargetViewDesc.Texture2D.MipSlice = 0;
-      hr = device->CreateRenderTargetView(
-        backbufferShTex,
-        &renderTargetViewDesc,
-        &backbufferRtv
-      );
+      ID3D11Texture2D *shTex;
+      hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&shTex); 
       if (FAILED(hr)) {
-        InfoQueueLog();
-        getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
+        getOut() << "failed to unpack surface shared texture: " << (void *)hr << " " << (void *)shTexResource << std::endl;
         abort();
       }
+
+      D3D11_TEXTURE2D_DESC desc;
+      shTex->GetDesc(&desc);
 
       shTexResource->Release();
+      shTex->Release();
     }
-    if (backbufferFenceHandle != newBackbufferFenceHandle) {
-      if (backbufferFence) {
-        backbufferFence->Release();
-        backbufferFence = nullptr;
-      }
-      backbufferFenceHandle = newBackbufferFenceHandle;
-
-      HANDLE srcProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, serverProcessId);
-      HANDLE dstProcess = OpenProcess(PROCESS_DUP_HANDLE, FALSE, GetCurrentProcessId());
-      
-      HANDLE fenceHandle2;
-      BOOL ok = DuplicateHandle(
-        srcProcess,
-        backbufferFenceHandle,
-        dstProcess,
-        &fenceHandle2,
-        0,
-        false,
-        DUPLICATE_SAME_ACCESS
-      );
-      if (ok) {
-        HRESULT hr = device->OpenSharedFence(fenceHandle2, IID_ID3D11Fence, (void **)&backbufferFence);
-        if (SUCCEEDED(hr)) {
-          // nothing
-          getOut() << "got backbuffer fence handle ok " << std::endl;
-        } else {
-          InfoQueueLog();
-          getOut() << "backbuffer fence resource unpack failed " << (void *)hr << " " << (void *)fenceHandle2 << std::endl;
-          abort();
-        }
-      } else {
-        getOut() << "failed to duplicate backbuffer fence handle " << GetLastError() << std::endl;
-      }
-      
-      CloseHandle(srcProcess);
-      CloseHandle(dstProcess);
-    }
-
-    /* context->Wait(backbufferFence, backbufferFenceValue);
-
-    {
-      float localVsData[8] = {
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      };
-      context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
-      context->VSSetShader(vsShader, nullptr, 0);
-      context->PSSetShader(psCopyShader, nullptr, 0);
-      context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
-
-      ID3D11RenderTargetView *localRenderTargetViews[1] = {
-        backbufferRtv
-      };
-      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
-      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
-        eyeShaderResourceViews[0],
-      };
-      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
-
-      D3D11_TEXTURE2D_DESC backbufferDesc;
-      backbufferShTex->GetDesc(&backbufferDesc);
-      D3D11_VIEWPORT viewport{
-        0, // TopLeftX,
-        backbufferDesc.Height - 300, // TopLeftY,
-        300, // Width,
-        300, // Height,
-        0, // MinDepth,
-        1 // MaxDepth
-      };
-      context->RSSetViewports(1, &viewport);
-
-      context->DrawIndexed(6, 0, 0);
-
-      ID3D11ShaderResourceView *localShaderResourceViewsClear[1] = {};
-      context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
-      ID3D11RenderTargetView *localRenderTargetViewsClear[1] = {};
-      context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
-    }
-
-    ++backbufferFenceValue;
-    context->Signal(backbufferFence, backbufferFenceValue);
-    // context->Flush();
-
-    return backbufferFenceValue; */
     
     return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_PrepareBindSurface,
+    D3D11_TEXTURE2D_DESC
+  >([=]() {
+    if (surfaceShHandles.size() > 0) {
+      HANDLE surfaceShHandle = surfaceShHandles.front();
+
+      ID3D11Resource *shTexResource;
+      HRESULT hr = device->OpenSharedResource(surfaceShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack surface shared texture handle: " << (void *)hr << " " << (void *)surfaceShHandle << std::endl;
+        abort();
+      }
+
+      ID3D11Texture2D *shTex;
+      hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&shTex); 
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack surface shared texture: " << (void *)hr << " " << (void *)shTexResource << std::endl;
+        abort();
+      }
+
+      D3D11_TEXTURE2D_DESC desc;
+      shTex->GetDesc(&desc);
+
+      surfaceBindQueue.push_back(std::pair<HANDLE, D3D11_TEXTURE2D_DESC>(surfaceShHandle, desc));
+
+      shTexResource->Release();
+      shTex->Release();
+
+      return desc;
+    } else {
+      return D3D11_TEXTURE2D_DESC{};
+    }
+  });
+  fnp.reg<
+    kIVRCompositor_TryBindSurface,
+    HANDLE,
+    D3D11_TEXTURE2D_DESC
+  >([=](D3D11_TEXTURE2D_DESC desc) {    
+    if (desc.Usage != D3D11_USAGE_STAGING) {
+      auto iter = std::find_if(surfaceBindQueue.begin(), surfaceBindQueue.end(), [&](const std::pair<HANDLE, D3D11_TEXTURE2D_DESC> &e) -> bool {
+        const D3D11_TEXTURE2D_DESC &desc2 = e.second;
+        return desc2.Width == desc.Width && desc2.Height == desc.Height;
+      });
+
+      if (iter != surfaceBindQueue.end()) {
+        const D3D11_TEXTURE2D_DESC &desc2 = iter->second;
+        surfaceBindQueue.erase(iter);
+        return iter->first;
+      } else {
+        return (HANDLE)NULL;
+      }
+    } else {
+      return (HANDLE)NULL;
+    }
   });
   fnp.reg<
     kIVRCompositor_GetSharedEyeTexture,

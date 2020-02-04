@@ -1,6 +1,8 @@
 #ifndef _openvr_compositorproxy_h_
 #define _openvr_compositorproxy_h_
 
+#include <deque>
+
 #include <D3D11_4.h>
 #include <d3dcompiler.h>
 #include <DXGI1_4.h>
@@ -9,7 +11,6 @@
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
-#include "device/vr/openvr/test/compositor2d.h"
 #include "device/vr/openvr/test/fnproxy.h"
 #include "device/vr/openvr/test/hijack.h"
 
@@ -111,12 +112,10 @@ public:
   std::vector<HANDLE> inBackHandleLatches;
   std::vector<HANDLE> inBackDepthHandleLatches;
   std::vector<ID3D11Fence *> inBackFences;
-  HANDLE backbufferShHandle = NULL;
-  ID3D11Texture2D *backbufferShTex = nullptr;
-  ID3D11Fence *backbufferFence = nullptr;
-  HANDLE backbufferFenceHandle = NULL;
-  ID3D11ShaderResourceView *backbufferSrv = nullptr;
-  ID3D11RenderTargetView *backbufferRtv = nullptr;
+  std::deque<HANDLE> surfaceShHandles;
+  std::deque<std::pair<HANDLE, D3D11_TEXTURE2D_DESC>> surfaceBindQueue;
+  // ID3D11Texture2D *backbufferShTex = nullptr;
+  // ID3D11ShaderResourceView *backbufferSrv = nullptr;
   // std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
   /* HANDLE shTexInLeftInteropHandle = NULL;
   HANDLE shTexInRightInteropHandle = NULL;

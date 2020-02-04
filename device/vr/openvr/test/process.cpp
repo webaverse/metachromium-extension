@@ -322,10 +322,6 @@ int WINAPI WinMain(
   vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
   vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
   vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
-  
-  std::thread([=]() -> void {
-    compositor2d::homeRenderLoop();
-  }).detach();
 
   g_fnp->reg<
     kProcess_HandleMessages,
