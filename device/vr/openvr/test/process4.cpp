@@ -28,6 +28,8 @@ extern std::string dllDir;
 
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
+char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
+// char kProcess_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
 
 void respond(const json &j) {
   std::string outString = j.dump();
@@ -239,6 +241,30 @@ int main(int argc, char **argv) {
               {"result", "ok"}
             };
             respond(res);
+          } else if (
+            methodString == "prepareBindSurface"
+          ) {
+            auto desc = g_fnp->call<
+              kProcess_PrepareBindSurface,
+              D3D11_TEXTURE2D_DESC
+            >();
+
+            if (desc.Width > 0 && desc.Height > 0) {
+              json res = {
+                {"error", nullptr},
+                {"result", {
+                  {"width", desc.Width},
+                  {"height", desc.Height},
+                }}
+              };
+              respond(res);
+            } else {
+              json res = {
+                {"error", nullptr},
+                {"result", nullptr}
+              };
+              respond(res);
+            }
           } else {
             json res = {
               {"error", "invalid method"},
