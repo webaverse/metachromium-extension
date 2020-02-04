@@ -9,7 +9,6 @@
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
 #include "device/vr/openvr/test/glcontext.h"
-#include "device/vr/openvr/test/compositor2d.h"
 #include "device/vr/openvr/test/fnproxy.h"
 #include "device/vr/openvr/test/hijack.h"
 
