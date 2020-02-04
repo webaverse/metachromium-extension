@@ -525,16 +525,6 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
   };
   hijackerContext->lpVtbl->PSSetShaderResources(hijackerContext, 0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
 
-  /* HRESULT hr = hijackerDevice->lpVtbl->CreateRenderTargetView(
-    hijackerDevice,
-    backbufferRes,
-    &renderTargetViewDesc,
-    &backbufferRtv
-  );
-  if (FAILED(hr)) {
-    getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
-    abort();
-  } */
   ID3D11RenderTargetView *localRenderTargetViews[1] = {
     viewportRtv,
   };
