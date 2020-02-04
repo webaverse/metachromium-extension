@@ -123,10 +123,6 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 //------------------------------------------------------------//
 )END";
 
-// globals
-ID3D11Texture2D *backbufferShTex = nullptr;
-ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
-
 // window
 HWND twoDWindow = NULL;
 ID3D11Texture2D *windowTex = nullptr;

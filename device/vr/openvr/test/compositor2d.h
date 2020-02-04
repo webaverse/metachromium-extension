@@ -9,8 +9,6 @@
 // #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
 
-// extern ID3D11ShaderResourceView *backbufferShResourceView;
-
 namespace vr {
   class PVRCompositor;
 }
