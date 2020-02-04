@@ -343,7 +343,7 @@ int WINAPI WinMain(
 
     return 0;
   });
-  std::thread([g_fnp]() -> void {
+  std::thread([]() -> void {
     for (;;) {
       DWORD result = MsgWaitForMultipleObjects(0, NULL, false, INFINITE, QS_ALLEVENTS);
       g_fnp->call<
