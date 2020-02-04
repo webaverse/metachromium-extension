@@ -603,7 +603,7 @@ void presentSwapChain(T *swapChain) {
     if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
       backbufferDesc = desc;
 
-      desc.MipLevels = 12;
+      desc.MipLevels = 1;
       desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET | D3D11_BIND_UNORDERED_ACCESS;
       desc.MiscFlags |= D3D11_RESOURCE_MISC_GENERATE_MIPS | D3D11_RESOURCE_MISC_SHARED;
 
