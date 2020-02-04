@@ -1830,11 +1830,9 @@ HRESULT STDMETHODCALLTYPE MineCreateDepthStencilView(
   const D3D11_DEPTH_STENCIL_VIEW_DESC *pDesc,
   ID3D11DepthStencilView              **ppDepthStencilView
 ) {
-  ID3D11Texture2D *depthTex = nullptr;
+  ID3D11Texture2D *depthTex;
   HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&depthTex);
-  if (SUCCEEDED(hr)) {
-    // nothing
-  } else {
+  if (FAILED(hr)) {
     getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
     abort();
   }
