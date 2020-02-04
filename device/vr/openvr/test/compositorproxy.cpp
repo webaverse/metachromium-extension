@@ -1181,8 +1181,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         backbufferShTex = nullptr;
         backbufferSrv->Release();
         backbufferSrv = nullptr;
-        backbufferRtv->Release();
-        backbufferRtv = nullptr;
       }
       backbufferShHandle = newBackbufferShHandle;
 
@@ -1212,21 +1210,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       if (FAILED(hr)) {
         // InfoQueueLog();
         getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
-        abort();
-      }
-
-      D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc{};
-      renderTargetViewDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-      renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-      renderTargetViewDesc.Texture2D.MipSlice = 0;
-      hr = device->CreateRenderTargetView(
-        backbufferShTex,
-        &renderTargetViewDesc,
-        &backbufferRtv
-      );
-      if (FAILED(hr)) {
-        InfoQueueLog();
-        getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
         abort();
       }
 
