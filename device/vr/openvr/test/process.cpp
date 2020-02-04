@@ -7,6 +7,8 @@
 
 using json = nlohmann::json;
 
+char kProcess_HandleMessages[] = "Process::HandleMessages";
+
 std::string logSuffix = "_process";
 HWND g_hWnd = NULL;
 bool live = true;
@@ -325,6 +327,32 @@ int WINAPI WinMain(
     compositor2d::homeRenderLoop();
   }).detach();
 
+  g_fnp->reg<
+    kProcess_HandleMessages,
+    int
+  >([]() {
+    MSG msg;
+    // wait for the next message in the queue, store the result in 'msg'
+    while (PeekMessageA(&msg, NULL, 0, 0, true)) {
+      // translate keystroke messages into the right format
+      TranslateMessage(&msg);
+
+      // send the message to the WindowProc function
+      DispatchMessage(&msg);
+    }
+
+    return 0;
+  });
+  std::thread([g_fnp]() -> void {
+    for (;;) {
+      DWORD result = MsgWaitForMultipleObjects(0, NULL, false, INFINITE, QS_ALLEVENTS);
+      g_fnp->call<
+        kProcess_HandleMessages,
+        int
+      >();
+    }
+  }).detach();
+
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
     getOut() << "failed to get current directory" << std::endl;
@@ -465,20 +493,7 @@ int WINAPI WinMain(
   }
 
   while (live) {
-    // getOut() << "handle 1" << std::endl;
     g_fnp->handle();
-    // getOut() << "handle 2" << std::endl;
-
-    MSG msg;
-    // wait for the next message in the queue, store the result in 'msg'
-    while (PeekMessageA(&msg, NULL, 0, 0, true)) {
-      // translate keystroke messages into the right format
-      TranslateMessage(&msg);
-
-      // send the message to the WindowProc function
-      DispatchMessage(&msg);
-    }
-    // getOut() << "handle 3" << std::endl;
   }
   
   /* if (chromeProcessHandle) {
