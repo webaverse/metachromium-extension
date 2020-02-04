@@ -1174,16 +1174,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_RegisterSurface,
     int,
     HANDLE
-  >([=](HANDLE newBackbufferShHandle) {    
-    if (backbufferShHandle != newBackbufferShHandle) {
-      if (backbufferShTex) {
-        backbufferShTex->Release();
-        backbufferShTex = nullptr;
-        backbufferSrv->Release();
-        backbufferSrv = nullptr;
-      }
-      backbufferShHandle = newBackbufferShHandle;
-
+  >([=](HANDLE backbufferShHandle) {
+    auto iter = backbufferTexs.find(backbufferShHandle);
+    if (iter == backbufferTexs.end()) {
       ID3D11Resource *shTexResource;
       HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
       if (FAILED(hr)) {
@@ -1191,13 +1184,14 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         abort();
       }
 
-      hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&backbufferShTex); 
+      ID3D11Texture2D *shTex;
+      hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&shTex); 
       if (FAILED(hr)) {
         getOut() << "failed to unpack backbuffer shared texture: " << (void *)hr << " " << (void *)shTexResource << std::endl;
         abort();
       }
       
-      D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+      /* D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
       srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
       srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
       srvDesc.Texture2D.MostDetailedMip = 0;
@@ -1211,7 +1205,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         // InfoQueueLog();
         getOut() << "failed to create back buffer shader resource view: " << (void *)hr << std::endl;
         abort();
-      }
+      } */
+
+      backbufferTexs[backbufferShHandle] = shTex;
 
       shTexResource->Release();
     }
