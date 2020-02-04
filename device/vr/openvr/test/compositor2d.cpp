@@ -124,7 +124,6 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 )END";
 
 // globals
-HANDLE backbufferShHandleLatched = NULL;
 ID3D11Texture2D *backbufferShTex = nullptr;
 ID3D11ShaderResourceView *backbufferShResourceView = nullptr;
 
