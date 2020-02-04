@@ -1226,9 +1226,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       HANDLE surfaceShHandle = surfaceShHandles.front();
 
       ID3D11Resource *shTexResource;
-      HRESULT hr = device->OpenSharedResource(backbufferShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
+      HRESULT hr = device->OpenSharedResource(surfaceShHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
       if (FAILED(hr)) {
-        getOut() << "failed to unpack surface shared texture handle: " << (void *)hr << " " << (void *)backbufferShHandle << std::endl;
+        getOut() << "failed to unpack surface shared texture handle: " << (void *)hr << " " << (void *)surfaceShHandle << std::endl;
         abort();
       }
 
@@ -1263,10 +1263,10 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     });
 
     if (iter != surfaceBindQueue.end()) {
-      surfaceBindQueue.remove(iter);
+      surfaceBindQueue.erase(iter);
       return iter->first;
     } else {
-      return NULL;
+      return (HANDLE)NULL;
     }
   });
   fnp.reg<

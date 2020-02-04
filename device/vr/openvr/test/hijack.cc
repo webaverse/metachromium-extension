@@ -2137,7 +2137,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     return hr;
   } else {
     HANDLE surfaceShHandle = g_hijacker->fnp.call<
-      kIVRCompositor_TryBindSurface,
+      kHijacker_TryBindSurface,
       HANDLE,
       D3D11_TEXTURE2D_DESC
     >(*pDesc);
@@ -2145,7 +2145,7 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
       ID3D11Resource *surfaceRes;
       HRESULT hr = This->lpVtbl->OpenSharedResource(This, surfaceShHandle, IID_ID3D11Resource, (void**)&surfaceRes);
       if (FAILED(hr)) {
-        getOut() << "failed to unpack surface texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
+        getOut() << "failed to unpack surface texture handle: " << (void *)hr << " " << (void *)surfaceShHandle << std::endl;
         abort();
       }
 
