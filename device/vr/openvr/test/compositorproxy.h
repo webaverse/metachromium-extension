@@ -193,6 +193,8 @@ public:
 	virtual bool IsCurrentSceneFocusAppLoading();
   
   void CacheWaitGetPoses();
+  HmdMatrix34_t GetViewMatrix();
+  HmdMatrix44_t GetProjectionMatrix();
   void InitShader();
   void SwapDepthTex(int iEye);
   void InfoQueueLog();

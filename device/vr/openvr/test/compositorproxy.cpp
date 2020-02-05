@@ -2940,6 +2940,18 @@ void PVRCompositor::CacheWaitGetPoses() {
     );
   }
 }
+HmdMatrix34_t PVRCompositor::GetViewMatrix() {
+  for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
+    ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
+    if (deviceClass == TrackedDeviceClass_HMD) {
+      return cachedRenderPoses[i].mDeviceToAbsoluteTracking;
+    }
+  }
+  return HmdMatrix34_t{};
+}
+HmdMatrix44_t PVRCompositor::GetProjectionMatrix() {
+  return g_vrsystem->GetProjectionMatrix(vr::Eye_Left, 0.1, 1000);
+}
 void PVRCompositor::InitShader() {
   getOut() << "init shader 1" << std::endl;
   
