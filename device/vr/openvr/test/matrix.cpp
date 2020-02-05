@@ -134,12 +134,18 @@ void composeMatrix(float *matrix, const float *position, const float *quaternion
   te[ 14 ] = position[2];
   te[ 15 ] = 1;
 }
-void addVector(float *a, const float *b) {
+void addVector3(float *a, const float *b) {
   a[0] += b[0];
   a[1] += b[1];
   a[2] += b[2];
 }
-void applyVectorQuaternion(float *v, const float *q) {
+void addVector4(float *a, const float *b) {
+  a[0] += b[0];
+  a[1] += b[1];
+  a[2] += b[2];
+  a[3] += b[3];
+}
+void applyVector3Quaternion(float *v, const float *q) {
   float x = v[0], y = v[1], z = v[2];
   float qx = q[0], qy = q[1], qz = q[2], qw = q[3];
 
@@ -156,7 +162,7 @@ void applyVectorQuaternion(float *v, const float *q) {
   v[1] = iy * qw + iw * - qy + iz * - qx - ix * - qz;
   v[2] = iz * qw + iw * - qz + ix * - qy - iy * - qx;
 }
-void applyVectorMatrix(float *v, const float *m) {
+void applyVector3Matrix(float *v, const float *m) {
   float x = v[0], y = v[1], z = v[2];
   const float *e = m;
 
@@ -166,22 +172,54 @@ void applyVectorMatrix(float *v, const float *m) {
   v[1] = ( e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] ) * w;
   v[2] = ( e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] ) * w;
 }
-void multiplyVectors(float *a, const float *b) {
+void applyVector4Matrix(float *v, const float *m) {
+  float x = v[0], y = v[1], z = v[2], w = v[3];
+  const float *e = m;
+
+  v[0] = e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z + e[ 12 ] * w;
+  v[1] = e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] * w;
+  v[2] = e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] * w;
+  v[3] = e[ 3 ] * x + e[ 7 ] * y + e[ 11 ] * z + e[ 15 ] * w;
+}
+void multiplyVectors3(float *a, const float *b) {
   a[0] *= b[0];
   a[1] *= b[1];
   a[2] *= b[2];
 }
-void divideVectors(float *a, const float *b) {
+void multiplyVectors4(float *a, const float *b) {
+  a[0] *= b[0];
+  a[1] *= b[1];
+  a[2] *= b[2];
+  a[3] *= b[3];
+}
+void divideVectors3(float *a, const float *b) {
   a[0] /= b[0];
   a[1] /= b[1];
   a[2] /= b[2];
 }
-void multiplyVectorScalar(float *v, const float s) {
+void divideVectors4(float *a, const float *b) {
+  a[0] /= b[0];
+  a[1] /= b[1];
+  a[2] /= b[2];
+  a[3] /= b[3];
+}
+void multiplyVector3Scalar(float *v, const float s) {
   v[0] *= s;
   v[1] *= s;
   v[2] *= s;
 }
-void addVectorScalar(float *v, const float s) {
+void multiplyVector4Scalar(float *v, const float s) {
+  v[0] *= s;
+  v[1] *= s;
+  v[2] *= s;
+  v[3] *= s;
+}
+void addVector3Scalar(float *v, const float s) {
+  v[0] += s;
+  v[1] += s;
+  v[2] += s;
+}
+void addVector4Scalar(float *v, const float s) {
   v[0] += s;
   v[1] += s;
   v[2] += s;
