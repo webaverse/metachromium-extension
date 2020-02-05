@@ -33,14 +33,15 @@ extern Hijacker *g_hijacker;
 extern bool isChrome;
 extern Offsets *g_offsets;
 
-constexpr unsigned int viewportWidth = 300;
-constexpr unsigned int viewportHeight = 300;
+constexpr unsigned int viewportWidth = 500;
+constexpr unsigned int viewportHeight = 500;
 
 char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
 char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
 char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
 char kHijacker_QueueContains[] = "Hijacker_QueueContains";
-char kHijacker_SetBackbuffer[] = "IVRCompositor::kIVRCompositor_SetBackbuffer";
+char kHijacker_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterSurface";
+char kHijacker_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
 char kHijacker_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 
 // void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex);
@@ -298,14 +299,6 @@ void initBlitShader() {
   }
 
   g_hijacker->hijackDx(contextBasic);
-
-  hr = deviceBasic->lpVtbl->QueryInterface(deviceBasic, IID_ID3D11InfoQueue, (void **)&infoQueue);
-  if (SUCCEEDED(hr)) {
-    infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
-  } else {
-    getOut() << "info queue query failed" << std::endl;
-    // abort();
-  }
   
   float vertices[] = { // xyuv
     -1, -1, 0, 1,
@@ -525,16 +518,6 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
   };
   hijackerContext->lpVtbl->PSSetShaderResources(hijackerContext, 0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
 
-  /* HRESULT hr = hijackerDevice->lpVtbl->CreateRenderTargetView(
-    hijackerDevice,
-    backbufferRes,
-    &renderTargetViewDesc,
-    &backbufferRtv
-  );
-  if (FAILED(hr)) {
-    getOut() << "failed to create back buffer render target view: " << (void *)hr << std::endl;
-    abort();
-  } */
   ID3D11RenderTargetView *localRenderTargetViews[1] = {
     viewportRtv,
   };
@@ -560,259 +543,214 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
 ID3D11Resource *backbufferShRes = nullptr;
 HANDLE backbufferShHandle = NULL;
 D3D11_TEXTURE2D_DESC backbufferDesc{};
-ID3D11Fence *backbufferFence = nullptr;
-HANDLE backbufferFenceHandle = NULL;
-uint64_t backbufferFenceValue = 0;
 template<typename T>
 void presentSwapChain(T *swapChain) {
   // getOut() << "present swap chain 1" << std::endl;
 
-  if (!hijackerDevice) {
-    initBlitShader();
-  }
+  DXGI_SWAP_CHAIN_DESC desc;
+  swapChain->lpVtbl->GetDesc(swapChain, &desc);
+  const DXGI_MODE_DESC &modeDesc = desc.BufferDesc;
+  if (modeDesc.Width >= 500 && modeDesc.Height >= 500) {
+    if (!hijackerDevice) {
+      initBlitShader();
+    }
   
-  ID3D11Resource *res;
-	HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
-	if (FAILED(hr)) {
-		getOut() << "get_dxgi_backbuffer: GetBuffer failed" << std::endl;
-  }
-  
-  ID3D11Texture2D *tex;
-  hr = res->lpVtbl->QueryInterface(res, IID_ID3D11Texture2D, (void **)&tex);
-  if (FAILED(hr)) {
-    getOut() << "failed to query backbuffer texture: " << (void *)hr << std::endl;
-    abort();
-  }
-
-  ID3D11Device *device;
-  tex->lpVtbl->GetDevice(tex, &device);
-
-  /* ID3D11Device5 *device5;
-  hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
-  if (FAILED(hr)) {
-    getOut() << "failed to query backbuffer device5 : " << (void *)hr << std::endl;
-    abort();
-  } */
-  
-  ID3D11DeviceContext *context;
-  device->lpVtbl->GetImmediateContext(device, &context);
-  
-  ID3D11DeviceContext4 *context4;
-  hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
-  if (FAILED(hr)) {
-    getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
-    abort();
-  }
-
-  D3D11_TEXTURE2D_DESC desc;
-  tex->lpVtbl->GetDesc(tex, &desc);
-  
-  if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
-    backbufferDesc = desc;
-
-    desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-    desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-
-    ID3D11Texture2D *backbufferShTex;
-    hr = device->lpVtbl->CreateTexture2D(
-      device,
-      &desc,
-      NULL,
-      &backbufferShTex
-    );
+    ID3D11Resource *res;
+    HRESULT hr = swapChain->lpVtbl->GetBuffer(swapChain, 0, IID_ID3D11Resource, (void **)&res);
     if (FAILED(hr)) {
-      getOut() << "failed to create backbuffer texture: " << (void *)hr << std::endl;
-      abort();
+      getOut() << "get_dxgi_backbuffer: GetBuffer failed" << std::endl;
     }
     
-    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_ID3D11Resource, (void **)&backbufferShRes);
+    ID3D11Texture2D *tex;
+    hr = res->lpVtbl->QueryInterface(res, IID_ID3D11Texture2D, (void **)&tex);
     if (FAILED(hr)) {
-      getOut() << "failed to query backbuffer d3d11 resource: " << (void *)hr << std::endl;
+      getOut() << "failed to query backbuffer texture: " << (void *)hr << std::endl;
       abort();
     }
+
+    ID3D11Device *device;
+    tex->lpVtbl->GetDevice(tex, &device);
+
+    /* ID3D11Device5 *device5;
+    hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
+    if (FAILED(hr)) {
+      getOut() << "failed to query backbuffer device5 : " << (void *)hr << std::endl;
+      abort();
+    } */
     
-    IDXGIResource1 *dxgiResource;
-    hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_IDXGIResource1, (void **)&dxgiResource);
-    if (FAILED(hr)) {
-      getOut() << "failed to query backbuffer dxgi resource: " << (void *)hr << std::endl;
-      abort();
-    }
-    
-    hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &backbufferShHandle);
-    if (FAILED(hr)) {
-      getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
-      abort();
-    }
-  }
-  /* if (!backbufferFence) {
-    hr = device5->lpVtbl->CreateFence(
-      device5,
-      0, // value
-      // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
-      // D3D11_FENCE_FLAG_SHARED, // flags
-      D3D11_FENCE_FLAG_SHARED, // flags
-      IID_ID3D11Fence, // interface
-      (void **)&backbufferFence // out
-    );
+    hr = device->lpVtbl->QueryInterface(device, IID_ID3D11InfoQueue, (void **)&infoQueue);
     if (SUCCEEDED(hr)) {
-      // getOut() << "created fence " << (void *)fence << std::endl;
-      // nothing
+      infoQueue->lpVtbl->PushEmptyStorageFilter(infoQueue);
+      InfoQueueLog();
     } else {
-      getOut() << "failed to create backbuffer fence" << std::endl;
-      abort();
+      getOut() << "info queue query failed" << std::endl;
+      // abort();
     }
-
-    hr = backbufferFence->lpVtbl->CreateSharedHandle(
-      backbufferFence,
-      NULL, // security attributes
-      GENERIC_ALL, // access
-      NULL, // (std::string("Local\\OpenVrProxyFence") + std::to_string(eEye == Eye_Left ? 0 : 1)).c_str(), // name
-      &backbufferFenceHandle // share handle
-    );
-    if (SUCCEEDED(hr)) {
-      getOut() << "create shared backbuffer fence handle " << (void *)backbufferFenceHandle << std::endl;
-      // nothing
-    } else {
-      getOut() << "failed to create backbuffer fence share handle" << std::endl;
-      abort();
-    }
-  } */
-
-  context->lpVtbl->CopyResource(
-    context,
-    backbufferShRes,
-    res
-  );
-
-  /* ++backbufferFenceValue;
-  context4->lpVtbl->Signal(context4, backbufferFence, backbufferFenceValue);
-  // context4->lpVtbl->Flush(context4); */
-
-  /* backbufferFenceValue = */ g_hijacker->fnp.call<
-    kHijacker_SetBackbuffer,
-    int,
-    HANDLE,
-    uintptr_t,
-    HANDLE,
-    size_t
-  >(backbufferShHandle, GetCurrentProcessId(), backbufferFenceHandle, backbufferFenceValue);
-  
-  HANDLE shEyeTexHandle = g_hijacker->fnp.call<
-    kHijacker_GetSharedEyeTexture,
-    HANDLE
-  >();
-  if (latchedShEyeTex != shEyeTexHandle) {
-    if (eyeShaderResourceView) {
-      eyeShaderResourceView->lpVtbl->Release(eyeShaderResourceView);
-      eyeShaderResourceView = nullptr;
-    }
-    latchedShEyeTex = shEyeTexHandle;
     
-    ID3D11Resource *shEyeTexResource;
-    HRESULT hr = hijackerDevice->lpVtbl->OpenSharedResource(hijackerDevice, shEyeTexHandle, IID_ID3D11Resource, (void**)&shEyeTexResource);
+    ID3D11DeviceContext *context;
+    device->lpVtbl->GetImmediateContext(device, &context);
+    
+    ID3D11DeviceContext4 *context4;
+    hr = context->lpVtbl->QueryInterface(context, IID_ID3D11DeviceContext4, (void **)&context4);
     if (FAILED(hr)) {
-      getOut() << "failed to unpack shared eye texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
+      getOut() << "failed to query backbuffer context4: " << (void *)hr << std::endl;
       abort();
     }
 
-    D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
-    eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-    eyeSrv.Texture2D.MostDetailedMip = 0;
-    eyeSrv.Texture2D.MipLevels = 1;
+    D3D11_TEXTURE2D_DESC desc;
+    tex->lpVtbl->GetDesc(tex, &desc);
     
-    hr = hijackerDevice->lpVtbl->CreateShaderResourceView(
-      hijackerDevice,
-      shEyeTexResource,
-      &eyeSrv,
-      &eyeShaderResourceView
-    );
-    if (FAILED(hr)) {
-      getOut() << "failed to eye shader resource view: " << (void *)hr << std::endl;
-      abort();
-    }
+    if (!backbufferShHandle || backbufferDesc.Width != desc.Width || backbufferDesc.Height != desc.Height) {
+      backbufferDesc = desc;
 
-    shEyeTexResource->lpVtbl->Release(shEyeTexResource);
-  }
-  if (eyeShaderResourceView) {
-    InfoQueueLog();
+      desc.MipLevels = 1;
+      desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET | D3D11_BIND_UNORDERED_ACCESS;
+      desc.MiscFlags |= D3D11_RESOURCE_MISC_GENERATE_MIPS | D3D11_RESOURCE_MISC_SHARED;
 
-    blitEyeView(eyeShaderResourceView);
-    context4->lpVtbl->Wait(context4, viewportFence, viewportFenceValue);
-    
-    if (!viewportBackShD3D11Res) {
-      hr = device->lpVtbl->OpenSharedResource(device, viewportShHandle, IID_IDXGIResource1, (void**)&viewportBackShDXGIRes);
+      ID3D11Texture2D *backbufferShTex;
+      hr = device->lpVtbl->CreateTexture2D(
+        device,
+        &desc,
+        NULL,
+        &backbufferShTex
+      );
       if (FAILED(hr)) {
-        getOut() << "failed to unpack viewport share texture handle: " << (void *)hr << " " << (void *)viewportShHandle << std::endl;
+        getOut() << "failed to create backbuffer texture: " << (void *)hr << std::endl;
         abort();
       }
       
-      hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Texture2D, (void **)&viewportBackShTex);
+      hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_ID3D11Resource, (void **)&backbufferShRes);
       if (FAILED(hr)) {
-        getOut() << "failed to get viewport back texture: " << (void *)hr << std::endl;
+        getOut() << "failed to query backbuffer d3d11 resource: " << (void *)hr << std::endl;
         abort();
       }
       
-      hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Resource, (void **)&viewportBackShD3D11Res);
+      IDXGIResource1 *dxgiResource;
+      hr = backbufferShTex->lpVtbl->QueryInterface(backbufferShTex, IID_IDXGIResource1, (void **)&dxgiResource);
       if (FAILED(hr)) {
-        getOut() << "failed to get viewport back resource: " << (void *)hr << std::endl;
+        getOut() << "failed to query backbuffer dxgi resource: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &backbufferShHandle);
+      if (FAILED(hr)) {
+        getOut() << "failed to query backbuffer shared handle: " << (void *)hr << std::endl;
         abort();
       }
     }
 
-    /* D3D11_TEXTURE2D_DESC desc;
-    viewportBackShTex->lpVtbl->GetDesc(viewportBackShTex, &desc);
-    
-    getOut() << "copy region " <<
-      desc.Width << " " << desc.Height << " " <<
-      desc.MipLevels << " " << desc.ArraySize << " " <<
-      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-      desc.Format << " " <<
-      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      std::endl; */
-
-    /* D3D11_BOX srcBox{};
-    srcBox.left = 0;
-    srcBox.right = viewportWidth;
-    srcBox.top = 0;
-    srcBox.bottom = viewportHeight;
-    srcBox.front = 0;
-    srcBox.back = 1; */
-    context->lpVtbl->CopySubresourceRegion(
+    context->lpVtbl->CopyResource(
       context,
-      res, // dst
-      0, // dst sub
-      0, // dst x
-      desc.Height - viewportHeight, // dst y
-      0, // dst z
-      viewportBackShD3D11Res, // src
-      0, // src sub
-      NULL
+      backbufferShRes,
+      res
     );
-    // CopySubresourceRegion viewportFrontShTex -> backbufferRes
+
+    g_hijacker->fnp.call<
+      kHijacker_RegisterSurface,
+      int
+    >(backbufferShHandle);
+    
+    HANDLE shEyeTexHandle = g_hijacker->fnp.call<
+      kHijacker_GetSharedEyeTexture,
+      HANDLE
+    >();
+    if (latchedShEyeTex != shEyeTexHandle) {
+      if (eyeShaderResourceView) {
+        eyeShaderResourceView->lpVtbl->Release(eyeShaderResourceView);
+        eyeShaderResourceView = nullptr;
+      }
+      latchedShEyeTex = shEyeTexHandle;
+      
+      ID3D11Resource *shEyeTexResource;
+      HRESULT hr = hijackerDevice->lpVtbl->OpenSharedResource(hijackerDevice, shEyeTexHandle, IID_ID3D11Resource, (void**)&shEyeTexResource);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack shared eye texture handle: " << (void *)hr << " " << (void *)shEyeTexHandle << std::endl;
+        abort();
+      }
+
+      D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
+      eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+      eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+      eyeSrv.Texture2D.MostDetailedMip = 0;
+      eyeSrv.Texture2D.MipLevels = 1;
+      
+      hr = hijackerDevice->lpVtbl->CreateShaderResourceView(
+        hijackerDevice,
+        shEyeTexResource,
+        &eyeSrv,
+        &eyeShaderResourceView
+      );
+      if (FAILED(hr)) {
+        getOut() << "failed to eye shader resource view: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      shEyeTexResource->lpVtbl->Release(shEyeTexResource);
+    }
+    if (eyeShaderResourceView) {
+      InfoQueueLog();
+
+      blitEyeView(eyeShaderResourceView);
+      context4->lpVtbl->Wait(context4, viewportFence, viewportFenceValue);
+      
+      if (!viewportBackShD3D11Res) {
+        hr = device->lpVtbl->OpenSharedResource(device, viewportShHandle, IID_IDXGIResource1, (void**)&viewportBackShDXGIRes);
+        if (FAILED(hr)) {
+          getOut() << "failed to unpack viewport share texture handle: " << (void *)hr << " " << (void *)viewportShHandle << std::endl;
+          abort();
+        }
+        
+        hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Texture2D, (void **)&viewportBackShTex);
+        if (FAILED(hr)) {
+          getOut() << "failed to get viewport back texture: " << (void *)hr << std::endl;
+          abort();
+        }
+        
+        hr = viewportBackShDXGIRes->lpVtbl->QueryInterface(viewportBackShDXGIRes, IID_ID3D11Resource, (void **)&viewportBackShD3D11Res);
+        if (FAILED(hr)) {
+          getOut() << "failed to get viewport back resource: " << (void *)hr << std::endl;
+          abort();
+        }
+      }
+
+      /* D3D11_TEXTURE2D_DESC desc;
+      viewportBackShTex->lpVtbl->GetDesc(viewportBackShTex, &desc);
+      
+      getOut() << "copy region " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+        std::endl; */
+
+      /* D3D11_BOX srcBox{};
+      srcBox.left = 0;
+      srcBox.right = viewportWidth;
+      srcBox.top = 0;
+      srcBox.bottom = viewportHeight;
+      srcBox.front = 0;
+      srcBox.back = 1; */
+      context->lpVtbl->CopySubresourceRegion(
+        context,
+        res, // dst
+        0, // dst sub
+        0, // dst x
+        desc.Height - viewportHeight, // dst y
+        0, // dst z
+        viewportBackShD3D11Res, // src
+        0, // src sub
+        NULL
+      );
+    }
+
+    res->lpVtbl->Release(res);
+    tex->lpVtbl->Release(tex);
+    device->lpVtbl->Release(device);
+    // device5->lpVtbl->Release(device5);
+    context->lpVtbl->Release(context);
+    context4->lpVtbl->Release(context4);
   }
-
-  /* context4->lpVtbl->Wait(context4, backbufferFence, backbufferFenceValue);
-  context4->lpVtbl->CopyResource(
-    context4,
-    res,
-    backbufferShRes
-  ); */
-
-  /* getOut() << "present swap chain done " <<
-    desc.Width << " " << desc.Height << " " <<
-    desc.MipLevels << " " << desc.ArraySize << " " <<
-    desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-    desc.Format << " " <<
-    desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-    std::endl; */
-
-  res->lpVtbl->Release(res);
-  tex->lpVtbl->Release(tex);
-  device->lpVtbl->Release(device);
-  // device5->lpVtbl->Release(device5);
-  context->lpVtbl->Release(context);
-  context4->lpVtbl->Release(context4);
 }
 HRESULT (STDMETHODCALLTYPE *RealPresent)(
   IDXGISwapChain *This,
@@ -842,11 +780,20 @@ HRESULT STDMETHODCALLTYPE MinePresent1(
   UINT                          PresentFlags,
   const DXGI_PRESENT_PARAMETERS *pPresentParameters
 ) {
-  // getOut() << "present1" << std::endl;
   if (isChrome) {
     presentSwapChain(This);
   }
-  return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
+  if (pPresentParameters) {
+    getOut() << "present1 " << pPresentParameters->DirtyRectsCount << std::endl;
+    
+    // DXGI_PRESENT_PARAMETERS presentParameters = *pPresentParameters;
+    // presentParameters.DirtyRectsCount = 0;
+    // presentParameters.pDirtyRects = nullptr;
+    return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
+  } else {
+    getOut() << "present1 blank" << std::endl;
+    return RealPresent1(This, SyncInterval, PresentFlags, pPresentParameters);
+  }
 }
 /* HWND (STDMETHODCALLTYPE *RealCreateWindowExA)( 
   DWORD     dwExStyle,
@@ -1869,7 +1816,124 @@ HRESULT STDMETHODCALLTYPE MineCreateShaderResourceView(
   ID3D11ShaderResourceView              **ppSRView
 ) {
   TRACE("Hijack", [&]() { getOut() << "CreateShaderResourceView" << std::endl; });
-  return RealCreateShaderResourceView(This, pResource, pDesc, ppSRView);
+  D3D11_RESOURCE_DIMENSION dim;
+  pResource->lpVtbl->GetType(pResource, &dim);
+  if (dim == D3D11_RESOURCE_DIMENSION_TEXTURE2D) {
+    ID3D11Texture2D *tex;
+    HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&tex);
+    if (FAILED(hr)) {
+      getOut() << "failed to get hijack shader resource view texture: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    D3D11_TEXTURE2D_DESC desc;
+    tex->lpVtbl->GetDesc(tex, &desc);
+
+    D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = *pDesc;
+    bool changed = false;
+    if (srvDesc.Format == DXGI_FORMAT_R8G8B8A8_UNORM && desc.Format == DXGI_FORMAT_B8G8R8A8_UNORM) {
+      getOut() << "bad shader resource view " << desc.Width << " " << desc.Height << " " << srvDesc.Texture2D.MostDetailedMip << " " << srvDesc.Texture2D.MipLevels << std::endl;
+      srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+      // srvDesc.Texture2D.MostDetailedMip = 0;
+      // srvDesc.Texture2D.MipLevels = 1;
+      changed = true;
+    }
+    
+    tex->lpVtbl->Release(tex);
+    
+    *ppSRView = nullptr;
+    hr = RealCreateShaderResourceView(This, pResource, &srvDesc, ppSRView);
+    if (changed) {
+      getOut() << "bad shader resource view result " << (void *)pResource << " " << (void *)*ppSRView << std::endl;
+    }
+    return hr;
+  } else {
+    return RealCreateShaderResourceView(This, pResource, pDesc, ppSRView);
+  }
+}
+HRESULT (STDMETHODCALLTYPE *RealCreateRenderTargetView)(
+  ID3D11Device *This,
+  ID3D11Resource                      *pResource,
+  const D3D11_RENDER_TARGET_VIEW_DESC *pDesc,
+  ID3D11RenderTargetView              **ppRTView
+) = nullptr;
+HRESULT STDMETHODCALLTYPE MineCreateRenderTargetView(
+  ID3D11Device *This,
+  ID3D11Resource                      *pResource,
+  const D3D11_RENDER_TARGET_VIEW_DESC *pDesc,
+  ID3D11RenderTargetView              **ppRTView
+) {
+  TRACE("Hijack", [&]() { getOut() << "CreateRenderTargetView" << std::endl; });
+  D3D11_RESOURCE_DIMENSION dim;
+  pResource->lpVtbl->GetType(pResource, &dim);
+  if (dim == D3D11_RESOURCE_DIMENSION_TEXTURE2D) {
+    ID3D11Texture2D *tex;
+    HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&tex);
+    if (FAILED(hr)) {
+      getOut() << "failed to get hijack render target view texture: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    D3D11_TEXTURE2D_DESC desc;
+    tex->lpVtbl->GetDesc(tex, &desc);
+
+    D3D11_RENDER_TARGET_VIEW_DESC rtvDesc = *pDesc;
+    bool changed = false;
+    if (rtvDesc.Format == DXGI_FORMAT_R8G8B8A8_UNORM && desc.Format == DXGI_FORMAT_B8G8R8A8_UNORM) {
+      getOut() << "bad render target view " << desc.Width << " " << desc.Height << " " << rtvDesc.Texture2D.MipSlice << std::endl;
+      rtvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+      // rtvDesc.Texture2D.MipSlice = 0;
+      changed = true;
+    }
+    
+    tex->lpVtbl->Release(tex);
+    
+    *ppRTView = nullptr;
+    hr = RealCreateRenderTargetView(This, pResource, &rtvDesc, ppRTView);
+    if (changed) {
+      getOut() << "bad render target view result " << desc.Width << " " << desc.Height << " " << rtvDesc.Texture2D.MipSlice << " " << (void *)pResource << " " << (void *)*ppRTView << std::endl;
+    }
+    return hr;
+  } else {
+    return RealCreateRenderTargetView(This, pResource, pDesc, ppRTView);
+  }
+}
+void (STDMETHODCALLTYPE *RealPSSetShaderResources)(
+  ID3D11DeviceContext *This,
+  UINT                     StartSlot,
+  UINT                     NumViews,
+  ID3D11ShaderResourceView * const *ppShaderResourceViews
+) = nullptr;
+void STDMETHODCALLTYPE MinePSSetShaderResources(
+  ID3D11DeviceContext *This,
+  UINT                     StartSlot,
+  UINT                     NumViews,
+  ID3D11ShaderResourceView * const *ppShaderResourceViews
+) {
+  TRACE("Hijack", [&]() { getOut() << "RealPSSetShaderResources" << std::endl; });
+  for (UINT i = 0; i < NumViews; i++) {
+    ID3D11ShaderResourceView *srv = ppShaderResourceViews[i];
+    
+    if (srv) {
+      ID3D11Texture2D *depthTex = nullptr;
+      ID3D11Resource *depthTexResource = nullptr;
+      srv->lpVtbl->GetResource(srv, &depthTexResource);
+      HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
+      if (FAILED(hr)) {
+        getOut() << "failed to get srv texture resource: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      D3D11_TEXTURE2D_DESC desc;
+      depthTex->lpVtbl->GetDesc(depthTex, &desc);
+      
+      getOut() << "bind shader resource " << i << " " << NumViews << " " << (void *)srv << " " << desc.Width << " " << desc.Height << " " << desc.Format << std::endl;
+      
+      depthTex->lpVtbl->Release(depthTex);
+      depthTexResource->lpVtbl->Release(depthTexResource);
+    }
+  }
+  return RealPSSetShaderResources(This, StartSlot, NumViews, ppShaderResourceViews);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateDepthStencilView)(
   ID3D11Device *This,
@@ -1883,11 +1947,9 @@ HRESULT STDMETHODCALLTYPE MineCreateDepthStencilView(
   const D3D11_DEPTH_STENCIL_VIEW_DESC *pDesc,
   ID3D11DepthStencilView              **ppDepthStencilView
 ) {
-  ID3D11Texture2D *depthTex = nullptr;
+  ID3D11Texture2D *depthTex;
   HRESULT hr = pResource->lpVtbl->QueryInterface(pResource, IID_ID3D11Texture2D, (void **)&depthTex);
-  if (SUCCEEDED(hr)) {
-    // nothing
-  } else {
+  if (FAILED(hr)) {
     getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
     abort();
   }
@@ -1918,6 +1980,27 @@ void STDMETHODCALLTYPE MineClearRenderTargetView(
   const FLOAT         ColorRGBA[4]
 ) {
   TRACE("Hijack", [&]() { getOut() << "ClearRenderTargetView" << std::endl; });
+  // getOut() << "ClearRenderTargetView " << (void *)pRenderTargetView << std::endl;
+
+  {
+    ID3D11Texture2D *depthTex = nullptr;
+    ID3D11Resource *depthTexResource = nullptr;
+    pRenderTargetView->lpVtbl->GetResource(pRenderTargetView, &depthTexResource);
+    HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
+    if (FAILED(hr)) {
+      getOut() << "failed to get rtv resource: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    D3D11_TEXTURE2D_DESC desc;
+    depthTex->lpVtbl->GetDesc(depthTex, &desc);
+    
+    getOut() << "clear render target view " << (void *)depthTexResource << " " << (void *)pRenderTargetView << " " << desc.Width << " " << desc.Height << " " << desc.Format << std::endl;
+    
+    depthTex->lpVtbl->Release(depthTex);
+    depthTexResource->lpVtbl->Release(depthTexResource);
+  }
+  
   RealClearRenderTargetView(This, pRenderTargetView, ColorRGBA);
 }
 void (STDMETHODCALLTYPE *RealClearDepthStencilView)(
@@ -2191,17 +2274,43 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     }
     return hr;
   } else {
-    auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
-    /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
-    getOut() << "create texture 2d normal " <<
-      (void *)(*ppTexture2D) << " " <<
-      desc.Width << " " << desc.Height << " " <<
-      desc.MipLevels << " " << desc.ArraySize << " " <<
-      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-      desc.Format << " " <<
-      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      std::endl; */
-    return hr;
+    getOut() << "bind surface try client 1 " << pDesc->Width << " " << pDesc->Height << std::endl;
+    HANDLE surfaceShHandle = g_hijacker->fnp.call<
+      kHijacker_TryBindSurface,
+      HANDLE,
+      D3D11_TEXTURE2D_DESC
+    >(*pDesc);
+    getOut() << "bind surface try client 2 " << (void *)surfaceShHandle << std::endl;
+    if (surfaceShHandle) {
+      ID3D11Resource *surfaceRes;
+      HRESULT hr = This->lpVtbl->OpenSharedResource(This, surfaceShHandle, IID_ID3D11Resource, (void**)&surfaceRes);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack surface texture handle: " << (void *)hr << " " << (void *)surfaceShHandle << std::endl;
+        abort();
+      }
+
+      hr = surfaceRes->lpVtbl->QueryInterface(surfaceRes, IID_ID3D11Texture2D, (void **)ppTexture2D);
+      if (FAILED(hr)) {
+        getOut() << "failed to unpack surface texture: " << (void *)hr << std::endl;
+        abort();
+      }
+
+      surfaceRes->lpVtbl->Release(surfaceRes);
+      
+      return hr;
+    } else {
+      auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
+      /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
+      getOut() << "create texture 2d normal " <<
+        (void *)(*ppTexture2D) << " " <<
+        desc.Width << " " << desc.Height << " " <<
+        desc.MipLevels << " " << desc.ArraySize << " " <<
+        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
+        desc.Format << " " <<
+        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
+        std::endl; */
+      return hr;
+    }
   }
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateRasterizerState)(
@@ -3698,6 +3807,14 @@ void Hijacker::hijackDx(ID3D11DeviceContext *context) {
     error = DetourAttach(&(PVOID&)RealCreateDepthStencilView, MineCreateDepthStencilView);
     checkDetourError("RealCreateDepthStencilView", error);
     
+    RealCreateRenderTargetView  = device->lpVtbl->CreateRenderTargetView;
+    error = DetourAttach(&(PVOID&)RealCreateRenderTargetView, MineCreateRenderTargetView);
+    checkDetourError("RealCreateRenderTargetView", error);
+    
+    RealPSSetShaderResources  = context->lpVtbl->PSSetShaderResources;
+    error = DetourAttach(&(PVOID&)RealPSSetShaderResources, MinePSSetShaderResources);
+    checkDetourError("RealPSSetShaderResources", error);
+    
     RealClearRenderTargetView = context->lpVtbl->ClearRenderTargetView;
     error = DetourAttach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
     checkDetourError("RealClearRenderTargetView", error);
@@ -3806,6 +3923,12 @@ void Hijacker::unhijackDx() {
     
     error = DetourDetach(&(PVOID&)RealCreateDepthStencilView, MineCreateDepthStencilView);
     checkDetourError("RealCreateDepthStencilView", error);
+    
+    error = DetourDetach(&(PVOID&)RealCreateRenderTargetView, MineCreateRenderTargetView);
+    checkDetourError("RealCreateRenderTargetView", error);
+    
+    error = DetourDetach(&(PVOID&)RealPSSetShaderResources, MinePSSetShaderResources);
+    checkDetourError("RealPSSetShaderResources", error);
     
     error = DetourDetach(&(PVOID&)RealClearRenderTargetView, MineClearRenderTargetView);
     checkDetourError("RealClearRenderTargetView", error);

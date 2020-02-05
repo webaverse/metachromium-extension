@@ -8,6 +8,8 @@
 
 using json = nlohmann::json;
 
+char kProcess_HandleMessages[] = "Process::HandleMessages";
+
 std::string logSuffix = "_process";
 HWND g_hWnd = NULL;
 bool live = true;
@@ -321,9 +323,31 @@ int WINAPI WinMain(
   vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
   vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
   vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
-  
-  std::thread([=]() -> void {
-    compositor2d::homeRenderLoop();
+
+  g_fnp->reg<
+    kProcess_HandleMessages,
+    int
+  >([]() {
+    MSG msg;
+    // wait for the next message in the queue, store the result in 'msg'
+    while (PeekMessageA(&msg, NULL, 0, 0, true)) {
+      // translate keystroke messages into the right format
+      TranslateMessage(&msg);
+
+      // send the message to the WindowProc function
+      DispatchMessage(&msg);
+    }
+
+    return 0;
+  });
+  std::thread([]() -> void {
+    for (;;) {
+      DWORD result = MsgWaitForMultipleObjects(0, NULL, false, INFINITE, QS_ALLEVENTS);
+      g_fnp->call<
+        kProcess_HandleMessages,
+        int
+      >();
+    }
   }).detach();
 
   QrEngine qr;
@@ -335,8 +359,8 @@ int WINAPI WinMain(
     abort();
   }
   {
-    std::string manifestTemplateFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest-template.json)EOF"))).string();
-    std::string manifestFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\extension\native-manifest.json)EOF"))).string();
+    std::string manifestTemplateFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\extension\native-manifest-template.json)EOF"))).string();
+    std::string manifestFilePath = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\extension\native-manifest.json)EOF"))).string();
 
     std::string s;
     {
@@ -345,7 +369,7 @@ int WINAPI WinMain(
     }
     {
       json j = json::parse(s);
-      j["path"] = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\..\..\..\..\..\device\vr\build\mock_vr_clients\bin\native_host.exe)EOF"))).string();
+      j["path"] = std::filesystem::weakly_canonical(std::filesystem::path(std::string(cwdBuf) + std::string(R"EOF(\native_host.exe)EOF"))).string();
       s = j.dump(2);
     }
     {    
@@ -387,7 +411,7 @@ int WINAPI WinMain(
     std::string baseDir = cwdBuf;
     baseDir += R"EOF(\..\..\..\..\..)EOF";
 
-    std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --load-extension=..\..\..\..\..\..\extension ..\..\..\..\..\..\extension\index.html)EOF";
+    std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension=..\..\..\..\..\..\extension ..\..\..\..\..\..\extension\index.html)EOF";
     std::vector<char> cmdVector(cmd.size() + 1);
     memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
 
@@ -469,20 +493,7 @@ int WINAPI WinMain(
   }
 
   while (live) {
-    // getOut() << "handle 1" << std::endl;
     g_fnp->handle();
-    // getOut() << "handle 2" << std::endl;
-
-    MSG msg;
-    // wait for the next message in the queue, store the result in 'msg'
-    while (PeekMessageA(&msg, NULL, 0, 0, true)) {
-      // translate keystroke messages into the right format
-      TranslateMessage(&msg);
-
-      // send the message to the WindowProc function
-      DispatchMessage(&msg);
-    }
-    // getOut() << "handle 3" << std::endl;
   }
   
   /* if (chromeProcessHandle) {
