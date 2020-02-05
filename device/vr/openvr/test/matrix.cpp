@@ -2,6 +2,13 @@
 
 void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix) {
   for (unsigned int v = 0; v < 4; v++) {
+    for (unsigned int u = 0; u < 4; u++) {
+      dstMatrixArray[v * 4 + u] = srcMatrix.m[u][v];
+    }
+  }
+}
+void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix44_t &srcMatrix) {
+  for (unsigned int v = 0; v < 4; v++) {
     for (unsigned int u = 0; u < 3; u++) {
       dstMatrixArray[v * 4 + u] = srcMatrix.m[u][v];
     }
@@ -148,4 +155,34 @@ void applyVectorQuaternion(float *v, const float *q) {
   v[0] = ix * qw + iw * - qx + iy * - qz - iz * - qy;
   v[1] = iy * qw + iw * - qy + iz * - qx - ix * - qz;
   v[2] = iz * qw + iw * - qz + ix * - qy - iy * - qx;
+}
+void applyVectorMatrix(float *v, const float *m) {
+  float x = v[0], y = v[1], z = v[2];
+  const float *e = m;
+
+  float w = 1.0f / ( e[ 3 ] * x + e[ 7 ] * y + e[ 11 ] * z + e[ 15 ] );
+
+  v[0] = ( e[ 0 ] * x + e[ 4 ] * y + e[ 8 ] * z + e[ 12 ] ) * w;
+  v[1] = ( e[ 1 ] * x + e[ 5 ] * y + e[ 9 ] * z + e[ 13 ] ) * w;
+  v[2] = ( e[ 2 ] * x + e[ 6 ] * y + e[ 10 ] * z + e[ 14 ] ) * w;
+}
+void multiplyVectors(float *a, const float *b) {
+  a[0] *= b[0];
+  a[1] *= b[1];
+  a[2] *= b[2];
+}
+void divideVectors(float *a, const float *b) {
+  a[0] /= b[0];
+  a[1] /= b[1];
+  a[2] /= b[2];
+}
+void multiplyVectorScalar(float *v, const float s) {
+  v[0] *= s;
+  v[1] *= s;
+  v[2] *= s;
+}
+void addVectorScalar(float *v, const float s) {
+  v[0] += s;
+  v[1] += s;
+  v[2] += s;
 }

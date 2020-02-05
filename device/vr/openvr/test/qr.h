@@ -15,17 +15,20 @@
 class QrCode {
 public:
   std::string data;
-  float points[4*2];
+  float points[4*3];
 };
 
 class QrEngine {
 public:
   vr::PVRCompositor *pvrcompositor;
+  vr::IVRSystem *vrsystem;
 
   ID3D11Device5 *qrDevice = nullptr;
   ID3D11DeviceContext4 *qrContext = nullptr;
   IDXGISwapChain *qrSwapChain = nullptr;
   ID3D11InfoQueue *qrInfoQueue = nullptr;
+
+  cv::QRCodeDetector qrDecoder;
 
   Semaphore sem;
   bool running = false;
@@ -35,10 +38,15 @@ public:
   ID3D11Texture2D *colorMirrorServerTex = nullptr;
   ID3D11Fence *fence = nullptr;
   size_t fenceValue = 0;
-  cv::QRCodeDetector qrDecoder;
+  
+  uint32_t eyeWidth = 0;
+  uint32_t eyeHeight = 0;
+  float projectionMatrix[16] = {};
+  float viewMatrix[16] = {};
   std::vector<QrCode> qrCodes;
 
-  QrEngine(vr::PVRCompositor *pvrcompositor);
+public:
+  QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
   void setEnabled(bool enabled);
   const std::vector<QrCode> &getQrCodes() const;
   void InfoQueueLog();

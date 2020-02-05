@@ -281,8 +281,8 @@ int main(int argc, char **argv) {
                 pointsArray.push_back(qrCode.points[i]);
               }
               json qrCodeValue = {
-                {"data": qrCode.data},
-                {"points": pointsArray},
+                {"data", qrCode.data},
+                {"points", pointsArray},
               };
               array.push_back(qrCodeValue);
             }

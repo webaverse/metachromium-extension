@@ -1,10 +1,13 @@
 #include "qr.h"
 
+#include "matrix.h"
+
 using namespace cv;
 
 int ssId = 0;
-QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor) :
+QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
   pvrcompositor(pvrcompositor),
+  vrsystem(vrsystem),
   qrDecoder(QRCodeDetector::QRCodeDetector())
 {
   getOut() << "qr cons 1" << std::endl;
@@ -122,10 +125,33 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor) :
           qrCodes.resize(1);
           QrCode &qrCode = qrCodes[0];
           qrCode.data = std::move(data);
+          
+          vr::HmdMatrix44_t projectionMatrixHmd = this->vrsystem->GetProjectionMatrix(vr::Eye_Left, 0.1, 1000);
+          float projectionMatrix[16];
+          setPoseMatrix(projectionMatrix, projectionMatrixHmd);
+          float projectionMatrixInverse[16];
+          getMatrixInverse(projectionMatrix, projectionMatrixInverse);
+          
           for (int i = 0; i < 4; i++) {
             const Point2f &p = bbox.at<Point2f>(i);
-            qrCode.points[i*2] = p.x;
-            qrCode.points[i*2+1] = p.y;
+            float worldPoint[3] = {
+              p.x,
+              p.y,
+              0,
+            };
+            float viewportScale[3] = {
+              (float)eyeWidth,
+              (float)eyeHeight,
+              1.0f,
+            };
+            divideVectors(worldPoint, viewportScale);
+            multiplyVectorScalar(worldPoint, 2.0f);
+            addVectorScalar(worldPoint, -1.0f);
+            applyVectorMatrix(worldPoint, projectionMatrixInverse);
+
+            qrCode.points[i*3] = worldPoint[0];
+            qrCode.points[i*3+1] = worldPoint[1];
+            qrCode.points[i*3+2] = worldPoint[2];
           }
         } else {
           getOut() << "unknown qr code type: " << bbox.type() << std::endl;
@@ -141,7 +167,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor) :
   }).detach();
 }
 void QrEngine::setEnabled(bool enabled) {
-  pvrcompositor->submitCallbacks.push_back([this, pvrcompositor](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex, ID3D11Texture2D *depthTex) -> void {
+  pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex, ID3D11Texture2D *depthTex) -> void {
     // getOut() << "cb 1" << std::endl;
 
     if (!running) {
@@ -169,7 +195,7 @@ void QrEngine::setEnabled(bool enabled) {
         );
         if (FAILED(hr)) {
           getOut() << "failed to create color mirror texture: " << (void *)hr << std::endl;
-          pvrcompositor->InfoQueueLog();
+          this->pvrcompositor->InfoQueueLog();
           InfoQueueLog();
           abort();
         }
@@ -186,7 +212,7 @@ void QrEngine::setEnabled(bool enabled) {
         );
         if (FAILED(hr)) {
           getOut() << "failed to create color read texture: " << (void *)hr << std::endl;
-          pvrcompositor->InfoQueueLog();
+          this->pvrcompositor->InfoQueueLog();
           InfoQueueLog();
           abort();
         }
@@ -202,7 +228,7 @@ void QrEngine::setEnabled(bool enabled) {
         hr = colorMirrorClientRes->GetSharedHandle(&colorMirrorHandle);
         if (FAILED(hr)) {
           getOut() << "failed to get color buffer share handle: " << (void *)hr << " " << (void *)colorMirrorClientRes << std::endl;
-          pvrcompositor->InfoQueueLog();
+          this->pvrcompositor->InfoQueueLog();
           InfoQueueLog();
           abort();
         }
@@ -248,6 +274,8 @@ void QrEngine::setEnabled(bool enabled) {
       
       ++fenceValue;
       context->Signal(fence, fenceValue);
+      
+      // XXX latch eyeWidth, eyeHeight, projectionMatrix, viewMatrix 
 
       getOut() << "cb 8" << std::endl;
 

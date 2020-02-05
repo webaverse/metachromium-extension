@@ -299,7 +299,7 @@ BOOL WINAPI DllMain(
     vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
     vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
     vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
-    vr::g_pqrengine = new QrEngine(vr::g_pvrcompositor);
+    // vr::g_pqrengine = new QrEngine(vr::g_pvrcompositor, vr::g_vrsystem);
     
     g_hijacker->hijackDxgi(hinstDLL);
     g_hijacker->hijackGl();
