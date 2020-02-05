@@ -1,6 +1,9 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    tags:
+    - '*'
 
 jobs:
   build:
@@ -14,14 +17,22 @@ jobs:
     - uses: warrenbuckley/Setup-MSBuild@v1
     - name: Build
       run: powershell -Command "& '.\build.ps1'"
+    - name: Extract tag name
+      id: tag
+      uses: actions/github-script@0.4.0
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        result-encoding: string
+        script: |
+          return context.payload.ref.replace(/^refs\/tags\//, '');
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: release-${{ github.sha }}
-        release_name: Release ${{ github.sha }}
+        tag_name: ${{ steps.tag.outputs.result }}
+        release_name: Metachromium ${{ steps.tag.outputs.result }}
         draft: false
         prerelease: false
     - name: Upload Release Asset
