@@ -1310,6 +1310,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     memcpy(position, newPosition.data(), sizeof(position));
     memcpy(quaternion, newQuaternion.data(), sizeof(quaternion));
     memcpy(scale, newScale.data(), sizeof(scale));
+
+    return 0;
   });
   fnp.reg<
     kIVRCompositor_SetQrEngineEnabled,
