@@ -111,21 +111,18 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         
         for (int i = 0; i < 4; i++) {
           const Point2f &p = bbox.at<Point2f>(i);
-          float worldPoint[3] = {
-            p.x,
-            p.y,
-            0,
-          };
-          float viewportScale[3] = {
-            (float)eyeWidth,
-            (float)eyeHeight,
+          float worldPoint[4] = {
+            (p.x/(float)eyeWidth) * 2.0f - 1.0f,
+            (p.y/(float)eyeHeight) * 2.0f - 1.0f,
+            0.0f,
             1.0f,
           };
-          divideVectors(worldPoint, viewportScale);
-          multiplyVectorScalar(worldPoint, 2.0f);
-          addVectorScalar(worldPoint, -1.0f);
-          applyVectorMatrix(worldPoint, projectionMatrixInverse);
-          applyVectorMatrix(worldPoint, viewMatrixInverse);
+          applyVector4Matrix(worldPoint, projectionMatrixInverse);
+          applyVector4Matrix(worldPoint, viewMatrixInverse);
+          const float w = worldPoint[3];
+          for (int j = 0; j < 4; j++) {
+            worldPoint[j] /= w;
+          }
 
           qrCode.points[i*3] = worldPoint[0];
           qrCode.points[i*3+1] = worldPoint[1];
