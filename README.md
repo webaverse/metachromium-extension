@@ -25,4 +25,6 @@ Windows only
 
 *Not* Open Source.
 
-You may download and run the releases. You may not use the code in whole or in part without express permission (contact @avaer).
+You may download and run the releases.
+
+You may not use the code, or any part of it, without express permission (contact @avaer).
