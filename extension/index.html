@@ -296,6 +296,16 @@ window.addEventListener('load', () => {
     renderer.render(scene, camera);
   }
 
+  setInterval(async () => {
+    const o = await xrc().request('getCrCodes', []);
+    const {error, result} = o;
+    if (!error) {
+
+    } else {
+      console.warn(error);
+    }
+  }, 1000);
+
   {
     let currentSession = null;
 
