@@ -1,13 +1,13 @@
 #include "device/vr/openvr/test/matrix.h"
 
-void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix) {
+void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix44_t &srcMatrix) {
   for (unsigned int v = 0; v < 4; v++) {
     for (unsigned int u = 0; u < 4; u++) {
       dstMatrixArray[v * 4 + u] = srcMatrix.m[u][v];
     }
   }
 }
-void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix44_t &srcMatrix) {
+void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix) {
   for (unsigned int v = 0; v < 4; v++) {
     for (unsigned int u = 0; u < 3; u++) {
       dstMatrixArray[v * 4 + u] = srcMatrix.m[u][v];
