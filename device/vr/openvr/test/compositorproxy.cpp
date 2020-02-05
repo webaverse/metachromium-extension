@@ -58,6 +58,7 @@ char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSur
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
+char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1307,7 +1308,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     memcpy(position, newPosition.data(), sizeof(position));
     memcpy(quaternion, newQuaternion.data(), sizeof(quaternion));
     memcpy(scale, newScale.data(), sizeof(scale));
-    
+  });
+  fnp.reg<
+    kIVRCompositor_SetQrEngineEnabled,
+    int,
+    bool
+  >([=](bool enabled) {
+    g_pqrengine->setEnabled(enabled);
     return 0;
   });
 }
