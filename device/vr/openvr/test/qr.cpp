@@ -113,10 +113,10 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor) :
         getOut() << "qr detected 1 " << bbox.type() << " " << bbox.rows << " " << bbox.cols << std::endl;
         if (bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
           getOut() << "Decoded QR code: " << data << " " <<
-            points[0].x << " " << points[0].y << " " <<
-            points[1].x << " " << points[1].y << " " <<
-            points[2].x << " " << points[2].y << " " <<
-            points[3].x << " " << points[3].y << " " <<
+            bbox.at<Point2f>(0).x << " " << bbox.at<Point2f>(0).y << " " <<
+            bbox.at<Point2f>(1).x << " " << bbox.at<Point2f>(1).y << " " <<
+            bbox.at<Point2f>(2).x << " " << bbox.at<Point2f>(2).y << " " <<
+            bbox.at<Point2f>(3).x << " " << bbox.at<Point2f>(3).y << " " <<
             std::endl;
 
           qrCodes.resize(1);
