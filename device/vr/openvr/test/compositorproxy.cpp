@@ -2897,8 +2897,8 @@ void PVRCompositor::CacheWaitGetPoses() {
           float position2[3];
           memcpy(position2, position, sizeof(position));
           float offset[3] = {-0.1, -0.1, -0.1};
-          addVector(position2, offset);
-          applyVectorQuaternion(position2, quaternion);
+          addVector3(position2, offset);
+          applyVector3Quaternion(position2, quaternion);
           float viewMatrix[16];
           composeMatrix(viewMatrix, position2, quaternion, scale);
           setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
@@ -2911,8 +2911,8 @@ void PVRCompositor::CacheWaitGetPoses() {
           float position2[3];
           memcpy(position2, position, sizeof(position));
           float offset[3] = {0.1, -0.1, -0.1};
-          addVector(position2, offset);
-          applyVectorQuaternion(position2, quaternion);
+          addVector3(position2, offset);
+          applyVector3Quaternion(position2, quaternion);
           float viewMatrix[16];
           composeMatrix(viewMatrix, position2, quaternion, scale);
           setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
