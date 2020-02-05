@@ -40,6 +40,7 @@ public:
 
   QrEngine(vr::PVRCompositor *pvrcompositor);
   void setEnabled(bool enabled);
+  const std::vector<QrCode> &getQrCodes() const;
   void InfoQueueLog();
 };
 

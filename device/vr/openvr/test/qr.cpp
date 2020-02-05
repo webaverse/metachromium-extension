@@ -257,6 +257,9 @@ void QrEngine::setEnabled(bool enabled) {
     }
   });
 }
+const std::vector<QrCode> &QrEngine::getQrCodes() const {
+  return qrCodes;
+}
 void QrEngine::InfoQueueLog() {
   if (qrInfoQueue) {
     vr::PVRCompositor::InfoQueueLog(qrInfoQueue);
