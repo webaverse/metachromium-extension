@@ -74,13 +74,11 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 
       UINT lBmpRowPitch = colorBufferDesc.Width * 4;
       BYTE *sptr = reinterpret_cast<BYTE *>(resource.pData);
-      BYTE *dptr = (BYTE *)inputImage.ptr(); // + lBmpRowPitch * colorBufferDesc.Height - lBmpRowPitch;
+      BYTE *dptr = (BYTE *)inputImage.ptr() + (lBmpRowPitch * colorBufferDesc.Height) - lBmpRowPitch;
       for (size_t h = 0; h < colorBufferDesc.Height; ++h) {
-        // memcpy(inputImage.ptr<char>(h), sptr, lBmpRowPitch);
         memcpy(dptr, sptr, lBmpRowPitch);
         sptr += resource.RowPitch;
-        // dptr -= lBmpRowPitch;
-        dptr += lBmpRowPitch;
+        dptr -= lBmpRowPitch;
       }
       // memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
       
