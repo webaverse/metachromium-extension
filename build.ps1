@@ -7,9 +7,8 @@ Invoke-WebRequest "https://github.com/Hibbiki/chromium-win64/releases/download/v
 7z x chrome.7z
 rm chrome.7z
 
-$client2 = new-object System.Net.WebClient
-$client2.DownloadFile("https://github.com/opencv/opencv/releases/download/4.2.0/opencv-4.2.0-vc14_vc15.exe", "opencv.exe")
-start /b /w "installer" ".\opencv.exe" -o. -y
+Invoke-WebRequest "https://github.com/opencv/opencv/releases/download/4.2.0/opencv-4.2.0-vc14_vc15.exe" -OutFile "opencv.exe"
+Start-Process -Wait ".\opencv.exe" -ArgumentList "-o. -y"
 
 ls
 cd device\vr
