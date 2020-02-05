@@ -15,7 +15,7 @@
 class QrCode {
 public:
   std::string data;
-  float points[4*3];
+  float points[3*4];
 };
 
 class QrEngine {

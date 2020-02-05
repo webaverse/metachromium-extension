@@ -94,19 +94,6 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       cvtColor(inputImage, inputImage2, COLOR_BGRA2GRAY);
       
       // getOut() << "thread 8 " << (int)inputImage2.ptr()[0] << " " << (int)inputImage2.ptr()[1] << " " << (int)inputImage2.ptr()[2] << " " << (int)inputImage2.ptr()[3] << std::endl;
-      
-      /* size_t fullSize = inputImage2.total() * inputImage2.elemSize();
-      int count = 0;
-      for (size_t i = 0; i < fullSize; i++) {
-        if (inputImage2.ptr()[0] != 0) {
-          count++;
-        }
-      }
-      getOut() << "thread 8 " << count << std::endl;
-      if (inputImage2.ptr()[0] != 0) {
-        getOut() << "nonzero " << (int)inputImage2.ptr()[0] << std::endl;
-      } */
-
 
       Mat bbox, rectifiedImage;
      
@@ -168,7 +155,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 }
 void QrEngine::setEnabled(bool enabled) {
   pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex, ID3D11Texture2D *depthTex) -> void {
-    // getOut() << "cb 1" << std::endl;
+    getOut() << "cb 1" << std::endl;
 
     if (!running) {
       running = true;
