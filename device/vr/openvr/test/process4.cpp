@@ -29,7 +29,7 @@ extern std::string dllDir;
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
-// char kProcess_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
+char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
 void respond(const json &j) {
   std::string outString = j.dump();
@@ -265,6 +265,33 @@ int main(int argc, char **argv) {
               };
               respond(res);
             }
+          } else if (
+            methodString == "getQrCodes"
+          ) {
+            auto qrCodes = g_fnp->call<
+              kProcess_GetQrCodes,
+              managed_binary<QrCode>
+            >();
+
+            json array = json::array();
+            for (size_t i = 0; i < qrCodes.size(); i++) {
+              const QrCode &qrCode = qrCodes.data()[i];
+              json pointsArray = json::array();
+              for (size_t i = 0; i < ARRAYSIZE(qrCode.points); i++) {
+                pointsArray.push_back(qrCode.points[i]);
+              }
+              json qrCodeValue = {
+                {"data": qrCode.data},
+                {"points": pointsArray},
+              };
+              array.push_back(qrCodeValue);
+            }
+
+            json res = {
+              {"error", nullptr},
+              {"result", array}
+            };
+            respond(res);
           } else {
             json res = {
               {"error", "invalid method"},

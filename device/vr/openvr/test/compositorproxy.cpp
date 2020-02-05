@@ -59,6 +59,7 @@ char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSh
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
+char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1316,6 +1317,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   >([=](bool enabled) {
     g_pqrengine->setEnabled(enabled);
     return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_GetQrCodes,
+    managed_binary<QrCode>
+  >([=]() {
+    const std::vector<QrCode> &qrCodes = g_pqrengine->GetQrCodes();
+    managed_binary<QrCode> result(qrCodes.size());
+    memcpy(result.data(), qrCodes.data(), qrCodes.size() * sizeof(QrCode));
+    return std::move(result);
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
