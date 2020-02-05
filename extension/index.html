@@ -290,7 +290,7 @@ window.addEventListener('load', () => {
   })();
 
   const qrMesh = (() => {
-    const geometry = BufferGeometryUtils.mergeBufferGeometries([
+    const geometry = THREE.BufferGeometryUtils.mergeBufferGeometries([
       new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(1/2 - 0.02/2, 0, 0)),
       new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(-1/2 + 0.02/2, 0, 0)),
       new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(0, 1/2 - 0.02/2, 0)),
