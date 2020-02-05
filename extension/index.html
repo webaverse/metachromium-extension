@@ -300,7 +300,15 @@ window.addEventListener('load', () => {
     const o = await xrc().request('getCrCodes', []);
     const {error, result} = o;
     if (!error) {
-
+      const qrCodes = result;
+      if (qrCodes.length > 0) {
+        for (let i = 0; i < qrCodes.length; i++) {
+          const qrCode = qrCodes[i];
+          console.log('got qr code', qrCode);
+        }
+      } else {
+        console.log('got no qr codes');
+      }
     } else {
       console.warn(error);
     }
