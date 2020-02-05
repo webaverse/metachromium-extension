@@ -20,7 +20,7 @@ public:
 
 class QrEngine {
 public:
-  vr::PVRCompositor *pvrcompositor
+  vr::PVRCompositor *pvrcompositor;
 
   ID3D11Device5 *qrDevice = nullptr;
   ID3D11DeviceContext4 *qrContext = nullptr;

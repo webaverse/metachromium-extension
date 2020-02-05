@@ -13,7 +13,6 @@
 #include "device/vr/openvr/test/glcontext.h"
 #include "device/vr/openvr/test/fnproxy.h"
 #include "device/vr/openvr/test/hijack.h"
-#include "device/vr/openvr/test/qr.h"
 
 namespace vr {
 class PVRCompositor : public IVRCompositor {

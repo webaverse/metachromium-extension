@@ -2,6 +2,7 @@
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
+#include "device/vr/openvr/test/qr.h"
 #include "device/vr/openvr/test/matrix.h"
 
 namespace vr {
