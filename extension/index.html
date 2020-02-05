@@ -288,13 +288,20 @@ window.addEventListener('load', () => {
     }
   })();
 
-  renderer.setAnimationLoop(render);
-  function render() {
-    cubeMesh.rotation.x += 0.01;
-    cubeMesh.rotation.z += 0.01;
-  
-    renderer.render(scene, camera);
-  }
+  const qrMesh = (() => {
+    const geometry = BufferGeometryUtils.mergeBufferGeometries([
+      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(1/2 - 0.02/2, 0, 0)),
+      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(-1/2 + 0.02/2, 0, 0)),
+      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(0, 1/2 - 0.02/2, 0)),
+      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(0, -1/2 + 0.02/2, 0)),
+    ]);
+    const material = new THREE.MeshPhongMaterial({
+      color: 0x0000FF,
+    });
+    return new THREE.Mesh(geometry, material);
+  })();
+  qrMesh.frustumCulled = false;
+  scene.add(qrMesh);
 
   setInterval(async () => {
     const o = await xrc().request('getCrCodes', []);
@@ -306,6 +313,21 @@ window.addEventListener('load', () => {
           const qrCode = qrCodes[i];
           console.log('got qr code', qrCode);
         }
+
+        const qrCode = qrCodes[0];
+        const worldPoints = Array(4);
+        for (let i = 0; i < 4; i++) {
+          worldPoints[i] = new THREE.Vector3(qrCode.points[i*2], qrCode.points[i*2+1], 0);
+        }
+        const avgWorldPoint = (() => {
+          const acc = new THREE.Vector3();
+          for (let i = 0; i < 4; i++) {
+            acc.add(worldPoints[i]);
+          }
+          return acc.divideScalar(4);
+        })();
+        qrMesh.position.copy(avgWorldPoint);
+        qrMesh.scale.set(0.1, 0.1, 0.1);
       } else {
         console.log('got no qr codes');
       }
@@ -313,6 +335,14 @@ window.addEventListener('load', () => {
       console.warn(error);
     }
   }, 1000);
+
+  renderer.setAnimationLoop(render);
+  function render() {
+    cubeMesh.rotation.x += 0.01;
+    cubeMesh.rotation.z += 0.01;
+  
+    renderer.render(scene, camera);
+  }
 
   {
     let currentSession = null;
