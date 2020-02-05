@@ -279,30 +279,40 @@ int main(int argc, char **argv) {
           } else if (
             methodString == "getQrCodes"
           ) {
-            auto qrCodes = g_fnp->call<
+            getOut() << "get qr codes 1" << std::endl;
+
+            auto qrCode = g_fnp->call<
               kProcess_GetQrCodes,
-              managed_binary<QrCode>
+              std::tuple<managed_binary<char>, managed_binary<float>>
             >();
 
+            managed_binary<char> &data = std::get<0>(qrCode);
+            managed_binary<float> &points = std::get<1>(qrCode);
+
             json array = json::array();
-            for (size_t i = 0; i < qrCodes.size(); i++) {
-              const QrCode &qrCode = qrCodes.data()[i];
-              json pointsArray = json::array();
-              for (size_t i = 0; i < ARRAYSIZE(qrCode.points); i++) {
-                pointsArray.push_back(qrCode.points[i]);
+            std::string dataString;
+            json pointsArray = json::array();
+            if (data.size() > 0) {
+              dataString = std::string(data.data(), data.size());
+              for (size_t i = 0; i < points.size(); i++) {
+                pointsArray.push_back(points.data()[i]);
               }
-              json qrCodeValue = {
-                {"data", qrCode.data},
-                {"points", pointsArray},
-              };
-              array.push_back(qrCodeValue);
             }
+            json qrCodeValue = {
+              {"data", dataString},
+              {"points", pointsArray},
+            };
+            array.push_back(qrCodeValue);
+            
+            getOut() << "get qr codes 5" << std::endl;
 
             json res = {
               {"error", nullptr},
               {"result", array}
             };
             respond(res);
+            
+            getOut() << "get qr codes 6" << std::endl;
           } else {
             json res = {
               {"error", "invalid method"},

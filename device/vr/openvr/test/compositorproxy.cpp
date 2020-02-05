@@ -1318,16 +1318,28 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     int,
     bool
   >([=](bool enabled) {
+    getOut() << "set qr engine enabled " << enabled << std::endl;
     g_pqrengine->setEnabled(enabled);
     return 0;
   });
   fnp.reg<
     kIVRCompositor_GetQrCodes,
-    managed_binary<QrCode>
+    std::tuple<managed_binary<char>, managed_binary<float>>
   >([=]() {
     const std::vector<QrCode> &qrCodes = g_pqrengine->getQrCodes();
-    managed_binary<QrCode> result(qrCodes.size());
-    memcpy(result.data(), qrCodes.data(), qrCodes.size() * sizeof(QrCode));
+    std::tuple<managed_binary<char>, managed_binary<float>> result;
+    if (qrCodes.size() > 0) {
+      const QrCode &qrCode = qrCodes[0];
+
+      managed_binary<char> &qrCodeEntryData = std::get<0>(result);
+      managed_binary<float> &qrCodeEntryPoints = std::get<1>(result);
+      
+      qrCodeEntryData = managed_binary<char>(qrCode.data.size());
+      memcpy(qrCodeEntryData.data(), qrCode.data.data(), qrCode.data.size());
+      
+      qrCodeEntryPoints = managed_binary<float>(ARRAYSIZE(qrCode.points));
+      memcpy(qrCodeEntryPoints.data(), qrCode.points, ARRAYSIZE(qrCode.points) * sizeof(float));
+    }
     return std::move(result);
   });
 }
