@@ -1,4 +1,4 @@
-# XR Chrome
+# MetaChromium
 
 A multi-app XR browser for Windows, based on Chromium.
 
