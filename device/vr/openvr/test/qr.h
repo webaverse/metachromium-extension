@@ -14,6 +14,8 @@
 
 class QrEngine {
 public:
+  vr::PVRCompositor *pvrcompositor
+
   ID3D11Device5 *qrDevice = nullptr;
   ID3D11DeviceContext4 *qrContext = nullptr;
   IDXGISwapChain *qrSwapChain = nullptr;
@@ -29,8 +31,8 @@ public:
   size_t fenceValue = 0;
   cv::QRCodeDetector qrDecoder;
 
-  QrEngine();
-  void registerCallback(vr::PVRCompositor *pvrcompositor);
+  QrEngine(vr::PVRCompositor *pvrcompositor);
+  void setEnabled(bool enabled);
   void InfoQueueLog();
 };
 

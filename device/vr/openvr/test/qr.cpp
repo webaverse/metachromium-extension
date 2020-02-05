@@ -3,7 +3,8 @@
 using namespace cv;
 
 int ssId = 0;
-QrEngine::QrEngine() :
+QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor) :
+  pvrcompositor(pvrcompositor),
   qrDecoder(QRCodeDetector::QRCodeDetector())
 {
   getOut() << "qr cons 1" << std::endl;
@@ -137,7 +138,7 @@ QrEngine::QrEngine() :
     }
   }).detach();
 }
-void QrEngine::registerCallback(vr::PVRCompositor *pvrcompositor) {
+void QrEngine::setEnabled(bool enabled) {
   pvrcompositor->submitCallbacks.push_back([this, pvrcompositor](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex, ID3D11Texture2D *depthTex) -> void {
     // getOut() << "cb 1" << std::endl;
 
