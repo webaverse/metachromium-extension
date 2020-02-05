@@ -1325,7 +1325,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_GetQrCodes,
     managed_binary<QrCode>
   >([=]() {
-    const std::vector<QrCode> &qrCodes = g_pqrengine->GetQrCodes();
+    const std::vector<QrCode> &qrCodes = g_pqrengine->getQrCodes();
     managed_binary<QrCode> result(qrCodes.size());
     memcpy(result.data(), qrCodes.data(), qrCodes.size() * sizeof(QrCode));
     return std::move(result);

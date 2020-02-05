@@ -10,7 +10,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/objdetect.hpp>
 #include <opencv2/imgcodecs.hpp>
-// #include <opencv2/imgproc.hpp>
+#include <opencv2/imgproc.hpp>
 
 class QrCode {
 public:
@@ -36,7 +36,7 @@ public:
   ID3D11Fence *fence = nullptr;
   size_t fenceValue = 0;
   cv::QRCodeDetector qrDecoder;
-  std::vector<QrCode> qrCdoes;
+  std::vector<QrCode> qrCodes;
 
   QrEngine(vr::PVRCompositor *pvrcompositor);
   void setEnabled(bool enabled);
