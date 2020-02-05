@@ -12,6 +12,12 @@
 #include <opencv2/imgcodecs.hpp>
 // #include <opencv2/imgproc.hpp>
 
+class QrCode {
+public:
+  std::string data;
+  float points[4*2];
+};
+
 class QrEngine {
 public:
   vr::PVRCompositor *pvrcompositor
@@ -30,6 +36,7 @@ public:
   ID3D11Fence *fence = nullptr;
   size_t fenceValue = 0;
   cv::QRCodeDetector qrDecoder;
+  std::vector<QrCode> qrCdoes;
 
   QrEngine(vr::PVRCompositor *pvrcompositor);
   void setEnabled(bool enabled);
