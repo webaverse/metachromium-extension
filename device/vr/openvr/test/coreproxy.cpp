@@ -4,8 +4,6 @@
 namespace vr {
 char kIVRClientCore_Init[] = "IVRClientCore::Init";
 char kIVRClientCore_Cleanup[] = "IVRClientCore::Cleanup";
-char kPVRClientCore_Connect[] = "PVRClientCore::Connect";
-char kPVRClientCore_Disconnect[] = "PVRClientCore::Disconnect";
 char kPVRClientCore_PreWaitGetPoses[] = "PVRClientCore::PreWaitGetPoses";
 char kPVRClientCore_PreSubmit[] = "PVRClientCore::PreSubmit";
 
@@ -22,27 +20,19 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     EVRInitError,
     EVRApplicationType
   >([=](EVRApplicationType eApplicationType) {
-    // getOut() << "handle client core init" << std::endl;
- 
+    getOut() << "client core init 1" << std::endl;
+
+    size_t remoteProcessId = fnp.remoteProcessId;
+    processIds.insert(remoteProcessId);
+
     return VRInitError_None;
   });
   fnp.reg<
     kIVRClientCore_Cleanup,
     int
   >([=]() {
-    return 0;
-  });
-  fnp.reg< // XXX call this
-    kPVRClientCore_Connect,
-    size_t
-  >([=, &fnp]() {
-    size_t remoteProcessId = fnp.remoteProcessId;
-    processIds.insert(remoteProcessId);
-  });
-  fnp.reg< // XXX call this
-    kPVRClientCore_Disconnect,
-    size_t
-  >([=, &fnp]() {
+    getOut() << "client core cleanup 1" << std::endl;
+
     size_t remoteProcessId = fnp.remoteProcessId;
     processIds.erase(remoteProcessId);
 
@@ -70,6 +60,8 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     if (remoteProcessId == runningFrameProcessId) { // if we were currently dispatched, dispatch the next wait
       TickWait();
     }
+
+    return 0;
   });
   fnp.reg<
     kPVRClientCore_PreWaitGetPoses,
