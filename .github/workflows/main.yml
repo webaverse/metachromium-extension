@@ -21,7 +21,7 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         result-encoding: string
         script: |
-          return context.payload.ref.replace(/refs\/(?:heads|tags)\//, '');
+          return /^refs\/tags\/.test(context.payload.ref) ? context.payload.ref.replace(/^refs\/tags\//, '') : throw new Error('not a tagged release');
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1.0.0
