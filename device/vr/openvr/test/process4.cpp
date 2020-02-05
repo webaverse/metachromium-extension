@@ -29,6 +29,7 @@ extern std::string dllDir;
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
+char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
 void respond(const json &j) {
@@ -265,6 +266,16 @@ int main(int argc, char **argv) {
               };
               respond(res);
             }
+          } else if (
+            methodString == "setQrEngineEnabled" &&
+            args.size() >= 1 && args[0].is_boolean()
+          ) {
+            const bool enabled = args[0].get<bool>();
+            g_fnp->call<
+              kProcess_SetQrEngineEnabled,
+              int,
+              bool
+            >(enabled);
           } else if (
             methodString == "getQrCodes"
           ) {

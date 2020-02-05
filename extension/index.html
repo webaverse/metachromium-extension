@@ -54,6 +54,7 @@ a:active {
   </div>
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
+    <input type=button id=toggle-qr-button value="QR turn ON">
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
   <img src="qr.png" width=150 height=150>
@@ -178,6 +179,13 @@ window.addEventListener('load', () => {
     await window.document.body.requestPointerLock();
   });
 
+  let qrOn = false;
+  const toggleQrButton = document.getElementById('toggle-qr-button');
+  toggleQrButton.addEventListener('click', async () => {
+    qrOn = !qrOn;
+    await xrc().request('setQrEngineEnabled', [qrOn]);
+  });
+
   const canvas2d = document.getElementById('canvas-2d');
   async function recurse() {
     velocity.set(0, 0, 0);
@@ -291,10 +299,10 @@ window.addEventListener('load', () => {
 
   const qrMesh = (() => {
     const geometry = THREE.BufferGeometryUtils.mergeBufferGeometries([
-      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(1/2 - 0.02/2, 0, 0)),
-      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(-1/2 + 0.02/2, 0, 0)),
-      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(0, 1/2 - 0.02/2, 0)),
-      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.MAtrix4().makeTranslation(0, -1/2 + 0.02/2, 0)),
+      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(1/2 - 0.02/2, 0, 0)),
+      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(-1/2 + 0.02/2, 0, 0)),
+      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(0, 1/2 - 0.02/2, 0)),
+      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(0, -1/2 + 0.02/2, 0)),
     ]);
     const material = new THREE.MeshPhongMaterial({
       color: 0x0000FF,
@@ -305,35 +313,27 @@ window.addEventListener('load', () => {
   scene.add(qrMesh);
 
   setInterval(async () => {
-    const o = await xrc().request('getCrCodes', []);
-    const {error, result} = o;
-    if (!error) {
-      const qrCodes = result;
-      if (qrCodes.length > 0) {
-        for (let i = 0; i < qrCodes.length; i++) {
-          const qrCode = qrCodes[i];
-          console.log('got qr code', qrCode);
-        }
-
-        const qrCode = qrCodes[0];
-        const worldPoints = Array(4);
-        for (let i = 0; i < 4; i++) {
-          worldPoints[i] = new THREE.Vector3(qrCode.points[i*2], qrCode.points[i*2+1], 0);
-        }
-        const avgWorldPoint = (() => {
-          const acc = new THREE.Vector3();
-          for (let i = 0; i < 4; i++) {
-            acc.add(worldPoints[i]);
-          }
-          return acc.divideScalar(4);
-        })();
-        qrMesh.position.copy(avgWorldPoint);
-        qrMesh.scale.set(0.1, 0.1, 0.1);
-      } else {
-        console.log('got no qr codes');
+    const qrCodes = await xrc().request('getQrCodes', []);
+    console.log('got qr codes', qrCodes);
+    if (qrCodes.length > 0) {
+      const qrCode = qrCodes[0];
+      const worldPoints = Array(4);
+      for (let i = 0; i < 4; i++) {
+        worldPoints[i] = new THREE.Vector3(qrCode.points[i*3], qrCode.points[i*3+1], qrCode.points[i*3+2]);
       }
+      const avgWorldPoint = (() => {
+        const acc = new THREE.Vector3();
+        for (let i = 0; i < 4; i++) {
+          acc.add(worldPoints[i]);
+        }
+        return acc.divideScalar(4);
+      })();
+      qrMesh.position.copy(avgWorldPoint);
+      qrMesh.scale.set(0.1, 0.1, 0.1);
+      
+      console.log('got qr world point', avgWorldPoint.toArray().join(','));
     } else {
-      console.warn(error);
+      console.log('got no qr codes');
     }
   }, 1000);
 
