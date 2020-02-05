@@ -57,7 +57,7 @@ a:active {
     <input type=button id=toggle-qr-button value="QR turn ON">
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
-  <img src="qr.png" width=150 height=150>
+  <img src="qr.png" width=200 height=200>
   <canvas id=canvas-2d></canvas>
 <script>
 
@@ -299,10 +299,10 @@ window.addEventListener('load', () => {
 
   const qrMesh = (() => {
     const geometry = THREE.BufferGeometryUtils.mergeBufferGeometries([
-      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(1/2 - 0.02/2, 0, 0)),
-      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(-1/2 + 0.02/2, 0, 0)),
-      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(0, 1/2 - 0.02/2, 0)),
-      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(0, -1/2 + 0.02/2, 0)),
+      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(0, 1/2 - 0.02/2, 0)),
+      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(0, -1/2 + 0.02/2, 0)),
+      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(1/2 - 0.02/2, 0, 0)),
+      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(-1/2 + 0.02/2, 0, 0)),
     ]);
     const material = new THREE.MeshPhongMaterial({
       color: 0x0000FF,
