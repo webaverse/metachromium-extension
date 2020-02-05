@@ -38,11 +38,11 @@ public:
   ID3D11Texture2D *colorMirrorServerTex = nullptr;
   ID3D11Fence *fence = nullptr;
   size_t fenceValue = 0;
-  
+
   uint32_t eyeWidth = 0;
   uint32_t eyeHeight = 0;
-  float projectionMatrix[16] = {};
-  float viewMatrix[16] = {};
+  float viewMatrixInverse[16] = {};
+  float projectionMatrixInverse[16] = {};
   std::vector<QrCode> qrCodes;
 
 public:

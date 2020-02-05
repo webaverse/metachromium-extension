@@ -81,20 +81,20 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         dptr -= lBmpRowPitch;
       }
       // memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
-      
+
       getOut() << "thread 7" << std::endl;
 
       qrContext->Unmap(colorReadTex, 0);
-      
+
       // imwrite((std::string(R"EOF(C:\Users\avaer\Documents\GitHub\overlay\tmp\)EOF") + std::to_string(++ssId) + std::string(".png")).c_str(), inputImage);
 
       Mat inputImage2;
       cvtColor(inputImage, inputImage2, COLOR_BGRA2GRAY);
-      
+
       // getOut() << "thread 8 " << (int)inputImage2.ptr()[0] << " " << (int)inputImage2.ptr()[1] << " " << (int)inputImage2.ptr()[2] << " " << (int)inputImage2.ptr()[3] << std::endl;
 
       Mat bbox, rectifiedImage;
-     
+
       std::string data = qrDecoder.detectAndDecode(inputImage2, bbox, rectifiedImage);
       getOut() << "thread 9 " << data.length() << std::endl;
       if (data.length() > 0 && bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
@@ -108,12 +108,6 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         qrCodes.resize(1);
         QrCode &qrCode = qrCodes[0];
         qrCode.data = std::move(data);
-        
-        vr::HmdMatrix44_t projectionMatrixHmd = this->vrsystem->GetProjectionMatrix(vr::Eye_Left, 0.1, 1000);
-        float projectionMatrix[16];
-        setPoseMatrix(projectionMatrix, projectionMatrixHmd);
-        float projectionMatrixInverse[16];
-        getMatrixInverse(projectionMatrix, projectionMatrixInverse);
         
         for (int i = 0; i < 4; i++) {
           const Point2f &p = bbox.at<Point2f>(i);
@@ -131,6 +125,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
           multiplyVectorScalar(worldPoint, 2.0f);
           addVectorScalar(worldPoint, -1.0f);
           applyVectorMatrix(worldPoint, projectionMatrixInverse);
+          applyVectorMatrix(worldPoint, viewMatrixInverse);
 
           qrCode.points[i*3] = worldPoint[0];
           qrCode.points[i*3+1] = worldPoint[1];
@@ -139,7 +134,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       } else {
         qrCodes.clear();
       }
-      
+
       // getOut() << "thread 10 " << data.length() << std::endl;
 
       running = false;
@@ -254,8 +249,15 @@ void QrEngine::setEnabled(bool enabled) {
       
       ++fenceValue;
       context->Signal(fence, fenceValue);
-      
-      // XXX latch eyeWidth, eyeHeight, projectionMatrix, viewMatrix 
+
+      eyeWidth = pvrcompositor->width;
+      eyeHeight = pvrcompositor->height;
+      HmdMatrix44_t viewMatrixHmd = pvrcompositor->GetViewMatrix();
+      setPoseMatrix(viewMatrixInverse, viewMatrixHmd);
+      vr::HmdMatrix44_t projectionMatrixHmd = pvrcompositor->GetProjectionMatrix();
+      float projectionMatrix[16];
+      setPoseMatrix(projectionMatrix, projectionMatrixHmd);
+      getMatrixInverse(projectionMatrix, projectionMatrixInverse);
 
       getOut() << "cb 8" << std::endl;
 
