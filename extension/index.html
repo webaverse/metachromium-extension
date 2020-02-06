@@ -250,8 +250,8 @@ window.addEventListener('load', () => {
     }
     const material = new THREE.MeshBasicMaterial({
       color: 0xFFFFFF,
-      transparent: true,
-      opacity: 0.5,
+      /* transparent: true,
+      opacity: 0.5, */
     });
     return new THREE.Mesh(geometry, material);
   })();
@@ -300,14 +300,11 @@ window.addEventListener('load', () => {
   })();
 
   const qrMesh = (() => {
-    const geometry = THREE.BufferGeometryUtils.mergeBufferGeometries([
-      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(0, 1/2 - 0.02/2, 0)),
-      new THREE.BoxBufferGeometry(1, 0.02, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(0, -1/2 + 0.02/2, 0)),
-      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(1/2 - 0.02/2, 0, 0)),
-      new THREE.BoxBufferGeometry(0.02, 1, 0.02).applyMatrix(new THREE.Matrix4().makeTranslation(-1/2 + 0.02/2, 0, 0)),
-    ]);
+    const geometry = new THREE.PlaneBufferGeometry(1, 1);
     const material = new THREE.MeshPhongMaterial({
-      color: 0x0000FF,
+      color: 0x42a5f5,
+      transparent: true,
+      opacity: 0.1,
     });
     return new THREE.Mesh(geometry, material);
   })();
