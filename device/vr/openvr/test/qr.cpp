@@ -254,6 +254,7 @@ void QrEngine::setEnabled(bool enabled) {
       eyeWidth = pvrcompositor->width;
       eyeHeight = pvrcompositor->height;
       vr::HmdMatrix34_t viewMatrixHmd = pvrcompositor->GetViewMatrix();
+      // float viewMatrix[16];
       setPoseMatrix(viewMatrixInverse, viewMatrixHmd);
       // getMatrixInverse(viewMatrix, viewMatrixInverse);
 
