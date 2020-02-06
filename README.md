@@ -21,6 +21,10 @@ A multi-app XR browser for Windows, based on Chromium.
 
 Windows only
 
+## Support
+
+Glad to support Exokit [sponsors](https://github.com/sponsors/avaer)! Join the [Discord](https://discord.gg/9M8awV8).
+
 ## License
 
 *Not* Open Source.
