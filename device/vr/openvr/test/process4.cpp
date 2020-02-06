@@ -297,12 +297,13 @@ int main(int argc, char **argv) {
               for (size_t i = 0; i < points.size(); i++) {
                 pointsArray.push_back(points.data()[i]);
               }
+              
+              json qrCodeValue = {
+                {"data", dataString},
+                {"points", pointsArray},
+              };
+              array.push_back(qrCodeValue);
             }
-            json qrCodeValue = {
-              {"data", dataString},
-              {"points", pointsArray},
-            };
-            array.push_back(qrCodeValue);
             
             getOut() << "get qr codes 5" << std::endl;
 
