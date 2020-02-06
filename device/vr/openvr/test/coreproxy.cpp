@@ -20,11 +20,6 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     EVRInitError,
     EVRApplicationType
   >([=](EVRApplicationType eApplicationType) {
-    getOut() << "client core init 1" << std::endl;
-
-    size_t remoteProcessId = fnp.remoteProcessId;
-    processIds.insert(remoteProcessId);
-
     return VRInitError_None;
   });
   fnp.reg<
@@ -34,31 +29,33 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     getOut() << "client core cleanup 1" << std::endl;
 
     size_t remoteProcessId = fnp.remoteProcessId;
-    processIds.erase(remoteProcessId);
+    if (std::find(processIds.begin(), processIds.end(), remoteProcessId) != processIds.end()) {
+      processIds.erase(remoteProcessId);
 
-    {
-      auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), remoteProcessId);
-      if (iter != waitSemsOrder.end()) {
-        waitSemsOrder.erase(iter);
+      {
+        auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), remoteProcessId);
+        if (iter != waitSemsOrder.end()) {
+          waitSemsOrder.erase(iter);
+        }
       }
-    }
-    {
-      auto iter = std::find(unlockWaitSemsOrder.begin(), unlockWaitSemsOrder.end(), remoteProcessId);
-      if (iter != unlockWaitSemsOrder.end()) {
-        unlockWaitSemsOrder.erase(iter);
+      {
+        auto iter = std::find(unlockWaitSemsOrder.begin(), unlockWaitSemsOrder.end(), remoteProcessId);
+        if (iter != unlockWaitSemsOrder.end()) {
+          unlockWaitSemsOrder.erase(iter);
+        }
       }
-    }
-    for (;;) {
-      auto iter = std::find(unlockSubmitSemsOrder.begin(), unlockSubmitSemsOrder.end(), remoteProcessId);
-      if (iter != unlockSubmitSemsOrder.end()) {
-        unlockSubmitSemsOrder.erase(iter);
-      } else {
-        break;
+      for (;;) {
+        auto iter = std::find(unlockSubmitSemsOrder.begin(), unlockSubmitSemsOrder.end(), remoteProcessId);
+        if (iter != unlockSubmitSemsOrder.end()) {
+          unlockSubmitSemsOrder.erase(iter);
+        } else {
+          break;
+        }
       }
-    }
 
-    if (remoteProcessId == runningFrameProcessId) { // if we were currently dispatched, dispatch the next wait
-      TickWait(remoteProcessId);
+      if (remoteProcessId == runningFrameProcessId) { // if we were currently dispatched, dispatch the next wait
+        TickWait(remoteProcessId);
+      }
     }
 
     return 0;
@@ -68,6 +65,8 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     size_t
   >([=, &fnp]() {
     size_t remoteProcessId = fnp.remoteProcessId;
+
+    processIds.insert(remoteProcessId);
 
     // add wait sem
     {
