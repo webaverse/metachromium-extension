@@ -44,6 +44,10 @@ a:active {
     <section id=processes>
       <h2>Processes</h2>
     </section>
+    <section id=qr-codes>
+      <h2>QR Codes</h2>
+      <div id=qr-codes-content></div>
+    </section>
   </div>
   <div class=body>
     <section id=sites>
@@ -311,18 +315,10 @@ window.addEventListener('load', () => {
   qrMesh.frustumCulled = false;
   scene.add(qrMesh);
 
-  // let qrRunning = false;
-  setInterval(async () => {
-    // console.log('qr start 0');
-  
-    // if (!qrRunning) {
-      // qrRunning = true;
-      
-      // console.log('qr start 1');
-
-      const timeout = setTimeout(() => {
-        console.warn('timed out');
-      }, 5000);
+  let qrRunning = false;
+  const _updateQrCodes = async () => {
+    if (!qrRunning) {
+      qrRunning = true;
 
       try {
         let qrCodes = await xrc().request('getQrCodes', []);
@@ -357,22 +353,22 @@ window.addEventListener('load', () => {
           qrMesh.material.color.setHex(0xFF0000);
           console.log('got no qr codes');
         }
+        
+        document.getElementById('qr-codes-content').innerHTML = qrCodes.map(qrCode => `<a href="${qrCode.data}">${qrCode.data}</a>`).join('<br>');
       } catch(err) {
         console.warn(err);
       }
       
-      clearTimeout(timeout);
-      
-      // console.log('qr start 2');
-      
-      // qrRunning = false;
-    // }
-  }, 1000);
+      qrRunning = false;
+    }
+  };
 
   renderer.setAnimationLoop(render);
   function render() {
     cubeMesh.rotation.x += 0.01;
     cubeMesh.rotation.z += 0.01;
+    
+    _updateQrCodes();
   
     renderer.render(scene, camera);
   }
