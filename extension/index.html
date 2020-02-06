@@ -332,9 +332,11 @@ window.addEventListener('load', () => {
       })();
       qrMesh.position.copy(avgWorldPoint);
       qrMesh.scale.set(0.1, 0.1, 0.1);
+      qrMesh.material.color.setHex(0x0000FF);
       
       console.log('got qr world point', avgWorldPoint.toArray().join(','));
     } else {
+      qrMesh.material.color.setHex(0xFF0000);
       console.log('got no qr codes');
     }
   }, 1000);
