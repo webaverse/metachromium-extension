@@ -311,31 +311,62 @@ window.addEventListener('load', () => {
   qrMesh.frustumCulled = false;
   scene.add(qrMesh);
 
+  // let qrRunning = false;
   setInterval(async () => {
-    const qrCodes = await xrc().request('getQrCodes', []);
-    console.log('got qr codes', qrCodes);
-    if (qrCodes.length > 0) {
-      const qrCode = qrCodes[0];
-      const worldPoints = Array(4);
-      for (let i = 0; i < 4; i++) {
-        worldPoints[i] = new THREE.Vector3(qrCode.points[i*3], qrCode.points[i*3+1], qrCode.points[i*3+2]);
-      }
-      const avgWorldPoint = (() => {
-        const acc = new THREE.Vector3();
-        for (let i = 0; i < 4; i++) {
-          acc.add(worldPoints[i]);
-        }
-        return acc.divideScalar(4);
-      })();
-      qrMesh.position.copy(avgWorldPoint);
-      qrMesh.scale.set(0.1, 0.1, 0.1);
-      qrMesh.material.color.setHex(0x0000FF);
+    // console.log('qr start 0');
+  
+    // if (!qrRunning) {
+      // qrRunning = true;
       
-      console.log('got qr world point', avgWorldPoint.toArray().join(','));
-    } else {
-      qrMesh.material.color.setHex(0xFF0000);
-      console.log('got no qr codes');
-    }
+      // console.log('qr start 1');
+
+      const timeout = setTimeout(() => {
+        console.warn('timed out');
+      }, 5000);
+
+      try {
+        let qrCodes = await xrc().request('getQrCodes', []);
+        qrCodes = qrCodes.filter(qrCode => qrCode.data);
+        console.log('got qr codes', qrCodes);
+        if (qrCodes.length > 0) {
+          const qrCode = qrCodes[0];
+          const worldPoints = Array(4);
+          for (let i = 0; i < 4; i++) {
+            worldPoints[i] = new THREE.Vector3(qrCode.points[i*3], qrCode.points[i*3+1], qrCode.points[i*3+2]);
+          }
+          const minPoint = new THREE.Vector3(Infinity, Infinity, Infinity);
+          const maxPoint = new THREE.Vector3(-Infinity, -Infinity, -Infinity);
+          const avgWorldPoint = (() => {
+            const acc = new THREE.Vector3();
+            for (let i = 0; i < 4; i++) {
+              const worldPoint = worldPoints[i];
+              acc.add(worldPoint);
+              minPoint.min(worldPoint);
+              maxPoint.max(worldPoint);
+            }
+            return acc.divideScalar(4);
+          })();
+          qrMesh.position.copy(avgWorldPoint);
+          const diffPoint = maxPoint.clone().sub(minPoint);
+          const scaleFactor = Math.max(diffPoint.x, diffPoint.y, diffPoint.z);
+          qrMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+          qrMesh.material.color.setHex(0x0000FF);
+          
+          console.log('got qr world point', avgWorldPoint.toArray().join(','));
+        } else {
+          qrMesh.material.color.setHex(0xFF0000);
+          console.log('got no qr codes');
+        }
+      } catch(err) {
+        console.warn(err);
+      }
+      
+      clearTimeout(timeout);
+      
+      // console.log('qr start 2');
+      
+      // qrRunning = false;
+    // }
   }, 1000);
 
   renderer.setAnimationLoop(render);
