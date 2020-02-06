@@ -89,14 +89,14 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 
       // imwrite((std::string(R"EOF(C:\Users\avaer\Documents\GitHub\overlay\tmp\)EOF") + std::to_string(++ssId) + std::string(".png")).c_str(), inputImage);
 
-      Mat inputImage2;
-      cvtColor(inputImage, inputImage2, COLOR_BGRA2GRAY);
+      // Mat inputImage2;
+      // cvtColor(inputImage, inputImage2, COLOR_BGRA2GRAY);
 
       // getOut() << "thread 8 " << (int)inputImage2.ptr()[0] << " " << (int)inputImage2.ptr()[1] << " " << (int)inputImage2.ptr()[2] << " " << (int)inputImage2.ptr()[3] << std::endl;
 
       Mat bbox, rectifiedImage;
 
-      std::string data = qrDecoder.detectAndDecode(inputImage2, bbox, rectifiedImage);
+      std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
       getOut() << "thread 9 " << data.length() << std::endl;
       if (data.length() > 0 && bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
         getOut() << "Decoded QR code: " << data << " " <<
