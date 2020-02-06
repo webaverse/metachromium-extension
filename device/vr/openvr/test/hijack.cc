@@ -2274,13 +2274,13 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
     }
     return hr;
   } else {
-    getOut() << "bind surface try client 1 " << pDesc->Width << " " << pDesc->Height << std::endl;
+    // getOut() << "bind surface try client 1 " << pDesc->Width << " " << pDesc->Height << std::endl;
     HANDLE surfaceShHandle = g_hijacker->fnp.call<
       kHijacker_TryBindSurface,
       HANDLE,
       D3D11_TEXTURE2D_DESC
     >(*pDesc);
-    getOut() << "bind surface try client 2 " << (void *)surfaceShHandle << std::endl;
+    // getOut() << "bind surface try client 2 " << (void *)surfaceShHandle << std::endl;
     if (surfaceShHandle) {
       ID3D11Resource *surfaceRes;
       HRESULT hr = This->lpVtbl->OpenSharedResource(This, surfaceShHandle, IID_ID3D11Resource, (void**)&surfaceRes);
