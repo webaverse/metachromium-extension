@@ -253,11 +253,12 @@ void QrEngine::setEnabled(bool enabled) {
       eyeHeight = pvrcompositor->height;
       vr::HmdMatrix34_t viewMatrixHmd = pvrcompositor->GetViewMatrix();
       setPoseMatrix(viewMatrixInverse, viewMatrixHmd);
+      // getMatrixInverse(viewMatrix, viewMatrixInverse);
 
       vr::HmdMatrix34_t stageMatrixHmd = pvrcompositor->GetStageMatrix();
-      float stageMatrix[16];
-      setPoseMatrix(stageMatrix, stageMatrixHmd);
-      getMatrixInverse(stageMatrix, stageMatrixInverse);
+      // float stageMatrix[16];
+      setPoseMatrix(stageMatrixInverse, stageMatrixHmd);
+      // getMatrixInverse(stageMatrix, stageMatrixInverse);
 
       vr::HmdMatrix44_t projectionMatrixHmd = pvrcompositor->GetProjectionMatrix();
       float projectionMatrix[16];
