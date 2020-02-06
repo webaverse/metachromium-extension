@@ -35,7 +35,7 @@ public:
     
   void PreWaitGetPoses();
   void PreSubmit(bool *doQueueSubmit, bool *doRealSubmit);
-  void TickWait();
+  void TickWait(size_t remoteProcessId);
 };
 }
 

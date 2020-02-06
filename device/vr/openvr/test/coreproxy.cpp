@@ -58,7 +58,7 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     }
 
     if (remoteProcessId == runningFrameProcessId) { // if we were currently dispatched, dispatch the next wait
-      TickWait();
+      TickWait(remoteProcessId);
     }
 
     return 0;
@@ -71,18 +71,18 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
 
     // add wait sem
     {
-      auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), processId);
+      auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), remoteProcessId);
       if (iter == waitSemsOrder.end()) { // we were not already waiting 
-        waitSemsOrder.push_back(processId);
+        waitSemsOrder.push_back(remoteProcessId);
       } else {
-        getOut() << "double wait for process id " << processId << std::endl;
+        getOut() << "double wait for process id " << remoteProcessId << std::endl;
         abort();
       }
     }
 
-    TickWait();
+    TickWait(remoteProcessId);
 
-    return processId;
+    return remoteProcessId;
   });
   fnp.reg<
     kPVRClientCore_PreSubmit,
@@ -138,7 +138,7 @@ void PVRClientCore::PreSubmit(bool *doQueueSubmit, bool *doRealSubmit) {
   *doQueueSubmit = std::get<0>(result);
   *doRealSubmit = std::get<1>(result);
 }
-void PVRClientCore::TickWait() {
+void PVRClientCore::TickWait(size_t remoteProcessId) {
   // if we are not running and everyone is queued up, trigger a new frame
   if (unlockWaitSemsOrder.size() == 0 && waitSemsOrder.size() > 0 && waitSemsOrder.size() >= processIds.size()) {
     pvrcompositor->CacheWaitGetPoses();
@@ -159,7 +159,9 @@ void PVRClientCore::TickWait() {
     unlockSubmitSemsOrder.push_back(unlockProcessId);
     unlockSubmitSemsOrder.push_back(unlockProcessId);
 
-    runningFrameProcessId = processId;
+    runningFrameProcessId = remoteProcessId;
+  } else {
+    runningFrameProcessId = 0;
   }
 }
 }
