@@ -1982,7 +1982,7 @@ void STDMETHODCALLTYPE MineClearRenderTargetView(
   TRACE("Hijack", [&]() { getOut() << "ClearRenderTargetView" << std::endl; });
   // getOut() << "ClearRenderTargetView " << (void *)pRenderTargetView << std::endl;
 
-  {
+  /* {
     ID3D11Texture2D *depthTex = nullptr;
     ID3D11Resource *depthTexResource = nullptr;
     pRenderTargetView->lpVtbl->GetResource(pRenderTargetView, &depthTexResource);
@@ -1999,7 +1999,7 @@ void STDMETHODCALLTYPE MineClearRenderTargetView(
     
     depthTex->lpVtbl->Release(depthTex);
     depthTexResource->lpVtbl->Release(depthTexResource);
-  }
+  } */
   
   RealClearRenderTargetView(This, pRenderTargetView, ColorRGBA);
 }
