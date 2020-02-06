@@ -156,8 +156,9 @@ void FnProxy::dispatchCall() {
   iter->second.lock();
 }
 
-void FnProxy::handle() {
-  while (inSem.tryLock()) {
+bool FnProxy::handle() {
+  DWORD result = MsgWaitForMultipleObjects(1, &inSem.h, false, INFINITE, QS_ALLEVENTS);
+  if (result == WAIT_OBJECT_0) {
     // getOut() << "fn proxy handle 1" << std::endl;
 
     std::string name;
@@ -180,6 +181,10 @@ void FnProxy::handle() {
       iter = outSems.find(remoteCallbackId);
     }
     iter->second.unlock();
+
+    return false;
+  } else {
+    return true;
   }
 }
 

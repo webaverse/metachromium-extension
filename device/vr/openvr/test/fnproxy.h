@@ -311,7 +311,7 @@ public:
     };
   }
   
-  void handle();
+  bool handle();
   
   static constexpr size_t BUF_SIZE = 512*1024;
 };
