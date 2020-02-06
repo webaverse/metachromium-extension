@@ -114,7 +114,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
           const Point2f &p = bbox.at<Point2f>(i);
           float worldPoint[4] = {
             (p.x/(float)eyeWidth) * 2.0f - 1.0f,
-            (p.y/(float)eyeHeight) * 2.0f - 1.0f,
+            (1.0f-(p.y/(float)eyeHeight)) * 2.0f - 1.0f,
             0.0f,
             1.0f,
           };
