@@ -250,6 +250,8 @@ window.addEventListener('load', () => {
     }
     const material = new THREE.MeshBasicMaterial({
       color: 0xFFFFFF,
+      transparent: true,
+      opacity: 0.5,
     });
     return new THREE.Mesh(geometry, material);
   })();
