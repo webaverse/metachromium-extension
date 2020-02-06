@@ -15,6 +15,7 @@
 #include "device/vr/openvr/test/rendermodelsproxy.h"
 #include "device/vr/openvr/test/applicationsproxy.h"
 #include "device/vr/openvr/test/overlayproxy.h"
+#include "device/vr/openvr/test/qr.h"
 #include "device/vr/openvr/test/offsets.h"
 
 extern std::string dllDir;
@@ -56,6 +57,8 @@ namespace vr {
   extern PVRRenderModels *g_pvrrendermodels;
   extern PVRApplications *g_pvrapplications;
   extern PVROverlay *g_pvroverlay;
+
+  extern QrEngine *g_pqrengine;
 }
 
 extern "C" {

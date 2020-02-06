@@ -137,6 +137,9 @@ public:
   std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
   std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
+  // callbacks
+  std::vector<std::function<void(ID3D11Device5 *, ID3D11DeviceContext4 *, ID3D11Texture2D *, ID3D11Texture2D *)>> submitCallbacks;
+
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bool isProcess, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
 	virtual ETrackingUniverseOrigin GetTrackingSpace();
@@ -190,9 +193,13 @@ public:
 	virtual bool IsCurrentSceneFocusAppLoading();
   
   void CacheWaitGetPoses();
+  HmdMatrix34_t GetViewMatrix();
+  HmdMatrix34_t GetStageMatrix();
+  HmdMatrix44_t GetProjectionMatrix();
   void InitShader();
   void SwapDepthTex(int iEye);
   void InfoQueueLog();
+  static void InfoQueueLog(ID3D11InfoQueue *infoQueue);
   static void CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **context, IDXGISwapChain **swapChain);
   void HomeRenderLoop();
 };

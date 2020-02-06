@@ -2,6 +2,7 @@
 <html>
 <head>
 <script src="three.js"></script>
+<script src="BufferGeometryUtils.js"></script>
 <style>
 body {
   margin: 0;
@@ -43,6 +44,10 @@ a:active {
     <section id=processes>
       <h2>Processes</h2>
     </section>
+    <section id=qr-codes>
+      <h2>QR Codes</h2>
+      <div id=qr-codes-content></div>
+    </section>
   </div>
   <div class=body>
     <section id=sites>
@@ -53,8 +58,10 @@ a:active {
   </div>
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
+    <input type=button id=toggle-qr-button value="QR turn ON">
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
+  <img src="qr.png" width=200 height=200>
   <canvas id=canvas-2d></canvas>
 <script>
 
@@ -176,6 +183,13 @@ window.addEventListener('load', () => {
     await window.document.body.requestPointerLock();
   });
 
+  let qrEngineOn = false;
+  const toggleQrButton = document.getElementById('toggle-qr-button');
+  toggleQrButton.addEventListener('click', async () => {
+    qrEngineOn = !qrEngineOn;
+    await xrc().request('setQrEngineEnabled', [qrEngineOn]);
+  });
+
   const canvas2d = document.getElementById('canvas-2d');
   async function recurse() {
     velocity.set(0, 0, 0);
@@ -240,6 +254,8 @@ window.addEventListener('load', () => {
     }
     const material = new THREE.MeshBasicMaterial({
       color: 0xFFFFFF,
+      /* transparent: true,
+      opacity: 0.5, */
     });
     return new THREE.Mesh(geometry, material);
   })();
@@ -287,10 +303,74 @@ window.addEventListener('load', () => {
     }
   })();
 
+  const qrMesh = (() => {
+    const geometry = new THREE.PlaneBufferGeometry(1, 1);
+    const material = new THREE.MeshPhongMaterial({
+      color: 0x42a5f5,
+      transparent: true,
+      opacity: 0.1,
+    });
+    return new THREE.Mesh(geometry, material);
+  })();
+  qrMesh.frustumCulled = false;
+  scene.add(qrMesh);
+
+  let qrQueryRunning = false;
+  const detectedQrCodes = [];
+  const _updateQrCodes = async () => {
+    if (qrEngineOn && !qrQueryRunning) {
+      qrQueryRunning = true;
+
+      const qrCodes = await xrc().request('getQrCodes', []);
+      // console.log('got qr codes', qrCodes);
+      if (qrCodes.length > 0) {
+        const qrCode = qrCodes[0];
+        const worldPoints = Array(4);
+        for (let i = 0; i < 4; i++) {
+          worldPoints[i] = new THREE.Vector3(qrCode.points[i*3], qrCode.points[i*3+1], qrCode.points[i*3+2]);
+        }
+        const minPoint = new THREE.Vector3(Infinity, Infinity, Infinity);
+        const maxPoint = new THREE.Vector3(-Infinity, -Infinity, -Infinity);
+        const avgWorldPoint = (() => {
+          const acc = new THREE.Vector3();
+          for (let i = 0; i < 4; i++) {
+            const worldPoint = worldPoints[i];
+            acc.add(worldPoint);
+            minPoint.min(worldPoint);
+            maxPoint.max(worldPoint);
+          }
+          return acc.divideScalar(4);
+        })();
+        qrMesh.position.copy(avgWorldPoint);
+        const diffPoint = maxPoint.clone().sub(minPoint);
+        const scaleFactor = Math.max(diffPoint.x, diffPoint.y, diffPoint.z);
+        qrMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+        qrMesh.material.color.setHex(0x0000FF);
+
+        // console.log('got qr world point', avgWorldPoint.toArray().join(','));
+      } else {
+        qrMesh.material.color.setHex(0xFF0000);
+        // console.log('got no qr codes');
+      }
+
+      for (let i = 0; i < qrCodes.length; i++) {
+        const qrCode = qrCodes[i];
+        if (!detectedQrCodes.includes(qrCode.data)) {
+          detectedQrCodes.push(qrCode.data);
+        }
+      }
+      document.getElementById('qr-codes-content').innerHTML = detectedQrCodes.map(qrCode => `<a href="${qrCode}">${qrCode}</a>`).join('<br>');
+
+      qrQueryRunning = false;
+    }
+  };
+
   renderer.setAnimationLoop(render);
   function render() {
     cubeMesh.rotation.x += 0.01;
     cubeMesh.rotation.z += 0.01;
+    
+    _updateQrCodes();
   
     renderer.render(scene, camera);
   }

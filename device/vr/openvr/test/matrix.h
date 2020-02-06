@@ -4,12 +4,24 @@
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
 
+void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix44_t &srcMatrix);
 void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix);
 void setPoseMatrix(vr::HmdMatrix34_t &dstMatrix, const float *srcMatrixArray);
 void getMatrixInverse(const float *inMatrix, float *outMatrix);
 void multiplyMatrices(const float *aMatrix, const float *bMatrix, float *outMatrix);
 void composeMatrix(float *matrix, const float *position, const float *quaternion, const float *scale);
-void addVector(float *a, const float *b);
-void applyVectorQuaternion(float *v, const float *q);
+void addVector3(float *a, const float *b);
+void addVector4(float *a, const float *b);
+void applyVector3Quaternion(float *v, const float *q);
+void applyVector3Matrix(float *v, const float *m);
+void applyVector4Matrix(float *v, const float *m);
+void multiplyVectors3(float *a, const float *b);
+void multiplyVectors4(float *a, const float *b);
+void divideVectors3(float *a, const float *b);
+void divideVectors4(float *a, const float *b);
+void multiplyVector3Scalar(float *v, const float s);
+void multiplyVector4Scalar(float *v, const float s);
+void addVector3Scalar(float *v, const float s);
+void addVector4Scalar(float *v, const float s);
 
 #endif

@@ -4,6 +4,7 @@
 #include "extension/json.hpp"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
+#include "device/vr/openvr/test/qr.h"
 
 using json = nlohmann::json;
 
@@ -320,6 +321,7 @@ int WINAPI WinMain(
   vr::g_pvrrendermodels = new vr::PVRRenderModels(vr::g_vrrendermodels, *g_fnp);
   vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
   vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
+  vr::g_pqrengine = new QrEngine(vr::g_pvrcompositor, vr::g_vrsystem);
 
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {

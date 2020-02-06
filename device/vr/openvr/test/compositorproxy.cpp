@@ -2,6 +2,7 @@
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
+#include "device/vr/openvr/test/qr.h"
 #include "device/vr/openvr/test/matrix.h"
 
 namespace vr {
@@ -58,6 +59,8 @@ char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSur
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
+char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
+char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
 const char *composeVsh = R"END(
 #version 330
@@ -271,7 +274,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       getOut() << "info queue query failed" << std::endl;
       // abort();
     }
-    
+
     InitShader();
 
     hr = device->CreateFence(
@@ -857,7 +860,25 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     }
     
     vrcompositor->PostPresentHandoff();
-    
+
+    if (submitCallbacks.size() > 0) {
+      ID3D11Texture2D *colorTex = shTexOuts[0];
+      ID3D11RenderTargetView *depthRtv = renderTargetDepthFrontViews[0];
+      ID3D11Resource *depthRes;
+      depthRtv->GetResource(&depthRes);
+      ID3D11Texture2D *depthTex;
+      HRESULT hr = depthRes->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&depthTex);
+      if (FAILED(hr)) {
+        getOut() << "failed to query depth tex: " << (void *)hr << std::endl;
+      }
+
+      for (auto &iter : submitCallbacks) {
+        iter(device.Get(), context.Get(), colorTex, depthTex);
+      }
+
+      depthRes->Release();
+      depthTex->Release();
+    }
     // swapChain->Present(0, 0);
 
     // getOut() << "flush submit server 11" << std::endl;
@@ -1289,8 +1310,37 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     memcpy(position, newPosition.data(), sizeof(position));
     memcpy(quaternion, newQuaternion.data(), sizeof(quaternion));
     memcpy(scale, newScale.data(), sizeof(scale));
-    
+
     return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_SetQrEngineEnabled,
+    int,
+    bool
+  >([=](bool enabled) {
+    getOut() << "set qr engine enabled " << enabled << std::endl;
+    g_pqrengine->setEnabled(enabled);
+    return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_GetQrCodes,
+    std::tuple<managed_binary<char>, managed_binary<float>>
+  >([=]() {
+    const std::vector<QrCode> &qrCodes = g_pqrengine->getQrCodes();
+    std::tuple<managed_binary<char>, managed_binary<float>> result;
+    if (qrCodes.size() > 0) {
+      const QrCode &qrCode = qrCodes[0];
+
+      managed_binary<char> &qrCodeEntryData = std::get<0>(result);
+      managed_binary<float> &qrCodeEntryPoints = std::get<1>(result);
+      
+      qrCodeEntryData = managed_binary<char>(qrCode.data.size());
+      memcpy(qrCodeEntryData.data(), qrCode.data.data(), qrCode.data.size());
+      
+      qrCodeEntryPoints = managed_binary<float>(ARRAYSIZE(qrCode.points));
+      memcpy(qrCodeEntryPoints.data(), qrCode.points, ARRAYSIZE(qrCode.points) * sizeof(float));
+    }
+    return std::move(result);
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
@@ -2847,8 +2897,8 @@ void PVRCompositor::CacheWaitGetPoses() {
           float position2[3];
           memcpy(position2, position, sizeof(position));
           float offset[3] = {-0.1, -0.1, -0.1};
-          addVector(position2, offset);
-          applyVectorQuaternion(position2, quaternion);
+          addVector3(position2, offset);
+          applyVector3Quaternion(position2, quaternion);
           float viewMatrix[16];
           composeMatrix(viewMatrix, position2, quaternion, scale);
           setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
@@ -2861,8 +2911,8 @@ void PVRCompositor::CacheWaitGetPoses() {
           float position2[3];
           memcpy(position2, position, sizeof(position));
           float offset[3] = {0.1, -0.1, -0.1};
-          addVector(position2, offset);
-          applyVectorQuaternion(position2, quaternion);
+          addVector3(position2, offset);
+          applyVector3Quaternion(position2, quaternion);
           float viewMatrix[16];
           composeMatrix(viewMatrix, position2, quaternion, scale);
           setPoseMatrix(cachedRenderPose.mDeviceToAbsoluteTracking, viewMatrix);
@@ -2889,6 +2939,21 @@ void PVRCompositor::CacheWaitGetPoses() {
       depthColor
     );
   }
+}
+HmdMatrix34_t PVRCompositor::GetViewMatrix() {
+  for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
+    ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
+    if (deviceClass == TrackedDeviceClass_HMD) {
+      return cachedRenderPoses[i].mDeviceToAbsoluteTracking;
+    }
+  }
+  return HmdMatrix34_t{};
+}
+HmdMatrix34_t PVRCompositor::GetStageMatrix() {
+  return g_vrsystem->GetSeatedZeroPoseToStandingAbsoluteTrackingPose();
+}
+HmdMatrix44_t PVRCompositor::GetProjectionMatrix() {
+  return g_vrsystem->GetProjectionMatrix(vr::Eye_Left, 0.3, 100);
 }
 void PVRCompositor::InitShader() {
   getOut() << "init shader 1" << std::endl;
@@ -3423,37 +3488,40 @@ void PVRCompositor::SwapDepthTex(int iEye) {
 }
 void PVRCompositor::InfoQueueLog() {
   if (infoQueue) {
-    UINT64 numStoredMessages = infoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
-    for (UINT64 i = 0; i < numStoredMessages; i++) {
-      size_t messageSize = 0;
-      HRESULT hr = infoQueue->GetMessage(
+    PVRCompositor::InfoQueueLog(infoQueue.Get());
+  }
+}
+void PVRCompositor::InfoQueueLog(ID3D11InfoQueue *infoQueue) {
+  UINT64 numStoredMessages = infoQueue->GetNumStoredMessagesAllowedByRetrievalFilter();
+  for (UINT64 i = 0; i < numStoredMessages; i++) {
+    size_t messageSize = 0;
+    HRESULT hr = infoQueue->GetMessage(
+      i,
+      nullptr,
+      &messageSize
+    );
+    if (SUCCEEDED(hr)) {
+      D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
+      
+      hr = infoQueue->GetMessage(
         i,
-        nullptr,
+        message,
         &messageSize
       );
       if (SUCCEEDED(hr)) {
-        D3D11_MESSAGE *message = (D3D11_MESSAGE *)malloc(messageSize);
-        
-        hr = infoQueue->GetMessage(
-          i,
-          message,
-          &messageSize
-        );
-        if (SUCCEEDED(hr)) {
-          // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
-            getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
-          // }
-        } else {
-          getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
-        }
-        
-        free(message);
+        // if (message->Severity <= D3D11_MESSAGE_SEVERITY_WARNING) {
+          getOut() << "info: " << message->Severity << " " << std::string(message->pDescription, message->DescriptionByteLength) << std::endl;
+        // }
       } else {
         getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
       }
+      
+      free(message);
+    } else {
+      getOut() << "failed to get info queue message size: " << (void *)hr << std::endl;
     }
-    infoQueue->ClearStoredMessages();
   }
+  infoQueue->ClearStoredMessages();
 }
 void PVRCompositor::CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **context, IDXGISwapChain **swapChain) {
   int32_t adapterIndex;

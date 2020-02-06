@@ -29,7 +29,8 @@ extern std::string dllDir;
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
-// char kProcess_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
+char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
+char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
 void respond(const json &j) {
   std::string outString = j.dump();
@@ -265,6 +266,55 @@ int main(int argc, char **argv) {
               };
               respond(res);
             }
+          } else if (
+            methodString == "setQrEngineEnabled" &&
+            args.size() >= 1 && args[0].is_boolean()
+          ) {
+            const bool enabled = args[0].get<bool>();
+            g_fnp->call<
+              kProcess_SetQrEngineEnabled,
+              int,
+              bool
+            >(enabled);
+            
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
+          } else if (
+            methodString == "getQrCodes"
+          ) {
+            auto qrCode = g_fnp->call<
+              kProcess_GetQrCodes,
+              std::tuple<managed_binary<char>, managed_binary<float>>
+            >();
+
+            managed_binary<char> &data = std::get<0>(qrCode);
+            managed_binary<float> &points = std::get<1>(qrCode);
+
+            json array = json::array();
+            if (data.size() > 0) {
+              std::string dataString;
+              json pointsArray = json::array();
+              
+              dataString = std::string(data.data(), data.size());
+              for (size_t i = 0; i < points.size(); i++) {
+                pointsArray.push_back(points.data()[i]);
+              }
+              
+              json qrCodeValue = {
+                {"data", dataString},
+                {"points", pointsArray},
+              };
+              array.push_back(qrCodeValue);
+            }
+
+            json res = {
+              {"error", nullptr},
+              {"result", array}
+            };
+            respond(res);
           } else {
             json res = {
               {"error", "invalid method"},
