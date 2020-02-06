@@ -42,6 +42,7 @@ public:
   uint32_t eyeWidth = 0;
   uint32_t eyeHeight = 0;
   float viewMatrixInverse[16] = {};
+  float stageMatrixInverse[16] = {};
   float projectionMatrixInverse[16] = {};
   std::vector<QrCode> qrCodes;
 

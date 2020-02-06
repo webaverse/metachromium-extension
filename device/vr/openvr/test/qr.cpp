@@ -120,6 +120,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
           };
           applyVector4Matrix(worldPoint, projectionMatrixInverse);
           applyVector4Matrix(worldPoint, viewMatrixInverse);
+          applyVector4Matrix(worldPoint, stageMatrixInverse);
           const float w = worldPoint[3];
           for (int j = 0; j < 4; j++) {
             worldPoint[j] /= w;
@@ -252,6 +253,12 @@ void QrEngine::setEnabled(bool enabled) {
       eyeHeight = pvrcompositor->height;
       vr::HmdMatrix34_t viewMatrixHmd = pvrcompositor->GetViewMatrix();
       setPoseMatrix(viewMatrixInverse, viewMatrixHmd);
+
+      vr::HmdMatrix34_t stageMatrixHmd = pvrcompositor->GetStageMatrix();
+      float stageMatrix[16];
+      setPoseMatrix(stageMatrix, stageMatrixHmd);
+      getMatrixInverse(stageMatrix, stageMatrixInverse);
+
       vr::HmdMatrix44_t projectionMatrixHmd = pvrcompositor->GetProjectionMatrix();
       float projectionMatrix[16];
       setPoseMatrix(projectionMatrix, projectionMatrixHmd);
