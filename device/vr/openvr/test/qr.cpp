@@ -119,12 +119,14 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
             1.0f,
           };
           applyVector4Matrix(worldPoint, projectionMatrixInverse);
-          applyVector4Matrix(worldPoint, viewMatrixInverse);
-          applyVector4Matrix(worldPoint, stageMatrixInverse);
-          const float w = worldPoint[3];
-          for (int j = 0; j < 4; j++) {
-            worldPoint[j] /= w;
+          {
+            const float w = worldPoint[3];
+            for (int j = 0; j < 4; j++) {
+              worldPoint[j] /= w;
+            }
           }
+          applyVector4Matrix(worldPoint, stageMatrixInverse);
+          applyVector4Matrix(worldPoint, viewMatrixInverse);
 
           qrCode.points[i*3] = worldPoint[0];
           qrCode.points[i*3+1] = worldPoint[1];
