@@ -194,6 +194,7 @@ public:
   
   void CacheWaitGetPoses();
   HmdMatrix34_t GetViewMatrix();
+  HmdMatrix34_t GetStageMatrix();
   HmdMatrix44_t GetProjectionMatrix();
   void InitShader();
   void SwapDepthTex(int iEye);

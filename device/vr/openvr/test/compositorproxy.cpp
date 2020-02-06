@@ -2949,6 +2949,9 @@ HmdMatrix34_t PVRCompositor::GetViewMatrix() {
   }
   return HmdMatrix34_t{};
 }
+HmdMatrix34_t PVRCompositor::GetStageMatrix() {
+  return g_vrsystem->GetSeatedZeroPoseToStandingAbsoluteTrackingPose();
+}
 HmdMatrix44_t PVRCompositor::GetProjectionMatrix() {
   return g_vrsystem->GetProjectionMatrix(vr::Eye_Left, 0.1, 1000);
 }
