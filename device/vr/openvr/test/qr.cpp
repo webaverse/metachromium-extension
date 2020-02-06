@@ -125,8 +125,8 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
               worldPoint[j] /= w;
             }
           }
-          applyVector4Matrix(worldPoint, stageMatrixInverse);
           applyVector4Matrix(worldPoint, viewMatrixInverse);
+          applyVector4Matrix(worldPoint, stageMatrixInverse);
 
           qrCode.points[i*3] = worldPoint[0];
           qrCode.points[i*3+1] = worldPoint[1];
