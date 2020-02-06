@@ -183,11 +183,11 @@ window.addEventListener('load', () => {
     await window.document.body.requestPointerLock();
   });
 
-  let qrOn = false;
+  let qrEngineOn = false;
   const toggleQrButton = document.getElementById('toggle-qr-button');
   toggleQrButton.addEventListener('click', async () => {
-    qrOn = !qrOn;
-    await xrc().request('setQrEngineEnabled', [qrOn]);
+    qrEngineOn = !qrEngineOn;
+    await xrc().request('setQrEngineEnabled', [qrEngineOn]);
   });
 
   const canvas2d = document.getElementById('canvas-2d');
@@ -315,11 +315,11 @@ window.addEventListener('load', () => {
   qrMesh.frustumCulled = false;
   scene.add(qrMesh);
 
-  let qrRunning = false;
+  let qrQueryRunning = false;
   const detectedQrCodes = [];
   const _updateQrCodes = async () => {
-    if (!qrRunning) {
-      qrRunning = true;
+    if (qrEngineOn && !qrQueryRunning) {
+      qrQueryRunning = true;
 
       const qrCodes = await xrc().request('getQrCodes', []);
       // console.log('got qr codes', qrCodes);
@@ -361,7 +361,7 @@ window.addEventListener('load', () => {
       }
       document.getElementById('qr-codes-content').innerHTML = detectedQrCodes.map(qrCode => `<a href="${qrCode}">${qrCode}</a>`).join('<br>');
 
-      qrRunning = false;
+      qrQueryRunning = false;
     }
   };
 
