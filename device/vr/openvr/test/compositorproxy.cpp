@@ -1836,7 +1836,7 @@ inline bool operator!=(const VRTextureBounds_t &a, const VRTextureBounds_t &b) {
   return !(a == b);
 }
 EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-if (pTexture) {
+// if (pTexture) {
   // getOut() << "submit client 1 " << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
@@ -2601,7 +2601,7 @@ if (pTexture) {
   context->Wait(remoteServerFence, serverFenceValue);
 
   // getOut() << "submit client 23" << std::endl;
-}
+// }
 
   return VRCompositorError_None;
 }
