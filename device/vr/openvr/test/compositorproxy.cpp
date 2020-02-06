@@ -1916,7 +1916,7 @@ EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTe
   // HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
   uintptr_t &depthTextureLatched = inDepthTexLatches[index]; // remembered depth attachemnt
- VRTextureBounds_t &depthTextureBoundsLatched = inDepthTexBoundsLatches[index]; // remembered depth bounds
+  VRTextureBounds_t &depthTextureBoundsLatched = inDepthTexBoundsLatches[index]; // remembered depth bounds
 
   std::tuple<float, float> clientZBufferParams{};
   int clientEye = 0;
