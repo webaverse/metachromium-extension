@@ -1911,7 +1911,7 @@ void STDMETHODCALLTYPE MinePSSetShaderResources(
   ID3D11ShaderResourceView * const *ppShaderResourceViews
 ) {
   TRACE("Hijack", [&]() { getOut() << "RealPSSetShaderResources" << std::endl; });
-  for (UINT i = 0; i < NumViews; i++) {
+  /* for (UINT i = 0; i < NumViews; i++) {
     ID3D11ShaderResourceView *srv = ppShaderResourceViews[i];
     
     if (srv) {
@@ -1932,7 +1932,7 @@ void STDMETHODCALLTYPE MinePSSetShaderResources(
       depthTex->lpVtbl->Release(depthTex);
       depthTexResource->lpVtbl->Release(depthTexResource);
     }
-  }
+  } */
   return RealPSSetShaderResources(This, StartSlot, NumViews, ppShaderResourceViews);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateDepthStencilView)(
