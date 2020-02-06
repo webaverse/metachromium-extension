@@ -276,6 +276,12 @@ int main(int argc, char **argv) {
               int,
               bool
             >(enabled);
+            
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
           } else if (
             methodString == "getQrCodes"
           ) {
