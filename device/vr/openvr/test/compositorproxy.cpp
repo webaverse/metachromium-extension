@@ -2953,7 +2953,7 @@ HmdMatrix34_t PVRCompositor::GetStageMatrix() {
   return g_vrsystem->GetSeatedZeroPoseToStandingAbsoluteTrackingPose();
 }
 HmdMatrix44_t PVRCompositor::GetProjectionMatrix() {
-  return g_vrsystem->GetProjectionMatrix(vr::Eye_Left, 0.3, 10);
+  return g_vrsystem->GetProjectionMatrix(vr::Eye_Left, 0.3, 100);
 }
 void PVRCompositor::InitShader() {
   getOut() << "init shader 1" << std::endl;
