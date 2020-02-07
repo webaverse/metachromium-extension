@@ -3367,26 +3367,26 @@ Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
     int,
     bool
   >([=](HANDLE shDepthTexHandle, std::tuple<float, float> zBufferParams, int eye, bool isFull) {
-    // getOut() << "queue depth tex " << (void *)shDepthTexHandle << std::endl;
-    /* size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
+    size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
       return pt.texHandle == shDepthTexHandle;
-    }); */
-    texQueue.push_back(ProxyTexture{
-      shDepthTexHandle,
-      zBufferParams,
-      eye,
-      isFull
     });
-    // getOut() << "push tex order " << texQueue.size() << std::endl;
-    {
-      auto iter = texSortOrder.find(shDepthTexHandle);
-      if (iter == texSortOrder.end()) {
-        size_t sortIndex = texSortOrder.size();
-        texSortOrder.insert(std::pair<HANDLE, size_t>(shDepthTexHandle, sortIndex));
-        // XXX clean up sort order tracking on texture destroy
+    if (count < 2) {
+      texQueue.push_back(ProxyTexture{
+        shDepthTexHandle,
+        zBufferParams,
+        eye,
+        isFull
+      });
+      // getOut() << "queue depth tex " << shDepthTexHandle << " " << texQueue.size() << " " << count << std::endl;
+      {
+        auto iter = texSortOrder.find(shDepthTexHandle);
+        if (iter == texSortOrder.end()) {
+          size_t sortIndex = texSortOrder.size();
+          texSortOrder.insert(std::pair<HANDLE, size_t>(shDepthTexHandle, sortIndex));
+          // XXX clean up sort order tracking on texture destroy
+        }
       }
     }
-    
     return 0;
   });
   fnp.reg<
