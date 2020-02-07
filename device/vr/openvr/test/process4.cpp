@@ -29,6 +29,7 @@ extern std::string dllDir;
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
+char kProcess_SendMouse[] = "IVRCompositor::kIVRCompositor_SendMouse";
 char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
@@ -267,6 +268,24 @@ int main(int argc, char **argv) {
               };
               respond(res);
             }
+          } else if (
+            methodString == "sendMouse" &&
+            args.size() >= 2 && args[0].is_number() && args[1].is_number()
+          ) {
+            int x = args[0].get<int>();
+            int y = args[1].get<int>();
+            g_fnp->call<
+              kProcess_SendMouse,
+              int,
+              int,
+              int
+            >(x, y);
+
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
           } else if (
             methodString == "setDepthRenderEnabled" &&
             args.size() >= 1 && args[0].is_boolean()
