@@ -29,6 +29,7 @@ extern std::string dllDir;
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
+char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
@@ -267,10 +268,28 @@ int main(int argc, char **argv) {
               respond(res);
             }
           } else if (
+            methodString == "setDepthRenderEnabled" &&
+            args.size() >= 1 && args[0].is_boolean()
+          ) {
+            const bool enabled = args[0].get<bool>();
+            getOut() << "set depth render enabled " << enabled << std::endl;
+            g_fnp->call<
+              kProcess_SetDepthRenderEnabled,
+              int,
+              bool
+            >(enabled);
+            
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
+          } else if (
             methodString == "setQrEngineEnabled" &&
             args.size() >= 1 && args[0].is_boolean()
           ) {
             const bool enabled = args[0].get<bool>();
+            getOut() << "set qr engine enabled " << enabled << std::endl;
             g_fnp->call<
               kProcess_SetQrEngineEnabled,
               int,

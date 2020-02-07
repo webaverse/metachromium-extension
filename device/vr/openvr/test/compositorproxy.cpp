@@ -59,6 +59,7 @@ char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSur
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
+char kIVRCompositor_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
@@ -187,7 +188,7 @@ inline float LinearEyeDepth( float z ) {
   return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
 }
 
-PS_OUTPUT do_ps(float d, VS_OUTPUT IN)
+PS_OUTPUT do_ps(float d, VS_OUTPUT IN, bool colored)
 {
   PS_OUTPUT result;
 
@@ -211,7 +212,11 @@ PS_OUTPUT do_ps(float d, VS_OUTPUT IN)
   } */
 
   if (e == 1.0 || d < (e*depthScale)) {
-    result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+    if (colored) {
+      result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+    } else {
+      result.Color = float4(d, 0, 0, 1);
+    }
     result.Depth = d/depthScale;
   } else {
     // result.Color = float4(0, 0, e, 1);
@@ -225,13 +230,22 @@ PS_OUTPUT do_ps(float d, VS_OUTPUT IN)
 PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
-  return do_ps(d, IN);
+  return do_ps(d, IN, true);
 }
-
 PS_OUTPUT ps_main_ms(VS_OUTPUT IN)
 {
   float d = QuadDepthTextureMS[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  return do_ps(d, IN);
+  return do_ps(d, IN, true);
+}
+PS_OUTPUT ps_main_depth(VS_OUTPUT IN)
+{
+  float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
+  return do_ps(d, IN, false);
+}
+PS_OUTPUT ps_main_depth_ms(VS_OUTPUT IN)
+{
+  float d = QuadDepthTextureMS[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
+  return do_ps(d, IN, false);
 }
 
 PS_OUTPUT_COPY ps_main_copy(VS_OUTPUT IN)
@@ -772,7 +786,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       context->UpdateSubresource(psConstantBuffers[1], 0, 0, localDepthColors, 0, 0);
 
       context->VSSetShader(vsShader, nullptr, 0);
-      context->PSSetShader(shaderDepthResourceViewIsMs ? psMsShader : psShader, nullptr, 0);
+      if (!depthRenderEnabled) {
+        context->PSSetShader(shaderDepthResourceViewIsMs ? psMsShader : psShader, nullptr, 0);
+      } else {
+        context->PSSetShader(shaderDepthResourceViewIsMs ? psDepthMsShader : psDepthShader, nullptr, 0);
+      }
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
       context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
       context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
@@ -1313,11 +1331,20 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     return 0;
   });
   fnp.reg<
+    kIVRCompositor_SetDepthRenderEnabled,
+    int,
+    bool
+  >([=](bool enabled) {
+    getOut() << "set depth render enabled " << enabled << std::endl;
+    depthRenderEnabled = enabled;
+    return 0;
+  });
+  fnp.reg<
     kIVRCompositor_SetQrEngineEnabled,
     int,
     bool
   >([=](bool enabled) {
-    getOut() << "set qr engine enabled " << enabled << std::endl;
+    // getOut() << "set qr engine enabled " << enabled << std::endl;
     g_pqrengine->setEnabled(enabled);
     return 0;
   });
@@ -1796,7 +1823,7 @@ inline bool operator!=(const VRTextureBounds_t &a, const VRTextureBounds_t &b) {
   return !(a == b);
 }
 EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTexture, const VRTextureBounds_t* pBounds, EVRSubmitFlags nSubmitFlags ) {
-if (pTexture) {
+// if (pTexture) {
   // getOut() << "submit client 1 " << std::endl;
 
   /* if (pTexture->eType == ETextureType::TextureType_OpenGL) {
@@ -1876,7 +1903,7 @@ if (pTexture) {
   // HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
   uintptr_t &depthTextureLatched = inDepthTexLatches[index]; // remembered depth attachemnt
- VRTextureBounds_t &depthTextureBoundsLatched = inDepthTexBoundsLatches[index]; // remembered depth bounds
+  VRTextureBounds_t &depthTextureBoundsLatched = inDepthTexBoundsLatches[index]; // remembered depth bounds
 
   std::tuple<float, float> clientZBufferParams{};
   int clientEye = 0;
@@ -2561,7 +2588,7 @@ if (pTexture) {
   context->Wait(remoteServerFence, serverFenceValue);
 
   // getOut() << "submit client 23" << std::endl;
-}
+// }
 
   return VRCompositorError_None;
 }
@@ -3178,11 +3205,79 @@ void PVRCompositor::InitShader() {
     ID3D11ClassLinkage *linkage = nullptr;
     hr = device->CreatePixelShader(psMsBlob->GetBufferPointer(), psMsBlob->GetBufferSize(), linkage, &psMsShader);
     if (FAILED(hr)) {
-      getOut() << "ps create failed: " << (void *)hr << std::endl;
+      getOut() << "ps ms create failed: " << (void *)hr << std::endl;
       abort();
     }
     
     getOut() << "init render 8 3" << std::endl;
+  }
+  {
+    ID3DBlob *errorBlob = nullptr;
+    hr = D3DCompile(
+      hlsl,
+      strlen(hlsl),
+      "ps.hlsl",
+      nullptr,
+      D3D_COMPILE_STANDARD_FILE_INCLUDE,
+      "ps_main_depth",
+      "ps_5_0",
+      D3DCOMPILE_ENABLE_STRICTNESS,
+      0,
+      &psDepthBlob,
+      &errorBlob
+    );
+    getOut() << "init render 9 1" << std::endl;
+    if (FAILED(hr)) {
+      if (errorBlob != nullptr) {
+        getOut() << "ps depth compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+        abort();
+      }
+    }
+    
+    getOut() << "init render 9 2" << std::endl;
+
+    ID3D11ClassLinkage *linkage = nullptr;
+    hr = device->CreatePixelShader(psDepthBlob->GetBufferPointer(), psDepthBlob->GetBufferSize(), linkage, &psDepthShader);
+    if (FAILED(hr)) {
+      getOut() << "ps depth create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    getOut() << "init render 9 3" << std::endl;
+  }
+  {
+    ID3DBlob *errorBlob = nullptr;
+    hr = D3DCompile(
+      hlsl,
+      strlen(hlsl),
+      "ps.hlsl",
+      nullptr,
+      D3D_COMPILE_STANDARD_FILE_INCLUDE,
+      "ps_main_depth_ms",
+      "ps_5_0",
+      D3DCOMPILE_ENABLE_STRICTNESS,
+      0,
+      &psDepthMsBlob,
+      &errorBlob
+    );
+    getOut() << "init render 10 1" << std::endl;
+    if (FAILED(hr)) {
+      if (errorBlob != nullptr) {
+        getOut() << "ps depth ms compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
+        abort();
+      }
+    }
+    
+    getOut() << "init render 10 2" << std::endl;
+
+    ID3D11ClassLinkage *linkage = nullptr;
+    hr = device->CreatePixelShader(psDepthMsBlob->GetBufferPointer(), psDepthMsBlob->GetBufferSize(), linkage, &psDepthMsShader);
+    if (FAILED(hr)) {
+      getOut() << "ps depth ms create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    getOut() << "init render 10 3" << std::endl;
   }
   {
     ID3DBlob *errorBlob = nullptr;
@@ -3199,7 +3294,7 @@ void PVRCompositor::InitShader() {
       &psCopyBlob,
       &errorBlob
     );
-    getOut() << "init render 6 3" << std::endl;
+    getOut() << "init render 11 1" << std::endl;
     if (FAILED(hr)) {
       if (errorBlob != nullptr) {
         getOut() << "ps copy compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
@@ -3207,7 +3302,7 @@ void PVRCompositor::InitShader() {
       }
     }
     
-    getOut() << "init render 7 3" << std::endl;
+    getOut() << "init render 11 2" << std::endl;
 
     ID3D11ClassLinkage *linkage = nullptr;
     hr = device->CreatePixelShader(psCopyBlob->GetBufferPointer(), psCopyBlob->GetBufferSize(), linkage, &psCopyShader);
@@ -3216,7 +3311,7 @@ void PVRCompositor::InitShader() {
       abort();
     }
   }
-  getOut() << "init render 8" << std::endl;
+  getOut() << "init render 12" << std::endl;
   {
     D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
       { "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -3241,7 +3336,7 @@ void PVRCompositor::InitShader() {
       abort();
     }
   } */
-  getOut() << "init render 9" << std::endl;
+  getOut() << "init render 13" << std::endl;
   {
     UINT stride = sizeof(float) * 4; // xyuv
     UINT offset = 0;
@@ -3252,7 +3347,7 @@ void PVRCompositor::InitShader() {
     context->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
     // context->RSSetState(rasterizerState);
   }
-  getOut() << "init render 10" << std::endl;
+  getOut() << "init render 14" << std::endl;
 
   D3D11_TEXTURE2D_DESC desc{};
   desc.Width = width;

@@ -55,15 +55,20 @@ public:
   ID3D11VertexShader *vsShader = nullptr;
   ID3DBlob *psBlob = nullptr;
   ID3DBlob *psMsBlob = nullptr;
+  ID3DBlob *psDepthBlob = nullptr;
+  ID3DBlob *psDepthMsBlob = nullptr;
   ID3DBlob *psCopyBlob = nullptr;
   ID3D11PixelShader *psShader = nullptr;
+  ID3D11PixelShader *psDepthShader = nullptr;
   ID3D11PixelShader *psMsShader = nullptr;
+  ID3D11PixelShader *psDepthMsShader = nullptr;
   ID3D11PixelShader *psCopyShader = nullptr;
   ID3D11InputLayout *vertexLayout = nullptr;
   // ID3D11RasterizerState *rasterizerState = nullptr;
   // ID3D11ShaderResourceView *shaderResourceView = nullptr;
   // ID3D11RenderTargetView *renderTargetView = nullptr;
   // ID3D11DepthStencilView *depthStencilView = nullptr;
+  bool depthRenderEnabled = false;
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> depthTexLocations;

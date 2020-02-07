@@ -13,8 +13,6 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
   // mut("Local\\OpenVrClientCoreMutex"),
   // rightEye(false)
 {
-  // getOut() << "init client core 1" << std::endl;
-
   fnp.reg<
     kIVRClientCore_Init,
     EVRInitError,
@@ -105,13 +103,9 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
       doRealSubmit
     );
   });
-  
-  // getOut() << "init client core 2" << std::endl;
 }
 EVRInitError PVRClientCore::Init(EVRApplicationType eApplicationType, const char *pStartupInfo) {
-  // getOut() << "client core init 1 " << fnp.fns.size() << std::endl;
   auto result = fnp.call<kIVRClientCore_Init, EVRInitError, EVRApplicationType>(eApplicationType);
-  // getOut() << "client core init 2" << std::endl;
   return result;
 }
 void PVRClientCore::Cleanup() {
