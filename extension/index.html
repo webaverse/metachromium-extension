@@ -271,6 +271,28 @@ window.addEventListener('load', () => {
   planeMesh.frustumCulled = false;
   scene.add(planeMesh);
 
+  const _makeControllerMesh = () => {
+    const geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 1)
+      .applyMatrix(new THREE.Matrix4().makeTranslation(new THREE.Vector3(0, 1/2, 0)))
+      .applyMatrix(new THREE.Matrix4().makeRotationFromQuaternion(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI/2)));
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x0000FF,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.frustumCulled = false;
+    return mesh;
+  };
+  const controllerMeshes = [
+    _makeControllerMesh(),
+    _makeControllerMesh(),
+  ];
+  for (let i = 0; i < controllerMeshes.length; i++) {
+    const controllerMesh = controllerMeshes[i];
+    const grip = renderer.xr.getControllerGrip(i);
+    grip.add(controllerMesh);
+    scene.add(grip);
+  }
+
   (async () => {
     const desc = await xrc().request('prepareBindSurface', []);
     if (desc) {
@@ -322,6 +344,27 @@ window.addEventListener('load', () => {
   })();
   qrMesh.frustumCulled = false;
   scene.add(qrMesh);
+
+  const raycaster = new THREE.Raycaster();
+  const gripPoints = [
+    new THREE.Vector3(NaN, NaN, NaN),
+    new THREE.Vector3(NaN, NaN, NaN),
+  ];
+  const _updateRaycast = () => {
+    for (let i = 0; i < 2; i++) {
+      const grip = renderer.xr.getControllerGrip(i);
+      const gripPoint = gripPoints[i];
+      raycaster.set(grip.position, new THREE.Vector3(0, 0, -1).applyQuaternion(grip.quaternion));
+      const intersects = raycaster.intersectObject(planeMesh);
+      if (intersects.length > 0) {
+        const [intersect] = intersects;
+        const {point} = intersect;
+        gripPoint.copy(point);
+      } else {
+        gripPoint.set(NaN, NaN, NaN);
+      }
+    }
+  };
 
   let qrQueryRunning = false;
   const detectedQrCodes = [];
