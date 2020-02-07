@@ -1314,9 +1314,39 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_SendMouse,
     int,
     int,
+    int,
     int
-  >([=](int x, int y) {
-    // XXX
+  >([=](int x, int y, int type) {
+    BOOL result1 = SetForegroundWindow(chromeHwnd);
+
+    INPUT input{};
+    input.type = INPUT_MOUSE;
+    input.mi.dx = x;
+    input.mi.dy = y;
+    input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
+    switch (type) {
+      case 0: {
+        input.mi.dwFlags |= MOUSEEVENTF_MOVE;
+        break;
+      }
+      case 1: {
+        input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
+        break;
+      }
+      case 2: {
+        input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+    UINT result2 = SendInput(
+      1,
+      &input,
+      sizeof(input)
+    );
+
     return 0;
   });
   fnp.reg<
