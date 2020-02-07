@@ -265,7 +265,17 @@ window.addEventListener('load', () => {
       /* transparent: true,
       opacity: 0.5, */
     });
-    return new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.leftLine = new THREE.Line3(
+      mesh.position.clone().add(new THREE.Vector3(-1/2, 1/2, 0)).applyQuaternion(mesh.quaternion),
+      mesh.position.clone().add(new THREE.Vector3(-1/2, -1/2, 0)).applyQuaternion(mesh.quaternion)
+    );
+    mesh.topLine = new THREE.Line3(
+      mesh.position.clone().add(new THREE.Vector3(-1/2, 1/2, 0)).applyQuaternion(mesh.quaternion),
+      mesh.position.clone().add(new THREE.Vector3(1/2, 1/2, 0)).applyQuaternion(mesh.quaternion)
+    );
+    mesh.frustumCulled = false;
+    return mesh;
   })();
   planeMesh.position.set(0, 1.5, -1);
   planeMesh.frustumCulled = false;
@@ -360,6 +370,16 @@ window.addEventListener('load', () => {
         const [intersect] = intersects;
         const {point} = intersect;
         gripPoint.copy(point);
+
+        const x = mesh.leftLine.closestPointToPoint(point, true).distanceTo(point);
+        const y = mesh.topLine.closestPointToPoint(point, true).distanceTo(point);
+        const type = 0;
+
+        xrc().request('sendMouse', [
+          x,
+          y,
+          type,
+        ]).catch(console.warn);
       } else {
         gripPoint.set(NaN, NaN, NaN);
       }
@@ -420,7 +440,8 @@ window.addEventListener('load', () => {
   function render() {
     cubeMesh.rotation.x += 0.01;
     cubeMesh.rotation.z += 0.01;
-    
+
+    _updateRaycast();
     _updateQrCodes();
   
     renderer.render(scene, camera);
