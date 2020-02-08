@@ -58,7 +58,6 @@ a:active {
   </div>
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
-    <input type=button id=toggle-depth-button value="Depth turn ON">
     <input type=button id=toggle-qr-button value="QR turn ON">
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
@@ -184,13 +183,6 @@ window.addEventListener('load', () => {
     await window.document.body.requestPointerLock();
   });
 
-  let depthRenderOn = false;
-  const toggleDepthButton = document.getElementById('toggle-depth-button');
-  toggleDepthButton.addEventListener('click', async () => {
-    depthRenderOn = !depthRenderOn;
-    await xrc().request('setDepthRenderEnabled', [depthRenderOn]);
-  });
-
   let qrEngineOn = false;
   const toggleQrButton = document.getElementById('toggle-qr-button');
   toggleQrButton.addEventListener('click', async () => {
@@ -227,11 +219,13 @@ window.addEventListener('load', () => {
   
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
+    alpha: true,
     canvas: canvas2d,
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight, false);
-  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.setClearAlpha(0);
+  // renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.xr.enabled = true;
   
   const scene = new THREE.Scene();
