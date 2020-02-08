@@ -1417,7 +1417,7 @@ ETrackingUniverseOrigin PVRCompositor::GetTrackingSpace() {
   return fnp.call<kIVRCompositor_GetTrackingSpace, ETrackingUniverseOrigin>();
 }
 EVRCompositorError PVRCompositor::WaitGetPoses(VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount, VR_ARRAY_COUNT( unGamePoseArrayCount ) TrackedDevicePose_t* pGamePoseArray, uint32_t unGamePoseArrayCount) {
-  // getOut() << "wait get poses 1" << std::endl;
+  getOut() << "wait get poses 1" << std::endl;
   
   InfoQueueLog();
   
@@ -1439,6 +1439,7 @@ EVRCompositorError PVRCompositor::WaitGetPoses(VR_ARRAY_COUNT( unRenderPoseArray
   // getOut() << "proxy wait get poses 2 " << (void *)pRenderPoseArray << " " << unRenderPoseArrayCount << " " << (void *)pGamePoseArray << " " << unGamePoseArrayCount << std::endl;
   memcpy(pGamePoseArray, std::get<2>(result).data(), std::get<2>(result).size() * sizeof(TrackedDevicePose_t));
   // getOut() << "proxy wait get poses 3 " << (void *)pRenderPoseArray << " " << unRenderPoseArrayCount << " " << (void *)pGamePoseArray << " " << unGamePoseArrayCount << std::endl;
+  getOut() << "wait get poses 2" << std::endl;
   return std::get<0>(result);
 }
 EVRCompositorError PVRCompositor::GetLastPoses( VR_ARRAY_COUNT( unRenderPoseArrayCount ) TrackedDevicePose_t* pRenderPoseArray, uint32_t unRenderPoseArrayCount,

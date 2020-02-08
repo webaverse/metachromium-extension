@@ -279,7 +279,7 @@ window.addEventListener('load', () => {
   })();
   planeMesh.position.set(0, 1.5, -1);
   planeMesh.frustumCulled = false;
-  scene.add(planeMesh);
+  // scene.add(planeMesh);
 
   const _makeControllerMesh = () => {
     const geometry = new THREE.CylinderBufferGeometry(0.005, 0.005, 1)
@@ -300,7 +300,7 @@ window.addEventListener('load', () => {
     const controllerMesh = controllerMeshes[i];
     const grip = renderer.xr.getController(i);
     grip.add(controllerMesh);
-    scene.add(grip);
+    // scene.add(grip);
   }
 
   (async () => {
@@ -353,7 +353,7 @@ window.addEventListener('load', () => {
     return new THREE.Mesh(geometry, material);
   })();
   qrMesh.frustumCulled = false;
-  scene.add(qrMesh);
+  // scene.add(qrMesh);
 
   const raycaster = new THREE.Raycaster();
   /* const gripPoints = [
@@ -377,11 +377,11 @@ window.addEventListener('load', () => {
         const y = planeMesh.topLine.closestPointToPoint(point, true).distanceTo(point);
         const type = 0;
 
-        xrc().request('sendMouse', [
+        /* xrc().request('sendMouse', [
           x,
           y,
           type,
-        ]).catch(console.warn);
+        ]).catch(console.warn); */
       } /* else {
         gripPoint.set(NaN, NaN, NaN);
       } */
