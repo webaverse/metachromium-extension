@@ -3,13 +3,13 @@
 
 #include "device/vr/openvr/test/fnproxy.h"
 
-class ProxyTexture {
+/* class ProxyTexture {
 public:
   void *texHandle;
   std::tuple<float, float> zBufferParams;
   int eye;
   bool isFull;
-};
+}; */
 
 class Hijacker {
 public:
@@ -29,8 +29,6 @@ public:
   void unhijackDx();
   void hijackGl();
   void unhijackGl();
-  ProxyTexture getDepthTextureMatching(ID3D11Texture2D *tex);
-  void flushTextureLatches();
 };
 
 #endif
