@@ -29,6 +29,7 @@ extern std::string dllDir;
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
+char kProcess_SendMouse[] = "IVRCompositor::kIVRCompositor_SendMouse";
 char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
@@ -89,7 +90,7 @@ int main(int argc, char **argv) {
         
         if (method.is_string() && args.is_array()) {
           const std::string methodString = method.get<std::string>();
-          getOut() << "method: " << methodString << std::endl;
+          // getOut() << "method: " << methodString << std::endl;
 
           /* int i = 0;
           for (json::iterator it = args.begin(); it != args.end(); ++it) {
@@ -267,6 +268,26 @@ int main(int argc, char **argv) {
               };
               respond(res);
             }
+          } else if (
+            methodString == "sendMouse" &&
+            args.size() >= 3 && args[0].is_number() && args[1].is_number() && args[2].is_number()
+          ) {
+            float x = args[0].get<float>();
+            float y = args[1].get<float>();
+            int type = args[2].get<int>();
+            g_fnp->call<
+              kProcess_SendMouse,
+              int,
+              float,
+              float,
+              int
+            >(x, y, type);
+
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
           } else if (
             methodString == "setQrEngineEnabled" &&
             args.size() >= 1 && args[0].is_boolean()
