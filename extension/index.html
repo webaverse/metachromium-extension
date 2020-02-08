@@ -260,21 +260,25 @@ window.addEventListener('load', () => {
       opacity: 0.5, */
     });
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(0, 1.5, -1);
+    mesh.updateMatrixWorld();
     mesh.leftLine = new THREE.Line3(
-      mesh.position.clone().add(new THREE.Vector3(-1/2, 1/2, 0)).applyQuaternion(mesh.quaternion),
-      mesh.position.clone().add(new THREE.Vector3(-1/2, -1/2, 0)).applyQuaternion(mesh.quaternion)
+      mesh.position.clone().add(new THREE.Vector3(-1/2, 1/2, 0).applyQuaternion(mesh.quaternion)),
+      mesh.position.clone().add(new THREE.Vector3(-1/2, -1/2, 0).applyQuaternion(mesh.quaternion))
     );
     mesh.topLine = new THREE.Line3(
-      mesh.position.clone().add(new THREE.Vector3(-1/2, 1/2, 0)).applyQuaternion(mesh.quaternion),
-      mesh.position.clone().add(new THREE.Vector3(1/2, 1/2, 0)).applyQuaternion(mesh.quaternion)
+      mesh.position.clone().add(new THREE.Vector3(-1/2, 1/2, 0).applyQuaternion(mesh.quaternion)),
+      mesh.position.clone().add(new THREE.Vector3(1/2, 1/2, 0).applyQuaternion(mesh.quaternion))
     );
     mesh.frustumCulled = false;
     return mesh;
   })();
-  planeMesh.position.set(0, 1.5, -1);
-  planeMesh.frustumCulled = false;
   scene.add(planeMesh);
 
+  const gripPoints = [
+    new THREE.Vector2(NaN, NaN),
+    new THREE.Vector2(NaN, NaN),
+  ];
   const _makeControllerMesh = () => {
     const geometry = new THREE.CylinderBufferGeometry(0.005, 0.005, 1)
       .applyMatrix(new THREE.Matrix4().makeTranslation(0, 1/2, 0))
@@ -293,6 +297,17 @@ window.addEventListener('load', () => {
   for (let i = 0; i < controllerMeshes.length; i++) {
     const controllerMesh = controllerMeshes[i];
     const grip = renderer.xr.getController(i);
+    const gripPoint = gripPoints[i];
+    grip.addEventListener('selectstart', () => {
+      const {x, y} = gripPoint;
+      [1, 2].forEach(type => {
+        xrc().request('sendMouse', [
+          x,
+          y,
+          type,
+        ]).catch(console.warn);
+      });
+    });
     grip.add(controllerMesh);
     scene.add(grip);
   }
@@ -350,16 +365,12 @@ window.addEventListener('load', () => {
   scene.add(qrMesh);
 
   const raycaster = new THREE.Raycaster();
-  /* const gripPoints = [
-    new THREE.Vector3(NaN, NaN, NaN),
-    new THREE.Vector3(NaN, NaN, NaN),
-  ]; */
   const _updateRaycast = () => {
     for (let i = 0; i < 2; i++) {
-      const grip = renderer.xr.getControllerGrip(i);
+      const grip = renderer.xr.getController(i);
       // console.log('got grip position', grip.position.toArray(), grip.quaternion.toArray(), grip.scale.toArray());
       const controllerMesh = controllerMeshes[i];
-      // const gripPoint = gripPoints[i];
+      const gripPoint = gripPoints[i];
       raycaster.set(grip.position, new THREE.Vector3(0, 0, -1).applyQuaternion(grip.quaternion));
       const intersects = raycaster.intersectObject(planeMesh);
       if (intersects.length > 0) {
@@ -367,8 +378,10 @@ window.addEventListener('load', () => {
         const {point} = intersect;
         // gripPoint.copy(point);
 
-        const x = planeMesh.leftLine.closestPointToPoint(point, true).distanceTo(point);
-        const y = planeMesh.topLine.closestPointToPoint(point, true).distanceTo(point);
+        const p1 = new THREE.Vector3();
+        const p2 = new THREE.Vector3();
+        const x = planeMesh.topLine.closestPointToPoint(point, true, p2).distanceTo(planeMesh.topLine.start);
+        const y = planeMesh.leftLine.closestPointToPoint(point, true, p1).distanceTo(planeMesh.leftLine.start);
         const type = 0;
 
         xrc().request('sendMouse', [
@@ -376,9 +389,10 @@ window.addEventListener('load', () => {
           y,
           type,
         ]).catch(console.warn);
-      } /* else {
-        gripPoint.set(NaN, NaN, NaN);
-      } */
+        gripPoint.set(x, y);
+      } else {
+        gripPoint.set(NaN, NaN);
+      }
     }
   };
 

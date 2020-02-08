@@ -11,6 +11,9 @@ public:
   bool isFull;
 }; */
 
+class IDCompositionDesktopDevice;
+class IDCompositionTarget;
+
 class Hijacker {
 public:
   FnProxy fnp;

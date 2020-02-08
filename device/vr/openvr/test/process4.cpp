@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
         
         if (method.is_string() && args.is_array()) {
           const std::string methodString = method.get<std::string>();
-          getOut() << "method: " << methodString << std::endl;
+          // getOut() << "method: " << methodString << std::endl;
 
           /* int i = 0;
           for (json::iterator it = args.begin(); it != args.end(); ++it) {
@@ -272,14 +272,14 @@ int main(int argc, char **argv) {
             methodString == "sendMouse" &&
             args.size() >= 3 && args[0].is_number() && args[1].is_number() && args[2].is_number()
           ) {
-            int x = args[0].get<int>();
-            int y = args[1].get<int>();
-            int type = args[1].get<int>();
+            float x = args[0].get<float>();
+            float y = args[1].get<float>();
+            int type = args[2].get<int>();
             g_fnp->call<
               kProcess_SendMouse,
               int,
-              int,
-              int,
+              float,
+              float,
               int
             >(x, y, type);
 
