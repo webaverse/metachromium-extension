@@ -282,8 +282,8 @@ window.addEventListener('load', () => {
   scene.add(planeMesh);
 
   const _makeControllerMesh = () => {
-    const geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 1)
-      .applyMatrix(new THREE.Matrix4().makeTranslation(new THREE.Vector3(0, 1/2, 0)))
+    const geometry = new THREE.CylinderBufferGeometry(0.005, 0.005, 1)
+      .applyMatrix(new THREE.Matrix4().makeTranslation(0, 1/2, 0))
       .applyMatrix(new THREE.Matrix4().makeRotationFromQuaternion(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI/2)));
     const material = new THREE.MeshBasicMaterial({
       color: 0x0000FF,
@@ -298,7 +298,7 @@ window.addEventListener('load', () => {
   ];
   for (let i = 0; i < controllerMeshes.length; i++) {
     const controllerMesh = controllerMeshes[i];
-    const grip = renderer.xr.getControllerGrip(i);
+    const grip = renderer.xr.getController(i);
     grip.add(controllerMesh);
     scene.add(grip);
   }
@@ -356,23 +356,25 @@ window.addEventListener('load', () => {
   scene.add(qrMesh);
 
   const raycaster = new THREE.Raycaster();
-  const gripPoints = [
+  /* const gripPoints = [
     new THREE.Vector3(NaN, NaN, NaN),
     new THREE.Vector3(NaN, NaN, NaN),
-  ];
+  ]; */
   const _updateRaycast = () => {
     for (let i = 0; i < 2; i++) {
       const grip = renderer.xr.getControllerGrip(i);
-      const gripPoint = gripPoints[i];
+      // console.log('got grip position', grip.position.toArray(), grip.quaternion.toArray(), grip.scale.toArray());
+      const controllerMesh = controllerMeshes[i];
+      // const gripPoint = gripPoints[i];
       raycaster.set(grip.position, new THREE.Vector3(0, 0, -1).applyQuaternion(grip.quaternion));
       const intersects = raycaster.intersectObject(planeMesh);
       if (intersects.length > 0) {
         const [intersect] = intersects;
         const {point} = intersect;
-        gripPoint.copy(point);
+        // gripPoint.copy(point);
 
-        const x = mesh.leftLine.closestPointToPoint(point, true).distanceTo(point);
-        const y = mesh.topLine.closestPointToPoint(point, true).distanceTo(point);
+        const x = planeMesh.leftLine.closestPointToPoint(point, true).distanceTo(point);
+        const y = planeMesh.topLine.closestPointToPoint(point, true).distanceTo(point);
         const type = 0;
 
         xrc().request('sendMouse', [
@@ -380,9 +382,9 @@ window.addEventListener('load', () => {
           y,
           type,
         ]).catch(console.warn);
-      } else {
+      } /* else {
         gripPoint.set(NaN, NaN, NaN);
-      }
+      } */
     }
   };
 
