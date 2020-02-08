@@ -36,10 +36,6 @@ extern Offsets *g_offsets;
 constexpr unsigned int viewportWidth = 500;
 constexpr unsigned int viewportHeight = 500;
 
-char kHijacker_QueueDepthTex[] = "Hijacker_QueueDepthTex";
-char kHijacker_ShiftDepthTex[] = "Hijacker_ShiftDepthTex";
-char kHijacker_ClearDepthTex[] = "Hijacker_ClearDepthTex";
-char kHijacker_QueueContains[] = "Hijacker_QueueContains";
 char kHijacker_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterSurface";
 char kHijacker_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
 char kHijacker_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
@@ -132,23 +128,6 @@ PS_OUTPUT ps_main_blit(VS_OUTPUT IN)
 )END";
 
 // dx
-// front
-ID3D11Texture2D *lastDepthTex = nullptr;
-ID3D11Resource *lastDepthTexResource = nullptr;
-D3D11_TEXTURE2D_DESC lastDescDepth{};
-// ID3D11Texture2D *sbsTex = nullptr;
-ID3D11Texture2D *sbsDepthTex = nullptr;
-HANDLE sbsDepthTexShHandle = NULL;
-bool sbsDepthTexDrawn = false;
-std::vector<ID3D11Texture2D *> texCache;
-uint32_t texCacheSamples = 0;
-std::vector<HANDLE> texSharedHandleCache;
-std::map<ID3D11Texture2D *, HANDLE> texSharedHandleMap;
-std::deque<ProxyTexture> texQueue;
-std::map<void *, size_t> texNumDraws;
-std::map<HANDLE, size_t> texSortOrder;
-// std::set<void *> seenDepthTexs;
-std::deque<HANDLE> eventOrder;
 // client
 ID3D11Device5 *hijackerDevice = nullptr;
 ID3D11DeviceContext4 *hijackerContext = nullptr;
@@ -874,275 +853,6 @@ HRESULT STDMETHODCALLTYPE MineCreateTargetForHwnd(
   getOut() << "RealCreateTargetForHwnd" << std::endl;
   return RealCreateTargetForHwnd(This, hwnd, topmost, target);
 } */
-void ensureDepthWidthHeight() {
-  if (!depthWidth) {
-    ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
-  }
-}
-bool isSingleEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
-  ensureDepthWidthHeight();
-  
-  /* if (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL) {
-    getOut() << "check depth tex " <<
-      desc.Width << " " << desc.Height << " " << depthWidth << " " << depthHeight << " " <<
-      desc.MipLevels << " " << desc.ArraySize << " " <<
-      desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-      desc.Format << " " <<
-      desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      std::endl;
-  } */
-
-  return desc.Width == depthWidth &&
-    desc.Height == depthHeight &&
-    // desc.Format == DXGI_FORMAT_R24G8_TYPELESS &&
-    // desc.SampleDesc.Count > 1 &&
-    (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
-}
-bool isDualEyeDepthTex(const D3D11_TEXTURE2D_DESC &desc) {
-  ensureDepthWidthHeight();
-  return desc.Width == depthWidth*2 &&
-    desc.Height == depthHeight &&
-    // desc.Format == DXGI_FORMAT_R24G8_TYPELESS &&
-    // desc.SampleDesc.Count > 1 &&
-    (desc.BindFlags & D3D11_BIND_DEPTH_STENCIL);
-}
-
-constexpr size_t PROJECTION_MATRIX_SEARCH_SIZE = 1500;
-bool havePma = false;
-float pma = 0;
-float pmb = 0;
-float pmIpd = 0;
-// bool haveZBufferParams = false;
-float nearValue = 0;
-float farValue = 0;
-int eyeValue = 0;
-bool reversed = false;
-float scale = 1.0f;
-/* float nv = 0;
-float fv = 0;
-bool rv = false; */
-void ensureProjectionMatrixSpec() {
-  if (!havePma) {
-    float pmLeft;
-    float pmRight;
-    float pmTop;
-    float pmBottom;
-    ProxyGetProjectionRaw(vr::Eye_Left, &pmLeft, &pmRight, &pmTop, &pmBottom);
-    pma = std::abs((pmRight+pmLeft) / (pmRight-pmLeft));
-    pmb = std::abs((pmTop+pmBottom) / (pmTop-pmBottom));
-
-    vr::EVRSettingsError error;
-    pmIpd = ProxyGetFloat("steamvr", "ipd", &error);
-    if (error != vr::VRSettingsError_None) {
-      getOut() << "failed to get steamvr ipd" << std::endl;
-      abort();
-    }
-    
-    getOut() << "got lrtb ipd " << pmLeft << " " << pmRight << " " << pmTop << " " << pmBottom << " " << pma << " " << pmb << " " << pmIpd << std::endl;
-    
-    havePma = true;
-  }
-}
-inline bool isWithinDelta(float a, float target) {
-  return std::abs(target - std::abs(a)) < 0.000001f;
-}
-bool findProjectionMatrix(const void *data, size_t size, float *outProjectionMatrix) {
-  ensureProjectionMatrixSpec();
-
-  int numElements = (int)size / sizeof(float);
-  for (int i = 0; i < numElements; i++) {
-    const float &e1 = ((const float *)data)[i];
-    if (isWithinDelta(e1, pma)) {
-      int j = i + 4;
-      if (j < numElements) {
-        const float &e2 = ((const float *)data)[j];
-
-        if (isWithinDelta(e2, pmb)) {
-          int startIndex = i - 2;
-          int endIndex = startIndex + 16;
-          if (startIndex >= 0 && endIndex < numElements) {
-            const float &e3 = ((const float *)data)[startIndex + 14];
-
-            if (e3 == -1.0f || e3 == 1.0f) {
-              // 0.917286 0 -0.174072 0 0 0.833537 -0.106141 0 0 0 -1.0002 -0.20002 0 0 -1 0
-              
-              // needs transpose
-              const float *src = &((const float *)data)[startIndex];
-              outProjectionMatrix[0] = src[0];
-              outProjectionMatrix[1] = src[4];
-              outProjectionMatrix[2] = src[8];
-              outProjectionMatrix[3] = src[12];
-              outProjectionMatrix[4] = src[1];
-              outProjectionMatrix[5] = src[5];
-              outProjectionMatrix[6] = src[9];
-              outProjectionMatrix[7] = src[13];
-              outProjectionMatrix[8] = src[2];
-              outProjectionMatrix[9] = src[6];
-              outProjectionMatrix[10] = src[10];
-              outProjectionMatrix[11] = src[14];
-              outProjectionMatrix[12] = src[3];
-              outProjectionMatrix[13] = src[7];
-              outProjectionMatrix[14] = src[11];
-              outProjectionMatrix[15] = src[15];
-              return true;
-            }
-          }
-        }
-      }
-      
-      j = i + 1;
-      if (j < numElements) {
-        const float &e2 = ((const float *)data)[j];
-
-        if (isWithinDelta(e2, pmb)) {
-          int startIndex = i - 8;
-          int endIndex = startIndex + 16;
-          if (startIndex >= 0 && endIndex < numElements) {
-            const float &e3 = ((const float *)data)[startIndex + 11];
-
-            if (e3 == -1.0f || e3 == 1.0f) {
-              // 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
-              
-              memcpy(outProjectionMatrix, &((const float *)data)[startIndex], 16 * sizeof(float));
-              return true;
-            }
-          }
-        }
-      }
-    }
-  }
-  return false;
-}
-bool findViewMatrix(const void *data, size_t size, float *outViewMatrixLeft, float *outViewMatrixRight) {
-  ensureProjectionMatrixSpec();
-  
-  int numElements = (int)size / sizeof(float);
-  
-  int nextStartIndex1 = 16*2;
-  int nextStartIndex2 = nextStartIndex1 + 16;
-  int nextEndIndex = nextStartIndex2 + 16;
-  if (
-    nextEndIndex < numElements &&
-    ((const float *)data)[nextStartIndex1] != 1.0f &&
-    ((const float *)data)[nextStartIndex1 + 3] == 0.0f &&
-    ((const float *)data)[nextStartIndex1 + 7] == 0.0f &&
-    ((const float *)data)[nextStartIndex1 + 11] == 0.0f &&
-    ((const float *)data)[nextStartIndex1 + 15] == 1.0f &&
-    ((const float *)data)[nextStartIndex2 + 3] == 0.0f &&
-    ((const float *)data)[nextStartIndex2 + 7] == 0.0f &&
-    ((const float *)data)[nextStartIndex2 + 11] == 0.0f &&
-    ((const float *)data)[nextStartIndex2 + 15] == 1.0f
-  ) {
-    memcpy(outViewMatrixLeft, &(((const float *)data)[nextStartIndex1]), 16 * sizeof(float));
-    memcpy(outViewMatrixRight, &(((const float *)data)[nextStartIndex2]), 16 * sizeof(float));
-    return true;
-  } else {
-    return false;
-  }
-}
-// 0.917286, 0, 0, 0, 0, 0.833537, 0, 0, -0.174072, -0.106141, -1.0002, -1, 0, 0, -0.20002, 0
-// 0.917286 -0 0 0 0 -0.833537 0 0 0.174072 0.106141 9.53674e-07 -1 0 -0 0.02 0
-// 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 5.00083e-05 -1 0 -0 0.0500025 0
-// 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 -5.06639e-07 -1 0 -0 0.0005 0 
-// 1.20009 -0 0 0 0 -1.00808 0 0 -0.147 0.112538 0.000100017 -1 0 -0 0.010001 0 
-// 1.20009 -0 0 0 0 -1.00808 0 0 0.147 0.112538 9.53674e-07 -1 0 -0 0.02 0 
-void getNearFarFromProjectionMatrix(const float projectionMatrix[16], float *pNear, float *pFar, bool *pReversed, int *pEyeValue) {
-  float m32 = std::abs(projectionMatrix[14]);
-  float m22 = std::abs(projectionMatrix[10]);
-  if (!isChrome) {
-    if (m22 > 1.0f) {
-      m22 -= 1.0f;
-    }
-    *pNear = m32 / (m22 + 1.0f);
-    *pFar = m32 / m22;
-    *pReversed = true;
-  } else {
-    *pNear = m32 / (m22 + 1.0f);
-    *pFar = m32 / (m22 - 1.0f);
-    *pReversed = false;
-  }
-  *pEyeValue = (projectionMatrix[8] > 0.0f) ? 1 : 0;
-  // getOut() << "get eye value " << projectionMatrix[8] << " " << (*pEyeValue) << std::endl;
-}
-void getZBufferParams(float nearValue, float farValue, bool reversed, float scale, float zBufferParams[2]) {
-  const float c1 = farValue / nearValue;
-  const float c0 = 1.0f - c1;
-  
-  zBufferParams[0] = c0/farValue;
-  zBufferParams[1] = c1/farValue;
-  
-  if (reversed) {
-    zBufferParams[1] += zBufferParams[0];
-    zBufferParams[0] *= -1.0f;
-  }
-  
-  if (scale != 1.0f) {
-    zBufferParams[0] /= scale;
-    zBufferParams[1] /= scale;
-  }
-  
-  // getOut() << "z buffer params " << nearValue << " " << farValue << " " << reversed << " " << scale << " " << zBufferParams[0] << " " << zBufferParams[1] << std::endl;
-}
-void getScaleFromViewMatrix(const float *viewMatrixLeft, const float *viewMatrixRight, float *scale) {
-  if (viewMatrixLeft && viewMatrixRight) {
-    float dx = viewMatrixLeft[12] - viewMatrixRight[12];
-    float dy = viewMatrixLeft[13] - viewMatrixRight[13];
-    float dz = viewMatrixLeft[14] - viewMatrixRight[14];
-    float appIpd = std::sqrt(dx*dx + dy*dy + dz*dz);
-    *scale = pmIpd / appIpd;
-  } else {
-    *scale = 1.0f;
-  }
-}
-void tryLatchZBufferParams(const void *data, size_t size) {
-  /* getOut() << "looking for matrix:\n  ";
-  for (size_t i = 0; i < size / sizeof(float); i++) {
-    getOut() << ((float *)data)[i] << " ";
-  }
-  getOut() << std::endl; */
-
-  float projectionMatrix[16];
-  if (findProjectionMatrix(data, size, projectionMatrix)) {
-    /* getOut() << "found projection matrix (" << size << "):";
-    for (size_t i = 0; i < 16; i++) {
-      getOut() << projectionMatrix[i] << " ";
-    }
-    getOut() << std::endl; */
-
-    getNearFarFromProjectionMatrix(projectionMatrix, &nearValue, &farValue, &reversed, &eyeValue);
-  }
-
-  float viewMatrixLeft[16];
-  float viewMatrixRight[16];
-  if (findViewMatrix(data, size, viewMatrixLeft, viewMatrixRight)) {
-    /* getOut() << "found view matrix: ";
-    for (size_t i = 0; i < 16; i++) {
-      getOut() << viewMatrixLeft[i] << " ";
-    }
-    getOut() << " : ";
-    for (size_t i = 0; i < 16; i++) {
-      getOut() << viewMatrixRight[i] << " ";
-    }
-    getOut() << std::endl; */
-    
-    getScaleFromViewMatrix(viewMatrixLeft, viewMatrixRight, &scale);
-  }
-}
-
-bool clearedDepth = false;
-bool shouldSetDepthRenderTarget() {
-  if (isChrome) {
-    if (clearedDepth) {
-      clearedDepth = false;
-      return true;
-    } else {
-      return false;
-    }
-  } else {
-    return true;
-  }
-}
-
 /* HRESULT (STDMETHODCALLTYPE *RealD3D11CreateDeviceAndSwapChain)(
   IDXGIAdapter               *pAdapter,
   D3D_DRIVER_TYPE            DriverType,
@@ -1229,329 +939,6 @@ void STDMETHODCALLTYPE MineOMSetRenderTargets(
   ID3D11DepthStencilView *pDepthStencilView
 ) {
   // getOut() << "RealOMSetRenderTargets" << std::endl;
-  
-  bool haveColorView = false;
-  for (UINT i = 0; i < NumViews; i++) {
-    if (ppRenderTargetViews[i]) {
-      haveColorView = true;
-      break;
-    }
-  }
-
-  if (haveColorView && pDepthStencilView) {
-    ID3D11Texture2D *depthTex = nullptr;
-    ID3D11Resource *depthTexResource = nullptr;
-    pDepthStencilView->lpVtbl->GetResource(pDepthStencilView, &depthTexResource);
-    HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
-      abort();
-    }
-
-    D3D11_TEXTURE2D_DESC desc;
-    depthTex->lpVtbl->GetDesc(depthTex, &desc);
-
-    if (isSingleEyeDepthTex(desc) || isDualEyeDepthTex(desc)) {
-      if (shouldSetDepthRenderTarget()) {
-        if (sbsDepthTex != depthTex) {
-          sbsDepthTex = depthTex;
-          
-          IDXGIResource1 *dxgiResource;
-          hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource1, (void **)&dxgiResource);
-          if (FAILED(hr)) {
-            getOut() << "failed to get sbs depth tex shared resource " << (void *)hr << std::endl;
-            abort();
-          }
-
-          HANDLE shHandle;
-          hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &shHandle);
-          if (FAILED(hr) || !shHandle) {
-            getOut() << "failed to get sbs depth tex shared handle " << (void *)hr << std::endl;
-            abort();
-          }
-          
-          /* getOut() << "latch depth share handle " << (void *)sbsDepthTex << " " << (void *)shHandle << " " <<
-            desc.Width << " " << desc.Height << " " <<
-            desc.MipLevels << " " << desc.ArraySize << " " <<
-            desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-            desc.Format << " " <<
-            desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-            std::endl; */
-          /* getOut() << "views " << NumViews << ":" << std::endl;
-          for (UINT i = 0; i < NumViews; i++) {
-            getOut() << "  " << (void *)ppRenderTargetViews[i] << std::endl;
-          } */
-          
-          if (isChrome) {
-            sbsDepthTexShHandle = shHandle;
-          } else {
-            auto iter = texSharedHandleMap.find(depthTex);
-            if (iter == texSharedHandleMap.end()) {
-              texSharedHandleMap.emplace(depthTex, shHandle);
-            }
-          }
-
-          dxgiResource->lpVtbl->Release(dxgiResource);
-        }
-      } else {
-        /* getOut() << "elided latch depth share handle " << (void *)sbsDepthTex << " " <<
-          desc.Width << " " << desc.Height << " " <<
-          desc.MipLevels << " " << desc.ArraySize << " " <<
-          desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-          desc.Format << " " <<
-          desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-          std::endl; */
-        
-        pDepthStencilView = nullptr;
-      }
-      
-      // getOut() << "set depth render target " << (void *)depthTex << std::endl;
-    } else {
-      /* getOut() << "unlatch depth tex bad size " <<
-        desc.Width << " " << desc.Height << " " <<
-        desc.MipLevels << " " << desc.ArraySize << " " <<
-        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-        desc.Format << " " <<
-        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-        std::endl; */
-      sbsDepthTex = nullptr;
-    }
-    
-    depthTex->lpVtbl->Release(depthTex);
-    depthTexResource->lpVtbl->Release(depthTexResource);
-  } else {
-    // getOut() << "unlatch depth tex no depth" << std::endl;
-    sbsDepthTex = nullptr;
-  }
-  /* if (NumViews > 0 && ppRenderTargetViews && *ppRenderTargetViews && pDepthStencilView) {
-    if (!depthWidth || !depthHeight) {
-      ProxyGetRecommendedRenderTargetSize(&depthWidth, &depthHeight);
-    }
-    
-    // getOut() << "RealOMSetRenderTargets 2" << std::endl;
-
-    ID3D11Texture2D *depthTex = nullptr;
-    ID3D11Resource *depthTexResource = nullptr;
-    pDepthStencilView->lpVtbl->GetResource(pDepthStencilView, &depthTexResource);
-    HRESULT hr = depthTexResource->lpVtbl->QueryInterface(depthTexResource, IID_ID3D11Texture2D, (void **)&depthTex);
-    if (SUCCEEDED(hr)) {
-      // nothing
-    } else {
-      getOut() << "failed to get hijack depth texture resource: " << (void *)hr << std::endl;
-      abort();
-    }
-
-    D3D11_TEXTURE2D_DESC descDepth;
-    depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
-
-    if (
-      (lastDescDepth.Width == depthWidth && lastDescDepth.Height == depthHeight && lastDescDepth.SampleDesc.Count > 1) &&
-      (descDepth.Width != depthWidth || descDepth.Height != depthHeight || descDepth.SampleDesc.Count == 1)
-    ) {
-      // getOut() << "RealOMSetRenderTargets 8" << std::endl;
-
-      if (texCacheSamples != lastDescDepth.SampleDesc.Count) {
-        for (auto iter : texCache) {
-          iter->lpVtbl->Release(iter);
-        }
-        texCache.clear();
-        for (auto iter : texSharedHandleCache) {
-          CloseHandle(iter);
-        }
-        texSharedHandleCache.clear();
-        for (auto iter : fenceCache) {
-          iter->lpVtbl->Release(iter);
-        }
-        fenceCache.clear();
-        for (auto iter : eventCache) {
-          CloseHandle(iter);
-        }
-        eventCache.clear();
-
-        texCacheSamples = lastDescDepth.SampleDesc.Count;
-      }
-
-      ID3D11DeviceContext4 *context4;
-      hr = This->lpVtbl->QueryInterface(This, IID_ID3D11DeviceContext4, (void **)&context4);
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        getOut() << "failed to get hijack context4: " << (void *)hr << std::endl;
-        abort();
-      }
-
-      if (texCache.size() < texOrder.size() + 1) {
-        ID3D11Device *device;
-        This->lpVtbl->GetDevice(This, &device);
-        
-        // getOut() << "RealOMSetRenderTargets 9" << std::endl;
-        
-        ID3D11Device5 *device5;
-        hr = device->lpVtbl->QueryInterface(device, IID_ID3D11Device5, (void **)&device5);
-        if (SUCCEEDED(hr)) {
-          // nothing
-        } else {
-          getOut() << "failed to get hijack device5: " << (void *)hr << std::endl;
-          abort();
-        }
-        
-        // getOut() << "RealOMSetRenderTargets 10" << std::endl;
-
-        {
-          ID3D11Texture2D *shDepthTex;
-          
-          // descDepth.Format = DXGI_FORMAT_D32_FLOAT_S8X24_UINT;
-          lastDescDepth.Usage = D3D11_USAGE_DEFAULT;
-          lastDescDepth.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-          // descDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-          lastDescDepth.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-          // descDepth.SampleDesc.Count = 1;
-
-          // getOut() << "RealOMSetRenderTargets 11" << std::endl;
-
-          hr = device->lpVtbl->CreateTexture2D(
-            device,
-            &lastDescDepth,
-            NULL,
-            &shDepthTex
-          );
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to create proxy depth texture: " << (void *)hr << std::endl;
-            abort();
-          }
-          
-          // getOut() << "RealOMSetRenderTargets 12" << std::endl;
-
-          IDXGIResource1 *shDepthTexResource;
-          hr = shDepthTex->lpVtbl->QueryInterface(shDepthTex, IID_IDXGIResource1, (void **)&shDepthTexResource);
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to get hijack shared depth resource: " << (void *)hr << std::endl;
-            abort();
-          }
-          
-          // getOut() << "RealOMSetRenderTargets 13" << std::endl;
-
-          HANDLE shDepthTexHandle;
-          hr = shDepthTexResource->lpVtbl->GetSharedHandle(shDepthTexResource, &shDepthTexHandle);
-          if (FAILED(hr) || !shDepthTexHandle) {
-            getOut() << "failed to get hijack shared depth handle: " << (void *)hr << std::endl;
-            abort();
-          }
-          
-          // getOut() << "RealOMSetRenderTargets 14 " << (void *)shDepthTexHandle << std::endl;
-          
-          texCache.push_back(shDepthTex);
-          texSharedHandleCache.push_back(shDepthTexHandle);
-
-          // getOut() << "RealOMSetRenderTargets 15" << std::endl;
-
-          // shDepthTexResource->lpVtbl->Release(shDepthTexResource);
-          
-          // getOut() << "RealOMSetRenderTargets 16" << std::endl;
-        }
-        // getOut() << "RealOMSetRenderTargets 17" << std::endl;
-        {
-          ID3D11Fence *depthFence;
-          hr = device5->lpVtbl->CreateFence(
-            device5,
-            0, // value
-            // D3D11_FENCE_FLAG_SHARED|D3D11_FENCE_FLAG_SHARED_CROSS_ADAPTER, // flags
-            // D3D11_FENCE_FLAG_SHARED, // flags
-            D3D11_FENCE_FLAG_NONE, // flags
-            IID_ID3D11Fence, // interface
-            (void **)&depthFence // out
-          );
-          if (SUCCEEDED(hr)) {
-            // getOut() << "created fence " << (void *)fence << std::endl;
-            // nothing
-          } else {
-            getOut() << "failed to create depth fence" << std::endl;
-            abort();
-          }
-
-          fenceCache.push_back(depthFence);
-        }
-        // getOut() << "RealOMSetRenderTargets 18" << std::endl;
-        {
-          HANDLE depthEvent = CreateEventA(
-            NULL,
-            false,
-            false,
-            (std::string("Local\\OpenVrDepthFenceEvent") + std::to_string(eventCache.size())).c_str()
-          );
-          if (!depthEvent) {
-            getOut() << "failed to create front depth dx event " << (void *)GetLastError() << std::endl;
-            abort();
-          }
-          eventCache.push_back(depthEvent);
-        }
-        
-        // getOut() << "RealOMSetRenderTargets 19" << std::endl;
-
-        device->lpVtbl->Release(device);
-        device5->lpVtbl->Release(device5);
-      }
-
-      // getOut() << "RealOMSetRenderTargets 20" << std::endl;
-
-      size_t index = texOrder.size();
-      ID3D11Texture2D *&shDepthTex = texCache[index];
-      HANDLE &shDepthTexHandle = texSharedHandleCache[index];
-      ID3D11Fence *&depthFence = fenceCache[index];
-      HANDLE &depthEvent = eventCache[index];
-
-      ID3D11Resource *shDepthTexResource = nullptr;
-      hr = shDepthTex->lpVtbl->QueryInterface(shDepthTex, IID_ID3D11Resource, (void **)&shDepthTexResource);
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        getOut() << "failed to get hijack shared depth texture resource: " << (void *)hr << std::endl;
-        abort();
-      }
-
-      // getOut() << "RealOMSetRenderTargets 21 " << (void *)shDepthTexHandle << std::endl;
-
-      This->lpVtbl->CopyResource(
-        This,
-        shDepthTexResource,
-        lastDepthTexResource
-      );
-
-      // getOut() << "RealOMSetRenderTargets 22" << std::endl;
-
-      ++fenceValue;
-      context4->lpVtbl->Signal(context4, depthFence, fenceValue);
-      depthFence->lpVtbl->SetEventOnCompletion(depthFence, fenceValue, depthEvent);
-
-      // getOut() << "RealOMSetRenderTargets 23" << std::endl;
-
-      texOrder.push_back(ProxyTexture{
-        shDepthTexHandle,
-        index
-      });
-
-      // getOut() << "push tex order " << texOrder.size() << " " << (void *)shDepthTexHandle << " " << (void *)depthTex << std::endl;
-
-      shDepthTexResource->lpVtbl->Release(shDepthTexResource);
-    }
-
-    if (lastDepthTex) {
-      lastDepthTex->lpVtbl->Release(lastDepthTex);
-    }
-    lastDepthTex = depthTex;
-    if (lastDepthTexResource) {
-      lastDepthTexResource->lpVtbl->Release(lastDepthTexResource);
-    }
-    lastDepthTexResource = depthTexResource;
-    lastDescDepth = descDepth;
-  } */
-
   RealOMSetRenderTargets(This, NumViews, ppRenderTargetViews, pDepthStencilView);
 }
 void (STDMETHODCALLTYPE *RealOMSetDepthStencilState)(
@@ -1592,143 +979,6 @@ void STDMETHODCALLTYPE MineOMSetDepthStencilState(
   } */
   RealOMSetDepthStencilState(This, pDepthStencilState, StencilRef);
 }
-void ensureDepthTexDrawn() {
-  // getOut() << "ensure depth tex drawn " << (void *)sbsDepthTex << std::endl;
-
-  if (sbsDepthTex) {
-    if (isChrome) {
-      float zBufferParams[2];
-      getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
-      
-      g_hijacker->fnp.call<
-        kHijacker_QueueDepthTex,
-        int,
-        HANDLE,
-        std::tuple<float, float>,
-        int,
-        bool
-      >(sbsDepthTexShHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), 0, true);
-      g_hijacker->fnp.call<
-        kHijacker_QueueDepthTex,
-        int,
-        HANDLE,
-        std::tuple<float, float>,
-        int,
-        bool
-      >(sbsDepthTexShHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), 1, true);
-      
-      texNumDraws[sbsDepthTexShHandle]++;
-    } else {
-      auto iter = texSharedHandleMap.find(sbsDepthTex);
-      if (iter != texSharedHandleMap.end()) {
-        HANDLE shHandle = iter->second;
-        
-        if (!shHandle) {
-          getOut() << "got sbs texture with no share handle: " << (void *)sbsDepthTex << std::endl;
-          abort();
-        }
-
-        const bool texQueueContainsHandle = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
-          return pt.texHandle == shHandle;
-        }) != texQueue.end();
-        /* const bool texQueueContainsEye = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
-          return pt.eye == eyeValue;
-        }) != texQueue.end(); */
-        if (!texQueueContainsHandle /* && !texQueueContainsEye */) {
-          D3D11_TEXTURE2D_DESC descDepth;
-          sbsDepthTex->lpVtbl->GetDesc(sbsDepthTex, &descDepth);
-
-          ensureDepthWidthHeight();
-          const bool isFullDepthTex = descDepth.Width > depthWidth;
-
-          float zBufferParams[2];
-          getZBufferParams(nearValue, farValue, reversed, scale, zBufferParams);
-          
-          // getOut() << "queue depth tex " << (void *)sbsDepthTex << " " << shHandle << " " << descDepth.Width << " " << depthWidth << " " << eyeValue << " " << isFullDepthTex << std::endl;
-          /* getOut() << "depth tex projection matrix: ";
-          for (size_t i = 0; i < 16; i++) {
-            getOut() << projectionMatrix[i] << " ";
-          }
-          getOut() << std::endl; */
-
-          if (!isFullDepthTex) {
-            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), eyeValue, isFullDepthTex});
-          } else {
-            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), 0, isFullDepthTex});
-            texQueue.push_back(ProxyTexture{shHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), 1, isFullDepthTex});
-          }
-          
-          {
-            auto iter = texSortOrder.find(shHandle);
-            if (iter == texSortOrder.end()) {
-              size_t sortIndex = texSortOrder.size();
-              texSortOrder.insert(std::pair<HANDLE, size_t>(shHandle, sortIndex));
-              // XXX clean up sort order tracking on texture destroy
-            }
-          }
-        }
-        
-        texNumDraws[shHandle]++;
-      } else {
-        getOut() << "failed to get registered share handle for depth texture " << (void *)sbsDepthTex << std::endl;
-        abort();
-      }
-    }
-  }
-}
-template <typename T>
-bool shouldDepthTexClear(T *view, size_t index) {
-  ID3D11Resource *resource;
-  view->lpVtbl->GetResource(view, &resource);
-  
-  ID3D11Texture2D *depthTex;
-  resource->lpVtbl->QueryInterface(resource, IID_ID3D11Texture2D, (void **)&depthTex);
-  
-  D3D11_TEXTURE2D_DESC descDepth;
-  depthTex->lpVtbl->GetDesc(depthTex, &descDepth);
-
-  bool isSingle = isSingleEyeDepthTex(descDepth);
-  bool isDual = isDualEyeDepthTex(descDepth);
-  bool result = !isSingle && !isDual;
-  if (!result) {
-    if (isChrome) {
-      if (sbsDepthTexShHandle) {
-        bool queueContains = g_hijacker->fnp.call<
-          kHijacker_QueueContains,
-          bool,
-          HANDLE
-        >(sbsDepthTexShHandle);
-        if (!queueContains) {
-          result = true;
-        }
-      }
-    } else {
-      auto iter = texSharedHandleMap.find(depthTex);
-      if (iter != texSharedHandleMap.end()) { // handle was latched
-        HANDLE shHandle = iter->second;
-        
-        auto iter = std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
-          return pt.texHandle == shHandle;
-        });
-        if (iter == texQueue.end()) {
-          result = true;
-        }
-      } else { // handle was never latched
-        result = true;
-      }
-    }
-  }
-  /* if (result) {
-    getOut() << "clear depth tex " << (void *)depthTex << std::endl;
-  } else {
-    getOut() << "keep depth tex " << (void *)depthTex << std::endl;
-  } */
-
-  depthTex->lpVtbl->Release(depthTex);
-  resource->lpVtbl->Release(resource);
-  
-  return result;
-}
 void (STDMETHODCALLTYPE *RealDraw)(
   ID3D11DeviceContext *This,
   UINT VertexCount,
@@ -1741,7 +991,6 @@ void STDMETHODCALLTYPE MineDraw(
 ) {
   TRACE("Hijack", [&]() { getOut() << "Draw " << VertexCount << std::endl; });
   RealDraw(This, VertexCount, StartVertexLocation);
-  ensureDepthTexDrawn();
 }
 void (STDMETHODCALLTYPE *RealDrawAuto)(
   ID3D11DeviceContext *This
@@ -1751,7 +1000,6 @@ void STDMETHODCALLTYPE MineDrawAuto(
 ) {
   TRACE("Hijack", [&]() { getOut() << "DrawAuto" << std::endl; });
   RealDrawAuto(This);
-  ensureDepthTexDrawn();
 }
 void (STDMETHODCALLTYPE *RealDrawIndexed)(
   ID3D11DeviceContext *This,
@@ -1767,7 +1015,6 @@ void STDMETHODCALLTYPE MineDrawIndexed(
 ) {
   TRACE("Hijack", [&]() { getOut() << "DrawIndexed " << IndexCount << std::endl; });
   RealDrawIndexed(This, IndexCount, StartIndexLocation, BaseVertexLocation);
-  ensureDepthTexDrawn();
 }
 void (STDMETHODCALLTYPE *RealDrawIndexedInstanced)(
   ID3D11DeviceContext *This,
@@ -1787,7 +1034,6 @@ void STDMETHODCALLTYPE MineDrawIndexedInstanced(
 ) {
   TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstanced " << IndexCountPerInstance << " " << InstanceCount << std::endl; });
   RealDrawIndexedInstanced(This, IndexCountPerInstance, InstanceCount, StartIndexLocation, BaseVertexLocation, StartInstanceLocation);
-  ensureDepthTexDrawn();
 }
 void (STDMETHODCALLTYPE *RealDrawIndexedInstancedIndirect)(
   ID3D11DeviceContext *This,
@@ -1801,7 +1047,6 @@ void STDMETHODCALLTYPE MineDrawIndexedInstancedIndirect(
 ) {
   TRACE("Hijack", [&]() { getOut() << "DrawIndexedInstancedIndirect" << std::endl; });
   RealDrawIndexedInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
-  ensureDepthTexDrawn();
 }
 void (STDMETHODCALLTYPE *RealDrawInstanced)(
   ID3D11DeviceContext *This,
@@ -1819,7 +1064,6 @@ void STDMETHODCALLTYPE MineDrawInstanced(
 ) {
   TRACE("Hijack", [&]() { getOut() << "DrawInstanced " << VertexCountPerInstance << " " << InstanceCount << std::endl; });
   RealDrawInstanced(This, VertexCountPerInstance, InstanceCount, StartVertexLocation, StartInstanceLocation);
-  ensureDepthTexDrawn();
 }
 void (STDMETHODCALLTYPE *RealDrawInstancedIndirect)(
   ID3D11DeviceContext *This,
@@ -1833,7 +1077,6 @@ void STDMETHODCALLTYPE MineDrawInstancedIndirect(
 ) {
   TRACE("Hijack", [&]() { getOut() << "DrawInstancedIndirect" << std::endl; });
   RealDrawInstancedIndirect(This, pBufferForArgs, AlignedByteOffsetForArgs);
-  ensureDepthTexDrawn();
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateShaderResourceView)(
   ID3D11Device *This,
@@ -2050,10 +1293,7 @@ void STDMETHODCALLTYPE MineClearDepthStencilView(
   UINT8                  Stencil
 ) {
   TRACE("Hijack", [&]() { getOut() << "ClearDepthStencilView" << std::endl; });
-  if (shouldDepthTexClear(pDepthStencilView, 0)) {
-    RealClearDepthStencilView(This, pDepthStencilView, ClearFlags, Depth, Stencil);
-    clearedDepth = true;
-  }
+  RealClearDepthStencilView(This, pDepthStencilView, ClearFlags, Depth, Stencil);
 }
 void (STDMETHODCALLTYPE *RealClearState)(
   ID3D11DeviceContext *This
@@ -2079,9 +1319,7 @@ void STDMETHODCALLTYPE MineClearView(
   UINT             NumRects
 ) {
   TRACE("Hijack", [&]() { getOut() << "ClearView" << std::endl; });
-  if (shouldDepthTexClear(pView, 1)) {
-    RealClearView(This, pView, Color, pRect, NumRects);
-  }
+  RealClearView(This, pView, Color, pRect, NumRects);
 }
 void (STDMETHODCALLTYPE *RealCopyResource)(
   ID3D11DeviceContext1 *This,
@@ -2158,22 +1396,6 @@ void STDMETHODCALLTYPE MineUpdateSubresource(
   UINT            SrcRowPitch,
   UINT            SrcDepthPitch
 ) {
-  // if (!haveZBufferParams) {
-    ID3D11Buffer *buffer;
-    HRESULT hr = pDstResource->lpVtbl->QueryInterface(pDstResource, IID_ID3D11Buffer, (void **)&buffer);
-    if (SUCCEEDED(hr)) {
-      D3D11_BUFFER_DESC desc;
-      buffer->lpVtbl->GetDesc(buffer, &desc);
-
-      if (desc.ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
-        tryLatchZBufferParams(pSrcData, desc.ByteWidth);
-        // haveZBufferParams = true;
-      }
-
-      buffer->lpVtbl->Release(buffer);
-    }
-  // }
-
   RealUpdateSubresource(This, pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateBuffer)(
@@ -2188,9 +1410,6 @@ HRESULT STDMETHODCALLTYPE MineCreateBuffer(
   const D3D11_SUBRESOURCE_DATA *pInitialData,
   ID3D11Buffer                 **ppBuffer
 ) {
-  if (pInitialData && pDesc->ByteWidth < PROJECTION_MATRIX_SEARCH_SIZE) {
-    tryLatchZBufferParams(pInitialData->pSysMem, pDesc->ByteWidth);
-  }
   return RealCreateBuffer(This, pDesc, pInitialData, ppBuffer);
 }
 std::map<ID3D11Resource *, std::pair<void *, size_t>> cbufs;
@@ -2211,7 +1430,7 @@ HRESULT STDMETHODCALLTYPE MineMap(
   D3D11_MAPPED_SUBRESOURCE *pMappedResource
 ) {
   HRESULT hr = RealMap(This, pResource, Subresource, MapType, MapFlags, pMappedResource);
-  if (/*!haveZBufferParams && */SUCCEEDED(hr)) {
+  /* if (SUCCEEDED(hr)) {
     D3D11_RESOURCE_DIMENSION dim;
     pResource->lpVtbl->GetType(pResource, &dim);
 
@@ -2233,7 +1452,7 @@ HRESULT STDMETHODCALLTYPE MineMap(
         abort();
       }
     }
-  }
+  } */
   return hr;
 }
 void (STDMETHODCALLTYPE *RealUnmap)(
@@ -2246,34 +1465,6 @@ void STDMETHODCALLTYPE MineUnmap(
   ID3D11Resource *pResource,
   UINT           Subresource
 ) {
-  // getOut() << "RealUnmap " << (void *)pResource << std::endl;
-
-  // if (!haveZBufferParams) {
-    auto iter = cbufs.find(pResource);
-    
-    if (iter != cbufs.end()) {
-      const std::pair<void *, size_t> &bufferSpec = iter->second;
-      
-      /* getOut() << "RealUnmap " << (void *)pResource << " " << desc.ByteWidth << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " << desc.StructureByteStride << " " << pMappedResource->RowPitch << " " << pMappedResource->DepthPitch << std::endl;
-      if (desc.ByteWidth < 4000) {
-        getOut() << "  ";
-        for (size_t i = 0; i < desc.ByteWidth / sizeof(float); i++) {
-          getOut() << ((float *)pMappedResource->pData)[i] << " ";
-        }
-        getOut() << std::endl;
-      } */
-
-      tryLatchZBufferParams(bufferSpec.first, bufferSpec.second);
-      // if (tryLatchZBufferParams(bufferSpec.first, bufferSpec.second, zBufferParams)) {
-        // haveZBufferParams = true;
-
-        // cbufs.clear();
-      // } // else {
-        cbufs.erase(pResource);
-      // }
-    }
-  // }
-
   RealUnmap(This, pResource, Subresource);
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateTexture2D)(
@@ -2288,62 +1479,42 @@ HRESULT STDMETHODCALLTYPE MineCreateTexture2D(
   const D3D11_SUBRESOURCE_DATA *pInitialData,
   ID3D11Texture2D              **ppTexture2D
 ) {
-  if (isSingleEyeDepthTex(*pDesc) || isDualEyeDepthTex(*pDesc)) {
-    D3D11_TEXTURE2D_DESC desc = *pDesc;
-    desc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-    desc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-    auto hr = RealCreateTexture2D(This, &desc, pInitialData, ppTexture2D);
-    getOut() << "create texture 2d depth " <<
+  // getOut() << "bind surface try client 1 " << pDesc->Width << " " << pDesc->Height << std::endl;
+  HANDLE surfaceShHandle = g_hijacker->fnp.call<
+    kHijacker_TryBindSurface,
+    HANDLE,
+    D3D11_TEXTURE2D_DESC
+  >(*pDesc);
+  // getOut() << "bind surface try client 2 " << (void *)surfaceShHandle << std::endl;
+  if (surfaceShHandle) {
+    ID3D11Resource *surfaceRes;
+    HRESULT hr = This->lpVtbl->OpenSharedResource(This, surfaceShHandle, IID_ID3D11Resource, (void**)&surfaceRes);
+    if (FAILED(hr)) {
+      getOut() << "failed to unpack surface texture handle: " << (void *)hr << " " << (void *)surfaceShHandle << std::endl;
+      abort();
+    }
+
+    hr = surfaceRes->lpVtbl->QueryInterface(surfaceRes, IID_ID3D11Texture2D, (void **)ppTexture2D);
+    if (FAILED(hr)) {
+      getOut() << "failed to unpack surface texture: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    surfaceRes->lpVtbl->Release(surfaceRes);
+    
+    return hr;
+  } else {
+    auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
+    /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
+    getOut() << "create texture 2d normal " <<
       (void *)(*ppTexture2D) << " " <<
       desc.Width << " " << desc.Height << " " <<
       desc.MipLevels << " " << desc.ArraySize << " " <<
       desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
       desc.Format << " " <<
       desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-      std::endl;
-    if (FAILED(hr)) {
-      getOut() << "failed to create texture 2d: " << (void *)hr << std::endl;
-      abort();
-    }
+      std::endl; */
     return hr;
-  } else {
-    // getOut() << "bind surface try client 1 " << pDesc->Width << " " << pDesc->Height << std::endl;
-    HANDLE surfaceShHandle = g_hijacker->fnp.call<
-      kHijacker_TryBindSurface,
-      HANDLE,
-      D3D11_TEXTURE2D_DESC
-    >(*pDesc);
-    // getOut() << "bind surface try client 2 " << (void *)surfaceShHandle << std::endl;
-    if (surfaceShHandle) {
-      ID3D11Resource *surfaceRes;
-      HRESULT hr = This->lpVtbl->OpenSharedResource(This, surfaceShHandle, IID_ID3D11Resource, (void**)&surfaceRes);
-      if (FAILED(hr)) {
-        getOut() << "failed to unpack surface texture handle: " << (void *)hr << " " << (void *)surfaceShHandle << std::endl;
-        abort();
-      }
-
-      hr = surfaceRes->lpVtbl->QueryInterface(surfaceRes, IID_ID3D11Texture2D, (void **)ppTexture2D);
-      if (FAILED(hr)) {
-        getOut() << "failed to unpack surface texture: " << (void *)hr << std::endl;
-        abort();
-      }
-
-      surfaceRes->lpVtbl->Release(surfaceRes);
-      
-      return hr;
-    } else {
-      auto hr = RealCreateTexture2D(This, pDesc, pInitialData, ppTexture2D);
-      /* const D3D11_TEXTURE2D_DESC &desc = *pDesc;
-      getOut() << "create texture 2d normal " <<
-        (void *)(*ppTexture2D) << " " <<
-        desc.Width << " " << desc.Height << " " <<
-        desc.MipLevels << " " << desc.ArraySize << " " <<
-        desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-        desc.Format << " " <<
-        desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << " " <<
-        std::endl; */
-      return hr;
-    }
   }
 }
 HRESULT (STDMETHODCALLTYPE *RealCreateRasterizerState)(
@@ -2946,258 +2117,6 @@ void handleGlClearHack() {
         context3->lpVtbl->Release(context3);
       }
 
-      GLuint textures[2];
-      RealGlGenTextures(2, textures);
-      depthResolveTexId = textures[0];
-      depthTexId = textures[1];
-      GLuint fbos[2];
-      RealGlGenFramebuffers(2, fbos);
-      depthResolveFbo = fbos[0];
-      depthShFbo = fbos[1];
-
-      {
-        D3D11_TEXTURE2D_DESC desc{};
-        desc.Width = depthWidth;
-        desc.Height = depthHeight;
-        desc.MipLevels = desc.ArraySize = 1;
-        desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-        desc.SampleDesc.Count = 1;
-        desc.Usage = D3D11_USAGE_DEFAULT;
-        desc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-        // desc.CPUAccessFlags = 0;
-        desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
-        hr = hijackerDevice->lpVtbl->CreateTexture2D(hijackerDevice, &desc, NULL, &depthTex);
-        if (FAILED(hr)) {
-          getOut() << "failed to create gl depth tex shared " << (void *)hr << std::endl;
-          abort();
-        }
-
-        IDXGIResource1 *dxgiResource;
-        hr = depthTex->lpVtbl->QueryInterface(depthTex, IID_IDXGIResource1, (void **)&dxgiResource);
-        if (FAILED(hr)) {
-          getOut() << "failed to get gl depth tex shared resource " << (void *)hr << std::endl;
-          abort();
-        }
-
-        hr = dxgiResource->lpVtbl->GetSharedHandle(dxgiResource, &frontSharedDepthHandle);
-        if (FAILED(hr) || !frontSharedDepthHandle) {
-          getOut() << "failed to get gl depth tex shared handle " << (void *)hr << std::endl;
-          abort();
-        }
-
-        EGLConfig config;
-        EGLint numConfigs = 0;
-        EGLint attribList[] = {
-          EGL_RED_SIZE, 8,
-          EGL_GREEN_SIZE, 8,
-          EGL_BLUE_SIZE, 8,
-          EGL_ALPHA_SIZE, 8,
-          // EGL_BUFFER_SIZE, 8,
-          EGL_DEPTH_SIZE, 0,
-          EGL_STENCIL_SIZE, 0,
-          // EGL_SAMPLES, 1,
-          EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-          EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
-          EGL_BIND_TO_TEXTURE_RGBA, EGL_TRUE,
-          EGL_NONE
-        };
-        EGLBoolean ok = EGL_ChooseConfig(
-          display,
-          attribList,
-          &config,
-          1,
-          &numConfigs
-        );
-        if (numConfigs == 0) {
-          getOut() << "failed to get EGL config" << std::endl;
-          abort();
-        }
-
-        EGLint pBufferAttributes[] = {
-          EGL_WIDTH, desc.Width,
-          EGL_HEIGHT, desc.Height,
-          // EGL_FLEXIBLE_SURFACE_COMPATIBILITY_SUPPORTED_ANGLE, EGL_TRUE,
-          EGL_TEXTURE_TARGET, EGL_TEXTURE_2D,
-          EGL_TEXTURE_FORMAT, EGL_TEXTURE_RGBA,
-          EGL_NONE
-        };
-        {
-          auto error = EGL_GetError();
-          if (error != EGL_SUCCESS) getOut() << "egl pre error " << (void *)error << std::endl;
-        }
-        EGLSurface surface = EGL_CreatePbufferFromClientBuffer(display, EGL_D3D_TEXTURE_2D_SHARE_HANDLE_ANGLE, (EGLClientBuffer)frontSharedDepthHandle, config, pBufferAttributes);
-        if (surface == EGL_NO_SURFACE) {
-          getOut() << "failed to get egl surface " << (void *)surface << " " << (void *)EGL_GetError() << std::endl;
-          abort();
-        }
-
-        RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
-        EGL_BindTexImage(display, surface, EGL_BACK_BUFFER);
-        {
-          auto error = EGL_GetError();
-          if (error != EGL_SUCCESS) getOut() << "egl bind tex error " << (void *)error << std::endl;
-        }
-        
-        // getOut() << "got texture" << std::endl;
-      }
-      {
-        RealGlBindFramebuffer(GL_FRAMEBUFFER, depthResolveFbo);
-        RealGlBindTexture(GL_TEXTURE_2D, depthResolveTexId);
-        /* std::vector<uint32_t> data(depthWidth * depthHeight);
-        std::fill(data.begin(), data.end(), 0xFFFFFFFF); */
-        RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_STENCIL, depthWidth, depthHeight, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
-        // RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, data.data());
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, depthResolveTexId, 0);
-
-        RealGlBindFramebuffer(GL_FRAMEBUFFER, depthShFbo);
-        RealGlBindTexture(GL_TEXTURE_2D, depthTexId);
-        // RealGlTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, depthWidth, depthHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        RealGlTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        RealGlFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, depthTexId, 0);
-      }
-      {
-        glGenVertexArrays(1, &depthVao);
-        glBindVertexArray(depthVao);
-        
-        // getOut() << "generating depth 5 3 " << (void *)glCreateShader << " " << (void *)glShaderSource << " " << (void *)glCompileShader << " " << (void *)glGetShaderiv << " " << (void *)RealGlGetError() << std::endl;
-
-        // vertex shader
-        GLuint composeVertex = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(composeVertex, 1, &depthVsh, NULL);
-        glCompileShader(composeVertex);
-        GLint success;
-        glGetShaderiv(composeVertex, GL_COMPILE_STATUS, &success);
-        if (!success) {
-          char infoLog[4096];
-          GLsizei length;
-          glGetShaderInfoLog(composeVertex, sizeof(infoLog), &length, infoLog);
-          infoLog[length] = '\0';
-          getOut() << "compose vertex shader compilation failed:\n" << infoLog << std::endl;
-          abort();
-        };
-        
-        // getOut() << "generating depth 5 4 " << (void *)RealGlGetError() << std::endl;
-
-        // fragment shader
-        GLuint composeFragment = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(composeFragment, 1, &depthFsh, NULL);
-        glCompileShader(composeFragment);
-        glGetShaderiv(composeFragment, GL_COMPILE_STATUS, &success);
-        if (!success) {
-          char infoLog[4096];
-          GLsizei length;
-          glGetShaderInfoLog(composeFragment, sizeof(infoLog), &length, infoLog);
-          infoLog[length] = '\0';
-          getOut() << "compose fragment shader compilation failed:\n" << infoLog << std::endl;
-          abort();
-        };
-        
-        // getOut() << "generating depth 5 5 " << (void *)glCreateProgram << " " << (void *)glAttachShader << " " << (void *)glLinkProgram << " " << (void *)glGetProgramiv << " " << (void *)RealGlGetError() << std::endl;
-
-        // shader program
-        depthProgram = glCreateProgram();
-        glAttachShader(depthProgram, composeVertex);
-        glAttachShader(depthProgram, composeFragment);
-        glLinkProgram(depthProgram);
-        glGetProgramiv(depthProgram, GL_LINK_STATUS, &success);
-        if (!success) {
-          char infoLog[4096];
-          GLsizei length;
-          glGetShaderInfoLog(depthProgram, sizeof(infoLog), &length, infoLog);
-          infoLog[length] = '\0';
-          getOut() << "blit program linking failed\n" << infoLog << std::endl;
-          abort();
-        }
-
-        // getOut() << "generating depth 5 6 " << (void *)RealGlGetError() << std::endl;
-
-        GLuint positionLocation = glGetAttribLocation(depthProgram, "position");
-        if (positionLocation == -1) {
-          getOut() << "blit program failed to get attrib location for 'position'" << std::endl;
-          abort();
-        }
-        // getOut() << "generating depth 5 7 " << (void *)RealGlGetError() << std::endl;
-        GLuint uvLocation = glGetAttribLocation(depthProgram, "uv");
-        if (uvLocation == -1) {
-          getOut() << "blit program failed to get attrib location for 'uv'" << std::endl;
-          abort();
-        }
-
-        // getOut() << "generating depth 5 8 " << (void *)RealGlGetError() << std::endl;
-
-        GLuint texLocation = glGetUniformLocation(depthProgram, "tex");
-        // getOut() << "get location 1  " << texString << " " << texLocation << std::endl;
-        if (texLocation != -1) {
-          // 
-        } else {
-          getOut() << "blit program failed to get uniform location for 'tex'" << std::endl;
-          // abort();
-        }
-        
-        // getOut() << "generating depth 5 9 " << (void *)RealGlGetError() << std::endl;
-
-        // delete the shaders as they're linked into our program now and no longer necessary
-        glDeleteShader(composeVertex);
-        glDeleteShader(composeFragment);
-
-        // getOut() << "generating depth 5 10 " << (void *)RealGlGetError() << std::endl;
-
-        glUseProgram(depthProgram);
-        
-        // getOut() << "generating depth 11 " << (void *)RealGlGetError() << std::endl;
-
-        GLuint positionBuffer;
-        glGenBuffers(1, &positionBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
-        // getOut() << "generating depth 5 12 " << (void *)RealGlGetError() << std::endl;
-        static const float positions[] = {
-          -1.0f, 1.0f,
-          1.0f, 1.0f,
-          -1.0f, -1.0f,
-          1.0f, -1.0f,
-        };
-        glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
-        // getOut() << "generating depth 5 13 " << (void *)RealGlGetError() << std::endl;
-        glEnableVertexAttribArray(positionLocation);
-        // getOut() << "generating depth 5 14 " << (void *)RealGlGetError() << std::endl;
-        glVertexAttribPointer(positionLocation, 2, GL_FLOAT, false, 0, 0);
-
-        // getOut() << "init program 8" << std::endl;
-
-        GLuint uvBuffer;
-        glGenBuffers(1, &uvBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-        static const float uvs[] = {
-          0.0f, 0.0f,
-          1.0f, 0.0f,
-          0.0f, 1.0f,
-          1.0f, 1.0f,
-        };
-        glBufferData(GL_ARRAY_BUFFER, sizeof(uvs), uvs, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(uvLocation);
-        glVertexAttribPointer(uvLocation, 2, GL_FLOAT, false, 0, 0);
-
-        // getOut() << "generating depth 5 15 " << (void *)RealGlGetError() << std::endl;
-
-        GLuint indexBuffer;
-        glGenBuffers(1, &indexBuffer);
-        static const uint16_t indices[] = {0, 2, 1, 2, 3, 1};
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-        if (texLocation != -1) {
-          glUniform1i(texLocation, 0);
-        }
-        
-        // getOut() << "generating depth 5 16 " << (void *)RealGlGetError() << std::endl;
-      }
       {
         for (size_t i = 0; i < 2; i++) {
           ID3D11Fence *fence;
@@ -3289,7 +2208,7 @@ void handleGlClearHack() {
     RealGlGetFramebufferAttachmentParameteriv(GL_DRAW_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME, &rbo);
     getOut() << "blit rbo " << type << " " << rbo << " " << oldDrawFbo << std::endl; */
 
-    for (int i = 0; i < 2; i++) {
+    /* for (int i = 0; i < 2; i++) {
       ID3D11Fence *&fence = fenceCache[i];
       // HANDLE &depthEvent = eventCache[i];
       
@@ -3308,7 +2227,7 @@ void handleGlClearHack() {
         int,
         bool
       >(frontSharedDepthHandle, std::tuple<float, float>(zBufferParams[0], zBufferParams[1]), i, false);
-    }
+    } */
 
     glPhase = 0;
   } else {
@@ -3358,77 +2277,7 @@ BOOL STDMETHODCALLTYPE MineWglMakeCurrent(
 
 using namespace hijacker;
 
-Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {
-  fnp.reg<
-    kHijacker_QueueDepthTex,
-    int,
-    HANDLE,
-    std::tuple<float, float>,
-    int,
-    bool
-  >([=](HANDLE shDepthTexHandle, std::tuple<float, float> zBufferParams, int eye, bool isFull) {
-    size_t count = std::count_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
-      return pt.texHandle == shDepthTexHandle;
-    });
-    if (count < 2) {
-      texQueue.push_back(ProxyTexture{
-        shDepthTexHandle,
-        zBufferParams,
-        eye,
-        isFull
-      });
-      // getOut() << "queue depth tex " << shDepthTexHandle << " " << texQueue.size() << " " << count << std::endl;
-      {
-        auto iter = texSortOrder.find(shDepthTexHandle);
-        if (iter == texSortOrder.end()) {
-          size_t sortIndex = texSortOrder.size();
-          texSortOrder.insert(std::pair<HANDLE, size_t>(shDepthTexHandle, sortIndex));
-          // XXX clean up sort order tracking on texture destroy
-        }
-      }
-    }
-    return 0;
-  });
-  fnp.reg<
-    kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, float, float, int, bool>
-  >([=]() {
-    // getOut() << "shift tex order " << texQueue.size() << std::endl;
-    if (texQueue.size() > 0) {
-      std::sort(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &a, const ProxyTexture &b) -> bool {
-        return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
-      });
-      if (texQueue.size() > 2) {
-        texQueue.resize(2);
-      }
-      
-      ProxyTexture result = texQueue.front();
-      texQueue.pop_front();
-      
-      // getOut() << "shift tex order " << result.texHandle << " " << std::get<0>(result.zBufferParams) << " " << std::get<1>(result.zBufferParams) << " " << result.eye << " " << result.isFull << std::endl;
-      
-      return std::tuple<HANDLE, float, float, int, bool>(result.texHandle, std::get<0>(result.zBufferParams), std::get<1>(result.zBufferParams), result.eye, result.isFull);
-    } else {
-      return std::tuple<HANDLE, float, float, int, bool>{};
-    }
-  });
-  fnp.reg<
-    kHijacker_ClearDepthTex,
-    int
-  >([=]() {
-    texQueue.clear();
-    return 0;
-  });
-  fnp.reg<
-    kHijacker_QueueContains,
-    bool,
-    HANDLE
-  >([=](HANDLE handle) {
-    return std::find_if(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &pt) -> bool {
-      return pt.texHandle == handle;
-    }) != texQueue.end();
-  });
-}
+Hijacker::Hijacker(FnProxy &fnp) : fnp(fnp) {}
 /* void Hijacker::ensureClientDevice() {
   if (!hijackerDevice) {
     getOut() << "ensure client device 1" << std::endl;
@@ -4250,108 +3099,4 @@ void Hijacker::unhijackGl() {
     
     hijackedGl = false;
   }
-}
-ProxyTexture Hijacker::getDepthTextureMatching(ID3D11Texture2D *tex) { // called from client during submit
-  // local
-  if (texQueue.size() > 0) {
-    std::map<void *, int64_t> haveSames;
-    for (size_t i = 0; i < texQueue.size(); i++) {
-      const ProxyTexture &a = texQueue[i];
-      size_t &na = texNumDraws[a.texHandle];
-      int64_t haveSame = 0;
-      for (size_t j = 0; j < texQueue.size(); j++) {
-        if (i == j) {
-          continue;
-        }
-
-        const ProxyTexture &b = texQueue[j];
-        size_t &nb = texNumDraws[b.texHandle];
-        if (na == nb) {
-          haveSame = (int64_t)na;
-          break;
-        }
-      }
-      haveSames[a.texHandle] = haveSame;
-    }
-    std::sort(texQueue.begin(), texQueue.end(), [&](const ProxyTexture &a, const ProxyTexture &b) -> bool {
-      int64_t diff = haveSames[b.texHandle] - haveSames[a.texHandle];
-      if (diff != 0) {
-        return diff < 0;
-      } else {
-        return texSortOrder[a.texHandle] < texSortOrder[b.texHandle];
-      }
-    });
-
-    /* size_t oldSize = texQueue.size();
-    getOut() << "tex queue sorted:" << std::endl;
-    for (auto iter : texQueue) {
-      getOut() << "  " << iter.texHandle << " " << haveSames[iter.texHandle] << std::endl;
-    }
-    getOut() << "tex num draws:" << std::endl;
-    for (auto iter : texNumDraws) {
-      getOut() << "  " << iter.first << " -> " << iter.second << std::endl;
-    } */
-
-    if (texQueue.size() > 2) {
-      texQueue.resize(2);
-    }
-    
-    ProxyTexture result = texQueue.front();
-    // getOut() << "shift tex queue " << (void *)result.texHandle << " " << oldSize << std::endl;
-    texNumDraws.clear();
-    texQueue.pop_front();
-    return result;
-  }
-  // remote
-  auto shiftResult = fnp.call<
-    kHijacker_ShiftDepthTex,
-    std::tuple<HANDLE, float, float, int, bool>
-  >();
-  HANDLE &sharedDepthHandle = std::get<0>(shiftResult);
-  const float &zbx = std::get<1>(shiftResult);
-  const float &zby = std::get<2>(shiftResult);
-  const int &eye = std::get<3>(shiftResult);
-  const bool &isFull = std::get<4>(shiftResult);
-
-  if (sharedDepthHandle) {
-    if (clientDepthHandleLatched != sharedDepthHandle) {
-      if (clientDepthHandleLatched) {
-        // XXX delete old resources
-      }
-      clientDepthHandleLatched = sharedDepthHandle;
-      
-      getOut() << "latch client depth " << (void *)sharedDepthHandle << std::endl;
-    }
-    
-    // getOut() << "would have depthed " << (void *)clientDepthTex << " " << clientDepthEvent << std::endl;
-
-    return ProxyTexture{
-      sharedDepthHandle,
-      std::tuple<float, float>(zbx, zby),
-      eye,
-      isFull
-    };
-  }
-  // not found
-  return ProxyTexture{
-    nullptr,
-    std::tuple<float, float>{},
-    0,
-    false
-  };
-}
-void Hijacker::flushTextureLatches() {
-  texQueue.clear();
-  fnp.call<
-    kHijacker_ClearDepthTex,
-    int
-  >();
-  /* if (texMap.size() > 0) {
-    for (auto iter : texMap) {
-      iter.first->lpVtbl->Release(iter.first);
-      iter.second->lpVtbl->Release(iter.second);
-    }
-    texMap.clear();
-    texQueue.clear();
-  } */
 }
