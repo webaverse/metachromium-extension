@@ -157,8 +157,7 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
 PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
-  result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
-  // result.Color.r += 0.1;
+  result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
   return result;
 }
 
