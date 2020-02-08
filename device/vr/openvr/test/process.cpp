@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <dcomp.h>
 
 #include "device/vr/openvr/test/out.h"
 #include "extension/json.hpp"
@@ -13,6 +14,7 @@ HWND g_hWnd = NULL;
 bool live = true;
 
 decltype(D3D11CreateDeviceAndSwapChain) *RealD3D11CreateDeviceAndSwapChain = nullptr;
+decltype(DCompositionCreateDevice2) *RealDCompositionCreateDevice2 = nullptr;
 
 inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 	uintptr_t *vtable = *(uintptr_t **)cls;
@@ -189,6 +191,11 @@ int WINAPI WinMain(
       getOut() << "failed to load dxgi module" << std::endl;
       abort();
     }
+    HMODULE dcompModule = LoadLibraryA("dcomp.dll");
+    if (!dcompModule) {
+      getOut() << "failed to load dcomp module" << std::endl;
+      abort();
+    }
     
     ID3D11Device *deviceBasic;
     ID3D11DeviceContext *contextBasic;
@@ -212,7 +219,7 @@ int WINAPI WinMain(
       NULL, // pAdapter
       D3D_DRIVER_TYPE_HARDWARE, // DriverType
       NULL, // Software
-      D3D11_CREATE_DEVICE_DEBUG, // Flags
+      0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
       featureLevels, // pFeatureLevels
       ARRAYSIZE(featureLevels), // FeatureLevels
       D3D11_SDK_VERSION, // SDKVersion
@@ -225,9 +232,14 @@ int WINAPI WinMain(
     
     IDXGISwapChain1 *swapChain1;
 		hr = swapChain->QueryInterface(__uuidof(IDXGISwapChain1), (void **)&swapChain1);
+
+    IDCompositionDesktopDevice *dcompDevice;
+    RealDCompositionCreateDevice2 = (decltype(DCompositionCreateDevice2) *)GetProcAddress(dcompModule, "DCompositionCreateDevice2");
+    hr = RealDCompositionCreateDevice2(deviceBasic, __uuidof(IDCompositionDesktopDevice), (void **)&dcompDevice);
     
     g_offsets->Present = vtable_offset(dxgiModule, swapChain, 8);
     g_offsets->Present1 = vtable_offset(dxgiModule, swapChain1, 22);
+    g_offsets->CreateTargetForHwnd = vtable_offset(dcompModule, dcompDevice, 0);
     
     getOut() << "offset " << g_offsets->Present << " " << g_offsets->Present1 << std::endl;
   }

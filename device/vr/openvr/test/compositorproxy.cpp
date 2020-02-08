@@ -57,6 +57,7 @@ char kIVRCompositor_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterS
 char kIVRCompositor_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
 char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
+char kIVRCompositor_SendMouse[] = "IVRCompositor::kIVRCompositor_SendMouse";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
@@ -993,8 +994,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   fnp.reg<
     kIVRCompositor_RegisterSurface,
     int,
-    HANDLE
-  >([=](HANDLE surfaceShHandle) {
+    HANDLE,
+    HWND
+  >([=](HANDLE surfaceShHandle, HWND windowHandle) {
     auto iter = std::find(surfaceShHandles.begin(), surfaceShHandles.end(), surfaceShHandle);
     if (iter == surfaceShHandles.end()) {
       surfaceShHandles.push_back(surfaceShHandle);
@@ -1019,6 +1021,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       shTexResource->Release();
       shTex->Release();
     }
+
+    chromeHwnd = windowHandle;
     
     return 0;
   });
@@ -1087,6 +1091,49 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     } else {
       return (HANDLE)NULL;
     }
+  });
+  fnp.reg<
+    kIVRCompositor_SendMouse,
+    int,
+    float,
+    float,
+    int
+  >([=](float x, float y, int type) {
+    BOOL result1 = SetForegroundWindow(chromeHwnd);
+
+    RECT rect;
+    BOOL result2 = GetWindowRect(chromeHwnd, &rect);
+
+    INPUT input{};
+    input.type = INPUT_MOUSE;
+    input.mi.dx = rect.left + (int)(x * (rect.right - rect.left));
+    input.mi.dy = rect.top + (int)(y * (rect.bottom - rect.top));
+    input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
+
+    // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
+
+    switch (type) {
+      case 0: {
+        input.mi.dwFlags |= MOUSEEVENTF_MOVE;
+        SetCursorPos(input.mi.dx, input.mi.dy);
+        break;
+      }
+      case 1: {
+        input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
+        UINT result3 = SendInput(1, &input, sizeof(input));
+        break;
+      }
+      case 2: {
+        input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
+        UINT result3 = SendInput(1, &input, sizeof(input));
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+
+    return 0;
   });
   fnp.reg<
     kIVRCompositor_SetIsVr,

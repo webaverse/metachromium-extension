@@ -5,6 +5,7 @@ class Offsets {
 public:
   uintptr_t Present;
   uintptr_t Present1;
+  uintptr_t CreateTargetForHwnd;
 };
 
 #endif

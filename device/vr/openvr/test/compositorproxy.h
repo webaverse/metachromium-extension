@@ -32,9 +32,10 @@ public:
   Microsoft::WRL::ComPtr<ID3D11InfoQueue> infoQueue;
   GLFWwindow *subWindow = nullptr;
   HANDLE hInteropDevice = NULL;
-  uint32_t width;
-  uint32_t height;
-  HWND hWnd;
+  uint32_t width = 0;
+  uint32_t height = 0;
+  HWND hWnd = NULL;
+  HWND chromeHwnd = NULL;
 
   // controls
   bool isVr = true;

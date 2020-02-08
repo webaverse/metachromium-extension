@@ -259,11 +259,58 @@ window.addEventListener('load', () => {
       /* transparent: true,
       opacity: 0.5, */
     });
-    return new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(0, 1.5, -1);
+    mesh.updateMatrixWorld();
+    mesh.leftLine = new THREE.Line3(
+      mesh.position.clone().add(new THREE.Vector3(-1/2, 1/2, 0).applyQuaternion(mesh.quaternion)),
+      mesh.position.clone().add(new THREE.Vector3(-1/2, -1/2, 0).applyQuaternion(mesh.quaternion))
+    );
+    mesh.topLine = new THREE.Line3(
+      mesh.position.clone().add(new THREE.Vector3(-1/2, 1/2, 0).applyQuaternion(mesh.quaternion)),
+      mesh.position.clone().add(new THREE.Vector3(1/2, 1/2, 0).applyQuaternion(mesh.quaternion))
+    );
+    mesh.frustumCulled = false;
+    return mesh;
   })();
-  planeMesh.position.set(0, 1.5, -1);
-  planeMesh.frustumCulled = false;
   scene.add(planeMesh);
+
+  const gripPoints = [
+    new THREE.Vector2(NaN, NaN),
+    new THREE.Vector2(NaN, NaN),
+  ];
+  const _makeControllerMesh = () => {
+    const geometry = new THREE.CylinderBufferGeometry(0.005, 0.005, 1)
+      .applyMatrix(new THREE.Matrix4().makeTranslation(0, 1/2, 0))
+      .applyMatrix(new THREE.Matrix4().makeRotationFromQuaternion(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI/2)));
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x0000FF,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.frustumCulled = false;
+    return mesh;
+  };
+  const controllerMeshes = [
+    _makeControllerMesh(),
+    _makeControllerMesh(),
+  ];
+  for (let i = 0; i < controllerMeshes.length; i++) {
+    const controllerMesh = controllerMeshes[i];
+    const grip = renderer.xr.getController(i);
+    const gripPoint = gripPoints[i];
+    grip.addEventListener('selectstart', () => {
+      const {x, y} = gripPoint;
+      [1, 2].forEach(type => {
+        xrc().request('sendMouse', [
+          x,
+          y,
+          type,
+        ]).catch(console.warn);
+      });
+    });
+    grip.add(controllerMesh);
+    scene.add(grip);
+  }
 
   (async () => {
     const desc = await xrc().request('prepareBindSurface', []);
@@ -316,6 +363,38 @@ window.addEventListener('load', () => {
   })();
   qrMesh.frustumCulled = false;
   scene.add(qrMesh);
+
+  const raycaster = new THREE.Raycaster();
+  const _updateRaycast = () => {
+    for (let i = 0; i < 2; i++) {
+      const grip = renderer.xr.getController(i);
+      // console.log('got grip position', grip.position.toArray(), grip.quaternion.toArray(), grip.scale.toArray());
+      const controllerMesh = controllerMeshes[i];
+      const gripPoint = gripPoints[i];
+      raycaster.set(grip.position, new THREE.Vector3(0, 0, -1).applyQuaternion(grip.quaternion));
+      const intersects = raycaster.intersectObject(planeMesh);
+      if (intersects.length > 0) {
+        const [intersect] = intersects;
+        const {point} = intersect;
+        // gripPoint.copy(point);
+
+        const p1 = new THREE.Vector3();
+        const p2 = new THREE.Vector3();
+        const x = planeMesh.topLine.closestPointToPoint(point, true, p2).distanceTo(planeMesh.topLine.start);
+        const y = planeMesh.leftLine.closestPointToPoint(point, true, p1).distanceTo(planeMesh.leftLine.start);
+        const type = 0;
+
+        xrc().request('sendMouse', [
+          x,
+          y,
+          type,
+        ]).catch(console.warn);
+        gripPoint.set(x, y);
+      } else {
+        gripPoint.set(NaN, NaN);
+      }
+    }
+  };
 
   let qrQueryRunning = false;
   const detectedQrCodes = [];
@@ -371,7 +450,8 @@ window.addEventListener('load', () => {
   function render() {
     cubeMesh.rotation.x += 0.01;
     cubeMesh.rotation.z += 0.01;
-    
+
+    _updateRaycast();
     _updateQrCodes();
   
     renderer.render(scene, camera);
