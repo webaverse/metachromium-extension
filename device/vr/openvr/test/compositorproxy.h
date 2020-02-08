@@ -54,21 +54,15 @@ public:
   ID3DBlob *vsBlob = nullptr;
   ID3D11VertexShader *vsShader = nullptr;
   ID3DBlob *psBlob = nullptr;
-  ID3DBlob *psMsBlob = nullptr;
-  ID3DBlob *psDepthBlob = nullptr;
-  ID3DBlob *psDepthMsBlob = nullptr;
-  ID3DBlob *psCopyBlob = nullptr;
+  // ID3DBlob *psCopyBlob = nullptr;
   ID3D11PixelShader *psShader = nullptr;
-  ID3D11PixelShader *psDepthShader = nullptr;
-  ID3D11PixelShader *psMsShader = nullptr;
-  ID3D11PixelShader *psDepthMsShader = nullptr;
-  ID3D11PixelShader *psCopyShader = nullptr;
+  // ID3D11PixelShader *psCopyShader = nullptr;
   ID3D11InputLayout *vertexLayout = nullptr;
   // ID3D11RasterizerState *rasterizerState = nullptr;
   // ID3D11ShaderResourceView *shaderResourceView = nullptr;
   // ID3D11RenderTargetView *renderTargetView = nullptr;
   // ID3D11DepthStencilView *depthStencilView = nullptr;
-  bool depthRenderEnabled = false;
+  // bool depthRenderEnabled = false;
 
   std::vector<GLuint> texLocations;
   std::vector<GLuint> depthTexLocations;
@@ -81,69 +75,29 @@ public:
   // input front
   std::map<std::pair<size_t, EVREye>, size_t> inFrontIndices;
   std::vector<ID3D11Texture2D *> inDxTexs;
-  std::vector<ID3D11Texture2D *> inDxDepthTexs;
-  std::vector<ID3D11Texture2D *> inDxDepthResolveTexs;
-  std::vector<HANDLE> inDxDepthResolveHandles;
-  // std::vector<ID3D11Texture2D *> inDxDepthTexs2;
-  // std::vector<ID3D11Texture2D *> inDxDepthTexs3;
-  std::vector<std::tuple<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *, bool>> shaderResourceViews;
+  std::vector<ID3D11ShaderResourceView *> shaderResourceViews;
   std::vector<HANDLE> inShDxShareHandles;
-  std::vector<HANDLE> inShDepthDxShareHandles;
-  // std::vector<std::tuple<float, float, int, bool>> inClientZBufferParams;
-  // std::vector<size_t> inShDepthDxEventIndexes;
   std::vector<uintptr_t> inTexLatches;
-  std::vector<uintptr_t> inDepthTexLatches;
-  std::vector<VRTextureBounds_t> inDepthTexBoundsLatches;
   std::vector<GLuint> interopTexs;
   std::vector<HANDLE> inReadInteropHandles;
-  // std::vector<HANDLE> inReadEvents;
   ID3D11Fence *remoteServerFence = nullptr;
-  /* ID3D11Texture2D *shTexLeft = nullptr;
-  ID3D11Texture2D *shTexRight = nullptr;
-  HANDLE shTexLeftHandle = 0;
-  HANDLE shTexRightHandle = 0;
-  ID3D11Texture2D *texLeftLatched = nullptr;
-  ID3D11Texture2D *texRightLatched = nullptr; */
 
   // input back
   std::map<std::pair<size_t, EVREye>, size_t> inBackIndices;
   std::vector<ID3D11Texture2D *> inBackTexs;
-  // std::vector<HANDLE> inBackInteropHandles;
-  std::vector<ID3D11Texture2D *> inBackDepthTexs;
-  // std::vector<HANDLE> inBackDepthReadEvents;
-  // std::vector<HANDLE> inBackDepthInteropHandles;
-  // std::vector<HANDLE> inBackReadEvents;
   std::vector<float> inBackTextureFulls;
   std::vector<HANDLE> inBackHandleLatches;
-  std::vector<HANDLE> inBackDepthHandleLatches;
   std::vector<ID3D11Fence *> inBackFences;
   std::deque<HANDLE> surfaceShHandles;
   std::deque<std::pair<HANDLE, D3D11_TEXTURE2D_DESC>> surfaceBindQueue;
-  // ID3D11Texture2D *backbufferShTex = nullptr;
-  // ID3D11ShaderResourceView *backbufferSrv = nullptr;
-  // std::vector<std::tuple<EVREye, uint64_t, HANDLE, HANDLE>> inBackReadEventQueue;
-  /* HANDLE shTexInLeftInteropHandle = NULL;
-  HANDLE shTexInRightInteropHandle = NULL;
-  HANDLE handleLeftLatched = nullptr;
-  HANDLE handleRightLatched = nullptr; */
 
   // output
-  // std::vector<GLuint> fbos;
-  // std::vector<GLuint> shTexOutIds;
-  // std::vector<GLuint> texDepthIds;
   std::vector<ID3D11Texture2D *> shTexOuts;
   std::vector<HANDLE> shTexOutHandles;
-  std::vector<ID3D11Texture2D *> shDepthTexFrontOuts;
-  std::vector<ID3D11Texture2D *> shDepthTexBackOuts;
   std::vector<ID3D11RenderTargetView *> renderTargetViews;
-  std::vector<ID3D11RenderTargetView *> renderTargetDepthFrontViews;
-  std::vector<ID3D11RenderTargetView *> renderTargetDepthBackViews;
-  std::vector<ID3D11ShaderResourceView *> eyeShaderResourceViews;
-  std::vector<ID3D11ShaderResourceView *> depthShaderFrontResourceViews;
-  std::vector<ID3D11ShaderResourceView *> depthShaderBackResourceViews;
 
   // callbacks
-  std::vector<std::function<void(ID3D11Device5 *, ID3D11DeviceContext4 *, ID3D11Texture2D *, ID3D11Texture2D *)>> submitCallbacks;
+  std::vector<std::function<void(ID3D11Device5 *, ID3D11DeviceContext4 *, ID3D11Texture2D *)>> submitCallbacks;
 
   PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bool isProcess, FnProxy &fnp);
 	virtual void SetTrackingSpace( ETrackingUniverseOrigin eOrigin );
@@ -202,7 +156,6 @@ public:
   HmdMatrix34_t GetStageMatrix();
   HmdMatrix44_t GetProjectionMatrix();
   void InitShader();
-  void SwapDepthTex(int iEye);
   void InfoQueueLog();
   static void InfoQueueLog(ID3D11InfoQueue *infoQueue);
   static void CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **context, IDXGISwapChain **swapChain);

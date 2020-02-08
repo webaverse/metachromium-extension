@@ -268,23 +268,6 @@ int main(int argc, char **argv) {
               respond(res);
             }
           } else if (
-            methodString == "setDepthRenderEnabled" &&
-            args.size() >= 1 && args[0].is_boolean()
-          ) {
-            const bool enabled = args[0].get<bool>();
-            getOut() << "set depth render enabled " << enabled << std::endl;
-            g_fnp->call<
-              kProcess_SetDepthRenderEnabled,
-              int,
-              bool
-            >(enabled);
-            
-            json res = {
-              {"error", nullptr},
-              {"result", nullptr}
-            };
-            respond(res);
-          } else if (
             methodString == "setQrEngineEnabled" &&
             args.size() >= 1 && args[0].is_boolean()
           ) {

@@ -59,7 +59,6 @@ char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSur
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
-char kIVRCompositor_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
@@ -112,14 +111,6 @@ cbuffer PS_CONSTANT_BUFFER : register(b0)
   float tmpps16;
 }
 
-cbuffer PS_CONSTANT_BUFFER : register(b1)
-{
-  float2 _ZBufferParams;
-  float4 depthColor;
-  float tmpps21;
-  float tmpps22;
-}
-
 //------------------------------------------------------------//
 // Structs
 //------------------------------------------------------------//
@@ -135,7 +126,6 @@ struct VS_OUTPUT
 struct PS_OUTPUT
 {
 	float4 Color : SV_Target0;
-	float Depth : SV_Target1;
 };
 struct PS_OUTPUT_COPY
 {
@@ -148,9 +138,6 @@ struct PS_OUTPUT_COPY
 //------------------------------------------------------------//
 //Texture
 Texture2D QuadTexture : register(ps, t0);
-Texture2D QuadDepthTexture : register(ps, t1);
-Texture2DMS<float4> QuadDepthTextureMS : register(ps, t2);
-Texture2D DepthTexture : register(ps, t3);
 SamplerState QuadTextureSampler {
   MipFilter = NONE;
 	MinFilter = POINT;
@@ -167,93 +154,20 @@ VS_OUTPUT vs_main(float2 inPos : POSITION, float2 inTex : TEXCOORD0)
   return Output;
 }
 
-/* // Unity
-static const float4x4 projectionMatrix = {0.917286, -0, 0, 0, 0, -0.833537, 0, 0, -0.174072, 0.106141, 9.53674e-07, -1, 0, -0, 0.02, 0};
-static const float m32 = projectionMatrix[3][2];
-static const float m22 = projectionMatrix[2][2];
-static const float near = m32 / (m22 + 1);
-static const float far = m32 / (m22);
-static const float4 _ZBufferParams = float4(-1+far/near, 1, (-1+far/near)/far, 1/far);
-
-// Chrome
-static const float4x4 projectionMatrixRaw = {0.917286, 0, -0.174072, 0, 0, 0.833537, -0.106141, 0, 0, 0, -1.0002, -0.20002, 0, 0, -1, 0};
-static const float4x4 projectionMatrix = transpose(projectionMatrixRaw); // {0.917286, 0, 0, 0, 0, 0.833537, 0, 0, -0.174072, -0.106141, -1.0002, -1, 0, 0, -0.20002, 0};
-static const float m32 = projectionMatrix[3][2];
-static const float m22 = projectionMatrix[2][2];
-static const float near = m32 / (m22 - 1);
-static const float far = m32 / (m22 + 1);
-static const float4 _ZBufferParams = float4(1-far/near, far/near, (1-far/near)/far, (far/near)/far); */
-
-inline float LinearEyeDepth( float z ) {
-  return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
-}
-
-PS_OUTPUT do_ps(float d, VS_OUTPUT IN, bool colored)
+PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
-
-  float depthScale = 1000;
-
-  d = LinearEyeDepth(d);
-  float e = DepthTexture.Sample(QuadTextureSampler, IN.Uv).r;
-
-  /* result.Color = float4(d * depthColor.rgb, 1);
-  result.Depth = d; */
-
-  /* if (d < 0.5) {
-    result.Color = float4(d, 0, 0, 1);
-    result.Depth = d;
-  } else if (d < 1) {
-    result.Color = float4(0, d, 0, 1);
-    result.Depth = d;
-  } else {
-    result.Color = float4(0, 0, d, 1);
-    result.Depth = e;
-  } */
-
-  if (e == 1.0 || d < (e*depthScale)) {
-    if (colored) {
-      result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
-    } else {
-      result.Color = float4(d, 0, 0, 1);
-    }
-    result.Depth = d/depthScale;
-  } else {
-    // result.Color = float4(0, 0, e, 1);
-    // result.Depth = e;
-    discard;
-  }
-
+  result.Color = float4(QuadTexture.Sample(QuadTextureSampler, IN.Uv).rgb, 1);
+  // result.Color.r += 0.1;
   return result;
 }
 
-PS_OUTPUT ps_main(VS_OUTPUT IN)
-{
-  float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
-  return do_ps(d, IN, true);
-}
-PS_OUTPUT ps_main_ms(VS_OUTPUT IN)
-{
-  float d = QuadDepthTextureMS[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  return do_ps(d, IN, true);
-}
-PS_OUTPUT ps_main_depth(VS_OUTPUT IN)
-{
-  float d = QuadDepthTexture.Sample(QuadTextureSampler, IN.Tex1);
-  return do_ps(d, IN, false);
-}
-PS_OUTPUT ps_main_depth_ms(VS_OUTPUT IN)
-{
-  float d = QuadDepthTextureMS[uint2(IN.Tex1.x * width, IN.Tex1.y * height)].r;
-  return do_ps(d, IN, false);
-}
-
-PS_OUTPUT_COPY ps_main_copy(VS_OUTPUT IN)
+/* PS_OUTPUT_COPY ps_main_copy(VS_OUTPUT IN)
 {
   PS_OUTPUT_COPY result;
   result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
   return result;
-}
+} */
 
 //------------------------------------------------------------//
 )END";
@@ -476,23 +390,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     managed_binary<Texture_t>,
     bool,
     EVRSubmitFlags,
-    std::tuple<uintptr_t, float, float, int, bool>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >([=, &fnp](
     EVREye eEye,
     managed_binary<Texture_t> sharedTexture,
     bool flip,
     EVRSubmitFlags submitFlags,
-    std::tuple<uintptr_t, float, float, int, bool> depthSpec,
     std::tuple<uintptr_t, uintptr_t, uint64_t> fenceSpec
   ) {
     Texture_t *pTexture = sharedTexture.data();
-    uintptr_t sharedDepthHandlePtr = std::get<0>(depthSpec);
-    HANDLE sharedDepthHandle = (HANDLE)sharedDepthHandlePtr;
-    const float &zbx = std::get<1>(depthSpec);
-    const float &zby = std::get<2>(depthSpec);
-    const int &depthTexEye = std::get<3>(depthSpec);
-    const bool &isFullDepthTex = std::get<4>(depthSpec);
     DWORD clientProcessId = (DWORD)std::get<0>(fenceSpec);
     HANDLE clientFenceHandle = (HANDLE)std::get<1>(fenceSpec);
     uint64_t clientFenceValue = std::get<2>(fenceSpec);
@@ -510,15 +416,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       iter = inBackIndices.find(key);
 
       inBackTexs.resize(index+1, NULL);
-      // inBackInteropHandles.resize(index+1, NULL);
-      inBackDepthTexs.resize(index+1, NULL);
-      // inBackDepthReadEvents.resize(index+1, NULL);
-      // inBackDepthInteropHandles.resize(index+1, NULL);
-      shaderResourceViews.resize(index+1, std::tuple<ID3D11ShaderResourceView *, ID3D11ShaderResourceView *, bool>(nullptr, nullptr, false));
-      // inBackReadEvents.resize(index+1, NULL);
+      shaderResourceViews.resize(index+1, nullptr);
       inBackTextureFulls.resize(index+1, 0);
       inBackHandleLatches.resize(index+1, NULL);
-      inBackDepthHandleLatches.resize(index+1, NULL);
       inBackFences.resize(index+1, NULL);
     }
     
@@ -526,17 +426,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
     HANDLE sharedHandle = (HANDLE)pTexture->handle;
     ID3D11Texture2D *&shTexIn = inBackTexs[index]; // color texture
-    // HANDLE &shTexInInteropHandle = inBackInteropHandles[index]; // interop texture handle
-    ID3D11Texture2D *&shDepthTexIn = inBackDepthTexs[index]; // depth texture
-    // HANDLE &depthReadEvent = inBackDepthReadEvents[index]; // depth texture fence read event
-    // HANDLE &shDepthTexInInteropHandle = inBackDepthInteropHandles[index]; // interop depth texture handle
-    ID3D11ShaderResourceView *&shaderResourceView = std::get<0>(shaderResourceViews[index]);
-    ID3D11ShaderResourceView *&shaderDepthResourceView = std::get<1>(shaderResourceViews[index]);
-    bool &shaderDepthResourceViewIsMs = std::get<2>(shaderResourceViews[index]);
-    // HANDLE &readEvent = inBackReadEvents[index]; // interop texture handle
-    float &textureFull = inBackTextureFulls[index]; // depth texture is side-by-side
+    ID3D11ShaderResourceView *&shaderResourceView = shaderResourceViews[index]; // color srv
     HANDLE &handleLatched = inBackHandleLatches[index]; // remembered attachemnt
-    HANDLE &depthHandleLatched = inBackDepthHandleLatches[index]; // remembered depth attachemnt
     ID3D11Fence *&clientFence = inBackFences[index]; // remembered client fence
 
     // getOut() << "submit server 3" << std::endl;
@@ -621,80 +512,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
         }
       }
     }
-
-    if (depthHandleLatched != sharedDepthHandle) {
-      if (depthHandleLatched) {
-        // XXX delete old resources
-      }
-      depthHandleLatched = sharedDepthHandle;
-
-      if (sharedDepthHandle) {
-        {
-          ID3D11Resource *shDepthTexResource;
-          HRESULT hr = device->OpenSharedResource(sharedDepthHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
-
-          if (SUCCEEDED(hr)) {
-            hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTexIn));
-
-            if (SUCCEEDED(hr)) {
-              // nothing
-            } else {
-              getOut() << "failed to unpack shared depth texture: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
-              abort();
-            }
-          } else {
-            getOut() << "failed to unpack shared depth texture handle: " << (void *)hr << " " << (void *)sharedDepthHandle << std::endl;
-            abort();
-          }
-          shDepthTexResource->Release();
-        }
-        {
-          D3D11_TEXTURE2D_DESC desc;
-          shDepthTexIn->GetDesc(&desc);
-          getOut() << "shader resource view depth " <<
-            desc.Width << " " << desc.Height << " " <<
-            desc.MipLevels << " " << desc.ArraySize << " " <<
-            desc.SampleDesc.Count << " " << desc.SampleDesc.Quality << " " <<
-            desc.Format << " " <<
-            desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags <<
-            std::endl;
-
-          D3D11_SHADER_RESOURCE_VIEW_DESC shaderDepthResourceViewDesc{};
-          if (desc.Format == DXGI_FORMAT_R32G8X24_TYPELESS) {
-            shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R32_FLOAT_X8X24_TYPELESS;
-          } else if (desc.Format == DXGI_FORMAT_R24G8_TYPELESS) {
-            shaderDepthResourceViewDesc.Format = DXGI_FORMAT_R24_UNORM_X8_TYPELESS;
-          } else {
-            shaderDepthResourceViewDesc.Format = desc.Format;
-          }
-          shaderDepthResourceViewIsMs = desc.SampleDesc.Count > 1;
-          shaderDepthResourceViewDesc.ViewDimension = shaderDepthResourceViewIsMs ? D3D11_SRV_DIMENSION_TEXTURE2DMS : D3D11_SRV_DIMENSION_TEXTURE2D;
-          shaderDepthResourceViewDesc.Texture2D.MostDetailedMip = 0;
-          shaderDepthResourceViewDesc.Texture2D.MipLevels = 1;
-          HRESULT hr = device->CreateShaderResourceView(
-            shDepthTexIn,
-            // texResource,
-            &shaderDepthResourceViewDesc,
-            &shaderDepthResourceView
-          );
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to create depth shader resource view: " << (void *)hr << std::endl;
-            InfoQueueLog();
-            abort();
-          }
-          
-          // getOut() << "set texture full " << desc.Width << " " << width << std::endl;
-          textureFull = desc.Width > width ? 1 : 0;
-        }
-      } else {
-        getOut() << "shader resource view depth clear" << std::endl;
-
-        shaderDepthResourceView = nullptr;
-        textureFull = 0;
-      }
-    }
     
     if (!clientFence) {
       /* ID3D11Resource *fenceResource;
@@ -752,16 +569,12 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
       context->Wait(clientFence, clientFenceValue);
 
-      const bool &shaderDepthResourceViewIsMs = std::get<2>(shaderResourceViews[index]);
-      ID3D11ShaderResourceView *localShaderResourceViews[4] = {
-        std::get<0>(shaderResourceViews[index]),
-        shaderDepthResourceViewIsMs ? nullptr : std::get<1>(shaderResourceViews[index]),
-        shaderDepthResourceViewIsMs ? std::get<1>(shaderResourceViews[index]) : nullptr,
-        depthShaderFrontResourceViews[iEye]
+      ID3D11ShaderResourceView *localShaderResourceViews[1] = {
+        shaderResourceViews[index],
       };
       float localVsData[8] = {
         flip ? 1.0f : 0.0f,
-        isFullDepthTex ? (float)iEye : 0.0f,
+        0,
         0,
         0,
         0,
@@ -771,32 +584,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       };
       context->UpdateSubresource(vsConstantBuffers[0], 0, 0, localVsData, 0, 0);
 
-      // getOut() << "check fulls " << iEye << " " << index << " " << width << " " << height << " " << shaderDepthResourceViewIsMs << " " << textureFull << " " << isFullDepthTex << std::endl;
-
-      float localDepthColors[8] = {
-        zbx,
-        zby,
-        (index <= 1) ? 1 : 0,
-        0,
-        (index <= 1) ? 0 : 1,
-        1,
-        0,
-        0
-      };
-      context->UpdateSubresource(psConstantBuffers[1], 0, 0, localDepthColors, 0, 0);
-
       context->VSSetShader(vsShader, nullptr, 0);
-      if (!depthRenderEnabled) {
-        context->PSSetShader(shaderDepthResourceViewIsMs ? psMsShader : psShader, nullptr, 0);
-      } else {
-        context->PSSetShader(shaderDepthResourceViewIsMs ? psDepthMsShader : psDepthShader, nullptr, 0);
-      }
+      context->PSSetShader(psShader, nullptr, 0);
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViews), localShaderResourceViews);
       context->VSSetConstantBuffers(0, vsConstantBuffers.size(), vsConstantBuffers.data());
       context->PSSetConstantBuffers(0, psConstantBuffers.size(), psConstantBuffers.data());
-      ID3D11RenderTargetView *localRenderTargetViews[2] = {
+      ID3D11RenderTargetView *localRenderTargetViews[1] = {
         renderTargetViews[iEye],
-        renderTargetDepthBackViews[iEye]
       };
       context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViews), localRenderTargetViews, nullptr);
       D3D11_VIEWPORT viewport{
@@ -814,8 +608,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       context->PSSetShaderResources(0, ARRAYSIZE(localShaderResourceViewsClear), localShaderResourceViewsClear);
       ID3D11RenderTargetView *localRenderTargetViewsClear[ARRAYSIZE(localRenderTargetViews)] = {};
       context->OMSetRenderTargets(ARRAYSIZE(localRenderTargetViewsClear), localRenderTargetViewsClear, nullptr);
-
-      SwapDepthTex(iEye);
     }
 
     ++fenceValue;
@@ -881,21 +673,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
     if (submitCallbacks.size() > 0) {
       ID3D11Texture2D *colorTex = shTexOuts[0];
-      ID3D11RenderTargetView *depthRtv = renderTargetDepthFrontViews[0];
-      ID3D11Resource *depthRes;
-      depthRtv->GetResource(&depthRes);
-      ID3D11Texture2D *depthTex;
-      HRESULT hr = depthRes->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&depthTex);
-      if (FAILED(hr)) {
-        getOut() << "failed to query depth tex: " << (void *)hr << std::endl;
-      }
-
       for (auto &iter : submitCallbacks) {
-        iter(device.Get(), context.Get(), colorTex, depthTex);
+        iter(device.Get(), context.Get(), colorTex);
       }
-
-      depthRes->Release();
-      depthTex->Release();
     }
     // swapChain->Present(0, 0);
 
@@ -1329,15 +1109,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     memcpy(quaternion, newQuaternion.data(), sizeof(quaternion));
     memcpy(scale, newScale.data(), sizeof(scale));
 
-    return 0;
-  });
-  fnp.reg<
-    kIVRCompositor_SetDepthRenderEnabled,
-    int,
-    bool
-  >([=](bool enabled) {
-    getOut() << "set depth render enabled " << enabled << std::endl;
-    depthRenderEnabled = enabled;
     return 0;
   });
   fnp.reg<
@@ -1862,18 +1633,8 @@ EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTe
     // iter = inFrontIndices.find(key);
 
     inDxTexs.resize(index+1, NULL);
-    inDxDepthTexs.resize(index+1, NULL);
-    inDxDepthResolveTexs.resize(index+1, NULL);
-    inDxDepthResolveHandles.resize(index+1, NULL);
-    // inDxDepthTexs2.resize(index+1, NULL);
-    // inDxDepthTexs3.resize(index+1, NULL);
     inShDxShareHandles.resize(index+1, NULL);
-    inShDepthDxShareHandles.resize(index+1, NULL);
-    // inClientZBufferParams.resize(index+1, std::tuple<float, float, bool>{});
-    // inShDepthDxEventIndexes.resize(index+1, 0);
     inTexLatches.resize(index+1, NULL);
-    inDepthTexLatches.resize(index+1, NULL);
-    inDepthTexBoundsLatches.resize(index+1, VRTextureBounds_t{});
     interopTexs.resize(index+1, NULL);
     inReadInteropHandles.resize(index+1, NULL);
     // inReadEvents.resize(index+1, NULL);
@@ -1905,29 +1666,18 @@ EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTe
 
   HRESULT hr;
   ID3D11Texture2D *&shTex = inDxTexs[index]; // shared dx texture
-  ID3D11Texture2D *&shDepthTex = inDxDepthTexs[index]; // shared dx depth texture
-  ID3D11Texture2D *&shDepthResolveTex = inDxDepthResolveTexs[index]; // shared dx depth texture
-  HANDLE &shDepthResolveHandle = inDxDepthResolveHandles[index]; // shared dx depth handle
   /// ID3D11Texture2D *&shDepthTex2 = inDxDepthTexs2[index]; // shared dx depth texture 2
   // ID3D11Texture2D *&shDepthTex3 = inDxDepthTexs3[index]; // shared dx depth texture 3
   HANDLE &sharedHandle = inShDxShareHandles[index]; // dx interop handle
-  HANDLE &sharedDepthHandle = inShDepthDxShareHandles[index]; // dx depth interop handle
   // size_t &sharedDepthEventIndex = inShDepthDxEventIndexes[index]; // dx depth event index
   // HANDLE &readEvent = inReadEvents[index]; // fence event
   uintptr_t &textureLatched = inTexLatches[index]; // remembered attachemnt
-  uintptr_t &depthTextureLatched = inDepthTexLatches[index]; // remembered depth attachemnt
-  VRTextureBounds_t &depthTextureBoundsLatched = inDepthTexBoundsLatches[index]; // remembered depth bounds
 
-  std::tuple<float, float> clientZBufferParams{};
-  int clientEye = 0;
-  bool clientIsDepthFull = false;
-
-  if (textureLatched != (uintptr_t)pTexture->handle || depthTextureBoundsLatched != bounds) {
+  if (textureLatched != (uintptr_t)pTexture->handle) {
     if (textureLatched) {
       // XXX delete old resources
     }
     textureLatched = (uintptr_t)pTexture->handle;
-    depthTextureBoundsLatched = bounds;
 
     // compute rexture params
     D3D11_TEXTURE2D_DESC desc{};
@@ -2098,12 +1848,7 @@ EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTe
         // getOut() << "submit client 9" << std::endl;
 
         // getOut() << "succ 2 " << (void *)hr << " " << (void *)sharedHandle << std::endl;
-        if (SUCCEEDED(hr)) {
-          // getOut() << "submit client 10" << std::endl;
-          // shTexResource->Release();
-          // getOut() << "submit client 11" << std::endl;
-          // nothing
-        } else {
+        if (FAILED(hr) || !sharedHandle) {
           getOut() << "failed to get shared texture handle: " << (void *)hr << std::endl;
           abort();
         }
@@ -2133,48 +1878,6 @@ EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTe
   if (pTexture->eType == ETextureType::TextureType_DirectX) {
     // getOut() << "submit client 12" << std::endl;
     ID3D11Texture2D *tex = reinterpret_cast<ID3D11Texture2D *>(pTexture->handle);
-    ProxyTexture &depthProxyTexture = hijacker.getDepthTextureMatching(tex);
-    HANDLE &depthTexHandle = depthProxyTexture.texHandle;
-    const std::tuple<float, float> &localZBufferParams = depthProxyTexture.zBufferParams;
-    const int &localEye = depthProxyTexture.eye;
-    const bool &localIsDepthFull = depthProxyTexture.isFull;
-    // getOut() << "get matching depth tex " << (void *)depthTexHandle << " " << depthTexEventIndex << std::endl;
-    /* {
-      // getOut() << "get tex view" << std::endl;
-
-      ID3D11Device *device2;
-      ID3D11DeviceContext *context2;
-      tex->GetDevice(&device2);
-      device2->GetImmediateContext(&context2);
-      
-      ID3D11RenderTargetView *renderTargetViews[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
-      ID3D11DepthStencilView *depthStencilViews[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
-      context2->OMGetRenderTargets(ARRAYSIZE(renderTargetViews), renderTargetViews, depthStencilViews);
-
-      ID3D11Resource *depthResource;
-      depthStencilViews[0]->GetResource(&depthResource);
-      hr = depthResource->QueryInterface(__uuidof(ID3D11Texture2D), (void **)&depthTex);
-      if (SUCCEEDED(hr)) {
-        // getOut() << "got resource ok" << std::endl;
-      } else {
-        getOut() << "got resource fail" << std::endl;
-        abort();
-        // D3D11_RESOURCE_DIMENSION dimension;
-      }
-
-      // D3D11_TEXTURE2D_DESC desc;
-      // depthTex->GetDesc(&desc);
-      // getOut() << "got source depth desc " << desc.Width << " " << desc.Height << " " << desc.Format << " " << desc.Usage << " " << desc.BindFlags << " " << desc.CPUAccessFlags << " " << desc.MiscFlags << std::endl;
-      
-      // for (uint32_t i = 0; i < ARRAYSIZE(depthStencilViews); i++) {
-        // getOut() << "check depth " << i << " " << (void *)depthStencilViews[i] << std::endl;
-      // }
-
-      // D3D11_DEPTH_STENCIL_VIEW_DESC desc;
-      // depthStencilViews[0]->GetDesc(&desc);
-      // getOut() << "got desc " << desc.Format << " " << desc.ViewDimension << " " << desc.Flags << std::endl;
-    }
-    // getOut() << "got desc 2" << std::endl; */
 
     D3D11_BOX srcBox{
       width * uMin,
@@ -2194,137 +1897,6 @@ EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTe
       0,
       &srcBox
     );
-    if (depthTextureLatched != (uintptr_t)depthTexHandle) {
-      if (depthTextureLatched) {
-        // XXX delete old resources
-      }
-      depthTextureLatched = (uintptr_t)depthTexHandle;
-
-      /* {
-        ID3D11Resource *shDepthTexResource;
-        HRESULT hr = device->OpenSharedResource(depthTexHandle, __uuidof(ID3D11Resource), (void**)(&shDepthTexResource));
-
-        if (SUCCEEDED(hr)) {
-          hr = shDepthTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shDepthTex));
-
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to unpack shared depth texture: " << (void *)hr << " " << (void *)depthTexHandle << std::endl;
-            abort();
-          }
-        } else {
-          getOut() << "failed to unpack shared depth texture handle: " << (void *)hr << " " << (void *)depthTexHandle << std::endl;
-          abort();
-        }
-
-        shDepthTexResource->Release();
-      }
-
-      D3D11_TEXTURE2D_DESC depthDesc;
-      shDepthTex->GetDesc(&depthDesc);
-
-      getOut() << "shared depth tex flags " <<
-        depthDesc.Width << " " << depthDesc.Height << " " <<
-        depthDesc.MipLevels << " " << depthDesc.ArraySize << " " <<
-        depthDesc.SampleDesc.Count << " " << depthDesc.SampleDesc.Quality << " " <<
-        depthDesc.Format << " " <<
-        depthDesc.Usage << " " << depthDesc.BindFlags << " " << depthDesc.CPUAccessFlags << " " << depthDesc.MiscFlags <<
-        std::endl;
-
-      depthDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-
-      hr = device->CreateTexture2D(
-        &depthDesc,
-        NULL,
-        &shDepthResolveTex
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        getOut() << "failed to create shared depth resolve texture: " << (void *)hr << std::endl;
-        InfoQueueLog();
-        abort();
-      }
-
-      {
-        IDXGIResource1 *shDepthResolveTexResource;
-        hr = shDepthResolveTex->QueryInterface(__uuidof(IDXGIResource1), (void **)&shDepthResolveTexResource);
-
-        if (SUCCEEDED(hr)) {
-          hr = shDepthResolveTexResource->GetSharedHandle(&shDepthResolveHandle);
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to get shared depth resolve texture handle: " << (void *)hr << std::endl;
-            abort();
-          }
-        } else {
-          getOut() << "failed to get shared depth resolve texture: " << (void *)hr << std::endl;
-          abort();
-        }
-      } */
-    }
-    if (shDepthTex) {
-      /* getOut() << "copy depth tex resource " << (void *)depthTexHandle << std::endl;
-      context->CopyResource(
-        shDepthResolveTex,
-        shDepthTex
-      ); */
-    }
-
-    clientZBufferParams = localZBufferParams;
-    clientEye = localEye;
-    clientIsDepthFull = localIsDepthFull;
-
-    /* context->CopySubresourceRegion(
-      shDepthTex,
-      0,
-      0,
-      0,
-      0,
-      depthTex,
-      0,
-      &srcBox
-    );
-    context->ResolveSubresource(
-      shDepthTex2,
-      0,
-      depthTex,
-      0,
-      DXGI_FORMAT_D32_FLOAT_S8X24_UINT
-    );
-    context->CopyResource(
-      shDepthTex3,
-      shDepthTex2
-    );
-    // context->Flush();
-
-    D3D11_TEXTURE2D_DESC descDepth;
-    shDepthTex3->GetDesc(&descDepth);
-    
-    // getOut() << "copy resource " << uMin << " " << vMin << " " << uMax << " " << vMax << std::endl;
-
-    D3D11_MAPPED_SUBRESOURCE mappedResource;
-    UINT subresource = 0;//D3D11CalcSubresource(0, 0, 0);
-    hr = context->Map(shDepthTex3, subresource, D3D11_MAP_READ, 0, &mappedResource);
-    if (SUCCEEDED(hr)) {
-      // getOut() << "get tex data pointer " << (void *)mappedResource.pData << " " << mappedResource.RowPitch << std::endl;
-      float value = 0;
-      // uint32_t ticks = 0;
-      const uint32_t pixelSize = 4*2;
-      char *pData = (char *)mappedResource.pData;
-      for (uint32_t j = 0; j < descDepth.Height; j++) {
-        for (uint32_t i = 0; i < descDepth.Width; i++) {
-          value += *((float *)(pData + j*mappedResource.RowPitch + i*pixelSize));
-          // ticks++;
-        }
-      }
-      getOut() << "got value " << value << std::endl;
-    } else {
-      getOut() << "depth tex map failed " << (void *)hr << std::endl;
-    }
-    context->Unmap(shDepthTex3, subresource); */
   } else if (pTexture->eType == ETextureType::TextureType_OpenGL) {
     GLuint readTex = (GLuint)pTexture->handle;
     GLuint &interopTex = interopTexs[index];
@@ -2529,7 +2101,7 @@ EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTe
     1.0f, flip ? 0.0f : 1.0f
   }; */
 
-  getOut() << "client submit 1 " << flip << " " << std::get<0>(clientZBufferParams) << " " << std::get<1>(clientZBufferParams) << " " << clientEye << " " << clientIsDepthFull << std::endl;
+  getOut() << "client submit 1 " << flip << std::endl;
 
   auto result = fnp.call<
     kIVRCompositor_Submit,
@@ -2538,21 +2110,12 @@ EVRCompositorError PVRCompositor::SubmitFrame( EVREye eEye, const Texture_t *pTe
     managed_binary<Texture_t>,
     bool,
     EVRSubmitFlags,
-    std::tuple<uintptr_t, float, float, int, bool>,
     std::tuple<uintptr_t, uintptr_t, uint64_t>
   >(
     eEye,
     std::move(sharedTexture),
     flip,
     EVRSubmitFlags::Submit_Default,
-    std::tuple<uintptr_t, float, float, int, bool>(
-      // (uintptr_t)shDepthResolveHandle,
-      depthTextureLatched,
-      std::get<0>(clientZBufferParams),
-      std::get<1>(clientZBufferParams),
-      clientEye,
-      clientIsDepthFull
-    ),
     std::tuple<uintptr_t, uintptr_t, uint64_t>(
       (uintptr_t)GetCurrentProcessId(),
       (uintptr_t)fenceHandle,
@@ -2955,15 +2518,10 @@ void PVRCompositor::CacheWaitGetPoses() {
   }
 
   float color[4] = {0, 0, 0, 0};
-  float depthColor[4] = {1, 0, 0, 0};
   for (int i = 0; i < 2; i++) {
     context->ClearRenderTargetView(
       renderTargetViews[i],
       color
-    );
-    context->ClearRenderTargetView(
-      renderTargetDepthFrontViews[i],
-      depthColor
     );
   }
 }
@@ -3042,7 +2600,7 @@ void PVRCompositor::InitShader() {
   g_vrsystem->GetRecommendedRenderTargetSize(&width, &height);
   getOut() << "init render 3 " << width << " " << height << std::endl;
   vsConstantBuffers.resize(1);
-  psConstantBuffers.resize(2);
+  psConstantBuffers.resize(1);
   {
     D3D11_BUFFER_DESC cbDesc{};
     cbDesc.ByteWidth = 8 * sizeof(float);
@@ -3104,27 +2662,6 @@ void PVRCompositor::InitShader() {
     );
     if (FAILED(hr)) {
       getOut() << "main cbuf create failed: " << (void *)hr << std::endl;
-      abort();
-    }
-  }
-  {
-    D3D11_BUFFER_DESC cbDesc{};
-    cbDesc.ByteWidth = 8 * sizeof(float);
-    // cbDesc.Usage = D3D11_USAGE_DYNAMIC;
-    cbDesc.Usage = D3D11_USAGE_DEFAULT;
-    cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    // cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-    // cbDesc.MiscFlags = 0;
-    // cbDesc.StructureByteStride = 0;
-
-    // Create the buffer.
-    hr = device->CreateBuffer(
-      &cbDesc,
-      NULL, 
-      &psConstantBuffers[1]
-    );
-    if (FAILED(hr)) {
-      getOut() << "vs cbuf 1 create failed: " << (void *)hr << std::endl;
       abort();
     }
   }
@@ -3192,109 +2729,7 @@ void PVRCompositor::InitShader() {
     
     getOut() << "init render 7 2" << std::endl;
   }
-  {
-    ID3DBlob *errorBlob = nullptr;
-    hr = D3DCompile(
-      hlsl,
-      strlen(hlsl),
-      "ps.hlsl",
-      nullptr,
-      D3D_COMPILE_STANDARD_FILE_INCLUDE,
-      "ps_main_ms",
-      "ps_5_0",
-      D3DCOMPILE_ENABLE_STRICTNESS,
-      0,
-      &psMsBlob,
-      &errorBlob
-    );
-    getOut() << "init render 8 1" << std::endl;
-    if (FAILED(hr)) {
-      if (errorBlob != nullptr) {
-        getOut() << "ps ms compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
-        abort();
-      }
-    }
-    
-    getOut() << "init render 8 2" << std::endl;
-
-    ID3D11ClassLinkage *linkage = nullptr;
-    hr = device->CreatePixelShader(psMsBlob->GetBufferPointer(), psMsBlob->GetBufferSize(), linkage, &psMsShader);
-    if (FAILED(hr)) {
-      getOut() << "ps ms create failed: " << (void *)hr << std::endl;
-      abort();
-    }
-    
-    getOut() << "init render 8 3" << std::endl;
-  }
-  {
-    ID3DBlob *errorBlob = nullptr;
-    hr = D3DCompile(
-      hlsl,
-      strlen(hlsl),
-      "ps.hlsl",
-      nullptr,
-      D3D_COMPILE_STANDARD_FILE_INCLUDE,
-      "ps_main_depth",
-      "ps_5_0",
-      D3DCOMPILE_ENABLE_STRICTNESS,
-      0,
-      &psDepthBlob,
-      &errorBlob
-    );
-    getOut() << "init render 9 1" << std::endl;
-    if (FAILED(hr)) {
-      if (errorBlob != nullptr) {
-        getOut() << "ps depth compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
-        abort();
-      }
-    }
-    
-    getOut() << "init render 9 2" << std::endl;
-
-    ID3D11ClassLinkage *linkage = nullptr;
-    hr = device->CreatePixelShader(psDepthBlob->GetBufferPointer(), psDepthBlob->GetBufferSize(), linkage, &psDepthShader);
-    if (FAILED(hr)) {
-      getOut() << "ps depth create failed: " << (void *)hr << std::endl;
-      abort();
-    }
-    
-    getOut() << "init render 9 3" << std::endl;
-  }
-  {
-    ID3DBlob *errorBlob = nullptr;
-    hr = D3DCompile(
-      hlsl,
-      strlen(hlsl),
-      "ps.hlsl",
-      nullptr,
-      D3D_COMPILE_STANDARD_FILE_INCLUDE,
-      "ps_main_depth_ms",
-      "ps_5_0",
-      D3DCOMPILE_ENABLE_STRICTNESS,
-      0,
-      &psDepthMsBlob,
-      &errorBlob
-    );
-    getOut() << "init render 10 1" << std::endl;
-    if (FAILED(hr)) {
-      if (errorBlob != nullptr) {
-        getOut() << "ps depth ms compilation failed: " << (char*)errorBlob->GetBufferPointer() << std::endl;
-        abort();
-      }
-    }
-    
-    getOut() << "init render 10 2" << std::endl;
-
-    ID3D11ClassLinkage *linkage = nullptr;
-    hr = device->CreatePixelShader(psDepthMsBlob->GetBufferPointer(), psDepthMsBlob->GetBufferSize(), linkage, &psDepthMsShader);
-    if (FAILED(hr)) {
-      getOut() << "ps depth ms create failed: " << (void *)hr << std::endl;
-      abort();
-    }
-    
-    getOut() << "init render 10 3" << std::endl;
-  }
-  {
+  /* {
     ID3DBlob *errorBlob = nullptr;
     hr = D3DCompile(
       hlsl,
@@ -3325,7 +2760,7 @@ void PVRCompositor::InitShader() {
       getOut() << "ps create failed: " << (void *)hr << std::endl;
       abort();
     }
-  }
+  } */
   getOut() << "init render 12" << std::endl;
   {
     D3D11_INPUT_ELEMENT_DESC PositionTextureVertexLayout[] = {
@@ -3388,33 +2823,15 @@ void PVRCompositor::InitShader() {
   depthDesc.Usage = D3D11_USAGE_DEFAULT;
   depthDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 
-  D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDepthDesc{};
-  renderTargetViewDepthDesc.Format = DXGI_FORMAT_R32_FLOAT;
-  renderTargetViewDepthDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-  renderTargetViewDepthDesc.Texture2D.MipSlice = 0;
-
   D3D11_SHADER_RESOURCE_VIEW_DESC eyeSrv{};
   eyeSrv.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
   eyeSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
   eyeSrv.Texture2D.MostDetailedMip = 0;
   eyeSrv.Texture2D.MipLevels = 1;
 
-  D3D11_SHADER_RESOURCE_VIEW_DESC depthSrv{};
-  depthSrv.Format = DXGI_FORMAT_R32_FLOAT;
-  depthSrv.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-  depthSrv.Texture2D.MostDetailedMip = 0;
-  depthSrv.Texture2D.MipLevels = 1;
-
   shTexOuts.resize(2);
   shTexOutHandles.resize(2);
-  shDepthTexFrontOuts.resize(2);
-  shDepthTexBackOuts.resize(2);
   renderTargetViews.resize(2);
-  renderTargetDepthFrontViews.resize(2);
-  renderTargetDepthBackViews.resize(2);
-  eyeShaderResourceViews.resize(2);
-  depthShaderFrontResourceViews.resize(2);
-  depthShaderBackResourceViews.resize(2);
   for (int i = 0; i < 2; i++) {
     {
       hr = device->CreateTexture2D(
@@ -3466,120 +2883,7 @@ void PVRCompositor::InitShader() {
       
       shTexOutResource->Release();
     }
-    {
-      hr = device->CreateShaderResourceView(
-        shTexOuts[i],
-        &eyeSrv,
-        &eyeShaderResourceViews[i]
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        InfoQueueLog();
-        getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
-        abort();
-      }
-    }
-    {
-      hr = device->CreateTexture2D(
-        &depthDesc,
-        NULL,
-        &shDepthTexFrontOuts[i]
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        InfoQueueLog();
-        getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
-        abort();
-      }
-    }
-    {
-      hr = device->CreateRenderTargetView(
-        shDepthTexFrontOuts[i],
-        &renderTargetViewDepthDesc,
-        &renderTargetDepthFrontViews[i]
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        InfoQueueLog();
-        getOut() << "failed to create eye depth render target front view: " << (void *)hr << std::endl;
-        abort();
-      }
-    }
-    {
-      hr = device->CreateShaderResourceView(
-        shDepthTexFrontOuts[i],
-        &depthSrv,
-        &depthShaderFrontResourceViews[i]
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        InfoQueueLog();
-        getOut() << "failed to create eye depth shader resource front view: " << (void *)hr << std::endl;
-        abort();
-      }
-    }
-    {
-      hr = device->CreateTexture2D(
-        &depthDesc,
-        NULL,
-        &shDepthTexBackOuts[i]
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        InfoQueueLog();
-        getOut() << "failed to create eye depth texture: " << (void *)hr << std::endl;
-        abort();
-      }
-    }
-    {
-      hr = device->CreateRenderTargetView(
-        shDepthTexBackOuts[i],
-        &renderTargetViewDepthDesc,
-        &renderTargetDepthBackViews[i]
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        InfoQueueLog();
-        getOut() << "failed to create eye depth render target back view: " << (void *)hr << std::endl;
-        abort();
-      }
-    }
-    {
-      hr = device->CreateShaderResourceView(
-        shDepthTexBackOuts[i],
-        &depthSrv,
-        &depthShaderBackResourceViews[i]
-      );
-      if (SUCCEEDED(hr)) {
-        // nothing
-      } else {
-        InfoQueueLog();
-        getOut() << "failed to create eye depth shader resource back view: " << (void *)hr << std::endl;
-        abort();
-      }
-    }
   }
-}
-void PVRCompositor::SwapDepthTex(int iEye) {
-  float depthColor[4] = {1, 0, 0, 0};
-  context->ClearRenderTargetView(
-    renderTargetDepthFrontViews[iEye],
-    depthColor
-  );
-
-  auto temp1 = depthShaderFrontResourceViews[iEye];
-  depthShaderFrontResourceViews[iEye] = depthShaderBackResourceViews[iEye];
-  depthShaderBackResourceViews[iEye] = temp1;
-  
-  auto temp2 = renderTargetDepthFrontViews[iEye];
-  renderTargetDepthFrontViews[iEye] = renderTargetDepthBackViews[iEye];
-  renderTargetDepthBackViews[iEye] = temp2;
 }
 void PVRCompositor::InfoQueueLog() {
   if (infoQueue) {
@@ -3674,7 +2978,7 @@ void PVRCompositor::CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **
     adapter, // pAdapter
     D3D_DRIVER_TYPE_HARDWARE, // DriverType
     NULL, // Software
-    0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
+    D3D11_CREATE_DEVICE_DEBUG, // Flags
     featureLevels, // pFeatureLevels
     ARRAYSIZE(featureLevels), // FeatureLevels
     D3D11_SDK_VERSION, // SDKVersion

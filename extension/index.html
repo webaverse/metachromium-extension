@@ -58,7 +58,6 @@ a:active {
   </div>
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
-    <input type=button id=toggle-depth-button value="Depth turn ON">
     <input type=button id=toggle-qr-button value="QR turn ON">
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
@@ -182,13 +181,6 @@ window.addEventListener('load', () => {
   const toggleControlsButton = document.getElementById('toggle-controls-button');
   toggleControlsButton.addEventListener('click', async () => {
     await window.document.body.requestPointerLock();
-  });
-
-  let depthRenderOn = false;
-  const toggleDepthButton = document.getElementById('toggle-depth-button');
-  toggleDepthButton.addEventListener('click', async () => {
-    depthRenderOn = !depthRenderOn;
-    await xrc().request('setDepthRenderEnabled', [depthRenderOn]);
   });
 
   let qrEngineOn = false;
