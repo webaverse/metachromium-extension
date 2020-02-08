@@ -393,7 +393,7 @@ int WINAPI WinMain(
     std::string baseDir = cwdBuf;
     baseDir += R"EOF(\..\..\..\..\..)EOF";
 
-    std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension=..\..\..\..\..\..\extension --load-extension=..\..\..\..\..\..\metamask ..\..\..\..\..\..\extension\index.html)EOF";
+    std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\..\..\..\..\..\extension,..\..\..\..\..\..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --auto-select-desktop-capture-source="index.html - Chromium" ..\..\..\..\..\..\extension\index.html)EOF";
     std::vector<char> cmdVector(cmd.size() + 1);
     memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
 

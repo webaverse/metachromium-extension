@@ -55,21 +55,46 @@ chrome.runtime.onMessage.addListener(
     console.log('got req', request, sender, sendResponse);
     if (request && request.method && request.args) {
       const {method, args} = request;
-      port.postMessage({method, args});
-      cbs.push(msg => {
-        console.log('got proxy res', msg);
-        if (msg && msg.error !== undefined && msg.result !== undefined) {
-          sendResponse({
-            error: msg.error,
-            result: msg.result,
+      if (method === 'tabCapture') {
+        // const [u] = args;
+        // console.log('capture offscreen 1', u);
+        chrome.tabs.query({}, tabs => {
+          chrome.desktopCapture.chooseDesktopMedia(['window'], tabs[0], streamId => {
+            // e = streamId;
+            // console.log(e);
+            sendResponse({
+              error: null,
+              result: streamId,
+            });
           });
-        } else {
+        });
+        /* chrome.tabCapture.captureOffscreenTab(u, {
+          video: true,
+        }, mediaStream => {
+          const u = URL.createObjectURL(mediaStream);
+          console.log('capture offscreen 2', mediaStream, u);
           sendResponse({
-            error: 'internal error: ' + JSON.stringify(msg),
-            result: null,
+            error: null,
+            result: u,
           });
-        }
-      });
+        }); */
+      } else {
+        port.postMessage({method, args});
+        cbs.push(msg => {
+          console.log('got proxy res', msg);
+          if (msg && msg.error !== undefined && msg.result !== undefined) {
+            sendResponse({
+              error: msg.error,
+              result: msg.result,
+            });
+          } else {
+            sendResponse({
+              error: 'internal error: ' + JSON.stringify(msg),
+              result: null,
+            });
+          }
+        });
+      }
     } else {
       sendResponse({
         pong: true,

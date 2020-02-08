@@ -301,17 +301,17 @@ BOOL WINAPI DllMain(
     vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
     // vr::g_pqrengine = new QrEngine(vr::g_pvrcompositor, vr::g_vrsystem);
     
-    g_hijacker->hijackDxgi(hinstDLL);
-    g_hijacker->hijackGl();
+    /* g_hijacker->hijackDxgi(hinstDLL);
+    g_hijacker->hijackGl(); */
     
     std::vector<char> buf(4096);
     GetEnvironmentVariable("VR_OVERRIDE", buf.data(), buf.size());
 
     getOut() << "init dll " << moduleString << " " << buf.data() << std::endl;
   } else if (fdwReason == DLL_PROCESS_DETACH) {
-    g_hijacker->unhijackDxgi();
+    /* g_hijacker->unhijackDxgi();
     g_hijacker->unhijackDx();
-    g_hijacker->unhijackGl();
+    g_hijacker->unhijackGl(); */
 
     vr::g_pvrclientcore->Cleanup();
   }

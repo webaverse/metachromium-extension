@@ -59,6 +59,7 @@ a:active {
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
     <input type=button id=toggle-qr-button value="QR turn ON">
+    <input type=button id=tab-capture-button value="Tab capture">
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
   <img src="qr.png" width=200 height=200>
@@ -190,6 +191,32 @@ window.addEventListener('load', () => {
     await xrc().request('setQrEngineEnabled', [qrEngineOn]);
   });
 
+  const tabCaptureButton = document.getElementById('tab-capture-button');
+  tabCaptureButton.addEventListener('click', async () => {
+    const mediaStreamId = await xrc().request('tabCapture', []);
+    const mediaStream = await new Promise((accept, reject) => {
+      navigator.webkitGetUserMedia({
+        video: {
+          mandatory: {
+            chromeMediaSource: 'desktop',
+            chromeMediaSourceId: mediaStreamId,
+          },
+        },
+      }, accept, reject);
+    });
+    const video = document.createElement('video');
+    video.autoplay = true;
+    video.oncanplay = () => {
+      video.play();
+    };
+    video.srcObject = mediaStream;
+    // document.body.appendChild(video);
+    const texture = new THREE.VideoTexture(video);
+    planeMesh.material.map = texture;
+    planeMesh.material.needsUpdate = true;
+    // console.log('got media stream', mediaStream);
+  });
+
   const canvas2d = document.getElementById('canvas-2d');
   async function recurse() {
     velocity.set(0, 0, 0);
@@ -250,10 +277,10 @@ window.addEventListener('load', () => {
 
   const planeMesh = (() => {
     const geometry = new THREE.PlaneBufferGeometry(1, 1);
-    const uvs = geometry.attributes.uv.array;
+    /* const uvs = geometry.attributes.uv.array;
     for (let i = 0; i < uvs.length; i += 2) {
       uvs[i+1] = 1 - uvs[i+1];
-    }
+    } */
     const material = new THREE.MeshBasicMaterial({
       color: 0xFFFFFF,
       /* transparent: true,
@@ -312,7 +339,7 @@ window.addEventListener('load', () => {
     scene.add(grip);
   }
 
-  (async () => {
+  /* (async () => {
     const desc = await xrc().request('prepareBindSurface', []);
     if (desc) {
       console.log('got prepare bind surface', desc);
@@ -323,10 +350,6 @@ window.addEventListener('load', () => {
       // width++;
       // height++;
       const data = new Uint8Array(width * height * 4);
-      /* for (let i = 0; i < data.length; i += 4) {
-        data[i] = 255;
-        data[i+3] = 255;
-      } */
 
       planeMesh.material.map = new THREE.DataTexture(
         data,
@@ -350,7 +373,7 @@ window.addEventListener('load', () => {
     } else {
       console.warn('no surface to bind');
     }
-  })();
+  })(); */
 
   const qrMesh = (() => {
     const geometry = new THREE.PlaneBufferGeometry(1, 1);
