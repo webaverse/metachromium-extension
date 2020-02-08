@@ -2978,7 +2978,7 @@ void PVRCompositor::CreateDevice(ID3D11Device5 **device, ID3D11DeviceContext4 **
     adapter, // pAdapter
     D3D_DRIVER_TYPE_HARDWARE, // DriverType
     NULL, // Software
-    D3D11_CREATE_DEVICE_DEBUG, // Flags
+    0, // D3D11_CREATE_DEVICE_DEBUG, // Flags
     featureLevels, // pFeatureLevels
     ARRAYSIZE(featureLevels), // FeatureLevels
     D3D11_SDK_VERSION, // SDKVersion
