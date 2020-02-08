@@ -2728,6 +2728,26 @@ void PVRCompositor::InitShader() {
     
     getOut() << "init render 7 2" << std::endl;
   }
+  {
+    D3D11_BLEND_DESC omDesc{};
+    omDesc.RenderTarget[0].BlendEnable = true;
+    omDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+    omDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+    omDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+    omDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+    omDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+    omDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+    omDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+    ID3D11BlendState *d3dBlendState;
+    hr = device->CreateBlendState(&omDesc, &d3dBlendState);
+    if (FAILED(hr)) {
+      getOut() << "blend state create failed: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    context->OMSetBlendState(d3dBlendState, 0, 0xffffffff);
+  }
   /* {
     ID3DBlob *errorBlob = nullptr;
     hr = D3DCompile(
