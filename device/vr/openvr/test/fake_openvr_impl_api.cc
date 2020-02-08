@@ -312,6 +312,8 @@ BOOL WINAPI DllMain(
     /* g_hijacker->unhijackDxgi();
     g_hijacker->unhijackDx();
     g_hijacker->unhijackGl(); */
+
+    vr::g_pvrclientcore->Cleanup();
   }
   return true;
 }

@@ -24,7 +24,38 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     kIVRClientCore_Cleanup,
     int
   >([=]() {
-    // XXX
+    getOut() << "client core cleanup 1" << std::endl;
+
+    size_t remoteProcessId = fnp.remoteProcessId;
+    if (std::find(processIds.begin(), processIds.end(), remoteProcessId) != processIds.end()) {
+      processIds.erase(remoteProcessId);
+
+      {
+        auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), remoteProcessId);
+        if (iter != waitSemsOrder.end()) {
+          waitSemsOrder.erase(iter);
+        }
+      }
+      {
+        auto iter = std::find(unlockWaitSemsOrder.begin(), unlockWaitSemsOrder.end(), remoteProcessId);
+        if (iter != unlockWaitSemsOrder.end()) {
+          unlockWaitSemsOrder.erase(iter);
+        }
+      }
+      for (;;) {
+        auto iter = std::find(unlockSubmitSemsOrder.begin(), unlockSubmitSemsOrder.end(), remoteProcessId);
+        if (iter != unlockSubmitSemsOrder.end()) {
+          unlockSubmitSemsOrder.erase(iter);
+        } else {
+          break;
+        }
+      }
+
+      if (remoteProcessId == runningFrameProcessId) { // if we were currently dispatched, dispatch the next wait
+        TickWait(remoteProcessId);
+      }
+    }
+
     return 0;
   });
   fnp.reg<
@@ -33,44 +64,20 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
   >([=, &fnp]() {
     size_t remoteProcessId = fnp.remoteProcessId;
 
-    if (processIds.find(remoteProcessId) == processIds.end()) {
-      processIds.insert(remoteProcessId);
-    }
+    processIds.insert(remoteProcessId);
 
+    // add wait sem
     {
       auto iter = std::find(waitSemsOrder.begin(), waitSemsOrder.end(), remoteProcessId);
       if (iter == waitSemsOrder.end()) { // we were not already waiting 
         waitSemsOrder.push_back(remoteProcessId);
+      } else {
+        getOut() << "double wait for process id " << remoteProcessId << std::endl;
+        abort();
       }
     }
-    {
-      auto newEnd = std::remove_if(submitSemsOrder.begin(), submitSemsOrder.end(), [&](size_t id2) {
-        if (id2 == remoteProcessId) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-      submitSemsOrder.erase(newEnd, submitSemsOrder.end());
-    }
 
-    if (waitSemsOrder.size() >= processIds.size()) {
-      pvrcompositor->CacheWaitGetPoses();
-
-      unlockSemsOrder = std::move(waitSemsOrder);
-      waitSemsOrder.clear();
-    }
-    
-    if (unlockSemsOrder.size() > 0) {
-      size_t unlockProcessId = unlockSemsOrder.front();
-      unlockSemsOrder.pop_front();
-
-      Semaphore *sem = getLocalSemaphore(unlockProcessId);
-      sem->unlock();
-
-      submitSemsOrder.push_back(unlockProcessId);
-      submitSemsOrder.push_back(unlockProcessId);
-    }
+    TickWait(remoteProcessId);
 
     return remoteProcessId;
   });
@@ -79,20 +86,19 @@ PVRClientCore::PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp) :
     std::tuple<bool, bool>
   >([=, &fnp]() {
     size_t remoteProcessId = fnp.remoteProcessId;
-    auto iter = std::find(submitSemsOrder.begin(), submitSemsOrder.end(), remoteProcessId);
+    auto iter = std::find(unlockSubmitSemsOrder.begin(), unlockSubmitSemsOrder.end(), remoteProcessId);
     bool doQueueSubmit;
     bool doRealSubmit;
-    if (iter != submitSemsOrder.end()) {
-      submitSemsOrder.erase(iter);
+    if (iter != unlockSubmitSemsOrder.end()) {
+      unlockSubmitSemsOrder.erase(iter);
       doQueueSubmit = true;
-      doRealSubmit = unlockSemsOrder.size() == 0 && submitSemsOrder.size() == 0;
+      doRealSubmit = unlockWaitSemsOrder.size() == 0 && unlockSubmitSemsOrder.size() == 0;
     } else {
       doQueueSubmit = false;
       doRealSubmit = false;
     }
 
     return std::tuple<bool, bool>(
-      // nextSemId,
       doQueueSubmit,
       doRealSubmit
     );
@@ -122,8 +128,33 @@ void PVRClientCore::PreWaitGetPoses() {
 }
 void PVRClientCore::PreSubmit(bool *doQueueSubmit, bool *doRealSubmit) {
   auto result = fnp.call<kPVRClientCore_PreSubmit, std::tuple<bool, bool>>();
-
   *doQueueSubmit = std::get<0>(result);
   *doRealSubmit = std::get<1>(result);
+}
+void PVRClientCore::TickWait(size_t remoteProcessId) {
+  // if we are not running and everyone is queued up, trigger a new frame
+  if (unlockWaitSemsOrder.size() == 0 && waitSemsOrder.size() > 0 && waitSemsOrder.size() >= processIds.size()) {
+    pvrcompositor->CacheWaitGetPoses();
+
+    unlockWaitSemsOrder = std::move(waitSemsOrder);
+    waitSemsOrder.clear();
+    unlockSubmitSemsOrder.clear();
+  }
+
+  // dipatch next process in the frame
+  if (unlockWaitSemsOrder.size() > 0) {
+    size_t unlockProcessId = unlockWaitSemsOrder.front();
+    unlockWaitSemsOrder.pop_front();
+
+    Semaphore *sem = getLocalSemaphore(unlockProcessId);
+    sem->unlock();
+
+    unlockSubmitSemsOrder.push_back(unlockProcessId);
+    unlockSubmitSemsOrder.push_back(unlockProcessId);
+
+    runningFrameProcessId = remoteProcessId;
+  } else {
+    runningFrameProcessId = 0;
+  }
 }
 }

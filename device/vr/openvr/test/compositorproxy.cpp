@@ -693,9 +693,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_PostPresentHandoff,
     int
   >([=]() {
-    // getOut() << "post present handoff server 1" << std::endl;
-    vrcompositor->PostPresentHandoff();
-    // getOut() << "post present handoff server 2" << std::endl;
+    // XXX ignore client requests for post present handoff
+    // vrcompositor->PostPresentHandoff();
     return 0;
   });
   fnp.reg<
@@ -1620,26 +1619,14 @@ EVRCompositorError PVRCompositor::Submit(EVREye eEye, const Texture_t *pTexture,
   bool doQueueSubmit;
   bool doRealSubmit;
   g_pvrclientcore->PreSubmit(&doQueueSubmit, &doRealSubmit);
-  // getOut() << "compositor submit " << doQueueSubmit << " " << doRealSubmit << std::endl;
   if (doQueueSubmit) {
-    // getOut() << "submit 3.1" << std::endl;
     PrepareSubmit(pTexture);
-    // getOut() << "submit 4" << std::endl;
     VRCompositorError result = SubmitFrame(eEye, pTexture, pBounds, nSubmitFlags);
-    // getOut() << "submit 5" << std::endl;
     if (doRealSubmit) {
-      // getOut() << "submit 6" << std::endl;
       FlushSubmit();
-      // getOut() << "do real submit yes" << std::endl;
-      // g_pvrcompositor->PostPresentHandoff();
-    } else {
-      // getOut() << "do real submit no" << std::endl;
     }
-    // getOut() << "submit 3" << std::endl;
-    // g_pvrclientcore->PostSubmit();
     return result;
   } else {
-    // getOut() << "submit 3.2" << std::endl;
     return VRCompositorError::VRCompositorError_None;
   }
 }
@@ -2229,12 +2216,10 @@ void PVRCompositor::ClearLastSubmittedFrame() {
   >();
 }
 void PVRCompositor::PostPresentHandoff() {
-  // getOut() << "post present handoff client 1" << std::endl;
   fnp.call<
     kIVRCompositor_PostPresentHandoff,
     int
   >();
-  // getOut() << "post present handoff client 2" << std::endl;
 }
 bool PVRCompositor::GetFrameTiming( Compositor_FrameTiming *pTiming, uint32_t unFramesAgo ) {
   auto result = fnp.call<

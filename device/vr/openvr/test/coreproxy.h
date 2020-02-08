@@ -21,14 +21,12 @@ public:
   PVRCompositor *pvrcompositor;
   FnProxy &fnp;
 
-  // bool firstWait = true;
-  // Mutex mut;
   std::set<size_t> processIds;
+  size_t runningFrameProcessId = 0;
   std::deque<size_t> waitSemsOrder;
-  std::deque<size_t> unlockSemsOrder;
-  std::deque<size_t> submitSemsOrder;
+  std::deque<size_t> unlockWaitSemsOrder;
+  std::deque<size_t> unlockSubmitSemsOrder;
   std::map<size_t, Semaphore> localSems;
-  // bool rightEye;
 
   PVRClientCore(PVRCompositor *pvrcompositor, FnProxy &fnp);
   EVRInitError Init(EVRApplicationType eApplicationType, const char *pStartupInfo);
@@ -37,6 +35,7 @@ public:
     
   void PreWaitGetPoses();
   void PreSubmit(bool *doQueueSubmit, bool *doRealSubmit);
+  void TickWait(size_t remoteProcessId);
 };
 }
 
