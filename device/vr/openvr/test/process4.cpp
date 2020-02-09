@@ -312,6 +312,23 @@ int main(int argc, char **argv) {
               respond(res);
             } */
           } else if (
+            methodString == "getHwndFromTitle" &&
+            args.size() >= 1 && args[0].is_string()
+          ) {
+            const std::string &title = args[0].get<std::string>();
+            HWND hwnd = getHwndFromTitle(title);
+            uint32_t a = (uint32_t)(((uint64_t)hwnd & 0xFFFFFFFF00000000ull) >> 32);
+            uint32_t b = (uint32_t)((uint64_t)hwnd & 0x00000000FFFFFFFFull);
+
+            json array = json::array();
+            array.push_back(a);
+            array.push_back(b);
+            json res = {
+              {"error", nullptr},
+              {"result", array}
+            };
+            respond(res);
+          } else if (
             methodString == "sendMouse" &&
             args.size() >= 3 && args[0].is_number() && args[1].is_number() && args[2].is_number()
           ) {
