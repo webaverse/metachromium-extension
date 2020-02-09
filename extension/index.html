@@ -71,37 +71,6 @@ const _fakeXrChrome = {
 };
 const xrc = () => window.xrchrome ? window.xrchrome : _fakeXrChrome;
 
-window.addEventListener('xrchromeloaded', async () => {
-  const executables = await xrc().request('listSteamApps', []);
-  for (const exe of executables) {
-    const a = document.createElement('a');
-    a.setAttribute('src', `file://${exe}`);
-    a.innerHTML = exe;
-    a.addEventListener('click', async e => {
-      e.preventDefault();
-
-      const res = await xrc().request('launchApp', [
-        exe,
-      ]);
-      const {processId} = res;
-
-      {
-        const a2 = document.createElement('a');
-        a2.setAttribute('src', `file://${processId}`);
-        a2.innerHTML = processId + '';
-        a2.addEventListener('click', async e => {
-          e.preventDefault();
-
-          await xrc().request('killApp', [
-            processId,
-          ]);
-        });
-        document.getElementById('processes').appendChild(a2);
-      }
-    });
-    document.getElementById('apps').appendChild(a);
-  }
-});
 document.addEventListener('pointerlockchange', async e => {
   const isVr = !document.pointerLockElement;
   await xrc().request('setIsVr', [isVr]);
@@ -178,7 +147,40 @@ document.addEventListener('mousemove', async e => {
     ]);
   }
 });
-window.addEventListener('load', () => {
+window.addEventListener('xrload', async m => {
+  const {hwnd} = m.data;
+
+  const executables = await xrc().request('listSteamApps', []);
+  for (const exe of executables) {
+    const a = document.createElement('a');
+    a.setAttribute('src', `file://${exe}`);
+    a.innerHTML = exe;
+    a.addEventListener('click', async e => {
+      e.preventDefault();
+
+      const res = await xrc().request('launchApp', [
+        exe,
+      ]);
+      const {processId} = res;
+
+      {
+        const a2 = document.createElement('a');
+        a2.setAttribute('src', `file://${processId}`);
+        a2.innerHTML = processId + '';
+        a2.addEventListener('click', async e => {
+          e.preventDefault();
+
+          await xrc().request('killApp', [
+            processId,
+          ]);
+        });
+        document.getElementById('processes').appendChild(a2);
+      }
+    });
+    document.getElementById('apps').appendChild(a);
+  }
+  console.log('index load 2');
+
   const toggleControlsButton = document.getElementById('toggle-controls-button');
   toggleControlsButton.addEventListener('click', async () => {
     await window.document.body.requestPointerLock();
@@ -332,6 +334,7 @@ window.addEventListener('load', () => {
         x,
         y,
         type,
+        hwnd,
       ]).catch(console.warn);
     });
     grip.addEventListener('selectend', () => {
@@ -341,6 +344,7 @@ window.addEventListener('load', () => {
         x,
         y,
         type,
+        hwnd,
       ]).catch(console.warn);
     });
     grip.add(controllerMesh);
@@ -419,6 +423,7 @@ window.addEventListener('load', () => {
           x,
           y,
           type,
+          hwnd,
         ]).catch(console.warn);
         gripPoint.set(x, y);
       } else {
