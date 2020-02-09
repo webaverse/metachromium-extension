@@ -108,6 +108,17 @@ chrome.runtime.onMessage.addListener(
             result: u,
           });
         }); */
+      } else if (method === 'activate') {
+        chrome.tabs.query({}, tabs => {
+          chrome.processes.getProcessIdForTab(tabs[0].id, processId => {
+            chrome.processes.getProcessInfo(processId, false, pids => {
+              const pid = pids[processId].osProcessId;
+              console.log('activate', tabs, processId, pid);
+              args.push(pid);
+              proxyRequest(method, args, sendResponse);
+            });
+          });
+        });
       } else {
         proxyRequest(method, args, sendResponse);
       }
