@@ -287,7 +287,7 @@ int main(int argc, char **argv) {
               {"result", "ok"}
             };
             respond(res);
-          } else if (
+          /* } else if (
             methodString == "prepareBindSurface"
           ) {
             auto desc = g_fnp->call<
@@ -310,7 +310,7 @@ int main(int argc, char **argv) {
                 {"result", nullptr}
               };
               respond(res);
-            }
+            } */
           } else if (
             methodString == "sendMouse" &&
             args.size() >= 4 && args[0].is_number() && args[1].is_number() && args[2].is_number() && args[3].is_number()
