@@ -1,11 +1,13 @@
 #include <filesystem>
-#include <dcomp.h>
 
 #include "device/vr/openvr/test/out.h"
 #include "extension/json.hpp"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/qr.h"
+
+#include <psapi.h>
+#include <dcomp.h>
 
 using json = nlohmann::json;
 
@@ -470,6 +472,39 @@ int WINAPI WinMain(
     }).detach(); */
     std::thread([=]() -> void {
       WaitForSingleObject(chromeProcessHandle, INFINITE);
+
+      Sleep(500);
+
+      DWORD aProcesses[1024], cbNeeded, cProcesses;
+      if (EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded)) {
+        cProcesses = cbNeeded / sizeof(DWORD);
+
+        for (DWORD i = 0; i < cProcesses; i++) {
+          DWORD pid = aProcesses[i];
+          if (pid != 0) {
+            HANDLE h = OpenProcess(
+              PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
+              FALSE,
+              pid
+            );
+            if (h) {
+              char p[MAX_PATH];
+              if (GetModuleFileNameExA(h, 0, p, MAX_PATH)) {
+                if (strcmp(p, cwdBuf) == 0) {
+                  getOut() << "terminate chrome process " << p << " " << pid << std::endl;
+                  TerminateProcess(h, 0);
+                }
+              } else {
+                getOut() << "failed to get process file name: " << (void *)GetLastError() << std::endl;
+              }
+              CloseHandle(h);
+            }
+          }
+        }
+      } else {
+        getOut() << "failed to enum chrome processes" << std::endl;
+      }
+      
       PostMessage(g_hWnd, WM_DESTROY, 0, 0);
     }).detach();
   }
