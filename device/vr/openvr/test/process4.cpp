@@ -342,7 +342,7 @@ int main(int argc, char **argv) {
                 case 0: {
                   input.mi.dwFlags |= MOUSEEVENTF_MOVE;
                   SetCursorPos(input.mi.dx, input.mi.dy);
-                  SendInput(1, &input, sizeof(input));
+                  // SendInput(1, &input, sizeof(input));
                   break;
                 }
                 case 1: {
