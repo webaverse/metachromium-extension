@@ -178,7 +178,23 @@ document.addEventListener('mousemove', async e => {
     ]);
   }
 });
-window.addEventListener('load', () => {
+const getHWnd = async () => {
+  const oldTitle = document.title;
+  document.title = `XR Chrome ${Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)}`;
+  let hwnd = [0, 0];
+  while (hwnd[0] === 0 && hwnd[1] === 0) {
+    hwnd = await xrc().request('getHwndFromTitle', [title]);
+    await new Promise(accept => {
+      setTimeout(accept, 100);
+    });
+  }
+  document.title = oldTitle;
+  return hwnd;
+};
+window.addEventListener('load', async () => {
+  const hwnd = await getHWnd();
+  console.log('got hwnd', hwnd);
+
   const toggleControlsButton = document.getElementById('toggle-controls-button');
   toggleControlsButton.addEventListener('click', async () => {
     await window.document.body.requestPointerLock();
@@ -332,6 +348,7 @@ window.addEventListener('load', () => {
         x,
         y,
         type,
+        hwnd,
       ]).catch(console.warn);
     });
     grip.addEventListener('selectend', () => {
@@ -341,6 +358,7 @@ window.addEventListener('load', () => {
         x,
         y,
         type,
+        hwnd,
       ]).catch(console.warn);
     });
     grip.add(controllerMesh);
@@ -419,6 +437,7 @@ window.addEventListener('load', () => {
           x,
           y,
           type,
+          hwnd,
         ]).catch(console.warn);
         gripPoint.set(x, y);
       } else {
