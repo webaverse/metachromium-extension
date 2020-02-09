@@ -133,7 +133,6 @@ PS_OUTPUT ps_main_blit(VS_OUTPUT IN)
 ID3D11Device5 *hijackerDevice = nullptr;
 ID3D11DeviceContext4 *hijackerContext = nullptr;
 HANDLE hijackerInteropDevice = NULL;
-HWND chromeHwnd = NULL;
 
 // gl
 // front
@@ -521,50 +520,6 @@ void blitEyeView(ID3D11ShaderResourceView *eyeShaderResourceView) {
   hijackerContext->lpVtbl->Signal(hijackerContext, viewportFence, viewportFenceValue);
 }
 
-BOOL IsAltTabWindow(HWND hwnd)
-{
-    TITLEBARINFO ti;
-    HWND hwndTry, hwndWalk = NULL;
-
-    if(!IsWindowVisible(hwnd))
-        return FALSE;
-
-    hwndTry = GetAncestor(hwnd, GA_ROOTOWNER);
-    while(hwndTry != hwndWalk) 
-    {
-        hwndWalk = hwndTry;
-        hwndTry = GetLastActivePopup(hwndWalk);
-        if(IsWindowVisible(hwndTry)) 
-            break;
-    }
-    if(hwndWalk != hwnd)
-        return FALSE;
-
-    // the following removes some task tray programs and "Program Manager"
-    ti.cbSize = sizeof(ti);
-    GetTitleBarInfo(hwnd, &ti);
-    if(ti.rgstate[0] & STATE_SYSTEM_INVISIBLE)
-        return FALSE;
-
-    // Tool windows should not be displayed either, these do not appear in the
-    // task bar.
-    if(GetWindowLong(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)
-        return FALSE;
-
-    return TRUE;
-}
-BOOL CALLBACK enumWindowsProc(
-  __in  HWND hWnd,
-  __in  LPARAM lParam
-) {
-  if (IsAltTabWindow(hWnd)) {
-    *((HWND *)lParam) = hWnd;
-    return false;
-  } else {
-    return true;
-  }
-}
-
 ID3D11Resource *backbufferShRes = nullptr;
 HANDLE backbufferShHandle = NULL;
 D3D11_TEXTURE2D_DESC backbufferDesc{};
@@ -669,19 +624,12 @@ void presentSwapChain(T *swapChain) {
       backbufferShRes,
       res
     );
-    
-    if (!chromeHwnd) {
-      if (!EnumWindows(enumWindowsProc, (LPARAM)&chromeHwnd)) {
-        getOut() << "failed to enum windows: " << (void *)GetLastError() << std::endl;
-      }
-    }
 
     g_hijacker->fnp.call<
       kHijacker_RegisterSurface,
       int,
-      HANDLE,
-      HWND
-    >(backbufferShHandle, chromeHwnd);
+      HANDLE
+    >(backbufferShHandle);
     
     HANDLE shEyeTexHandle = g_hijacker->fnp.call<
       kHijacker_GetSharedEyeTexture,
@@ -905,7 +853,6 @@ HRESULT STDMETHODCALLTYPE MineCreateTargetForHwnd(
   IDCompositionTarget **target
 ) {
   getOut() << "RealCreateTargetForHwnd " << (void *)hwnd << std::endl;
-  chromeHwnd = hwnd;
   return RealCreateTargetForHwnd(This, hwnd, topmost, target);
 } */
 /* HRESULT (STDMETHODCALLTYPE *RealD3D11CreateDeviceAndSwapChain)(

@@ -177,6 +177,34 @@ const EVREye EYES[] = {
   Eye_Right,
 };
 
+class HwndSearchStruct {
+public:
+  DWORD pid;
+  HWND hwnd;
+};
+BOOL CALLBACK enumWindowsProc(
+  __in  HWND hwnd,
+  __in  LPARAM lParam
+) {
+  HwndSearchStruct &o = *((HwndSearchStruct *)lParam);
+  DWORD pid;
+  GetWindowThreadProcessId(hwnd, &pid);
+  if (o.pid == pid) {
+    o.hwnd = hwnd;
+    return false;
+  } else {
+    return true;
+  }
+}
+HWND getHwndFromPid(int pid) {
+  HwndSearchStruct o{
+    (DWORD)pid,
+    (HWND)NULL
+  };
+  EnumWindows(enumWindowsProc, (LPARAM)&o);
+  return o.hwnd;
+}
+
 /* void checkError(const char *label) {
   auto error = glGetError();
   if (error) {
@@ -993,9 +1021,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   fnp.reg<
     kIVRCompositor_RegisterSurface,
     int,
-    HANDLE,
-    HWND
-  >([=](HANDLE surfaceShHandle, HWND windowHandle) {
+    HANDLE
+  >([=](HANDLE surfaceShHandle) {
     auto iter = std::find(surfaceShHandles.begin(), surfaceShHandles.end(), surfaceShHandle);
     if (iter == surfaceShHandles.end()) {
       surfaceShHandles.push_back(surfaceShHandle);
@@ -1020,8 +1047,6 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       shTexResource->Release();
       shTex->Release();
     }
-
-    chromeHwnd = windowHandle;
     
     return 0;
   });
@@ -1096,39 +1121,48 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     int,
     float,
     float,
+    int,
     int
-  >([=](float x, float y, int type) {
-    BOOL result1 = SetForegroundWindow(chromeHwnd);
-
-    RECT rect;
-    BOOL result2 = GetWindowRect(chromeHwnd, &rect);
-
-    INPUT input{};
-    input.type = INPUT_MOUSE;
-    input.mi.dx = rect.left + (int)(x * (rect.right - rect.left));
-    input.mi.dy = rect.top + (int)(y * (rect.bottom - rect.top));
-    input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
-
-    // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
-
-    switch (type) {
-      case 0: {
-        input.mi.dwFlags |= MOUSEEVENTF_MOVE;
-        SetCursorPos(input.mi.dx, input.mi.dy);
-        break;
+  >([=](float x, float y, int type, int pid) {
+    if (pid != chromePid) {
+      chromeHwnd = getHwndFromPid(pid);
+    }
+    if (chromeHwnd) {
+      if (GetForegroundWindow() != chromeHwnd) {
+        BOOL result1 = SetForegroundWindow(chromeHwnd);
       }
-      case 1: {
-        input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
-        UINT result3 = SendInput(1, &input, sizeof(input));
-        break;
-      }
-      case 2: {
-        input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
-        UINT result3 = SendInput(1, &input, sizeof(input));
-        break;
-      }
-      default: {
-        break;
+
+      RECT rect;
+      BOOL result2 = GetWindowRect(chromeHwnd, &rect);
+
+      INPUT input{};
+      input.type = INPUT_MOUSE;
+      input.mi.dx = rect.left + (int)(x * (rect.right - rect.left));
+      input.mi.dy = rect.top + (int)(y * (rect.bottom - rect.top));
+      input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
+
+      // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
+
+      switch (type) {
+        case 0: {
+          input.mi.dwFlags |= MOUSEEVENTF_MOVE;
+          SetCursorPos(input.mi.dx, input.mi.dy);
+          UINT result3 = SendInput(1, &input, sizeof(input));
+          break;
+        }
+        case 1: {
+          input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
+          UINT result3 = SendInput(1, &input, sizeof(input));
+          break;
+        }
+        case 2: {
+          input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
+          UINT result3 = SendInput(1, &input, sizeof(input));
+          break;
+        }
+        default: {
+          break;
+        }
       }
     }
 

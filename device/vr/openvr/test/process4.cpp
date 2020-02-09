@@ -270,18 +270,20 @@ int main(int argc, char **argv) {
             }
           } else if (
             methodString == "sendMouse" &&
-            args.size() >= 3 && args[0].is_number() && args[1].is_number() && args[2].is_number()
+            args.size() >= 3 && args[0].is_number() && args[1].is_number() && args[2].is_number() && args[3].is_number()
           ) {
             float x = args[0].get<float>();
             float y = args[1].get<float>();
             int type = args[2].get<int>();
+            int pid = args[3].get<int>();
             g_fnp->call<
               kProcess_SendMouse,
               int,
               float,
               float,
+              int,
               int
-            >(x, y, type);
+            >(x, y, type, pid);
 
             json res = {
               {"error", nullptr},
