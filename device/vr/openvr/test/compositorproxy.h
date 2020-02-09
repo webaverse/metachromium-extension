@@ -35,6 +35,7 @@ public:
   uint32_t width = 0;
   uint32_t height = 0;
   HWND hWnd = NULL;
+  DWORD chromePid = 0;
   HWND chromeHwnd = NULL;
 
   // controls

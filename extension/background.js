@@ -47,12 +47,29 @@ port.onDisconnect.addListener(() => {
 });
 // port.postMessage({ text: "Hello, my_application" });
 
+function proxyRequest(method, args, sendResponse) {
+  port.postMessage({method, args});
+  cbs.push(msg => {
+    console.log('got proxy res', msg);
+    if (msg && msg.error !== undefined && msg.result !== undefined) {
+      sendResponse({
+        error: msg.error,
+        result: msg.result,
+      });
+    } else {
+      sendResponse({
+        error: 'internal error: ' + JSON.stringify(msg),
+        result: null,
+      });
+    }
+  });
+}
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     /* console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension"); */
-    console.log('got req', request, sender, sendResponse);
+      "from a content script:" + sender.tab.url :
+      "from the extension"); */
     if (request && request.method && request.args) {
       const {method, args} = request;
       if (method === 'tabCapture') {
@@ -68,32 +85,8 @@ chrome.runtime.onMessage.addListener(
             });
           });
         });
-        /* chrome.tabCapture.captureOffscreenTab(u, {
-          video: true,
-        }, mediaStream => {
-          const u = URL.createObjectURL(mediaStream);
-          console.log('capture offscreen 2', mediaStream, u);
-          sendResponse({
-            error: null,
-            result: u,
-          });
-        }); */
       } else {
-        port.postMessage({method, args});
-        cbs.push(msg => {
-          console.log('got proxy res', msg);
-          if (msg && msg.error !== undefined && msg.result !== undefined) {
-            sendResponse({
-              error: msg.error,
-              result: msg.result,
-            });
-          } else {
-            sendResponse({
-              error: 'internal error: ' + JSON.stringify(msg),
-              result: null,
-            });
-          }
-        });
+        proxyRequest(method, args, sendResponse);
       }
     } else {
       sendResponse({

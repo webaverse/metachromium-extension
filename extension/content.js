@@ -37,8 +37,17 @@ window.addEventListener('message', m => {
     }
   }
 });
-
-window.dispatchEvent(new MessageEvent('xrchromeloaded'));
+window.addEventListener('load', async () => {
+  window.dispatchEvent(new MessageEvent('xrchromeloaded'));
+  const _keydown = e => {
+    if (e.ctrlKey && e.which === 17) {
+      window.removeEventListener('keydown', _keydown);
+      navigator.xr.dispatchEvent(new MessageEvent('activate'));
+    }
+  };
+  window.addEventListener('keydown', _keydown);
+  await window.xrchrome.request('activate', []);
+});
 
 /* window.xrchrome.request('test', [])
   .then(res => {
