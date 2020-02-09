@@ -66,7 +66,7 @@ window.addEventListener('load', async () => {
     }
   };
   window.addEventListener('keydown', _keydown);
-  await window.xrchrome.request('activate', []);
+  await window.xrchrome.request('activate', [hwnd]);
 });
 
 /* window.xrchrome.request('test', [])
