@@ -483,19 +483,16 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
 
       {
         ID3D11Resource *shTexResource;
-        HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)(&shTexResource));
+        HRESULT hr = device->OpenSharedResource(sharedHandle, __uuidof(ID3D11Resource), (void**)&shTexResource);
 
-        if (SUCCEEDED(hr)) {
-          hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)(&shTexIn));
-          
-          if (SUCCEEDED(hr)) {
-            // nothing
-          } else {
-            getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
-            abort();
-          }
-        } else {
+        if (FAILED(hr)) {
           getOut() << "failed to unpack shared texture handle: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
+          abort();
+        }
+
+        hr = shTexResource->QueryInterface(__uuidof(ID3D11Texture2D), (void**)&shTexIn);        
+        if (FAILED(hr)) {
+          getOut() << "failed to unpack shared texture: " << (void *)hr << " " << (void *)sharedHandle << std::endl;
           abort();
         }
 
