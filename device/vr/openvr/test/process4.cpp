@@ -317,7 +317,7 @@ int main(int argc, char **argv) {
           ) {
             const std::string &title = args[0].get<std::string>();
             HWND hwnd = getHwndFromTitle(title);
-            uint32_t a = (uint32_t)(((uint64_t)hwnd & 0xFFFFFFFF00000000ull) >> 32);
+            uint32_t a = (uint32_t)(((uint64_t)hwnd & 0xFFFFFFFF00000000ull) >> 32ull);
             uint32_t b = (uint32_t)((uint64_t)hwnd & 0x00000000FFFFFFFFull);
 
             json array = json::array();
@@ -330,54 +330,50 @@ int main(int argc, char **argv) {
             respond(res);
           } else if (
             methodString == "sendMouse" &&
-            args.size() >= 3 && args[0].is_number() && args[1].is_number() && args[2].is_number()
+            args.size() >= 4 &&
+            args[0].is_number() && args[1].is_number() && args[2].is_number() &&
+            args[3].is_array() && args[3].size() == 2 && args[3][0].is_number() && args[3][1].is_number()
           ) {
             float x = args[0].get<float>();
             float y = args[1].get<float>();
             int type = args[2].get<int>();
-            
-            // if (pid != chromePid) {
-              chromeHwnd = getHwndFromTitle("index.html - Chromium");
-            // }
-            if (chromeHwnd) {
-              if (GetForegroundWindow() != chromeHwnd) {
-                SetForegroundWindow(chromeHwnd);
+            HWND hwnd = (HWND)(((uint64_t)args[3][0].get<uint32_t>() << 32ull) | (uint64_t)args[3][1].get<uint32_t>());
+
+            if (GetForegroundWindow() != hwnd) {
+              SetForegroundWindow(hwnd);
+            }
+
+            RECT rect;
+            GetWindowRect(hwnd, &rect);
+
+            INPUT input{};
+            input.type = INPUT_MOUSE;
+            input.mi.dx = rect.left + (int)(x * (rect.right - rect.left));
+            input.mi.dy = rect.top + (int)(y * (rect.bottom - rect.top));
+            input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
+
+            // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
+
+            switch (type) {
+              case 0: {
+                input.mi.dwFlags |= MOUSEEVENTF_MOVE;
+                SetCursorPos(input.mi.dx, input.mi.dy);
+                // SendInput(1, &input, sizeof(input));
+                break;
               }
-
-              RECT rect;
-              GetWindowRect(chromeHwnd, &rect);
-
-              INPUT input{};
-              input.type = INPUT_MOUSE;
-              input.mi.dx = rect.left + (int)(x * (rect.right - rect.left));
-              input.mi.dy = rect.top + (int)(y * (rect.bottom - rect.top));
-              input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
-
-              // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
-
-              switch (type) {
-                case 0: {
-                  input.mi.dwFlags |= MOUSEEVENTF_MOVE;
-                  SetCursorPos(input.mi.dx, input.mi.dy);
-                  // SendInput(1, &input, sizeof(input));
-                  break;
-                }
-                case 1: {
-                  input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
-                  SendInput(1, &input, sizeof(input));
-                  break;
-                }
-                case 2: {
-                  input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
-                  SendInput(1, &input, sizeof(input));
-                  break;
-                }
-                default: {
-                  break;
-                }
+              case 1: {
+                input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
+                SendInput(1, &input, sizeof(input));
+                break;
               }
-            } else {
-              getOut() << "chrome window not found" << std::endl;
+              case 2: {
+                input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
+                SendInput(1, &input, sizeof(input));
+                break;
+              }
+              default: {
+                break;
+              }
             }
 
             json res = {
@@ -403,46 +399,41 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
-            methodString == "activate"
+            methodString == "activate" &&
+            args.size() >= 1 && args[0].is_array() &&
+            args[0].size() == 2 && args[0][1].is_number() && args[0][2].is_number()
           ) {
-            // if (pid != chromePid) {
-              chromeHwnd = getHwndFromTitle("index.html - Chromium");
-            // }
-            getOut() << "activate 1 " << chromeHwnd << std::endl;
-            if (chromeHwnd) {
-              HWND oldHwnd = GetForegroundWindow();
-              if (oldHwnd != chromeHwnd) {
-                SetForegroundWindow(chromeHwnd);
-              }
+            HWND hwnd = (HWND)(((uint64_t)args[0][0].get<uint32_t>() << 32ull) | (uint64_t)args[0][1].get<uint32_t>());
+            HWND oldHwnd = GetForegroundWindow();
+            if (oldHwnd != hwnd) {
+              SetForegroundWindow(hwnd);
+            }
 
-              HKL keyboardLayout = LoadKeyboardLayoutA("00000409", KLF_ACTIVATE);
-              {
-                INPUT input{};
-                input.type = INPUT_KEYBOARD;
-                input.ki.wVk = VK_TAB;
-                input.ki.wScan = MapVirtualKeyExA(input.ki.wVk, MAPVK_VK_TO_VSC, keyboardLayout);
-                for (int i = 0; i < 3; i++) {
-                  input.ki.dwFlags = 0;
-                  SendInput(1, &input, sizeof(input));
-                  input.ki.dwFlags = KEYEVENTF_KEYUP;
-                  SendInput(1, &input, sizeof(input));
-                }
-              }
-              {
-                INPUT input{};
-                input.type = INPUT_KEYBOARD;
-                input.ki.wVk = VK_CONTROL;
-                input.ki.wScan = MapVirtualKeyExA(input.ki.wVk, MAPVK_VK_TO_VSC, keyboardLayout);
+            HKL keyboardLayout = LoadKeyboardLayoutA("00000409", KLF_ACTIVATE);
+            {
+              INPUT input{};
+              input.type = INPUT_KEYBOARD;
+              input.ki.wVk = VK_TAB;
+              input.ki.wScan = MapVirtualKeyExA(input.ki.wVk, MAPVK_VK_TO_VSC, keyboardLayout);
+              for (int i = 0; i < 3; i++) {
                 input.ki.dwFlags = 0;
                 SendInput(1, &input, sizeof(input));
                 input.ki.dwFlags = KEYEVENTF_KEYUP;
                 SendInput(1, &input, sizeof(input));
               }
-              if (oldHwnd != chromeHwnd) {
-                SetForegroundWindow(oldHwnd);
-              }
-            } else {
-              getOut() << "chrome window not found" << std::endl;
+            }
+            {
+              INPUT input{};
+              input.type = INPUT_KEYBOARD;
+              input.ki.wVk = VK_CONTROL;
+              input.ki.wScan = MapVirtualKeyExA(input.ki.wVk, MAPVK_VK_TO_VSC, keyboardLayout);
+              input.ki.dwFlags = 0;
+              SendInput(1, &input, sizeof(input));
+              input.ki.dwFlags = KEYEVENTF_KEYUP;
+              SendInput(1, &input, sizeof(input));
+            }
+            if (oldHwnd != chromeHwnd) {
+              SetForegroundWindow(oldHwnd);
             }
 
             json res = {
