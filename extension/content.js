@@ -40,9 +40,10 @@ window.addEventListener('message', m => {
 const getHWnd = async () => {
   const oldTitle = document.title;
   document.title = `Metachromium ${Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)}`;
+  const title = document.title + ' - Chromium';
   let hwnd = [0, 0];
   while (hwnd[0] === 0 && hwnd[1] === 0) {
-    hwnd = await xrc().request('getHwndFromTitle', [document.title]);
+    hwnd = await window.xrchrome.request('getHwndFromTitle', [title]);
     await new Promise(accept => {
       setTimeout(accept, 100);
     });
