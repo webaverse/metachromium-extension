@@ -100,17 +100,10 @@ window.addEventListener('load', () => {
       currentSession = null;
     }
     
-    console.log('listen 1');
-    const _keydown = e => {
-      console.log('index got keydown', e.ctrlKey, e.which);
-      if (e.ctrlKey && e.which === 17) {
-        console.log('index got key');
-        // window.removeEventListener('keydown', _keydown);
-        const sessionInit = {optionalFeatures: ['local-floor', 'bounded-floor']};
-        navigator.xr.requestSession('immersive-vr', sessionInit ).then( onSessionStarted);
-      }
-    };
-    window.addEventListener('keydown', _keydown);
+    navigator.xr.addEventListener('activate', () => {
+      const sessionInit = {optionalFeatures: ['local-floor', 'bounded-floor']};
+      navigator.xr.requestSession('immersive-vr', sessionInit ).then( onSessionStarted);
+    }, {once: true});
   }
 });
 

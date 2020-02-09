@@ -44,7 +44,7 @@ window.addEventListener('load', async () => {
     console.log('got keydown', e.ctrlKey, e.which);
     if (e.ctrlKey && e.which === 17) {
       console.log('emit 1');
-      // window.removeEventListener('keydown', _keydown);
+      window.removeEventListener('keydown', _keydown);
       navigator.xr.dispatchEvent(new MessageEvent('activate'));
       console.log('emit 2');
     }
