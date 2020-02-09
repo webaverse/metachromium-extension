@@ -385,6 +385,55 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
+            methodString == "activate" &&
+            args.size() >= 1 && args[0].is_number()
+          ) {
+            DWORD pid = (DWORD)args[0].get<int>();
+            
+            // if (pid != chromePid) {
+              chromeHwnd = getHwndFromTitle("index.html - Chromium");
+            // }
+            getOut() << "activate 1 " << (void *)pid << " " << chromePid << " " << chromeHwnd << std::endl;
+            if (chromeHwnd) {
+              HWND oldHwnd = GetForegroundWindow();
+              if (oldHwnd != chromeHwnd) {
+                SetForegroundWindow(chromeHwnd);
+              }
+
+              HKL keyboardLayout = LoadKeyboardLayoutA("00000409", KLF_ACTIVATE);
+              {
+                INPUT input{};
+                input.type = INPUT_KEYBOARD;
+                input.ki.wVk = VK_TAB;
+                input.ki.wScan = MapVirtualKeyExA(input.ki.wVk, MAPVK_VK_TO_VSC, keyboardLayout);
+                for (int i = 0; i < 3; i++) {
+                  input.ki.dwFlags = 0;
+                  SendInput(1, &input, sizeof(input));
+                  input.ki.dwFlags = KEYEVENTF_KEYUP;
+                  SendInput(1, &input, sizeof(input));
+                }
+              }
+              {
+                INPUT input{};
+                input.type = INPUT_KEYBOARD;
+                input.ki.wVk = VK_CONTROL;
+                input.ki.wScan = MapVirtualKeyExA(input.ki.wVk, MAPVK_VK_TO_VSC, keyboardLayout);
+                input.ki.dwFlags = 0;
+                SendInput(1, &input, sizeof(input));
+                input.ki.dwFlags = KEYEVENTF_KEYUP;
+                SendInput(1, &input, sizeof(input));
+              }
+              if (oldHwnd != chromeHwnd) {
+                SetForegroundWindow(oldHwnd);
+              }
+            }
+
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
+          } else if (
             methodString == "getQrCodes"
           ) {
             auto qrCode = g_fnp->call<
