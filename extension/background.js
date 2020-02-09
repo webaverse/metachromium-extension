@@ -47,6 +47,24 @@ port.onDisconnect.addListener(() => {
 });
 // port.postMessage({ text: "Hello, my_application" });
 
+function proxyRequest(method, args) {
+  port.postMessage({method, args});
+  cbs.push(msg => {
+    console.log('got proxy res', msg);
+    if (msg && msg.error !== undefined && msg.result !== undefined) {
+      sendResponse({
+        error: msg.error,
+        result: msg.result,
+      });
+    } else {
+      sendResponse({
+        error: 'internal error: ' + JSON.stringify(msg),
+        result: null,
+      });
+    }
+  });
+}
+
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     /* console.log(sender.tab ?
@@ -78,22 +96,28 @@ chrome.runtime.onMessage.addListener(
             result: u,
           });
         }); */
-      } else {
-        port.postMessage({method, args});
-        cbs.push(msg => {
-          console.log('got proxy res', msg);
-          if (msg && msg.error !== undefined && msg.result !== undefined) {
-            sendResponse({
-              error: msg.error,
-              result: msg.result,
-            });
-          } else {
-            sendResponse({
-              error: 'internal error: ' + JSON.stringify(msg),
-              result: null,
-            });
-          }
+      } else if (method === 'sendMouse') {
+        // const [u] = args;
+        // console.log('capture offscreen 1', u);
+        chrome.tabs.query({}, tabs => {
+          chrome.processes.getProcessIdForTab(tabs[0].id, processId => {
+            args.push(processId);
+            proxyRequest(method, args);
+          });
+          chrome.desktopCapture.chooseDesktopMedia(['window'], tabs[0], streamId => {
         });
+        /* chrome.tabCapture.captureOffscreenTab(u, {
+          video: true,
+        }, mediaStream => {
+          const u = URL.createObjectURL(mediaStream);
+          console.log('capture offscreen 2', mediaStream, u);
+          sendResponse({
+            error: null,
+            result: u,
+          });
+        }); */
+      } else {
+        proxyRequest(method, args)
       }
     } else {
       sendResponse({
