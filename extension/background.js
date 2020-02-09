@@ -85,39 +85,6 @@ chrome.runtime.onMessage.addListener(
             });
           });
         });
-      } else if (method === 'sendMouse') {
-        // const [u] = args;
-        // console.log('capture offscreen 1', u);
-        chrome.tabs.query({}, tabs => {
-          chrome.processes.getProcessIdForTab(tabs[0].id, processId => {
-            chrome.processes.getProcessInfo(processId, false, pids => {
-              const pid = pids[processId].osProcessId;
-              args.push(pid);
-              proxyRequest(method, args, sendResponse);
-            });
-          });
-        });
-        /* chrome.tabCapture.captureOffscreenTab(u, {
-          video: true,
-        }, mediaStream => {
-          const u = URL.createObjectURL(mediaStream);
-          console.log('capture offscreen 2', mediaStream, u);
-          sendResponse({
-            error: null,
-            result: u,
-          });
-        }); */
-      } else if (method === 'activate') {
-        chrome.tabs.query({}, tabs => {
-          chrome.processes.getProcessIdForTab(tabs[0].id, processId => {
-            chrome.processes.getProcessInfo(processId, false, pids => {
-              const pid = pids[processId].osProcessId;
-              console.log('activate', tabs, processId, pid);
-              args.push(pid);
-              proxyRequest(method, args, sendResponse);
-            });
-          });
-        });
       } else {
         proxyRequest(method, args, sendResponse);
       }
