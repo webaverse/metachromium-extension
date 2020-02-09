@@ -73,18 +73,17 @@ chrome.runtime.onMessage.addListener(
     if (request && request.method && request.args) {
       const {method, args} = request;
       if (method === 'tabCapture') {
-        // const [u] = args;
-        // console.log('capture offscreen 1', u);
-        chrome.tabs.query({}, tabs => {
-          chrome.desktopCapture.chooseDesktopMedia(['window'], tabs[0], streamId => {
-            // e = streamId;
-            // console.log(e);
+        (async () => {
+          await new Promise(accept => { // XXX this can be a native wait
+            setTimeout(accept, 500);
+          });
+          chrome.desktopCapture.chooseDesktopMedia(['window'], sender.tab, streamId => {
             sendResponse({
               error: null,
               result: streamId,
             });
           });
-        });
+        })().catch(console.warn);
       } else {
         proxyRequest(method, args, sendResponse);
       }

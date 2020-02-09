@@ -3,6 +3,15 @@ const callbacks = {};
 window.xrchrome = {
   async request(method, args) {
     const id = ++ids;
+    
+    let post;
+    if (method === 'tabCapture') {
+      const oldTitle = document.title;
+      document.title = 'Metachromium Share';
+      post = () => {
+        document.title = oldTitle;
+      };
+    }
 
     postMessage({
       _xrcreq: true,
@@ -17,6 +26,8 @@ window.xrchrome = {
       reject = r;
     });
     callbacks[id] = (error, result) => {
+      post && post();
+
       if (!error) {
         accept(result);
       } else {
@@ -27,7 +38,6 @@ window.xrchrome = {
   }
 };
 window.addEventListener('message', m => {
-  // console.log('content script got message', m);
   if (m.data && m.data._xrcres) {
     const {id, error, result} = m.data;
     const cb = callbacks[id];
