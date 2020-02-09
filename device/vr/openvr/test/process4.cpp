@@ -313,12 +313,11 @@ int main(int argc, char **argv) {
             } */
           } else if (
             methodString == "sendMouse" &&
-            args.size() >= 4 && args[0].is_number() && args[1].is_number() && args[2].is_number() && args[3].is_number()
+            args.size() >= 3 && args[0].is_number() && args[1].is_number() && args[2].is_number()
           ) {
             float x = args[0].get<float>();
             float y = args[1].get<float>();
             int type = args[2].get<int>();
-            DWORD pid = (DWORD)args[3].get<int>();
             
             // if (pid != chromePid) {
               chromeHwnd = getHwndFromTitle("index.html - Chromium");
@@ -360,6 +359,8 @@ int main(int argc, char **argv) {
                   break;
                 }
               }
+            } else {
+              getOut() << "chrome window not found" << std::endl;
             }
 
             json res = {
@@ -385,15 +386,12 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
-            methodString == "activate" &&
-            args.size() >= 1 && args[0].is_number()
+            methodString == "activate"
           ) {
-            DWORD pid = (DWORD)args[0].get<int>();
-            
             // if (pid != chromePid) {
               chromeHwnd = getHwndFromTitle("index.html - Chromium");
             // }
-            getOut() << "activate 1 " << (void *)pid << " " << chromePid << " " << chromeHwnd << std::endl;
+            getOut() << "activate 1 " << chromeHwnd << std::endl;
             if (chromeHwnd) {
               HWND oldHwnd = GetForegroundWindow();
               if (oldHwnd != chromeHwnd) {
@@ -426,6 +424,8 @@ int main(int argc, char **argv) {
               if (oldHwnd != chromeHwnd) {
                 SetForegroundWindow(oldHwnd);
               }
+            } else {
+              getOut() << "chrome window not found" << std::endl;
             }
 
             json res = {
