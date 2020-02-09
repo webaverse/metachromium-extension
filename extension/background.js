@@ -86,16 +86,6 @@ chrome.runtime.onMessage.addListener(
             });
           });
         });
-        /* chrome.tabCapture.captureOffscreenTab(u, {
-          video: true,
-        }, mediaStream => {
-          const u = URL.createObjectURL(mediaStream);
-          console.log('capture offscreen 2', mediaStream, u);
-          sendResponse({
-            error: null,
-            result: u,
-          });
-        }); */
       } else if (method === 'sendMouse') {
         // const [u] = args;
         // console.log('capture offscreen 1', u);
