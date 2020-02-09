@@ -401,7 +401,7 @@ int main(int argc, char **argv) {
           } else if (
             methodString == "activate" &&
             args.size() >= 1 && args[0].is_array() &&
-            args[0].size() == 2 && args[0][1].is_number() && args[0][2].is_number()
+            args[0].size() == 2 && args[0][0].is_number() && args[0][1].is_number()
           ) {
             HWND hwnd = (HWND)(((uint64_t)args[0][0].get<uint32_t>() << 32ull) | (uint64_t)args[0][1].get<uint32_t>());
             HWND oldHwnd = GetForegroundWindow();
