@@ -68,9 +68,8 @@ function proxyRequest(method, args, sendResponse) {
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     /* console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension"); */
-    console.log('got req', request, sender, sendResponse);
+      "from a content script:" + sender.tab.url :
+      "from the extension"); */
     if (request && request.method && request.args) {
       const {method, args} = request;
       if (method === 'tabCapture') {
