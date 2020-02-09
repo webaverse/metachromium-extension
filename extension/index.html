@@ -327,13 +327,21 @@ window.addEventListener('load', () => {
     const gripPoint = gripPoints[i];
     grip.addEventListener('selectstart', () => {
       const {x, y} = gripPoint;
-      [1, 2].forEach(type => {
-        xrc().request('sendMouse', [
-          x,
-          y,
-          type,
-        ]).catch(console.warn);
-      });
+      const type = 1;
+      xrc().request('sendMouse', [
+        x,
+        y,
+        type,
+      ]).catch(console.warn);
+    });
+    grip.addEventListener('selectend', () => {
+      const {x, y} = gripPoint;
+      const type = 2;
+      xrc().request('sendMouse', [
+        x,
+        y,
+        type,
+      ]).catch(console.warn);
     });
     grip.add(controllerMesh);
     scene.add(grip);
