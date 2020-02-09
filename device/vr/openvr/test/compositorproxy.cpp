@@ -180,34 +180,6 @@ const EVREye EYES[] = {
   Eye_Right,
 };
 
-class HwndSearchStruct {
-public:
-  DWORD pid;
-  HWND hwnd;
-};
-BOOL CALLBACK enumWindowsProc(
-  __in  HWND hwnd,
-  __in  LPARAM lParam
-) {
-  HwndSearchStruct &o = *((HwndSearchStruct *)lParam);
-  DWORD pid;
-  GetWindowThreadProcessId(hwnd, &pid);
-  if (o.pid == pid) {
-    o.hwnd = hwnd;
-    return false;
-  } else {
-    return true;
-  }
-}
-HWND getHwndFromPid(int pid) {
-  HwndSearchStruct o{
-    (DWORD)pid,
-    (HWND)NULL
-  };
-  EnumWindows(enumWindowsProc, (LPARAM)&o);
-  return o.hwnd;
-}
-
 /* void checkError(const char *label) {
   auto error = glGetError();
   if (error) {
