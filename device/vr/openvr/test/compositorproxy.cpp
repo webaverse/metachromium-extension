@@ -57,7 +57,7 @@ char kIVRCompositor_RegisterSurface[] = "IVRCompositor::kIVRCompositor_RegisterS
 char kIVRCompositor_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
 char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSurface";
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
-char kIVRCompositor_SendMouse[] = "IVRCompositor::kIVRCompositor_SendMouse";
+// char kIVRCompositor_SendMouse[] = "IVRCompositor::kIVRCompositor_SendMouse";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
@@ -1116,7 +1116,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       return (HANDLE)NULL;
     }
   });
-  fnp.reg<
+  /* fnp.reg<
     kIVRCompositor_SendMouse,
     int,
     float,
@@ -1167,7 +1167,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     }
 
     return 0;
-  });
+  }); */
   fnp.reg<
     kIVRCompositor_SetIsVr,
     int,

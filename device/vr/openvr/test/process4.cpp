@@ -26,13 +26,56 @@ HWND g_hWnd = NULL;
 // CHAR s_szDllPath[MAX_PATH] = "vrclient_x64.dll";
 extern std::string dllDir;
 
+DWORD chromePid = 0;
+HWND chromeHwnd = NULL;
+
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
-char kProcess_SendMouse[] = "IVRCompositor::kIVRCompositor_SendMouse";
+// char kProcess_SendMouse[] = "IVRCompositor::kIVRCompositor_SendMouse";
 char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
+
+class HwndSearchStruct {
+public:
+  const std::string &s;
+  HWND hwnd;
+};
+BOOL CALLBACK enumWindowsProc(
+  __in HWND hwnd,
+  __in LPARAM lParam
+) {
+  HwndSearchStruct &o = *((HwndSearchStruct *)lParam);
+
+  CHAR windowTitle[1024];
+  GetWindowTextA(hwnd, windowTitle, sizeof(windowTitle));
+  
+  getOut() << "get window title: " << windowTitle << std::endl;
+
+  if (o.s == windowTitle) {
+    o.hwnd = hwnd;
+    return false;
+  } else {
+    return true;
+  }
+}
+/* HWND getHwndFromPid(DWORD pid) {
+  HwndSearchStruct o{
+    pid,
+    (HWND)NULL
+  };
+  EnumWindows(enumWindowsProc, (LPARAM)&o);
+  return o.hwnd;
+} */
+HWND getHwndFromTitle(const std::string &s) {
+  HwndSearchStruct o{
+    s,
+    (HWND)NULL
+  };
+  EnumWindows(enumWindowsProc, (LPARAM)&o);
+  return o.hwnd;
+}
 
 void respond(const json &j) {
   std::string outString = j.dump();
@@ -275,15 +318,49 @@ int main(int argc, char **argv) {
             float x = args[0].get<float>();
             float y = args[1].get<float>();
             int type = args[2].get<int>();
-            int pid = args[3].get<int>();
-            g_fnp->call<
-              kProcess_SendMouse,
-              int,
-              float,
-              float,
-              int,
-              int
-            >(x, y, type, pid);
+            DWORD pid = (DWORD)args[3].get<int>();
+            
+            // if (pid != chromePid) {
+              chromeHwnd = getHwndFromTitle("index.html - Chromium");
+            // }
+            if (chromeHwnd) {
+              if (GetForegroundWindow() != chromeHwnd) {
+                SetForegroundWindow(chromeHwnd);
+              }
+
+              RECT rect;
+              GetWindowRect(chromeHwnd, &rect);
+
+              INPUT input{};
+              input.type = INPUT_MOUSE;
+              input.mi.dx = rect.left + (int)(x * (rect.right - rect.left));
+              input.mi.dy = rect.top + (int)(y * (rect.bottom - rect.top));
+              input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
+
+              // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
+
+              switch (type) {
+                case 0: {
+                  input.mi.dwFlags |= MOUSEEVENTF_MOVE;
+                  SetCursorPos(input.mi.dx, input.mi.dy);
+                  SendInput(1, &input, sizeof(input));
+                  break;
+                }
+                case 1: {
+                  input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
+                  SendInput(1, &input, sizeof(input));
+                  break;
+                }
+                case 2: {
+                  input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
+                  SendInput(1, &input, sizeof(input));
+                  break;
+                }
+                default: {
+                  break;
+                }
+              }
+            }
 
             json res = {
               {"error", nullptr},
