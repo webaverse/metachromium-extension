@@ -183,7 +183,7 @@ const getHWnd = async () => {
   document.title = `XR Chrome ${Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)}`;
   let hwnd = [0, 0];
   while (hwnd[0] === 0 && hwnd[1] === 0) {
-    hwnd = await xrc().request('getHwndFromTitle', [title]);
+    hwnd = await xrc().request('getHwndFromTitle', [document.title]);
     await new Promise(accept => {
       setTimeout(accept, 100);
     });
