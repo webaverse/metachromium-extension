@@ -47,7 +47,7 @@ port.onDisconnect.addListener(() => {
 });
 // port.postMessage({ text: "Hello, my_application" });
 
-function proxyRequest(method, args) {
+function proxyRequest(method, args, sendResponse) {
   port.postMessage({method, args});
   cbs.push(msg => {
     console.log('got proxy res', msg);
@@ -91,8 +91,11 @@ chrome.runtime.onMessage.addListener(
         // console.log('capture offscreen 1', u);
         chrome.tabs.query({}, tabs => {
           chrome.processes.getProcessIdForTab(tabs[0].id, processId => {
-            args.push(processId);
-            proxyRequest(method, args);
+            chrome.processes.getProcessInfo(processId, false, pids => {
+              const pid = pids[processId].osProcessId;
+              args.push(pid);
+              proxyRequest(method, args, sendResponse);
+            });
           });
         });
         /* chrome.tabCapture.captureOffscreenTab(u, {
@@ -106,7 +109,7 @@ chrome.runtime.onMessage.addListener(
           });
         }); */
       } else {
-        proxyRequest(method, args)
+        proxyRequest(method, args, sendResponse);
       }
     } else {
       sendResponse({
