@@ -104,7 +104,6 @@ chrome.runtime.onMessage.addListener(
             args.push(processId);
             proxyRequest(method, args);
           });
-          chrome.desktopCapture.chooseDesktopMedia(['window'], tabs[0], streamId => {
         });
         /* chrome.tabCapture.captureOffscreenTab(u, {
           video: true,
