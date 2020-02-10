@@ -59,6 +59,8 @@ char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSur
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
+char kIVRCompositor_PostMessage[] = "IVRCompositor::kIVRCompositor_PostMessage";
+char kIVRCompositor_GetMessage[] = "IVRCompositor::kIVRCompositor_GetMessage";
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
@@ -1108,6 +1110,29 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     memcpy(scale, newScale.data(), sizeof(scale));
 
     return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_PostMessage,
+    int,
+    managed_binary<char>
+  >([=](managed_binary<char> message) {
+    std::string msg(message.data(), message.size());
+    messages[fnp.remoteProcessId].push_back(std::move(msg));
+    return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_GetMessage,
+    managed_binary<char>
+  >([=](managed_binary<char> message) {
+    managed_binary<char> result;
+    auto &msgs = messages[fnp.remoteProcessId];
+    if (msgs.size() > 0) {
+      const std::string &msg = msgs.front();
+      result = managed_binary<char>(msg.size());
+      mempy(result.data(), msg.data(), msg.size());
+      msgs.pop_front();
+    }
+    return std::move(result);
   });
   fnp.reg<
     kIVRCompositor_SetQrEngineEnabled,
