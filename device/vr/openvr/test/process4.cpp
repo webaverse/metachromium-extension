@@ -348,6 +348,29 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
+            methodString == "hideHwnd" &&
+            args.size() >= 1 &&
+            args[0].is_array() && args[0].size() == 2 && args[0][0].is_number() && args[0][1].is_number()
+          ) {
+            HWND hWnd = (HWND)(((uint64_t)args[0][0].get<uint32_t>() << 32ull) | (uint64_t)args[0][1].get<uint32_t>());
+
+            long style = GetWindowLong(hWnd, GWL_STYLE);
+            style &= ~(WS_VISIBLE); // this works - window become invisible 
+
+            style |= WS_EX_TOOLWINDOW; // flags don't work - windows remains in taskbar
+            style &= ~(WS_EX_APPWINDOW); 
+
+            ShowWindow(hWnd, SW_HIDE); // hide the window
+            SetWindowLong(hWnd, GWL_STYLE, style); // set the style
+            ShowWindow(hWnd, SW_SHOW); // show the window for the new style to come into effect
+            ShowWindow(hWnd, SW_HIDE); // hide the window so we can't see it
+
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
+          } else if (
             methodString == "sendMouse" &&
             args.size() >= 4 &&
             args[0].is_number() && args[1].is_number() && args[2].is_number() &&
