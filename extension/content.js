@@ -59,6 +59,13 @@ const getHWnd = async () => {
     });
   }
   document.title = oldTitle;
+  let hwnd2 = hwnd.slice();
+  while (hwnd2[0] !== 0 && hwnd2[1] !== 0) {
+    hwnd2 = await window.xrchrome.request('getHwndFromTitle', [title]);
+    await new Promise(accept => {
+      setTimeout(accept, 100);
+    });
+  }
   return hwnd;
 };
 window.addEventListener('load', async () => {
