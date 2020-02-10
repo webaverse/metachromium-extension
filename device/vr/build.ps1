@@ -11,7 +11,10 @@ cp -Recurse -Force ..\..\..\..\..\Chrome-bin\* .
 rm chrome.exe
 Start-Process -FilePath "add_hook.exe" -ArgumentList "..\..\..\..\..\Chrome-bin\chrome.exe .\chrome.exe" -Wait
 
+echo 'copying...'
+ls ..\..\..\..\..\opencv\build\x64\vc15\bin\
 cp -Force ..\..\..\..\..\opencv\build\x64\vc15\bin\opencv_world420.dll .
+ls
 
 cp -Recurse -Force ..\..\..\..\..\extension .
 
