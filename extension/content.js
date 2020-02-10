@@ -55,7 +55,7 @@ const getHWnd = async () => {
   while (hwnd[0] === 0 && hwnd[1] === 0) {
     hwnd = await window.xrchrome.request('getHwndFromTitle', [title]);
     await new Promise(accept => {
-      setTimeout(accept, 100);
+      setTimeout(accept, 10);
     });
   }
   document.title = oldTitle;
@@ -63,7 +63,7 @@ const getHWnd = async () => {
   while (hwnd2[0] !== 0 && hwnd2[1] !== 0) {
     hwnd2 = await window.xrchrome.request('getHwndFromTitle', [title]);
     await new Promise(accept => {
-      setTimeout(accept, 100);
+      setTimeout(accept, 10);
     });
   }
   return hwnd;
