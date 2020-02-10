@@ -231,6 +231,35 @@ int main(int argc, char **argv) {
               {"result", "ok"}
             };
             respond(res);
+          if (method.is_string() && args.is_array()) {
+          const std::string methodString = method.get<std::string>();
+          // getOut() << "method: " << methodString << std::endl;
+
+          /* int i = 0;
+          for (json::iterator it = args.begin(); it != args.end(); ++it) {
+            const std::string argString = it->get<std::string>();
+            getOut() << "arg " << i << ": " << argString << std::endl;
+            i++;
+          } */
+          } else if (methodString == "launchChrome" && args.size() > 0 && args[0].is_string()) {
+            std::string argString = args[0].get<std::string>();
+
+            HANDLE h = forkChrome(R"EOF(..\..\..\..\..\..\extension\index.html)EOF");
+            if (!h) {
+              getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
+            }
+            
+            uint32_t a = (uint32_t)(((uint64_t)h & 0xFFFFFFFF00000000ull) >> 32ull);
+            uint32_t b = (uint32_t)((uint64_t)h & 0x00000000FFFFFFFFull);
+            
+            json array = json::array();
+            array.push_back(a);
+            array.push_back(b);
+            json res = {
+              {"error", nullptr},
+              {"result", array}
+            };
+            respond(res);
           } else if (
             methodString == "setIsVr" &&
             args.size() >= 1 && args[0].is_boolean()

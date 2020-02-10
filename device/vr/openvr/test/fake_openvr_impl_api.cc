@@ -162,6 +162,82 @@ void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
   }
   pEnvBuf[0] = '\0';
 }
+HANDLE forkChrome(const std::string &startPage) {
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
+  }
+  
+  std::string baseDir = cwdBuf;
+  baseDir += R"EOF(\..\..\..\..\..)EOF";
+
+  std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\..\..\..\..\..\extension,..\..\..\..\..\..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --auto-select-desktop-capture-source="Metachromium Share - Chromium" )EOF";
+  cmd += startPage;
+  std::vector<char> cmdVector(cmd.size() + 1);
+  memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
+
+  getOut() << "launch chrome command: " << cmd << std::endl;
+  
+  char envBuf[64 * 1024];
+  getChildEnvBuf(envBuf, baseDir);
+
+  /* SECURITY_ATTRIBUTES saAttr;
+  // Set the bInheritHandle flag so pipe handles are inherited. 
+  saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
+  saAttr.bInheritHandle = TRUE;
+  saAttr.lpSecurityDescriptor = NULL;
+  //child process's STDOUT is the program output or data that child process returns
+  // Create a pipe for the child process's STDOUT. 
+  if (!CreatePipe(&g_hChildStd_OUT_Rd, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
+    getOut() << "StdoutRd CreatePipe abort" << std::endl;
+    abort();
+  }
+  // Ensure the read handle to the pipe for STDOUT is not inherited.
+  if (!SetHandleInformation(g_hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0)) {
+    getOut() << "Stdout SetHandleInformation abort" << std::endl;
+    abort();
+  }
+  //child process's STDIN is the user input or data that you enter into the child process
+  // Create a pipe for the child process's STDIN. 
+  if (!CreatePipe(&g_hChildStd_IN_Rd, &g_hChildStd_IN_Wr, &saAttr, 0)) {
+    getOut() << "Stdin CreatePipe abort" << std::endl;
+    abort();
+  }
+  // Ensure the write handle to the pipe for STDIN is not inherited. 
+  if (!SetHandleInformation(g_hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
+    getOut() << "Stdin SetHandleInformation abort" << std::endl;
+    abort();
+  } */
+
+  STARTUPINFO si{};
+  si.cb = sizeof(STARTUPINFO);
+  /* si.hStdError = g_hChildStd_OUT_Wr;
+  si.hStdOutput = g_hChildStd_OUT_Wr;
+  si.hStdInput = g_hChildStd_IN_Rd;
+  si.dwFlags |= STARTF_USESTDHANDLES; */
+
+  HANDLE chromeProcessHandle;
+  PROCESS_INFORMATION pi{};
+  if (CreateProcessA(
+    NULL,
+    cmdVector.data(),
+    NULL,
+    NULL,
+    true,
+    CREATE_NO_WINDOW,
+    envBuf,
+    NULL,
+    &si,
+    &pi
+  )) {
+    chromeProcessHandle = pi.hProcess;
+  } else {
+    chromeProcessHandle = NULL;
+  }
+  
+  return chromeProcessHandle;
+}
 /* void LocalGetDXGIOutputInfo(int32_t *pAdaterIndex) {
   vr::g_vrsystem->GetDXGIOutputInfo(pAdaterIndex);
 } */
