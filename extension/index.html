@@ -60,6 +60,7 @@ a:active {
     <input type=button id=toggle-controls-button value="FPS controls">
     <input type=button id=toggle-qr-button value="QR turn ON">
     <input type=button id=tab-capture-button value="Tab capture">
+    <input type=button id=launch-chrome-button value="Launch chrome">
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
   <img src="qr.png" width=200 height=200>
@@ -217,6 +218,13 @@ window.addEventListener('xrload', async m => {
     planeMesh.material.map = texture;
     planeMesh.material.needsUpdate = true;
     // console.log('got media stream', mediaStream);
+  });
+
+  const launchChromeButton = document.getElementById('launch-chrome-button');
+  launchChromeButton.addEventListener('click', async () => {
+    console.log('launch chrome 1');
+    const h = await xrc().request('launchChrome', ['index.html']);
+    console.log('launch chrome 2', h);
   });
 
   const canvas2d = document.getElementById('canvas-2d');
