@@ -231,16 +231,6 @@ int main(int argc, char **argv) {
               {"result", "ok"}
             };
             respond(res);
-          if (method.is_string() && args.is_array()) {
-          const std::string methodString = method.get<std::string>();
-          // getOut() << "method: " << methodString << std::endl;
-
-          /* int i = 0;
-          for (json::iterator it = args.begin(); it != args.end(); ++it) {
-            const std::string argString = it->get<std::string>();
-            getOut() << "arg " << i << ": " << argString << std::endl;
-            i++;
-          } */
           } else if (methodString == "launchChrome" && args.size() > 0 && args[0].is_string()) {
             std::string argString = args[0].get<std::string>();
 
