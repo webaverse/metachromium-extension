@@ -1174,7 +1174,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_PostMessage,
     int,
     managed_binary<char>,
-	size_t
+	  size_t
   >([=](managed_binary<char> message, size_t eventTargetPid) {
     auto iter = eventTargetLocks.find(eventTargetPid);
     if (iter != eventTargetLocks.end()) {
