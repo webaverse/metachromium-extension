@@ -1122,9 +1122,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   });
   fnp.reg<
     kIVRCompositor_GetMessage,
-	int,
     managed_binary<char>
-  >([=](managed_binary<char> message) {
+  >([=]() {
     managed_binary<char> result;
     std::deque<std::string> &msgs = messages[fnp.remoteProcessId];
     if (msgs.size() > 0) {
