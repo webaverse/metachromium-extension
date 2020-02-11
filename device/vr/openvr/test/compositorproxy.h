@@ -37,7 +37,7 @@ public:
   HWND hWnd = NULL;
   DWORD chromePid = 0;
   HWND chromeHwnd = NULL;
-  std::map<size_t, std::vector<std::string>> messages;
+  std::map<size_t, std::deque<std::string>> messages;
 
   // controls
   bool isVr = true;

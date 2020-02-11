@@ -1125,7 +1125,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     managed_binary<char>
   >([=](managed_binary<char> message) {
     managed_binary<char> result;
-    std::vector<std::string> &msgs = messages[fnp.remoteProcessId];
+    std::deque<std::string> &msgs = messages[fnp.remoteProcessId];
     if (msgs.size() > 0) {
 	  std::string &msg = msgs.front();
       result = managed_binary<char>(msg.size());
