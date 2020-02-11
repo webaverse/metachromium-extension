@@ -162,7 +162,8 @@ void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
   }
   pEnvBuf[0] = '\0';
 }
-HANDLE forkChrome(const std::string &startPage) {
+size_t chromeProfileCount = 0;
+HANDLE forkChrome(const std::string &startPage, bool detached) {
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
     getOut() << "failed to get current directory" << std::endl;
@@ -172,7 +173,12 @@ HANDLE forkChrome(const std::string &startPage) {
   std::string baseDir = cwdBuf;
   baseDir += R"EOF(\..\..\..\..\..)EOF";
 
-  std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\..\..\..\..\..\extension,..\..\..\..\..\..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --auto-select-desktop-capture-source="Metachromium Share - Chromium" )EOF";
+  std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\..\..\..\..\..\extension,..\..\..\..\..\..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --auto-select-desktop-capture-source="Metachromium Share - Chromium")EOF";
+  if (detached) {
+    cmd += " --profile-directory=profile";
+    cmd += std::to_string(++chromeProfileCount);
+  }
+  cmd += " ";
   cmd += startPage;
   std::vector<char> cmdVector(cmd.size() + 1);
   memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);

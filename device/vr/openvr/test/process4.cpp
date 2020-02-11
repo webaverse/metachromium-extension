@@ -242,7 +242,7 @@ int main(int argc, char **argv) {
           } else if (methodString == "launchChrome" && args.size() > 0 && args[0].is_string()) {
             std::string argString = args[0].get<std::string>();
 
-            HANDLE h = forkChrome(R"EOF(..\..\..\..\..\..\extension\index.html)EOF");
+            HANDLE h = forkChrome(R"EOF(..\..\..\..\..\..\extension\index.html)EOF", true);
             if (!h) {
               getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
             }

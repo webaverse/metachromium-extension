@@ -391,7 +391,7 @@ int WINAPI WinMain(
     }
   }
   {
-    chromeProcessHandle = forkChrome(R"EOF(..\..\..\..\..\..\extension\index.html)EOF");
+    chromeProcessHandle = forkChrome(R"EOF(..\..\..\..\..\..\extension\index.html)EOF", false);
     if (!chromeProcessHandle) {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
       abort();
