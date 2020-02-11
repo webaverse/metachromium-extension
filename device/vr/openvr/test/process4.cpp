@@ -36,6 +36,9 @@ char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindS
 char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
+char kProcess_RegisterEventTarget[] = "IVRCompositor::kIVRCompositor_RegisterEventTarget";
+char kProcess_UnregisterEventTarget[] = "IVRCompositor::kIVRCompositor_UnregisterEventTarget";
+char kProcess_PostMessage[] = "IVRCompositor::PostMessage";
 
 class HwndSearchStruct {
 public:
@@ -103,6 +106,11 @@ int main(int argc, char **argv) {
   std::string baseDir = cwdBuf;
   baseDir += R"EOF(\..\..\..\..\..)EOF";
   // getOut() << "got base dir " << baseDir << std::endl;
+
+  g_fnp->call<
+    kProcess_RegisterEventTarget,
+    int
+  >();
   
   // dllDir = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\";
   std::cerr << "start app" << std::endl;
@@ -484,6 +492,28 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
+            methodString == "postMessage" &&
+            args.size() >= 2 && args[0].is_string() && args[1].is_number()
+          ) {
+            const std::string &msg = args[0];
+            size_t eventTargetPid = (size_t)args[1].get<int>();
+            
+            managed_binary<char> msgBinary(msg.size());
+            memcpy(msgBinary.data(), msg.data(), msg.size());
+
+            auto result = g_fnp->call<
+              kProcess_PostMessage,
+              int,
+              managed_binary<char>,
+              size_t
+            >(std::move(msgBinary), eventTargetPid);
+
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
+          } else if (
             methodString == "getQrCodes"
           ) {
             auto qrCode = g_fnp->call<
@@ -538,4 +568,9 @@ int main(int argc, char **argv) {
       break;
     }
   }
+  
+  g_fnp->call<
+    kProcess_UnregisterEventTarget,
+    int
+  >();
 }
