@@ -1,9 +1,14 @@
 // #include <chrono>
+
+#include "extension/json.hpp"
+
 #include "device/vr/openvr/test/compositorproxy.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
 #include "device/vr/openvr/test/hijack.h"
 #include "device/vr/openvr/test/qr.h"
 #include "device/vr/openvr/test/matrix.h"
+
+using json = nlohmann::json;
 
 namespace vr {
 char kIVRCompositor_SetTrackingSpace[] = "IVRCompositor::SetTrackingSpace";
@@ -59,8 +64,9 @@ char kIVRCompositor_TryBindSurface[] = "IVRCompositor::kIVRCompositor_TryBindSur
 char kIVRCompositor_GetSharedEyeTexture[] = "IVRCompositor::kIVRCompositor_GetSharedEyeTexture";
 char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
+char kIVRCompositor_RegisterEventTarget[] = "IVRCompositor::kIVRCompositor_RegisterEventTarget";
+char kIVRCompositor_UnregisterEventTarget[] = "IVRCompositor::kIVRCompositor_UnregisterEventTarget";
 char kIVRCompositor_PostMessage[] = "IVRCompositor::kIVRCompositor_PostMessage";
-char kIVRCompositor_GetMessage[] = "IVRCompositor::kIVRCompositor_GetMessage";
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 
@@ -239,7 +245,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       abort();
     }
   }
-  
+
   getOut() << "compositor init 2" << std::endl;
 
   fnp.reg<
@@ -1112,27 +1118,74 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     return 0;
   });
   fnp.reg<
-    kIVRCompositor_PostMessage,
-    int,
-    managed_binary<char>
-  >([=](managed_binary<char> message) {
-    std::string msg(message.data(), message.size());
-    messages[fnp.remoteProcessId].push_back(std::move(msg));
+    kIVRCompositor_RegisterEventTarget,
+    int
+  >([=]() {
+    // notify
+    json array = json::array();
+    array.push_back(std::string("add"));
+    array.push_back(fnp.remoteProcessId);
+    json joinMessage = {
+      {"event", "join"},
+      {"args", array},
+    };
+    std::string joinMessageString = joinMessage.dump();
+    for (auto iter : eventTargets) {
+      std::lock_guard<Mutex> lock(eventTargetLocks[iter]);
+      
+      messages[iter].push_back(joinMessageString);
+      eventTargetSemaphores[iter].unlock();
+    }
+    // add
+    eventTargets.push_back(fnp.remoteProcessId);
+    eventTargetLocks[fnp.remoteProcessId] = Mutex((std::string("Local\\OpenVrEventTargetLock") + std::to_string(fnp.remoteProcessId)).c_str());
+    eventTargetSemaphores[fnp.remoteProcessId] = Semaphore((std::string("Local\\OpenVrEventTargetSemaphore") + std::to_string(fnp.remoteProcessId)).c_str());
     return 0;
   });
   fnp.reg<
-    kIVRCompositor_GetMessage,
-    managed_binary<char>
+    kIVRCompositor_UnregisterEventTarget,
+    int
   >([=]() {
-    managed_binary<char> result;
-    std::deque<std::string> &msgs = messages[fnp.remoteProcessId];
-    if (msgs.size() > 0) {
-	  std::string &msg = msgs.front();
-      result = managed_binary<char>(msg.size());
-      memcpy(result.data(), msg.data(), msg.size());
-      msgs.pop_front();
+    // notify
+    json array = json::array();
+    array.push_back(std::string("remove"));
+    array.push_back(fnp.remoteProcessId);
+    json joinMessage = {
+      {"event", "join"},
+      {"args", array},
+    };
+    std::string joinMessageString = joinMessage.dump();
+    for (auto iter : eventTargets) {
+      std::lock_guard<Mutex> lock(eventTargetLocks[iter]);
+      
+      messages[iter].push_back(joinMessageString);
+      eventTargetSemaphores[iter].unlock();
     }
-    return std::move(result);
+    // remove
+    {
+      auto iter = std::find(eventTargets.begin(), eventTargets.end(), fnp.remoteProcessId);
+      eventTargets.erase(iter);
+      eventTargetLocks.erase(fnp.remoteProcessId);
+      eventTargetSemaphores.erase(fnp.remoteProcessId);
+    }
+    return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_PostMessage,
+    int,
+    managed_binary<char>,
+	size_t
+  >([=](managed_binary<char> message, size_t eventTargetPid) {
+    auto iter = eventTargetLocks.find(eventTargetPid);
+    if (iter != eventTargetLocks.end()) {
+      std::lock_guard<Mutex> lock(iter->second);
+
+      std::string msg(message.data(), message.size());
+      messages[eventTargetPid].push_back(std::move(msg));
+    } else {
+      getOut() << "message to nonexistent event target pid " << eventTargetPid << std::endl;
+    }
+    return 0;
   });
   fnp.reg<
     kIVRCompositor_SetQrEngineEnabled,
