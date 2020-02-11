@@ -14,7 +14,7 @@ mkdir -Force metamask
 cd metamask
 Invoke-WebRequest "https://github.com/MetaMask/metamask-extension/releases/download/v7.7.4/metamask-chrome-7.7.4.zip" -OutFile "metamask.zip"
 7z x metamask.zip -aoa
-(Get-Content -Encoding UTF8 background.js) -replace '(openExtensionInBrowser\s*\(.*\)\s*\{)', '$1return;' | Set-Content -Encoding UTF8 background2.js
+(Get-Content -Encoding UTF8 background.js) -replace '(openExtensionInBrowser\(e=null,t=null\)\{)', '$1return;' | Set-Content -Encoding UTF8 background.js
 cd ..
 
 ls
