@@ -10,7 +10,7 @@ rm chrome.7z
 Invoke-WebRequest "https://github.com/opencv/opencv/releases/download/4.2.0/opencv-4.2.0-vc14_vc15.exe" -OutFile "opencv.exe"
 Start-Process -Wait ".\opencv.exe" -ArgumentList "-o. -y"
 
-mkdir metamask
+mkdir -Force metamask
 cd metamask
 Invoke-WebRequest "https://github.com/MetaMask/metamask-extension/releases/download/v7.7.4/metamask-chrome-7.7.4.zip" -OutFile "metamask.zip"
 7z x metamask.zip -aoa
@@ -19,7 +19,7 @@ cd ..
 
 ls
 cd device\vr
-mkdir build
+mkdir -Force build
 cd build
 
 cp ..\build.ps1 .
