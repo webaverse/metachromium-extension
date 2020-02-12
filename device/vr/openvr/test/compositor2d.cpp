@@ -252,7 +252,7 @@ public:
             params.eOrigin = TrackingUniverseStanding;
             VROverlayIntersectionResults_t results;
             if (ComputeOverlayIntersection(overlay, &params, &results)) {
-
+              getOut() << "intersection yes " results.vPoint.v[0] << " " << results.vPoint.v[1] << " " << results.vPoint.v[2] << " " << results.fDistance << std::endl;
             }
           }
         }
