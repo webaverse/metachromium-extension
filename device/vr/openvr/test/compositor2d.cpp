@@ -62,7 +62,7 @@ public:
       getOut() << "error setting overlay color: " << (void *)error << std::endl;
     } */
     
-    float position[16] = {0, numOverlays + 1, -1};
+    float position[16] = {0, numOverlays, -1};
     float quaternion[4] = {0, 0, 0, 1};
     float scale[3] = {1, 1, 1};
     float viewMatrix[16];
