@@ -281,7 +281,7 @@ public:
               params.eOrigin = TrackingUniverseStanding;
               VROverlayIntersectionResults_t results;
               if (g_vroverlay->ComputeOverlayIntersection(overlay, &params, &results) && results.fDistance < 3.0f) {
-                D3D11_BOX srcBox;
+                D3D11_BOX srcBox{};
                 srcBox.left = 0;
                 srcBox.right = cursorSize;
                 srcBox.top = 0;
