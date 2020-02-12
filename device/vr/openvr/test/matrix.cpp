@@ -1,5 +1,8 @@
 #include "device/vr/openvr/test/matrix.h"
 
+float vectorLength(float x, float y, float z) {
+  return std::sqrt(x*x + y*y + z*z);
+}
 void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix44_t &srcMatrix) {
   for (unsigned int v = 0; v < 4; v++) {
     for (unsigned int u = 0; u < 4; u++) {
@@ -23,6 +26,95 @@ void setPoseMatrix(vr::HmdMatrix34_t &dstMatrix, const float *srcMatrixArray) {
     for (unsigned int u = 0; u < 3; u++) {
       dstMatrix.m[u][v] = srcMatrixArray[v * 4 + u];
     }
+  }
+}
+float matrixDeterminant(float *matrix) {
+  const float *te = matrix;
+
+  float n11 = te[ 0 ], n12 = te[ 4 ], n13 = te[ 8 ], n14 = te[ 12 ];
+  float n21 = te[ 1 ], n22 = te[ 5 ], n23 = te[ 9 ], n24 = te[ 13 ];
+  float n31 = te[ 2 ], n32 = te[ 6 ], n33 = te[ 10 ], n34 = te[ 14 ];
+  float n41 = te[ 3 ], n42 = te[ 7 ], n43 = te[ 11 ], n44 = te[ 15 ];
+
+  //TODO: make this more efficient
+  //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
+
+  return (
+    n41 * (
+      + n14 * n23 * n32
+       - n13 * n24 * n32
+       - n14 * n22 * n33
+       + n12 * n24 * n33
+       + n13 * n22 * n34
+       - n12 * n23 * n34
+    ) +
+    n42 * (
+      + n11 * n23 * n34
+       - n11 * n24 * n33
+       + n14 * n21 * n33
+       - n13 * n21 * n34
+       + n13 * n24 * n31
+       - n14 * n23 * n31
+    ) +
+    n43 * (
+      + n11 * n24 * n32
+       - n11 * n22 * n34
+       - n14 * n21 * n32
+       + n12 * n21 * n34
+       + n14 * n22 * n31
+       - n12 * n24 * n31
+    ) +
+    n44 * (
+      - n13 * n22 * n31
+       - n11 * n23 * n32
+       + n11 * n22 * n33
+       + n13 * n21 * n32
+       - n12 * n21 * n33
+       + n12 * n23 * n31
+    )
+  );
+}
+void getQuaternionFromRotationMatrix(float *quaternion, const float *matrix) {
+  // http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
+  // assumes the upper 3x3 of m is a pure rotation matrix (i.e, unscaled)
+
+  const float *te = matrix;
+
+  const float m11 = te[ 0 ], m12 = te[ 4 ], m13 = te[ 8 ],
+    m21 = te[ 1 ], m22 = te[ 5 ], m23 = te[ 9 ],
+    m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ];
+
+  float trace = m11 + m22 + m33,
+    s;
+
+  if (trace > 0.0f) {
+    s = 0.5f / std::sqrt(trace + 1.0f);
+
+    quaternion[0] = (m32 - m23) * s;
+    quaternion[1] = (m13 - m31) * s;
+    quaternion[2] = (m21 - m12) * s;
+    quaternion[3] = 0.25f / s;
+  } else if (m11 > m22 && m11 > m33) {
+    s = 2.0f * std::sqrt(1.0f + m11 - m22 - m33 );
+
+    quaternion[0] = 0.25f * s;
+    quaternion[1] = (m12 + m21) / s;
+    quaternion[2] = (m13 + m31) / s;
+    quaternion[3] = (m32 - m23) / s;
+  } else if (m22 > m33) {
+    s = 2.0f * std::sqrt(1.0f + m22 - m11 - m33);
+
+    quaternion[0] = (m12 + m21) / s;
+    quaternion[1] = 0.25f * s;
+    quaternion[2] = (m23 + m32) / s;
+    quaternion[3] = (m13 - m31) / s;
+  } else {
+    s = 2.0f * std::sqrt(1.0f + m33 - m11 - m22);
+
+    quaternion[0] = (m13 + m31) / s;
+    quaternion[1] = (m23 + m32) / s;
+    quaternion[2] = 0.25f * s;
+    quaternion[3] = (m21 - m12) / s;
   }
 }
 void getMatrixInverse(const float *inMatrix, float *outMatrix) {

@@ -4,9 +4,12 @@
 #include "third_party/openvr/src/headers/openvr.h"
 #include "device/vr/openvr/test/out.h"
 
+float vectorLength(float x, float y, float z);
 void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix44_t &srcMatrix);
 void setPoseMatrix(float *dstMatrixArray, const vr::HmdMatrix34_t &srcMatrix);
 void setPoseMatrix(vr::HmdMatrix34_t &dstMatrix, const float *srcMatrixArray);
+float matrixDeterminant(float *matrix);
+void getQuaternionFromRotationMatrix(float *quaternion, const float *matrix);
 void getMatrixInverse(const float *inMatrix, float *outMatrix);
 void multiplyMatrices(const float *aMatrix, const float *bMatrix, float *outMatrix);
 void composeMatrix(float *matrix, const float *position, const float *quaternion, const float *scale);
