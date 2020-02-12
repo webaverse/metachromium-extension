@@ -134,6 +134,47 @@ void composeMatrix(float *matrix, const float *position, const float *quaternion
   te[ 14 ] = position[2];
   te[ 15 ] = 1;
 }
+void decomposeMatrix(const float *matrix, float *position, float *quaternion, float *scale) {
+  const float *te = matrix;
+
+  float sx = vectorLength(te[ 0 ], te[ 1 ], te[ 2 ]);
+  float sy = vectorLength(te[ 4 ], te[ 5 ], te[ 6 ]);
+  float sz = vectorLength(te[ 8 ], te[ 9 ], te[ 10 ]);
+
+  // if determine is negative, we need to invert one scale
+  float det = matrixDeterminant(m);
+  if ( det < 0 ) sx = - sx;
+
+  position.x = te[ 12 ];
+  position.y = te[ 13 ];
+  position.z = te[ 14 ];
+
+  // scale the rotation part
+  float _m1[16];
+  memcpy(_m1, matrix, 16 * sizeof(float));
+
+  float invSX = 1.0f / sx;
+  float invSY = 1.0f / sy;
+  float invSZ = 1.0f / sz;
+
+  _m1[ 0 ] *= invSX;
+  _m1[ 1 ] *= invSX;
+  _m1[ 2 ] *= invSX;
+
+  _m1[ 4 ] *= invSY;
+  _m1[ 5 ] *= invSY;
+  _m1[ 6 ] *= invSY;
+
+  _m1[ 8 ] *= invSZ;
+  _m1[ 9 ] *= invSZ;
+  _m1[ 10 ] *= invSZ;
+
+  getQuaternionFromRotationMatrix(quaternion, matrix);
+
+  scale[0] = sx;
+  scale[1] = sy;
+  scale[2] = sz;
+}
 void addVector3(float *a, const float *b) {
   a[0] += b[0];
   a[1] += b[1];
