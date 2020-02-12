@@ -26,6 +26,7 @@ public:
   int height;
   bool seen;
   
+  static const uint32_t cursorSize = 11;
   static size_t numOverlays;
   static ID3D11Texture2D *blackTex;
   static ID3D11Resource *blackResource;
@@ -98,8 +99,8 @@ public:
     
     if (!blackTex) {
       D3D11_TEXTURE2D_DESC blackDesc{};
-      blackDesc.Width = 16;
-      blackDesc.Height = 16;
+      blackDesc.Width = cursorSize;
+      blackDesc.Height = cursorSize;
       blackDesc.MipLevels = 1;
       blackDesc.ArraySize = 1;
       blackDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
@@ -286,12 +287,14 @@ public:
                 // uint32_t height = 16;
                 D3D11_BOX srcBox;
                 srcBox.left = 0;
-                srcBox.right = 16;
+                srcBox.right = cursorSize;
                 srcBox.top = 0;
-                srcBox.bottom = 16;
+                srcBox.bottom = cursorSize;
                 srcBox.front = 0;
                 srcBox.back = 1;
-                context->CopySubresourceRegion(tex, 0, (float)width * results.vUVs.v[0], (float)height * (1.0f - results.vUVs.v[1]), 0, blackTex, 0, &srcBox);
+                uint32_t x = std::min<uint32_t>(std::max<uint32_t>(((float)width * results.vUVs.v[0]) - ((float)cursorSize-1)/2, 0), width);
+                uint32_t y = std::min<uint32_t>(std::max<uint32_t>(((float)height * (1.0f - results.vUVs.v[1])) - ((float)cursorSize-1)/2, 0), height);
+                context->CopySubresourceRegion(tex, 0, x, y, 0, blackTex, 0, &srcBox);
               }
             }
           }
