@@ -28,7 +28,7 @@ void setPoseMatrix(vr::HmdMatrix34_t &dstMatrix, const float *srcMatrixArray) {
     }
   }
 }
-float matrixDeterminant(float *matrix) {
+float matrixDeterminant(const float *matrix) {
   const float *te = matrix;
 
   float n11 = te[ 0 ], n12 = te[ 4 ], n13 = te[ 8 ], n14 = te[ 12 ];
@@ -234,12 +234,12 @@ void decomposeMatrix(const float *matrix, float *position, float *quaternion, fl
   float sz = vectorLength(te[ 8 ], te[ 9 ], te[ 10 ]);
 
   // if determine is negative, we need to invert one scale
-  float det = matrixDeterminant(m);
+  float det = matrixDeterminant(matrix);
   if ( det < 0 ) sx = - sx;
 
-  position.x = te[ 12 ];
-  position.y = te[ 13 ];
-  position.z = te[ 14 ];
+  position[0] = te[ 12 ];
+  position[1] = te[ 13 ];
+  position[2] = te[ 14 ];
 
   // scale the rotation part
   float _m1[16];
