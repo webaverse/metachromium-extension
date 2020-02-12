@@ -19,6 +19,8 @@ bool live = true;
 decltype(D3D11CreateDeviceAndSwapChain) *RealD3D11CreateDeviceAndSwapChain = nullptr;
 decltype(DCompositionCreateDevice2) *RealDCompositionCreateDevice2 = nullptr;
 
+char kProcess_Terminate[] = "Process::Terminate";
+
 inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 	uintptr_t *vtable = *(uintptr_t **)cls;
 	return (uint32_t)(vtable[offset] - (uintptr_t)module);
@@ -337,6 +339,16 @@ int WINAPI WinMain(
   vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
   vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
   vr::g_pqrengine = new QrEngine(vr::g_pvrcompositor, vr::g_vrsystem);
+
+  g_fnp->reg<
+    kProcess_Terminate,
+    int
+  >([&]() {
+    getOut() << "terminate 1" << std::endl;
+    TerminateProcess(chromeProcessHandle, 0);
+    getOut() << "terminate 2" << std::endl;
+    return 0;
+  });
 
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {

@@ -21,6 +21,9 @@ window.addEventListener('message', m => {
     });
   }
 });
+chrome.runtime.sendMessage({}, function(res) {
+  console.log('got ping response', res);
+});
 
 function injectScript(file_path, tag) {
   const node = document.getElementsByTagName(tag)[0];

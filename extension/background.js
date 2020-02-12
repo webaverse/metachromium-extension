@@ -95,3 +95,16 @@ chrome.runtime.onMessage.addListener(
     
     return true; // async
 });
+
+chrome.windows.onRemoved.addListener(windowId => {
+  console.log('window removed', windowId);
+  chrome.windows.getAll({}, windows => {
+    console.log('got windows', windows);
+    if (windows.length === 0) {
+      console.log('calling terminate');
+      proxyRequest('terminate', [], o => {
+        console.log('get terminate result', o);
+      });
+    }
+  });
+});

@@ -36,6 +36,7 @@ char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindS
 char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
+char kProcess_Terminate[] = "Process::Terminate";
 
 class HwndSearchStruct {
 public:
@@ -133,7 +134,7 @@ int main(int argc, char **argv) {
         
         if (method.is_string() && args.is_array()) {
           const std::string methodString = method.get<std::string>();
-          // getOut() << "method: " << methodString << std::endl;
+          getOut() << "method: " << methodString << std::endl;
 
           /* int i = 0;
           for (json::iterator it = args.begin(); it != args.end(); ++it) {
@@ -472,6 +473,21 @@ int main(int argc, char **argv) {
             json res = {
               {"error", nullptr},
               {"result", array}
+            };
+            respond(res);
+          } else if (
+            methodString == "terminate"
+          ) {
+            getOut() << "call terminate 1" << std::endl;
+            auto result = g_fnp->call<
+              kProcess_Terminate,
+              int
+            >();
+            getOut() << "call terminate 2" << std::endl;
+
+            json res = {
+              {"error", nullptr},
+              {"result", "ok"}
             };
             respond(res);
           } else {
