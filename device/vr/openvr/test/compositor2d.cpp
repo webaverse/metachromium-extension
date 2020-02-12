@@ -224,6 +224,40 @@ public:
         }
       }
     } */
+
+    auto &cachedRenderPoses = g_pvrcompositor->cachedRenderPoses;
+    for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
+      TrackedDevicePose_t &cachedRenderPose = cachedRenderPoses[i];
+
+      if (cachedRenderPose.bPoseIsValid) {
+        ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
+
+        if (deviceClass == TrackedDeviceClass_Controller) {
+          ETrackedControllerRole controllerRole = g_vrsystem->GetControllerRoleForTrackedDeviceIndex(i);
+          if (controllerRole == TrackedControllerRole_LeftHand) {
+            // XXX
+          } else if (controllerRole == TrackedControllerRole_RightHand) {
+            float viewMatrix[16];
+            setPoseMatrix(viewMatrix, cachedRenderPose.mDeviceToAbsoluteTracking);
+            float position[3];
+            float quaternion[4];
+            float scale[3];
+            decomposeMatrix(viewMatrix, position, quaternion, scale);
+
+            VROverlayIntersectionParams_t params{};
+            memcpy(params.vSource.v, position, sizeof(position));
+            float direction[3] = {0, 0, -1};
+            applyVector3Quaternion(direction, quaternion);
+            memcpy(params.vDirection.v, direction, sizeof(direction));
+            params.eOrigin = TrackingUniverseStanding;
+            VROverlayIntersectionResults_t results;
+            if (ComputeOverlayIntersection(overlay, &params, &results)) {
+
+            }
+          }
+        }
+      }
+    }
    
     seen = true;
   }
