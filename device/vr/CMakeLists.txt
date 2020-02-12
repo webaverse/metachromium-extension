@@ -45,11 +45,6 @@ SET(src
   openvr/test/applicationsproxy.cpp
   openvr/test/overlayproxy.cpp
   openvr/test/fnproxy.cpp
-  # openvr/test/test_helper.cc
-  # openvr/test/test_helper.h
-  # test/test_hook.h
-  # sample/hellovr_opengl_main.cpp
-  # sample/shared/Matrices.cpp
   OpenOVR/Reimpl/stubs.gen.cpp
   OpenOVR/Reimpl/BaseCompositor.cpp
   OpenOVR/Reimpl/CVRCompositor.cpp
