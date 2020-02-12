@@ -37,6 +37,10 @@ public:
   HWND hWnd = NULL;
   DWORD chromePid = 0;
   HWND chromeHwnd = NULL;
+  std::map<size_t, std::deque<std::string>> messages;
+  std::vector<size_t> eventTargets;
+  std::map<size_t, Mutex> eventTargetLocks;
+  std::map<size_t, Semaphore> eventTargetSemaphores;
 
   // controls
   bool isVr = true;

@@ -36,6 +36,9 @@ char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindS
 char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
+char kProcess_RegisterEventTarget[] = "IVRCompositor::kIVRCompositor_RegisterEventTarget";
+char kProcess_UnregisterEventTarget[] = "IVRCompositor::kIVRCompositor_UnregisterEventTarget";
+char kProcess_PostMessage[] = "IVRCompositor::PostMessage";
 
 class HwndSearchStruct {
 public:
@@ -103,6 +106,11 @@ int main(int argc, char **argv) {
   std::string baseDir = cwdBuf;
   baseDir += R"EOF(\..\..\..\..\..)EOF";
   // getOut() << "got base dir " << baseDir << std::endl;
+
+  g_fnp->call<
+    kProcess_RegisterEventTarget,
+    int
+  >();
   
   // dllDir = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\";
   std::cerr << "start app" << std::endl;
@@ -231,6 +239,25 @@ int main(int argc, char **argv) {
               {"result", "ok"}
             };
             respond(res);
+          } else if (methodString == "launchChrome" && args.size() > 0 && args[0].is_string()) {
+            std::string argString = args[0].get<std::string>();
+
+            HANDLE h = forkChrome(R"EOF(..\..\..\..\..\..\extension\index.html)EOF", true);
+            if (!h) {
+              getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
+            }
+            
+            uint32_t a = (uint32_t)(((uint64_t)h & 0xFFFFFFFF00000000ull) >> 32ull);
+            uint32_t b = (uint32_t)((uint64_t)h & 0x00000000FFFFFFFFull);
+            
+            json array = json::array();
+            array.push_back(a);
+            array.push_back(b);
+            json res = {
+              {"error", nullptr},
+              {"result", array}
+            };
+            respond(res);
           } else if (
             methodString == "setIsVr" &&
             args.size() >= 1 && args[0].is_boolean()
@@ -326,6 +353,29 @@ int main(int argc, char **argv) {
             json res = {
               {"error", nullptr},
               {"result", array}
+            };
+            respond(res);
+          } else if (
+            methodString == "hideHwnd" &&
+            args.size() >= 1 &&
+            args[0].is_array() && args[0].size() == 2 && args[0][0].is_number() && args[0][1].is_number()
+          ) {
+            HWND hWnd = (HWND)(((uint64_t)args[0][0].get<uint32_t>() << 32ull) | (uint64_t)args[0][1].get<uint32_t>());
+
+            long style = GetWindowLong(hWnd, GWL_STYLE);
+            style &= ~(WS_VISIBLE); // this works - window become invisible 
+
+            style |= WS_EX_TOOLWINDOW; // flags don't work - windows remains in taskbar
+            style &= ~(WS_EX_APPWINDOW); 
+
+            ShowWindow(hWnd, SW_HIDE); // hide the window
+            SetWindowLong(hWnd, GWL_STYLE, style); // set the style
+            ShowWindow(hWnd, SW_SHOW); // show the window for the new style to come into effect
+            ShowWindow(hWnd, SW_HIDE); // hide the window so we can't see it
+
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
             };
             respond(res);
           } else if (
@@ -442,6 +492,28 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
+            methodString == "postMessage" &&
+            args.size() >= 2 && args[0].is_string() && args[1].is_number()
+          ) {
+            const std::string &msg = args[0];
+            size_t eventTargetPid = (size_t)args[1].get<int>();
+            
+            managed_binary<char> msgBinary(msg.size());
+            memcpy(msgBinary.data(), msg.data(), msg.size());
+
+            auto result = g_fnp->call<
+              kProcess_PostMessage,
+              int,
+              managed_binary<char>,
+              size_t
+            >(std::move(msgBinary), eventTargetPid);
+
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
+          } else if (
             methodString == "getQrCodes"
           ) {
             auto qrCode = g_fnp->call<
@@ -496,4 +568,9 @@ int main(int argc, char **argv) {
       break;
     }
   }
+  
+  g_fnp->call<
+    kProcess_UnregisterEventTarget,
+    int
+  >();
 }

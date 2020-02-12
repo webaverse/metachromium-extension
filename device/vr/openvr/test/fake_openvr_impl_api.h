@@ -32,6 +32,7 @@ extern Offsets *g_offsets;
 
 void wrapExternalOpenVr(std::function<void()> &&fn);
 void getChildEnvBuf(char *envBuf, const std::string &baseDir);
+HANDLE forkChrome(const std::string &startPage, bool detached);
 
 namespace vr {
   extern IVRSystem *g_vrsystem;
