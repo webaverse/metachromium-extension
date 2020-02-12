@@ -281,16 +281,25 @@ public:
               params.eOrigin = TrackingUniverseStanding;
               VROverlayIntersectionResults_t results;
               if (g_vroverlay->ComputeOverlayIntersection(overlay, &params, &results) && results.fDistance < 3.0f) {
-                D3D11_BOX srcBox{};
-                srcBox.left = 0;
-                srcBox.right = cursorSize;
-                srcBox.top = 0;
-                srcBox.bottom = cursorSize;
-                srcBox.front = 0;
-                srcBox.back = 1;
-                uint32_t x = std::min<uint32_t>(std::max<uint32_t>(((float)width * results.vUVs.v[0]) - ((float)cursorSize-1)/2, 0), width);
-                uint32_t y = std::min<uint32_t>(std::max<uint32_t>(((float)height * (1.0f - results.vUVs.v[1])) - ((float)cursorSize-1)/2, 0), height);
-                context->CopySubresourceRegion(tex, 0, x, y, 0, blackTex, 0, &srcBox);
+                float heightFactor = (float)height/(float)width;
+                
+                results.vUVs.v[1] = 1.0f - results.vUVs.v[1];
+                results.vUVs.v[1] -= 0.5f;
+                if (std::abs(results.vUVs.v[1]) < heightFactor/2) {
+                  results.vUVs.v[1] /= heightFactor;
+                  results.vUVs.v[1] += 0.5f;
+
+                  D3D11_BOX srcBox{};
+                  srcBox.left = 0;
+                  srcBox.right = cursorSize;
+                  srcBox.top = 0;
+                  srcBox.bottom = cursorSize;
+                  srcBox.front = 0;
+                  srcBox.back = 1;
+                  uint32_t x = std::min<uint32_t>(std::max<uint32_t>(((float)width * results.vUVs.v[0]) - ((float)cursorSize-1)/2, 0), width);
+                  uint32_t y = std::min<uint32_t>(std::max<uint32_t>(((float)height * results.vUVs.v[1]) - ((float)cursorSize-1)/2, 0), height);
+                  context->CopySubresourceRegion(tex, 0, x, y, 0, blackTex, 0, &srcBox);
+                }
               }
             }
           }
