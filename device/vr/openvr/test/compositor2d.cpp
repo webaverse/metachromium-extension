@@ -10,6 +10,10 @@ using namespace vr;
 
 namespace compositor2d {
 
+ID3D11Device5 *device;
+ID3D11DeviceContext4 *context;
+IDXGISwapChain *swapChain;
+
 class WindowOverlay {
 public:
   HWND hWnd;
@@ -21,11 +25,114 @@ public:
   int width;
   int height;
   bool seen;
+  
+  static size_t numOverlays;
+
+public:
+  WindowOverlay(HWND hWnd) {
+    RECT rect;          
+    GetClientRect(hWnd, &rect);
+    int newWidth = rect.right - rect.left;
+    int newHeight = rect.bottom - rect.top;
+    setBackingTexture(newWidth, newHeight);
+
+    std::string overlayName("metachromium");
+    overlayName += std::to_string(++numOverlays);
+    EVROverlayError error = g_vroverlay->CreateOverlay(overlayName.c_str(), overlayName.c_str(), &overlay);
+    if (error != VROverlayError_None) {
+      getOut() << "error creating overlay: " << (void *)error << std::endl;
+    }
+
+    /* g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_NoDashboardTab, true);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay flag: " << (void *)error << std::endl;
+    } */
+    g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_VisibleInDashboard, true);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay flag: " << (void *)error << std::endl;
+    }
+    
+    error = g_vroverlay->SetOverlayWidthInMeters(overlay, 1);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay width: " << (void *)error << std::endl;
+    }
+    
+    /* g_vroverlay->SetOverlayColor(overlay, 0, 0, 0.5);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay color: " << (void *)error << std::endl;
+    } */
+    
+    float position[16] = {0, numOverlays + 1, -1};
+    float quaternion[4] = {0, 0, 0, 1};
+    float scale[3] = {1, 1, 1};
+    float viewMatrix[16];
+    composeMatrix(viewMatrix, position, quaternion, scale);
+    
+    HmdMatrix34_t mat;
+    setPoseMatrix(mat, viewMatrix);
+    error = g_vroverlay->SetOverlayTransformAbsolute(overlay, TrackingUniverseStanding, &mat);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay transform: " << (void *)error << std::endl;
+    }
+
+    error = g_vroverlay->ShowOverlay(overlay);
+    if (error != VROverlayError_None) {
+      getOut() << "error showing overlay: " << (void *)error << std::endl;
+    }
+    
+    getOut() << "create overlay " << width << " " << height << " " << position[0] << " " << position[1] << " " << position[2] << std::endl;
+  }
+  void setBackingTexture(int newWidth, int newHeight) {
+    width = newWidth;
+    height = newHeight;
+    
+    D3D11_TEXTURE2D_DESC desc{};
+    desc.Width = width;
+    desc.Height = height;
+    desc.MipLevels = 1;
+    desc.ArraySize = 1;
+    desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+    desc.Usage = D3D11_USAGE_DEFAULT;
+    desc.SampleDesc.Count = 1;
+    desc.SampleDesc.Quality = 0;
+    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+    desc.MiscFlags = D3D11_RESOURCE_MISC_GDI_COMPATIBLE | D3D11_RESOURCE_MISC_SHARED;
+
+    HRESULT hr = device->CreateTexture2D(
+      &desc,
+      NULL,
+      &tex
+    );
+    if (FAILED(hr) || !tex) {
+      getOut() << "failed to create dc texture: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    hr = tex->QueryInterface(__uuidof(IDXGISurface1), (void **)&dxgiSurface1);
+    if (FAILED(hr) || !dxgiSurface1) {
+      getOut() << "failed to query dc texture surface: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    hr = tex->QueryInterface(__uuidof(IDXGIResource), (void **)&dxgiResource);
+    if (FAILED(hr) || !dxgiResource) {
+      getOut() << "failed to query dc texture surface: " << (void *)hr << std::endl;
+      abort();
+    }
+    
+    hr = dxgiResource->GetSharedHandle(&surfaceShareHandle);
+    if (FAILED(hr) || !surfaceShareHandle) {
+      getOut() << "failed to get dc surface shared handle: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    getOut() << "create surface " << width << " " << height << std::endl;
+  }
 };
+size_t WindowOverlay::numOverlays = 0;
 
 std::vector<HWND> hwnds;
 std::map<HANDLE, WindowOverlay> windowOverlays;
-size_t numOverlays = 0;
 
 BOOL CALLBACK EnumWindowsProc(
   _In_ HWND   hwnd,
@@ -35,9 +142,6 @@ BOOL CALLBACK EnumWindowsProc(
   return true;
 }
 void homeRenderLoop() {
-  ID3D11Device5 *device;
-  ID3D11DeviceContext4 *context;
-  IDXGISwapChain *swapChain;
   PVRCompositor::CreateDevice(&device, &context, &swapChain);
   ID3D11Texture2D *tex = nullptr;
   IDXGISurface1 *dxgiSurface1 = nullptr;
@@ -77,127 +181,36 @@ void homeRenderLoop() {
         );
 
         if (result > 0 && cwd == buffer) {
-          getOut() << "got chrome window " << result << " " << buffer << " " << txt << std::endl;
+          getOut() << "got chrome window " << hWnd << " " << windowOverlays.size() << " " << buffer << " " << txt << std::endl;
 
           auto iter = windowOverlays.find(hWnd);
           if (iter == windowOverlays.end()) {
-            WindowOverlay windowOverlay{};
-
-            RECT rect;          
-            GetClientRect(hWnd, &rect);
-
-            windowOverlay.width = rect.right - rect.left;
-            windowOverlay.height = rect.bottom - rect.top;
-
-            D3D11_TEXTURE2D_DESC desc{};
-            desc.Width = windowOverlay.width;
-            desc.Height = windowOverlay.height;
-            desc.MipLevels = 1;
-            desc.ArraySize = 1;
-            desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-            desc.Usage = D3D11_USAGE_DEFAULT;
-            desc.SampleDesc.Count = 1;
-            desc.SampleDesc.Quality = 0;
-            desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
-            desc.MiscFlags = D3D11_RESOURCE_MISC_GDI_COMPATIBLE | D3D11_RESOURCE_MISC_SHARED;
-
-            HRESULT hr = device->CreateTexture2D(
-              &desc,
-              NULL,
-              &windowOverlay.tex
-            );
-            if (FAILED(hr) || !windowOverlay.tex) {
-              getOut() << "failed to create dc texture: " << (void *)hr << std::endl;
-              abort();
-            }
-
-            hr = windowOverlay.tex->QueryInterface(__uuidof(IDXGISurface1), (void **)&windowOverlay.dxgiSurface1);
-            if (FAILED(hr) || !windowOverlay.dxgiSurface1) {
-              getOut() << "failed to query dc texture surface: " << (void *)hr << std::endl;
-              abort();
-            }
-            
-            hr = windowOverlay.tex->QueryInterface(__uuidof(IDXGIResource), (void **)&windowOverlay.dxgiResource);
-            if (FAILED(hr) || !windowOverlay.dxgiResource) {
-              getOut() << "failed to query dc texture surface: " << (void *)hr << std::endl;
-              abort();
-            }
-            
-            hr = windowOverlay.dxgiResource->GetSharedHandle(&windowOverlay.surfaceShareHandle);
-            if (FAILED(hr) || !windowOverlay.surfaceShareHandle) {
-              getOut() << "failed to get dc surface shared handle: " << (void *)hr << std::endl;
-              abort();
-            }
-
-            getOut() << "create surface " << (void *)windowOverlay.dxgiSurface1 << std::endl;
-
-            std::string overlayName("metachromium");
-            overlayName += std::to_string(++numOverlays);
-            EVROverlayError error = g_vroverlay->CreateOverlay(overlayName.c_str(), overlayName.c_str(), &windowOverlay.overlay);
-            if (error != VROverlayError_None) {
-              getOut() << "error creating overlay: " << (void *)error << std::endl;
-            }
-
-            Texture_t vrTexDesc{};
-            vrTexDesc.handle = windowOverlay.surfaceShareHandle;
-            vrTexDesc.eType = TextureType_DXGISharedHandle;
-            vrTexDesc.eColorSpace = ColorSpace_Auto;
-            error = g_vroverlay->SetOverlayTexture(windowOverlay.overlay, &vrTexDesc);
-            if (error != VROverlayError_None) {
-              getOut() << "error setting overlay texture: " << (void *)error << std::endl;
-            }
-
-            g_vroverlay->SetOverlayFlag(windowOverlay.overlay, VROverlayFlags_NoDashboardTab, true);
-            if (error != VROverlayError_None) {
-              getOut() << "error setting overlay flag: " << (void *)error << std::endl;
-            }
-            g_vroverlay->SetOverlayFlag(windowOverlay.overlay, VROverlayFlags_VisibleInDashboard, true);
-            if (error != VROverlayError_None) {
-              getOut() << "error setting overlay flag: " << (void *)error << std::endl;
-            }
-            
-            error = g_vroverlay->SetOverlayWidthInMeters(windowOverlay.overlay, 1);
-            if (error != VROverlayError_None) {
-              getOut() << "error setting overlay width: " << (void *)error << std::endl;
-            }
-            
-            g_vroverlay->SetOverlayColor(windowOverlay.overlay, 0, 0, 0.5);
-            if (error != VROverlayError_None) {
-              getOut() << "error setting overlay color: " << (void *)error << std::endl;
-            }
-            
-            HmdMatrix34_t mat{};
-            mat.m[0][0] = 1;
-            mat.m[1][1] = 1;
-            mat.m[2][2] = 1;
-            error = g_vroverlay->SetOverlayTransformAbsolute(windowOverlay.overlay, TrackingUniverseStanding, &mat);
-            if (error != VROverlayError_None) {
-              getOut() << "error setting overlay transform: " << (void *)error << std::endl;
-            }
-            
-            error = g_vroverlay->ShowOverlay(windowOverlay.overlay);
-            if (error != VROverlayError_None) {
-              getOut() << "error showing overlay: " << (void *)error << std::endl;
-            }
+            WindowOverlay windowOverlay(hWnd);
 
             windowOverlays.insert(std::pair<HANDLE, WindowOverlay>(hWnd, windowOverlay));
             iter = windowOverlays.find(hWnd);
+          /* } else {
+            WindowOverlay &windowOverlay = iter->second;
+            
+            RECT rect;          
+            GetClientRect(windowOverlay.hWnd, &rect);
+            int width = rect.right - rect.left;
+            int height = rect.bottom - rect.top;
+            
+            if (width != windowOverlay.width || height != windowOverlay.height) {
+              windowOverlay.setBackingTexture(width, height);
+            } */
           }
           WindowOverlay &windowOverlay = iter->second;
 
-          getOut() << "dc 1" << std::endl;
-
           HDC hdcWindow = GetDC(hWnd);
-          getOut() << "dc 2 " << (void *)hWnd << " " << (void *)windowOverlay.dxgiSurface1 << std::endl;
+          getOut() << "dc " << (void *)hWnd << " " << (void *)windowOverlay.dxgiSurface1 << " " << windowOverlay.width << " " << windowOverlay.height << std::endl;
           HDC texDc;
           HRESULT hr = windowOverlay.dxgiSurface1->GetDC(false, &texDc);
-          getOut() << "dc 3" << std::endl;
           if (FAILED(hr)) {
             getOut() << "failed to get tex dc: " << (void *)hr << std::endl;
             abort();
           }
-
-          getOut() << "dc 4" << std::endl;
 
           BOOL blitResult = BitBlt(
             texDc,
@@ -213,15 +226,22 @@ void homeRenderLoop() {
           if (!blitResult) {
             getOut() << "blit failed: " << (void *)GetLastError() << std::endl;
           }
-          
-          getOut() << "dc 5" << std::endl;
 
           ReleaseDC(hWnd, hdcWindow);
           windowOverlay.dxgiSurface1->ReleaseDC(nullptr);
-          
+
+          {
+            Texture_t vrTexDesc{};
+            vrTexDesc.handle = windowOverlay.surfaceShareHandle;
+            vrTexDesc.eType = TextureType_DXGISharedHandle;
+            vrTexDesc.eColorSpace = ColorSpace_Auto;
+            EVROverlayError error = g_vroverlay->SetOverlayTexture(windowOverlay.overlay, &vrTexDesc);
+            if (error != VROverlayError_None) {
+              getOut() << "error setting overlay texture: " << (void *)error << std::endl;
+            }
+          }
+         
           windowOverlay.seen = true;
-          
-          getOut() << "dc 6" << std::endl;
         }
       }
     }
