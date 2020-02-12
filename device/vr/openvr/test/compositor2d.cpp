@@ -27,6 +27,8 @@ public:
   bool seen;
   
   static size_t numOverlays;
+  static ID3D11Texture2D *blackTex;
+  static ID3D11Resource *blackResource;
 
 public:
   WindowOverlay(HWND hWnd) :
@@ -93,6 +95,36 @@ public:
     } */
     
     getOut() << "create overlay " << width << " " << height << " " << position[0] << " " << position[1] << " " << position[2] << std::endl;
+    
+    if (!blackTex) {
+      D3D11_TEXTURE2D_DESC blackDesc{};
+      blackDesc.Width = 16;
+      blackDesc.Height = 16;
+      blackDesc.MipLevels = 1;
+      blackDesc.ArraySize = 1;
+      blackDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+      blackDesc.Usage = D3D11_USAGE_DEFAULT;
+      blackDesc.SampleDesc.Count = 1;
+      blackDesc.SampleDesc.Quality = 0;
+      blackDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+      // desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED;
+      
+      HRESULT hr = device->CreateTexture2D(
+        &blackDesc,
+        NULL,
+        &blackTex
+      );
+      if (FAILED(hr) || !tex) {
+        getOut() << "failed to create black texture: " << (void *)hr << std::endl;
+        abort();
+      }
+      
+      hr = blackTex->QueryInterface(__uuidof(ID3D11Resource), (void **)&blackResource);
+      if (FAILED(hr) || !dxgiSurface1) {
+        getOut() << "failed to query black texture resource: " << (void *)hr << std::endl;
+        abort();
+      }
+    }
   }
   void setBackingTexture(int newWidth, int newHeight) {
     width = newWidth;
@@ -149,44 +181,7 @@ public:
 
     getOut() << "create surface " << width << " " << height << std::endl;
   }
-  void tick() {
-    TrackedDevicePose_t cachedRenderPoses[k_unMaxTrackedDeviceCount];
-    EVRCompositorError error2 = g_vrcompositor->GetLastPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), nullptr, 0);
-    if (error2 == VRCompositorError_None) {
-      for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
-        TrackedDevicePose_t &cachedRenderPose = cachedRenderPoses[i];
-
-        if (cachedRenderPose.bPoseIsValid) {
-          ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
-
-          if (deviceClass == TrackedDeviceClass_Controller) {
-            ETrackedControllerRole controllerRole = g_vrsystem->GetControllerRoleForTrackedDeviceIndex(i);
-            if (controllerRole == TrackedControllerRole_LeftHand) {
-              // XXX
-            } else if (controllerRole == TrackedControllerRole_RightHand) {
-              float viewMatrix[16];
-              setPoseMatrix(viewMatrix, cachedRenderPose.mDeviceToAbsoluteTracking);
-              float position[3];
-              float quaternion[4];
-              float scale[3];
-              decomposeMatrix(viewMatrix, position, quaternion, scale);
-
-              VROverlayIntersectionParams_t params{};
-              memcpy(params.vSource.v, position, sizeof(position));
-              float direction[3] = {0, 0, -1};
-              applyVector3Quaternion(direction, quaternion);
-              memcpy(params.vDirection.v, direction, sizeof(direction));
-              params.eOrigin = TrackingUniverseStanding;
-              VROverlayIntersectionResults_t results;
-              if (g_vroverlay->ComputeOverlayIntersection(overlay, &params, &results)) {
-                getOut() << "intersection yes " << results.vPoint.v[0] << " " << results.vPoint.v[1] << " " << results.vPoint.v[2] << " " << results.fDistance << std::endl;
-              }
-            }
-          }
-        }
-      }
-    }
-    
+  void tick() {    
     HDC hdcWindow = GetDC(hWnd);
     HDC texDc;
     HRESULT hr = dxgiSurface1->GetDC(false, &texDc);
@@ -212,15 +207,7 @@ public:
 
     ReleaseDC(hWnd, hdcWindow);
     dxgiSurface1->ReleaseDC(nullptr);
-
-    Texture_t vrTexDesc{};
-    vrTexDesc.handle = surfaceShareHandle;
-    vrTexDesc.eType = TextureType_DXGISharedHandle;
-    vrTexDesc.eColorSpace = ColorSpace_Auto;
-    EVROverlayError error = g_vroverlay->SetOverlayTexture(overlay, &vrTexDesc);
-    if (error != VROverlayError_None) {
-      getOut() << "error setting overlay texture: " << (void *)error << std::endl;
-    }
+    // GdiFlush();
     
     /* VREvent_t event;
     while (g_vroverlay->PollNextOverlayEvent(overlay, &event, sizeof(event))) {
@@ -261,11 +248,74 @@ public:
         }
       }
     } */
+    
+    // context->Flush();
+    
+    TrackedDevicePose_t cachedRenderPoses[k_unMaxTrackedDeviceCount];
+    EVRCompositorError error2 = g_vrcompositor->GetLastPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), nullptr, 0);
+    if (error2 == VRCompositorError_None) {
+      for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
+        TrackedDevicePose_t &cachedRenderPose = cachedRenderPoses[i];
+
+        if (cachedRenderPose.bPoseIsValid) {
+          ETrackedDeviceClass deviceClass = g_vrsystem->GetTrackedDeviceClass(i);
+
+          if (deviceClass == TrackedDeviceClass_Controller) {
+            ETrackedControllerRole controllerRole = g_vrsystem->GetControllerRoleForTrackedDeviceIndex(i);
+            if (controllerRole == TrackedControllerRole_LeftHand) {
+              // XXX
+            } else if (controllerRole == TrackedControllerRole_RightHand) {
+              float viewMatrix[16];
+              setPoseMatrix(viewMatrix, cachedRenderPose.mDeviceToAbsoluteTracking);
+              float position[3];
+              float quaternion[4];
+              float scale[3];
+              decomposeMatrix(viewMatrix, position, quaternion, scale);
+
+              VROverlayIntersectionParams_t params{};
+              memcpy(params.vSource.v, position, sizeof(position));
+              float direction[3] = {0, 0, -1};
+              applyVector3Quaternion(direction, quaternion);
+              memcpy(params.vDirection.v, direction, sizeof(direction));
+              params.eOrigin = TrackingUniverseStanding;
+              VROverlayIntersectionResults_t results;
+              if (g_vroverlay->ComputeOverlayIntersection(overlay, &params, &results) && results.fDistance < 3.0f) {
+                getOut() << "intersection yes " << results.vPoint.v[0] << " " << results.vPoint.v[1] << " " << results.vPoint.v[2] << " " << results.vUVs.v[0] << " " << results.vUVs.v[1] << " " << results.fDistance << std::endl;
+
+                // uint32_t width = 16;
+                // uint32_t height = 16;
+                D3D11_BOX srcBox;
+                srcBox.left = 0;
+                srcBox.right = 16;
+                srcBox.top = 0;
+                srcBox.bottom = 16;
+                srcBox.front = 0;
+                srcBox.back = 1;
+                context->CopySubresourceRegion(tex, 0, (float)width * results.vUVs.v[0], (float)height * (1.0f - results.vUVs.v[1]), 0, blackTex, 0, &srcBox);
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    context->Flush();
+    
+    Texture_t vrTexDesc{};
+    vrTexDesc.handle = surfaceShareHandle;
+    vrTexDesc.eType = TextureType_DXGISharedHandle;
+    vrTexDesc.eColorSpace = ColorSpace_Auto;
+    EVROverlayError error = g_vroverlay->SetOverlayTexture(overlay, &vrTexDesc);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay texture: " << (void *)error << std::endl;
+    }
 
     seen = true;
   }
 };
 size_t WindowOverlay::numOverlays = 0;
+ID3D11Texture2D *WindowOverlay::blackTex = nullptr;
+ID3D11Resource *WindowOverlay::blackResource = nullptr;
 
 std::vector<HWND> hwnds;
 std::map<HANDLE, WindowOverlay> windowOverlays;
