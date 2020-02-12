@@ -152,7 +152,7 @@ int WINAPI WinMain(
   LPSTR lpCmdLine,
   int nCmdShow
 ) {
-  // SetProcessDPIAware();
+  SetProcessDPIAware();
 
   shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
   g_offsets = (Offsets *)shMem;
