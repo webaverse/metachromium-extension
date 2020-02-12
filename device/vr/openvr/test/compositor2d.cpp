@@ -82,6 +82,16 @@ public:
       getOut() << "error showing overlay: " << (void *)error << std::endl;
     }
     
+    error = g_vroverlay->SetOverlayInputMethod(overlay, VROverlayInputMethod_Mouse);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay input method: " << (void *)error << std::endl;
+    }
+    
+    /* error = g_vroverlay->TriggerLaserMouseHapticVibration(overlay, 0.1, 50.0, 0.5);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay haptics: " << (void *)error << std::endl;
+    } */
+    
     getOut() << "create overlay " << width << " " << height << " " << position[0] << " " << position[1] << " " << position[2] << std::endl;
   }
   void setBackingTexture(int newWidth, int newHeight) {
@@ -127,8 +137,89 @@ public:
       getOut() << "failed to get dc surface shared handle: " << (void *)hr << std::endl;
       abort();
     }
+    
+    HmdVector2_t vecWindowSize = {
+      width,
+      height
+    };
+    EVROverlayError error = g_vroverlay->SetOverlayMouseScale(overlay, &vecWindowSize);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay mouse scale: " << (void *)error << std::endl;
+    }
 
     getOut() << "create surface " << width << " " << height << std::endl;
+  }
+  void tick() {
+    HDC hdcWindow = GetDC(hWnd);
+    HDC texDc;
+    HRESULT hr = dxgiSurface1->GetDC(false, &texDc);
+    if (FAILED(hr)) {
+      getOut() << "failed to get tex dc: " << (void *)hr << std::endl;
+      abort();
+    }
+
+    BOOL blitResult = BitBlt(
+      texDc,
+      0,
+      0,
+      width,
+      height,
+      hdcWindow,
+      0,
+      0,
+      SRCCOPY
+    );
+    if (!blitResult) {
+      getOut() << "blit failed: " << (void *)GetLastError() << std::endl;
+    }
+
+    ReleaseDC(hWnd, hdcWindow);
+    dxgiSurface1->ReleaseDC(nullptr);
+
+    Texture_t vrTexDesc{};
+    vrTexDesc.handle = surfaceShareHandle;
+    vrTexDesc.eType = TextureType_DXGISharedHandle;
+    vrTexDesc.eColorSpace = ColorSpace_Auto;
+    EVROverlayError error = g_vroverlay->SetOverlayTexture(overlay, &vrTexDesc);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay texture: " << (void *)error << std::endl;
+    }
+    
+    VREvent_t event;
+    while (g_vroverlay->PollNextOverlayEvent(overlay, &event, sizeof(event))) {
+      switch (event.eventType) {
+        case VREvent_MouseMove: {
+          getOut() << "mouse move" << std::endl;
+          break;
+        }
+        case VREvent_MouseButtonDown: {
+          getOut() << "mouse down" << std::endl;
+          break;
+        }
+        case VREvent_MouseButtonUp: {
+          getOut() << "mouse up" << std::endl;
+          break;
+        }
+        case VREvent_FocusEnter: {
+          getOut() << "focus enter" << std::endl;
+          break;
+        }
+        case VREvent_FocusLeave: {
+          getOut() << "focus leave" << std::endl;
+          break;
+        }
+        case VREvent_TouchPadMove: {
+          getOut() << "touchpad move" << std::endl;
+          break;
+        }
+        default: {
+          getOut() << "unknown overlay event type: " << event.eventType << std::endl;
+          break;
+        }
+      }
+    }
+   
+    seen = true;
   }
 };
 size_t WindowOverlay::numOverlays = 0;
@@ -204,46 +295,7 @@ void homeRenderLoop() {
             } */
           }
           WindowOverlay &windowOverlay = iter->second;
-
-          HDC hdcWindow = GetDC(hWnd);
-          // getOut() << "dc " << (void *)hWnd << " " << (void *)windowOverlay.dxgiSurface1 << " " << windowOverlay.width << " " << windowOverlay.height << std::endl;
-          HDC texDc;
-          HRESULT hr = windowOverlay.dxgiSurface1->GetDC(false, &texDc);
-          if (FAILED(hr)) {
-            getOut() << "failed to get tex dc: " << (void *)hr << std::endl;
-            abort();
-          }
-
-          BOOL blitResult = BitBlt(
-            texDc,
-            0,
-            0,
-            windowOverlay.width,
-            windowOverlay.height,
-            hdcWindow,
-            0,
-            0,
-            SRCCOPY
-          );
-          if (!blitResult) {
-            getOut() << "blit failed: " << (void *)GetLastError() << std::endl;
-          }
-
-          ReleaseDC(hWnd, hdcWindow);
-          windowOverlay.dxgiSurface1->ReleaseDC(nullptr);
-
-          {
-            Texture_t vrTexDesc{};
-            vrTexDesc.handle = windowOverlay.surfaceShareHandle;
-            vrTexDesc.eType = TextureType_DXGISharedHandle;
-            vrTexDesc.eColorSpace = ColorSpace_Auto;
-            EVROverlayError error = g_vroverlay->SetOverlayTexture(windowOverlay.overlay, &vrTexDesc);
-            if (error != VROverlayError_None) {
-              getOut() << "error setting overlay texture: " << (void *)error << std::endl;
-            }
-          }
-         
-          windowOverlay.seen = true;
+          windowOverlay.tick();
         }
       }
     }
