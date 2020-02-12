@@ -45,14 +45,14 @@ public:
       getOut() << "error creating overlay: " << (void *)error << std::endl;
     }
 
-    /* g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_NoDashboardTab, true);
-    if (error != VROverlayError_None) {
-      getOut() << "error setting overlay flag: " << (void *)error << std::endl;
-    } */
-    g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_VisibleInDashboard, true);
+    g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_NoDashboardTab, true);
     if (error != VROverlayError_None) {
       getOut() << "error setting overlay flag: " << (void *)error << std::endl;
     }
+    /* g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_VisibleInDashboard, true);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay flag: " << (void *)error << std::endl;
+    } */
     
     error = g_vroverlay->SetOverlayWidthInMeters(overlay, 1);
     if (error != VROverlayError_None) {
@@ -138,14 +138,14 @@ public:
       abort();
     }
     
-    HmdVector2_t vecWindowSize = {
+    /* HmdVector2_t vecWindowSize = {
       width,
       height
     };
     EVROverlayError error = g_vroverlay->SetOverlayMouseScale(overlay, &vecWindowSize);
     if (error != VROverlayError_None) {
       getOut() << "error setting overlay mouse scale: " << (void *)error << std::endl;
-    }
+    } */
 
     getOut() << "create surface " << width << " " << height << std::endl;
   }
@@ -185,7 +185,7 @@ public:
       getOut() << "error setting overlay texture: " << (void *)error << std::endl;
     }
     
-    VREvent_t event;
+    /* VREvent_t event;
     while (g_vroverlay->PollNextOverlayEvent(overlay, &event, sizeof(event))) {
       switch (event.eventType) {
         case VREvent_MouseMove: {
@@ -212,12 +212,18 @@ public:
           getOut() << "touchpad move" << std::endl;
           break;
         }
+        // case VREvent_PropertyChanged:
+        // case VREvent_TrackedDeviceUserInteractionStarted:
+        // case VREvent_SceneApplicationStateChanged:
+        // {
+          // break;
+        // }
         default: {
           getOut() << "unknown overlay event type: " << event.eventType << std::endl;
           break;
         }
       }
-    }
+    } */
    
     seen = true;
   }
