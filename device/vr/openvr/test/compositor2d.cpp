@@ -29,7 +29,9 @@ public:
   static size_t numOverlays;
 
 public:
-  WindowOverlay(HWND hWnd) {
+  WindowOverlay(HWND hWnd) :
+    hWnd(hWnd)
+  {
     RECT rect;          
     GetClientRect(hWnd, &rect);
     int newWidth = rect.right - rect.left;
