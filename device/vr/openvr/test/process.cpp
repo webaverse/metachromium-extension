@@ -172,7 +172,7 @@ int WINAPI WinMain(
     g_hWnd = CreateWindowExA(
       NULL,
       wc.lpszClassName,    // name of the window class
-      "XR Chrome",   // title of the window
+      "Monochromium",   // title of the window
       WS_OVERLAPPEDWINDOW,    // window style
       CW_USEDEFAULT,    // x-position of the window
       CW_USEDEFAULT,    // y-position of the window
