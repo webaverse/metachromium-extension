@@ -204,7 +204,7 @@ void homeRenderLoop() {
           WindowOverlay &windowOverlay = iter->second;
 
           HDC hdcWindow = GetDC(hWnd);
-          getOut() << "dc " << (void *)hWnd << " " << (void *)windowOverlay.dxgiSurface1 << " " << windowOverlay.width << " " << windowOverlay.height << std::endl;
+          // getOut() << "dc " << (void *)hWnd << " " << (void *)windowOverlay.dxgiSurface1 << " " << windowOverlay.width << " " << windowOverlay.height << std::endl;
           HDC texDc;
           HRESULT hr = windowOverlay.dxgiSurface1->GetDC(false, &texDc);
           if (FAILED(hr)) {
