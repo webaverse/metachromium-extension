@@ -4,35 +4,6 @@
 
 'use strict';
 
-// Declare extension default properties
-/* let downloadsArray = [];
-let initialState = {
-  'savedImages': downloadsArray,
-  'thumbnails': false,
-  'saveImages': true
-}; */
-
-// Set extension setting on installation
-/* chrome.runtime.onInstalled.addListener(function() {
-}); */
-
-/* console.log('listening 1', chrome.runtime.connectNative);
-
-const inject = tab => {
-  console.log('got tab', tab.id);
-  chrome.tabs.executeScript(tab.id, {
-    code: `
-      window.lol = 'zol';
-      window.document.lol = 'zol';
-      // document.body.style.backgroundColor = "orange";
-    `,  
-  }, () => {
-    console.log('ran script');
-  })
-};
-chrome.tabs.onCreated.addListener(inject);
-chrome.tabs.onUpdated.addListener(inject); */
-
 const port = chrome.runtime.connectNative('com.exokit.xrchrome');
 const cbs = [];
 port.onMessage.addListener(msg => {
