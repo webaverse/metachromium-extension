@@ -299,6 +299,8 @@ public:
                   uint32_t x = std::min<uint32_t>(std::max<uint32_t>(((float)width * results.vUVs.v[0]) - ((float)cursorSize-1)/2, 0), width);
                   uint32_t y = std::min<uint32_t>(std::max<uint32_t>(((float)height * results.vUVs.v[1]) - ((float)cursorSize-1)/2, 0), height);
                   context->CopySubresourceRegion(tex, 0, x, y, 0, blackTex, 0, &srcBox);
+                  
+                  moveMouse(x, y);
                 }
               }
             }
@@ -319,6 +321,46 @@ public:
     }
 
     seen = true;
+  }
+  void moveMouse(uint32_t x, uint32_t y) {
+    int type = 0;
+
+    if (GetForegroundWindow() != hWnd) {
+      SetForegroundWindow(hWnd);
+    }
+
+    RECT rect;
+    GetWindowRect(hWnd, &rect);
+
+    INPUT input{};
+    input.type = INPUT_MOUSE;
+    input.mi.dx = rect.left + x;
+    input.mi.dy = rect.top + y;
+    input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
+
+    // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
+
+    switch (type) {
+      case 0: {
+        input.mi.dwFlags |= MOUSEEVENTF_MOVE;
+        SetCursorPos(input.mi.dx, input.mi.dy);
+        // SendInput(1, &input, sizeof(input));
+        break;
+      }
+      case 1: {
+        input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
+        SendInput(1, &input, sizeof(input));
+        break;
+      }
+      case 2: {
+        input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
+        SendInput(1, &input, sizeof(input));
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 };
 size_t WindowOverlay::numOverlays = 0;
