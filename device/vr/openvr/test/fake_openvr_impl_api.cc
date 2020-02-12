@@ -156,7 +156,7 @@ void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
 
   for (auto iter : vars) {
     const std::string &s = iter;
-    getOut() << "write arg: " << s << std::endl;
+    // getOut() << "write arg: " << s << std::endl;
     memcpy(pEnvBuf, s.c_str(), s.size() + 1);
     pEnvBuf += s.size() + 1;
   }
