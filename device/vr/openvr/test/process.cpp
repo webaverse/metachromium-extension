@@ -4,6 +4,7 @@
 #include "extension/json.hpp"
 #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
+#include "device/vr/openvr/test/compositor2d.h"
 #include "device/vr/openvr/test/qr.h"
 
 #include <psapi.h>
@@ -508,6 +509,10 @@ int WINAPI WinMain(
       PostMessage(g_hWnd, WM_DESTROY, 0, 0);
     }).detach();
   }
+  
+  std::thread([=]() -> void {
+    compositor2d::homeRenderLoop();
+  }).detach();
 
   while (live) {
     bool isMessage = g_fnp->handle();
