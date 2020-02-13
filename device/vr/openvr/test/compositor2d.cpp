@@ -28,6 +28,7 @@ public:
   int desktopHeight;
   int centerX;
   int centerY;
+  float centerZ;
   bool seen;
   
   static const uint32_t cursorSize = 11;
@@ -43,10 +44,19 @@ public:
     GetWindowRect(hWnd, &rect);
     width = rect.right - rect.left;
     height = rect.bottom - rect.top;
-    desktopWidth = GetSystemMetrics(SM_CXSCREEN);
-    desktopHeight = GetSystemMetrics(SM_CYSCREEN);
     centerX = (rect.right + rect.left)/2;
     centerY = (rect.bottom + rect.top)/2;
+    if (rect.left > 2000) {
+      centerZ = 0.01;
+    } else {
+      centerZ = 0;
+    }
+    
+    const HWND hDesktop = GetDesktopWindow();
+    RECT desktopRect;
+    GetWindowRect(hDesktop, &desktopRect);
+    int desktopWidth = desktopRect.right - desktopRect.left;
+    int desktopHeight = desktopRect.bottom - desktopRect.top;
 
     std::string overlayName("metachromium");
     overlayName += std::to_string(++numOverlays);
@@ -172,12 +182,23 @@ public:
     getOut() << "create surface " << width << " " << height << std::endl;
   }
   void setPosition() {
+    // float heightFactor = (float)height/(float)width;
     float offsetX = (float)centerX / (float)desktopWidth;
-    float offsetY = 1.0f - ((float)centerY / (float)desktopHeight);
+    float offsetY = 1.0f - ((float)centerY / (float)desktopWidth);
+    // offsetY += (float)height / (float)desktopHeight;
+    // offsetY += (float)height/2/(float)desktopHeight;
+    // offsetY -= 0.5f * (float)height / (float)desktopHeight;
+    // offsetY -= heightFactor / 2.0f * (float)height / (float)desktopHeight;
     
-    getOut() << "offset x " << offsetX << std::endl;
+    RECT rect;          
+    GetWindowRect(hWnd, &rect);
+    /* if (rect.left > 2000) {
+      offsetY -= (float)217 / desktopHeight;
+    } */
     
-    float position[3] = {-0.5f + offsetX, 1.0f + offsetY, -1.0f};
+    // getOut() << "offset z " << rect.left << " " << centerZ << std::endl;
+    
+    float position[3] = {-0.5f + offsetX, 1.0f + offsetY, -1.0f + centerZ};
     float quaternion[4] = {0, 0, 0, 1};
     float scale[3] = {1, 1, 1};
     float viewMatrix[16];
@@ -322,6 +343,15 @@ public:
       }
     }
     
+    D3D11_BOX srcBox{};
+    srcBox.left = 0;
+    srcBox.right = cursorSize;
+    srcBox.top = 0;
+    srcBox.bottom = cursorSize;
+    srcBox.front = 0;
+    srcBox.back = 1;
+    context->CopySubresourceRegion(tex, 0, width/2 + 250, height/2, 0, blackTex, 0, &srcBox);
+    
     context->Flush();
     
     Texture_t vrTexDesc{};
@@ -412,8 +442,11 @@ void homeRenderLoop() {
       NULL
     );
     
-    int desktopWidth = GetSystemMetrics(SM_CXSCREEN);
-    int desktopHeight = GetSystemMetrics(SM_CYSCREEN);
+    const HWND hDesktop = GetDesktopWindow();
+    RECT desktopRect;
+    GetWindowRect(hDesktop, &desktopRect);
+    int desktopWidth = desktopRect.right - desktopRect.left;
+    int desktopHeight = desktopRect.bottom - desktopRect.top;
     
     for (auto hWnd : hwnds) {
       if (IsWindowVisible(hWnd)) {
@@ -452,7 +485,7 @@ void homeRenderLoop() {
             int centerX = (rect.right + rect.left)/2;
             int centerY = (rect.bottom + rect.top)/2;
             
-            getOut() << "center x" << rect.left << " " << rect.right << " " << centerX << " " << desktopWidth << std::endl;
+            getOut() << "center x " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << " " << centerX << " " << centerY << " " << desktopWidth << " " << desktopHeight << std::endl;
             
             bool needsTextureUpdate = (width != windowOverlay.width || height != windowOverlay.height);
             bool needsPositionUpdate = (needsTextureUpdate || desktopWidth != windowOverlay.desktopWidth || desktopHeight != windowOverlay.desktopHeight || centerX != windowOverlay.centerX || centerY != windowOverlay.centerY);
@@ -462,6 +495,11 @@ void homeRenderLoop() {
             windowOverlay.desktopHeight = desktopHeight;
             windowOverlay.centerX = centerX;
             windowOverlay.centerY = centerY;
+            if (rect.left > 2000) {
+              windowOverlay.centerZ = 0.01;
+            } else {
+              windowOverlay.centerZ = 0;
+            }
             
             if (needsTextureUpdate) {
               windowOverlay.setBackingTexture();
