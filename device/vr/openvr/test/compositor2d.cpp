@@ -269,13 +269,16 @@ public:
     VREvent_t event;
     while (g_vroverlay->PollNextOverlayEvent(overlay, &event, sizeof(event))) {
       switch (event.eventType) {
-        case VREvent_MouseMove: {
+        case VREvent_MouseMove:
+        case VREvent_MouseButtonDown:
+        case VREvent_MouseButtonUp:
+        {
           getOut() << "mouse move" << std::endl;
-          
+
           const VREvent_Mouse_t &mouseEvent = event.data.mouse;
-          
+
           float heightFactor = (float)height/(float)width;
-          
+
           float uvx = mouseEvent.x;
           float uvy = mouseEvent.y;
           uvy = 1.0f - uvy;
@@ -284,28 +287,36 @@ public:
             uvy /= heightFactor;
             uvy += 0.5f;
 
-            D3D11_BOX srcBox{};
-            srcBox.left = 0;
-            srcBox.right = cursorSize;
-            srcBox.top = 0;
-            srcBox.bottom = cursorSize;
-            srcBox.front = 0;
-            srcBox.back = 1;
-            uint32_t x = std::min<uint32_t>(std::max<uint32_t>(((float)width * uvx) - ((float)cursorSize-1)/2, 0), width);
-            uint32_t y = std::min<uint32_t>(std::max<uint32_t>(((float)height * uvy) - ((float)cursorSize-1)/2, 0), height);
-            context->CopySubresourceRegion(tex, 0, x, y, 0, blackTex, 0, &srcBox);
-            
-            moveMouse(x, y);
+            uint32_t x = std::min<uint32_t>(std::max<uint32_t>(((float)width * uvx), 0), width);
+            uint32_t y = std::min<uint32_t>(std::max<uint32_t>(((float)height * uvy), 0), height);
+
+            if (GetForegroundWindow() != hWnd) {
+              SetForegroundWindow(hWnd);
+            }
+
+            RECT rect;
+            GetWindowRect(hWnd, &rect);
+
+            INPUT input{};
+            input.type = INPUT_MOUSE;
+            input.mi.dx = rect.left + x;
+            input.mi.dy = rect.top + y;
+            input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
+
+            // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
+
+            SetCursorPos(input.mi.dx, input.mi.dy);
+            // SendInput(1, &input, sizeof(input));
+
+            if (event.eventType == VREvent_MouseButtonDown) {
+              input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE;
+              SendInput(1, &input, sizeof(input));
+            } else if (event.eventType == VREvent_MouseButtonUp) {
+              input.mi.dwFlags = MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE;
+              SendInput(1, &input, sizeof(input));
+            }
           }
-          
-          break;
-        }
-        case VREvent_MouseButtonDown: {
-          getOut() << "mouse down" << std::endl;
-          break;
-        }
-        case VREvent_MouseButtonUp: {
-          getOut() << "mouse up" << std::endl;
+
           break;
         }
         case VREvent_FocusEnter: {
@@ -411,46 +422,6 @@ public:
     }
 
     seen = true;
-  }
-  void moveMouse(uint32_t x, uint32_t y) {
-    int type = 0;
-
-    if (GetForegroundWindow() != hWnd) {
-      SetForegroundWindow(hWnd);
-    }
-
-    RECT rect;
-    GetWindowRect(hWnd, &rect);
-
-    INPUT input{};
-    input.type = INPUT_MOUSE;
-    input.mi.dx = rect.left + x;
-    input.mi.dy = rect.top + y;
-    input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
-
-    // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
-
-    switch (type) {
-      case 0: {
-        input.mi.dwFlags |= MOUSEEVENTF_MOVE;
-        SetCursorPos(input.mi.dx, input.mi.dy);
-        // SendInput(1, &input, sizeof(input));
-        break;
-      }
-      case 1: {
-        input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
-        SendInput(1, &input, sizeof(input));
-        break;
-      }
-      case 2: {
-        input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
-        SendInput(1, &input, sizeof(input));
-        break;
-      }
-      default: {
-        break;
-      }
-    }
   }
 };
 size_t WindowOverlay::numOverlays = 0;
