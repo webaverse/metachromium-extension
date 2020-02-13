@@ -494,39 +494,29 @@ window.addEventListener('xrload', async m => {
     }
   };
 
+  const cvMesh = (() => {
+    const geometry = new THREE.BufferGeometry();
+    const material = new THREE.MeshPhongMaterial({
+      // color: 0x42a5f5,
+      // transparent: true,
+      // opacity: 0.1,
+    });
+    return new THREE.Mesh(geometry, material);
+  })();
+  cvMesh.visible = false;
+  cvMesh.frustumCulled = false;
+  scene.add(cvMesh);
+
   let cvQueryRunning = false;
   const _updateCvFeatures = async () => {
     if (cvEngineOn && !cvQueryRunning) {
       cvQueryRunning = true;
 
       const cvFeatures = await xrc().request('getCvFeatures', []);
-      console.log('got cv features', cvFeatures);
-      /* if (cvFeatures.length > 0) {
-        const qrCode = qrCodes[0];
-        const worldPoints = Array(4);
-        for (let i = 0; i < 4; i++) {
-          worldPoints[i] = new THREE.Vector3(qrCode.points[i*3], qrCode.points[i*3+1], qrCode.points[i*3+2]);
-        }
-        const minPoint = new THREE.Vector3(Infinity, Infinity, Infinity);
-        const maxPoint = new THREE.Vector3(-Infinity, -Infinity, -Infinity);
-        const avgWorldPoint = (() => {
-          const acc = new THREE.Vector3();
-          for (let i = 0; i < 4; i++) {
-            const worldPoint = worldPoints[i];
-            acc.add(worldPoint);
-            minPoint.min(worldPoint);
-            maxPoint.max(worldPoint);
-          }
-          return acc.divideScalar(4);
-        })();
-        qrMesh.position.copy(avgWorldPoint);
-        const diffPoint = maxPoint.clone().sub(minPoint);
-        const scaleFactor = Math.max(diffPoint.x, diffPoint.y, diffPoint.z);
-        qrMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
-        qrMesh.material.color.setHex(0x0000FF);
-      } else {
-        qrMesh.material.color.setHex(0xFF0000);
-      } */
+      // console.log('got cv features', cvFeatures);
+      const positions = Float32Array.from(cvFeatures);
+      cvMesh.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      cvMesh.visible = positions.length > 0;
 
       document.getElementById('cv-features-content').innerHTML = `${cvFeatures.length}`;
 
