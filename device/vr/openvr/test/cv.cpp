@@ -21,6 +21,7 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
     getOut() << "thread 1" << std::endl;
 
     cv::Ptr<cv::ORB> orb = cv::ORB::create();
+    cv::BFMatcher bf(cv::NORM_HAMMING, true);
     
     getOut() << "thread 2" << std::endl;
 
@@ -103,10 +104,16 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       getOut() << "loop 10" << std::endl;
       
       std::vector<cv::DMatch> matches;
-      cv::BFMatcher bf(cv::NORM_HAMMING, true);
-      bf.match(queryDescriptors, trainDescriptors, matches);
-
       getOut() << "loop 11" << std::endl;
+      try {
+        bf.match(queryDescriptors, trainDescriptors, matches);
+      } catch( cv::Exception& e ) {
+        const char *err_msg = e.what();
+        getOut() << "exception caught: " << err_msg << std::endl;
+        abort();
+      }
+
+      getOut() << "loop 12" << std::endl;
 
       features.resize(matches.size() * 3);
       for (size_t i = 0; i < matches.size(); i++) {
@@ -130,7 +137,10 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         features[i*3+2] = worldPoint[2];
       }
       
-      getOut() << "loop 12" << std::endl;
+      getOut() << "loop 13" << std::endl;
+      
+      trainKeypoints = queryKeypoints;
+      trainDescriptors = queryDescriptors;
 
       running = false;
     }
