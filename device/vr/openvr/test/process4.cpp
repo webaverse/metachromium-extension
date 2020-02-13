@@ -36,6 +36,7 @@ char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthR
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 char kProcess_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
+char kProcess_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
 char kProcess_Terminate[] = "Process::Terminate";
 
 class HwndSearchStruct {
@@ -432,6 +433,24 @@ int main(int argc, char **argv) {
                 {"points", pointsArray},
               };
               array.push_back(qrCodeValue);
+            }
+
+            json res = {
+              {"error", nullptr},
+              {"result", array}
+            };
+            respond(res);
+          } else if (
+            methodString == "getCvFeatures"
+          ) {
+            managed_binary<float> &points = g_fnp->call<
+              kProcess_GetCvFeatures,
+              managed_binary<float>
+            >();
+
+            json array = json::array();
+            for (size_t i = 0; i < points.size(); i++) {
+              array.push_back(points.data()[i]);
             }
 
             json res = {
