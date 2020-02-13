@@ -22,26 +22,26 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
     cv::QRCodeDetector qrDecoder(cv::QRCodeDetector::QRCodeDetector());
     
     for (;;) {
-      getOut() << "thread 1" << std::endl;
+      // getOut() << "thread 1" << std::endl;
       
       sem.lock();
       
-      getOut() << "thread 2" << std::endl;
+      // getOut() << "thread 2" << std::endl;
 
       cv::Mat inputImage(colorBufferDesc.Height, colorBufferDesc.Width, CV_8UC4);
       
-      getOut() << "thread 3 " << (void *)fence << " " << inputImage.isContinuous() << std::endl;
+      // getOut() << "thread 3 " << (void *)fence << " " << inputImage.isContinuous() << std::endl;
 
       qrContext->Wait(fence, fenceValue);
       
-      getOut() << "thread 4 " << (void *)colorReadTex << " " << (void *)colorMirrorServerTex << std::endl;
+      // getOut() << "thread 4 " << (void *)colorReadTex << " " << (void *)colorMirrorServerTex << std::endl;
       
       qrContext->CopyResource(
         colorReadTex,
         colorMirrorServerTex
       );
       
-      getOut() << "thread 5" << std::endl;
+      // getOut() << "thread 5" << std::endl;
       
       D3D11_MAPPED_SUBRESOURCE resource;
       HRESULT hr = qrContext->Map(
@@ -57,7 +57,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         abort();
       }
 
-      getOut() << "thread 6 " << colorBufferDesc.Width << " " << (void *)resource.pData << " " << resource.RowPitch << " " << resource.DepthPitch << " " << (inputImage.total() * inputImage.elemSize()) << " " << (colorBufferDesc.Width * colorBufferDesc.Height * 4) << std::endl;
+      // getOut() << "thread 6 " << colorBufferDesc.Width << " " << (void *)resource.pData << " " << resource.RowPitch << " " << resource.DepthPitch << " " << (inputImage.total() * inputImage.elemSize()) << " " << (colorBufferDesc.Width * colorBufferDesc.Height * 4) << std::endl;
 
       /* char cwdBuf[MAX_PATH];
       if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
