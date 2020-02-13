@@ -142,21 +142,21 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 }
 void QrEngine::setEnabled(bool enabled) {
   pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex) -> void {
-    getOut() << "cb 1" << std::endl;
+    // getOut() << "cb 1" << std::endl;
 
     if (!running) {
       running = true;
 
-      getOut() << "cb 2" << std::endl;
+      // getOut() << "cb 2" << std::endl;
 
       D3D11_TEXTURE2D_DESC desc;
       colorTex->GetDesc(&desc);
       
-      getOut() << "cb 3" << std::endl;
+      // getOut() << "cb 3" << std::endl;
 
       HRESULT hr;
       if (!colorMirrorClientTex || desc.Width != colorBufferDesc.Width || desc.Height != colorBufferDesc.Height) {
-        getOut() << "cb 4" << std::endl;
+        // getOut() << "cb 4" << std::endl;
         
         colorBufferDesc = desc;
 
@@ -234,17 +234,17 @@ void QrEngine::setEnabled(bool enabled) {
         colorMirrorClientRes->Release();
         colorMirrorServerRes->Release();
         
-        getOut() << "cb 5" << std::endl;
+        // getOut() << "cb 5" << std::endl;
       }
       
-      getOut() << "cb 6" << std::endl;
+      // getOut() << "cb 6" << std::endl;
 
       context->CopyResource(
         colorMirrorClientTex,
         colorTex
       );
       
-      getOut() << "cb 7" << std::endl;
+      // getOut() << "cb 7" << std::endl;
       
       ++fenceValue;
       context->Signal(fence, fenceValue);
@@ -266,11 +266,11 @@ void QrEngine::setEnabled(bool enabled) {
       setPoseMatrix(projectionMatrix, projectionMatrixHmd);
       getMatrixInverse(projectionMatrix, projectionMatrixInverse);
 
-      getOut() << "cb 8" << std::endl;
+      // getOut() << "cb 8" << std::endl;
 
       sem.unlock();
       
-      getOut() << "cb 9" << std::endl;
+      // getOut() << "cb 9" << std::endl;
     }
   });
 }
