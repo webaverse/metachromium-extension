@@ -231,3 +231,6 @@ void CvEngine::setEnabled(bool enabled) {
     }
   });
 }
+const std::vector<float> &CvEngine::getFeatures() const {
+  return points;
+}
