@@ -32,7 +32,6 @@ HWND chromeHwnd = NULL;
 char kProcess_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kProcess_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindSurface";
-// char kProcess_SendMouse[] = "IVRCompositor::kIVRCompositor_SendMouse";
 char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
@@ -327,59 +326,6 @@ int main(int argc, char **argv) {
             json res = {
               {"error", nullptr},
               {"result", array}
-            };
-            respond(res);
-          } else if (
-            methodString == "sendMouse" &&
-            args.size() >= 4 &&
-            args[0].is_number() && args[1].is_number() && args[2].is_number() &&
-            args[3].is_array() && args[3].size() == 2 && args[3][0].is_number() && args[3][1].is_number()
-          ) {
-            float x = args[0].get<float>();
-            float y = args[1].get<float>();
-            int type = args[2].get<int>();
-            HWND hwnd = (HWND)(((uint64_t)args[3][0].get<uint32_t>() << 32ull) | (uint64_t)args[3][1].get<uint32_t>());
-
-            if (GetForegroundWindow() != hwnd) {
-              SetForegroundWindow(hwnd);
-            }
-
-            RECT rect;
-            GetWindowRect(hwnd, &rect);
-
-            INPUT input{};
-            input.type = INPUT_MOUSE;
-            input.mi.dx = rect.left + (int)(x * (rect.right - rect.left));
-            input.mi.dy = rect.top + (int)(y * (rect.bottom - rect.top));
-            input.mi.dwFlags |= MOUSEEVENTF_ABSOLUTE;
-
-            // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
-
-            switch (type) {
-              case 0: {
-                input.mi.dwFlags |= MOUSEEVENTF_MOVE;
-                SetCursorPos(input.mi.dx, input.mi.dy);
-                // SendInput(1, &input, sizeof(input));
-                break;
-              }
-              case 1: {
-                input.mi.dwFlags |= MOUSEEVENTF_LEFTDOWN;
-                SendInput(1, &input, sizeof(input));
-                break;
-              }
-              case 2: {
-                input.mi.dwFlags |= MOUSEEVENTF_LEFTUP;
-                SendInput(1, &input, sizeof(input));
-                break;
-              }
-              default: {
-                break;
-              }
-            }
-
-            json res = {
-              {"error", nullptr},
-              {"result", nullptr}
             };
             respond(res);
           } else if (
