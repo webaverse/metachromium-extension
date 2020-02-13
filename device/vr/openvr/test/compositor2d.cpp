@@ -57,8 +57,8 @@ public:
     const HWND hDesktop = GetDesktopWindow();
     RECT desktopRect;
     GetWindowRect(hDesktop, &desktopRect);
-    int desktopWidth = desktopRect.right - desktopRect.left;
-    int desktopHeight = desktopRect.bottom - desktopRect.top;
+    desktopWidth = desktopRect.right - desktopRect.left;
+    desktopHeight = desktopRect.bottom - desktopRect.top;
 
     std::string overlayName("metachromium");
     overlayName += std::to_string(++numOverlays);
