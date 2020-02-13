@@ -398,6 +398,29 @@ window.addEventListener('xrload', async m => {
       console.warn('no surface to bind');
     }
   })(); */
+  
+  const imgMesh = (() => {
+    const geometry = new THREE.PlaneBufferGeometry(0.1, 0.1);
+    const img = new Image();
+    // img.crossOrigin = 'Anonymous';
+    img.src = 'qr.png';
+    img.onload = () => {
+      texture.needsUpdate = true;
+    };
+    img.onerror = console.warn;
+    window.img = img;
+    const texture = new THREE.Texture(img);
+    texture.generateMipmaps = false;
+    texture.wrapS = texture.wrapT = THREE.ClampToEdgeWrapping;
+    texture.minFilter = THREE.LinearFilter;
+    const material = new THREE.MeshPhongMaterial({
+      map: texture,
+    });
+    return new THREE.Mesh(geometry, material);
+  })();
+  imgMesh.position.set(-0.5, 1, -1);
+  imgMesh.frustumCulled = false;
+  scene.add(imgMesh);
 
   const qrMesh = (() => {
     const geometry = new THREE.PlaneBufferGeometry(1, 1);
