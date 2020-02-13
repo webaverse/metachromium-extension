@@ -5,9 +5,9 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
   pvrcompositor(pvrcompositor),
   vrsystem(vrsystem)
 {
-  /* getOut() << "qr cons 1" << std::endl;
+  getOut() << "cv cons 1" << std::endl;
   vr::PVRCompositor::CreateDevice(&cvDevice, &qrContext, &qrSwapChain);
-  getOut() << "qr cons 2" << std::endl;
+  getOut() << "cv cons 2" << std::endl;
 
   HRESULT hr = cvDevice->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&qrInfoQueue);
   if (SUCCEEDED(hr)) {
@@ -15,84 +15,29 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
   } else {
     getOut() << "info queue query failed" << std::endl;
     // abort();
-  } */
-  
-  getOut() << "cv 1" << std::endl;
-
-  char cwdBuf[MAX_PATH];
-  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
-    getOut() << "failed to get current directory" << std::endl;
-    abort();
   }
-  getOut() << "cv 2" << std::endl;
-  std::string imgPath = cwdBuf;
-  imgPath += R"EOF(\..\..\..\..\..\boneworks1.jpg)EOF";
-  getOut() << "read cv image 1 " << imgPath << std::endl;
-  cv::Mat inputImage1 = cv::imread(imgPath, cv::IMREAD_COLOR);
-  getOut() << "read cv image 2" << std::endl;
-  
-  imgPath = cwdBuf;
-  imgPath += R"EOF(\..\..\..\..\..\boneworks2.jpg)EOF";
-  getOut() << "read cv image 3 " << imgPath << std::endl;
-  cv::Mat inputImage2 = cv::imread(imgPath, cv::IMREAD_COLOR);
-  getOut() << "read cv image 4" << std::endl;
-  
-  cv::Ptr<cv::ORB> orb = cv::ORB::create();
-  
-  getOut() << "cv 3 " << inputImage1.total() << " " << inputImage2.total() << std::endl;
 
-  std::vector<cv::KeyPoint> queryKeypoints, trainKeypoints;
-  cv::Mat queryDescriptors, trainDescriptors;
-  getOut() << "cv 4" << std::endl;
-  try {
-    orb->detectAndCompute(inputImage1, cv::noArray(), queryKeypoints, queryDescriptors);
-  } catch(cv::Exception exc) {
-    getOut() << "CV error: " + exc.msg << std::endl;
-  }
-  getOut() << "cv 5" << std::endl;
-  orb->detectAndCompute(inputImage2, cv::noArray(), trainKeypoints, trainDescriptors);
-  
-  getOut() << "cv 6" << std::endl;
-  
-  std::vector<cv::DMatch> matches;
-  cv::BFMatcher bf(cv::NORM_HAMMING, true);
-  bf.match(queryDescriptors, trainDescriptors, matches);
+  std::thread([this]() -> void {
+    cv::Ptr<cv::ORB> orb = cv::ORB::create();
 
-  getOut() << "cv got matches " << matches.size() << std::endl;
-  for (size_t i = 0; i < matches.size(); i++) {
-    cv::DMatch &match = matches[i];
-    int queryIdx = match.queryIdx;
-    const cv::KeyPoint &keypoint = queryKeypoints[queryIdx];
-    getOut() << "  " << keypoint.pt.x << " " << keypoint.pt.y << "\n";
-  }
-  
-  getOut() << "cv 7" << std::endl;
+    std::vector<cv::KeyPoint> trainKeypoints;
+    cv::Mat trainDescriptors;
+    bool first = true;
 
-  /* std::thread([this]() -> void {
-    for (;;) {
-      getOut() << "thread 1" << std::endl;
-      
+    for (;;) {      
       sem.lock();
-      
-      getOut() << "thread 2" << std::endl;
 
       Mat inputImage(colorBufferDesc.Height, colorBufferDesc.Width, CV_8UC4);
-      
-      getOut() << "thread 3 " << (void *)fence << " " << inputImage.isContinuous() << std::endl;
 
-      qrContext->Wait(fence, fenceValue);
+      cvContext->Wait(fence, fenceValue);
       
-      getOut() << "thread 4 " << (void *)colorReadTex << " " << (void *)colorMirrorServerTex << std::endl;
-      
-      qrContext->CopyResource(
+      cvContext->CopyResource(
         colorReadTex,
         colorMirrorServerTex
       );
       
-      getOut() << "thread 5" << std::endl;
-      
       D3D11_MAPPED_SUBRESOURCE resource;
-      HRESULT hr = qrContext->Map(
+      HRESULT hr = cvContext->Map(
         colorReadTex,
         0,
         D3D11_MAP_READ,
@@ -118,67 +63,42 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       }
       // memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
 
-      getOut() << "thread 7" << std::endl;
+      // getOut() << "thread 7" << std::endl;
 
-      qrContext->Unmap(colorReadTex, 0);
+      cvContext->Unmap(colorReadTex, 0);
 
-      // imwrite((std::string(R"EOF(C:\Users\avaer\Documents\GitHub\overlay\tmp\)EOF") + std::to_string(++ssId) + std::string(".png")).c_str(), inputImage);
+      std::vector<cv::KeyPoint> queryKeypoints;
+      cv::Mat queryDescriptors;
+      orb->detectAndCompute(inputImage, cv::noArray(), queryKeypoints, queryDescriptors);
 
-      // Mat inputImage2;
-      // cvtColor(inputImage, inputImage2, COLOR_BGRA2GRAY);
+      if (first) {
+        trainKeypoints = queryKeypoints;
+        trainDescriptors = queryDescriptors;
 
-      // getOut() << "thread 8 " << (int)inputImage2.ptr()[0] << " " << (int)inputImage2.ptr()[1] << " " << (int)inputImage2.ptr()[2] << " " << (int)inputImage2.ptr()[3] << std::endl;
-
-      Mat bbox, rectifiedImage;
-
-      std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
-      getOut() << "thread 9 " << data.length() << std::endl;
-      if (data.length() > 0 && bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
-        getOut() << "Decoded QR code: " << data << " " <<
-          bbox.at<Point2f>(0).x << " " << bbox.at<Point2f>(0).y << " " <<
-          bbox.at<Point2f>(1).x << " " << bbox.at<Point2f>(1).y << " " <<
-          bbox.at<Point2f>(2).x << " " << bbox.at<Point2f>(2).y << " " <<
-          bbox.at<Point2f>(3).x << " " << bbox.at<Point2f>(3).y << " " <<
-          std::endl;
-
-        qrCodes.resize(1);
-        QrCode &qrCode = qrCodes[0];
-        qrCode.data = std::move(data);
-        
-        for (int i = 0; i < 4; i++) {
-          const Point2f &p = bbox.at<Point2f>(i);
-          float worldPoint[4] = {
-            (p.x/(float)eyeWidth) * 2.0f - 1.0f,
-            (1.0f-(p.y/(float)eyeHeight)) * 2.0f - 1.0f,
-            0.0f,
-            1.0f,
-          };
-          applyVector4Matrix(worldPoint, projectionMatrixInverse);
-          {
-            const float w = worldPoint[3];
-            for (int j = 0; j < 4; j++) {
-              worldPoint[j] /= w;
-            }
-          }
-          applyVector4Matrix(worldPoint, viewMatrixInverse);
-          applyVector4Matrix(worldPoint, stageMatrixInverse);
-
-          qrCode.points[i*3] = worldPoint[0];
-          qrCode.points[i*3+1] = worldPoint[1];
-          qrCode.points[i*3+2] = worldPoint[2];
-        }
-      } else {
-        qrCodes.clear();
+        first = false;
       }
+      
+      std::vector<cv::DMatch> matches;
+      cv::BFMatcher bf(cv::NORM_HAMMING, true);
+      bf.match(queryDescriptors, trainDescriptors, matches);
 
-      // getOut() << "thread 10 " << data.length() << std::endl;
+      points.resize(matches.size() * 2);
+      for (size_t i = 0; i < matches.size(); i++) {
+        cv::DMatch &match = matches[i];
+        int queryIdx = match.queryIdx;
+        const cv::KeyPoint &keypoint = queryKeypoints[queryIdx];
+
+        points[i*2] = keypoint.pt.x;
+        points[i*2 + 1] = keypoint.pt.y;
+        // getOut() << "  " << keypoint.pt.x << " " << keypoint.pt.y << "\n";
+      }
 
       running = false;
     }
-  }).detach(); */
+  }).detach();
 }
 void CvEngine::setEnabled(bool enabled) {
-  /* pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex) -> void {
+  pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex) -> void {
     getOut() << "cb 1" << std::endl;
 
     if (!running) {
@@ -309,5 +229,5 @@ void CvEngine::setEnabled(bool enabled) {
       
       getOut() << "cb 9" << std::endl;
     }
-  }); */
+  });
 }
