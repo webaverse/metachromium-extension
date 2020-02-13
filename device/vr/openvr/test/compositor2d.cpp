@@ -200,7 +200,7 @@ public:
       getOut() << "error setting overlay mouse scale: " << (void *)error << std::endl;
     } */
 
-    getOut() << "create surface " << width << " " << height << std::endl;
+    // getOut() << "create surface " << width << " " << height << std::endl;
   }
   void setPosition() {
     // float heightFactor = (float)height/(float)width;
@@ -252,7 +252,7 @@ public:
     }
   }
   void tick() {
-    getOut() << "tick" << std::endl;
+    // getOut() << "tick" << std::endl;
     HDC hdcWindow = GetDC(hWnd);
     HDC texDc;
     HRESULT hr = dxgiSurface1->GetDC(false, &texDc);
@@ -328,15 +328,15 @@ public:
           break;
         }
         case VREvent_FocusEnter: {
-          getOut() << "focus enter" << std::endl;
+          // getOut() << "focus enter" << std::endl;
           break;
         }
         case VREvent_FocusLeave: {
-          getOut() << "focus leave" << std::endl;
+          // getOut() << "focus leave" << std::endl;
           break;
         }
         case VREvent_TouchPadMove: {
-          getOut() << "touchpad move" << std::endl;
+          // getOut() << "touchpad move" << std::endl;
           break;
         }
         // case VREvent_PropertyChanged:
@@ -346,7 +346,7 @@ public:
           // break;
         // }
         default: {
-          getOut() << "unknown overlay event type: " << event.eventType << std::endl;
+          // getOut() << "unknown overlay event type: " << event.eventType << std::endl;
           break;
         }
       }
