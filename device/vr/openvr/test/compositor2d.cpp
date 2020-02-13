@@ -237,7 +237,6 @@ public:
       getOut() << "error setting overlay sort order: " << (void *)error << std::endl;
     }
     
-    getOut() << "set width " << width << " " << desktopWidth << " " << ((float)width / (float)desktopWidth) << std::endl;
     error = g_vroverlay->SetOverlayWidthInMeters(overlay, (float)width / (float)desktopWidth);
     if (error != VROverlayError_None) {
       getOut() << "error setting overlay width: " << (void *)error << std::endl;
@@ -288,8 +287,6 @@ public:
         case VREvent_MouseButtonDown:
         case VREvent_MouseButtonUp:
         {
-          getOut() << "mouse move" << std::endl;
-
           const VREvent_Mouse_t &mouseEvent = event.data.mouse;
 
           float heightFactor = (float)height/(float)width;
@@ -316,14 +313,11 @@ public:
             input.type = INPUT_MOUSE;
             input.mi.dx = rect.left + x;
             input.mi.dy = rect.top + y;
-            input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
 
-            // getOut() << "got window rect " << x << " " << y << " " << input.mi.dx << " " << input.mi.dy << " " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << std::endl;
-
-            SetCursorPos(input.mi.dx, input.mi.dy);
-            // SendInput(1, &input, sizeof(input));
-
-            if (event.eventType == VREvent_MouseButtonDown) {
+            if (event.eventType == VREvent_MouseMove) {
+              input.mi.dwFlags = MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE;
+              SetCursorPos(input.mi.dx, input.mi.dy);
+            } else if (event.eventType == VREvent_MouseButtonDown) {
               input.mi.dwFlags = MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE;
               SendInput(1, &input, sizeof(input));
             } else if (event.eventType == VREvent_MouseButtonUp) {
@@ -331,7 +325,6 @@ public:
               SendInput(1, &input, sizeof(input));
             }
           }
-
           break;
         }
         case VREvent_FocusEnter: {
