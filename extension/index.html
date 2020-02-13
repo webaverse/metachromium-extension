@@ -48,6 +48,10 @@ a:active {
       <h2>QR Codes</h2>
       <div id=qr-codes-content></div>
     </section>
+    <section id=cv-features>
+      <h2>CV Features</h2>
+      <div id=cv-features-content></div>
+    </section>
   </div>
   <div class=body>
     <section id=sites>
@@ -59,6 +63,7 @@ a:active {
   <div class=body>
     <input type=button id=toggle-controls-button value="FPS controls">
     <input type=button id=toggle-qr-button value="QR turn ON">
+    <input type=button id=toggle-cv-button value="CV turn ON">
     <input type=button id=tab-capture-button value="Tab capture">
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
@@ -191,6 +196,13 @@ window.addEventListener('xrload', async m => {
   toggleQrButton.addEventListener('click', async () => {
     qrEngineOn = !qrEngineOn;
     await xrc().request('setQrEngineEnabled', [qrEngineOn]);
+  });
+
+  let cvEngineOn = false;
+  const toggleCvButton = document.getElementById('toggle-cv-button');
+  toggleCvButton.addEventListener('click', async () => {
+    cvEngineOn = !cvEngineOn;
+    await xrc().request('setCvEngineEnabled', [cvEngineOn]);
   });
 
   const tabCaptureButton = document.getElementById('tab-capture-button');
@@ -482,6 +494,46 @@ window.addEventListener('xrload', async m => {
     }
   };
 
+  let cvQueryRunning = false;
+  const _updateCvFeatures = async () => {
+    if (cvEngineOn && !cvQueryRunning) {
+      cvQueryRunning = true;
+
+      const cvFeatures = await xrc().request('getCvFeatures', []);
+      console.log('got cv features', cvFeatures);
+      /* if (cvFeatures.length > 0) {
+        const qrCode = qrCodes[0];
+        const worldPoints = Array(4);
+        for (let i = 0; i < 4; i++) {
+          worldPoints[i] = new THREE.Vector3(qrCode.points[i*3], qrCode.points[i*3+1], qrCode.points[i*3+2]);
+        }
+        const minPoint = new THREE.Vector3(Infinity, Infinity, Infinity);
+        const maxPoint = new THREE.Vector3(-Infinity, -Infinity, -Infinity);
+        const avgWorldPoint = (() => {
+          const acc = new THREE.Vector3();
+          for (let i = 0; i < 4; i++) {
+            const worldPoint = worldPoints[i];
+            acc.add(worldPoint);
+            minPoint.min(worldPoint);
+            maxPoint.max(worldPoint);
+          }
+          return acc.divideScalar(4);
+        })();
+        qrMesh.position.copy(avgWorldPoint);
+        const diffPoint = maxPoint.clone().sub(minPoint);
+        const scaleFactor = Math.max(diffPoint.x, diffPoint.y, diffPoint.z);
+        qrMesh.scale.set(scaleFactor, scaleFactor, scaleFactor);
+        qrMesh.material.color.setHex(0x0000FF);
+      } else {
+        qrMesh.material.color.setHex(0xFF0000);
+      } */
+
+      document.getElementById('cv-features-content').innerHTML = `${cvFeatures.length}`;
+
+      cvQueryRunning = false;
+    }
+  };
+
   renderer.setAnimationLoop(render);
   function render() {
     cubeMesh.rotation.x += 0.01;
@@ -489,6 +541,7 @@ window.addEventListener('xrload', async m => {
 
     _updateRaycast();
     _updateQrCodes();
+    _updateCvFeatures();
   
     renderer.render(scene, camera);
   }
