@@ -35,6 +35,7 @@ char kProcess_PrepareBindSurface[] = "IVRCompositor::kIVRCompositor_PrepareBindS
 char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthRenderEnabled";
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
+char kProcess_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
 char kProcess_Terminate[] = "Process::Terminate";
 
 class HwndSearchStruct {
@@ -336,6 +337,23 @@ int main(int argc, char **argv) {
             getOut() << "set qr engine enabled " << enabled << std::endl;
             g_fnp->call<
               kProcess_SetQrEngineEnabled,
+              int,
+              bool
+            >(enabled);
+            
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
+          } else if (
+            methodString == "setCvEngineEnabled" &&
+            args.size() >= 1 && args[0].is_boolean()
+          ) {
+            const bool enabled = args[0].get<bool>();
+            getOut() << "set cv engine enabled " << enabled << std::endl;
+            g_fnp->call<
+              kProcess_SetCvEngineEnabled,
               int,
               bool
             >(enabled);
