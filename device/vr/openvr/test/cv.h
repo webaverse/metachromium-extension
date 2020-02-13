@@ -45,6 +45,7 @@ public:
   CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
   void setEnabled(bool enabled);
   const std::vector<float> &getFeatures() const;
+  void InfoQueueLog();
 };
 
 #endif

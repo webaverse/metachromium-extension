@@ -6,12 +6,12 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
   vrsystem(vrsystem)
 {
   getOut() << "cv cons 1" << std::endl;
-  vr::PVRCompositor::CreateDevice(&cvDevice, &qrContext, &qrSwapChain);
+  vr::PVRCompositor::CreateDevice(&cvDevice, &cvContext, &cvSwapChain);
   getOut() << "cv cons 2" << std::endl;
 
-  HRESULT hr = cvDevice->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&qrInfoQueue);
+  HRESULT hr = cvDevice->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&cvInfoQueue);
   if (SUCCEEDED(hr)) {
-    qrInfoQueue->PushEmptyStorageFilter();
+    cvInfoQueue->PushEmptyStorageFilter();
   } else {
     getOut() << "info queue query failed" << std::endl;
     // abort();
@@ -244,4 +244,9 @@ void CvEngine::setEnabled(bool enabled) {
 }
 const std::vector<float> &CvEngine::getFeatures() const {
   return features;
+}
+void CvEngine::InfoQueueLog() {
+  if (qrInfoQueue) {
+    vr::PVRCompositor::InfoQueueLog(qrInfoQueue);
+  }
 }
