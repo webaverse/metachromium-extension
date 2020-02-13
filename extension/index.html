@@ -508,21 +508,35 @@ window.addEventListener('xrload', async m => {
   scene.add(cvMesh);
 
   let cvQueryRunning = false;
-  const _updateCvFeatures = async () => {
-    if (cvEngineOn && !cvQueryRunning) {
-      cvQueryRunning = true;
+  const _updateCvFeatures = (() => {
+    const cubeGeometry = new THREE.BoxBufferGeometry(0.01, 0.01, 0.01).toNonIndexed();
+    const localVector = new THREE.Vector3();
+    const localMatrix = new THREE.Matrix4();
 
-      const cvFeatures = await xrc().request('getCvFeatures', []);
-      // console.log('got cv features', cvFeatures);
-      const positions = Float32Array.from(cvFeatures);
-      cvMesh.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      cvMesh.visible = positions.length > 0;
+    return async () => {
+      if (cvEngineOn && !cvQueryRunning) {
+        cvQueryRunning = true;
 
-      document.getElementById('cv-features-content').innerHTML = `${cvFeatures.length}`;
+        const cvFeatures = await xrc().request('getCvFeatures', []);
+        const positions = new Float32Array(cvFeatures.length * cubeGeometry.attributes.position.array.length);
+        let index = 0;
+        for (let i = 0; i < cvFeatures.length; i += 3) {
+          for (let j = 0; j < cubeGeometry.attributes.position.array.length; j += 3) {
+            localVector.fromArray(cubeGeometry.attributes.position.array, j)
+              .applyMatrix4(localMatrix.makeTranslation(cvFeatures[i], cvFeatures[i+1], cvFeatures[i+2]))
+              .toArray(positions, index);
+            index += 3;
+          }
+        }
+        cvMesh.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        cvMesh.visible = positions.length > 0;
 
-      cvQueryRunning = false;
-    }
-  };
+        document.getElementById('cv-features-content').innerHTML = `${cvFeatures.length}`;
+
+        cvQueryRunning = false;
+      }
+    };
+  })();
 
   renderer.setAnimationLoop(render);
   function render() {
