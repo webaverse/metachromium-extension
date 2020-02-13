@@ -17,19 +17,19 @@ IDXGISwapChain *swapChain;
 class WindowOverlay {
 public:
   HWND hWnd;
-  VROverlayHandle_t overlay;
-  ID3D11Texture2D *tex;
-  IDXGISurface1 *dxgiSurface1;
-  IDXGIResource *dxgiResource;
-  HANDLE surfaceShareHandle;
-  int width;
-  int height;
-  int desktopWidth;
-  int desktopHeight;
-  int centerX;
-  int centerY;
-  int centerZ;
-  bool seen;
+  VROverlayHandle_t overlay{};
+  ID3D11Texture2D *tex = nullptr;
+  IDXGISurface1 *dxgiSurface1 = nullptr;
+  IDXGIResource *dxgiResource = nullptr;
+  HANDLE surfaceShareHandle = NULL;
+  int width = 0;
+  int height = 0;
+  int desktopWidth = 0;
+  int desktopHeight = 0;
+  int centerX = 0;
+  int centerY = 0;
+  int centerZ = 0;
+  bool seen = false;
   
   static const uint32_t cursorSize = 11;
   static size_t numOverlays;
@@ -40,6 +40,8 @@ public:
   WindowOverlay(HWND hWnd) :
     hWnd(hWnd)
   {
+    getOut() << "construct overlay " << hWnd << std::endl;
+
     RECT rect;          
     GetWindowRect(hWnd, &rect);
     width = rect.right - rect.left;
@@ -137,14 +139,17 @@ public:
       }
     }
   }
-  void setBackingTexture() {
-    if (tex) {
-      tex->Release();
-      tex = nullptr;
-      dxgiSurface1->Release();
-      dxgiSurface1 = nullptr;
-      surfaceShareHandle = NULL;
+  ~WindowOverlay() {
+    getOut() << "destroy" << std::endl;
+    clearBackingTexture();
+    
+    EVROverlayError error = g_vroverlay->DestroyOverlay(overlay);
+    if (error != VROverlayError_None) {
+      getOut() << "error destroying overlay: " << (void *)error << std::endl;
     }
+  }
+  void setBackingTexture() {
+    clearBackingTexture();
     
     D3D11_TEXTURE2D_DESC desc{};
     desc.Width = width;
@@ -238,7 +243,17 @@ public:
       getOut() << "error setting overlay width: " << (void *)error << std::endl;
     }
   }
-  void tick() {    
+  void clearBackingTexture() {
+    if (tex) {
+      tex->Release();
+      tex = nullptr;
+      dxgiSurface1->Release();
+      dxgiSurface1 = nullptr;
+      surfaceShareHandle = NULL;
+    }
+  }
+  void tick() {
+    getOut() << "tick" << std::endl;
     HDC hdcWindow = GetDC(hWnd);
     HDC texDc;
     HRESULT hr = dxgiSurface1->GetDC(false, &texDc);
@@ -465,6 +480,11 @@ void homeRenderLoop() {
     GetWindowRect(hDesktop, &desktopRect);
     int desktopWidth = desktopRect.right - desktopRect.left;
     int desktopHeight = desktopRect.bottom - desktopRect.top;
+
+    for (auto iter = windowOverlays.begin(); iter != windowOverlays.end(); iter++) {
+      WindowOverlay &windowOverlay = iter->second;
+      windowOverlay.seen = false;
+    }
     
     for (auto hWnd : hwnds) {
       if (IsWindowVisible(hWnd)) {
@@ -489,9 +509,7 @@ void homeRenderLoop() {
 
           auto iter = windowOverlays.find(hWnd);
           if (iter == windowOverlays.end()) {
-            WindowOverlay windowOverlay(hWnd);
-
-            windowOverlays.insert(std::pair<HANDLE, WindowOverlay>(hWnd, windowOverlay));
+            windowOverlays.emplace(hWnd, hWnd);
             iter = windowOverlays.find(hWnd);
           } else {
             WindowOverlay &windowOverlay = iter->second;
@@ -530,6 +548,18 @@ void homeRenderLoop() {
           windowOverlay.tick();
         }
       }
+    }
+    getOut() << "finding iterators to remove " << windowOverlays.size() << std::endl;
+    std::vector<std::map<HANDLE, WindowOverlay>::iterator> iteratorsToRemove;
+    for (auto iter = windowOverlays.begin(); iter != windowOverlays.end(); iter++) {
+      const WindowOverlay &windowOverlay = iter->second;
+      if (!windowOverlay.seen) {
+        iteratorsToRemove.push_back(iter);
+      }
+    }
+    getOut() << "overlays to remove " << iteratorsToRemove.size() << std::endl;
+    for (auto iter : iteratorsToRemove) {
+      windowOverlays.erase(iter);
     }
     Sleep(100);
   }
