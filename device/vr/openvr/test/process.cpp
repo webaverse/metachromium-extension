@@ -339,6 +339,7 @@ int WINAPI WinMain(
   vr::g_pvrapplications = new vr::PVRApplications(vr::g_vrapplications, *g_fnp);
   vr::g_pvroverlay = new vr::PVROverlay(vr::g_vroverlay, *g_fnp);
   vr::g_pqrengine = new QrEngine(vr::g_pvrcompositor, vr::g_vrsystem);
+  vr::g_pcvengine = new CvEngine(vr::g_pvrcompositor, vr::g_vrsystem);
 
   g_fnp->reg<
     kProcess_Terminate,

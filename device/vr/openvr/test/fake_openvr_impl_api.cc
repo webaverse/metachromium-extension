@@ -91,6 +91,7 @@ PVRApplications *g_pvrapplications = nullptr;
 PVROverlay *g_pvroverlay = nullptr;
 
 QrEngine *g_pqrengine = nullptr;
+CvEngine *g_pcvengine = nullptr;
 }
 
 std::string dllDir;

@@ -16,6 +16,7 @@
 #include "device/vr/openvr/test/applicationsproxy.h"
 #include "device/vr/openvr/test/overlayproxy.h"
 #include "device/vr/openvr/test/qr.h"
+#include "device/vr/openvr/test/cv.h"
 #include "device/vr/openvr/test/offsets.h"
 
 extern std::string dllDir;
@@ -59,6 +60,7 @@ namespace vr {
   extern PVROverlay *g_pvroverlay;
 
   extern QrEngine *g_pqrengine;
+  extern CvEngine *g_pcvengine;
 }
 
 extern "C" {

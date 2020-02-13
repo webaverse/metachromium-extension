@@ -1,26 +1,74 @@
-#include "qr.h"
+#include "cv.h"
 #include "matrix.h"
 
-// int ssId = 0;
-QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
+CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
   pvrcompositor(pvrcompositor),
   vrsystem(vrsystem)
 {
-  getOut() << "qr cons 1" << std::endl;
-  vr::PVRCompositor::CreateDevice(&qrDevice, &qrContext, &qrSwapChain);
+  /* getOut() << "qr cons 1" << std::endl;
+  vr::PVRCompositor::CreateDevice(&cvDevice, &qrContext, &qrSwapChain);
   getOut() << "qr cons 2" << std::endl;
-  
-  HRESULT hr = qrDevice->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&qrInfoQueue);
+
+  HRESULT hr = cvDevice->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&qrInfoQueue);
   if (SUCCEEDED(hr)) {
     qrInfoQueue->PushEmptyStorageFilter();
   } else {
     getOut() << "info queue query failed" << std::endl;
     // abort();
-  }
+  } */
+  
+  getOut() << "cv 1" << std::endl;
 
-  std::thread([this]() -> void {
-    cv::QRCodeDetector qrDecoder(cv::QRCodeDetector::QRCodeDetector());
-    
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
+  }
+  getOut() << "cv 2" << std::endl;
+  std::string imgPath = cwdBuf;
+  imgPath += R"EOF(\..\..\..\..\..\boneworks1.jpg)EOF";
+  getOut() << "read cv image 1 " << imgPath << std::endl;
+  cv::Mat inputImage1 = cv::imread(imgPath, cv::IMREAD_COLOR);
+  getOut() << "read cv image 2" << std::endl;
+  
+  imgPath = cwdBuf;
+  imgPath += R"EOF(\..\..\..\..\..\boneworks2.jpg)EOF";
+  getOut() << "read cv image 3 " << imgPath << std::endl;
+  cv::Mat inputImage2 = cv::imread(imgPath, cv::IMREAD_COLOR);
+  getOut() << "read cv image 4" << std::endl;
+  
+  cv::Ptr<cv::ORB> orb = cv::ORB::create();
+  
+  getOut() << "cv 3 " << inputImage1.total() << " " << inputImage2.total() << std::endl;
+
+  std::vector<cv::KeyPoint> queryKeypoints, trainKeypoints;
+  cv::Mat queryDescriptors, trainDescriptors;
+  getOut() << "cv 4" << std::endl;
+  try {
+    orb->detectAndCompute(inputImage1, cv::noArray(), queryKeypoints, queryDescriptors);
+  } catch(cv::Exception exc) {
+    getOut() << "CV error: " + exc.msg << std::endl;
+  }
+  getOut() << "cv 5" << std::endl;
+  orb->detectAndCompute(inputImage2, cv::noArray(), trainKeypoints, trainDescriptors);
+  
+  getOut() << "cv 6" << std::endl;
+  
+  std::vector<cv::DMatch> matches;
+  cv::BFMatcher bf(cv::NORM_HAMMING, true);
+  bf.match(queryDescriptors, trainDescriptors, matches);
+
+  getOut() << "cv got matches " << matches.size() << std::endl;
+  for (size_t i = 0; i < matches.size(); i++) {
+    cv::DMatch &match = matches[i];
+    int queryIdx = match.queryIdx;
+    const cv::KeyPoint &keypoint = queryKeypoints[queryIdx];
+    getOut() << "  " << keypoint.pt.x << " " << keypoint.pt.y << "\n";
+  }
+  
+  getOut() << "cv 7" << std::endl;
+
+  /* std::thread([this]() -> void {
     for (;;) {
       getOut() << "thread 1" << std::endl;
       
@@ -28,7 +76,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       
       getOut() << "thread 2" << std::endl;
 
-      cv::Mat inputImage(colorBufferDesc.Height, colorBufferDesc.Width, CV_8UC4);
+      Mat inputImage(colorBufferDesc.Height, colorBufferDesc.Width, CV_8UC4);
       
       getOut() << "thread 3 " << (void *)fence << " " << inputImage.isContinuous() << std::endl;
 
@@ -59,17 +107,6 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 
       getOut() << "thread 6 " << colorBufferDesc.Width << " " << (void *)resource.pData << " " << resource.RowPitch << " " << resource.DepthPitch << " " << (inputImage.total() * inputImage.elemSize()) << " " << (colorBufferDesc.Width * colorBufferDesc.Height * 4) << std::endl;
 
-      /* char cwdBuf[MAX_PATH];
-      if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
-        getOut() << "failed to get current directory" << std::endl;
-        abort();
-      }
-      std::string qrPngPath = cwdBuf;
-      qrPngPath += R"EOF(\..\..\..\..\..\qr.png)EOF";
-      getOut() << "read qr code image 1 " << qrPngPath << std::endl;
-      Mat inputImage = imread(qrPngPath, IMREAD_COLOR);
-      getOut() << "read qr code image 2" << std::endl; */
-
       UINT lBmpRowPitch = colorBufferDesc.Width * 4;
       BYTE *sptr = reinterpret_cast<BYTE *>(resource.pData);
       BYTE *dptr = (BYTE *)inputImage.ptr(); // + (lBmpRowPitch * colorBufferDesc.Height) - lBmpRowPitch;
@@ -92,16 +129,16 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 
       // getOut() << "thread 8 " << (int)inputImage2.ptr()[0] << " " << (int)inputImage2.ptr()[1] << " " << (int)inputImage2.ptr()[2] << " " << (int)inputImage2.ptr()[3] << std::endl;
 
-      cv::Mat bbox, rectifiedImage;
+      Mat bbox, rectifiedImage;
 
       std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
       getOut() << "thread 9 " << data.length() << std::endl;
       if (data.length() > 0 && bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
         getOut() << "Decoded QR code: " << data << " " <<
-          bbox.at<cv::Point2f>(0).x << " " << bbox.at<cv::Point2f>(0).y << " " <<
-          bbox.at<cv::Point2f>(1).x << " " << bbox.at<cv::Point2f>(1).y << " " <<
-          bbox.at<cv::Point2f>(2).x << " " << bbox.at<cv::Point2f>(2).y << " " <<
-          bbox.at<cv::Point2f>(3).x << " " << bbox.at<cv::Point2f>(3).y << " " <<
+          bbox.at<Point2f>(0).x << " " << bbox.at<Point2f>(0).y << " " <<
+          bbox.at<Point2f>(1).x << " " << bbox.at<Point2f>(1).y << " " <<
+          bbox.at<Point2f>(2).x << " " << bbox.at<Point2f>(2).y << " " <<
+          bbox.at<Point2f>(3).x << " " << bbox.at<Point2f>(3).y << " " <<
           std::endl;
 
         qrCodes.resize(1);
@@ -109,7 +146,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         qrCode.data = std::move(data);
         
         for (int i = 0; i < 4; i++) {
-          const cv::Point2f &p = bbox.at<cv::Point2f>(i);
+          const Point2f &p = bbox.at<Point2f>(i);
           float worldPoint[4] = {
             (p.x/(float)eyeWidth) * 2.0f - 1.0f,
             (1.0f-(p.y/(float)eyeHeight)) * 2.0f - 1.0f,
@@ -138,10 +175,10 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 
       running = false;
     }
-  }).detach();
+  }).detach(); */
 }
-void QrEngine::setEnabled(bool enabled) {
-  pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex) -> void {
+void CvEngine::setEnabled(bool enabled) {
+  /* pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex) -> void {
     getOut() << "cb 1" << std::endl;
 
     if (!running) {
@@ -272,13 +309,5 @@ void QrEngine::setEnabled(bool enabled) {
       
       getOut() << "cb 9" << std::endl;
     }
-  });
-}
-const std::vector<QrCode> &QrEngine::getQrCodes() const {
-  return qrCodes;
-}
-void QrEngine::InfoQueueLog() {
-  if (qrInfoQueue) {
-    vr::PVRCompositor::InfoQueueLog(qrInfoQueue);
-  }
+  }); */
 }

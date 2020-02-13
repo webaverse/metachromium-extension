@@ -79,6 +79,7 @@ SET(src
   openvr/test/matrix.cpp
   openvr/test/compositor2d.cpp
   openvr/test/qr.cpp
+  openvr/test/cv.cpp
 )
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
