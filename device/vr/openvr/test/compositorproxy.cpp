@@ -61,6 +61,8 @@ char kIVRCompositor_SetIsVr[] = "IVRCompositor::kIVRCompositor_SetIsVr";
 char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform";
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
+char kIVRCompositor_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
+char kIVRCompositor_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1134,6 +1136,26 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       
       qrCodeEntryPoints = managed_binary<float>(ARRAYSIZE(qrCode.points));
       memcpy(qrCodeEntryPoints.data(), qrCode.points, ARRAYSIZE(qrCode.points) * sizeof(float));
+    }
+    return std::move(result);
+  });
+  fnp.reg<
+    kIVRCompositor_SetCvEngineEnabled,
+    int,
+    bool
+  >([=](bool enabled) {
+    g_pcvengine->setEnabled(enabled);
+    return 0;
+  });
+  fnp.reg<
+    kIVRCompositor_GetCvFeatures,
+    managed_binary<float>
+  >([=]() {
+    const std::vector<float> &features = g_pcvengine->getFeatures();
+    managed_binary<float> result;
+    if (features.size() > 0) {
+      result = managed_binary<float>(features.size());
+      memcpy(result.data(), features.data(), features.size() * sizeof(float));
     }
     return std::move(result);
   });
