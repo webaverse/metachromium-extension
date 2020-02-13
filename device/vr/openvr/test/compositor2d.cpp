@@ -24,6 +24,10 @@ public:
   HANDLE surfaceShareHandle;
   int width;
   int height;
+  int desktopWidth;
+  int desktopHeight;
+  int centerX;
+  int centerY;
   bool seen;
   
   static const uint32_t cursorSize = 11;
@@ -36,10 +40,13 @@ public:
     hWnd(hWnd)
   {
     RECT rect;          
-    GetClientRect(hWnd, &rect);
-    int newWidth = rect.right - rect.left;
-    int newHeight = rect.bottom - rect.top;
-    setBackingTexture(newWidth, newHeight);
+    GetWindowRect(hWnd, &rect);
+    width = rect.right - rect.left;
+    height = rect.bottom - rect.top;
+    desktopWidth = GetSystemMetrics(SM_CXSCREEN);
+    desktopHeight = GetSystemMetrics(SM_CYSCREEN);
+    centerX = (rect.right + rect.left)/2;
+    centerY = (rect.bottom + rect.top)/2;
 
     std::string overlayName("metachromium");
     overlayName += std::to_string(++numOverlays);
@@ -47,6 +54,9 @@ public:
     if (error != VROverlayError_None) {
       getOut() << "error creating overlay: " << (void *)error << std::endl;
     }
+    
+    setBackingTexture();
+    setPosition();
 
     g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_NoDashboardTab, true);
     if (error != VROverlayError_None) {
@@ -57,28 +67,10 @@ public:
       getOut() << "error setting overlay flag: " << (void *)error << std::endl;
     } */
     
-    error = g_vroverlay->SetOverlayWidthInMeters(overlay, 1);
-    if (error != VROverlayError_None) {
-      getOut() << "error setting overlay width: " << (void *)error << std::endl;
-    }
-    
     /* g_vroverlay->SetOverlayColor(overlay, 0, 0, 0.5);
     if (error != VROverlayError_None) {
       getOut() << "error setting overlay color: " << (void *)error << std::endl;
     } */
-    
-    float position[16] = {0, numOverlays, -1};
-    float quaternion[4] = {0, 0, 0, 1};
-    float scale[3] = {1, 1, 1};
-    float viewMatrix[16];
-    composeMatrix(viewMatrix, position, quaternion, scale);
-    
-    HmdMatrix34_t mat;
-    setPoseMatrix(mat, viewMatrix);
-    error = g_vroverlay->SetOverlayTransformAbsolute(overlay, TrackingUniverseStanding, &mat);
-    if (error != VROverlayError_None) {
-      getOut() << "error setting overlay transform: " << (void *)error << std::endl;
-    }
 
     error = g_vroverlay->ShowOverlay(overlay);
     if (error != VROverlayError_None) {
@@ -95,7 +87,7 @@ public:
       getOut() << "error setting overlay haptics: " << (void *)error << std::endl;
     } */
     
-    getOut() << "create overlay " << width << " " << height << " " << position[0] << " " << position[1] << " " << position[2] << std::endl;
+    getOut() << "create overlay " << width << " " << height << std::endl;
     
     if (!blackTex) {
       D3D11_TEXTURE2D_DESC blackDesc{};
@@ -127,10 +119,7 @@ public:
       }
     }
   }
-  void setBackingTexture(int newWidth, int newHeight) {
-    width = newWidth;
-    height = newHeight;
-    
+  void setBackingTexture() {
     D3D11_TEXTURE2D_DESC desc{};
     desc.Width = width;
     desc.Height = height;
@@ -181,6 +170,31 @@ public:
     } */
 
     getOut() << "create surface " << width << " " << height << std::endl;
+  }
+  void setPosition() {
+    float offsetX = (float)centerX / (float)desktopWidth;
+    float offsetY = 1.0f - ((float)centerY / (float)desktopHeight);
+    
+    getOut() << "offset x " << offsetX << std::endl;
+    
+    float position[3] = {-0.5f + offsetX, 1.0f + offsetY, -1.0f};
+    float quaternion[4] = {0, 0, 0, 1};
+    float scale[3] = {1, 1, 1};
+    float viewMatrix[16];
+    composeMatrix(viewMatrix, position, quaternion, scale);
+    
+    HmdMatrix34_t mat;
+    setPoseMatrix(mat, viewMatrix);
+    EVROverlayError error = g_vroverlay->SetOverlayTransformAbsolute(overlay, TrackingUniverseStanding, &mat);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay transform: " << (void *)error << std::endl;
+    }
+    
+    getOut() << "set width " << width << " " << desktopWidth << " " << ((float)width / (float)desktopWidth) << std::endl;
+    error = g_vroverlay->SetOverlayWidthInMeters(overlay, (float)width / (float)desktopWidth);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay width: " << (void *)error << std::endl;
+    }
   }
   void tick() {    
     HDC hdcWindow = GetDC(hWnd);
@@ -249,9 +263,8 @@ public:
         }
       }
     } */
-    
     // context->Flush();
-    
+
     TrackedDevicePose_t cachedRenderPoses[k_unMaxTrackedDeviceCount];
     EVRCompositorError error2 = g_vrcompositor->GetLastPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), nullptr, 0);
     if (error2 == VRCompositorError_None) {
@@ -398,6 +411,10 @@ void homeRenderLoop() {
       EnumWindowsProc,
       NULL
     );
+    
+    int desktopWidth = GetSystemMetrics(SM_CXSCREEN);
+    int desktopHeight = GetSystemMetrics(SM_CYSCREEN);
+    
     for (auto hWnd : hwnds) {
       if (IsWindowVisible(hWnd)) {
         char buffer[MAX_PATH];
@@ -425,17 +442,33 @@ void homeRenderLoop() {
 
             windowOverlays.insert(std::pair<HANDLE, WindowOverlay>(hWnd, windowOverlay));
             iter = windowOverlays.find(hWnd);
-          /* } else {
+          } else {
             WindowOverlay &windowOverlay = iter->second;
             
-            RECT rect;          
-            GetClientRect(windowOverlay.hWnd, &rect);
+            RECT rect;
+            GetWindowRect(windowOverlay.hWnd, &rect);
             int width = rect.right - rect.left;
             int height = rect.bottom - rect.top;
+            int centerX = (rect.right + rect.left)/2;
+            int centerY = (rect.bottom + rect.top)/2;
             
-            if (width != windowOverlay.width || height != windowOverlay.height) {
-              windowOverlay.setBackingTexture(width, height);
-            } */
+            getOut() << "center x" << rect.left << " " << rect.right << " " << centerX << " " << desktopWidth << std::endl;
+            
+            bool needsTextureUpdate = (width != windowOverlay.width || height != windowOverlay.height);
+            bool needsPositionUpdate = (needsTextureUpdate || desktopWidth != windowOverlay.desktopWidth || desktopHeight != windowOverlay.desktopHeight || centerX != windowOverlay.centerX || centerY != windowOverlay.centerY);
+            windowOverlay.width = width;
+            windowOverlay.height = height;
+            windowOverlay.desktopWidth = desktopWidth;
+            windowOverlay.desktopHeight = desktopHeight;
+            windowOverlay.centerX = centerX;
+            windowOverlay.centerY = centerY;
+            
+            if (needsTextureUpdate) {
+              windowOverlay.setBackingTexture();
+            }
+            if (needsPositionUpdate) {
+              windowOverlay.setPosition();
+            }
           }
           WindowOverlay &windowOverlay = iter->second;
           windowOverlay.tick();
