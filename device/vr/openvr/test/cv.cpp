@@ -27,7 +27,7 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
     for (;;) {      
       sem.lock();
 
-      Mat inputImage(colorBufferDesc.Height, colorBufferDesc.Width, CV_8UC4);
+      cv::Mat inputImage(colorBufferDesc.Height, colorBufferDesc.Width, CV_8UC4);
 
       cvContext->Wait(fence, fenceValue);
       
@@ -147,7 +147,7 @@ void CvEngine::setEnabled(bool enabled) {
         readDesc.BindFlags = 0;
         readDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
         readDesc.MiscFlags = 0;
-        hr = qrDevice->CreateTexture2D(
+        hr = cvDevice->CreateTexture2D(
           &readDesc,
           NULL,
           &colorReadTex
@@ -176,7 +176,7 @@ void CvEngine::setEnabled(bool enabled) {
         }
         
         IDXGIResource *colorMirrorServerRes;
-        HRESULT hr = qrDevice->OpenSharedResource(colorMirrorHandle, __uuidof(IDXGIResource), (void**)&colorMirrorServerRes);
+        HRESULT hr = cvDevice->OpenSharedResource(colorMirrorHandle, __uuidof(IDXGIResource), (void**)&colorMirrorServerRes);
         if (FAILED(hr)) {
           getOut() << "failed to unpack color server shared texture handle: " << (void *)hr << " " << (void *)colorMirrorHandle << std::endl;
           abort();
@@ -246,7 +246,7 @@ const std::vector<float> &CvEngine::getFeatures() const {
   return features;
 }
 void CvEngine::InfoQueueLog() {
-  if (qrInfoQueue) {
-    vr::PVRCompositor::InfoQueueLog(qrInfoQueue);
+  if (cvInfoQueue) {
+    vr::PVRCompositor::InfoQueueLog(cvInfoQueue);
   }
 }
