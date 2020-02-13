@@ -497,9 +497,9 @@ window.addEventListener('xrload', async m => {
   const cvMesh = (() => {
     const geometry = new THREE.BufferGeometry();
     const material = new THREE.MeshPhongMaterial({
-      // color: 0x42a5f5,
-      // transparent: true,
-      // opacity: 0.1,
+      color: 0x42a5f5,
+      transparent: true,
+      opacity: 0.1,
     });
     return new THREE.Mesh(geometry, material);
   })();
