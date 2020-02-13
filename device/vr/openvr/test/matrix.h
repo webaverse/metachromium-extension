@@ -27,5 +27,6 @@ void multiplyVector3Scalar(float *v, const float s);
 void multiplyVector4Scalar(float *v, const float s);
 void addVector3Scalar(float *v, const float s);
 void addVector4Scalar(float *v, const float s);
+void perspectiveDivideVector(float *v);
 
 #endif

@@ -357,3 +357,9 @@ void addVector4Scalar(float *v, const float s) {
   v[1] += s;
   v[2] += s;
 }
+void perspectiveDivideVector(float *v) {
+  v[0] /= v[3];
+  v[1] /= v[3];
+  v[2] /= v[3];
+  v[3] = 1.0f;
+}
