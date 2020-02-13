@@ -82,14 +82,14 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       cv::BFMatcher bf(cv::NORM_HAMMING, true);
       bf.match(queryDescriptors, trainDescriptors, matches);
 
-      points.resize(matches.size() * 2);
+      features.resize(matches.size() * 2);
       for (size_t i = 0; i < matches.size(); i++) {
         cv::DMatch &match = matches[i];
         int queryIdx = match.queryIdx;
         const cv::KeyPoint &keypoint = queryKeypoints[queryIdx];
 
-        points[i*2] = keypoint.pt.x;
-        points[i*2 + 1] = keypoint.pt.y;
+        features[i*2] = keypoint.pt.x;
+        features[i*2 + 1] = keypoint.pt.y;
         // getOut() << "  " << keypoint.pt.x << " " << keypoint.pt.y << "\n";
       }
 
@@ -232,5 +232,5 @@ void CvEngine::setEnabled(bool enabled) {
   });
 }
 const std::vector<float> &CvEngine::getFeatures() const {
-  return points;
+  return features;
 }

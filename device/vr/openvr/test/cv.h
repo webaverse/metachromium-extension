@@ -39,7 +39,7 @@ public:
   float viewMatrixInverse[16] = {};
   float stageMatrixInverse[16] = {};
   float projectionMatrixInverse[16] = {};
-  std::vector<float> points();
+  std::vector<float> features;
 
 public:
   CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
