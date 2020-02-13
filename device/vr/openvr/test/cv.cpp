@@ -82,15 +82,26 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       cv::BFMatcher bf(cv::NORM_HAMMING, true);
       bf.match(queryDescriptors, trainDescriptors, matches);
 
-      features.resize(matches.size() * 2);
+      features.resize(matches.size() * 3);
       for (size_t i = 0; i < matches.size(); i++) {
         cv::DMatch &match = matches[i];
         int queryIdx = match.queryIdx;
         const cv::KeyPoint &keypoint = queryKeypoints[queryIdx];
 
-        features[i*2] = keypoint.pt.x;
-        features[i*2 + 1] = keypoint.pt.y;
-        // getOut() << "  " << keypoint.pt.x << " " << keypoint.pt.y << "\n";
+        float worldPoint[4] = {
+          (keypoint.pt.x/(float)eyeWidth) * 2.0f - 1.0f,
+          (1.0f-(keypoint.pt.y/(float)eyeHeight)) * 2.0f - 1.0f,
+          0.0f,
+          1.0f,
+        };
+        applyVector4Matrix(worldPoint, projectionMatrixInverse);
+        perspectiveDivideVector(worldPoint);
+        applyVector4Matrix(worldPoint, viewMatrixInverse);
+        applyVector4Matrix(worldPoint, stageMatrixInverse);
+
+        features[i*3] = worldPoint[0];
+        features[i*3+1] = worldPoint[1];
+        features[i*3+2] = worldPoint[2];
       }
 
       running = false;
