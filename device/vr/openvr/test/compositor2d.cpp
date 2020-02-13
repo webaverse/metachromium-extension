@@ -28,7 +28,7 @@ public:
   int desktopHeight;
   int centerX;
   int centerY;
-  float centerZ;
+  int centerZ;
   bool seen;
   
   static const uint32_t cursorSize = 11;
@@ -47,7 +47,7 @@ public:
     centerX = (rect.right + rect.left)/2;
     centerY = (rect.bottom + rect.top)/2;
     if (rect.left > 2000) {
-      centerZ = 0.01;
+      centerZ = 1;
     } else {
       centerZ = 0;
     }
@@ -214,7 +214,7 @@ public:
     
     // getOut() << "offset z " << rect.left << " " << centerZ << std::endl;
     
-    float position[3] = {-0.5f + offsetX, 1.0f + offsetY, -1.0f + centerZ};
+    float position[3] = {-0.5f + offsetX, 1.0f + offsetY, -1.0f + (float)centerZ*0.005};
     float quaternion[4] = {0, 0, 0, 1};
     float scale[3] = {1, 1, 1};
     float viewMatrix[16];
@@ -225,6 +225,11 @@ public:
     EVROverlayError error = g_vroverlay->SetOverlayTransformAbsolute(overlay, TrackingUniverseStanding, &mat);
     if (error != VROverlayError_None) {
       getOut() << "error setting overlay transform: " << (void *)error << std::endl;
+    }
+    
+    error = g_vroverlay->SetOverlaySortOrder(overlay, centerZ);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay sort order: " << (void *)error << std::endl;
     }
     
     getOut() << "set width " << width << " " << desktopWidth << " " << ((float)width / (float)desktopWidth) << std::endl;
@@ -538,7 +543,7 @@ void homeRenderLoop() {
             windowOverlay.centerX = centerX;
             windowOverlay.centerY = centerY;
             if (rect.left > 2000) {
-              windowOverlay.centerZ = 0.01;
+              windowOverlay.centerZ = 1;
             } else {
               windowOverlay.centerZ = 0;
             }
