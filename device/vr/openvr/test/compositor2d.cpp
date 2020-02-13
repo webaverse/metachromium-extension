@@ -542,7 +542,6 @@ void homeRenderLoop() {
         }
       }
     }
-    getOut() << "finding iterators to remove " << windowOverlays.size() << std::endl;
     std::vector<std::map<HANDLE, WindowOverlay>::iterator> iteratorsToRemove;
     for (auto iter = windowOverlays.begin(); iter != windowOverlays.end(); iter++) {
       const WindowOverlay &windowOverlay = iter->second;
@@ -550,7 +549,6 @@ void homeRenderLoop() {
         iteratorsToRemove.push_back(iter);
       }
     }
-    getOut() << "overlays to remove " << iteratorsToRemove.size() << std::endl;
     for (auto iter : iteratorsToRemove) {
       windowOverlays.erase(iter);
     }
