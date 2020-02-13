@@ -64,7 +64,7 @@ a:active {
     <input type=button id=toggle-controls-button value="FPS controls">
     <input type=button id=toggle-qr-button value="QR turn ON">
     <input type=button id=toggle-cv-button value="CV turn ON">
-    <input type=button id=tab-capture-button value="Tab capture">
+    <!-- <input type=button id=tab-capture-button value="Tab capture"> -->
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
   <img src="qr.png" width=200 height=200>
@@ -205,7 +205,7 @@ window.addEventListener('xrload', async m => {
     await xrc().request('setCvEngineEnabled', [cvEngineOn]);
   });
 
-  const tabCaptureButton = document.getElementById('tab-capture-button');
+  /* const tabCaptureButton = document.getElementById('tab-capture-button');
   tabCaptureButton.addEventListener('click', async () => {
     const mediaStreamId = await xrc().request('tabCapture', []);
     const mediaStream = await new Promise((accept, reject) => {
@@ -229,7 +229,7 @@ window.addEventListener('xrload', async m => {
     planeMesh.material.map = texture;
     planeMesh.material.needsUpdate = true;
     // console.log('got media stream', mediaStream);
-  });
+  }); */
 
   const canvas2d = document.getElementById('canvas-2d');
   async function recurse() {
@@ -289,16 +289,10 @@ window.addEventListener('xrload', async m => {
   cubeMesh.frustumCulled = false;
   scene.add(cubeMesh);
 
-  const planeMesh = (() => {
+  /* const planeMesh = (() => {
     const geometry = new THREE.PlaneBufferGeometry(1, 1);
-    /* const uvs = geometry.attributes.uv.array;
-    for (let i = 0; i < uvs.length; i += 2) {
-      uvs[i+1] = 1 - uvs[i+1];
-    } */
     const material = new THREE.MeshBasicMaterial({
       color: 0xFFFFFF,
-      /* transparent: true,
-      opacity: 0.5, */
     });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(0, 1.5, -1);
@@ -314,7 +308,7 @@ window.addEventListener('xrload', async m => {
     mesh.frustumCulled = false;
     return mesh;
   })();
-  scene.add(planeMesh);
+  scene.add(planeMesh); */
 
   const gripPoints = [
     new THREE.Vector2(NaN, NaN),
@@ -399,8 +393,8 @@ window.addEventListener('xrload', async m => {
     }
   })(); */
   
-  const imgMesh = (() => {
-    const geometry = new THREE.PlaneBufferGeometry(0.1, 0.1);
+  const qrImgMesh = (() => {
+    const geometry = new THREE.PlaneBufferGeometry(0.3, 0.3);
     const img = new Image();
     // img.crossOrigin = 'Anonymous';
     img.src = 'qr.png';
@@ -418,9 +412,9 @@ window.addEventListener('xrload', async m => {
     });
     return new THREE.Mesh(geometry, material);
   })();
-  imgMesh.position.set(-0.7, 1, -1);
-  imgMesh.frustumCulled = false;
-  scene.add(imgMesh);
+  qrImgMesh.position.set(-1, 1, -1);
+  qrImgMesh.frustumCulled = false;
+  scene.add(qrImgMesh);
 
   const qrMesh = (() => {
     const geometry = new THREE.PlaneBufferGeometry(1, 1);
@@ -434,7 +428,7 @@ window.addEventListener('xrload', async m => {
   qrMesh.frustumCulled = false;
   scene.add(qrMesh);
 
-  const raycaster = new THREE.Raycaster();
+  /* const raycaster = new THREE.Raycaster();
   const _updateRaycast = () => {
     for (let i = 0; i < 2; i++) {
       const grip = renderer.xr.getController(i);
@@ -465,7 +459,7 @@ window.addEventListener('xrload', async m => {
         gripPoint.set(NaN, NaN);
       }
     }
-  };
+  }; */
 
   let qrQueryRunning = false;
   const detectedQrCodes = [];
@@ -566,7 +560,7 @@ window.addEventListener('xrload', async m => {
     cubeMesh.rotation.x += 0.01;
     cubeMesh.rotation.z += 0.01;
 
-    _updateRaycast();
+    // _updateRaycast();
     _updateQrCodes();
     _updateCvFeatures();
   
