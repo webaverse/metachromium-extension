@@ -72,6 +72,14 @@ public:
     if (error != VROverlayError_None) {
       getOut() << "error setting overlay flag: " << (void *)error << std::endl;
     }
+    g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_MakeOverlaysInteractiveIfVisible, true);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay flag: " << (void *)error << std::endl;
+    }
+    /* g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_SortWithNonSceneOverlays, true);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay flag: " << (void *)error << std::endl;
+    } */
     /* g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_VisibleInDashboard, true);
     if (error != VROverlayError_None) {
       getOut() << "error setting overlay flag: " << (void *)error << std::endl;
@@ -130,6 +138,14 @@ public:
     }
   }
   void setBackingTexture() {
+    if (tex) {
+      tex->Release();
+      tex = nullptr;
+      dxgiSurface1->Release();
+      dxgiSurface1 = nullptr;
+      surfaceShareHandle = NULL;
+    }
+    
     D3D11_TEXTURE2D_DESC desc{};
     desc.Width = width;
     desc.Height = height;
@@ -245,11 +261,38 @@ public:
     dxgiSurface1->ReleaseDC(nullptr);
     // GdiFlush();
     
-    /* VREvent_t event;
+    VREvent_t event;
     while (g_vroverlay->PollNextOverlayEvent(overlay, &event, sizeof(event))) {
       switch (event.eventType) {
         case VREvent_MouseMove: {
           getOut() << "mouse move" << std::endl;
+          
+          const VREvent_Mouse_t &mouseEvent = event.data.mouse;
+          
+          float heightFactor = (float)height/(float)width;
+          
+          float uvx = mouseEvent.x;
+          float uvy = mouseEvent.y;
+          uvy = 1.0f - uvy;
+          uvy -= 0.5f;
+          if (std::abs(uvy) < heightFactor/2) {
+            uvy /= heightFactor;
+            uvy += 0.5f;
+
+            D3D11_BOX srcBox{};
+            srcBox.left = 0;
+            srcBox.right = cursorSize;
+            srcBox.top = 0;
+            srcBox.bottom = cursorSize;
+            srcBox.front = 0;
+            srcBox.back = 1;
+            uint32_t x = std::min<uint32_t>(std::max<uint32_t>(((float)width * uvx) - ((float)cursorSize-1)/2, 0), width);
+            uint32_t y = std::min<uint32_t>(std::max<uint32_t>(((float)height * uvy) - ((float)cursorSize-1)/2, 0), height);
+            context->CopySubresourceRegion(tex, 0, x, y, 0, blackTex, 0, &srcBox);
+            
+            moveMouse(x, y);
+          }
+          
           break;
         }
         case VREvent_MouseButtonDown: {
@@ -283,10 +326,9 @@ public:
           break;
         }
       }
-    } */
-    // context->Flush();
+    }
 
-    TrackedDevicePose_t cachedRenderPoses[k_unMaxTrackedDeviceCount];
+    /* TrackedDevicePose_t cachedRenderPoses[k_unMaxTrackedDeviceCount];
     EVRCompositorError error2 = g_vrcompositor->GetLastPoses(cachedRenderPoses, ARRAYSIZE(cachedRenderPoses), nullptr, 0);
     if (error2 == VRCompositorError_None) {
       for (size_t i = 0; i < ARRAYSIZE(cachedRenderPoses); i++) {
@@ -341,16 +383,16 @@ public:
           }
         }
       }
-    }
+    } */
     
-    D3D11_BOX srcBox{};
+    /* D3D11_BOX srcBox{};
     srcBox.left = 0;
     srcBox.right = cursorSize;
     srcBox.top = 0;
     srcBox.bottom = cursorSize;
     srcBox.front = 0;
     srcBox.back = 1;
-    context->CopySubresourceRegion(tex, 0, width/2 + 250, height/2, 0, blackTex, 0, &srcBox);
+    context->CopySubresourceRegion(tex, 0, width/2 + 250, height/2, 0, blackTex, 0, &srcBox); */
     
     context->Flush();
     
@@ -467,7 +509,7 @@ void homeRenderLoop() {
         );
 
         if (result > 0 && cwd == buffer) {
-          getOut() << "got chrome window " << hWnd << " " << windowOverlays.size() << " " << buffer << " " << txt << std::endl;
+          // getOut() << "got chrome window " << hWnd << " " << windowOverlays.size() << " " << buffer << " " << txt << std::endl;
 
           auto iter = windowOverlays.find(hWnd);
           if (iter == windowOverlays.end()) {
@@ -485,8 +527,8 @@ void homeRenderLoop() {
             int centerX = (rect.right + rect.left)/2;
             int centerY = (rect.bottom + rect.top)/2;
             
-            getOut() << "center x " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << " " << centerX << " " << centerY << " " << desktopWidth << " " << desktopHeight << std::endl;
-            
+            // getOut() << "center x " << rect.left << " " << rect.right << " " << rect.top << " " << rect.bottom << " " << centerX << " " << centerY << " " << desktopWidth << " " << desktopHeight << std::endl;
+
             bool needsTextureUpdate = (width != windowOverlay.width || height != windowOverlay.height);
             bool needsPositionUpdate = (needsTextureUpdate || desktopWidth != windowOverlay.desktopWidth || desktopHeight != windowOverlay.desktopHeight || centerX != windowOverlay.centerX || centerY != windowOverlay.centerY);
             windowOverlay.width = width;
