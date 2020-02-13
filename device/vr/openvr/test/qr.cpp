@@ -117,12 +117,7 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
             1.0f,
           };
           applyVector4Matrix(worldPoint, projectionMatrixInverse);
-          {
-            const float w = worldPoint[3];
-            for (int j = 0; j < 4; j++) {
-              worldPoint[j] /= w;
-            }
-          }
+          perspectiveDivideVector(worldPoint);
           applyVector4Matrix(worldPoint, viewMatrixInverse);
           applyVector4Matrix(worldPoint, stageMatrixInverse);
 
