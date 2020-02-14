@@ -160,8 +160,8 @@ PS_OUTPUT ps_main(VS_OUTPUT IN)
 {
   PS_OUTPUT result;
   result.Color = QuadTexture.Sample(QuadTextureSampler, IN.Uv);
-  if (result.Color.a == 0 && (result.Color.r != 0 || result.Color.g != 0 || result.Color.b != 0)) {
-    result.Color.a = 1;
+  if (result.Color.r == 0 && result.Color.g == 0 && result.Color.b == 0) {
+    result.Color.a = 0;
   }
   return result;
 }
