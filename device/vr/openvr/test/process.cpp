@@ -463,7 +463,7 @@ int WINAPI WinMain(
     std::thread([=]() -> void {
       WaitForSingleObject(chromeProcessHandle, INFINITE);
 
-      Sleep(500);
+      // Sleep(500);
 
       terminateKnownProcesses();
       
