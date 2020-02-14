@@ -156,8 +156,7 @@ int WINAPI WinMain(
     std::cout << "failed to get current directory" << std::endl;
     abort();
   }
-  
-  // dllDir = R"END(C:\Users\avaer\Documents\GitHub\chromium-79.0.3945.88\device\vr\build\mock_vr_clients\bin\)END";
+
   std::cout << "add_hook start " << cwdBuf << std::endl;
 
   int numArgs;

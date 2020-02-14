@@ -406,9 +406,6 @@ int WINAPI WinMain(
     }
   }
   {
-    std::string baseDir = cwdBuf;
-    baseDir += R"EOF(\..\..\..\..\..)EOF";
-
     std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\extension,..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --disable-direct-composition --allow-file-access-from-files --auto-select-desktop-capture-source="Metachromium Share - Chromium" )EOF";
     cmd += cwdBuf;
     cmd += R"EOF(\extension\index.html)EOF";
@@ -418,7 +415,7 @@ int WINAPI WinMain(
     getOut() << "launch chrome command: " << cmd << std::endl;
     
     char envBuf[64 * 1024];
-    getChildEnvBuf(envBuf, baseDir);
+    getChildEnvBuf(envBuf);
 
     /* SECURITY_ATTRIBUTES saAttr;
     // Set the bInheritHandle flag so pipe handles are inherited. 
