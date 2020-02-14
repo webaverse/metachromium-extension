@@ -545,7 +545,7 @@ window.addEventListener('xrload', async m => {
             index += 3;
           }
         }
-        cvMesh.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        cvMesh.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         cvMesh.visible = positions.length > 0;
 
         document.getElementById('cv-features-content').innerHTML = `${cvFeatures.length}`;
