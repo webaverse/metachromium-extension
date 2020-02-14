@@ -103,8 +103,7 @@ int main(int argc, char **argv) {
     getOut() << "failed to get current directory" << std::endl;
     abort();
   }
-  
-  // dllDir = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\";
+
   std::cerr << "start native host" << std::endl;
   // getOut() << "start app" << std::endl;
   for (;;) {
