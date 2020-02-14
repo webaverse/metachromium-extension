@@ -1,6 +1,6 @@
-# MetaChromium
+# Metachromium
 
-A multi-app XR browser for Windows, based on Chromium.
+Multi-app XR browser for Windows. Based on Chromium.
 
 - Web-based UI follows you to every app
 - Run multiple OpenVR/WebXR apps at a time
