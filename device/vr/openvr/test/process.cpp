@@ -21,13 +21,107 @@ decltype(DCompositionCreateDevice2) *RealDCompositionCreateDevice2 = nullptr;
 
 char kProcess_Terminate[] = "Process::Terminate";
 
+void
+ArgvQuote (
+    const std::string& Argument,
+    std::string& CommandLine,
+    bool Force
+    )
+    
+/*++
+    
+Routine Description:
+    
+    This routine appends the given argument to a command line such
+    that CommandLineToArgvW will return the argument string unchanged.
+    Arguments in a command line should be separated by spaces; this
+    function does not add these spaces.
+    
+Arguments:
+    
+    Argument - Supplies the argument to encode.
+
+    CommandLine - Supplies the command line to which we append the encoded argument string.
+
+    Force - Supplies an indication of whether we should quote
+            the argument even if it does not contain any characters that would
+            ordinarily require quoting.
+    
+Return Value:
+    
+    None.
+    
+Environment:
+    
+    Arbitrary.
+    
+--*/
+    
+{
+    //
+    // Unless we're told otherwise, don't quote unless we actually
+    // need to do so --- hopefully avoid problems if programs won't
+    // parse quotes properly
+    //
+    
+    if (Force == false &&
+        Argument.empty () == false &&
+        Argument.find_first_of (" \t\n\v\"") == Argument.npos)
+    {
+        CommandLine.append (Argument);
+    }
+    else {
+        CommandLine.push_back ('"');
+        
+        for (auto It = Argument.begin () ; ; ++It) {
+            unsigned NumberBackslashes = 0;
+        
+            while (It != Argument.end () && *It == '\\') {
+                ++It;
+                ++NumberBackslashes;
+            }
+        
+            if (It == Argument.end ()) {
+                
+                //
+                // Escape all backslashes, but let the terminating
+                // double quotation mark we add below be interpreted
+                // as a metacharacter.
+                //
+                
+                CommandLine.append (NumberBackslashes * 2, '\\');
+                break;
+            }
+            else if (*It == '"') {
+
+                //
+                // Escape all backslashes and the following
+                // double quotation mark.
+                //
+                
+                CommandLine.append (NumberBackslashes * 2 + 1, '\\');
+                CommandLine.push_back (*It);
+            }
+            else {
+                
+                //
+                // Backslashes aren't special here.
+                //
+                
+                CommandLine.append (NumberBackslashes, '\\');
+                CommandLine.push_back (*It);
+            }
+        }
+    
+        CommandLine.push_back ('"');
+    }
+}
 inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 	uintptr_t *vtable = *(uintptr_t **)cls;
 	return (uint32_t)(vtable[offset] - (uintptr_t)module);
 }
 
 HANDLE chromeProcessHandle = NULL;
-
 void terminateProcesses(const std::vector<const char *> &candidateFilenames) {
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
