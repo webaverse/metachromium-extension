@@ -21,8 +21,7 @@ cd device\vr
 mkdir -Force build
 cd build
 
-cp ..\build.ps1 .
-& '.\build.ps1'
+& '..\build.ps1'
 cd ..\..\..
 
 echo zipping artifact... 

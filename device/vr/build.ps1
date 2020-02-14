@@ -14,5 +14,6 @@ Start-Process -FilePath "add_hook.exe" -ArgumentList "..\..\..\..\..\Chrome-bin\
 cp -Force ..\..\..\..\..\opencv\x64\vc16\bin\opencv_world420.dll .
 
 cp -Recurse -Force ..\..\..\..\..\extension .
+cp -Recurse -Force ..\..\..\..\..\metamask .
 
 cd ..\..
