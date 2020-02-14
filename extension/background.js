@@ -72,7 +72,7 @@ chrome.runtime.onMessage.addListener(
       "from the extension"); */
     if (request && request.method && request.args) {
       const {method, args} = request;
-      if (method === 'tabCapture') {
+      /* if (method === 'tabCapture') {
         (async () => {
           await new Promise(accept => { // XXX this can be a native wait
             setTimeout(accept, 500);
@@ -84,9 +84,9 @@ chrome.runtime.onMessage.addListener(
             });
           });
         })().catch(console.warn);
-      } else {
+      } else { */
         proxyRequest(method, args, sendResponse);
-      }
+      // }
     } else {
       sendResponse({
         pong: true,
