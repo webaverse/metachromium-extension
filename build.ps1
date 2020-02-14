@@ -25,7 +25,7 @@ cd build
 cd ..\..\..
 
 echo zipping artifact... 
-7z a xrchrome.zip -r .\device\vr\build\mock_vr_clients\bin\
+7z a xrchrome.zip -r .\device\vr\build\metachromium\
 echo done zipping artifact
 
 ls
