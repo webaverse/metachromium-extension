@@ -106,7 +106,7 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         getOut() << "loop 10" << std::endl;
         
         std::vector<cv::DMatch> matches;
-        getOut() << "loop 11 " << queryDescriptors.type() << " " << trainDescriptors.type() << " " << queryDescriptors.cols << " " << trainDescriptors.cols << std::endl;
+        getOut() << "loop 11 " << trainDescriptors.rows << " " << trainDescriptors.cols << " " << trainDescriptors.total() << " " << trainDescriptors.elemSize() << " " << (trainDescriptors.total()*trainDescriptors.elemSize()) << std::endl;
         if (queryDescriptors.cols == trainDescriptors.cols) {
           bf.match(queryDescriptors, trainDescriptors, matches);
         }
@@ -138,7 +138,7 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
             features[i*3+2] = worldPoint[2];
           }
         }
-          
+
         getOut() << "loop 13" << std::endl;
         
         trainKeypoints = queryKeypoints;
