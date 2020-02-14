@@ -70,6 +70,55 @@ void writeChromeJson(const json &j) {
   }
 } */
 
+void terminateProcesses(const std::vector<const char *> &candidateFilenames) {
+  DWORD aProcesses[1024], cbNeeded, cProcesses;
+  if (EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded)) {
+    cProcesses = cbNeeded / sizeof(DWORD);
+
+    for (DWORD i = 0; i < cProcesses; i++) {
+      DWORD pid = aProcesses[i];
+      if (pid != 0) {
+        HANDLE h = OpenProcess(
+          PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
+          FALSE,
+          pid
+        );
+        if (h) {
+          char p[MAX_PATH];
+          if (GetModuleFileNameExA(h, 0, p, MAX_PATH)) {
+            if (strcmp(p, cwdBuf) == 0) {
+              const char *filename = p + strlen(cwdBuf) + 1; // cwd slash
+              bool match = false;
+              for (auto candidateFileName : candidateFilenames) {
+                if (strcmp(filename, candidateFileName) == 0 && pid != GetCurrentProcessId()) {
+                  match = true;
+                  break;
+                }
+              }
+              if (match) {
+                getOut() << "terminate process " << p << " " << pid << std::endl;
+                TerminateProcess(h, 0);
+              }
+            }
+          } else {
+            getOut() << "failed to get process file name: " << (void *)GetLastError() << std::endl;
+          }
+          CloseHandle(h);
+        }
+      }
+    }
+  } else {
+    getOut() << "failed to enum chrome processes" << std::endl;
+  }
+}
+void terminateKnownProcesses() {
+  terminateProcesses(std::vector<const char *>{
+    "process.exe",
+    "chrome.exe",
+    "native_host.exe",
+  });
+}
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
   // getOut() << "WindowProc message " << message << " " << WM_DESTROY << std::endl;
   // sort through and find what code to run for the message given
@@ -486,35 +535,7 @@ int WINAPI WinMain(
 
       Sleep(500);
 
-      DWORD aProcesses[1024], cbNeeded, cProcesses;
-      if (EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded)) {
-        cProcesses = cbNeeded / sizeof(DWORD);
-
-        for (DWORD i = 0; i < cProcesses; i++) {
-          DWORD pid = aProcesses[i];
-          if (pid != 0) {
-            HANDLE h = OpenProcess(
-              PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
-              FALSE,
-              pid
-            );
-            if (h) {
-              char p[MAX_PATH];
-              if (GetModuleFileNameExA(h, 0, p, MAX_PATH)) {
-                if (strcmp(p, cwdBuf) == 0) {
-                  getOut() << "terminate chrome process " << p << " " << pid << std::endl;
-                  TerminateProcess(h, 0);
-                }
-              } else {
-                getOut() << "failed to get process file name: " << (void *)GetLastError() << std::endl;
-              }
-              CloseHandle(h);
-            }
-          }
-        }
-      } else {
-        getOut() << "failed to enum chrome processes" << std::endl;
-      }
+      terminateKnownProcesses();
       
       PostMessage(g_hWnd, WM_DESTROY, 0, 0);
     }).detach();
