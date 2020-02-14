@@ -523,8 +523,7 @@ int WINAPI WinMain(
   }
   {
     std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\extension,..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --disable-direct-composition --allow-file-access-from-files --auto-select-desktop-capture-source="Metachromium Share - Chromium" )EOF";
-    cmd += cwdBuf;
-    cmd += R"EOF(\extension\index.html)EOF";
+    ArgvQuote(std::string(cwdBuf) + std::string(R"EOF(\extension\index.html)EOF"), cmd, false);
     std::vector<char> cmdVector(cmd.size() + 1);
     memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
 
