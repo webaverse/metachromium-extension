@@ -109,7 +109,7 @@ std::ostream &getOut() {
     return std::cout;
   } */
 }
-void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
+void getChildEnvBuf(char *pEnvBuf) {
   LPSTR lpvEnv = GetEnvironmentStringsA();
   std::vector<std::string> vars;
   for (LPSTR lpszVariable = (LPTSTR)lpvEnv; *lpszVariable; lpszVariable++) {
@@ -121,21 +121,16 @@ void getChildEnvBuf(char *pEnvBuf, const std::string &baseDir) {
   }
   FreeEnvironmentStrings(lpvEnv);
   
-  /* for (auto iter : vars) {
-    std::string &s = iter;
-    std::string s2 = s;
-    for (auto &c : s2) {
-      c = toupper(c);
-    }
-    if (s2.rfind("PATH=", 0) == 0) {
-      s += ";";
-      s += cwdBuf;
-    }
-  } */
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
+  }
+
   {
     std::string vrOverrideString = "VR_OVERRIDE=";
-    vrOverrideString += std::filesystem::weakly_canonical(std::filesystem::path(baseDir)).string();
-    vrOverrideString += R"EOF(\device\vr\build\mock_vr_clients\)EOF";
+    vrOverrideString += cwdBuf;
+    vrOverrideString += R"EOF(\..\)EOF";
 
     bool vrOverrideFound = false;
     for (size_t i = 0; i < vars.size(); i++) {
