@@ -48,7 +48,6 @@ HWND getHwndForProcessId(LPARAM m_ProcessId) {
 } */
 
 HANDLE chromeProcessHandle = NULL;
-DWORD chromeProcessId = 0;
 /* // child process's STDIN is the user input or data that you enter into the child process - READ
 HANDLE g_hChildStd_IN_Rd = NULL;
 // child process's STDIN is the user input or data that you enter into the child process - WRITE
@@ -466,9 +465,8 @@ int WINAPI WinMain(
       &pi
     )) {
       chromeProcessHandle = pi.hProcess;
-      chromeProcessId = pi.dwProcessId;
 
-      getOut() << "launched chrome ui process: " << chromeProcessId << std::endl;
+      getOut() << "launched chrome ui process: " << pi.dwProcessId << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
     }
