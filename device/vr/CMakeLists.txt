@@ -19,14 +19,14 @@ INCLUDE_DIRECTORIES(
   gl/include/GLFW
   ../../third_party/khronos
   detours
-  ../../opencv/build/include
+  ../../opencv/include
 )
 LINK_DIRECTORIES(
   gl/lib/glew
   gl/lib/glfw
   ../../third_party/openvr/src/bin/win64
   ../../third_party/openvr/src/lib/win64
-  ../../opencv/build/x64/vc15/lib
+  ../../opencv/x64/vc16/lib
 )
 
 SET(src
@@ -89,7 +89,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/mock_vr_clients/bin)
 ADD_LIBRARY(vrclient_x64 SHARED ${src} openvr/test/dll.cc)
-# target_link_libraries(vrclient_x64 openvr_api.dll)
 target_link_libraries(vrclient_x64 dxgi.lib d3d11.lib d3dcompiler.lib dxguid.lib opengl32.lib glew32.lib glfw3.lib opencv_world420.lib)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD 17)
 set_property(TARGET vrclient_x64 PROPERTY CXX_STANDARD_REQUIRED ON)
