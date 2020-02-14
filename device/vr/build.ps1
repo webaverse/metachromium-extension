@@ -1,7 +1,7 @@
 & 'C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat'
 
 cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
-msbuild /p:Configuration=Release ALL_BUILD.vcxproj
+msbuild /p:Configuration=Release /m ALL_BUILD.vcxproj
 
 cd mock_vr_clients\bin
 
