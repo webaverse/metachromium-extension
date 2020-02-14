@@ -22,13 +22,12 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       getOut() << "thread 1" << std::endl;
 
       cv::Ptr<cv::ORB> orb = cv::ORB::create();
-      cv::BFMatcher bf(cv::NORM_HAMMING, true);
+      cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
       
       getOut() << "thread 2" << std::endl;
 
       std::vector<cv::KeyPoint> trainKeypoints;
       cv::Mat trainDescriptors;
-      bool first = true;
 
       getOut() << "thread 3" << std::endl;
 
@@ -82,6 +81,11 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         // memcpy(inputImage.ptr(), subresource.pData, colorBufferDesc.Width * colorBufferDesc.Height * 4);
 
         // getOut() << "thread 7" << std::endl;
+        
+        cv::Mat inputImage2;
+        cv::cvtColor(inputImage, inputImage2, cv::COLOR_RGBA2GRAY);
+        cv::Mat inputImage3;
+        cv::resize(inputImage2, inputImage3, cv::Size(512, (float)512 * (float)inputImage2.rows / (float)inputImage2.cols), 0, 0, cv::INTER_CUBIC);
 
         getOut() << "loop 7" << std::endl;
 
@@ -91,27 +95,26 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 
         std::vector<cv::KeyPoint> queryKeypoints;
         cv::Mat queryDescriptors;
-        orb->detectAndCompute(inputImage, cv::noArray(), queryKeypoints, queryDescriptors);
-        // orb->detectAndCompute(inputImage, cv::noArray(), trainKeypoints, trainDescriptors);
-        
-        getOut() << "loop 9" << std::endl;
 
-        /* if (first) {
-          trainKeypoints = queryKeypoints;
-          trainDescriptors = queryDescriptors;
-
-          first = false;
-        } */
-        
-        getOut() << "loop 10" << std::endl;
+        int minHessian = 400;
+        cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create( minHessian );
+        detector->detectAndCompute( inputImage2, cv::noArray(), queryKeypoints, queryDescriptors );
+        getOut() << "loop 11 " << trainDescriptors.rows << " " << trainDescriptors.cols << " " << trainDescriptors.total() << " " << trainDescriptors.elemSize() << " " << (trainDescriptors.total()*trainDescriptors.elemSize()) << std::endl;
         
         std::vector<cv::DMatch> matches;
-        getOut() << "loop 11 " << trainDescriptors.rows << " " << trainDescriptors.cols << " " << trainDescriptors.total() << " " << trainDescriptors.elemSize() << " " << (trainDescriptors.total()*trainDescriptors.elemSize()) << std::endl;
         if (queryDescriptors.cols == trainDescriptors.cols) {
-          bf.match(queryDescriptors, trainDescriptors, matches);
+          std::vector< std::vector<cv::DMatch> > knn_matches;
+          matcher->knnMatch( queryDescriptors, trainDescriptors, knn_matches, 2 );
+
+          const float ratio_thresh = 0.7f;
+          for (size_t i = 0; i < knn_matches.size(); i++) {
+            if (knn_matches[i][0].distance < ratio_thresh * knn_matches[i][1].distance) {
+              matches.push_back(knn_matches[i][0]);
+            }
+          }
         }
 
-        getOut() << "loop 12" << std::endl;
+        getOut() << "loop 12 " << matches.size() << std::endl;
 
         {
           std::lock_guard<Mutex> lock(mut);
