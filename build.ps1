@@ -7,8 +7,7 @@ Invoke-WebRequest "https://github.com/Hibbiki/chromium-win64/releases/download/v
 7z x chrome.7z -aoa
 rm chrome.7z
 
-Invoke-WebRequest "https://github.com/opencv/opencv/releases/download/4.2.0/opencv-4.2.0-vc14_vc15.exe" -OutFile "opencv.exe"
-Start-Process -Wait ".\opencv.exe" -ArgumentList "-o. -y"
+git clone https://github.com/exokitxr/opencv-bin.git opencv
 
 mkdir -Force metamask
 cd metamask
