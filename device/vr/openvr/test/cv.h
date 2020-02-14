@@ -25,6 +25,7 @@ public:
   IDXGISwapChain *cvSwapChain = nullptr;
   ID3D11InfoQueue *cvInfoQueue = nullptr;
 
+  Mutex mut;
   Semaphore sem;
   bool running = false;
   ID3D11Texture2D *colorReadTex = nullptr;
@@ -44,7 +45,7 @@ public:
 public:
   CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
   void setEnabled(bool enabled);
-  const std::vector<float> &getFeatures() const;
+  void getFeatures(std::function<void(const std::vector<float> &)> cb);
   void InfoQueueLog();
 };
 

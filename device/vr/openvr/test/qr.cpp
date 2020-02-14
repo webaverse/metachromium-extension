@@ -96,37 +96,42 @@ QrEngine::QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 
       std::string data = qrDecoder.detectAndDecode(inputImage, bbox, rectifiedImage);
       getOut() << "thread 9 " << data.length() << std::endl;
-      if (data.length() > 0 && bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
-        getOut() << "Decoded QR code: " << data << " " <<
-          bbox.at<cv::Point2f>(0).x << " " << bbox.at<cv::Point2f>(0).y << " " <<
-          bbox.at<cv::Point2f>(1).x << " " << bbox.at<cv::Point2f>(1).y << " " <<
-          bbox.at<cv::Point2f>(2).x << " " << bbox.at<cv::Point2f>(2).y << " " <<
-          bbox.at<cv::Point2f>(3).x << " " << bbox.at<cv::Point2f>(3).y << " " <<
-          std::endl;
 
-        qrCodes.resize(1);
-        QrCode &qrCode = qrCodes[0];
-        qrCode.data = std::move(data);
-        
-        for (int i = 0; i < 4; i++) {
-          const cv::Point2f &p = bbox.at<cv::Point2f>(i);
-          float worldPoint[4] = {
-            (p.x/(float)eyeWidth) * 2.0f - 1.0f,
-            (1.0f-(p.y/(float)eyeHeight)) * 2.0f - 1.0f,
-            0.0f,
-            1.0f,
-          };
-          applyVector4Matrix(worldPoint, projectionMatrixInverse);
-          perspectiveDivideVector(worldPoint);
-          applyVector4Matrix(worldPoint, viewMatrixInverse);
-          applyVector4Matrix(worldPoint, stageMatrixInverse);
+      {
+        std::lock_guard<Mutex> lock(mut);
 
-          qrCode.points[i*3] = worldPoint[0];
-          qrCode.points[i*3+1] = worldPoint[1];
-          qrCode.points[i*3+2] = worldPoint[2];
+        if (data.length() > 0 && bbox.type() == CV_32FC2 && bbox.rows == 4 && bbox.cols == 1) {
+          getOut() << "Decoded QR code: " << data << " " <<
+            bbox.at<cv::Point2f>(0).x << " " << bbox.at<cv::Point2f>(0).y << " " <<
+            bbox.at<cv::Point2f>(1).x << " " << bbox.at<cv::Point2f>(1).y << " " <<
+            bbox.at<cv::Point2f>(2).x << " " << bbox.at<cv::Point2f>(2).y << " " <<
+            bbox.at<cv::Point2f>(3).x << " " << bbox.at<cv::Point2f>(3).y << " " <<
+            std::endl;
+
+          qrCodes.resize(1);
+          QrCode &qrCode = qrCodes[0];
+          qrCode.data = std::move(data);
+          
+          for (int i = 0; i < 4; i++) {
+            const cv::Point2f &p = bbox.at<cv::Point2f>(i);
+            float worldPoint[4] = {
+              (p.x/(float)eyeWidth) * 2.0f - 1.0f,
+              (1.0f-(p.y/(float)eyeHeight)) * 2.0f - 1.0f,
+              0.0f,
+              1.0f,
+            };
+            applyVector4Matrix(worldPoint, projectionMatrixInverse);
+            perspectiveDivideVector(worldPoint);
+            applyVector4Matrix(worldPoint, viewMatrixInverse);
+            applyVector4Matrix(worldPoint, stageMatrixInverse);
+
+            qrCode.points[i*3] = worldPoint[0];
+            qrCode.points[i*3+1] = worldPoint[1];
+            qrCode.points[i*3+2] = worldPoint[2];
+          }
+        } else {
+          qrCodes.clear();
         }
-      } else {
-        qrCodes.clear();
       }
 
       // getOut() << "thread 10 " << data.length() << std::endl;
@@ -269,8 +274,9 @@ void QrEngine::setEnabled(bool enabled) {
     }
   });
 }
-const std::vector<QrCode> &QrEngine::getQrCodes() const {
-  return qrCodes;
+void QrEngine::getQrCodes(std::function<void(const std::vector<QrCode> &)> cb) {
+  std::lock_guard<Mutex> lock(mut);
+  cb(qrCodes);
 }
 void QrEngine::InfoQueueLog() {
   if (qrInfoQueue) {

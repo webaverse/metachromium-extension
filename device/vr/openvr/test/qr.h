@@ -31,6 +31,7 @@ public:
   IDXGISwapChain *qrSwapChain = nullptr;
   ID3D11InfoQueue *qrInfoQueue = nullptr;
 
+  Mutex mut;
   Semaphore sem;
   bool running = false;
   ID3D11Texture2D *colorReadTex = nullptr;
@@ -50,7 +51,7 @@ public:
 public:
   QrEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
   void setEnabled(bool enabled);
-  const std::vector<QrCode> &getQrCodes() const;
+  void getQrCodes(std::function<void(const std::vector<QrCode> &)> cb);
   void InfoQueueLog();
 };
 

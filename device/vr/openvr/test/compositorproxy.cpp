@@ -1123,20 +1123,21 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_GetQrCodes,
     std::tuple<managed_binary<char>, managed_binary<float>>
   >([=]() {
-    const std::vector<QrCode> &qrCodes = g_pqrengine->getQrCodes();
     std::tuple<managed_binary<char>, managed_binary<float>> result;
-    if (qrCodes.size() > 0) {
-      const QrCode &qrCode = qrCodes[0];
+    g_pqrengine->getQrCodes([&](const std::vector<QrCode> &qrCodes) -> void {
+      if (qrCodes.size() > 0) {
+        const QrCode &qrCode = qrCodes[0];
 
-      managed_binary<char> &qrCodeEntryData = std::get<0>(result);
-      managed_binary<float> &qrCodeEntryPoints = std::get<1>(result);
-      
-      qrCodeEntryData = managed_binary<char>(qrCode.data.size());
-      memcpy(qrCodeEntryData.data(), qrCode.data.data(), qrCode.data.size());
-      
-      qrCodeEntryPoints = managed_binary<float>(ARRAYSIZE(qrCode.points));
-      memcpy(qrCodeEntryPoints.data(), qrCode.points, ARRAYSIZE(qrCode.points) * sizeof(float));
-    }
+        managed_binary<char> &qrCodeEntryData = std::get<0>(result);
+        managed_binary<float> &qrCodeEntryPoints = std::get<1>(result);
+        
+        qrCodeEntryData = managed_binary<char>(qrCode.data.size());
+        memcpy(qrCodeEntryData.data(), qrCode.data.data(), qrCode.data.size());
+        
+        qrCodeEntryPoints = managed_binary<float>(ARRAYSIZE(qrCode.points));
+        memcpy(qrCodeEntryPoints.data(), qrCode.points, ARRAYSIZE(qrCode.points) * sizeof(float));
+      }
+    });
     return std::move(result);
   });
   fnp.reg<
@@ -1151,12 +1152,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     kIVRCompositor_GetCvFeatures,
     managed_binary<float>
   >([=]() {
-    const std::vector<float> &features = g_pcvengine->getFeatures();
     managed_binary<float> result;
-    if (features.size() > 0) {
+    g_pcvengine->getFeatures([&](const std::vector<float> &features) -> void {
       result = managed_binary<float>(features.size());
-      memcpy(result.data(), features.data(), features.size() * sizeof(float));
-    }
+      if (features.size() > 0) {
+        memcpy(result.data(), features.data(), features.size() * sizeof(float));
+      }
+    });
     return std::move(result);
   });
 }
