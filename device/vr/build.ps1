@@ -3,7 +3,7 @@
 cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 msbuild /p:Configuration=Release /m ALL_BUILD.vcxproj
 
-cd mock_vr_clients\bin
+cd metachromium\bin
 
 cp -Recurse -Force ..\..\..\..\..\bin\* .
 
