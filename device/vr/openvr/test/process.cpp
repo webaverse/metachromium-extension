@@ -26,50 +26,70 @@ inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 	return (uint32_t)(vtable[offset] - (uintptr_t)module);
 }
 
-/* HWND tmpHwnd;
-BOOL CALLBACK EnumWindowsProcMy(HWND hwnd, LPARAM lParam) {
-  char textBuf[1024];
-  if (GetWindowTextA(
-    hwnd,
-    textBuf,
-    sizeof(textBuf)
-  )) {
-    if (std::string(textBuf).find("Chromium") != std::string::npos) {
-      tmpHwnd = hwnd;
-      return false;
-    }
-  }
-  return true;
-}
-HWND getHwndForProcessId(LPARAM m_ProcessId) {
-  tmpHwnd = NULL;
-  EnumWindows(EnumWindowsProcMy, m_ProcessId);
-  return tmpHwnd;
-} */
-
 HANDLE chromeProcessHandle = NULL;
-DWORD chromeProcessId = 0;
-/* // child process's STDIN is the user input or data that you enter into the child process - READ
-HANDLE g_hChildStd_IN_Rd = NULL;
-// child process's STDIN is the user input or data that you enter into the child process - WRITE
-HANDLE g_hChildStd_IN_Wr = NULL;
-// child process's STDOUT is the program output or data that child process returns - READ
-HANDLE g_hChildStd_OUT_Rd = NULL;
-// child process's STDOUT is the program output or data that child process returns - WRITE
-HANDLE g_hChildStd_OUT_Wr = NULL;
-void writeChromeJson(const json &j) {
-  const std::string &s = j.dump();
 
-  std::vector<char> d(sizeof(uint32_t) + s.size());
-  uint32_t size = (uint32_t)s.size();
-  memcpy(d.data(), &size, sizeof(uint32_t));
-  memcpy(d.data() + sizeof(uint32_t), s.data(), s.size());
-  DWORD bytesWritten;
-  if (!WriteFile(g_hChildStd_IN_Wr, d.data(), d.size(), &bytesWritten, NULL)) {
-    getOut() << "failed to write to chrome: " << (void *)GetLastError() << std::endl;
-    // abort();
+void terminateProcesses(const std::vector<const char *> &candidateFilenames) {
+  char cwdBuf[MAX_PATH];
+  if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
+    getOut() << "failed to get current directory" << std::endl;
+    abort();
   }
-} */
+  std::string cwdBufString(cwdBuf);
+  
+  DWORD aProcesses[1024], cbNeeded, cProcesses;
+  if (EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded)) {
+    cProcesses = cbNeeded / sizeof(DWORD);
+
+    for (DWORD i = 0; i < cProcesses; i++) {
+      DWORD pid = aProcesses[i];
+      if (pid != 0) {
+        HANDLE h = OpenProcess(
+          PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE,
+          FALSE,
+          pid
+        );
+        if (h) {
+          char p[MAX_PATH];
+          if (GetModuleFileNameExA(h, 0, p, MAX_PATH)) {
+            std::string pString(p);
+            if (pString.rfind(cwdBufString, 0) == 0) {
+              std::string filenameString(p + cwdBufString.length() + 1); // cwd slash
+              bool match = false;
+              for (auto candidateFileName : candidateFilenames) {
+                if (filenameString == candidateFileName && pid != GetCurrentProcessId()) {
+                  match = true;
+                  break;
+                }
+              }
+              if (match) {
+                getOut() << "terminate process " << p << " " << pid << std::endl;
+                if (!TerminateProcess(h, 0)) {
+                  getOut() << "failed to terminate process " << p << " " << pid << " " << (void *)GetLastError() << std::endl;
+                }
+              }
+            }
+          } else {
+            getOut() << "failed to get process file name: " << (void *)GetLastError() << std::endl;
+          }
+          CloseHandle(h);
+        }
+      }
+    }
+  } else {
+    getOut() << "failed to enum chrome processes" << std::endl;
+  }
+}
+void terminateKnownProcesses() {
+  terminateProcesses(std::vector<const char *>{
+    "chrome.exe",
+  });
+  terminateProcesses(std::vector<const char *>{
+    "native_host.exe",
+  });
+  terminateProcesses(std::vector<const char *>{
+    "process.exe",
+  });
+}
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
   // getOut() << "WindowProc message " << message << " " << WM_DESTROY << std::endl;
@@ -153,6 +173,8 @@ int WINAPI WinMain(
   int nCmdShow
 ) {
   SetProcessDPIAware();
+
+  terminateKnownProcesses();
 
   shMem = allocateShared("Local\\OpenVrProxyInit", 1024);
   g_offsets = (Offsets *)shMem;
@@ -417,40 +439,8 @@ int WINAPI WinMain(
     char envBuf[64 * 1024];
     getChildEnvBuf(envBuf);
 
-    /* SECURITY_ATTRIBUTES saAttr;
-    // Set the bInheritHandle flag so pipe handles are inherited. 
-    saAttr.nLength = sizeof(SECURITY_ATTRIBUTES);
-    saAttr.bInheritHandle = TRUE;
-    saAttr.lpSecurityDescriptor = NULL;
-    //child process's STDOUT is the program output or data that child process returns
-    // Create a pipe for the child process's STDOUT. 
-    if (!CreatePipe(&g_hChildStd_OUT_Rd, &g_hChildStd_OUT_Wr, &saAttr, 0)) {
-      getOut() << "StdoutRd CreatePipe abort" << std::endl;
-      abort();
-    }
-    // Ensure the read handle to the pipe for STDOUT is not inherited.
-    if (!SetHandleInformation(g_hChildStd_OUT_Rd, HANDLE_FLAG_INHERIT, 0)) {
-      getOut() << "Stdout SetHandleInformation abort" << std::endl;
-      abort();
-    }
-    //child process's STDIN is the user input or data that you enter into the child process
-    // Create a pipe for the child process's STDIN. 
-    if (!CreatePipe(&g_hChildStd_IN_Rd, &g_hChildStd_IN_Wr, &saAttr, 0)) {
-      getOut() << "Stdin CreatePipe abort" << std::endl;
-      abort();
-    }
-    // Ensure the write handle to the pipe for STDIN is not inherited. 
-    if (!SetHandleInformation(g_hChildStd_IN_Wr, HANDLE_FLAG_INHERIT, 0)) {
-      getOut() << "Stdin SetHandleInformation abort" << std::endl;
-      abort();
-    } */
-
     STARTUPINFO si{};
     si.cb = sizeof(STARTUPINFO);
-    /* si.hStdError = g_hChildStd_OUT_Wr;
-    si.hStdOutput = g_hChildStd_OUT_Wr;
-    si.hStdInput = g_hChildStd_IN_Rd;
-    si.dwFlags |= STARTF_USESTDHANDLES; */
     
     PROCESS_INFORMATION pi{};
     if (CreateProcessA(
@@ -466,57 +456,18 @@ int WINAPI WinMain(
       &pi
     )) {
       chromeProcessHandle = pi.hProcess;
-      chromeProcessId = pi.dwProcessId;
 
-      getOut() << "launched chrome ui process: " << chromeProcessId << std::endl;
+      getOut() << "launched chrome ui process: " << pi.dwProcessId << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
     }
-    
-    /* std::thread([]() -> void {
-      DWORD dwRead;
-      CHAR chBuf[4096];
-      BOOL bSuccess = FALSE;
-      HANDLE hParentStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-      WORD wResult = 0;
-      while (ReadFile(g_hChildStd_OUT_Rd, chBuf, sizeof(chBuf), &dwRead, NULL)) {
-        getOut().write(chBuf, dwRead);
-      }
-    }).detach(); */
+ 
     std::thread([=]() -> void {
       WaitForSingleObject(chromeProcessHandle, INFINITE);
 
-      Sleep(500);
+      // Sleep(500);
 
-      DWORD aProcesses[1024], cbNeeded, cProcesses;
-      if (EnumProcesses(aProcesses, sizeof(aProcesses), &cbNeeded)) {
-        cProcesses = cbNeeded / sizeof(DWORD);
-
-        for (DWORD i = 0; i < cProcesses; i++) {
-          DWORD pid = aProcesses[i];
-          if (pid != 0) {
-            HANDLE h = OpenProcess(
-              PROCESS_QUERY_INFORMATION | PROCESS_VM_READ,
-              FALSE,
-              pid
-            );
-            if (h) {
-              char p[MAX_PATH];
-              if (GetModuleFileNameExA(h, 0, p, MAX_PATH)) {
-                if (strcmp(p, cwdBuf) == 0) {
-                  getOut() << "terminate chrome process " << p << " " << pid << std::endl;
-                  TerminateProcess(h, 0);
-                }
-              } else {
-                getOut() << "failed to get process file name: " << (void *)GetLastError() << std::endl;
-              }
-              CloseHandle(h);
-            }
-          }
-        }
-      } else {
-        getOut() << "failed to enum chrome processes" << std::endl;
-      }
+      terminateKnownProcesses();
       
       PostMessage(g_hWnd, WM_DESTROY, 0, 0);
     }).detach();
@@ -540,15 +491,6 @@ int WINAPI WinMain(
       }
     }
   }
-  
-  /* if (chromeProcessHandle) {
-    if (!TerminateProcess(
-      chromeProcessHandle,
-      0
-    )) {
-      getOut() << "failed to terminate chrome ui process: " << (void *)GetLastError() << std::endl;
-    }
-  } */
   
   getOut() << "process exit" << std::endl;
 
