@@ -8,19 +8,19 @@ cmake -DCMAKE_GENERATOR_PLATFORM=x64 -DCMAKE_BUILD_TYPE=Release ..
 msbuild /p:Configuration=Release ALL_BUILD.vcxproj
 msbuild /p:Configuration=Release /t:Clean ALL_BUILD.vcxproj
 
-cd C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\mock_vr_clients\bin
+cd C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\metachromium\bin
 
-set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\mock_vr_clients\
+set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\metachromium\
 set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\config\
 set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\log\
-set PATH=%PATH%;C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\mock_vr_clients\bin
+set PATH=%PATH%;C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\metachromium\bin
 
-VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\mock_vr_clients\; VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\config\; VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\log\;
+VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\metachromium\; VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\config\; VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\log\;
 
 cd C:\Users\avaer\AppData\Local\Chromium\Application
 .\chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing C:\Users\avaer\Documents\GitHub\metachromium\extension\index.html
 
---app --disable-xr-device-consent-prompt-for-testing --no-sandbox --add-gpu-appcontainer-caps --add-xr-appcontainer-caps --xr_compositing --allow-third-party-modules --allow-unsecure-dlls --allow-sandbox-debugging --gpu-launcher="C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\mock_vr_clients\bin\process2.exe"
+--app --disable-xr-device-consent-prompt-for-testing --no-sandbox --add-gpu-appcontainer-caps --add-xr-appcontainer-caps --xr_compositing --allow-third-party-modules --allow-unsecure-dlls --allow-sandbox-debugging --gpu-launcher="C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\metachromium\bin\process2.exe"
 
 --gpu-launcher --no-startup-window --gpu-startup-dialog
 
@@ -36,7 +36,7 @@ cd C:\Program Files (x86)\Steam\steamapps\common\Blocks
 cd C:\Program Files (x86)\obs-studio\data\obs-plugins\win-capture
 .\get-graphics-offsets64.exe
 
-C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\mock_vr_clients\ && set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\config\ && set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\log\ &&  C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe"
+C:\Windows\System32\cmd.exe /c "set VR_OVERRIDE=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\build\metachromium\ && set VR_CONFIG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\config\ && set VR_LOG_PATH=C:\Users\avaer\Documents\GitHub\metachromium\device\vr\log\ &&  C:\Program Files (x86)\Minecraft Launcher\MinecraftLauncher.exe"
 */
 
 #include <iostream>
@@ -199,7 +199,7 @@ FnProxy *g_fnp = nullptr;
 Hijacker *g_hijacker = nullptr;
 Offsets *g_offsets = nullptr;
 
-// char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe";
+// char p[] = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\metachromium\\bin\\process.exe";
 
 void *shMem = nullptr;
 // bool hijacked = false;
@@ -230,7 +230,7 @@ extern "C" {
   }
 }
 
-/* TCHAR processExe[4096] = TEXT("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\process.exe");
+/* TCHAR processExe[4096] = TEXT("C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\metachromium\\bin\\process.exe");
 char lol[] = "lol";
 char lol2[] = "lol2"; */
 BOOL WINAPI DllMain(
