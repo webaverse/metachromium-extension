@@ -63,7 +63,9 @@ void terminateProcesses(const std::vector<const char *> &candidateFilenames) {
               }
               if (match) {
                 getOut() << "terminate process " << p << " " << pid << std::endl;
-                TerminateProcess(h, 0);
+                if (!TerminateProcess(h, 0)) {
+                  getOut() << "failed to terminate process " << p << " " << pid << " " << (void *)GetLastError() << std::endl;
+                }
               }
             }
           } else {
