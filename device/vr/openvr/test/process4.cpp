@@ -443,7 +443,7 @@ int main(int argc, char **argv) {
           } else if (
             methodString == "getCvFeatures"
           ) {
-            managed_binary<float> &points = g_fnp->call<
+            auto points = g_fnp->call<
               kProcess_GetCvFeatures,
               managed_binary<float>
             >();
