@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
   // getOut() << "got base dir " << baseDir << std::endl;
   
   // dllDir = "C:\\Users\\avaer\\Documents\\GitHub\\chromium-79.0.3945.88\\device\\vr\\build\\mock_vr_clients\\bin\\";
-  std::cerr << "start app" << std::endl;
+  std::cerr << "start native host" << std::endl;
   // getOut() << "start app" << std::endl;
   for (;;) {
     uint32_t size;
@@ -496,4 +496,6 @@ int main(int argc, char **argv) {
       break;
     }
   }
+  
+  std::cerr << "end native host" << std::endl;
 }
