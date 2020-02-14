@@ -1,7 +1,5 @@
-// #include <windows.h>
-// #include <stdio.h>
-// #include <fcntl.h>
-// #include <io.h>
+#include <io.h>
+#include <fcntl.h>
 #include <iostream>
 #include <filesystem>
 
@@ -89,10 +87,13 @@ void respond(const json &j) {
 }
 
 int main(int argc, char **argv) {
-  g_fnp = new FnProxy();
+  setmode(fileno(stdout), O_BINARY);
+  setmode(fileno(stdin), O_BINARY);
 
   freopen(NULL, "rb", stdin);
   freopen(NULL, "wb", stdout);
+  
+  g_fnp = new FnProxy();
 
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(
