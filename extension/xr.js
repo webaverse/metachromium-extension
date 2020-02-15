@@ -343,6 +343,35 @@ const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 1, 0);
 controls.update();
 
+const _colorGeometry = (g, c) => {
+  c = new THREE.Color(c);
+  const colors = new Float32Array(g.attributes.position.array.length);
+  for (let i = 0; i < g.attributes.position.array.length; i += 3) {
+    colors[i] = c.r;
+    colors[i+1] = c.g;
+    colors[i+2] = c.b;
+  }
+  g.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  return g;
+}
+const taskbarMesh = (() => {
+  const geometries = [
+    _colorGeometry(new THREE.BoxBufferGeometry(1, 0.1, 0.1).applyMatrix(new THREE.Matrix4().makeTranslation(0, -0.1/2, 0)), 0x808080),
+  ];
+  for (let i = 0; i < 10; i++) {
+    geometries.push(_colorGeometry(new THREE.BoxBufferGeometry(0.09, 0.09, 0.09).applyMatrix(new THREE.Matrix4().makeTranslation(-1/2 + 0.1/2 + i*0.1, 0, 0)), 0x666666));
+  }
+  const geometry = THREE.BufferGeometryUtils.mergeBufferGeometries(geometries);
+  const material = new THREE.MeshBasicMaterial({
+    vertexColors: THREE.VertexColors,
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.frustumCulled = false;
+  return mesh;
+})();
+taskbarMesh.position.y = 1;
+scene.add(taskbarMesh);
+
 renderer.setAnimationLoop(render);
 function render() {
   cubeMesh.rotation.x += 0.01;
