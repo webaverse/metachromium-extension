@@ -184,6 +184,39 @@ void terminateKnownProcesses() {
     "process.exe",
   });
 }
+HANDLE startChrome(const std::string &indexHtmlPath) {
+  std::string cmd(R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\extension,..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --disable-direct-composition --allow-file-access-from-files --auto-select-desktop-capture-source="Metachromium Share - Chromium" )EOF");
+  cmd += indexHtmlPath;
+
+  std::vector<char> cmdVector(cmd.size() + 1);
+  memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
+
+  getOut() << "launch chrome command: " << cmd << std::endl;
+  
+  char envBuf[64 * 1024];
+  getChildEnvBuf(envBuf);
+
+  STARTUPINFO si{};
+  si.cb = sizeof(STARTUPINFO);
+  
+  PROCESS_INFORMATION pi{};
+  if (CreateProcessA(
+    NULL,
+    cmdVector.data(),
+    NULL,
+    NULL,
+    true,
+    CREATE_NO_WINDOW,
+    envBuf,
+    NULL,
+    &si,
+    &pi
+  )) {
+    return pi.hProcess;
+  } else {
+    return NULL;
+  }
+}
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
   // getOut() << "WindowProc message " << message << " " << WM_DESTROY << std::endl;
@@ -522,50 +555,36 @@ int WINAPI WinMain(
     }
   }
   {
-    std::string cmd = R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\extension,..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --disable-direct-composition --allow-file-access-from-files --auto-select-desktop-capture-source="Metachromium Share - Chromium" )EOF";
-    ArgvQuote(std::string(cwdBuf) + std::string(R"EOF(\extension\index.html)EOF"), cmd, false);
-    std::vector<char> cmdVector(cmd.size() + 1);
-    memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
-
-    getOut() << "launch chrome command: " << cmd << std::endl;
-    
-    char envBuf[64 * 1024];
-    getChildEnvBuf(envBuf);
-
-    STARTUPINFO si{};
-    si.cb = sizeof(STARTUPINFO);
-    
-    PROCESS_INFORMATION pi{};
-    if (CreateProcessA(
-      NULL,
-      cmdVector.data(),
-      NULL,
-      NULL,
-      true,
-      CREATE_NO_WINDOW,
-      envBuf,
-      NULL,
-      &si,
-      &pi
-    )) {
-      chromeProcessHandle = pi.hProcess;
-
-      getOut() << "launched chrome ui process: " << pi.dwProcessId << std::endl;
+    std::string indexHtmlPath;
+    ArgvQuote(std::string(cwdBuf) + std::string(R"EOF(\extension\index.html)EOF"), indexHtmlPath, false);
+    chromeProcessHandle = startChrome(indexHtmlPath);
+    if (chromeProcessHandle) {
+      getOut() << "launched chrome ui process" << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
     }
- 
-    std::thread([=]() -> void {
-      WaitForSingleObject(chromeProcessHandle, INFINITE);
-
-      // Sleep(500);
-
-      terminateKnownProcesses();
-      
-      PostMessage(g_hWnd, WM_DESTROY, 0, 0);
-    }).detach();
   }
-  
+  /* {
+    std::string indexHtmlPath;
+    ArgvQuote(std::string(cwdBuf) + std::string(R"EOF(\extension\navbar.html)EOF"), indexHtmlPath, false);
+    chromeProcessHandle = startChrome(indexHtmlPath);
+    if (chromeProcessHandle) {
+      getOut() << "launched chrome navbar process" << std::endl;
+    } else {
+      getOut() << "failed to launch chrome navbar process: " << (void *)GetLastError() << std::endl;
+    }
+  } */
+
+  std::thread([=]() -> void {
+    WaitForSingleObject(chromeProcessHandle, INFINITE);
+
+    // Sleep(500);
+
+    terminateKnownProcesses();
+    
+    PostMessage(g_hWnd, WM_DESTROY, 0, 0);
+  }).detach();
+
   std::thread([=]() -> void {
     compositor2d::homeRenderLoop();
   }).detach();
