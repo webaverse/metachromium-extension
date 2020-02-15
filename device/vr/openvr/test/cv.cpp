@@ -26,9 +26,6 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
       
       // getOut() << "thread 2" << std::endl;
 
-      std::vector<cv::KeyPoint> trainKeypoints;
-      cv::Mat trainDescriptors;
-
       // getOut() << "thread 3" << std::endl;
 
       for (;;) {
@@ -102,9 +99,9 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         // getOut() << "loop 11 " << feature.descriptors.rows << " " << feature.descriptors.cols << " " << feature.descriptors.total() << " " << feature.descriptors.elemSize() << " " << (feature.descriptors.total()*feature.descriptors.elemSize()) << std::endl;
         
         std::vector<cv::DMatch> matches;
-        if (queryDescriptors.cols == trainDescriptors.cols) {
+        if (queryDescriptors.cols == feature.descriptors.cols) {
           std::vector< std::vector<cv::DMatch> > knn_matches;
-          matcher->knnMatch( queryDescriptors, trainDescriptors, knn_matches, 2 );
+          matcher->knnMatch( queryDescriptors, feature.descriptors, knn_matches, 2 );
 
           const float ratio_thresh = 0.7f;
           for (size_t i = 0; i < knn_matches.size(); i++) {
@@ -119,7 +116,7 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         {
           std::lock_guard<Mutex> lock(mut);
 
-          features.resize(matches.size() * 3);
+          std::vector<float> queryPoints(matches.size() * 3);
           for (size_t i = 0; i < matches.size(); i++) {
             cv::DMatch &match = matches[i];
             int queryIdx = match.queryIdx;
@@ -136,15 +133,18 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
             applyVector4Matrix(worldPoint, viewMatrixInverse);
             applyVector4Matrix(worldPoint, stageMatrixInverse);
 
-            features[i*3] = worldPoint[0];
-            features[i*3+1] = worldPoint[1];
-            features[i*3+2] = worldPoint[2];
+            queryPoints[i*3] = worldPoint[0];
+            queryPoints[i*3+1] = worldPoint[1];
+            queryPoints[i*3+2] = worldPoint[2];
+
+            feature = {
+              inputImage,
+              queryDescriptors,
+              queryPoints,
+            };
           }
         }
 
-        
-        trainKeypoints = queryKeypoints;
-        trainDescriptors = queryDescriptors;
         // getOut() << "loop 13" << std::endl;
 
         running = false;

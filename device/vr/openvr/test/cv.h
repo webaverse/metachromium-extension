@@ -17,6 +17,13 @@
 
 // using namespace cv;
 
+class Feature {
+public:
+  cv::Mat image;
+  cv::Mat descriptors;
+  std::vector<float> points;
+};
+
 class CvEngine {
 public:
   vr::PVRCompositor *pvrcompositor;
@@ -42,7 +49,7 @@ public:
   float viewMatrixInverse[16] = {};
   float stageMatrixInverse[16] = {};
   float projectionMatrixInverse[16] = {};
-  std::vector<float> features;
+  Feature feature;
 
 public:
   CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
