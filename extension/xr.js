@@ -15,7 +15,7 @@ renderer.physicallyCorrectLights = true;
 renderer.xr.enabled = true;
 
 const scene = new THREE.Scene();
-// scene.background = new THREE.Color(0xCCCCCC);
+scene.background = new THREE.Color(0xCCCCCC);
 
 const camera = new THREE.PerspectiveCamera();
 camera.position.y = 1;
