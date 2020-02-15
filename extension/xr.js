@@ -275,7 +275,7 @@ const makeBlockMesh = (() => {
 })();
 
 let itemBlockMeshes = [];
-const itemMeshes = Promise.all([
+/* const itemMeshes = Promise.all([
   'Armor_03.png',
   'Food_37.png',
 ].map((name, i) => {
@@ -302,7 +302,7 @@ const itemMeshes = Promise.all([
   itemBlockMeshes.forEach(itemBlockMesh => {
     scene.add(itemBlockMesh);
   });
-});
+}); */
 
 const _makeControllerMesh = () => {
   const geometry = new THREE.CylinderBufferGeometry(0.005, 0.005, 1)
@@ -356,20 +356,60 @@ const _colorGeometry = (g, c) => {
 }
 const taskbarMesh = (() => {
   const geometries = [
-    _colorGeometry(new THREE.BoxBufferGeometry(1, 0.1, 0.1).applyMatrix(new THREE.Matrix4().makeTranslation(0, -0.1/2, 0)), 0x808080),
+    _colorGeometry(new THREE.BoxBufferGeometry(1, 0.01, 0.1).applyMatrix(new THREE.Matrix4().makeTranslation(0, -0.01/2, 0)), 0x808080),
   ];
   for (let i = 0; i < 10; i++) {
-    geometries.push(_colorGeometry(new THREE.BoxBufferGeometry(0.09, 0.09, 0.09).applyMatrix(new THREE.Matrix4().makeTranslation(-1/2 + 0.1/2 + i*0.1, 0, 0)), 0x666666));
+    geometries.push(_colorGeometry(new THREE.BoxBufferGeometry(0.09, 0.01, 0.09).applyMatrix(new THREE.Matrix4().makeTranslation(-1/2 + 0.1/2 + i*0.1, 0, 0)), 0xAAAAAA));
   }
   const geometry = THREE.BufferGeometryUtils.mergeBufferGeometries(geometries);
-  const material = new THREE.MeshBasicMaterial({
+  const material = new THREE.MeshPhongMaterial({
     vertexColors: THREE.VertexColors,
   });
   const mesh = new THREE.Mesh(geometry, material);
   mesh.frustumCulled = false;
+
+  const textureMesh = (() => {
+    const geometry = new THREE.PlaneBufferGeometry(1, 0.1)
+      .applyMatrix(new THREE.Matrix4().makeRotationFromQuaternion(new THREE.Quaternion().setFromAxisAngle(
+        new THREE.Vector3(1, 0, 0),
+        -Math.PI/2
+      )));
+    const canvas = document.createElement('canvas');
+    canvas.width = 4096;
+    canvas.height = canvas.width/10;
+    const ctx = canvas.getContext('2d');
+    const texture = new THREE.Texture(canvas);
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      alphaTest: 0.5,
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.position.y = 0.011;
+    mesh.frustumCulled = false;
+    mesh.render = tabs => {
+      ctx.fillStyle = "rgba(255, 255, 255, 0)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#000";
+      ctx.textAlign = "start";
+      ctx.textBaseline = "top";
+      ctx.font = "50px Consolas, SF Mono";
+      for (let i = 0; i < tabs.length; i++) {
+        const s = tabs[i];
+        ctx.fillText(s, 50 + (i+1)*canvas.width/10, 50);
+      }
+
+      texture.needsUpdate = true;
+    };
+    return mesh;
+  })();
+  mesh.add(textureMesh);
+  mesh.textureMesh = textureMesh;
+
   return mesh;
 })();
 taskbarMesh.position.y = 1;
+taskbarMesh.textureMesh.render(['browser1', 'browser2']);
 scene.add(taskbarMesh);
 
 renderer.setAnimationLoop(render);
