@@ -41,6 +41,10 @@ class Base64 {
 
   template<typename T>
   static std::string Encode(const managed_binary<T> &data) {
+    if (data.size() == 0) {
+      return std::string();
+    }
+
     static constexpr char sEncodingTable[] = {
       'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
       'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -83,6 +87,10 @@ class Base64 {
 
   template<typename T>
   static managed_binary<T> Decode(const std::string& input) {
+    if (input.size() == 0) {
+      return managed_binary<T>();
+    }
+    
     static constexpr unsigned char kDecodingTable[] = {
       64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
       64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
