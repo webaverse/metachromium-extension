@@ -50,11 +50,13 @@ public:
   float stageMatrixInverse[16] = {};
   float projectionMatrixInverse[16] = {};
   CvFeature feature;
+  std::vector<cv::Mat> matchDescriptors;
 
 public:
   CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
   void setEnabled(bool enabled);
   void getFeatures(std::function<void(const CvFeature &)> cb);
+  void addFeature(int rows, int cols, int type, const managed_binary<unsigned char> &data);
   void InfoQueueLog();
 };
 

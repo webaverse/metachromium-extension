@@ -294,6 +294,12 @@ void CvEngine::getFeatures(std::function<void(const CvFeature &)> cb) {
   std::lock_guard<Mutex> lock(mut);
   cb(features);
 }
+void CvEngine::addFeature(int rows, int cols, int type, const managed_binary<unsigned char> &data) {
+  std::lock_guard<Mutex> lock(mut);
+  cv::Mat descriptor(rows, cols, type);
+  memcpy(descriptor.ptr(), data.data(), data.size());
+  matchDescriptors.push_back(std::move(descriptor));
+}
 void CvEngine::InfoQueueLog() {
   if (cvInfoQueue) {
     vr::PVRCompositor::InfoQueueLog(cvInfoQueue);

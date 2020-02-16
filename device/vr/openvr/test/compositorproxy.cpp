@@ -63,6 +63,7 @@ char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrE
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 char kIVRCompositor_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
 char kIVRCompositor_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
+char kIVRCompositor_SetCvFeatures[] = "IVRCompositor::SetCvFeatures";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1178,6 +1179,18 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       }
     });
     return std::move(result);
+  });
+  fnp.reg<
+    kIVRCompositor_AddCvFeature,
+    int,
+    std::tuple<managed_binary<int>, managed_binary<unsigned char>>
+  >([=](std::tuple<managed_binary<int>, managed_binary<unsigned char>> descriptor) {
+    int rows = std::get<0>(descriptor);
+    int cols = std::get<1>(descriptor);
+    int type = std::get<2>(descriptor);
+    const managed_binary<unsigned char> &descriptorData = std::get<1>(descriptor);
+    g_pcvengine->addFeature(rows, cols, type, descriptorData);
+    return 0;
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {
