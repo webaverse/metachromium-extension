@@ -442,7 +442,7 @@ int main(int argc, char **argv) {
           ) {
             auto points = g_fnp->call<
               kProcess_GetCvFeatures,
-              managed_binary<float>
+              std::tuple<manged_binary<int>, manged_binary<unsigned char>, manged_binary<int>, manged_binary<unsigned char>, managed_binary<float>>
             >();
 
             json array = json::array();

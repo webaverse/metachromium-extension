@@ -290,7 +290,7 @@ void CvEngine::setEnabled(bool enabled) {
     }
   });
 }
-void CvEngine::getFeatures(std::function<void(const std::vector<float> &)> cb) {
+void CvEngine::getFeatures(std::function<void(const CvFeature &)> cb) {
   std::lock_guard<Mutex> lock(mut);
   cb(features);
 }
