@@ -37,6 +37,7 @@ char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineE
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 char kProcess_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
 char kProcess_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
+char kProcess_AddCvFeature[] = "IVRCompositor::AddCvFeature";
 char kProcess_Terminate[] = "Process::Terminate";
 
 class HwndSearchStruct {
@@ -447,9 +448,9 @@ int main(int argc, char **argv) {
               std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
             >();
 
-            int width = std::get<0>(feature).data()[0];
-            int height = std::get<0>(feature).data()[1];
-            int type = std::get<0>(feature).data()[2];
+            int rows = std::get<0>(feature)[0];
+            int cols = std::get<0>(feature)[1];
+            int type = std::get<0>(feature)[2];
             const managed_binary<char> &dataBuffer = std::get<1>(feature);
             const std::string &data = Base64::Encode(dataBuffer);
             json image = {
@@ -459,9 +460,9 @@ int main(int argc, char **argv) {
               {"data", data},
             };
 
-            int descriptorRows = std::get<2>(feature).data()[0];
-            int descriptorCols = std::get<2>(feature).data()[1];
-            int descriptorType = std::get<2>(feature).data()[2];
+            int descriptorRows = std::get<2>(feature)[0];
+            int descriptorCols = std::get<2>(feature)[1];
+            int descriptorType = std::get<2>(feature)[2];
             const managed_binary<char> &descriptorDataBuffer = std::get<3>(feature);
             const std::string &descriptorData = Base64::Encode(descriptorDataBuffer);
             json descriptor = {
@@ -492,7 +493,7 @@ int main(int argc, char **argv) {
             int cols = args[1].get<int>();
             int type = args[2].get<int>();
             const std::string &data = args[3].get<std::string>();
-            managed_binary<char> dataBuffer = Base64::Decode(data);
+            managed_binary<char> dataBuffer = Base64::Decode<char>(data);
             auto result = g_fnp->call<
               kProcess_AddCvFeature,
               int,

@@ -63,7 +63,7 @@ char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrE
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 char kIVRCompositor_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
 char kIVRCompositor_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
-char kIVRCompositor_SetCvFeatures[] = "IVRCompositor::SetCvFeatures";
+char kIVRCompositor_AddCvFeature[] = "IVRCompositor::AddCvFeature";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1162,20 +1162,20 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       imageDesc = managed_binary<int>(3);
       imageDesc[0] = feature.image.rows;
       imageDesc[1] = feature.image.cols;
-      imageDesc[2] = feature.image.type;
+      imageDesc[2] = feature.image.type();
       managed_binary<char> &imageData = std::get<1>(result);
-      imageData = managed_binary<char>(feature.image.ptr(), feature.image.total() * feature.image.elemSize());
+      imageData = managed_binary<char>((char *)feature.image.ptr(), feature.image.total() * feature.image.elemSize());
 
       managed_binary<int> &descriptorDesc = std::get<2>(result);
-      descriptorDesc[0] = feature.descriptor.rows;
-      descriptorDesc[1] = feature.descriptor.cols;
-      descriptorDesc[2] = feature.descriptor.type;
+      descriptorDesc[0] = feature.descriptors.rows;
+      descriptorDesc[1] = feature.descriptors.cols;
+      descriptorDesc[2] = feature.descriptors.type();
       managed_binary<char> &descriptorData = std::get<3>(result);
-      descriptorData = managed_binary<char>(feature.descriptor.ptr(), feature.descriptor.total() * feature.descriptor.elemSize());
+      descriptorData = managed_binary<char>((char *)feature.descriptors.ptr(), feature.descriptors.total() * feature.descriptors.elemSize());
 
       managed_binary<float> &points = std::get<4>(result);
       if (feature.points.size() > 0) {
-        memcpy(points.data(), feature.points.data(), feature.points.size() * sizeof(feature[0]));
+        memcpy(points.data(), feature.points.data(), feature.points.size() * sizeof(feature.points[0]));
       }
     });
     return std::move(result);
@@ -1185,9 +1185,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     int,
     std::tuple<managed_binary<int>, managed_binary<char>>
   >([=](std::tuple<managed_binary<int>, managed_binary<char>> descriptor) {
-    int rows = std::get<0>(descriptor);
-    int cols = std::get<1>(descriptor);
-    int type = std::get<2>(descriptor);
+    int rows = std::get<0>(descriptor)[0];
+    int cols = std::get<0>(descriptor)[1];
+    int type = std::get<0>(descriptor)[2];
     const managed_binary<char> &descriptorData = std::get<1>(descriptor);
     g_pcvengine->addFeature(rows, cols, type, descriptorData);
     return 0;

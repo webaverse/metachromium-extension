@@ -81,6 +81,9 @@ public:
     Item &operator[](size_t i) {
       return m_items[i];
     }
+    const Item &operator[](size_t i) const {
+      return m_items[i];
+    }
 
 protected:
     /**
