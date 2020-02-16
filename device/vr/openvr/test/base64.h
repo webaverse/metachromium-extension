@@ -59,9 +59,10 @@ class Base64 {
     size_t in_len = data.size() * sizeof(data[0]);
     const char *dataBuffer = (char *)data.data();
     size_t out_len = 4 * ((in_len + 2) / 3);
-    std::string ret(out_len, '\0');
+    std::string ret;
+    ret.resize(out_len);
     size_t i;
-    char *p = const_cast<char*>(ret.c_str());
+    char *p = ret.data();
 
     for (i = 0; i < in_len - 2; i += 3) {
       *p++ = sEncodingTable[(dataBuffer[i] >> 2) & 0x3F];
