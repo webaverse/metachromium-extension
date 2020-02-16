@@ -122,7 +122,6 @@ inline uint32_t vtable_offset(HMODULE module, void *cls, unsigned int offset) {
 }
 
 HANDLE chromeProcessHandle = NULL;
-HANDLE nativeHostProcessHandle = NULL;
 void terminateProcesses(const std::vector<const char *> &candidateFilenames) {
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
@@ -195,37 +194,6 @@ HANDLE startChrome(const std::string &indexHtmlPath) {
   memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
 
   getOut() << "launch chrome command: " << cmd << std::endl;
-  
-  char envBuf[64 * 1024];
-  getChildEnvBuf(envBuf);
-
-  STARTUPINFO si{};
-  si.cb = sizeof(STARTUPINFO);
-  
-  PROCESS_INFORMATION pi{};
-  if (CreateProcessA(
-    NULL,
-    cmdVector.data(),
-    NULL,
-    NULL,
-    true,
-    CREATE_NO_WINDOW,
-    envBuf,
-    NULL,
-    &si,
-    &pi
-  )) {
-    return pi.hProcess;
-  } else {
-    return NULL;
-  }
-}
-HANDLE startNativeHost() {
-  std::string cmd(R"EOF(native_host.exe)EOF");
-  std::vector<char> cmdVector(cmd.size() + 1);
-  memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
-
-  getOut() << "launch native host command: " << cmd << std::endl;
   
   char envBuf[64 * 1024];
   getChildEnvBuf(envBuf);
@@ -596,14 +564,6 @@ int WINAPI WinMain(
       getOut() << "launched chrome ui process" << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
-    }
-  }
-  {
-    nativeHostProcessHandle = startNativeHost();
-    if (nativeHostProcessHandle) {
-      getOut() << "launched native host process" << std::endl;
-    } else {
-      getOut() << "failed to launch native host process: " << (void *)GetLastError() << std::endl;
     }
   }
   /* {
