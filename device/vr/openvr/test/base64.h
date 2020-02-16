@@ -1,6 +1,8 @@
 #ifndef _MACARON_BASE64_H_
 #define _MACARON_BASE64_H_
 
+#include "device/vr/openvr/test/serializer.h"
+
 /**
  * The MIT License (MIT)
  * Copyright (c) 2016 tomykaira
@@ -32,7 +34,7 @@ namespace macaron {
 class Base64 {
  public:
 
-  static std::string Encode(const std::string data) {
+  static std::string Encode(const managed_binary<char> &data) {
     static constexpr char sEncodingTable[] = {
       'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
       'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
@@ -72,7 +74,7 @@ class Base64 {
     return ret;
   }
 
-  static std::string Decode(const std::string& input, std::string& out) {
+  static managed_binary<char> Decode(const std::string& input) {
     static constexpr unsigned char kDecodingTable[] = {
       64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
       64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
@@ -99,7 +101,7 @@ class Base64 {
     if (input[in_len - 1] == '=') out_len--;
     if (input[in_len - 2] == '=') out_len--;
 
-    out.resize(out_len);
+    managed_binary<char> out(out_len);
 
     for (size_t i = 0, j = 0; i < in_len;) {
       uint32_t a = input[i] == '=' ? 0 & i++ : kDecodingTable[static_cast<int>(input[i++])];
@@ -114,7 +116,7 @@ class Base64 {
       if (j < out_len) out[j++] = (triple >> 0 * 8) & 0xFF;
     }
 
-    return "";
+    return std::move(out);
   }
 
 };

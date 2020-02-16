@@ -16,8 +16,10 @@
 #include "device/vr/openvr/test/out.h"
 // #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
+#include "device/vr/openvr/test/base64.h"
 
 using json = nlohmann::json;
+using Base64 = macaron::Base64;
 
 std::string logSuffix = "_native";
 HWND g_hWnd = NULL;
@@ -449,7 +451,7 @@ int main(int argc, char **argv) {
             int height = std::get<0>(feature).data()[1];
             int type = std::get<0>(feature).data()[2];
             const managed_binary<unsigned char> &dataBuffer = std::get<1>(feature);
-            // XXX convert to base64
+            const std::string &data = Base64::Encode(dataBuffer);
             json image = {
               {"rows", rows},
               {"cols", cols},
@@ -461,7 +463,7 @@ int main(int argc, char **argv) {
             int descriptorCols = std::get<2>(feature).data()[1];
             int descriptorType = std::get<2>(feature).data()[2];
             const managed_binary<unsigned char> &descriptorDataBuffer = std::get<3>(feature);
-            // XXX convert to base64
+            const std::string &descriptorData = Base64::Encode(descriptorDataBuffer);
             json descriptor = {
               {"rows", descriptorRows},
               {"cols", descriptorCols},
@@ -470,16 +472,12 @@ int main(int argc, char **argv) {
             };
 
             const managed_binary<float> &pointsBuffer = std::get<4>(feature);
-            // XXX convert to base64
-            json points = json::array();
-            for (size_t i = 0; i < std::get<4>(feature).size(); i++) {
-              array.push_back(std::get<4>(feature).data()[i]);
-            }
+            const std::string &pointsData = Base64::Encode(pointsBuffer);
 
             json o = {
               {"image", image},
               {"descriptor", descriptor},
-              {"points", points},
+              {"points", pointsData},
             };
             json res = {
               {"error", nullptr},
@@ -494,8 +492,7 @@ int main(int argc, char **argv) {
             int cols = args[1].get<int>();
             int type = args[2].get<int>();
             const std::string &data = args[3].get<std::string>();
-            managed_binary<char> dataBuffer(data.size());
-            memcpy(dataBuffer.data(), data.data(), data.size());
+            managed_binary<char> dataBuffer = Base64::Decode(data);
             auto result = g_fnp->call<
               kProcess_AddCvFeature,
               int,
