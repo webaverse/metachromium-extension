@@ -62,7 +62,7 @@ char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 char kIVRCompositor_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
-char kIVRCompositor_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
+char kIVRCompositor_GetCvFeature[] = "IVRCompositor::GetCvFeature";
 char kIVRCompositor_AddCvFeature[] = "IVRCompositor::AddCvFeature";
 
 const char *composeVsh = R"END(
@@ -1152,7 +1152,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     return 0;
   });
   fnp.reg<
-    kIVRCompositor_GetCvFeatures,
+    kIVRCompositor_GetCvFeature,
     std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
   >([=]() {
     std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>> result;

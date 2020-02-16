@@ -3,6 +3,7 @@
 <head>
 <script src="three.js"></script>
 <script src="BufferGeometryUtils.js"></script>
+<script src="base64-binary.js"></script>
 <style>
 body {
   margin: 0;
@@ -534,13 +535,15 @@ window.addEventListener('xrload', async m => {
       if (cvEngineOn && !cvQueryRunning) {
         cvQueryRunning = true;
 
-        const cvFeatures = await xrc().request('getCvFeatures', []);
-        const positions = new Float32Array(cvFeatures.length * cubeGeometry.attributes.position.array.length);
+        const cvFeature = await xrc().request('getCvFeature', []);
+        const pointsUint8Array = Base64Binary.decode(cvFeature.points);
+        const pointsFloat32Array = new Float32Array(pointsUint8Array.buffer, pointsUint8Array.byteOffset, pointsUint8Array.byteLength / Float32Array.BYTES_PER_ELEMENT);
+        const positions = new Float32Array(pointsFloat32Array.length * cubeGeometry.attributes.position.array.length);
         let index = 0;
-        for (let i = 0; i < cvFeatures.length; i += 3) {
+        for (let i = 0; i < pointsFloat32Array.length; i += 3) {
           for (let j = 0; j < cubeGeometry.attributes.position.array.length; j += 3) {
             localVector.fromArray(cubeGeometry.attributes.position.array, j)
-              .applyMatrix4(localMatrix.makeTranslation(cvFeatures[i], cvFeatures[i+1], cvFeatures[i+2]))
+              .applyMatrix4(localMatrix.makeTranslation(pointsFloat32Array[i], pointsFloat32Array[i+1], pointsFloat32Array[i+2]))
               .toArray(positions, index);
             index += 3;
           }
@@ -548,7 +551,7 @@ window.addEventListener('xrload', async m => {
         cvMesh.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         cvMesh.visible = positions.length > 0;
 
-        document.getElementById('cv-features-content').innerHTML = `${cvFeatures.length}`;
+        document.getElementById('cv-features-content').innerHTML = `${pointsFloat32Array.length}`;
 
         cvQueryRunning = false;
       }

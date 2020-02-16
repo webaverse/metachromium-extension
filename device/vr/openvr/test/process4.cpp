@@ -36,7 +36,7 @@ char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthR
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 char kProcess_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
-char kProcess_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
+char kProcess_GetCvFeature[] = "IVRCompositor::GetCvFeature";
 char kProcess_AddCvFeature[] = "IVRCompositor::AddCvFeature";
 char kProcess_Terminate[] = "Process::Terminate";
 
@@ -441,10 +441,10 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
-            methodString == "getCvFeatures"
+            methodString == "getCvFeature"
           ) {
             auto feature = g_fnp->call<
-              kProcess_GetCvFeatures,
+              kProcess_GetCvFeature,
               std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
             >();
 
