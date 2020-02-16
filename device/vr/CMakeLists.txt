@@ -20,6 +20,8 @@ INCLUDE_DIRECTORIES(
   ../../third_party/khronos
   detours
   ../../opencv/include
+  ../../websocketpp
+  ../../asio/include
 )
 LINK_DIRECTORIES(
   gl/lib/glew
