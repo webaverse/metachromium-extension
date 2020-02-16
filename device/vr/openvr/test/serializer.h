@@ -102,6 +102,12 @@ class managed_binary : public binary<Item>
 {
 public:
     managed_binary() {}
+	managed_binary(managed_binary<Item> &&o) : m_managedItems(std::move(o.m_managedItems))
+	{
+      m_items = m_managedItems.data();
+      m_count = m_managedItems.size();
+	}
+	managed_binary(const managed_binary<Item> &) = delete;
     managed_binary(Item *t, size_t count) : m_managedItems(count)
     {
       memcpy(m_managedItems.data(), (void *)t, count * sizeof(Item));
@@ -113,11 +119,6 @@ public:
       m_items = m_managedItems.data();
       m_count = m_managedItems.size();
     }
-    managed_binary(managed_binary<Item> &&o) : m_managedItems(std::move(o.m_managedItems))
-    {
-      m_items = m_managedItems.data();
-      m_count = m_managedItems.size();
-    }
 
     managed_binary &operator=(managed_binary<Item> &&o) {
       m_managedItems = std::move(o.m_managedItems);
@@ -125,6 +126,7 @@ public:
       m_count = m_managedItems.size();
       return *this;
     }
+    managed_binary &operator=(const managed_binary<Item> &o) = delete;
 protected:
     std::vector<Item> m_managedItems;
 };
