@@ -187,6 +187,8 @@ void terminateKnownProcesses() {
 HANDLE startChrome(const std::string &indexHtmlPath) {
   std::string cmd(R"EOF(chrome.exe --enable-features="WebXR,OpenVR" --disable-features="WindowsMixedReality" --no-sandbox --test-type --disable-xr-device-consent-prompt-for-testing --disable-background-timer-throttling --disable-renderer-backgrounding --disable-backgrounding-occluded-windows --load-extension="..\extension,..\metamask" --whitelisted-extension-id="glmgcjligejadkfhgebnplablaggjbmm" --disable-direct-composition --allow-file-access-from-files --auto-select-desktop-capture-source="Metachromium Share - Chromium" )EOF");
   cmd += indexHtmlPath;
+  // --allow-insecure-localhost
+  // --unsafely-treat-insecure-origin-as-secure="http://localhost:9002"
 
   std::vector<char> cmdVector(cmd.size() + 1);
   memcpy(cmdVector.data(), cmd.c_str(), cmd.size() + 1);
