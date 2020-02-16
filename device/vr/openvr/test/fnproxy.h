@@ -313,7 +313,7 @@ public:
   
   bool handle();
   
-  static constexpr size_t BUF_SIZE = 512*1024;
+  static constexpr size_t BUF_SIZE = 32*1024*1024;
 };
 
 #endif
