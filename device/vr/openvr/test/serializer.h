@@ -77,6 +77,10 @@ public:
     {
         return m_count;
     }
+    
+    Item &operator[](size_t i) {
+      return m_items[i];
+    }
 
 protected:
     /**
