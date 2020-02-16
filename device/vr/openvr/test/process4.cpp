@@ -104,9 +104,9 @@ json handleMessage(json &req) {
   for (json::iterator it = req.begin(); it != req.end(); ++it) {
     // getOut() << it.key() << " " << it.value() << std::endl;
     if (it.key() == "method") {
-    method = it.value();
+      method = it.value();
     } else if (it.key() == "args") {
-    args = it.value();
+      args = it.value();
     }
   }
 
@@ -513,6 +513,7 @@ void on_message(server* s, websocketpp::connection_hdl hdl, message_ptr msg) {
     /* std::cout << "on_message called with hdl: " << hdl.lock().get()
               << " and message: " << msg->get_payload()
               << std::endl; */
+    getOut() << "got message" << std::endl;
     const std::string payload = msg->get_payload();
     json req = json::parse(payload);
     const json &res = handleMessage(req);

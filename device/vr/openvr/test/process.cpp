@@ -589,6 +589,14 @@ int WINAPI WinMain(
     }
   }
   {
+    nativeHostProcessHandle = startNativeHost();
+    if (nativeHostProcessHandle) {
+      getOut() << "launched native host process" << std::endl;
+    } else {
+      getOut() << "failed to launch native host process: " << (void *)GetLastError() << std::endl;
+    }
+  }
+  {
     std::string indexHtmlPath;
     ArgvQuote(std::string(cwdBuf) + std::string(R"EOF(\extension\index.html)EOF"), indexHtmlPath, false);
     chromeProcessHandle = startChrome(indexHtmlPath);
@@ -596,14 +604,6 @@ int WINAPI WinMain(
       getOut() << "launched chrome ui process" << std::endl;
     } else {
       getOut() << "failed to launch chrome ui process: " << (void *)GetLastError() << std::endl;
-    }
-  }
-  {
-    nativeHostProcessHandle = startNativeHost();
-    if (nativeHostProcessHandle) {
-      getOut() << "launched native host process" << std::endl;
-    } else {
-      getOut() << "failed to launch native host process: " << (void *)GetLastError() << std::endl;
     }
   }
   /* {

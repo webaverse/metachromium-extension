@@ -1,52 +1,51 @@
-let ids = 0;
-const callbacks = {};
+let s = null;
+const cbs = [];
 window.xrchrome = {
   async request(method, args) {
-    const id = ++ids;
-    
-    let post;
-    if (method === 'tabCapture') {
-      const oldTitle = document.title;
-      document.title = 'Metachromium Share';
-      post = () => {
-        document.title = oldTitle;
+    if (!s) {
+      s = new WebSocket('ws://localhost:9002');
+      s.onmessage = e => {
+        console.log('got response', e.data);
+        const j = JSON.parse(e.data);
+        cbs.shift()(j.error, j.result);
+      };
+      s.onclose = () => {
+        s = null;
+        console.warn('native host websocket closed');
+      };
+      s.onerror = err => {
+        console.warn(err.stack);
       };
     }
-
-    postMessage({
-      _xrcreq: true,
-      method,
-      args,
-      id,
-    }, '*', []);
+    
+    const _send = () => {
+      console.log('send req', {method, args});
+      s.send(JSON.stringify({
+        method,
+        args,
+      }));
+    };
+    if (s.readyState === s.CONNECTED) {
+      _send();
+    } else {
+      s.addEventListener('open', _send, {once: true});
+    }
 
     let accept, reject;
     const p = new Promise((a, r) => {
       accept = a;
       reject = r;
     });
-    callbacks[id] = (error, result) => {
-      post && post();
-
+    cbs.push((error, result) => {
       if (!error) {
         accept(result);
       } else {
         reject(error);
       }
-    };
+    });
     return await p;
   }
 };
-window.addEventListener('message', m => {
-  if (m.data && m.data._xrcres) {
-    const {id, error, result} = m.data;
-    const cb = callbacks[id];
-    if (cb) {
-      cb(error, result);
-      delete callbacks[id];
-    }
-  }
-});
 const getHWnd = async () => {
   const oldTitle = document.title;
   document.title = `Metachromium ${Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5)}`;

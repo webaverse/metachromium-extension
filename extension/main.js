@@ -4,7 +4,7 @@
 
 // console.log('injecting');
 
-window.addEventListener('message', m => {
+/* window.addEventListener('message', m => {
   // console.log('main script got message', m.data);
   if (m.data && m.data._xrcreq) {
     const {method, args, id} = m.data;
@@ -23,7 +23,7 @@ window.addEventListener('message', m => {
 });
 chrome.runtime.sendMessage({}, function(res) {
   console.log('got ping response', res);
-});
+}); */
 
 function injectScript(file_path, tag) {
   const node = document.getElementsByTagName(tag)[0];
