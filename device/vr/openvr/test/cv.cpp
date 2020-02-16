@@ -146,11 +146,6 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
             std::move(queryDescriptors),
             std::move(queryPoints),
           };
-          /* feature = {
-            inputImage,
-            queryDescriptors,
-            queryPoints,
-          }; */
         }
 
         getOut() << "feature set done" << std::endl;
