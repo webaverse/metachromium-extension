@@ -443,22 +443,29 @@ int main(int argc, char **argv) {
           } else if (
             methodString == "getCvFeature"
           ) {
+            getOut() << "get cv feature 1" << std::endl;
             auto feature = g_fnp->call<
               kProcess_GetCvFeature,
               std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
             >();
+            
+            getOut() << "get cv feature 2.1 " << std::get<0>(feature).size() << std::endl;
 
             int rows = std::get<0>(feature)[0];
             int cols = std::get<0>(feature)[1];
             int type = std::get<0>(feature)[2];
             const managed_binary<char> &dataBuffer = std::get<1>(feature);
+            getOut() << "get cv feature 2.2 " << rows << " " << cols << " " << type << " " << dataBuffer.size() << std::endl;
             const std::string &data = Base64::Encode(dataBuffer);
+            getOut() << "get cv feature 2.3 " << data.size() << std::endl;
             json image = {
               {"rows", rows},
               {"cols", cols},
               {"type", type},
               {"data", data},
             };
+            
+            getOut() << "get cv feature 3 " << std::get<2>(feature).size() << std::endl;
 
             int descriptorRows = std::get<2>(feature)[0];
             int descriptorCols = std::get<2>(feature)[1];
@@ -472,8 +479,12 @@ int main(int argc, char **argv) {
               {"data", descriptorData},
             };
 
+            getOut() << "get cv feature 4" << std::endl;
+
             const managed_binary<float> &pointsBuffer = std::get<4>(feature);
             const std::string &pointsData = Base64::Encode(pointsBuffer);
+
+            getOut() << "get cv feature 5" << std::endl;
 
             json o = {
               {"image", image},

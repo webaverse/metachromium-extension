@@ -111,7 +111,11 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
           }
         }
 
-        // getOut() << "loop 12 " << matches.size() << std::endl;
+        if (matches.size() > 0) {
+          getOut() << "matches yes " << queryDescriptors.cols << " " << feature.descriptors.cols << " " << matches.size() << std::endl;
+        } else {
+          getOut() << "matches no " << queryDescriptors.cols << " " << feature.descriptors.cols << " " << matches.size() << std::endl;
+        }
 
         {
           std::lock_guard<Mutex> lock(mut);
@@ -136,16 +140,20 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
             queryPoints[i*3] = worldPoint[0];
             queryPoints[i*3+1] = worldPoint[1];
             queryPoints[i*3+2] = worldPoint[2];
-
-            feature = {
-              inputImage,
-              queryDescriptors,
-              queryPoints,
-            };
           }
+          /* feature = {
+            std::move(inputImage),
+            std::move(queryDescriptors),
+            std::move(queryPoints),
+          }; */
+          feature = {
+            inputImage,
+            queryDescriptors,
+            queryPoints,
+          };
         }
 
-        // getOut() << "loop 13" << std::endl;
+        getOut() << "feature set done" << std::endl;
 
         running = false;
       }
@@ -292,6 +300,7 @@ void CvEngine::setEnabled(bool enabled) {
 }
 void CvEngine::getFeatures(std::function<void(const CvFeature &)> cb) {
   std::lock_guard<Mutex> lock(mut);
+  getOut() << "get feature " << feature.points.size() << std::endl;
   cb(feature);
 }
 void CvEngine::addFeature(int rows, int cols, int type, const managed_binary<char> &data) {
