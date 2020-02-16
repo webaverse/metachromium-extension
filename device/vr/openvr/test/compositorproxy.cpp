@@ -1156,37 +1156,40 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
   >([=]() {
     getOut() << "get cv feature 1" << std::endl;
-    std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>> result;
+    managed_binary<int> imageDesc;
+	managed_binary<char> imageData;
+	managed_binary<int> descriptorDesc;
+	managed_binary<char> descriptorData;
+	managed_binary<float> points;
 
     g_pcvengine->getFeatures([&](const CvFeature &feature) -> void {
       getOut() << "get cv feature 2" << std::endl;
-      managed_binary<int> &imageDesc = std::get<0>(result);
       imageDesc = managed_binary<int>(3);
       imageDesc[0] = feature.image.rows;
       imageDesc[1] = feature.image.cols;
       imageDesc[2] = feature.image.type();
       getOut() << "get cv feature 3 " << feature.image.rows << " " << feature.image.cols << " " << feature.image.isContinuous() << " " << feature.image.total() << " " << feature.image.elemSize() << std::endl;
-      managed_binary<char> &imageData = std::get<1>(result);
       if (feature.image.total() > 0) {
-        // imageData = managed_binary<char>((char *)feature.image.ptr(), feature.image.total() * feature.image.elemSize()); // XXX
+		getOut() << "get cv feature 3.1 " << (feature.image.total() * feature.image.elemSize()) << std::endl;
+		// imageData.m_managedItems.resize(feature.image.total() * feature.image.elemSize());
+		imageData = managed_binary<char>(feature.image.total() * feature.image.elemSize());
+        // memcpy(imageData.data(), (char *)feature.image.data, imageData.size());
       }
 
       getOut() << "get cv feature 4" << std::endl;
 
-      managed_binary<int> &descriptorDesc = std::get<2>(result);
       descriptorDesc = managed_binary<int>(3);
       descriptorDesc[0] = feature.descriptors.rows;
       descriptorDesc[1] = feature.descriptors.cols;
       descriptorDesc[2] = feature.descriptors.type();
       getOut() << "get cv feature 5 " << feature.descriptors.rows << " " << feature.descriptors.cols << " " << feature.descriptors.isContinuous() << std::endl;
-      managed_binary<char> &descriptorData = std::get<3>(result);
       if (feature.descriptors.total() > 0) {
-        // descriptorData = managed_binary<char>((char *)feature.descriptors.ptr(), feature.descriptors.total() * feature.descriptors.elemSize()); // XXX
+		// descriptorData = managed_binary<char>(feature.descriptors.total() * feature.descriptors.elemSize());
+        // memcpy(descriptorData.data(), (char *)feature.descriptors.data, descriptorData.size());
       }
 
       getOut() << "get cv feature 6" << std::endl;
 
-      managed_binary<float> &points = std::get<4>(result);
       if (feature.points.size() > 0) {
         points = managed_binary<float>(feature.points.size());
         memcpy(points.data(), feature.points.data(), feature.points.size() * sizeof(feature.points[0]));
@@ -1195,7 +1198,13 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       getOut() << "get cv feature 7" << std::endl;
     });
     getOut() << "get cv feature 8" << std::endl;
-    return std::move(result);
+    return std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>(
+	  std::move(imageDesc),
+	  std::move(imageData),
+	  std::move(descriptorDesc),
+	  std::move(descriptorData),
+	  std::move(points)
+	);
   });
   fnp.reg<
     kIVRCompositor_AddCvFeature,
