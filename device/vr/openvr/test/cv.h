@@ -56,7 +56,7 @@ public:
   CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
   void setEnabled(bool enabled);
   void getFeatures(std::function<void(const CvFeature &)> cb);
-  void addFeature(int rows, int cols, int type, const managed_binary<unsigned char> &data);
+  void addFeature(int rows, int cols, int type, const managed_binary<char> &data);
   void InfoQueueLog();
 };
 

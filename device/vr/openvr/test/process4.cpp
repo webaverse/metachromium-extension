@@ -444,13 +444,13 @@ int main(int argc, char **argv) {
           ) {
             auto feature = g_fnp->call<
               kProcess_GetCvFeatures,
-              std::tuple<managed_binary<int>, managed_binary<unsigned char>, managed_binary<int>, managed_binary<unsigned char>, managed_binary<float>>
+              std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
             >();
 
             int width = std::get<0>(feature).data()[0];
             int height = std::get<0>(feature).data()[1];
             int type = std::get<0>(feature).data()[2];
-            const managed_binary<unsigned char> &dataBuffer = std::get<1>(feature);
+            const managed_binary<char> &dataBuffer = std::get<1>(feature);
             const std::string &data = Base64::Encode(dataBuffer);
             json image = {
               {"rows", rows},
@@ -462,7 +462,7 @@ int main(int argc, char **argv) {
             int descriptorRows = std::get<2>(feature).data()[0];
             int descriptorCols = std::get<2>(feature).data()[1];
             int descriptorType = std::get<2>(feature).data()[2];
-            const managed_binary<unsigned char> &descriptorDataBuffer = std::get<3>(feature);
+            const managed_binary<char> &descriptorDataBuffer = std::get<3>(feature);
             const std::string &descriptorData = Base64::Encode(descriptorDataBuffer);
             json descriptor = {
               {"rows", descriptorRows},

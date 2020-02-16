@@ -1153,9 +1153,9 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   });
   fnp.reg<
     kIVRCompositor_GetCvFeatures,
-    std::tuple<managed_binary<int>, managed_binary<unsigned char>, managed_binary<int>, managed_binary<unsigned char>, managed_binary<float>>
+    std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
   >([=]() {
-    std::tuple<managed_binary<int>, managed_binary<unsigned char>, managed_binary<int>, managed_binary<unsigned char>, managed_binary<float>> result;
+    std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>> result;
 
     g_pcvengine->getFeatures([&](const CvFeature &feature) -> void {
       managed_binary<int> &imageDesc = std::get<0>(result);
@@ -1163,15 +1163,15 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       imageDesc[0] = feature.image.rows;
       imageDesc[1] = feature.image.cols;
       imageDesc[2] = feature.image.type;
-      managed_binary<unsigned char> &imageData = std::get<1>(result);
-      imageData = managed_binary<unsigned char>(feature.image.ptr(), feature.image.total() * feature.image.elemSize());
+      managed_binary<char> &imageData = std::get<1>(result);
+      imageData = managed_binary<char>(feature.image.ptr(), feature.image.total() * feature.image.elemSize());
 
       managed_binary<int> &descriptorDesc = std::get<2>(result);
       descriptorDesc[0] = feature.descriptor.rows;
       descriptorDesc[1] = feature.descriptor.cols;
       descriptorDesc[2] = feature.descriptor.type;
-      managed_binary<unsigned char> &descriptorData = std::get<3>(result);
-      descriptorData = managed_binary<unsigned char>(feature.descriptor.ptr(), feature.descriptor.total() * feature.descriptor.elemSize());
+      managed_binary<char> &descriptorData = std::get<3>(result);
+      descriptorData = managed_binary<char>(feature.descriptor.ptr(), feature.descriptor.total() * feature.descriptor.elemSize());
 
       managed_binary<float> &points = std::get<4>(result);
       if (feature.points.size() > 0) {
@@ -1183,12 +1183,12 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   fnp.reg<
     kIVRCompositor_AddCvFeature,
     int,
-    std::tuple<managed_binary<int>, managed_binary<unsigned char>>
-  >([=](std::tuple<managed_binary<int>, managed_binary<unsigned char>> descriptor) {
+    std::tuple<managed_binary<int>, managed_binary<char>>
+  >([=](std::tuple<managed_binary<int>, managed_binary<char>> descriptor) {
     int rows = std::get<0>(descriptor);
     int cols = std::get<1>(descriptor);
     int type = std::get<2>(descriptor);
-    const managed_binary<unsigned char> &descriptorData = std::get<1>(descriptor);
+    const managed_binary<char> &descriptorData = std::get<1>(descriptor);
     g_pcvengine->addFeature(rows, cols, type, descriptorData);
     return 0;
   });
