@@ -440,19 +440,74 @@ int main(int argc, char **argv) {
           } else if (
             methodString == "getCvFeatures"
           ) {
-            auto points = g_fnp->call<
+            auto feature = g_fnp->call<
               kProcess_GetCvFeatures,
-              std::tuple<manged_binary<int>, manged_binary<unsigned char>, manged_binary<int>, manged_binary<unsigned char>, managed_binary<float>>
+              std::tuple<managed_binary<int>, managed_binary<unsigned char>, managed_binary<int>, managed_binary<unsigned char>, managed_binary<float>>
             >();
 
-            json array = json::array();
-            for (size_t i = 0; i < points.size(); i++) {
-              array.push_back(points.data()[i]);
+            int width = std::get<0>(feature).data()[0];
+            int height = std::get<0>(feature).data()[1];
+            int type = std::get<0>(feature).data()[2];
+            const managed_binary<unsigned char> &dataBuffer = std::get<1>(feature);
+            // XXX convert to base64
+            json image = {
+              {"rows", rows},
+              {"cols", cols},
+              {"type", type},
+              {"data", data},
+            };
+
+            int descriptorRows = std::get<2>(feature).data()[0];
+            int descriptorCols = std::get<2>(feature).data()[1];
+            int descriptorType = std::get<2>(feature).data()[2];
+            const managed_binary<unsigned char> &descriptorDataBuffer = std::get<3>(feature);
+            // XXX convert to base64
+            json descriptor = {
+              {"rows", descriptorRows},
+              {"cols", descriptorCols},
+              {"type", descriptorType},
+              {"data", descriptorData},
+            };
+
+            const managed_binary<float> &pointsBuffer = std::get<4>(feature);
+            // XXX convert to base64
+            json points = json::array();
+            for (size_t i = 0; i < std::get<4>(feature).size(); i++) {
+              array.push_back(std::get<4>(feature).data()[i]);
             }
+
+            json o = {
+              {"image", image},
+              {"descriptor", descriptor},
+              {"points", points},
+            };
+            json res = {
+              {"error", nullptr},
+              {"result", o}
+            };
+            respond(res);
+          } else if (
+            methodString == "addCvFeature" &&
+            args.size() >= 4 && args[0].is_number() && args[1].is_number() && args[2].is_number() && args[3].is_string()
+          ) {
+            int rows = args[0].get<int>();
+            int cols = args[1].get<int>();
+            int type = args[2].get<int>();
+            const std::string &data = args[3].get<std::string>();
+            managed_binary<char> dataBuffer(data.size());
+            memcpy(dataBuffer.data(), data.data(), data.size());
+            auto result = g_fnp->call<
+              kProcess_AddCvFeature,
+              int,
+              int,
+              int,
+              int,
+              managed_binary<char>
+            >(rows, cols, type, std::move(dataBuffer));
 
             json res = {
               {"error", nullptr},
-              {"result", array}
+              {"result", nullptr}
             };
             respond(res);
           } else if (
