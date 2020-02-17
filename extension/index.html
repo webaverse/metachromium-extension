@@ -535,7 +535,7 @@ window.addEventListener('xrload', async m => {
     });
     return new THREE.Mesh(geometry, material);
   })();
-  cvImgMesh.position.set(-1, 1, -1);
+  cvImgMesh.position.set(-1, 1, -1.5);
   cvImgMesh.frustumCulled = false;
   scene.add(cvImgMesh);
 
