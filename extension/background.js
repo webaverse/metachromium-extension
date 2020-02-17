@@ -37,7 +37,7 @@ const port = chrome.runtime.connectNative('com.exokit.xrchrome');
 const cbs = [];
 let continuationString = '';
 port.onMessage.addListener(msg => {
-  console.log("received native", msg);
+  // console.log("received native", msg);
   const _process = msg => {
     if (cbs.length > 0) {
       const cb = cbs.shift();
