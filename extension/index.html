@@ -567,9 +567,9 @@ window.addEventListener('xrload', async m => {
         cvMesh.visible = positions.length > 0;
         
         cvImgMesh.material.map.image = {
-          data: new Uint8Array(cvFeature.image.rows * cvFeature.image.cols * 4),
-          width: cvFeature.image.cols,
-          height: cvFeature.image.rows,
+          data: new Uint8Array(cvFeature.image.width * cvFeature.image.height * 4),
+          width: cvFeature.image.width,
+          height: cvFeature.image.height,
         };
         cvImgMesh.material.map.needsUpdate = true;
 

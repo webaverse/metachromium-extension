@@ -1153,25 +1153,24 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   });
   fnp.reg<
     kIVRCompositor_GetCvFeature,
-    std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
+    std::tuple<managed_binary<uint32_t>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
   >([=]() {
     getOut() << "get cv feature 1" << std::endl;
-    managed_binary<int> imageDesc;
-	managed_binary<char> imageData;
-	managed_binary<int> descriptorDesc;
-	managed_binary<char> descriptorData;
-	managed_binary<float> points;
+    managed_binary<uint32_t> imageDesc;
+    managed_binary<char> imageData;
+    managed_binary<int> descriptorDesc;
+    managed_binary<char> descriptorData;
+    managed_binary<float> points;
 
     g_pcvengine->getFeatures([&](const CvFeature &feature) -> void {
       getOut() << "get cv feature 2" << std::endl;
-      imageDesc = managed_binary<int>(3);
-      imageDesc[0] = feature.image.rows;
-      imageDesc[1] = feature.image.cols;
-      imageDesc[2] = feature.image.type();
-      getOut() << "get cv feature 3 " << feature.image.rows << " " << feature.image.cols << " " << feature.image.isContinuous() << " " << feature.image.total() << " " << feature.image.elemSize() << std::endl;
-      if (feature.image.total() > 0) {
+      imageDesc = managed_binary<uint32_t>(2);
+      imageDesc[0] = feature.imageWidth;
+      imageDesc[1] = feature.imageHeight;
+      getOut() << "get cv feature 3 " << feature.imageWidth << " " << feature.imageHeight << " " << feature.imageJpg.size() << std::endl;
+      if (feature.imageJpg.size() > 0) {
 	      // getOut() << "get cv feature 3.1 " << (feature.image.total() * feature.image.elemSize()) << std::endl;
-		    imageData = managed_binary<char>((char *)feature.image.data, feature.image.total() * feature.image.elemSize());
+		    imageData = managed_binary<char>((char *)feature.imageJpg.data(), feature.imageJpg.size());
       }
 
       getOut() << "get cv feature 4" << std::endl;
@@ -1195,7 +1194,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       getOut() << "get cv feature 7" << std::endl;
     });
     getOut() << "get cv feature 8" << std::endl;
-    return std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>(
+    return std::tuple<managed_binary<uint32_t>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>(
 	  std::move(imageDesc),
 	  std::move(imageData),
 	  std::move(descriptorDesc),

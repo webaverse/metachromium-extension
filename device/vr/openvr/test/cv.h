@@ -19,7 +19,9 @@
 
 class CvFeature {
 public:
-  cv::Mat image;
+  uint32_t imageWidth;
+  uint32_t imageHeight;
+  std::vector<unsigned char> imageJpg;
   cv::Mat descriptors;
   std::vector<float> points;
 };

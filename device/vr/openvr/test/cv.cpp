@@ -141,8 +141,12 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
             queryPoints[i*3+1] = worldPoint[1];
             queryPoints[i*3+2] = worldPoint[2];
           }
+          std::vector<unsigned char> inputImageJpg;
+          cv::imencode(".jpg", inputImage, inputImageJpg);
           feature = {
-            std::move(inputImage),
+            (uint32_t)inputImage.cols,
+            (uint32_t)inputImage.rows,
+            std::move(inputImageJpg),
             std::move(queryDescriptors),
             std::move(queryPoints),
           };

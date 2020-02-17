@@ -467,22 +467,20 @@ int main(int argc, char **argv) {
             getOut() << "get cv feature 1" << std::endl;
             auto feature = g_fnp->call<
               kProcess_GetCvFeature,
-              std::tuple<managed_binary<int>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
+              std::tuple<managed_binary<uint32_t>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
             >();
             
             getOut() << "get cv feature 2.1 " << std::get<0>(feature).size() << std::endl;
 
-            int rows = std::get<0>(feature)[0];
-            int cols = std::get<0>(feature)[1];
-            int type = std::get<0>(feature)[2];
+            uint32_t width = std::get<0>(feature)[0];
+            uint32_t height = std::get<0>(feature)[1];
             const managed_binary<char> &dataBuffer = std::get<1>(feature);
-            getOut() << "get cv feature 2.2 " << rows << " " << cols << " " << type << " " << dataBuffer.size() << std::endl;
+            getOut() << "get cv feature 2.2 " << width << " " << height << " " << dataBuffer.size() << std::endl;
             const std::string &data = Base64::Encode(dataBuffer);
             getOut() << "get cv feature 2.3 " << data.size() << std::endl;
             json image = {
-              {"rows", rows},
-              {"cols", cols},
-              {"type", type},
+              {"width", width},
+              {"height", height},
               {"data", data},
             };
             
