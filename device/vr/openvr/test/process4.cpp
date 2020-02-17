@@ -84,7 +84,7 @@ inline uint32_t divCeil(uint32_t x, uint32_t y) {
   return (x + y - 1) / y;
 }
 
-constexpr uint32_t chunkSize = 1024*1024;
+constexpr uint32_t chunkSize = 1000*1000;
 void respond(const json &j) {
   std::string outString = j.dump();
   uint32_t outSize = (uint32_t)outString.size();
@@ -93,17 +93,20 @@ void respond(const json &j) {
     std::cout.write(outString.data(), outString.size());
   } else {
     uint32_t numChunks = divCeil(outSize, chunkSize);
+    // getOut() << "write chunks " << outSize << " " << chunkSize << " " << numChunks << std::endl;
     for (uint32_t i = 0; i < numChunks; i++) {
+      // getOut() << "sending " << i << " " << numChunks << " " << outString.substr(i*chunkSize, chunkSize).size() << std::endl;
       json j2 = {
         {"index", 0},
         {"total", numChunks},
-        {"continutation", outString.substr(i*chunkSize, (i < (numChunks-1))  ? ((i+1) * chunkSize) : std::string::npos)},
+        {"continutation", outString.substr(i*chunkSize, chunkSize)},
       };
       std::string outString2 = j2.dump();
       uint32_t outSize2 = (uint32_t)outString2.size();
       std::cout.write((char *)&outSize2, sizeof(outSize2));
       std::cout.write(outString2.data(), outString2.size());
     }
+    // getOut() << "done sending" << std::endl;
   }
 }
 
