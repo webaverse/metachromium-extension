@@ -1195,12 +1195,12 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     });
     getOut() << "get cv feature 8" << std::endl;
     return std::tuple<managed_binary<uint32_t>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>(
-	  std::move(imageDesc),
-	  std::move(imageData),
-	  std::move(descriptorDesc),
-	  std::move(descriptorData),
-	  std::move(points)
-	);
+      std::move(imageDesc),
+      std::move(imageData),
+      std::move(descriptorDesc),
+      std::move(descriptorData),
+      std::move(points)
+    );
   });
   fnp.reg<
     kIVRCompositor_AddCvFeature,
