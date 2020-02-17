@@ -524,6 +524,21 @@ window.addEventListener('xrload', async m => {
   cvMesh.visible = false;
   cvMesh.frustumCulled = false;
   scene.add(cvMesh);
+  
+  const cvImgMesh = (() => {
+    const geometry = new THREE.PlaneBufferGeometry(0.5, 0.5);
+    const texture = new THREE.DataTexture();
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      // transparent: true,
+      // opacity: 0.1,
+    });
+    return new THREE.Mesh(geometry, material);
+  })();
+  cvImgMesh.position.x = -1;
+  cvImgMesh.position.z = -2;
+  cvImgMesh.frustumCulled = false;
+  scene.add(cvImgMesh);
 
   let cvQueryRunning = false;
   const _updateCvFeatures = (() => {
@@ -550,6 +565,13 @@ window.addEventListener('xrload', async m => {
         }
         cvMesh.geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         cvMesh.visible = positions.length > 0;
+        
+        cvImgMesh.material.map.image = {
+          data: new Uint8Array(cvFeature.image.rows * cvFeature.image.cols * 4),
+          width: cvFeature.image.cols,
+          height: cvFeature.image.rows,
+        };
+        cvImgMesh.material.map.needsUpdate = true;
 
         document.getElementById('cv-features-content').innerHTML = `${pointsFloat32Array.length}`;
 
