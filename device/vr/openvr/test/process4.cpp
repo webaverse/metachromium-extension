@@ -97,7 +97,7 @@ void respond(const json &j) {
     for (uint32_t i = 0; i < numChunks; i++) {
       // getOut() << "sending " << i << " " << numChunks << " " << outString.substr(i*chunkSize, chunkSize).size() << std::endl;
       json j2 = {
-        {"index", 0},
+        {"index", i},
         {"total", numChunks},
         {"continuation", outString.substr(i*chunkSize, chunkSize)},
       };
