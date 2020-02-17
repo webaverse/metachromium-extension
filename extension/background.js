@@ -49,6 +49,7 @@ port.onMessage.addListener(msg => {
     continuationString += continuation;
     if (index === total - 1) {
       const continuationMsg = JSON.parse(continuationString);
+      continuationString = '';
       _process(continuationMsg);
     }
   } else {
