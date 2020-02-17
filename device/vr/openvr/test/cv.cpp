@@ -295,7 +295,7 @@ void CvEngine::setEnabled(bool enabled) {
 }
 void CvEngine::getFeatures(std::function<void(const CvFeature &)> cb) {
   std::lock_guard<Mutex> lock(mut);
-  getOut() << "get feature " << feature.points.size() << std::endl;
+  // getOut() << "get feature " << feature.points.size() << std::endl;
   cb(feature);
 }
 void CvEngine::addFeature(int rows, int cols, int type, const managed_binary<char> &data) {
