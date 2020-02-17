@@ -1170,10 +1170,8 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       imageDesc[2] = feature.image.type();
       getOut() << "get cv feature 3 " << feature.image.rows << " " << feature.image.cols << " " << feature.image.isContinuous() << " " << feature.image.total() << " " << feature.image.elemSize() << std::endl;
       if (feature.image.total() > 0) {
-		getOut() << "get cv feature 3.1 " << (feature.image.total() * feature.image.elemSize()) << std::endl;
-		// imageData.m_managedItems.resize(feature.image.total() * feature.image.elemSize());
-		imageData = managed_binary<char>(feature.image.total() * feature.image.elemSize());
-        // memcpy(imageData.data(), (char *)feature.image.data, imageData.size());
+	      // getOut() << "get cv feature 3.1 " << (feature.image.total() * feature.image.elemSize()) << std::endl;
+		    imageData = managed_binary<char>((char *)feature.image.data, feature.image.total() * feature.image.elemSize());
       }
 
       getOut() << "get cv feature 4" << std::endl;
@@ -1184,8 +1182,7 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
       descriptorDesc[2] = feature.descriptors.type();
       getOut() << "get cv feature 5 " << feature.descriptors.rows << " " << feature.descriptors.cols << " " << feature.descriptors.isContinuous() << std::endl;
       if (feature.descriptors.total() > 0) {
-		// descriptorData = managed_binary<char>(feature.descriptors.total() * feature.descriptors.elemSize());
-        // memcpy(descriptorData.data(), (char *)feature.descriptors.data, descriptorData.size());
+		    descriptorData = managed_binary<char>((char *)feature.descriptors.data, feature.descriptors.total() * feature.descriptors.elemSize());
       }
 
       getOut() << "get cv feature 6" << std::endl;
