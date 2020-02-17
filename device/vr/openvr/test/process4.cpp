@@ -80,13 +80,31 @@ HWND getHwndFromTitle(const std::string &s) {
   return o.hwnd;
 }
 
+inline uint32_t divCeil(uint32_t x, uint32_t y) {
+  return (x + y - 1) / y;
+}
+
+constexpr uint32_t chunkSize = 1024*1024;
 void respond(const json &j) {
   std::string outString = j.dump();
-  // getOut() << "start app 10" << std::endl;
-  
   uint32_t outSize = (uint32_t)outString.size();
-  std::cout.write((char *)&outSize, sizeof(uint32_t));
-  std::cout.write(outString.data(), outString.size());
+  if (outSize < chunkSize) {
+    std::cout.write((char *)&outSize, sizeof(outSize));
+    std::cout.write(outString.data(), outString.size());
+  } else {
+    uint32_t numChunks = divCeil(outSize, chunkSize);
+    for (uint32_t i = 0; i < numChunks; i++) {
+      json j2 = {
+        {"index", 0},
+        {"total", numChunks},
+        {"continutation", outString.substr(i*chunkSize, (i < (numChunks-1))  ? ((i+1) * chunkSize) : std::string::npos)},
+      };
+      std::string outString2 = j2.dump();
+      uint32_t outSize2 = (uint32_t)outString2.size();
+      std::cout.write((char *)&outSize2, sizeof(outSize2));
+      std::cout.write(outString2.data(), outString2.size());
+    }
+  }
 }
 
 int main(int argc, char **argv) {
