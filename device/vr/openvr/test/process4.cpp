@@ -99,7 +99,7 @@ void respond(const json &j) {
       json j2 = {
         {"index", 0},
         {"total", numChunks},
-        {"continutation", outString.substr(i*chunkSize, chunkSize)},
+        {"continuation", outString.substr(i*chunkSize, chunkSize)},
       };
       std::string outString2 = j2.dump();
       uint32_t outSize2 = (uint32_t)outString2.size();
