@@ -16,8 +16,10 @@
 #include "device/vr/openvr/test/out.h"
 // #include "third_party/openvr/src/src/vrcommon/sharedlibtools_public.h"
 #include "device/vr/openvr/test/fake_openvr_impl_api.h"
+#include "device/vr/openvr/test/base64.h"
 
 using json = nlohmann::json;
+using Base64 = macaron::Base64;
 
 std::string logSuffix = "_native";
 HWND g_hWnd = NULL;
@@ -34,7 +36,8 @@ char kProcess_SetDepthRenderEnabled[] = "IVRCompositor::kIVRCompositor_SetDepthR
 char kProcess_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kProcess_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 char kProcess_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
-char kProcess_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
+char kProcess_GetCvFeature[] = "IVRCompositor::GetCvFeature";
+char kProcess_AddCvFeature[] = "IVRCompositor::AddCvFeature";
 char kProcess_Terminate[] = "Process::Terminate";
 
 class HwndSearchStruct {
@@ -77,13 +80,34 @@ HWND getHwndFromTitle(const std::string &s) {
   return o.hwnd;
 }
 
+inline uint32_t divCeil(uint32_t x, uint32_t y) {
+  return (x + y - 1) / y;
+}
+
+constexpr uint32_t chunkSize = 1000*1000;
 void respond(const json &j) {
   std::string outString = j.dump();
-  // getOut() << "start app 10" << std::endl;
-  
   uint32_t outSize = (uint32_t)outString.size();
-  std::cout.write((char *)&outSize, sizeof(uint32_t));
-  std::cout.write(outString.data(), outString.size());
+  if (outSize < chunkSize) {
+    std::cout.write((char *)&outSize, sizeof(outSize));
+    std::cout.write(outString.data(), outString.size());
+  } else {
+    uint32_t numChunks = divCeil(outSize, chunkSize);
+    // getOut() << "write chunks " << outSize << " " << chunkSize << " " << numChunks << std::endl;
+    for (uint32_t i = 0; i < numChunks; i++) {
+      // getOut() << "sending " << i << " " << numChunks << " " << outString.substr(i*chunkSize, chunkSize).size() << std::endl;
+      json j2 = {
+        {"index", i},
+        {"total", numChunks},
+        {"continuation", outString.substr(i*chunkSize, chunkSize)},
+      };
+      std::string outString2 = j2.dump();
+      uint32_t outSize2 = (uint32_t)outString2.size();
+      std::cout.write((char *)&outSize2, sizeof(outSize2));
+      std::cout.write(outString2.data(), outString2.size());
+    }
+    // getOut() << "done sending" << std::endl;
+  }
 }
 
 int main(int argc, char **argv) {
@@ -438,21 +462,80 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
-            methodString == "getCvFeatures"
+            methodString == "getCvFeature"
           ) {
-            auto points = g_fnp->call<
-              kProcess_GetCvFeatures,
-              managed_binary<float>
+            getOut() << "get cv feature 1" << std::endl;
+            auto feature = g_fnp->call<
+              kProcess_GetCvFeature,
+              std::tuple<managed_binary<uint32_t>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
             >();
+            
+            getOut() << "get cv feature 2.1 " << std::get<0>(feature).size() << std::endl;
 
-            json array = json::array();
-            for (size_t i = 0; i < points.size(); i++) {
-              array.push_back(points.data()[i]);
-            }
+            uint32_t width = std::get<0>(feature)[0];
+            uint32_t height = std::get<0>(feature)[1];
+            const managed_binary<char> &dataBuffer = std::get<1>(feature);
+            getOut() << "get cv feature 2.2 " << width << " " << height << " " << dataBuffer.size() << std::endl;
+            const std::string &data = Base64::Encode(dataBuffer);
+            getOut() << "get cv feature 2.3 " << data.size() << std::endl;
+            json image = {
+              {"width", width},
+              {"height", height},
+              {"data", data},
+            };
+            
+            getOut() << "get cv feature 3 " << std::get<2>(feature).size() << std::endl;
+
+            int descriptorRows = std::get<2>(feature)[0];
+            int descriptorCols = std::get<2>(feature)[1];
+            int descriptorType = std::get<2>(feature)[2];
+            const managed_binary<char> &descriptorDataBuffer = std::get<3>(feature);
+            const std::string &descriptorData = Base64::Encode(descriptorDataBuffer);
+            json descriptor = {
+              {"rows", descriptorRows},
+              {"cols", descriptorCols},
+              {"type", descriptorType},
+              {"data", descriptorData},
+            };
+
+            getOut() << "get cv feature 4" << std::endl;
+
+            const managed_binary<float> &pointsBuffer = std::get<4>(feature);
+            const std::string &pointsData = Base64::Encode(pointsBuffer);
+
+            getOut() << "get cv feature 5" << std::endl;
+
+            json o = {
+              {"image", image},
+              {"descriptor", descriptor},
+              {"points", pointsData},
+            };
+            json res = {
+              {"error", nullptr},
+              {"result", o}
+            };
+            respond(res);
+          } else if (
+            methodString == "addCvFeature" &&
+            args.size() >= 4 && args[0].is_number() && args[1].is_number() && args[2].is_number() && args[3].is_string()
+          ) {
+            int rows = args[0].get<int>();
+            int cols = args[1].get<int>();
+            int type = args[2].get<int>();
+            const std::string &data = args[3].get<std::string>();
+            managed_binary<char> dataBuffer = Base64::Decode<char>(data);
+            auto result = g_fnp->call<
+              kProcess_AddCvFeature,
+              int,
+              int,
+              int,
+              int,
+              managed_binary<char>
+            >(rows, cols, type, std::move(dataBuffer));
 
             json res = {
               {"error", nullptr},
-              {"result", array}
+              {"result", nullptr}
             };
             respond(res);
           } else if (

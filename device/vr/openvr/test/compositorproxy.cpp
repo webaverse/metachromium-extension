@@ -62,7 +62,8 @@ char kIVRCompositor_SetTransform[] = "IVRCompositor::kIVRCompositor_SetTransform
 char kIVRCompositor_SetQrEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetQrEngineEnabled";
 char kIVRCompositor_GetQrCodes[] = "IVRCompositor::GetQrCodes";
 char kIVRCompositor_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineEnabled";
-char kIVRCompositor_GetCvFeatures[] = "IVRCompositor::GetCvFeatures";
+char kIVRCompositor_GetCvFeature[] = "IVRCompositor::GetCvFeature";
+char kIVRCompositor_AddCvFeature[] = "IVRCompositor::AddCvFeature";
 
 const char *composeVsh = R"END(
 #version 330
@@ -1151,17 +1152,67 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
     return 0;
   });
   fnp.reg<
-    kIVRCompositor_GetCvFeatures,
-    managed_binary<float>
+    kIVRCompositor_GetCvFeature,
+    std::tuple<managed_binary<uint32_t>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>
   >([=]() {
-    managed_binary<float> result;
-    g_pcvengine->getFeatures([&](const std::vector<float> &features) -> void {
-      result = managed_binary<float>(features.size());
-      if (features.size() > 0) {
-        memcpy(result.data(), features.data(), features.size() * sizeof(float));
+    getOut() << "get cv feature 1" << std::endl;
+    managed_binary<uint32_t> imageDesc;
+    managed_binary<char> imageData;
+    managed_binary<int> descriptorDesc;
+    managed_binary<char> descriptorData;
+    managed_binary<float> points;
+
+    g_pcvengine->getFeatures([&](const CvFeature &feature) -> void {
+      getOut() << "get cv feature 2" << std::endl;
+      imageDesc = managed_binary<uint32_t>(2);
+      imageDesc[0] = feature.imageWidth;
+      imageDesc[1] = feature.imageHeight;
+      getOut() << "get cv feature 3 " << feature.imageWidth << " " << feature.imageHeight << " " << feature.imageJpg.size() << std::endl;
+      if (feature.imageJpg.size() > 0) {
+	      // getOut() << "get cv feature 3.1 " << (feature.image.total() * feature.image.elemSize()) << std::endl;
+		    imageData = managed_binary<char>((char *)feature.imageJpg.data(), feature.imageJpg.size());
       }
+
+      getOut() << "get cv feature 4" << std::endl;
+
+      descriptorDesc = managed_binary<int>(3);
+      descriptorDesc[0] = feature.descriptors.rows;
+      descriptorDesc[1] = feature.descriptors.cols;
+      descriptorDesc[2] = feature.descriptors.type();
+      getOut() << "get cv feature 5 " << feature.descriptors.rows << " " << feature.descriptors.cols << " " << feature.descriptors.isContinuous() << std::endl;
+      if (feature.descriptors.total() > 0) {
+		    descriptorData = managed_binary<char>((char *)feature.descriptors.data, feature.descriptors.total() * feature.descriptors.elemSize());
+      }
+
+      getOut() << "get cv feature 6" << std::endl;
+
+      if (feature.points.size() > 0) {
+        points = managed_binary<float>(feature.points.size());
+        memcpy(points.data(), feature.points.data(), feature.points.size() * sizeof(feature.points[0]));
+      }
+      
+      getOut() << "get cv feature 7" << std::endl;
     });
-    return std::move(result);
+    getOut() << "get cv feature 8" << std::endl;
+    return std::tuple<managed_binary<uint32_t>, managed_binary<char>, managed_binary<int>, managed_binary<char>, managed_binary<float>>(
+      std::move(imageDesc),
+      std::move(imageData),
+      std::move(descriptorDesc),
+      std::move(descriptorData),
+      std::move(points)
+    );
+  });
+  fnp.reg<
+    kIVRCompositor_AddCvFeature,
+    int,
+    std::tuple<managed_binary<int>, managed_binary<char>>
+  >([=](std::tuple<managed_binary<int>, managed_binary<char>> descriptor) {
+    int rows = std::get<0>(descriptor)[0];
+    int cols = std::get<0>(descriptor)[1];
+    int type = std::get<0>(descriptor)[2];
+    const managed_binary<char> &descriptorData = std::get<1>(descriptor);
+    g_pcvengine->addFeature(rows, cols, type, descriptorData);
+    return 0;
   });
 }
 void PVRCompositor::SetTrackingSpace( ETrackingUniverseOrigin eOrigin ) {

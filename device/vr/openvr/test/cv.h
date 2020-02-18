@@ -17,6 +17,15 @@
 
 // using namespace cv;
 
+class CvFeature {
+public:
+  uint32_t imageWidth;
+  uint32_t imageHeight;
+  std::vector<unsigned char> imageJpg;
+  cv::Mat descriptors;
+  std::vector<float> points;
+};
+
 class CvEngine {
 public:
   vr::PVRCompositor *pvrcompositor;
@@ -42,12 +51,14 @@ public:
   float viewMatrixInverse[16] = {};
   float stageMatrixInverse[16] = {};
   float projectionMatrixInverse[16] = {};
-  std::vector<float> features;
+  CvFeature feature;
+  std::vector<cv::Mat> matchDescriptors;
 
 public:
   CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);
   void setEnabled(bool enabled);
-  void getFeatures(std::function<void(const std::vector<float> &)> cb);
+  void getFeatures(std::function<void(const CvFeature &)> cb);
+  void addFeature(int rows, int cols, int type, const managed_binary<char> &data);
   void InfoQueueLog();
 };
 

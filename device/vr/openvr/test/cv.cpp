@@ -5,9 +5,9 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
   pvrcompositor(pvrcompositor),
   vrsystem(vrsystem)
 {
-  getOut() << "cv cons 1" << std::endl;
+  // getOut() << "cv cons 1" << std::endl;
   vr::PVRCompositor::CreateDevice(&cvDevice, &cvContext, &cvSwapChain);
-  getOut() << "cv cons 2" << std::endl;
+  // getOut() << "cv cons 2" << std::endl;
 
   HRESULT hr = cvDevice->QueryInterface(__uuidof(ID3D11InfoQueue), (void **)&cvInfoQueue);
   if (SUCCEEDED(hr)) {
@@ -19,39 +19,36 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 
   std::thread([this]() -> void {
     try {
-      getOut() << "thread 1" << std::endl;
+      // getOut() << "thread 1" << std::endl;
 
       cv::Ptr<cv::ORB> orb = cv::ORB::create();
       cv::Ptr<cv::DescriptorMatcher> matcher = cv::DescriptorMatcher::create(cv::DescriptorMatcher::FLANNBASED);
       
-      getOut() << "thread 2" << std::endl;
+      // getOut() << "thread 2" << std::endl;
 
-      std::vector<cv::KeyPoint> trainKeypoints;
-      cv::Mat trainDescriptors;
-
-      getOut() << "thread 3" << std::endl;
+      // getOut() << "thread 3" << std::endl;
 
       for (;;) {
-        getOut() << "loop 1" << std::endl;
+        // getOut() << "loop 1" << std::endl;
         
         sem.lock();
         
-        getOut() << "loop 2" << std::endl;
+        // getOut() << "loop 2" << std::endl;
 
         cv::Mat inputImage(colorBufferDesc.Height, colorBufferDesc.Width, CV_8UC4);
         
-        getOut() << "loop 3" << std::endl;
+        // getOut() << "loop 3" << std::endl;
 
         cvContext->Wait(fence, fenceValue);
         
-        getOut() << "loop 4" << std::endl;
+        // getOut() << "loop 4" << std::endl;
         
         cvContext->CopyResource(
           colorReadTex,
           colorMirrorServerTex
         );
         
-        getOut() << "loop 5" << std::endl;
+        // getOut() << "loop 5" << std::endl;
         
         D3D11_MAPPED_SUBRESOURCE resource;
         HRESULT hr = cvContext->Map(
@@ -67,7 +64,7 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
           abort();
         }
 
-        getOut() << "loop 6 " << colorBufferDesc.Width << " " << (void *)resource.pData << " " << resource.RowPitch << " " << resource.DepthPitch << " " << (inputImage.total() * inputImage.elemSize()) << " " << (colorBufferDesc.Width * colorBufferDesc.Height * 4) << std::endl;
+        // getOut() << "loop 6 " << colorBufferDesc.Width << " " << (void *)resource.pData << " " << resource.RowPitch << " " << resource.DepthPitch << " " << (inputImage.total() * inputImage.elemSize()) << " " << (colorBufferDesc.Width * colorBufferDesc.Height * 4) << std::endl;
 
         UINT lBmpRowPitch = colorBufferDesc.Width * 4;
         BYTE *sptr = reinterpret_cast<BYTE *>(resource.pData);
@@ -87,11 +84,11 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         cv::Mat inputImage3;
         cv::resize(inputImage2, inputImage3, cv::Size(512, (float)512 * (float)inputImage2.rows / (float)inputImage2.cols), 0, 0, cv::INTER_CUBIC);
 
-        getOut() << "loop 7" << std::endl;
+        // getOut() << "loop 7" << std::endl;
 
         cvContext->Unmap(colorReadTex, 0);
         
-        getOut() << "loop 8" << std::endl;
+        // getOut() << "loop 8" << std::endl;
 
         std::vector<cv::KeyPoint> queryKeypoints;
         cv::Mat queryDescriptors;
@@ -99,12 +96,12 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         int minHessian = 400;
         cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create( minHessian );
         detector->detectAndCompute( inputImage2, cv::noArray(), queryKeypoints, queryDescriptors );
-        getOut() << "loop 11 " << trainDescriptors.rows << " " << trainDescriptors.cols << " " << trainDescriptors.total() << " " << trainDescriptors.elemSize() << " " << (trainDescriptors.total()*trainDescriptors.elemSize()) << std::endl;
+        // getOut() << "loop 11 " << feature.descriptors.rows << " " << feature.descriptors.cols << " " << feature.descriptors.total() << " " << feature.descriptors.elemSize() << " " << (feature.descriptors.total()*feature.descriptors.elemSize()) << std::endl;
         
         std::vector<cv::DMatch> matches;
-        if (queryDescriptors.cols == trainDescriptors.cols) {
+        if (queryDescriptors.cols == feature.descriptors.cols) {
           std::vector< std::vector<cv::DMatch> > knn_matches;
-          matcher->knnMatch( queryDescriptors, trainDescriptors, knn_matches, 2 );
+          matcher->knnMatch( queryDescriptors, feature.descriptors, knn_matches, 2 );
 
           const float ratio_thresh = 0.7f;
           for (size_t i = 0; i < knn_matches.size(); i++) {
@@ -114,12 +111,16 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
           }
         }
 
-        getOut() << "loop 12 " << matches.size() << std::endl;
+        if (matches.size() > 0) {
+          getOut() << "matches yes " << queryDescriptors.cols << " " << feature.descriptors.cols << " " << matches.size() << std::endl;
+        } else {
+          getOut() << "matches no " << queryDescriptors.cols << " " << feature.descriptors.cols << " " << matches.size() << std::endl;
+        }
 
         {
           std::lock_guard<Mutex> lock(mut);
 
-          features.resize(matches.size() * 3);
+          std::vector<float> queryPoints(matches.size() * 3);
           for (size_t i = 0; i < matches.size(); i++) {
             cv::DMatch &match = matches[i];
             int queryIdx = match.queryIdx;
@@ -136,16 +137,22 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
             applyVector4Matrix(worldPoint, viewMatrixInverse);
             applyVector4Matrix(worldPoint, stageMatrixInverse);
 
-            features[i*3] = worldPoint[0];
-            features[i*3+1] = worldPoint[1];
-            features[i*3+2] = worldPoint[2];
+            queryPoints[i*3] = worldPoint[0];
+            queryPoints[i*3+1] = worldPoint[1];
+            queryPoints[i*3+2] = worldPoint[2];
           }
+          std::vector<unsigned char> inputImageJpg;
+          cv::imencode(".jpg", inputImage, inputImageJpg);
+          feature = {
+            (uint32_t)inputImage.cols,
+            (uint32_t)inputImage.rows,
+            std::move(inputImageJpg),
+            std::move(queryDescriptors),
+            std::move(queryPoints),
+          };
         }
 
-        getOut() << "loop 13" << std::endl;
-        
-        trainKeypoints = queryKeypoints;
-        trainDescriptors = queryDescriptors;
+        getOut() << "feature set done" << std::endl;
 
         running = false;
       }
@@ -158,21 +165,21 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
 }
 void CvEngine::setEnabled(bool enabled) {
   pvrcompositor->submitCallbacks.push_back([this](ID3D11Device5 *device, ID3D11DeviceContext4 *context, ID3D11Texture2D *colorTex) -> void {
-    getOut() << "cb 1 " << running << std::endl;
+    // getOut() << "cb 1 " << running << std::endl;
 
     if (!running) {
       running = true;
 
-      getOut() << "cb 2" << std::endl;
+      // getOut() << "cb 2" << std::endl;
 
       D3D11_TEXTURE2D_DESC desc;
       colorTex->GetDesc(&desc);
-      
-      getOut() << "cb 3" << std::endl;
+
+      // getOut() << "cb 3" << std::endl;
 
       HRESULT hr;
       if (!colorMirrorClientTex || desc.Width != colorBufferDesc.Width || desc.Height != colorBufferDesc.Height) {
-        getOut() << "cb 4" << std::endl;
+        // getOut() << "cb 4" << std::endl;
         
         colorBufferDesc = desc;
 
@@ -250,17 +257,17 @@ void CvEngine::setEnabled(bool enabled) {
         colorMirrorClientRes->Release();
         colorMirrorServerRes->Release();
         
-        getOut() << "cb 5" << std::endl;
+        // getOut() << "cb 5" << std::endl;
       }
       
-      getOut() << "cb 6" << std::endl;
+      // getOut() << "cb 6" << std::endl;
 
       context->CopyResource(
         colorMirrorClientTex,
         colorTex
       );
       
-      getOut() << "cb 7" << std::endl;
+      // getOut() << "cb 7" << std::endl;
       
       ++fenceValue;
       context->Signal(fence, fenceValue);
@@ -282,17 +289,24 @@ void CvEngine::setEnabled(bool enabled) {
       setPoseMatrix(projectionMatrix, projectionMatrixHmd);
       getMatrixInverse(projectionMatrix, projectionMatrixInverse);
 
-      getOut() << "cb 8" << std::endl;
+      // getOut() << "cb 8" << std::endl;
 
       sem.unlock();
       
-      getOut() << "cb 9" << std::endl;
+      // getOut() << "cb 9" << std::endl;
     }
   });
 }
-void CvEngine::getFeatures(std::function<void(const std::vector<float> &)> cb) {
+void CvEngine::getFeatures(std::function<void(const CvFeature &)> cb) {
   std::lock_guard<Mutex> lock(mut);
-  cb(features);
+  // getOut() << "get feature " << feature.points.size() << std::endl;
+  cb(feature);
+}
+void CvEngine::addFeature(int rows, int cols, int type, const managed_binary<char> &data) {
+  std::lock_guard<Mutex> lock(mut);
+  cv::Mat descriptor(rows, cols, type);
+  memcpy(descriptor.ptr(), data.data(), data.size());
+  matchDescriptors.push_back(std::move(descriptor));
 }
 void CvEngine::InfoQueueLog() {
   if (cvInfoQueue) {

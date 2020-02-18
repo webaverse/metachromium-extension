@@ -35,11 +35,25 @@ chrome.tabs.onUpdated.addListener(inject); */
 
 const port = chrome.runtime.connectNative('com.exokit.xrchrome');
 const cbs = [];
+let continuationString = '';
 port.onMessage.addListener(msg => {
-  console.log("received native", msg);
-  if (cbs.length > 0) {
-    const cb = cbs.shift();
-    cb(msg);
+  // console.log("received native", msg);
+  const _process = msg => {
+    if (cbs.length > 0) {
+      const cb = cbs.shift();
+      cb(msg);
+    }
+  };
+  if (msg.continuation) {
+    const {index, total, continuation} = msg;
+    continuationString += continuation;
+    if (index === total - 1) {
+      const continuationMsg = JSON.parse(continuationString);
+      continuationString = '';
+      _process(continuationMsg);
+    }
+  } else {
+    _process(msg);
   }
 });
 port.onDisconnect.addListener(() => {
