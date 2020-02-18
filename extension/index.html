@@ -234,7 +234,7 @@ window.addEventListener('xrload', async m => {
       cvFeaturesContentEl.insertBefore(img, img.firstChild);
 
       // const descriptor = Base64Binary.decode(cvFeature.descriptor.data);
-      await xrc().request('getCvFeature', [
+      await xrc().request('addCvFeature', [
         cvFeature.descriptor.rows,
         cvFeature.descriptor.cols,
         cvFeature.descriptor.type,
