@@ -34,6 +34,13 @@ a:active {
   // pointer-events: none;
   display: none;
 }
+#cv-features-content {
+  display: flex;
+  flex-direction: column;
+}
+#cv-features-content img {
+  width: 100%;
+}
 </style>
 </head>
 <body>
@@ -51,7 +58,10 @@ a:active {
     </section>
     <section id=cv-features>
       <h2>CV Features</h2>
-      <div id=cv-features-content></div>
+      <div id=cv-features-count></div>
+      <div id=cv-features-content>
+        <img>
+      </div>
     </section>
   </div>
   <div class=body>
@@ -65,6 +75,7 @@ a:active {
     <input type=button id=toggle-controls-button value="FPS controls">
     <input type=button id=toggle-qr-button value="QR turn ON">
     <input type=button id=toggle-cv-button value="CV turn ON">
+    <input type=button id=capture-cv-feature-button value="Capture CV feature">
     <!-- <input type=button id=tab-capture-button value="Tab capture"> -->
     <input type=button id=enter-xr-button value="Enter XR">
   </div>
@@ -204,6 +215,32 @@ window.addEventListener('xrload', async m => {
   toggleCvButton.addEventListener('click', async () => {
     cvEngineOn = !cvEngineOn;
     await xrc().request('setCvEngineEnabled', [cvEngineOn]);
+  });
+
+  const captureCvFeatureButton = document.getElementById('capture-cv-feature-button');
+  captureCvFeatureButton.addEventListener('click', async () => {
+    const cvFeature = await xrc().request('getCvFeature', []);
+
+    if (cvFeature.image.data && cvFeature.descriptor.data) {
+      const img = await new Promise((accept, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          accept(img);
+        };
+        img.onerror = reject;
+        img.src = 'data:image/jpeg;base64,' + cvFeature.image.data;
+      });
+      const cvFeaturesContentEl = document.getElementById('cv-features-content');
+      cvFeaturesContentEl.insertBefore(img, img.firstChild);
+
+      // const descriptor = Base64Binary.decode(cvFeature.descriptor.data);
+      await xrc().request('addCvFeature', [
+        cvFeature.descriptor.rows,
+        cvFeature.descriptor.cols,
+        cvFeature.descriptor.type,
+        cvFeature.descriptor.data,
+      ]);
+    }
   });
 
   /* const tabCaptureButton = document.getElementById('tab-capture-button');
@@ -528,6 +565,8 @@ window.addEventListener('xrload', async m => {
   const cvImgMesh = (() => {
     const geometry = new THREE.PlaneBufferGeometry(0.5, 0.5);
     const texture = new THREE.Texture();
+    texture.minFilter = THREE.LinearFilter;
+    texture.generateMipmaps = false;
     const material = new THREE.MeshBasicMaterial({
       map: texture,
       // transparent: true,
@@ -550,6 +589,7 @@ window.addEventListener('xrload', async m => {
         cvQueryRunning = true;
 
         const cvFeature = await xrc().request('getCvFeature', []);
+        // console.log('got cv feature', cvFeature);
         const pointsUint8Array = Base64Binary.decode(cvFeature.points);
         const pointsFloat32Array = new Float32Array(pointsUint8Array.buffer, pointsUint8Array.byteOffset, pointsUint8Array.byteLength / Float32Array.BYTES_PER_ELEMENT);
         const positions = new Float32Array(pointsFloat32Array.length * cubeGeometry.attributes.position.array.length);
@@ -576,9 +616,12 @@ window.addEventListener('xrload', async m => {
           });
           cvImgMesh.material.map.image = img;
           cvImgMesh.material.map.needsUpdate = true;
+
+          const cvFeaturesContentEl = document.getElementById('cv-features-content');
+          cvFeaturesContentEl.replaceChild(img, cvFeaturesContentEl.lastChild);
         }
 
-        document.getElementById('cv-features-content').innerHTML = `${pointsFloat32Array.length}`;
+        document.getElementById('cv-features-count').innerHTML = `${pointsFloat32Array.length}`;
 
         cvQueryRunning = false;
       }

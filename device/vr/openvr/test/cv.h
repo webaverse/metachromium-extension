@@ -52,7 +52,7 @@ public:
   float stageMatrixInverse[16] = {};
   float projectionMatrixInverse[16] = {};
   CvFeature feature;
-  std::vector<cv::Mat> matchDescriptors;
+  cv::Mat matchDescriptors;
 
 public:
   CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem);

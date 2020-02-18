@@ -1205,12 +1205,11 @@ PVRCompositor::PVRCompositor(IVRCompositor *vrcompositor, Hijacker &hijacker, bo
   fnp.reg<
     kIVRCompositor_AddCvFeature,
     int,
-    std::tuple<managed_binary<int>, managed_binary<char>>
-  >([=](std::tuple<managed_binary<int>, managed_binary<char>> descriptor) {
-    int rows = std::get<0>(descriptor)[0];
-    int cols = std::get<0>(descriptor)[1];
-    int type = std::get<0>(descriptor)[2];
-    const managed_binary<char> &descriptorData = std::get<1>(descriptor);
+    int,
+    int,
+    int,
+    managed_binary<char>
+  >([=](int rows, int cols, int type, managed_binary<char> descriptorData) {
     g_pcvengine->addFeature(rows, cols, type, descriptorData);
     return 0;
   });
