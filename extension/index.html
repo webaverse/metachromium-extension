@@ -224,7 +224,7 @@ window.addEventListener('xrload', async m => {
         img.src = 'data:image/jpeg;base64,' + cvFeature.image.data;
       });
       const cvFeaturesContentEl = document.getElementById('cv-features-content');
-      cvFeaturesContentEl.insertBefore(img.firstChild);
+      cvFeaturesContentEl.insertBefore(img, img.firstChild);
 
       // const descriptor = Base64Binary.decode(cvFeature.descriptor.data);
       await xrc().request('getCvFeature', [
