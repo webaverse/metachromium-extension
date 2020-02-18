@@ -582,6 +582,7 @@ window.addEventListener('xrload', async m => {
         cvQueryRunning = true;
 
         const cvFeature = await xrc().request('getCvFeature', []);
+        // console.log('got cv feature', cvFeature);
         const pointsUint8Array = Base64Binary.decode(cvFeature.points);
         const pointsFloat32Array = new Float32Array(pointsUint8Array.buffer, pointsUint8Array.byteOffset, pointsUint8Array.byteLength / Float32Array.BYTES_PER_ELEMENT);
         const positions = new Float32Array(pointsFloat32Array.length * cubeGeometry.attributes.position.array.length);
