@@ -307,6 +307,9 @@ void CvEngine::addFeature(int rows, int cols, int type, const managed_binary<cha
   try {
     cv::Mat descriptor(rows, cols, type);
     memcpy(descriptor.ptr(), data.data(), data.size());
+    if (matchDescriptors.cols != cols || matchDescriptors.type() != type) {
+      matchDescriptors = cv::Mat(0, cols, type);
+    }
     cv::vconcat(matchDescriptors, descriptor, matchDescriptors);
   } catch( cv::Exception& e ) {
     const char *err_msg = e.what();
