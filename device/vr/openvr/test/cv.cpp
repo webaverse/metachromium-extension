@@ -99,9 +99,9 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         // getOut() << "loop 11 " << feature.descriptors.rows << " " << feature.descriptors.cols << " " << feature.descriptors.total() << " " << feature.descriptors.elemSize() << " " << (feature.descriptors.total()*feature.descriptors.elemSize()) << std::endl;
         
         std::vector<cv::DMatch> matches;
-        if (queryDescriptors.cols == feature.descriptors.cols) {
+        if (queryDescriptors.cols == matchDescriptors.cols) {
           std::vector< std::vector<cv::DMatch> > knn_matches;
-          matcher->knnMatch( queryDescriptors, feature.descriptors, knn_matches, 2 );
+          matcher->knnMatch( queryDescriptors, matchDescriptors, knn_matches, 2 );
 
           const float ratio_thresh = 0.7f;
           for (size_t i = 0; i < knn_matches.size(); i++) {
@@ -112,9 +112,9 @@ CvEngine::CvEngine(vr::PVRCompositor *pvrcompositor, vr::IVRSystem *vrsystem) :
         }
 
         if (matches.size() > 0) {
-          getOut() << "matches yes " << queryDescriptors.cols << " " << feature.descriptors.cols << " " << matches.size() << std::endl;
+          getOut() << "matches yes " << queryDescriptors.cols << " " << matchDescriptors.cols << " " << matches.size() << std::endl;
         } else {
-          getOut() << "matches no " << queryDescriptors.cols << " " << feature.descriptors.cols << " " << matches.size() << std::endl;
+          getOut() << "matches no " << queryDescriptors.cols << " " << matchDescriptors.cols << " " << matches.size() << std::endl;
         }
 
         {
@@ -304,9 +304,15 @@ void CvEngine::getFeatures(std::function<void(const CvFeature &)> cb) {
 }
 void CvEngine::addFeature(int rows, int cols, int type, const managed_binary<char> &data) {
   std::lock_guard<Mutex> lock(mut);
-  cv::Mat descriptor(rows, cols, type);
-  memcpy(descriptor.ptr(), data.data(), data.size());
-  matchDescriptors.push_back(std::move(descriptor));
+  try {
+    cv::Mat descriptor(rows, cols, type);
+    memcpy(descriptor.ptr(), data.data(), data.size());
+    cv::vconcat(matchDescriptors, descriptor, matchDescriptors);
+  } catch( cv::Exception& e ) {
+    const char *err_msg = e.what();
+    getOut() << "exception caught: " << err_msg << std::endl;
+    abort();
+  }
 }
 void CvEngine::InfoQueueLog() {
   if (cvInfoQueue) {
