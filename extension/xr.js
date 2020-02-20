@@ -412,6 +412,60 @@ taskbarMesh.position.y = 1;
 taskbarMesh.textureMesh.render(['browser1', 'browser2']);
 scene.add(taskbarMesh); */
 
+(async () => {
+  const iframe = await new Promise((accept, reject) => {
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://render.exokit.xyz/';
+    // iframe.src = './exokit-render/index.html';
+    iframe.onload = () => {
+      accept(iframe);
+    };
+    iframe.onerror = reject;
+    iframe.style.position = 'absolute';
+    iframe.style.top = '-4096px';
+    iframe.style.left = '-4096px';
+    document.body.appendChild(iframe);
+  });
+
+  const imageData = await new Promise((accept, reject) => {
+    const mc = new MessageChannel();
+    mc.port1.onmessage = e => {
+      const {data} = e;
+      const {error, result} = data;
+
+      if (result) {
+        // console.log('time taken', Date.now() - start);
+
+        accept(result);
+      } else {
+        reject(error);
+      }
+    };
+    uiIframe.contentWindow.postMessage({
+      method: 'render',
+      id: ++renderIds,
+      htmlString: interfaceHtml,
+      templateData: {
+        searchResults,
+        channels: channels.slice(0, 4),
+        tab1: selectedTab === 1,
+        tab2: selectedTab === 2,
+        tab3: selectedTab === 3,
+        tab4: selectedTab === 4,
+        rects,
+        covers,
+        localSelected: !rtcConnected && !landConnected,
+        landConnected,
+        landGridded: landConnected && rects.length > 0,
+        landNotGridded: !landConnected || rects.length === 0,
+      },
+      width: uiSize,
+      height: uiSize,
+      port: mc.port2,
+    }, '*', [mc.port2]);
+  });
+})();
+
 renderer.setAnimationLoop(render);
 function render() {
   cubeMesh.rotation.x += 0.01;
