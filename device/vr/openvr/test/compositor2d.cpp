@@ -10,6 +10,9 @@ using namespace vr;
 
 namespace compositor2d {
 
+char kCompositor2D_CreateOverlay[] = "Compositor2D::CreateOverlay";
+char kCompositor2D_SetOverlayTexture[] = "Compositor2D::SetOverlayTexture";
+
 ID3D11Device5 *device;
 ID3D11DeviceContext4 *context;
 IDXGISwapChain *swapChain;
@@ -439,6 +442,112 @@ ID3D11Resource *WindowOverlay::blackResource = nullptr;
 std::vector<HWND> hwnds;
 std::map<HANDLE, WindowOverlay> windowOverlays;
 
+void registerOverlayHandlers() {
+  PVRCompositor::CreateDevice(&device, &context, &swapChain);
+
+  fnp.reg<
+    kCompositor2D_CreateOverlay,
+    VROverlayHandle_t,
+    managed_binary<char>,
+    float
+  >([=](managed_binary<char> name, float worldWidth) {
+    std::string overlayName(name.data(), name.size());
+    VROverlayHandle_t overlay;
+    EVROverlayError error = g_vroverlay->CreateOverlay(overlayName.c_str(), overlayName.c_str(), &overlay);
+    if (error != VROverlayError_None) {
+      getOut() << "error creating overlay: " << (void *)error << std::endl;
+    }
+
+    g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_NoDashboardTab, true);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay flag: " << (void *)error << std::endl;
+    }
+    g_vroverlay->SetOverlayFlag(overlay, VROverlayFlags_MakeOverlaysInteractiveIfVisible, true);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay flag: " << (void *)error << std::endl;
+    }
+    error = g_vroverlay->ShowOverlay(overlay);
+    if (error != VROverlayError_None) {
+      getOut() << "error showing overlay: " << (void *)error << std::endl;
+    }
+    error = g_vroverlay->SetOverlayInputMethod(overlay, VROverlayInputMethod_Mouse);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay input method: " << (void *)error << std::endl;
+    }
+    
+    // position
+    {
+      // float heightFactor = (float)height/(float)width;
+      float offsetX = (float)centerX / (float)desktopWidth;
+      float offsetY = 1.0f - ((float)centerY / (float)desktopWidth);
+      // offsetY += (float)height / (float)desktopHeight;
+      // offsetY += (float)height/2/(float)desktopHeight;
+      // offsetY -= 0.5f * (float)height / (float)desktopHeight;
+      // offsetY -= heightFactor / 2.0f * (float)height / (float)desktopHeight;
+      
+      RECT rect;          
+      GetWindowRect(hWnd, &rect);
+      /* if (rect.left > 2000) {
+        offsetY -= (float)217 / desktopHeight;
+      } */
+      
+      // getOut() << "offset z " << rect.left << " " << centerZ << std::endl;
+      
+      float position[3] = {0, 1.0f, -0.3f};
+      float quaternion[4] = {0, 0, 0, 1};
+      float scale[3] = {1, 1, 1};
+      float viewMatrix[16];
+      composeMatrix(viewMatrix, position, quaternion, scale);
+      
+      HmdMatrix34_t mat;
+      setPoseMatrix(mat, viewMatrix);
+      EVROverlayError error = g_vroverlay->SetOverlayTransformAbsolute(overlay, TrackingUniverseStanding, &mat);
+      if (error != VROverlayError_None) {
+        getOut() << "error setting overlay transform: " << (void *)error << std::endl;
+      }
+      
+      /* error = g_vroverlay->SetOverlaySortOrder(overlay, 0);
+      if (error != VROverlayError_None) {
+        getOut() << "error setting overlay sort order: " << (void *)error << std::endl;
+      } */
+      
+      error = g_vroverlay->SetOverlayWidthInMeters(overlay, worldWidth);
+      if (error != VROverlayError_None) {
+        getOut() << "error setting overlay width: " << (void *)error << std::endl;
+      }
+    }
+
+    // texture
+    {
+      Texture_t vrTexDesc{};
+      vrTexDesc.handle = surfaceShareHandle;
+      vrTexDesc.eType = TextureType_DXGISharedHandle;
+      vrTexDesc.eColorSpace = ColorSpace_Auto;
+      EVROverlayError error = g_vroverlay->SetOverlayTexture(overlay, &vrTexDesc);
+      if (error != VROverlayError_None) {
+        getOut() << "error setting overlay texture: " << (void *)error << std::endl;
+      }
+    }
+
+    return overlay;
+  });
+  fnp.reg<
+    kCompositor2D_SetOverlayTexture,
+    int,
+    VROverlayHandle_t,
+    uint32_t,
+    uint32_t,
+    uint32_t,
+    managed_binary<char>
+  >([=](VROverlayHandle_t handle, uint32_t width, uint32_t height, uint32_t depth, managed_binary<char> data) {
+    EVROverlayError error = g_vroverlay->SetOverlayRaw(overlay, data.data(), width, height, depth);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay texture raw: " << (void *)error << std::endl;
+    }
+    return 0;
+  });
+}
+
 BOOL CALLBACK EnumWindowsProc(
   _In_ HWND   hwnd,
   _In_ LPARAM lParam
@@ -446,9 +555,7 @@ BOOL CALLBACK EnumWindowsProc(
   hwnds.push_back(hwnd);
   return true;
 }
-void homeRenderLoop() {
-  PVRCompositor::CreateDevice(&device, &context, &swapChain);
-      
+void homeRenderLoop() {    
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
     getOut() << "failed to get current directory" << std::endl;
