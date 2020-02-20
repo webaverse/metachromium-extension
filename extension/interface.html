@@ -1,0 +1,612 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- <link rel="stylesheet" href="https://render.exokit.xyz/open-sans.css">
+    <link rel="stylesheet" href="https://render.exokit.xyz/font-awesome.css"> -->
+    <style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: 'Open Sans';
+  font-size: 12px;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+ul li {
+  display: inline-block;
+  width: 668px;
+  height: 200px;
+  float: left;
+}
+ul li a {
+  display: flex;
+  padding: 40px;
+}
+ul li a.selected {
+  background-color: #5c6bc0;
+  color: #FFF;
+}
+ul li a img {
+  width: 120px;
+  height: 120px;
+  margin-right: 40px;
+  /* background-color: #f2f3f5; */
+  /* image-rendering: pixelated; */
+}
+ul li a .wrap {
+  display: flex;
+  flex-direction: column;
+  font-size: 42px;
+}
+ul li a .wrap h3,
+ul li a .wrap p {
+  margin: 0;
+  max-width: 428px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+ul li a .wrap h3 {
+  font-weight: 400;
+}
+.ui-left {
+  display: flex;
+  width: 2048px;
+  height: 2048px;
+  font-size: 80px;
+  background-color: #FFF;
+  flex-direction: column;
+  align-items: stretch;
+  /* box-shadow: 3px 0 3px rgba(0,0,0,0.05); */
+}
+.url-input {
+  margin: 40px;
+  padding: 40px;
+  background-color: #f2f3f5;
+  border: 0;
+  border-radius: 40px;
+  color: #5c5c6e;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.6;
+  outline: none;
+}
+.radios {
+  display: flex;
+  margin: 40px;
+}
+.radios > .radio {
+  display: flex;
+  flex: 1;
+  height: 160px;
+  padding: 15px 40px;
+  border: 8px solid;
+  border-radius: 22px;
+  color: #ec407a;
+  justify-content: center;
+  align-items: center;
+}
+.radios > .radio:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.radios > .radio:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.radios > .radio + .radio {
+  margin-left: -8px;
+}
+.radios > .radio.selected {
+  background-color: #ec407a;
+  border-color: #ec407a;
+  color: #FFF;
+}
+.actions-tab {
+  display: flex;
+  /* font-size: 30px;
+  font-weight: 300; */
+}
+.actions-tab section:nth-child(1) {
+  width: 1336px;
+}
+.actions-tab section:nth-child(2) {
+  width: 668px;
+}
+.actions-tab br {
+  clear: both;
+}
+.actions {
+}
+.actions .action {
+  position: relative;
+  display: inline-flex;
+  width: 668px;
+  height: 250px;
+  padding: 30px;
+  float: left;
+  align-items: center;
+}
+.actions .action .border {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 30px;
+  bottom: 30px;
+  background-color: #f2f3f5;
+  border-radius: 20px;
+}
+.actions .action .icon {
+  position: relative;
+  display: flex;
+  width: 130px;
+  height: 130px;
+  margin-right: 20px;
+  // background-color: #f2f3f5;
+  // border-radius: 40px;
+  justify-content: center;
+  align-items: center;
+}
+.actions .action .wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.actions .action .wrap h3,
+.actions .action .wrap p {
+  margin: 0;
+}
+.actions .action .wrap h3 {
+  font-size: 50px;
+  // line-height: 1.6;
+  font-weight: 300;
+}
+.actions .action .wrap p {
+  font-size: 36px;
+}
+.channels {
+  display: flex;
+}
+.channel-controls {
+  display: flex;
+  width: 668px;
+  margin-top: 20px;
+  flex-direction: column;
+}
+.channel-controls .channel {
+  position: relative;
+  display: flex;
+  height: 250px;
+  padding: 60px;
+}
+.channel-controls .channel .border {
+  position: absolute;
+  left: 30px;
+  right: 30px;
+  top: 30px;
+  bottom: 30px;
+  // border: 10px solid transparent;
+  border-radius: 20px;
+}
+.channel-controls .channel.selected {
+  color: #FFF;
+}
+.channel-controls .channel.selected .border {
+  background-color: #000;
+}
+.channel-controls .channel .icon {
+  position: relative;
+  display: flex;
+  width: 130px;
+  height: 130px;
+  margin-right: 30px;
+  background-color: #f2f3f5;
+  border-radius: 30px;
+  color: #000;
+  justify-content: center;
+  align-items: center;
+}
+.channel-controls .channel .wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.channel-controls .channel .wrap h1,
+.channel-controls .channel .wrap h2,
+.channel-controls .channel .wrap h3,
+.channel-controls .channel .wrap p
+{
+  margin: 0;
+}
+.channel-controls .channel .wrap h3 {
+  /* font-size: 60px; */
+  font-size: 44px;
+  line-height: 1.6;
+}
+.channel-controls .channel .wrap p {
+  font-size: 36px;
+}
+.channel-list {
+  display: flex;
+  width: 1336px;
+  flex-direction: column;
+}
+.channel-list .item {
+  position: relative;
+  display: flex;
+  height: 230px;
+  padding: 20px 40px;
+}
+.channel-list .item .main {
+  display: flex;
+  flex: 1;
+  // background-color: #f2f3f5;
+  // border-left: 10px solid #000;
+  border-left: 10px solid #f2f3f5;
+  // border-radius: 20px;
+}
+.channel-list .item .main.selected {
+  background-color: #000;
+  border-left-color: #000;
+  color: #FFF;
+}
+.channel-list .item .main .icon {
+  position: relative;
+  display: flex;
+  // width: 190px;
+  height: 190px;
+  margin-left: 30px;
+  margin-right: 30px;
+  justify-content: center;
+  align-items: center;
+  // background-color: #f2f3f5;
+  // border-radius: 20px;
+  // font-size: 60px;
+}
+.channel-list .item .main .wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.channel-list .item .main .wrap h3,
+.channel-list .item .main .wrap p
+  {
+  margin: 0;
+}
+.channel-list .item .main .wrap h3 {
+  font-size: 60px;
+  line-height: 1.6;
+}
+.channel-list .item .main .wrap p {
+  font-size: 36px;
+}
+.channel-list .item .side {
+  display: flex;
+  width: 190px;
+  height: 190px;
+  margin-left: 30px;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f3f5;
+  border-radius: 20px;
+}
+.channel-list .item .side .icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.grid {
+  position: relative;
+  display: flex;
+  // padding: 30px;
+  justify-content: center;
+  align-items: center;
+}
+.grid .anchors {
+  position: relative;
+  width: 1200px;
+  height: 1200px;
+}
+.grid .anchors a {
+  position: absolute;
+  // width: 36px;
+  // height: 36px;
+}
+.grid svg {
+  width: inherit;
+  height: inherit;
+  background-color: #111;
+}
+.grid svg rect {
+  // width: 36px;
+  // height: 36px;
+  fill: #333;
+}
+/* .grid .item {
+  position: relative;
+  display: flex;
+  width: 300px;
+  height: 300px;
+  margin-right: 30px;
+  margin-bottom: 30px;
+  padding: 30px;
+  padding-top: 0;
+  float: left;
+  background-color: #f2f3f5;
+  flex-direction: column;
+}
+.grid .item .dot {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  background-color: #66bb6a;
+  border-radius: 100px;
+}
+.grid .item h3 {
+  font-size: 30px;
+  line-height: 1;
+}
+.grid .item .icon {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+} */
+.grid-placeholder {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  font-size: 100px;
+  justify-content: center;
+  align-items: center;
+}
+    </style>
+  </head>
+  <body>
+    <div class=ui-left>
+      <!-- <input type=text placeholder="https://" class=url-input id=url-input> -->
+      <div class=radios>
+        <a id=tab-1 class="radio {{#tab1}}selected{{/tab1}}">Apps</a>
+        <a id=tab-2 class="radio {{#tab2}}selected{{/tab2}}">Scene</a>
+        <a id=tab-3 class="radio {{#tab3}}selected{{/tab3}}">Channels</a>
+        <a id=tab-4 class="radio {{#tab4}}selected{{/tab4}}">Land</a>
+      </div>
+      {{#tab1}}
+      <input type=text class=url-input id=url-input>
+      <div class=results>
+        <ul>
+          {{#searchResults}}
+          <li>
+            <a id=app href="{{{url}}}" name="{{{label}}}">
+              <img src="{{{icon}}}">
+              <div class=wrap>
+                <h3>{{label}}</h3>
+                <p>{{{url}}}</p>
+              </div>
+            </a>
+          </li>
+          {{/searchResults}}
+        </ul>
+      </div>
+      {{/tab1}}
+      {{#tab2}}
+      <div class=actions-tab>
+        <section class=actions>
+          <!-- <h3>Controls</h3> -->
+          <a id=action-new-scene class=action>
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-sparkles"></i>
+            </div>
+            <div class=wrap>
+              <h3>New scene</h3>
+              <p>Clear your scene</p>
+            </div>
+          </a>
+          <br/>
+          <a id=action-copy-scene class=action>
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-copy"></i>
+            </div>
+            <div class=wrap>
+              <h3>Copy scene</h3>
+              <p>Copy site to clipboard</p>
+            </div>
+          </a>
+          <a id=action-paste-scene class=action>
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-paste"></i>
+            </div>
+            <div class=wrap>
+              <h3>Paste scene</h3>
+              <p>Paste site from clipboard</p>
+            </div>
+          </a>
+          <a id=action-load-scene class=action>
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-folder-open"></i>
+            </div>
+            <div class=wrap>
+              <h3>Load scene</h3>
+              <p>Open the locally saved scene</p>
+            </div>
+          </a>
+          <a id=action-save-scene class=action>
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-save"></i>
+            </div>
+            <div class=wrap>
+              <h3>Save scene</h3>
+              <p>Save this site locally</p>
+            </div>
+          </a>
+        </section>
+      </div>
+      {{/tab2}}
+      {{#tab3}}
+      <div class=channels>
+        <!-- <a id=playlist-new class=item>
+          <div class=border></div>
+          <div class=icon>
+            <i class="fal fa-sword"></i>
+          </div>
+          <div class=wrap>
+            <h3>New channel</h3>
+          </div>
+        </a> -->
+        <section class=channel-list>
+          <input type=text class=url-input id=channel-input>
+          <!-- <a id=channel-global class="channel {{#channel3}}selected{{/channel3}}">
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-map-marked-alt"></i>
+            </div>
+            <div class=wrap>
+              <h3>Universe</h3>
+              <p>@user's shared channel</p>
+            </div>
+          </a>
+          <div class=item>
+            <a id="channel:1" class=main>
+              <div class=icon>
+                <i class="fal fa-map-marked-alt"></i>
+              </div>
+              <div class=wrap>
+                <h3>First map</h3>
+                <p>by @user</p>
+              </div>
+            </a>
+            <a id=link class=side>
+              <div class=icon>
+                <i class="fal fa-clipboard"></i>
+              </div>
+            </a>
+            <a id=link class=side>
+              <div class=icon>
+                <i class="fal fa-link"></i>
+              </div>
+            </a>
+          </div>
+          <div class=item>
+            <a id="channel:1" class=main>
+              <div class=icon>
+                <i class="fal fa-map-marked-alt"></i>
+              </div>
+              <div class=wrap>
+                <h3>Second map</h3>
+                <p>by @user</p>
+              </div>
+            </a>
+            <a id=link class=side>
+              <div class=icon>
+                <i class="fal fa-clipboard"></i>
+              </div>
+            </a>
+            <a id=link class=side>
+              <div class=icon>
+                <i class="fal fa-link"></i>
+              </div>
+            </a>
+          </div> -->
+          {{#channels}}
+          <div class=item>
+            <a id="channel:{{{user}}}/{{{channel}}}" class="main {{#selected}}selected{{/selected}}">
+              <div class=icon>
+                <i class="fal fa-map-marked-alt"></i>
+              </div>
+              <div class=wrap>
+                <h3>{{{channel}}}</h3>
+                <p>by @{{{user}}}</p>
+              </div>
+            </a>
+            <a id="channel-copy-join:{{{user}}}/{{{channel}}}" class=side>
+              <div class=icon>
+                <i class="fas fa-user-plus"></i>
+                <!-- <i class="fal fa-clipboard"></i> -->
+              </div>
+            </a>
+            <a id="channel-copy-site:{{{user}}}/{{{channel}}}" class=side>
+              <div class=icon>
+                <i class="fal fa-link"></i>
+              </div>
+            </a>
+          </div>
+          {{/channels}}
+        </section>
+        <section class=channel-controls>
+          <!-- <h3>Connected to</h3> -->
+          <a id=channel-local class="channel {{#localSelected}}selected{{/localSelected}}">
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-street-view"></i>
+              <!-- <i class="fal fa-home-lg-alt"></i> -->
+            </div>
+            <div class=wrap>
+              <h3>Local</h3>
+              <p>Your home space</p>
+            </div>
+          </a>
+          <a id=channel-global class="channel {{#landConnected}}selected{{/landConnected}}">
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-map-marked-alt"></i>
+            </div>
+            <div class=wrap>
+              <h3>Land</h3>
+              <p>Global shared world</p>
+            </div>
+          </a>
+          <a id=channel-shared class=channel>
+            <div class=border></div>
+            <div class=icon>
+              <i class="fal fa-plus"></i>
+            </div>
+            <div class=wrap>
+              <h3>New channel</h3>
+              <p>Create a new shared space</p>
+            </div>
+          </a>
+        </section>
+      </div>
+      {{/tab3}}
+      {{#tab4}}
+      {{#landGridded}}
+      <div class=grid>
+        <div class=anchors>
+          {{#rects}}
+          <a id=grid:{{{ax}}}-{{{ay}}} style="left: {{{x}}}px; top: {{{y}}}px; width: {{{w}}}px; height: {{{h}}}px;"></a>
+          {{/rects}}
+          <svg>
+            {{#rects}}
+            <rect x={{{x}}} y={{{y}}} width={{{w}}} height={{{h}}} />
+            {{/rects}}
+            {{#covers}}
+            <rect x={{{x}}} y={{{y}}} width={{{w}}} height={{{h}}} />
+            {{/covers}}
+          </svg>
+        </div>
+      </div>
+      {{/landGridded}}
+      {{#landNotGridded}}
+      <div class=grid-placeholder>Disconnected from Land.</div>
+      {{/landNotGridded}}
+      {{/tab4}}
+    </div>
+  </body>
+</html>
