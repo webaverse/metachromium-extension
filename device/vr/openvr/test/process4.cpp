@@ -39,6 +39,8 @@ char kProcess_SetCvEngineEnabled[] = "IVRCompositor::kIVRCompositor_SetCvEngineE
 char kProcess_GetCvFeature[] = "IVRCompositor::GetCvFeature";
 char kProcess_AddCvFeature[] = "IVRCompositor::AddCvFeature";
 char kProcess_Terminate[] = "Process::Terminate";
+char kProcess_CreateOverlay[] = "Compositor2D::CreateOverlay";
+char kProcess_SetOverlayTexture[] = "Compositor2D::SetOverlayTexture";
 
 class HwndSearchStruct {
 public:
