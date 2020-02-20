@@ -445,7 +445,7 @@ std::map<HANDLE, WindowOverlay> windowOverlays;
 void registerOverlayHandlers() {
   PVRCompositor::CreateDevice(&device, &context, &swapChain);
 
-  fnp.reg<
+  g_fnp->reg<
     kCompositor2D_CreateOverlay,
     VROverlayHandle_t,
     managed_binary<char>,
@@ -531,7 +531,7 @@ void registerOverlayHandlers() {
 
     return overlay;
   });
-  fnp.reg<
+  g_fnp->reg<
     kCompositor2D_SetOverlayTexture,
     int,
     VROverlayHandle_t,
