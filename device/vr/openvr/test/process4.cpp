@@ -573,6 +573,32 @@ int main(int argc, char **argv) {
               {"result", "ok"}
             };
             respond(res);
+          } else if (
+            methodString == "setOverlayTexture" &&
+            args.size() >= 5 && args[0].is_array() && args[1].is_number() && args[2].is_number() && args[3].is_number() && args[4].is_string()
+          ) {
+            VROverlayHandle_t overlay = (VROverlayHandle_t)(((uint64_t)args[0][0].get<uint32_t>() << 32ull) | (uint64_t)args[0][1].get<uint32_t>());
+            uint32_t width = args[1].get<uint32_t>();
+            uint32_t height = args[2].get<uint32_t>();
+            uint32_t depth = args[3].get<uint32_t>();
+            const std::string &data = args[4].get<std::string>();
+            managed_binary<char> dataBuffer = Base64::Decode<char>(data);
+
+            auto result = g_fnp->call<
+              kCompositor2D_SetOverlayTexture,
+              int,
+              VROverlayHandle_t,
+              uint32_t,
+              uint32_t,
+              uint32_t,
+              managed_binary<char>
+            >(overlay, width, height, depth, std::move(dataBuffer));
+
+            json res = {
+              {"error", nullptr},
+              {"result", "ok"}
+            };
+            respond(res);
           } else {
             json res = {
               {"error", "invalid method"},
