@@ -448,10 +448,6 @@ BOOL CALLBACK EnumWindowsProc(
 }
 void homeRenderLoop() {
   PVRCompositor::CreateDevice(&device, &context, &swapChain);
-  ID3D11Texture2D *tex = nullptr;
-  IDXGISurface1 *dxgiSurface1 = nullptr;
-  int width = 0;
-  int height = 0;
       
   char cwdBuf[MAX_PATH];
   if (!GetCurrentDirectory(sizeof(cwdBuf), cwdBuf)) {
