@@ -41,6 +41,7 @@ char kProcess_AddCvFeature[] = "IVRCompositor::AddCvFeature";
 char kProcess_Terminate[] = "Process::Terminate";
 char kProcess_CreateOverlay[] = "Compositor2D::CreateOverlay";
 char kProcess_SetOverlayTexture[] = "Compositor2D::SetOverlayTexture";
+char kProcess_SetOverlayPosition[] = "Compositor2D::SetOverlayPosition";
 
 class HwndSearchStruct {
 public:
@@ -569,6 +570,42 @@ int main(int argc, char **argv) {
               managed_binary<char>,
               float
             >(std::move(nameBuffer), worldWidth);
+
+            json res = {
+              {"error", nullptr},
+              {"result", "ok"}
+            };
+            respond(res);
+          } else if (
+            methodString == "setOverlayPosition" &&
+            args.size() >= 4 &&
+            args[0].is_array() && args[0].size() == 2 && args[0][0].is_number() && args[0][1].is_number() &&
+            args[1].is_array() && args[1].size() == 3 && args[1][0].is_number() && args[1][1].is_number() && args[1][2].is_number() &&
+            args[2].is_array() && args[2].size() == 4 && args[2][0].is_number() && args[2][1].is_number() && args[2][2].is_number() && args[2][3].is_number() &&
+            args[3].is_array() && args[3].size() == 4 && args[3][0].is_number() && args[3][1].is_number() && args[3][2].is_number()
+          ) {
+            VROverlayHandle_t overlay = (VROverlayHandle_t)(((uint64_t)args[0][0].get<uint32_t>() << 32ull) | (uint64_t)args[0][1].get<uint32_t>());
+            managed_binary<float> position(3);
+            for (size_t i = 0; i < 3; i++) {
+              position[i] = args[1][i].get<float>();
+            }
+            managed_binary<float> orientation(4);
+            for (size_t i = 0; i < 4; i++) {
+              orientation[i] = args[2][i].get<float>();
+            }
+            managed_binary<float> scale(3);
+            for (size_t i = 0; i < 3; i++) {
+              scale[i] = args[3][i].get<float>();
+            }
+
+            auto result = g_fnp->call<
+              kCompositor2D_SetOverlayPosition,
+              int,
+              VROverlayHandle_t,
+              managed_binary<float>,
+              managed_binary<float>,
+              managed_binary<float>
+            >(overlay, std::move(position), std::move(orientation), std::move(scale));
 
             json res = {
               {"error", nullptr},
