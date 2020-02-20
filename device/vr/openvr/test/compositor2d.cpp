@@ -12,6 +12,7 @@ namespace compositor2d {
 
 char kCompositor2D_CreateOverlay[] = "Compositor2D::CreateOverlay";
 char kCompositor2D_SetOverlayTexture[] = "Compositor2D::SetOverlayTexture";
+char kCompositor2D_SetOverlayPosition[] = "Compositor2D::SetOverlayPosition";
 
 ID3D11Device5 *device;
 ID3D11DeviceContext4 *context;
@@ -477,40 +478,6 @@ void registerOverlayHandlers() {
     
     // position
     {
-      // float heightFactor = (float)height/(float)width;
-      float offsetX = (float)centerX / (float)desktopWidth;
-      float offsetY = 1.0f - ((float)centerY / (float)desktopWidth);
-      // offsetY += (float)height / (float)desktopHeight;
-      // offsetY += (float)height/2/(float)desktopHeight;
-      // offsetY -= 0.5f * (float)height / (float)desktopHeight;
-      // offsetY -= heightFactor / 2.0f * (float)height / (float)desktopHeight;
-      
-      RECT rect;          
-      GetWindowRect(hWnd, &rect);
-      /* if (rect.left > 2000) {
-        offsetY -= (float)217 / desktopHeight;
-      } */
-      
-      // getOut() << "offset z " << rect.left << " " << centerZ << std::endl;
-      
-      float position[3] = {0, 1.0f, -0.3f};
-      float quaternion[4] = {0, 0, 0, 1};
-      float scale[3] = {1, 1, 1};
-      float viewMatrix[16];
-      composeMatrix(viewMatrix, position, quaternion, scale);
-      
-      HmdMatrix34_t mat;
-      setPoseMatrix(mat, viewMatrix);
-      EVROverlayError error = g_vroverlay->SetOverlayTransformAbsolute(overlay, TrackingUniverseStanding, &mat);
-      if (error != VROverlayError_None) {
-        getOut() << "error setting overlay transform: " << (void *)error << std::endl;
-      }
-      
-      /* error = g_vroverlay->SetOverlaySortOrder(overlay, 0);
-      if (error != VROverlayError_None) {
-        getOut() << "error setting overlay sort order: " << (void *)error << std::endl;
-      } */
-      
       error = g_vroverlay->SetOverlayWidthInMeters(overlay, worldWidth);
       if (error != VROverlayError_None) {
         getOut() << "error setting overlay width: " << (void *)error << std::endl;
@@ -530,6 +497,24 @@ void registerOverlayHandlers() {
     }
 
     return overlay;
+  });
+  g_fnp->reg<
+    kCompositor2D_SetOverlayPosition,
+    int,
+    VROverlayHandle_t,
+    managed_binary<float>,
+    managed_binary<float>,
+    managed_binary<float>
+  >([=](VROverlayHandle_t overlay, managed_binary<float> position, managed_binary<float> orientation, managed_binary<float> scale) {
+    float viewMatrix[16];
+    composeMatrix(viewMatrix, position.data(), quaternion.data(), scale.data());
+    
+    HmdMatrix34_t mat;
+    setPoseMatrix(mat, viewMatrix);
+    EVROverlayError error = g_vroverlay->SetOverlayTransformAbsolute(overlay, TrackingUniverseStanding, &mat);
+    if (error != VROverlayError_None) {
+      getOut() << "error setting overlay transform: " << (void *)error << std::endl;
+    }
   });
   g_fnp->reg<
     kCompositor2D_SetOverlayTexture,
