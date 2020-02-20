@@ -553,6 +553,26 @@ int main(int argc, char **argv) {
               {"result", "ok"}
             };
             respond(res);
+          } else if (
+            methodString == "createOverlay" &&
+            args.size() >= 2 && args[0].is_string() && args[1].is_number()
+          ) {
+            const std::string &name = args[0].get<std::strings>();
+            float worldWidth = args[1].get<float>();
+            managed_binary<char> nameBuffer(name.data(), name.size());
+
+            auto result = g_fnp->call<
+              kCompositor2D_CreateOverlay,
+              VROverlayHandle_t,
+              managed_binary<char>,
+              float
+            >(std::move(nameBuffer), worldWidth);
+
+            json res = {
+              {"error", nullptr},
+              {"result", "ok"}
+            };
+            respond(res);
           } else {
             json res = {
               {"error", "invalid method"},
