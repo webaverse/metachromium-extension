@@ -354,7 +354,7 @@ const _colorGeometry = (g, c) => {
   g.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   return g;
 }
-const taskbarMesh = (() => {
+/* const taskbarMesh = (() => {
   const geometries = [
     _colorGeometry(new THREE.BoxBufferGeometry(1, 0.01, 0.1).applyMatrix(new THREE.Matrix4().makeTranslation(0, -0.01/2, 0)), 0x808080),
   ];
@@ -410,7 +410,7 @@ const taskbarMesh = (() => {
 })();
 taskbarMesh.position.y = 1;
 taskbarMesh.textureMesh.render(['browser1', 'browser2']);
-scene.add(taskbarMesh);
+scene.add(taskbarMesh); */
 
 renderer.setAnimationLoop(render);
 function render() {
