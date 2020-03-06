@@ -539,6 +539,53 @@ int main(int argc, char **argv) {
             };
             respond(res);
           } else if (
+            methodString == "addObject" &&
+            args.size() >= 1 && args[0].is_string()
+          ) {
+            const std::string &vertexDataString = args[0].get<std::string>();
+            managed_binary<char> vertexData = Base64::Decode<char>(vertexDataString);
+            const std::string &normalDataString = args[0].get<std::string>();
+            managed_binary<char> normalData = Base64::Decode<char>(normalDataString);
+            const std::string &uvDataString = args[0].get<std::string>();
+            managed_binary<uint32_t> uvData = Base64::Decode<uint32_t>(uvDataString);
+            const std::string &indexDataString = args[0].get<std::string>();
+            managed_binary<uint32_t> indexData = Base64::Decode<uint32_t>(indexDataString);
+            uint32_t numVertices = ; // XXX
+            uint32_t numIndices = ; // XXX
+
+            struct RenderModel_Vertex_t {
+              HmdVector3_t vPosition;         // position in meters in device space
+              HmdVector3_t vNormal;
+              float rfTextureCoord[2];
+            };
+            struct RenderModel_t {
+              const RenderModel_Vertex_t *rVertexData;        // Vertex data for the mesh
+              uint32_t unVertexCount;                                         // Number of vertices in the vertex data
+              const uint16_t *rIndexData;                                     // Indices into the vertex data for each triangle
+              uint32_t unTriangleCount;                                       // Number of triangles in the mesh. Index count is 3 * TriangleCount
+              TextureID_t diffuseTextureId;                           // Session unique texture identifier. Rendermodels which share the same texture will have the same id. <0 == texture not present
+            };
+
+
+
+
+
+
+            auto result = g_fnp->call<
+              kProcess_AddCvFeature,
+              int,
+              int,
+              int,
+              int,
+              managed_binary<char>
+            >(rows, cols, type, std::move(dataBuffer));
+
+            json res = {
+              {"error", nullptr},
+              {"result", nullptr}
+            };
+            respond(res);
+          } else if (
             methodString == "terminate"
           ) {
             getOut() << "call terminate 1" << std::endl;
