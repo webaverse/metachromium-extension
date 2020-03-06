@@ -84,6 +84,8 @@ inline uint32_t divCeil(uint32_t x, uint32_t y) {
   return (x + y - 1) / y;
 }
 
+size_t ids = 0;
+
 constexpr uint32_t chunkSize = 1000*1000;
 void respond(const json &j) {
   std::string outString = j.dump();
@@ -111,6 +113,14 @@ void respond(const json &j) {
 }
 
 int main(int argc, char **argv) {
+  vr::EVRInitError result;
+  vr::VR_Init(&result, vr::VRApplication_Overlay);
+  if (result != vr::VRInitError_None) {
+    getOut() << "vr_init failed" << std::endl;
+    abort();
+  }
+  getOut() << "classes init 1" << std::endl;
+  
   setmode(fileno(stdout), O_BINARY);
   setmode(fileno(stdin), O_BINARY);
 
@@ -540,45 +550,67 @@ int main(int argc, char **argv) {
             respond(res);
           } else if (
             methodString == "addObject" &&
-            args.size() >= 1 && args[0].is_string()
+            args.size() >= 7 &&
+            args[0].is_string() &&
+            args[1].is_string() &&
+            args[2].is_string() &&
+            args[3].is_string() &&
+            args[4].is_number() &&
+            args[5].is_number() &&
+            args[6].is_number()
           ) {
             const std::string &vertexDataString = args[0].get<std::string>();
-            managed_binary<char> vertexData = Base64::Decode<char>(vertexDataString);
-            const std::string &normalDataString = args[0].get<std::string>();
-            managed_binary<char> normalData = Base64::Decode<char>(normalDataString);
-            const std::string &uvDataString = args[0].get<std::string>();
-            managed_binary<uint32_t> uvData = Base64::Decode<uint32_t>(uvDataString);
-            const std::string &indexDataString = args[0].get<std::string>();
-            managed_binary<uint32_t> indexData = Base64::Decode<uint32_t>(indexDataString);
-            uint32_t numVertices = ; // XXX
-            uint32_t numIndices = ; // XXX
+            managed_binary<float> vertexData = Base64::Decode<float>(vertexDataString);
+            const std::string &normalDataString = args[1].get<std::string>();
+            managed_binary<float> normalData = Base64::Decode<float>(normalDataString);
+            const std::string &uvDataString = args[2].get<std::string>();
+            managed_binary<float> uvData = Base64::Decode<float>(uvDataString);
+            const std::string &indexDataString = args[3].get<std::string>();
+            managed_binary<uint16_t> indexData = Base64::Decode<uint16_t>(indexDataString);
+            uint32_t unVertexCount = args[4].get<uint32_t>();
+            uint32_t unTriangleCount = args[5].get<uint32_t>();
+            const std::string &colorDataString = args[6].get<std::string>();
+            managed_binary<float> colorData = Base64::Decode<float>(colorDataString);
 
-            struct RenderModel_Vertex_t {
-              HmdVector3_t vPosition;         // position in meters in device space
-              HmdVector3_t vNormal;
-              float rfTextureCoord[2];
+            std::vector<vr::RenderModel_Vertex_t> vs(unVertexCount);
+            for (uint32_t i = 0; i < unVertexCount; i++) {
+              vs[i] = vr::RenderModel_Vertex_t{
+                {
+                  vertexData[i*3],
+                  vertexData[i*3+1],
+                  vertexData[i*3+2]
+                },
+                {
+                  normalData[i*3],
+                  normalData[i*3+1],
+                  vertexData[i*3+2]
+                },
+                {
+                  uvData[i*2],
+                  uvData[i*2+1]
+                }
+              };
+            }
+            vr::HmdColor_t color{
+              colorData[0],
+              colorData[1],
+              colorData[2],
+              colorData[3]
             };
-            struct RenderModel_t {
-              const RenderModel_Vertex_t *rVertexData;        // Vertex data for the mesh
-              uint32_t unVertexCount;                                         // Number of vertices in the vertex data
-              const uint16_t *rIndexData;                                     // Indices into the vertex data for each triangle
-              uint32_t unTriangleCount;                                       // Number of triangles in the mesh. Index count is 3 * TriangleCount
-              TextureID_t diffuseTextureId;                           // Session unique texture identifier. Rendermodels which share the same texture will have the same id. <0 == texture not present
+
+            vr::RenderModel_t renderModel{
+              vs.data(),
+              unVertexCount,
+              indexData.data(),
+              unTriangleCount,
+              0
             };
 
-
-
-
-
-
-            auto result = g_fnp->call<
-              kProcess_AddCvFeature,
-              int,
-              int,
-              int,
-              int,
-              managed_binary<char>
-            >(rows, cols, type, std::move(dataBuffer));
+            std::string name("overlay");
+            name += std::to_string(++ids);
+            vr::VROverlayHandle_t h;
+            vr::EVROverlayError error = vr::VROverlay()->CreateOverlay(name.c_str(), name.c_str(), &h);
+            error = vr::VROverlay()->SetOverlayRenderModel(h, &renderModel);
 
             json res = {
               {"error", nullptr},
