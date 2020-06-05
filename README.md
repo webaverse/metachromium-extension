@@ -1,32 +1,14 @@
-# Metachromium
+# Metachromium Extension Prototype
 
-Multi-app XR browser for Windows. Based on Chromium.
+This was a prototype for Metachromium features in the form of a Chrome extension.
 
-- Web-based UI follows you to every app
-- Run multiple OpenVR/WebXR apps at a time
-- Extension system for virtual world scripting
-- QR code detection
-- FPS controls XR device emulation
+You might be interested in these projects instead:
 
-## How to use
+https://github.com/webaverse/metachromium
+https://github.com/webaverse/xrpackage
 
-1. [Download release](https://get.metachromium.com/)
-1. Extract zip anywhere
-1. Run `process.exe`
-1. Chrome UI should show up
+Otherwise feel free to peruse this repo for research.
 
-## OS Support
+# License
 
-Windows only
-
-## Support
-
-Glad to support Exokit [sponsors](https://github.com/sponsors/avaer)! Join the [Discord](https://discord.gg/9M8awV8).
-
-## License
-
-*Not* Open Source.
-
-You may download and run the releases.
-
-You may not use the code, or any part of it, without express permission (contact @avaer).
+MIT
