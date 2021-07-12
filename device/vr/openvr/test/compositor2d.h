@@ -15,6 +15,7 @@ namespace vr {
 
 namespace compositor2d {
 
+void registerOverlayHandlers();
 void homeRenderLoop();
 
 }
